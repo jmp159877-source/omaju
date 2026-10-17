@@ -7,7 +7,6 @@
 [skip] story 이미 있음
 [skip] follow 이미 있음
 [skip] phrase 이미 있음
-[gemini] gemini-3.8-flash 시도 1 실패: Expecting ',' delimiter: line 1 column 832 (char 831)
 [fail] culture: 400 Property culture contains an invalid nested entity.
 Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/google/api_core/grpc_helpers.py", line 76, in error_remapped_callable
