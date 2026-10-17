@@ -520,15 +520,12 @@ def firestore():
 NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
+    # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
     if name == "follow":
         return all(isinstance(v.get(k), dict) and v[k].get("videoId") for k in NEED["follow"])
     if name == "fortune":
         return isinstance(v, dict) and all(isinstance(x, dict) and x.get("total") for x in v.values()) if isinstance(v, dict) else bool(v)
     return all(v.get(k) for k in NEED.get(name, ())) if isinstance(v, dict) else bool(v)
-
-
-def complete_era(e):
-    return isinstance(e, dict) and all(isinstance(e.get(k), dict) and e[k].get("songs") and (e[k].get("news") or e[k].get("facts")) for k in ("50", "40", "30", "20", "10"))
 
 
 def main():
@@ -553,14 +550,6 @@ def main():
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
     for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
         if only and name not in only:
-            continue
-        if name == "era" and not force and have.get("era") and not complete_era(have["era"]):
-            # 그날의 신문(era_news)이 먼저 넣은 해에는 노래 목록이 없다 → 노래만 채운다 (신문·사진은 그대로)
-            try:
-                ref.set({"era": {k: {"songs": pick_songs(d.year - int(k), d), "pop": pick_songs(f"pop:{d.year - int(k)}", d)} for k in ("50", "40", "30", "20", "10")}}, merge=True)
-                print("[ok] era 노래 목록 채움")
-            except Exception as e:
-                errors.append(f"era songs: {e}"); print(f"[fail] era 노래: {e}", file=sys.stderr)
             continue
         if not force and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
             print(f"[skip] {name} 이미 있음"); continue
