@@ -205,7 +205,7 @@ function renderCulture() {
   const c = CULT; if (!c || !c.poem) return;
   const tabs = `<div class="cu-tabs" id="cu-tabs">${CU_TABS.map(([k, l]) => `<button type="button" data-cu="${k}" aria-pressed="${k === cuTab}">${l}</button>`).join('')}</div>`;
   let body = '';
-  if (cuTab === 'poem') { const p = c.poem; body = `<div class="cu-block"><div class="cu-poem-page" style="background-image:url('img/poem/${String(dayN() % 23 + 1).padStart(2, '0')}.jpg')"><p class="cu-kind">오늘의 시</p><h2 class="cu-title">${esc(p.title)}</h2><p class="cu-by">${esc(p.author)} · ${esc(p.year)}</p><div class="cu-poem">${esc(p.text)}</div></div>${p.bg ? `<p class="is-sub">이 시가 나온 때</p><p class="cu-note">${esc(p.bg)}</p>` : ''}${p.words && p.words.length ? `<p class="is-sub">낱말 풀이</p><dl class="cu-words">${p.words.map(w => `<dt>${esc(w[0])}</dt><dd>${esc(w[1])}</dd>`).join('')}</dl>` : ''}${p.note ? `<p class="is-sub">감상</p><p class="cu-note">${esc(p.note)}</p>` : ''}</div>`; }
+  if (cuTab === 'poem') { const p = c.poem; body = `<div class="cu-block"><div class="cu-poem-page" style="background-image:url('img/poem/${String(dayN() % 23 + 1).padStart(2, '0')}.jpg')"><p class="cu-kind">오늘의 시</p><h2 class="cu-title">${esc(p.title)}</h2><p class="cu-by">${esc(p.author)} · ${esc(p.year)}</p><div class="cu-poem">${esc(p.text)}</div></div>${p.bg ? `<p class="is-sub">이 시가 나온 때</p><p class="cu-note">${esc(p.bg)}</p>` : ''}${p.words && p.words.length ? `<p class="is-sub">낱말 풀이</p><dl class="cu-words">${p.words.map(w => `<dt>${esc(Array.isArray(w) ? w[0] : w.w)}</dt><dd>${esc(Array.isArray(w) ? w[1] : w.m)}</dd>`).join('')}</dl>` : ''}${p.note ? `<p class="is-sub">감상</p><p class="cu-note">${esc(p.note)}</p>` : ''}</div>`; }
   else if (cuTab === 'painting') { const p = c.painting; body = p ? `<div class="cu-block"><p class="cu-kind">오늘의 그림</p><figure class="cu-fig" data-zoom="1"><span class="cu-zoom">눌러서 크게 보기</span><img src="${esc(p.img)}" alt="${esc(p.title)}" referrerpolicy="no-referrer" onerror="imgRetry(this)"></figure><h2 class="cu-title">${esc(p.title)}</h2><p class="cu-by">${esc(p.artist)} · ${esc(p.year)}</p>${p.about ? `<p class="is-sub">작품 이야기</p><p class="cu-note">${esc(p.about)}</p>` : (p.story ? `<p class="cu-note">${esc(p.story)}</p>` : '')}${p.points && p.points.length ? `<p class="is-sub">눈여겨볼 곳</p><ol class="cu-points">${p.points.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}${p.artist_story ? `<p class="is-sub">화가 이야기</p><p class="cu-note">${esc(p.artist_story)}</p>` : ''}<p class="note" style="font-size:.8rem">그림 사진: 위키백과 (저작권이 끝난 공공 저작물)</p></div>` : '<p class="note">그림을 불러오는 중입니다.</p>'; }
   else if (cuTab === 'quote') { const q = c.quote; body = `<div class="cu-block cu-quote"><p class="cu-kind">오늘의 명언</p><blockquote>${esc(q.text)}</blockquote><p class="cu-by">— ${esc(q.who)}</p>${q.note ? `<p class="cu-note">${esc(q.note)}</p>` : ''}</div>`; }
   else if (cuTab === 'essay') { const e = c.essay; body = e ? `<div class="cu-block"><p class="cu-kind">오늘의 에세이</p><h2 class="cu-title">${esc(e.title)}</h2><div class="cu-essay">${e.paras.map(x => `<p>${esc(x)}</p>`).join('')}</div><p class="cu-by" style="text-align:right">${esc(e.by || '오마주 편집실')}</p></div>` : '<div class="cu-block"><p class="cu-kind">오늘의 에세이</p><p class="cu-note">오늘의 에세이를 다듬고 있습니다. 잠시 뒤에 다시 들러 주세요.</p></div>'; }
@@ -226,12 +226,13 @@ loadCulture();
 // ── 가요 / 팝송 ──
 let genre = store.get('genre', 'kpop'), SONGS_ALL = null;
 fetch('data/songs.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).then(j => { SONGS_ALL = j; renderSongs(); if (typeof renderCulture === 'function' && CULT) renderCulture(); }).catch(() => {});
-function pickPop(yr) {
-  const l = (SONGS_ALL && SONGS_ALL['pop:' + yr]) || []; if (!l.length) return [];
+function pickPop(yr) { return pickSongs('pop:' + yr); }
+function pickSongs(key) { // 그날 자료에 노래 목록이 없을 때: data/songs.json 에서 서버와 같은 규칙으로 고름
+  const l = (SONGS_ALL && SONGS_ALL[key]) || []; if (!l.length) return [];
   const start = (Math.floor((Date.now() - new Date(Y, 0, 0)) / 86400000) * 3) % l.length;
   return Array.from({ length: Math.min(10, l.length) }, (_, i) => l[(start + i) % l.length]);
 }
-function songList() { const e = C.era[ago]; return genre === 'pop' ? (e.pop && e.pop.length ? e.pop : pickPop(Y - ago)) : e.songs; }
+function songList() { const e = (C.era && C.era[ago]) || {}; return genre === 'pop' ? (e.pop && e.pop.length ? e.pop : pickPop(Y - ago)) : (e.songs && e.songs.length ? e.songs : pickSongs(Y - ago)); }
 function renderSongs() {
   if (!$('songs')) return; const list = songList();
   document.querySelectorAll('#genre [data-genre]').forEach(b => b.setAttribute('aria-pressed', b.dataset.genre === genre));
@@ -333,7 +334,7 @@ function renderEra() {
   const tabs = [50, 40, 30, 20, 10].filter(n => C.era[n]).map(n => `<button type="button" data-ago="${n}" aria-pressed="${ago === n}">${n}년 전</button>`).join('');
   $('tabs').innerHTML = tabs; $('tabs2').innerHTML = tabs;
   const yr = Y - ago, e = C.era[ago], memo = store.get('memo' + ago, ''); $('cat-year').textContent = yr;
-  let h = e.news && e.news.length ? eraNewsHtml(yr, e) : `<p class="lead" style="margin-top:30px">${esc(e.mood)}</p><div class="rows">` + e.facts.map(f => f[2] ? `<figure class="era-fig"><img src="${esc(f[2])}" alt="${esc(f[0])}" loading="lazy" referrerpolicy="no-referrer" onerror="eraImgFail(this)"><figcaption><b>${esc(f[0])}</b><span>${esc(f[1])}</span></figcaption></figure>` : `<div class="row"><b>${esc(f[0])}</b><p>${esc(f[1])}</p></div>`).join('') + '</div>';
+  let h = e.news && e.news.length ? eraNewsHtml(yr, e) : `<p class="lead" style="margin-top:30px">${esc(e.mood)}</p><div class="rows">` + (e.facts || []).map(f => f[2] ? `<figure class="era-fig"><img src="${esc(f[2])}" alt="${esc(f[0])}" loading="lazy" referrerpolicy="no-referrer" onerror="eraImgFail(this)"><figcaption><b>${esc(f[0])}</b><span>${esc(f[1])}</span></figcaption></figure>` : `<div class="row"><b>${esc(f[0])}</b><p>${esc(f[1])}</p></div>`).join('') + '</div>';
   // 적어 둔 '나는 그때'는 고치거나 지울 수 있게
   const editing = renderEra.edit === ago; renderEra.edit = null;
   h += '<h3 class="subhead">나는 그때</h3>' + (memo && !editing ? `<div class="mine-wrap"><p class="mine">${esc(memo)}</p><div class="mine-acts"><button type="button" class="linkbtn" data-mine="edit">고치기</button><button type="button" class="linkbtn" data-mine="del">지우기</button></div></div>` : `<form class="memo" id="memo"><input type="text" id="memo-in" maxlength="60" placeholder="그해의 나는?" value="${esc(memo)}"><button type="submit" class="btn green">${memo ? '고친 내용 저장' : '남기기'}</button></form>`);

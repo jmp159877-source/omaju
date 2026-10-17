@@ -4,6 +4,7 @@
 import os, sys, json, re, time, wave, base64, subprocess, urllib.request, datetime, glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from voice_check import check
+from models import pick
 
 KEY = os.environ['GEMINI_API_KEY']
 MEDIA = os.environ.get('MEDIA_DIR', 'media')
@@ -81,7 +82,7 @@ JSON으로만 답하세요:
 MOODS = ['웃음', '몰입', '설렘']
 
 def gemini_json(prompt):
-    for m in ('gemini-3-pro-preview', 'gemini-2.5-pro', 'gemini-2.5-flash'):
+    for m in pick('pro', ('gemini-3-pro-preview', 'gemini-2.5-pro', 'gemini-2.5-flash'))[:4]:
         try:
             d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
                      {'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json', 'temperature': 0.9}}, 240)
@@ -132,7 +133,7 @@ def make_script():
 # ── 2) 목소리 ──
 def tts(text, who):
     prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + PROFILE[who] + '\n' + DIRECT + '\n\n[읽을 대본 — 이 부분만 읽기]\n' + text
-    for m in ('gemini-3.1-flash-tts-preview', 'gemini-2.5-pro-preview-tts', 'gemini-2.5-flash-preview-tts'):
+    for m in pick('tts', ('gemini-3.1-flash-tts-preview', 'gemini-2.5-pro-preview-tts', 'gemini-2.5-flash-preview-tts'))[:3]:
         for attempt in range(3):
             try:
                 d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
