@@ -1,3 +1,13 @@
 [models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
-[ok] book
-2026-10-18 저장 완료. 코너 1개
+[ok] greetings
+[gemini] gemini-3.8-flash 시도 1 실패: Expecting ',' delimiter: line 1 column 2392 (char 2391)
+[ok] fortune
+[skip] era 이미 있음
+[ok] mind
+[ok] meal
+[ok] quiz
+[ok] story
+[ok] follow
+[ok] phrase
+[ok] culture
+2026-10-19 저장 완료. 코너 9개
