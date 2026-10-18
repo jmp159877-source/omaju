@@ -1510,3 +1510,7 @@ body.in-chapter #opening { display: none !important; }
 .tabs3:not(.compact) button[data-tab="g4"] { grid-column: 1 / -1; aspect-ratio: 16 / 7; min-height: 0; }
 @media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 7.6; } }
 .tabs3 button[data-tab="g4"] { background-position: center 55% !important; }
+
+/* 운세: '조심할 것' 한 줄만 결을 달리해 눈에 들어오게 (2026-10-18) */
+#fortune .fo-row.fo-care { background: #FBF6EC; margin: 0 -14px; padding: 12px 14px; }
+#fortune .fo-row.fo-care b { color: #9A5B2B; }

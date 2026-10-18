@@ -6,11 +6,12 @@ export const store = ls;
 let H = {}; // app 에서 넘겨받는 도우미: toast, modal, closeModal, esc, openGate
 export function init(h) { H = h; }
 
+// 적는 차례가 곧 화면에 보이는 차례다 (운영자 2026-10-18: 사천성 → 1 to 50 → 스도쿠 → 말모이)
 export const GAMES = {
-  malmoi: { name: '말모이', sub: '두 글자 낱말 맞히기', icon: '<span class="gi-tiles"><i class="g"></i><i class="y"></i><i></i><i class="g"></i></span>' },
   shisen: { name: '사천성', sub: '같은 그림 <span style="white-space:nowrap">짝 잇기</span>', icon: '<span class="gi-emoji">🀄</span>' },
   num50: { name: '1 to 50', sub: '숫자 순서대로 빨리 누르기', icon: '<span class="gi-num">1·50</span>' },
   sudoku: { name: '스도쿠', sub: '9×9 숫자 퍼즐', icon: '<span class="gi-num">9×9</span>' },
+  malmoi: { name: '말모이', sub: '두 글자 낱말 맞히기', icon: '<span class="gi-tiles"><i class="g"></i><i class="y"></i><i></i><i class="g"></i></span>' },
 };
 
 // ── 소리: 파일 없이 직접 만드는 잔잔한 소리 ──

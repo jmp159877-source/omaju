@@ -303,7 +303,8 @@ const ZO = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양', '�
 let myZ = store.get('zodiac', null);
 function renderZ() { $('zodiac').innerHTML = ZO.map(z => `<button type="button" data-z="${z}" aria-pressed="${myZ === z}">${z}</button>`).join(''); const f = myZ ? C.fortune[myZ] : null; if (!f) { $('fortune').textContent = '띠를 고르면 오늘의 운세가 나옵니다.'; return; }
   if (typeof f === 'string') { $('fortune').textContent = f; return; }
-  $('fortune').innerHTML = `<span class="fo-total">${esc(f.total || '')}</span>${f.people ? `<span class="fo-row"><b>사람</b>${esc(f.people)}</span>` : ''}${f.do ? `<span class="fo-row"><b>해 보기</b>${esc(f.do)}</span>` : ''}<span class="fo-lucky">${[['색', f.color], ['숫자', f.num], ['시간', f.time], ['장소', f.place]].filter(x => x[1]).map(([k, v]) => `<span><em>${k}</em>${esc(String(v))}</span>`).join('')}</span>`; }
+  const rows = [['하는 일', f.work], ['사람', f.people], ['지갑', f.money], ['조심할 것', f.care], ['해 보기', f.do]].filter(x => x[1]);
+  $('fortune').innerHTML = `<span class="fo-total">${esc(f.total || '')}</span>${rows.map(([k, v]) => `<span class="fo-row${k === '조심할 것' ? ' fo-care' : ''}"><b>${k}</b>${esc(v)}</span>`).join('')}<span class="fo-lucky">${[['색', f.color], ['숫자', f.num], ['시간', f.time], ['장소', f.place]].filter(x => x[1]).map(([k, v]) => `<span><em>${k}</em>${esc(String(v))}</span>`).join('')}</span>`; }
 $('zodiac').onclick = e => { const b = e.target.closest('[data-z]'); if (!b) return; myZ = b.dataset.z; store.set('zodiac', myZ); if (DB.currentUser()) DB.saveProfile({ zodiac: myZ }).catch(() => {}); renderZ(); };
 renderZ();
 

@@ -154,18 +154,28 @@ def gen_fortune(d):
     out = {}
     for half in (ZODIAC[:6], ZODIAC[6:]):
         j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 다음 띠들의 '오늘의 운세'를 써라: {", ".join(half)}.
-점괘가 아니라 하루를 기분 좋게 시작하게 하는 다정한 글. 돈·건강·질병·사고·불운·나이 이야기 금지. 띠마다 내용과 말투가 겹치지 않게.
+
+**가장 중요**: 이것은 수필이 아니라 **운세**다. 풍경 묘사로 채우지 말고, 오늘이 어떤 날인지 **분명히 짚어 주고**, 무엇이 잘 풀리고 무엇을 조심하면 좋은지 **일러 주어야** 한다.
+나쁜 예(이렇게 쓰지 말 것): "높고 푸른 하늘 아래 도시의 풍경이 선명하게 다가옵니다. 서두르지 않을수록 계절의 결이 또렷해집니다."
+좋은 예: "미뤄 둔 이야기를 꺼내기 좋은 날입니다. 먼저 말을 건네면 생각보다 쉽게 풀립니다. 다만 오후에는 말수를 줄이는 편이 낫습니다."
+
+읽는 사람은 50~60대지만 생각과 생활은 40대다. 무섭게 겁주는 운세, 점집 말투("삼재다", "액운이 들었다"), 나이 이야기, 병·사고 이야기는 쓰지 않는다. 조심하라는 말도 담담하고 가볍게.
+띠마다 내용과 말투가 겹치지 않게. 열두 띠가 모두 좋은 날일 수는 없으니, 띠에 따라 **아주 좋은 날·무난한 날·천천히 가는 편이 나은 날**이 섞이게 한다.
+
 각 띠마다:
-- total: 오늘 하루의 흐름 세 문장(100~150자). 구체적인 장면이 떠오르게.
-- people: 가족·친구·이웃과의 관계 한 문장(30~50자).
-- do: 오늘 해 보면 좋은 작은 일 한 문장(25~45자).
+- total: 오늘의 운. 세 문장(100~150자). **첫 문장에 오늘이 어떤 날인지 분명히 말한다**(예: "뜻밖의 연락이 반가운 소식을 물고 오는 날입니다", "서두르면 손해를 보니 한 박자 늦추는 것이 좋은 날입니다"). 둘째 문장은 그래서 어떻게 하면 좋은지, 셋째 문장은 하루 끝의 모습.
+- work: 하는 일·집안일이 어떻게 풀리는지 한 문장(30~50자). 구체적으로.
+- people: 사람 사이의 운 한 문장(30~50자). 누구와 어떤 일이 있을지.
+- money: 돈 쓰는 일에 대한 한 문장(30~50자). 큰돈·투자·주식 이야기는 하지 않고, 지갑을 여는 작은 결정 수준으로만(예: "눈에 들어온 물건은 하루 두고 보면 마음이 정해집니다").
+- care: 오늘 하나만 조심하면 좋을 것 한 문장(25~45자). 겁주지 말고 담담하게(예: "서두른 대답이 말꼬리를 잡히기 쉬우니 한 번 더 생각하고 말하세요").
+- do: 오늘 하면 운이 트이는 작은 일 한 문장(25~45자).
 - color: 행운의 색(한 단어), num: 행운의 숫자(1~99), time: 좋은 시간대(예: "오전 10시 무렵"), place: 좋은 장소(예: "동네 공원").
-형식: {{"fortune": {{"띠": {{"total":"...","people":"...","do":"...","color":"...","num":7,"time":"...","place":"..."}}, ...}}}}""")
+형식: {{"fortune": {{"띠": {{"total":"...","work":"...","people":"...","money":"...","care":"...","do":"...","color":"...","num":7,"time":"...","place":"..."}}, ...}}}}""")
         f = j.get("fortune", {})
         for z in half:
             it = f.get(z) or {}
             assert isinstance(it, dict) and it.get("total"), f"{z} 운세 누락"
-            out[z] = {k: (str(it.get(k, "")).strip()) for k in ("total", "people", "do", "color", "num", "time", "place")}
+            out[z] = {k: v for k, v in ((k, str(it.get(k, "")).strip()) for k in ("total", "work", "people", "money", "care", "do", "color", "num", "time", "place")) if v}
     return out
 
 
@@ -524,7 +534,8 @@ def complete(name, v):
     if name == "follow":
         return all(isinstance(v.get(k), dict) and v[k].get("videoId") for k in NEED["follow"])
     if name == "fortune":
-        return isinstance(v, dict) and all(isinstance(x, dict) and x.get("total") for x in v.values()) if isinstance(v, dict) else bool(v)
+        # care(조심할 것)까지 있어야 '운세' 꼴이 된 것 — 옛 형식(total 만 있는 날)은 다시 만든다
+        return isinstance(v, dict) and len(v) >= 12 and all(isinstance(x, dict) and x.get("total") and x.get("care") for x in v.values()) if isinstance(v, dict) else bool(v)
     return all(v.get(k) for k in NEED.get(name, ())) if isinstance(v, dict) else bool(v)
 
 
