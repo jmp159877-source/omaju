@@ -10,9 +10,18 @@ PROFILE_ANCHOR = {
  'hangyeol': '[목소리 설정] 46세 한국 남성 아나운서. 반듯하고 신뢰감 있는 진행자. 낮고 안정된 중저음, 여유 있고 차분하지만 따뜻하다. 까부는 톤·과장된 리액션·들뜬 말투 금지.',
 }
 AUDITION = {
- 'miso': (['Gacrux', 'Kore', 'Callirrhoe'], '좋은 아침입니다, 미소입니다. 금요일이에요. 벌써 한 주의 반은 이긴 셈이죠. 오늘 사연은 쉰다섯 정희 씨의 이야기입니다. 몇 달째 밤 열한 시만 되면, 윗집에서 쿵, 쿵, 소리가 났대요. 오늘 하루도 좋은 하루 보내세요.'),
- 'hangyeol': (['Charon', 'Orus', 'Sadaltager'], '오늘 하루도 수고 많으셨습니다, 한결입니다. 토요일 저녁이네요. 오늘 사연은 마흔아홉 지훈 씨의 이야기입니다. 중고거래 앱에 이십 년 묵은 통기타를 올렸대요. 편안한 저녁 보내십시오.'),
+ 'miso': (['Gacrux', 'Vindemiatrix', 'Kore', 'Callirrhoe'],
+          '좋은 아침입니다, 윤미소입니다. 월요일 아침이네요. 창을 열면 공기가 제법 서늘합니다. '
+          '오늘 오마주에는 무라카미 하루키와 오자와 세이지가 음반을 들으며 나눈 이야기, 그 한 권이 올라와 있습니다. '
+          '오늘 인사 카드에는 가을볕을 담은 글귀가 담겼습니다. 마음 가는 분께 한 장 보내 보세요. '
+          '오늘도 좋은 하루 보내세요. 오마주, 윤미소였습니다.'),
+ 'hangyeol': (['Charon', 'Orus', 'Sadaltager'],
+          '오늘 하루도 수고 많으셨습니다, 서한결입니다. 토요일 저녁이네요. '
+          '오늘 오마주에는 이번 주말에 볼 만한 무대와 전시를 모아 두었습니다. '
+          '편안한 저녁 보내십시오. 오마주, 서한결이었습니다.'),
 }
+# 오디션 때 높이를 낮춘 벌도 같이 만든다 (0% · -8%) — 너무 어리게 들리는 걸 귀로 견줘 고르려고
+AUD_DROP = [('', 1.0), ('_low', 0.92)]
 PROFILE = {
  'miso': '[목소리 설정] 45세 한국 여성 진행자. 세련되고 생기 있는 사람. 맑고 탄력 있는 중음, 웃음이 잘 묻어남. 차분한 낭독조·나이 든 말투 금지.',
  'hangyeol': '[목소리 설정] 46세 한국 남성 진행자. 유쾌하고 센스 있는 사람. 따뜻한 중저음이지만 무겁지 않고 경쾌함. 느린 설명조·아저씨 말투 금지.',
@@ -81,14 +90,23 @@ if os.environ.get('WHOLE'):
             if ok: break
     SEG = {}
 if os.environ.get('AUDITION'):
+    import subprocess
     for who, (vs, line) in AUDITION.items():
+        if ONLY and who not in ONLY: continue
         for v in vs:
             time.sleep(7)
             prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + PROFILE_ANCHOR[who] + '\n[연출] 아침·저녁 정보 프로그램을 여는 아나운서처럼 단정하고 따뜻하게. 보통 말 빠르기.\n\n[읽을 대본 — 이 부분만 읽기]\n' + line
             for attempt in range(4):
                 try: pcm = tts(MODELS[0], v, prompt)
                 except Exception as e: say('실패', who, v, str(e)[:100]); time.sleep(20); continue
-                with wave.open(f'out_voice/{who}_{v}.wav', 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
+                base = f'out_voice/{who}_{v}.wav'
+                with wave.open(base, 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
+                for suf, r in AUD_DROP:
+                    if not suf: continue
+                    sr = int(24000 * r)
+                    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', base,
+                                    '-af', f'asetrate={sr},aresample=24000,atempo={1/r:.4f}',
+                                    f'out_voice/{who}_{v}{suf}.wav'], check=False)
                 say('완료', who, v, round(len(pcm) / 48000, 1)); break
     SEG = {}
 for who, segs in SEG.items():
