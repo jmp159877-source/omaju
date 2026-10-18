@@ -17,7 +17,7 @@ DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 D = datetime.date.fromisoformat(DATE)
 HOST = 'miso' if (D - datetime.date(2026, 10, 16)).days % 2 == 0 else 'hangyeol'
 OTHER = 'hangyeol' if HOST == 'miso' else 'miso'
-NAME = {'miso': '미소', 'hangyeol': '한결'}
+NAME = {'miso': '윤미소', 'hangyeol': '서한결'}
 WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
 TAGS = ['read', 'smile', 'surprise', 'moved', 'laugh', 'talk', 'curious', 'secret', 'delight', 'thumb']
@@ -55,31 +55,42 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
 
 오늘 날짜: {date} ({wd}요일).
 {topic}
-최근에 쓴 사연 (겹치지 말 것): {recent}
+최근에 다룬 것 (겹치지 말 것): {recent}
+
+[오늘의 한 조각 — 요일마다 다릅니다. 오늘은 {wd}요일이므로 "{theme}"]
+월: 한 주를 여는 문장 하나. 누구나 아는 흔한 명언 금지, 자기계발·확언 말투 금지. 결이 있는 문장과 그 문장이 붙는 구체적인 장면.
+화: 그해 오늘 — 10·20·30·40년 전 이맘때 한국의 한 장면. 검색으로 확인된 사실만. "그때 그랬지" 소리가 나오게.
+수: 오늘 바로 쓸 만한 생활 요령 하나 — 날씨·옷·살림·장보기. 민간요법이나 건강 효능 주장 금지.
+목: 그 시절 노래 한 곡에 얽힌 이야기. 가사를 그대로 옮기지 말고 그 노래가 흐르던 때의 풍경으로.
+금: 이번 주말에 볼 만한 것 하나 — 극장·공연·전시 가운데. 확인된 것만.
+토: 주말 아침에 어울리는 가벼운 이야기 하나.
+일: 한 주를 닫는 차분한 이야기 하나.
 
 [구성]
-1. 첫인사 2문장 — 아침·낮·저녁 세 벌. 첫 문장은 반드시 "좋은 아침입니다, {name}입니다." / "점심은 맛있게 드셨어요? {name}입니다." / "오늘 하루도 수고 많으셨습니다, {name}입니다." 와 같은 결로 시간대에 맞게, 둘째 문장은 오늘 요일과 그 시간대에 딱 맞는 기분 좋은 한마디 (상투적 문구 금지, 구체적인 장면).
-2. 사연 7~9조각 — 한 사람의 실제 같은 사연. 바닥까지 갔다가 극적으로 좋아지는 이야기, 끝까지 듣게 되는 이야기. 첫 조각은 "오늘 사연은 ○○ ○○ 씨의 이야기입니다."로 시작. 주인공 이름은 진행자 이름(미소·한결)과 겹치지 않게 다른 이름으로. 피식 웃는 대목 두 번, 마지막에 앞에서 깔아 둔 말을 되받는 뭉클한 한 방.
-   - 웃음(컬투쇼)·몰입(썰)·설렘(심야 라디오) 중 오늘은 "{mood}" 쪽으로.
-   - 금지: 아내·남편·시어머니·며느리·손주 같은 집안 사연, 효도·내복 같은 옛 정서, 병·죽음, 정치, 실존 유명인, 특정 브랜드 비방.
-   - 금지 낱말: 시니어, 어르신, 노인, 치매, 두뇌, 은퇴.
-3. 오늘의 한마디 1조각 — 사연에서 길어 올린, 듣는 사람에게 말 거는 한 문장 (설교 금지).
-4. 마무리 인사 — 아침·낮·저녁 세 벌, 한 문장씩 (예: 오늘도 좋은 하루 보내세요 / 남은 오후도 힘내세요 / 편안한 저녁 보내세요 를 오늘에 맞게).
-5. 내일 사연 제목 — 내일 {other}이(가) 읽을 사연을 미리 정해 "○○의 ○○ 사연" 꼴 10~16자 (궁금하게).
+1. 첫인사 2조각 — 아침·낮·저녁 세 벌. 첫 문장은 반드시 "좋은 아침입니다, {name}입니다." / "점심은 맛있게 드셨어요? {name}입니다." / "오늘 하루도 수고 많으셨습니다, {name}입니다." 와 같은 결로 시간대에 맞게. 둘째 문장에 오늘 요일을 넣어 그 시간대에 맞는 기분 좋은 한마디 (상투적 문구 금지, 구체적인 장면).
+2. 오늘의 한 조각 4~6조각 — 위 요일 테마대로. 한 조각 60자 이내, 듣다가 끊기지 않게 이어지게.
+3. 오늘 오마주 안내 1~2조각 — 오늘 앱에 들어온 것 가운데 하나나 둘을 구체적인 이름으로 알려 준다. 광고 말투 금지, 담담하게.
+   {today_in}
+   둘 중 하나는 될 수 있으면 인사 카드로: "오늘 인사 카드에는 ○○ 같은 글이 담겼습니다. 마음 가는 분께 한 장 보내 보세요." 처럼.
+4. 오늘의 한마디 1조각 — 오늘의 한 조각에서 길어 올린, 듣는 사람에게 말 거는 한 문장 (설교 금지).
+5. 마무리 인사 — 아침·낮·저녁 세 벌, 한 문장씩 (예: 오늘도 좋은 하루 보내세요 / 남은 오후도 힘내세요 / 편안한 저녁 보내세요 를 오늘에 맞게).
+6. 내일 예고 제목 — 내일 {other}이(가) 가져올 이야기를 미리 정해 10~16자 (궁금하게).
 
-[말씨] 반듯한 아나운서. "~입니다/~대요/~답니다". 한 조각은 1~3문장, 한 조각 60자 이내.
-[표정] 조각마다 tag 하나: read(대본 읽기·담담) smile(미소) surprise(놀람) moved(뭉클·안타까움) laugh(웃음) talk(말 걸기) curious(궁금) secret(비밀 얘기·뜸 들이기) delight(감탄·기쁨) thumb(엄지·응원). 사연은 read가 기본, 표정은 결정적인 조각에만.
+[금지] 아내·남편·시어머니·며느리·손주 같은 집안 이야기, 효도·내복 같은 옛 정서, 병·죽음, 정치, 실존 유명인 비방, 특정 브랜드 비방.
+[금지 낱말] 시니어, 어르신, 노인, 치매, 두뇌, 은퇴.
+[말씨] 반듯한 아나운서. "~입니다/~대요/~답니다". 들뜬 톤·까부는 톤 금지. 한 조각은 1~3문장, 한 조각 60자 이내.
+[길이] 전체를 소리 내어 읽어 60~70초 (한글 280~330자).
+[표정] 조각마다 tag 하나: read(대본 읽기·담담) smile(미소) surprise(놀람) moved(뭉클·안타까움) laugh(웃음) talk(말 걸기) curious(궁금) secret(뜸 들이기) delight(감탄·기쁨) thumb(엄지·응원). read가 기본이고, 표정은 결정적인 조각에만.
 [say와 cap] say는 소리 내어 읽을 글 — 숫자·영문 없이 한글로(1203호→천이백삼 호, 3주→삼 주). cap은 화면 자막 — 숫자 써도 됨, 한 줄 16자 안팎, 줄바꿈은 \\n, 조각이 길면 자막 덩어리 여러 개(배열).
 
 JSON으로만 답하세요:
-{{"title":"오늘 사연 제목(○○의 ○○ 사연)","greet":{{"morning":[{{"tag":"smile","say":"","cap":[""]}}, ...2개],"noon":[...],"evening":[...]}},
- "story":[{{"tag":"read","say":"","cap":["",""]}}, ...],"message":{{"tag":"talk","say":"","cap":[""]}},
+{{"title":"오늘의 한 조각 제목(10~16자)","greet":{{"morning":[{{"tag":"smile","say":"","cap":[""]}}, ...2개],"noon":[...],"evening":[...]}},
+ "body":[{{"tag":"read","say":"","cap":["",""]}}, ...],"message":{{"tag":"talk","say":"","cap":[""]}},
  "close":{{"morning":{{"say":"","cap":[""]}},"noon":{{...}},"evening":{{...}}}},"next_title":""}}
-
-[좋은 예 — 사연 부분]
-오늘 사연은 쉰다섯 정희 씨의 이야기입니다. 몇 달째 밤 열한 시만 되면 윗집에서 쿵, 쿵. 석 달을 참다 참다 엘리베이터에 쪽지를 붙였대요. 최대한 우아하게요. / "천이백삼 호님, 혹시… 밤마다 줄넘기하세요?"(laugh) / 다음 날, 그 밑에 삐뚤삐뚤한 글씨로 답장이 달렸어요.(surprise) / "죄송합니다. 발목 수술하고 걷는 연습 중이에요. 낮에 절뚝거리는 게 창피해서 밤에만 걸었어요." / 정희 씨는 쪽지를 하나 더 붙였죠. "내일 저녁 일곱 시, 놀이터 앞. 같이 걸어요. 제가 천천히 걸을게요."(delight) / 그런데요, 사흘 만에 숨이 찬 건 정희 씨였대요. "저기… 조금만 천천히요."(secret) / 지난주 하프 마라톤, 1203호 분이 먼저 들어와 결승선에서 기다리며 그러더래요. / "이번엔 제가 기다릴게요."(moved)
 '''
-MOODS = ['웃음', '몰입', '설렘']
+WD_THEME = {0: '한 주를 여는 문장', 1: '그해 오늘', 2: '오늘 쓸 만한 생활 요령', 3: '그 시절 노래 이야기',
+            4: '이번 주말에 볼 만한 것', 5: '주말 아침의 가벼운 이야기', 6: '한 주를 닫는 차분한 이야기'}
+
 
 def gemini_json(prompt):
     for m in pick('pro', ('gemini-3-pro-preview', 'gemini-2.5-pro', 'gemini-2.5-flash'))[:4]:
@@ -98,8 +109,8 @@ def problems(s):
         for sl in SLOTS:
             if len(s['greet'][sl]) < 1: p.append('인사 없음 ' + sl)
             if not s['close'][sl]['say']: p.append('마무리 없음 ' + sl)
-        if not (6 <= len(s['story']) <= 11): p.append(f"사연 조각 {len(s['story'])}개")
-        segs = [x for sl in SLOTS for x in s['greet'][sl]] + s['story'] + [s['message']]
+        if not (5 <= len(s['body']) <= 9): p.append(f"오늘의 한 조각 {len(s['body'])}개")
+        segs = [x for sl in SLOTS for x in s['greet'][sl]] + s['body'] + [s['message']]
         for x in segs:
             if x.get('tag') not in TAGS: x['tag'] = 'read'
             if re.search(r'[0-9A-Za-z]', x['say']): p.append('읽을 글에 숫자/영문: ' + x['say'][:20])
@@ -109,22 +120,44 @@ def problems(s):
         for w in BAD:
             if w in alltext: p.append('금지 낱말 ' + w)
         if not s.get('next_title'): p.append('내일 제목 없음')
-        if re.search(r'(미소|한결) ?씨', ' '.join(x['say'] for x in s['story'])): p.append('사연 주인공 이름이 진행자와 같음')
-        n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in s['greet']['morning'] + s['story'] + [s['message']])
+        
+        n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in s['greet']['morning'] + s['body'] + [s['message']])
         if not (240 <= n <= 520): p.append(f'길이 {n}음절')
     except Exception as e:
         p.append('형식 ' + str(e)[:60])
     return p
 
+
+def today_corners():
+    """오늘 앱에 들어온 것들을 대본에 알려 준다 (인사 카드 글귀, 오늘의 한 권, 시사 상식, 한 끼 …)."""
+    try:
+        d = json.load(open(os.path.join(os.path.dirname(__file__), '..', 'daily', DATE + '.json'), encoding='utf-8'))
+    except Exception:
+        return '오늘 들어온 것을 모르면 코너 이름만 담담히 알려 주세요 (오늘의 한 권, 오늘의 운세, 인사 카드 …).'
+    out = []
+    g = (d.get('greetings') or [])
+    if g: out.append('오늘 인사 카드 글귀: ' + ' / '.join(x.replace('\n', ' ') for x in g[:3]))
+    b = d.get('book') or {}
+    if b.get('title'): out.append(f"오늘의 한 권: {b['title']} ({b.get('author','')})")
+    q = d.get('quiz') or {}
+    if q.get('term'): out.append('오늘의 시사 상식: ' + q['term'])
+    m = d.get('meal') or {}
+    if m.get('title'): out.append('오늘의 한 끼: ' + m['title'])
+    mi = d.get('mind') or {}
+    if mi.get('line'): out.append('오늘의 마음 한 줄: ' + mi['line'])
+    return '오늘 오마주에 들어온 것 —\n' + '\n'.join('  · ' + x for x in out) if out else '오늘 들어온 것은 코너 이름만 담담히.'
+
+
 def make_script():
     seed = json.load(open(os.path.join(os.path.dirname(__file__), 'opening_seed.json'))).get(DATE)
     if seed: say('준비해 둔 대본 사용'); return seed
     topic = prev_next_title()
-    topic = f'오늘 사연 제목은 어제 예고한 "{topic}" 입니다. 이 제목에 맞는 사연을 쓰세요.' if topic else '오늘 사연은 자유롭게 정하세요.'
-    mood = MOODS[D.toordinal() % 3]
+    topic = f'어제 예고한 제목은 "{topic}" 입니다. 그 제목에 맞게 쓰세요.' if topic else '오늘 이야기는 자유롭게 정하세요.'
+    theme = WD_THEME[D.weekday()]
+    today_in = today_corners()
     desc = '45세 여성 아나운서, 반듯하고 품위 있는' if HOST == 'miso' else '46세 남성 아나운서, 반듯하고 신뢰감 있는'
     for k in range(3):
-        s, m = gemini_json(PROMPT.format(name=NAME[HOST], desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', mood=mood, other=NAME[OTHER]))
+        s, m = gemini_json(PROMPT.format(name=NAME[HOST], desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER]))
         if not s: continue
         p = problems(s)
         say('대본', m, '문제:', p or '없음')
@@ -192,7 +225,11 @@ def build():
     path = os.path.join(OUT, DATE + '.json')
     if os.path.exists(path) and not FORCE: say('이미 있음', DATE); return
     s = make_script()
-    teaser = {'say': f'내일은 {NAME[OTHER]} 씨가 새 사연을 가져옵니다.', 'cap': [f'내일은 {NAME[OTHER]} 씨가\n새 사연을 가져옵니다.'], 'tag': 'thumb'}
+    nt = (s.get('next_title') or '').strip()
+    teaser = {'say': f'내일은 {NAME[OTHER]} 씨가 {nt} 이야기를 가져옵니다.' if nt else f'내일은 {NAME[OTHER]} 씨가 찾아옵니다.',
+              'cap': [f'내일은 {NAME[OTHER]} 씨가\n{nt}'] if nt else [f'내일은 {NAME[OTHER]} 씨가\n찾아옵니다.'], 'tag': 'thumb'}
+    # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
+    sign = {'say': f'오마주, {NAME[HOST]}였습니다.', 'cap': [f'오마주, {NAME[HOST]}였습니다.'], 'tag': 'smile'}
     res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'], 'slots': {}}
     for sl in SLOTS:
         g = [dict(x) for x in s['greet'][sl]]
@@ -201,7 +238,7 @@ def build():
         close = dict(s['close'][sl]); close.setdefault('tag', 'smile'); close['tag'] = 'smile'
         if isinstance(close.get('cap'), str): close['cap'] = [close['cap']]
         close.setdefault('cap', [close['say']])
-        segs = g + s['story'] + [s['message'], close, teaser]
+        segs = g + s['body'] + [s['message'], close, teaser, sign]
         text = '\n'.join(x['say'] for x in segs)
         time.sleep(20)
         pcm = tts(text, HOST)

@@ -282,7 +282,7 @@ srv.listen(0, '127.0.0.1', async () => {
         return { shown: !!s && !s.hidden && s.offsetHeight > 200, name: document.getElementById('opn-name').textContent, cap: document.getElementById('opn-cap').textContent, next: document.getElementById('opn-next').textContent,
           silent: a.paused && !a.autoplay && a.currentTime === 0, play: !document.getElementById('opn-play').hidden, heading: (document.querySelector('.opn-toc em') || {}).textContent,
           before: (() => { const o = document.getElementById('opening'), t = document.querySelector('.toc-c:not(.opn-toc)'); return !!(o && t && (o.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING)); })() }; });
-      ok('오프닝: CONTENTS 위에 보임·이름표·자막·내일 예고', st.shown && st.before && /Opening/i.test(st.heading) && /미소/.test(st.name) && st.cap.length > 3 && /사연/.test(st.next), JSON.stringify(st));
+      ok('오프닝: CONTENTS 위에 보임·이름표·자막·내일 예고', st.shown && st.before && /Opening/i.test(st.heading) && /윤미소/.test(st.name) && st.cap.length > 3 && /서한결/.test(st.next), JSON.stringify(st));
       ok('오프닝: 소리 저절로 안 남', st.silent && st.play);
       await E(() => document.getElementById('opening').scrollIntoView({ block: 'center' })); await wait(p, 300);
       await p.click('#opn-play'); await wait(p, 900);
