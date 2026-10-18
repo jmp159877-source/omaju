@@ -76,8 +76,12 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
    둘 중 하나는 될 수 있으면 인사 카드로: "오늘 인사 카드에는 ○○ 같은 글이 담겼습니다. 마음 가는 분께 한 장 보내 보세요." 처럼.
 4. 오늘의 한마디 1조각 — 오늘의 한 조각에서 길어 올린, 듣는 사람에게 말 거는 한 문장 (설교 금지).
 5. 마무리 인사 — 아침·낮·저녁 세 벌, 한 문장씩 (예: 오늘도 좋은 하루 보내세요 / 남은 오후도 힘내세요 / 편안한 저녁 보내세요 를 오늘에 맞게).
-6. 내일 예고 제목 — 내일 {other}이(가) 가져올 이야기를 미리 정해 10~16자 (궁금하게).
+6. 내일 예고 제목 — 내일 {other}이(가) 가져올 것을 미리 정해 10~16자 (궁금하게).
+   내일은 {wd_next}요일이므로 그 요일 테마에 맞는 제목으로. "○○의 ○○ 사연" 꼴 금지. 진행자 이름을 제목에 넣지 말 것.
+   보기: "1986년 가을, 그 거리" / "일교차 큰 날의 겉옷 한 벌" / "이번 주말, 무대 세 곳"
 
+[가장 중요한 금지] **지어낸 사람의 사연을 쓰지 말 것.** "○○ 씨의 이야기입니다", "○○ 씨는 …했대요" 같은 꼴을 절대 쓰지 않는다.
+오마주는 지어낸 이야기를 실제 사연인 척 내보내지 않는다. 오늘의 한 조각은 사람 사연이 아니라 위 요일 테마(문장·그해 오늘·생활 요령·노래·주말 볼거리)여야 한다.
 [금지] 아내·남편·시어머니·며느리·손주 같은 집안 이야기, 효도·내복 같은 옛 정서, 병·죽음, 정치, 실존 유명인 비방, 특정 브랜드 비방.
 [금지 낱말] 시니어, 어르신, 노인, 치매, 두뇌, 은퇴.
 [말씨] 반듯한 아나운서. "~입니다/~대요/~답니다". 들뜬 톤·까부는 톤 금지. 한 조각은 1~3문장, 한 조각 60자 이내.
@@ -124,7 +128,11 @@ def problems(s):
         if not s.get('next_title'): p.append('내일 제목 없음')
         
         n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in s['greet']['morning'] + s['body'] + [s['message']])
-        if not (190 <= n <= 400): p.append(f'길이 {n}음절')   # 60~70초로 줄인 뒤 기준도 내림 (2026-10-19)
+        if not (190 <= n <= 400): p.append(f'길이 {n}음절')
+        # 지어낸 사람 사연이 끼어들면 버린다 (2026-10-19)
+        body_say = ' '.join(x['say'] for x in s['body'])
+        if re.search(r'[가-힣]{2,3} ?씨(의|는|가|도|에게)?\s', body_say) or '사연' in body_say: p.append('지어낸 사연이 들어감')
+        if '사연' in (s.get('next_title') or ''): p.append('내일 예고가 사연 꼴')   # 60~70초로 줄인 뒤 기준도 내림 (2026-10-19)
     except Exception as e:
         p.append('형식 ' + str(e)[:60])
     return p
@@ -154,12 +162,13 @@ def make_script():
     seed = json.load(open(os.path.join(os.path.dirname(__file__), 'opening_seed.json'))).get(DATE)
     if seed: say('준비해 둔 대본 사용'); return seed
     topic = prev_next_title()
-    topic = f'어제 예고한 제목은 "{topic}" 입니다. 그 제목에 맞게 쓰세요.' if topic else '오늘 이야기는 자유롭게 정하세요.'
+    if topic and '사연' in topic: topic = ''   # 옛 형식(지어낸 사연)은 물려받지 않는다 (2026-10-19)
+    topic = f'어제 예고한 제목은 "{topic}" 입니다. 그 제목에 맞게 쓰세요.' if topic else '오늘 이야기는 요일 테마대로 자유롭게 정하세요.'
     theme = WD_THEME[D.weekday()]
     today_in = today_corners()
     desc = '45세 여성 아나운서, 반듯하고 품위 있는' if HOST == 'miso' else '46세 남성 아나운서, 반듯하고 신뢰감 있는'
     for k in range(3):
-        s, m = gemini_json(PROMPT.format(name=NAME[HOST], desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER]))
+        s, m = gemini_json(PROMPT.format(name=NAME[HOST], desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()]))
         if not s: continue
         p = problems(s)
         say('대본', m, '문제:', p or '없음')
