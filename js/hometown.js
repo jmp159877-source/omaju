@@ -78,7 +78,7 @@ function camHtml() {
   ${list.length > 1 ? `<div class="ht-spots" role="group" aria-label="장소 고르기">${list.map((x, i) => `<button type="button" data-htc="${i}" aria-pressed="${i === cam}">${esc(x.name)}</button>`).join('')}</div>` : ''}
   ${c ? `<div class="ht-cam"><iframe src="${esc(camSrc(c))}" title="${esc(c.name)} 실시간 화면" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   <p class="ht-cap"><b>${esc(c.name)}</b>${c.desc ? `<span>${esc(c.desc)}</span>` : ''}</p>
-  <p class="note ht-by">실시간 화면 ${esc(c.owner || '')} · ${esc(c.channel || '')} (유튜브)</p>` : ''}`;
+  <p class="note ht-by">실시간 화면 제공: ${esc(c.owner || '')} (유튜브)</p>` : ''}`;
 }
 
 async function go(q, quiet) {
