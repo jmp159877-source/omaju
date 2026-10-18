@@ -158,10 +158,20 @@ srv.listen(0, '127.0.0.1', async () => {
         const road = await E(() => ({ form: !!document.getElementById('ht-form'), mic: !!document.getElementById('ht-mic'), soon: !!document.querySelector('.ht-soon') }));
         if (!road.soon && !(road.form && road.mic)) return '로드뷰 칸: ' + JSON.stringify(road);
         await E(() => document.querySelector('[data-ht="cam"]').click()); await W(600);
-        const camOn = await E(() => { const f = document.querySelector('.ht-cam iframe'); return { soon: !!document.querySelector('.ht-soon'), src: f ? f.getAttribute('src') : '', regions: document.querySelectorAll('[data-htr]').length }; });
+        const camOn = await E(() => { const f = document.querySelector('.ht-cam iframe'); return { soon: !!document.querySelector('.ht-soon'), src: f ? f.getAttribute('src') : '', regions: [...document.querySelectorAll('[data-htr]')].map(b => b.dataset.htr), spots: document.querySelectorAll('[data-htc]').length }; });
         if (camOn.soon) return true;   // 라이브캠을 아직 안 넣었으면 '준비 중'이 맞다
-        if (!/youtube\.com\/embed\/live_stream\?channel=UC/.test(camOn.src)) return '라이브캠 주소: ' + camOn.src;
-        return camOn.regions >= 1 || '권역 없음'; });
+        if (!/youtube\.com\/embed\/(live_stream\?channel=UC|[\w-]{8,})/.test(camOn.src)) return '라이브캠 주소: ' + camOn.src;
+        if (camOn.regions.length < 2) return '권역 ' + camOn.regions.join(',');
+        // 권역을 바꾸면 화면도 바뀌어야 한다
+        const other = camOn.regions[1];
+        await E(r => document.querySelector(`[data-htr="${r}"]`).click(), other); await W(500);
+        const after = await E(() => ({ src: (document.querySelector('.ht-cam iframe') || {}).src || '', cap: (document.querySelector('.ht-cap b') || {}).textContent || '' }));
+        if (!after.cap || after.src === camOn.src) return '권역을 바꿔도 그대로: ' + after.cap;
+        return true; });
+      await step('내 고향: 로드뷰 칸 열림 (지도 키 들어감)', async () => { await E(() => window.omajuNav('home')); await W(700); await E(() => { const b = document.querySelector('[data-ht="road"]'); if (b) b.click(); }); await W(500);
+        const r = await E(() => ({ soon: !!document.querySelector('.ht-soon'), view: !!document.getElementById('ht-view'), q: !!document.getElementById('ht-q'), mic: !!document.getElementById('ht-mic'), by: [...document.querySelectorAll('.ht-by')].some(p => /카카오/.test(p.textContent)) }));
+        if (r.soon) return '아직 준비 중 — 지도 키가 안 들어감';
+        return (r.view && r.q && r.mic && r.by) || JSON.stringify(r); });
       await step('나들이: 지역 바꾸기', async () => { await E(() => window.omajuNav('outing')); await W(700); const rs = await E(() => [...document.querySelectorAll('[data-region]')].map(b => b.dataset.region)); if (rs.length < 2) return `지역 ${rs.length}개`; await E(r => document.querySelector(`[data-region="${r}"]`).click(), rs[1]); await W(300); const t = await E(() => document.getElementById('outing-title').textContent); const items = await E(() => document.querySelectorAll('#outing-body .ot-row').length); return (t.includes(rs[1]) && items > 0) || `${t}, ${items}`; });
       await step('놀이 차례 · 사천성→1 to 50→스도쿠→말모이', async () => { await E(() => window.omajuNav('play')); await W(700); const got = await E(() => [...document.querySelectorAll('#play-root [data-go]')].map(b => b.dataset.go)); const want = ['shisen', 'num50', 'sudoku', 'malmoi']; return got.join(',') === want.join(',') || got.join(','); });
       await step('운세: 수필이 아니라 운세 꼴', async () => { await E(() => window.omajuNav('fortune')); await W(700); await E(() => { const b = document.querySelector('#zodiac [data-z]'); if (b) b.click(); }); await W(500); const r = await E(() => { const f = document.getElementById('fortune'); const rows = [...f.querySelectorAll('.fo-row b')].map(b => b.textContent.trim()); return { total: (f.querySelector('.fo-total') || {}).textContent || '', rows, care: !!f.querySelector('.fo-care'), lucky: f.querySelectorAll('.fo-lucky span').length }; }); const need = ['하는 일', '사람', '지갑', '조심할 것', '해 보기']; const missing = need.filter(k => !r.rows.includes(k)); if (missing.length) return '빠진 칸: ' + missing.join(','); if (!/날입니다|좋습니다|낫습니다|필요한|합니다/.test(r.total)) return '총운이 판단 문장이 아님: ' + r.total.slice(0, 40); return (r.care && r.lucky >= 3) || JSON.stringify({ care: r.care, lucky: r.lucky }); });

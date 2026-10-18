@@ -58,6 +58,14 @@ function roadHtml() {
   : `<div class="ht-soon"><p>로드뷰는 곧 열립니다.</p><p class="note">지도 서비스 연결을 준비하고 있습니다. 그동안 <b>지금 그곳</b>에서 고향의 지금 모습을 보실 수 있습니다.</p></div>`}`;
 }
 
+// 한 채널이 여러 곳을 동시에 트는 데(GiGAeyes·펀제주)는 videoId 로 못 박고,
+// 한 곳만 트는 데는 channelId 로 걸어 방송이 끊겼다 켜져도 이어지게 한다.
+function camSrc(c) {
+  const q = '&rel=0&playsinline=1&modestbranding=1';
+  return c.videoId ? `https://www.youtube.com/embed/${encodeURIComponent(c.videoId)}?autoplay=0${q}`
+                   : `https://www.youtube.com/embed/live_stream?channel=${encodeURIComponent(c.channelId)}${q}`;
+}
+
 function camHtml() {
   const rs = regions();
   if (!rs.length) return `<div class="ht-soon"><p>준비 중입니다.</p></div>`;
@@ -68,7 +76,7 @@ function camHtml() {
   return `<p class="ht-lead">고향의 지금 모습입니다. 바다도, 강도, 거리도 지금 이 시간 그대로입니다.</p>
   <div class="ht-regions" role="group" aria-label="권역 고르기">${rs.map(r => `<button type="button" data-htr="${esc(r)}" aria-pressed="${r === region}">${esc(r)}</button>`).join('')}</div>
   ${list.length > 1 ? `<div class="ht-spots" role="group" aria-label="장소 고르기">${list.map((x, i) => `<button type="button" data-htc="${i}" aria-pressed="${i === cam}">${esc(x.name)}</button>`).join('')}</div>` : ''}
-  ${c ? `<div class="ht-cam"><iframe src="https://www.youtube.com/embed/live_stream?channel=${encodeURIComponent(c.channelId)}&rel=0&playsinline=1" title="${esc(c.name)} 실시간 화면" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+  ${c ? `<div class="ht-cam"><iframe src="${esc(camSrc(c))}" title="${esc(c.name)} 실시간 화면" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   <p class="ht-cap"><b>${esc(c.name)}</b>${c.desc ? `<span>${esc(c.desc)}</span>` : ''}</p>
   <p class="note ht-by">실시간 화면 ${esc(c.owner || '')} · ${esc(c.channel || '')} (유튜브)</p>` : ''}`;
 }

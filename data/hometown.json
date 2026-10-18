@@ -1,5 +1,18 @@
 {
- "_설명": "내 고향 둘러보기. kakaoJsKey 는 카카오 개발자 사이트에서 받은 JavaScript 키 (도메인 등록 필요). cams 는 권역별 유튜브 실시간 라이브캠 — 채널 ID 로 걸어 두면 방송이 끊겼다 켜져도 그대로 이어진다.",
- "kakaoJsKey": "",
- "cams": []
+ "_설명": "내 고향 둘러보기. kakaoJsKey 는 카카오 JavaScript 키 (developers.kakao.com 에서 도메인 등록 필수 — 등록한 주소에서만 동작한다). cams 는 권역별 유튜브 실시간 라이브캠. channelId 로 걸면 방송이 끊겼다 켜져도 이어지지만, 한 채널에서 여러 곳을 동시에 트는 곳(GiGAeyes·펀제주)은 엉뚱한 데가 나올 수 있어 videoId 로 못 박았다.",
+ "kakaoJsKey": "391521772a7d00aef5a0f7fe93497bc8",
+ "cams": [
+  { "region": "서울", "name": "한강 반포대교", "channelId": "UCQKQTgZJo3PlxA-9V1Z51XA",
+    "desc": "반포대교와 한강 물결. 밤이면 강 건너 불빛이 켜집니다.", "owner": "데일리서울 한강 라이브캠", "channel": "@DailySeoul" },
+  { "region": "서울", "name": "한강 스카이라인", "channelId": "UC4ueDZiC-xHAwql4QxVNQZg",
+    "desc": "여의도와 월드컵대교 쪽 한강, 그 너머 도심 윤곽.", "owner": "RIVERWORKER", "channel": "@riverworker" },
+  { "region": "강원", "name": "강릉 강문해변", "videoId": "n8mJCRXGoXc",
+    "desc": "강문해변 앞바다. 아침이면 수평선 위로 해가 올라옵니다.", "owner": "KT GiGAeyes", "channel": "@GiGAeyesLiveTV" },
+  { "region": "경상", "name": "부산 광안대교", "channelId": "UCzetiqmyTCv30R_GSCLY_9g",
+    "desc": "광안리 바다 너머 광안대교. 해가 지면 다리에 불이 들어옵니다.", "owner": "Busan Live Cam", "channel": "@BusanLive" },
+  { "region": "경상", "name": "부산 해운대 바다", "channelId": "UCZsIhpfgnO7nNrDWu7dj89g",
+    "desc": "달맞이고개에서 내려다본 해운대와 마린시티.", "owner": "Busan Haeundae Live", "channel": "@BusanHaeundaeLive" },
+  { "region": "제주", "name": "제주 협재 바다", "videoId": "ZO4M9siq8MA",
+    "desc": "협재 바다와 비양도. 하늘빛이 날마다 다릅니다.", "owner": "펀제주", "channel": "@funjeju" }
+ ]
 }
