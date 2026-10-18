@@ -1,9 +1,11 @@
-wide_home2 hanok village korea 21
-wide_home2 korea village houses 30
-wide_home2 seoul alley street 30
-wide_home2 korean countryside village house 30
-wide_home2 hanok roof tiles 30
-wide_home2 korea old street lantern 30
-wide_home2 jeonju hanok 30
-wide_home2 korean rural landscape village 30
-완료 {'wide_home2': 30}
+wide_move yoga mat morning light 30
+wide_move stretching sunrise silhouette 30
+wide_move running shoes morning path 30
+wide_move exercise mat wooden floor sunlight 30
+wide_move morning walk park light 30
+wide_mind morning mist field calm 30
+wide_mind quiet lake sunrise calm 30
+wide_mind tea cup window morning light 30
+wide_mind open book window soft light 30
+wide_mind fog meadow sunrise 30
+완료 {'wide_move': 30, 'wide_mind': 30}
