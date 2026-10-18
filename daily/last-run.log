@@ -1,11 +1,3 @@
 [models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
-[skip] greetings 이미 있음
-[skip] fortune 이미 있음
-[fail] era 노래: 400 Property era contains an invalid nested entity.
-[skip] meal 이미 있음
-[skip] quiz 이미 있음
-[skip] story 이미 있음
-[skip] follow 이미 있음
-[skip] phrase 이미 있음
-[ok] culture
-2026-10-18 저장 완료. 코너 1개, 실패 1개
+[ok] fortune
+2026-10-18 저장 완료. 코너 1개
