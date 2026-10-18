@@ -26,10 +26,12 @@ function loadKakao() {
   kakaoReady = new Promise((ok, no) => {
     const s = document.createElement('script');
     s.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(key)}&libraries=services&autoload=false`;
-    s.onload = () => window.kakao.maps.load(() => ok(window.kakao));
+    s.onload = () => { try { window.kakao.maps.load(() => ok(window.kakao)); } catch (e) { no(new Error('안 열림')); } };
     s.onerror = () => no(new Error('못 불러옴'));
     document.head.appendChild(s);
   });
+  // 한 번 실패한 약속을 쥐고 있으면, 주소 등록을 마친 뒤에도 영영 안 열린다 → 실패하면 버리고 다음에 다시 받는다
+  kakaoReady.catch(() => { kakaoReady = null; const s = document.querySelector('script[src*="dapi.kakao.com"]'); if (s) s.remove(); });
   return kakaoReady;
 }
 
@@ -89,7 +91,7 @@ async function go(q, quiet) {
   if (empty) empty.textContent = '찾는 중입니다…';
   let kakao;
   try { kakao = await loadKakao(); }
-  catch (e) { if (empty) empty.textContent = '지금은 로드뷰를 열 수 없습니다. 잠시 뒤에 다시 해 보세요.'; return; }
+  catch (e) { if (empty) { empty.innerHTML = '지금은 로드뷰를 열 수 없습니다.<br><span class="note">지도 서비스가 이 주소를 아직 허용하지 않았거나, 연결이 잠시 끊겼습니다.</span>'; } return; }
   new kakao.maps.services.Geocoder().addressSearch(q, (res, st) => {
     if (st !== kakao.maps.services.Status.OK || !res.length) {
       // 주소가 아니면 장소 이름으로도 찾아 본다
@@ -123,7 +125,8 @@ document.addEventListener('click', e => {
   const r = e.target.closest('[data-htr]'); if (r) { region = r.dataset.htr; cam = 0; H.store.set('homeRegion', region); render(); return; }
   const c = e.target.closest('[data-htc]'); if (c) { cam = +c.dataset.htc; render(); return; }
   if (e.target.closest('#ht-mic')) {
-    NB.listen(txt => { const el = $('ht-q'); if (el) el.value = txt; go(txt); });
+    // 수첩과 달리 여기는 확인 화면이 없다 → 말이 끝나면 창을 닫고 바로 찾아 준다
+    NB.listen(txt => { H.closeModal(); const el = $('ht-q'); if (el) el.value = txt; go(txt); });
   }
 });
 document.addEventListener('submit', e => {

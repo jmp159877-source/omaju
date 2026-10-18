@@ -54,6 +54,17 @@ srv.listen(0, '127.0.0.1', async () => {
       const toast = () => p.evaluate(() => { const t = document.getElementById('toast'); return !!(t && !t.hidden && /나갑니다/.test(t.textContent)); }).catch(() => false);
       await p.goBack(); await wait(p, 400); const t1 = await toast(); await wait(p, 3000); await p.goBack(); await wait(p, 400); const t2 = await toast() && p.url().includes('index');
       await p.goBack({ timeout: 3000 }).catch(() => {}); await wait(p, 600); ok('첫 화면 나가기 안내', t1 && t2 && p.url().includes('terms')); await c.close(); }
+    // 3-2) 내 고향: 말하기 → '다 했어요' 누르면 창이 닫히고 주소 칸에 그대로 들어간다
+    { const c = await ctx(false);
+      await c.addInitScript(() => { class SR { start() { const me = this; setTimeout(() => { me.onresult && me.onresult({ resultIndex: 0, results: [Object.assign([{ transcript: '전주시 완산구 풍남동' }], { isFinal: true })] }); }, 150); } stop() {} abort() {} } window.webkitSpeechRecognition = SR; window.SpeechRecognition = SR; });
+      const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 1500);
+      await p.evaluate(() => window.omajuNav('home')); await wait(p, 900);
+      await p.evaluate(() => { const b = document.querySelector('[data-ht="road"]'); if (b) b.click(); }); await wait(p, 400);
+      await p.evaluate(() => document.getElementById('ht-mic').click()); await wait(p, 900);
+      const sawDone = await p.evaluate(() => !!document.getElementById('nb-done'));
+      await p.evaluate(() => document.getElementById('nb-done').click()); await wait(p, 900);
+      const r = await p.evaluate(() => ({ modal: !!document.getElementById('nb-done'), q: (document.getElementById('ht-q') || {}).value || '' }));
+      ok('내 고향: 말하기 → 다 했어요 → 창 닫히고 주소 들어감', sawDone && !r.modal && r.q === '전주시 완산구 풍남동' && !errs.length, JSON.stringify({ sawDone, ...r, errs: errs.slice(0, 1) })); await c.close(); }
     // 4) 수첩: 말로 메모 → 다 했어요 → 저장 → 수첩에 그대로 (두 번)
     for (const ua of ['Mozilla/5.0 (Linux; Android 14; SM-F731N) AppleWebKit/537.36 Chrome/129 Mobile Safari/537.36', undefined]) {
       const c = await ctx(false, ua);
