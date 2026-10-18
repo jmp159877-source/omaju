@@ -1,14 +1,29 @@
-// 오마주 서비스 워커: 앱 설치용. 사진만 저장하고, 화면과 코드는 항상 새로 받는다.
-const VER = 'omaju-v4';
+// 오마주 서비스 워커: 앱 설치용. 화면과 코드는 늘 새로 받되, 못 받으면 지난번 것으로 화면을 세운다.
+const VER = 'omaju-v5';
 self.addEventListener('install', e => { self.skipWaiting(); });
-self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VER).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
+
+// 화면 꾸미는 파일과 코드: 새로 받아서 쓰고, 한 벌 챙겨 둔다. 못 받으면 챙겨 둔 것으로 — 빈손으로 돌려주지 않는다
+// (빈손으로 돌려주면 글자만 쭉 나오는 맨 화면이 된다. 2026-10-18)
+async function freshFirst(req) {
+  const c = await caches.open(VER);
+  try {
+    const res = await fetch(req, { cache: 'no-store' });
+    if (res && res.ok) { try { await c.put(req, res.clone()); } catch (err) {} }
+    return res;
+  } catch (err) {
+    const hit = (await c.match(req)) || (await c.match(req, { ignoreSearch: true }));
+    if (hit) return hit;
+    throw err;
+  }
+}
 self.addEventListener('fetch', e => {
   const u = new URL(e.request.url);
   if (u.origin !== location.origin || e.request.method !== 'GET') return;
   if (/\.(jpg|png)$/.test(u.pathname)) {
     e.respondWith(caches.open(VER).then(c => c.match(e.request).then(r => r || fetch(e.request).then(res => { c.put(e.request, res.clone()); return res; }))));
   } else {
-    e.respondWith(fetch(e.request, { cache: 'no-store' }).catch(() => caches.match(e.request)));
+    e.respondWith(freshFirst(e.request).catch(() => caches.match(e.request, { ignoreSearch: true }).then(r => r || new Response('', { status: 504 }))));
   }
 });
 

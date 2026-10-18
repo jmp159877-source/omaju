@@ -233,6 +233,14 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('다른 동네에 가면 저절로 그곳 날씨로 바뀜', /부산/.test(r.sub) && /부산/.test(r.saved || ''), JSON.stringify(r));
       await c.close(); }
 
+    // 꾸미는 파일을 한 번 못 받아도 글자만 쭉 나오는 맨 화면이 되지 않는다
+    { const c = await ctx(false); const p = await c.newPage(); let blocked = 0;
+      await c.route(/\/css\/omaju\.css/, r => { if (blocked++ === 0) return r.abort(); return r.continue(); });
+      await p.goto(base + '/index.html'); await wait(p, 2500);
+      const r = await p.evaluate(() => { const b = getComputedStyle(document.body); const t = document.querySelector('#tabs3'); return { bg: b.backgroundColor, sheets: document.styleSheets.length, tabsGrid: t ? getComputedStyle(t).display : '' }; });
+      ok('꾸미는 파일을 못 받아도 맨 화면이 되지 않음', r.tabsGrid === 'grid' && r.sheets > 0, JSON.stringify({ ...r, blocked }));
+      await c.close(); }
+
   } catch (e) { ok('시험 실행', false, e.message); }
   await b.close(); srv.close();
   const fails = results.filter(r => !r[0]).length; console.log(fails ? `\n실패 ${fails}개 — 올리지 말고 고칠 것` : '\n모두 통과'); process.exit(fails ? 1 : 0);
