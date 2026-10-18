@@ -193,6 +193,59 @@ def gen_mind(d):
     return out
 
 
+
+def gen_book(d):
+    """오늘의 한 권 — 실제로 나온 책 하나를 골라 잡지 책 소개면처럼.
+    책 속 문장을 그대로 옮기지 않는다(저작권). 어떤 대목에서 멈추게 되는지를 내 말로 쓴다."""
+    j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 오늘 소개할 책 한 권을 구글 검색으로 확인해서 고른다.
+읽는 사람은 50~60대지만 생각과 생활은 40대다(유튜브·넷플릭스, 러닝·골프, 혼자 여행, 새 일, 콘서트).
+고르는 기준:
+- 한국에서 실제로 구할 수 있는 책. 제목·지은이·옮긴이·출판사를 검색으로 확인한 것만. 확실하지 않으면 다른 책으로 바꾼다.
+- 베스트셀러 1위 같은 너무 뻔한 책, 자기계발·재테크·처세 책은 피한다. 요즘 많이 읽히는 책과 오래된 좋은 책을 섞되 오늘은 하나만.
+- 소설·에세이·역사·과학·예술·여행기 등 결이 있는 책. 어렵고 현학적인 책도 피한다.
+- 죽음·질병·노년을 주제로 한 책은 피한다.
+쓸 것:
+- title, author, publisher: 검색으로 확인한 그대로. translator 는 번역서일 때만, 아니면 빈 문자열.
+- year: 한국에서 나온 해(네 자리 숫자 문자열). 확실하지 않으면 빈 문자열.
+- kind: 소설 / 에세이 / 역사 / 과학 / 예술 / 여행기 처럼 한 낱말.
+- blurb: 어떤 책인지 세 문장(120~180자). 줄거리를 다 풀지 말고, 이 책이 무엇을 들여다보는지. 출판사 홍보 문구를 그대로 옮기지 말 것.
+- scene: 읽다가 멈추게 되는 대목 하나를 **내 말로 옮긴** 두 문장(70~110자). 책 속 문장을 그대로 따오지 말 것. "~하는 대목이 있습니다" 처럼.
+- why: '이런 날 읽기 좋습니다' 한 줄(25~45자). 구체적인 장면이 떠오르게.
+형식(JSON만): {{"title":"...","author":"...","translator":"","publisher":"...","year":"","kind":"...","blurb":"...","scene":"...","why":"..."}}""", json_mode=True, search=True)
+    out = {k: str(j.get(k, "")).strip() for k in ("title", "author", "translator", "publisher", "year", "kind", "blurb", "scene", "why")}
+    assert out["title"] and out["author"] and out["blurb"], "오늘의 한 권 비어 있음"
+    return out
+
+
+
+def gen_movies(d):
+    """이번 주 극장 — 지금 걸려 있는 영화 네 편. 보도자료 문구를 옮기지 않는다."""
+    j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 지금 한국 극장에서 상영 중이거나 이번 주에 개봉하는 영화 4편을 구글 검색으로 확인해서 골라라.
+읽는 사람은 50~60대지만 생각과 생활은 40대다. 관객이 많이 드는 작품과 조용하지만 좋은 작품을 섞어라. 애니메이션만 넷이 되지 않게.
+확인된 것만 쓴다. 제목·감독·주연·개봉일이 확실하지 않으면 그 작품은 빼라.
+각 항목:
+- title(한국 개봉 제목), director(감독), cast(주연 두 명까지 ' · '로), opened(개봉일 '10월 15일' 꼴, 개봉 예정이면 'N월 N일 개봉'), rating(관람 등급 '15세' 꼴, 모르면 빈 문자열)
+- why: 어떤 영화인지 두 문장(60~100자). 줄거리를 다 말하지 말 것. 홍보 문구를 그대로 옮기지 말 것.
+형식(JSON만): {{"items":[{{"title":"...","director":"...","cast":"...","opened":"...","rating":"","why":"..."}}, ...]}}""", json_mode=True, search=True)
+    items = [x for x in j.get("items", []) if x.get("title") and x.get("why")][:4]
+    assert items, "극장 비어 있음"
+    return items
+
+
+def gen_stage(d, region):
+    """이번 주 무대·전시 — 한 지역의 공연 3개와 전시 3개."""
+    prompt = f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 한국 '{region}' 지역에서 지금 하고 있거나 이번 달 안에 볼 수 있는
+공연(연극·뮤지컬·콘서트·국악·클래식) 3개와 전시(미술관·박물관·사진전) 3개를 구글 검색으로 확인해서 찾아라.
+읽는 사람은 50~60대지만 생각과 생활은 40대다. 어린이 공연과 지나치게 실험적인 것은 뺀다.
+실제로 열리는 것만. 기간·장소가 확인되지 않으면 그 항목은 빼라.
+각 항목: title(이름 20자 이내), where(장소 20자 이내), when(기간 '10월 2일~11월 9일' 꼴), price(값대 '3만~7만 원' 꼴, 무료면 '무료', 모르면 빈 문자열),
+why(어떤 무대·전시인지 한 문장 40~70자. 홍보 문구를 옮기지 말 것).
+형식(JSON만): {{"stage":[{{"title":"...","where":"...","when":"...","price":"","why":"..."}}, ...], "exhibit":[...]}}"""
+    j = gemini(prompt, json_mode=True, search=True)
+    out = {k: [x for x in j.get(k, []) if x.get("title") and x.get("when")][:3] for k in ("stage", "exhibit")}
+    return out
+
+
 def gen_era(d):
     era, used = {}, []
     for ago in (50, 40, 30, 20, 10):
@@ -541,7 +594,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -573,7 +626,7 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
         if only and name not in only:
             continue
         if not force and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움

@@ -165,6 +165,64 @@ function flList(id, order, f) {
   $(id).innerHTML = '<div class="fl-list">' + order.filter(k => f[k]).map(k => { const it = f[k];     return `<div class="fl-item"><div class="fl-head"><b>${esc(it.name)}</b><span>${esc(it.say || '')}</span></div>${it.videoId ? `<button type="button" class="fl-thumb" data-fl="${k}" aria-label="${esc(it.name)} 영상 보기"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(it.videoId)}/hqdefault.jpg" alt=""><span class="fl-play">▶</span></button><p class="fl-cap">${esc(cleanT(it.title))}${it.channel ? ' · ' + esc(unent(it.channel)) : ''}</p>` : ''}${it.videoId ? '' : `<p class="note" style="margin:10px 0 0">오늘 영상을 준비하는 중입니다. 잠시 뒤에 다시 들러 주세요.</p>`}</div>`; }).join('') + '</div>';
 }
 // ── 오늘의 마음 한 줄 ──
+// ── 이번 주, 무엇을 볼까 (극장 · 무대 · 전시) ──
+// 극장은 전국 한 벌, 무대·전시는 지역별. 지역은 나들이에서 고른 것을 그대로 쓴다.
+let SHOWS = null, showTab = store.get('showTab', 'movie');
+const SHOW_TABS = [['movie', '극장'], ['stage', '무대'], ['exhibit', '전시']];
+function showRegions() { return SHOWS && SHOWS.regions ? Object.keys(REGION_XY).filter(r => SHOWS.regions[r]) : []; }
+function renderShow() {
+  const body = $('show-body'); if (!body) return;
+  if (!SHOWS) { body.innerHTML = '<p class="note" style="margin-top:30px">이번 주 볼거리를 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
+  const tabs = `<div class="sw-tabs" role="group" aria-label="무엇을 볼까">${SHOW_TABS.map(([k, n]) => `<button type="button" data-sw="${k}" aria-pressed="${k === showTab}">${n}</button>`).join('')}</div>`;
+  let inner = '';
+  if (showTab === 'movie') {
+    const ms = SHOWS.movie || [];
+    inner = ms.length ? '<div class="rows">' + ms.map(m => `<div class="row sw-row"><b>${esc(m.title)}</b><p class="sw-meta">${esc([m.director ? m.director + ' 감독' : '', m.cast, m.rating].filter(Boolean).join(' · '))}${m.opened ? ` <span class="nw">· ${esc(m.opened)}</span>` : ''}</p><p>${esc(m.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent('영화 ' + m.title)}" target="_blank" rel="noopener">상영관 찾기</a></div>`).join('') + '</div>'
+      : '<p class="note" style="margin-top:24px">이번 주 극장 소식을 모으고 있습니다.</p>';
+  } else {
+    const rs = showRegions();
+    if (!rs.length) { inner = '<p class="note" style="margin-top:24px">이번 주 소식을 모으고 있습니다.</p>'; }
+    else {
+      if (!rs.includes(outRegion)) outRegion = rs[0];
+      const list = (SHOWS.regions[outRegion] || {})[showTab] || [];
+      inner = `<div class="sw-regions" role="group" aria-label="지역 고르기">${rs.map(r => `<button type="button" data-swr="${esc(r)}" aria-pressed="${r === outRegion}">${esc(r)}</button>`).join('')}</div>`
+        + (list.length ? '<div class="rows">' + list.map(x => `<div class="row sw-row"><b>${esc(x.title)}</b><p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.price ? ` <span class="nw">· ${esc(x.price)}</span>` : ''}</p><p>${esc(x.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent(x.title + ' ' + (x.where || ''))}" target="_blank" rel="noopener">자세히 · 예매</a></div>`).join('') + '</div>'
+          : `<p class="note" style="margin-top:24px">${esc(outRegion)} 소식을 아직 모으는 중입니다. 다른 지역을 눌러 보세요.</p>`);
+    }
+  }
+  body.innerHTML = tabs + inner + '<p class="note">주마다 새로 찾아 넣습니다. 가시기 전에 날짜와 남은 자리를 한 번 더 확인해 주세요.</p>';
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-sw]'); if (t) { showTab = t.dataset.sw; store.set('showTab', showTab); renderShow(); return; }
+  const r = e.target.closest('[data-swr]'); if (r) { outRegion = r.dataset.swr; store.set('outRegion', outRegion); renderShow(); }
+});
+fetch('data/shows.json', { cache: 'no-cache' }).then(r => r.json()).then(w => {
+  if (!w || !w.week) return;
+  const end = new Date(w.week + 'T23:59:59+09:00'); if (end.getTime() + 8 * 864e5 < Date.now()) return; // 지난주 것은 쓰지 않음
+  SHOWS = w; renderShow();
+}).catch(() => {});
+
+// ── 오늘의 한 권 ──
+// 책 속 문장을 그대로 싣지 않는다(저작권). '이런 대목이 있습니다'를 우리 말로 옮긴다.
+function renderBook() {
+  const b = C.book;
+  if (!b || !b.title) { $('book-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 한 권을 고르고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
+  const who = [b.author, b.translator ? b.translator + ' 옮김' : ''].filter(Boolean).join(' · ');
+  const pub = [b.publisher, b.year].filter(Boolean).join(' · ');
+  const q = encodeURIComponent(b.title + ' ' + (b.author || ''));
+  if ($('book-sub')) $('book-sub').textContent = b.why || b.kind || '';
+  $('book-body').innerHTML = `<article class="bk">
+    <p class="cu-kind">${esc(b.kind || '오늘의 한 권')}</p>
+    <h2 class="bk-title">${esc(b.title)}</h2>
+    <p class="bk-who">${esc(who)}${pub ? `<span>${esc(pub)}</span>` : ''}</p>
+    <p class="bk-blurb">${esc(b.blurb)}</p>
+    ${b.scene ? `<p class="is-sub">멈추게 되는 대목</p><p class="bk-scene">${esc(b.scene)}</p>` : ''}
+    ${b.why ? `<p class="bk-why">${esc(b.why)}</p>` : ''}
+    <div class="bk-go"><a class="btn line" href="https://search.kyobobook.co.kr/search?keyword=${q}" target="_blank" rel="noopener">교보문고에서 보기</a><a class="btn line" href="https://www.aladin.co.kr/search/wsearchresult.aspx?SearchWord=${q}" target="_blank" rel="noopener">알라딘에서 보기</a></div>
+    <p class="note bk-note">책 속 문장을 그대로 옮기지 않고, 읽은 느낌을 우리 말로 적었습니다.</p>
+  </article>`;
+}
+
 function renderMind() {
   const m = C.mind;
   if (!m || !m.line) { $('mind-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 마음 한 줄을 다듬고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
@@ -479,7 +537,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행 회화', () => '공항에서 시장까지,<br>다섯 나라 말'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], book: ['detail_book', '오늘의 한 권', () => C.book && C.book.title ? esc(C.book.title) : '오늘, 한 권'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행 회화', () => '공항에서 시장까지,<br>다섯 나라 말'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -539,7 +597,7 @@ function route() { const k = location.hash.slice(1);
 $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-5]$/.test(NS[0]) ? NS[0] : ''); };
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
-renderEra(); renderMind(); route();
+renderEra(); renderMind(); renderBook(); renderShow(); route();
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');

@@ -1600,3 +1600,25 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .ht-origin { display: inline-block; margin-top: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-family: ui-monospace, Menlo, monospace; font-size: 0.95rem; color: #3A2E00; word-break: break-all; }
 /* 윗줄에 .b-text p span 을 font:inherit !important 로 묶어 둔 규칙이 있어 여기도 !important 가 필요하다 */
 .b-text p span.b-eg { display: block !important; margin-top: 4px; font-size: 0.84em !important; opacity: 0.82; word-break: keep-all; }
+
+/* 오늘의 한 권 (2026-10-18) */
+.bk { margin-top: 26px; }
+.bk-title { margin: 6px 0 4px; font-family: 'Nanum Myeongjo', serif; font-size: 1.6rem; line-height: 1.35; color: var(--dark-green); word-break: keep-all; }
+.bk-who { margin: 0 0 18px; font-size: 1rem; color: #6b6354; }
+.bk-who span { display: block; margin-top: 2px; font-size: 0.92rem; color: #9a938a; }
+.bk-blurb { margin: 0; font-size: 1.06rem; line-height: 1.8; color: #2d2a24; word-break: keep-all; }
+.bk-scene { margin: 0; font-size: 1.04rem; line-height: 1.8; color: #3d382f; word-break: keep-all; }
+.bk-why { margin: 20px 0 0; padding: 14px 16px; border-left: 2px solid var(--gold); background: #FAF7EF; font-size: 1.04rem; line-height: 1.7; color: #4a4134; word-break: keep-all; }
+.bk-go { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.bk-go .btn { flex: 1 1 160px; min-width: 0; text-align: center; text-decoration: none; }
+.bk-note { margin-top: 14px; }
+
+/* 이번 주, 무엇을 볼까 (2026-10-18) */
+.sw-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 26px 0 16px; }
+.sw-tabs button { padding: 12px 6px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-size: 1.04rem; font-weight: 700; color: var(--dark-green); }
+.sw-tabs button[aria-pressed="true"] { background: var(--dark-green); border-color: var(--dark-green); color: #fff; }
+.sw-regions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.sw-regions button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 0.98rem; color: #444; }
+.sw-regions button[aria-pressed="true"] { background: var(--dark-green); border-color: var(--dark-green); color: #fff; font-weight: 700; }
+.sw-row b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.18rem; line-height: 1.4; color: var(--dark-green); word-break: keep-all; }
+.sw-meta { margin: 4px 0 8px; font-size: 0.96rem; line-height: 1.6; color: #6b6354; word-break: keep-all; }
