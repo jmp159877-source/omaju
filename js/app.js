@@ -5,7 +5,7 @@ import { drawCard } from './cards.js';
 import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
-const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g4: ['나의 수첩', '메모와 일정', 'tab-note', 4] };
+const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '운동 · 마음 · 건강', 'tab-health', 4], g4: ['나의 수첩', '메모와 일정', 'tab-note', 5] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;
 
 const $ = id => document.getElementById(id);
@@ -151,13 +151,44 @@ cardsEl.onclick = async e => {
 
 
 // ── 앞으로 나아가기: 따라하기 · 회화 · 나들이 ──
-const FOLLOW_ORDER = ['gym', 'meditate', 'sing', 'dance', 'golf', 'park'];
+// 몸 푸는 것(나를 돌보기)과 취미로 배우는 것(앞으로 나아가기)을 나눈다
+const MOVE_ORDER = ['gym', 'meditate'];
+const FOLLOW_ORDER = ['sing', 'dance', 'golf', 'park'];
 const cleanT = t => unent(t).replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\uFE0F\u200D▶►★☆♥❤|#]/gu, ' ').replace(/\((?:[^)]*(?:이벤트|구독|무료|광고)[^)]*)\)/g, '').replace(/\[ENG\]|\[ENG SUB\]/gi, '').replace(/\s{2,}/g, ' ').replace(/\s*[\/·-]\s*$/, '').trim();
 const unent = t => String(t || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 function renderFollow() {
-  const f = C.follow; if (!f) { $('follow-body').innerHTML = '<p class="note" style="margin-top:30px">오늘 영상이 준비되지 않았습니다. 내일 다시 들러 주세요.</p>'; return; }
-  $('follow-body').innerHTML = '<div class="fl-list">' + FOLLOW_ORDER.filter(k => f[k]).map(k => { const it = f[k];     return `<div class="fl-item"><div class="fl-head"><b>${esc(it.name)}</b><span>${esc(it.say || '')}</span></div>${it.videoId ? `<button type="button" class="fl-thumb" data-fl="${k}" aria-label="${esc(it.name)} 영상 보기"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(it.videoId)}/hqdefault.jpg" alt=""><span class="fl-play">▶</span></button><p class="fl-cap">${esc(cleanT(it.title))}${it.channel ? ' · ' + esc(unent(it.channel)) : ''}</p>` : ''}${it.videoId ? '' : `<p class="note" style="margin:10px 0 0">오늘 영상을 준비하는 중입니다. 잠시 뒤에 다시 들러 주세요.</p>`}</div>`; }).join('') + '</div>';
+  const f = C.follow; if (!f) { const m = '<p class="note" style="margin-top:30px">오늘 영상이 준비되지 않았습니다. 내일 다시 들러 주세요.</p>'; $('follow-body').innerHTML = m; $('move-body').innerHTML = m; return; }
+  flList('move-body', MOVE_ORDER, f); flList('follow-body', FOLLOW_ORDER, f);
+  const mv = MOVE_ORDER.map(k => f[k] && f[k].name).filter(Boolean).join(' · '); if ($('move-sub') && mv) $('move-sub').textContent = mv + ' · 오늘은 십 분만';
 }
+function flList(id, order, f) {
+  $(id).innerHTML = '<div class="fl-list">' + order.filter(k => f[k]).map(k => { const it = f[k];     return `<div class="fl-item"><div class="fl-head"><b>${esc(it.name)}</b><span>${esc(it.say || '')}</span></div>${it.videoId ? `<button type="button" class="fl-thumb" data-fl="${k}" aria-label="${esc(it.name)} 영상 보기"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(it.videoId)}/hqdefault.jpg" alt=""><span class="fl-play">▶</span></button><p class="fl-cap">${esc(cleanT(it.title))}${it.channel ? ' · ' + esc(unent(it.channel)) : ''}</p>` : ''}${it.videoId ? '' : `<p class="note" style="margin:10px 0 0">오늘 영상을 준비하는 중입니다. 잠시 뒤에 다시 들러 주세요.</p>`}</div>`; }).join('') + '</div>';
+}
+// ── 오늘의 마음 한 줄 ──
+function renderMind() {
+  const m = C.mind;
+  if (!m || !m.line) { $('mind-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 마음 한 줄을 다듬고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
+  if ($('mind-sub')) $('mind-sub').textContent = m.line.length > 34 ? m.line.slice(0, 33) + '…' : m.line;
+  $('mind-body').innerHTML = `<div class="cu-block cu-quote"><p class="cu-kind">오늘의 마음 한 줄</p><blockquote>${esc(m.line)}</blockquote>${m.by ? `<p class="cu-by">— ${esc(m.by)}</p>` : ''}${m.note ? `<p class="is-sub">풀이</p><p class="cu-note">${esc(m.note)}</p>` : ''}${m.todo ? `<p class="is-sub">오늘 해 볼 것</p><p class="cu-note">${esc(m.todo)}</p>` : ''}</div>`
+    + `<div class="mn-breath"><p class="cu-kind">숨 고르기</p><p class="mn-say" id="mn-say">단추를 누르고 동그라미에 맞춰 숨을 쉬어 보세요.</p><div class="mn-ring" id="mn-ring"><span id="mn-cnt">4</span></div><button type="button" class="btn green" id="mn-go">숨 고르기 시작</button></div>`;
+}
+// 들숨 4초 · 멈춤 4초 · 날숨 6초를 네 번. 숫자와 동그라미로만 안내한다(소리 없음).
+let mnT = null;
+document.addEventListener('click', e => {
+  if (!e.target.closest('#mn-go')) return;
+  const go = $('mn-go'), ring = $('mn-ring'), say = $('mn-say'), cnt = $('mn-cnt');
+  if (mnT) { clearInterval(mnT); mnT = null; ring.className = 'mn-ring'; go.textContent = '숨 고르기 시작'; say.textContent = '단추를 누르고 동그라미에 맞춰 숨을 쉬어 보세요.'; cnt.textContent = '4'; return; }
+  const steps = [['들이쉬기', 4, 'in'], ['잠시 멈추기', 4, 'hold'], ['내쉬기', 6, 'out']];
+  let round = 0, si = 0, left = steps[0][1];
+  const draw = () => { say.textContent = steps[si][0] + ' · ' + (round + 1) + '번째'; ring.className = 'mn-ring ' + steps[si][2]; cnt.textContent = left; };
+  go.textContent = '그만하기'; draw();
+  mnT = setInterval(() => {
+    left--;
+    if (left <= 0) { si++; if (si >= steps.length) { si = 0; round++; if (round >= 4) { clearInterval(mnT); mnT = null; ring.className = 'mn-ring'; go.textContent = '다시 하기'; say.textContent = '잘하셨습니다. 어깨가 한결 가벼워졌을 거예요.'; cnt.textContent = '✓'; return; } } left = steps[si][1]; }
+    draw();
+  }, 1000);
+});
+
 const LANG = { en: ['영어', 'en-US'], ja: ['일본어', 'ja-JP'], zh: ['중국어', 'zh-CN'] };
 function renderPhrase() {
   const p = C.phrase; if (!p) { $('phrase-body').innerHTML = '<p class="note" style="margin-top:30px">오늘 문장이 준비되지 않았습니다.</p>'; return; }
@@ -283,7 +314,8 @@ fetch('data/song_videos.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() 
 function playSong(i) { playFrom(songList(), i, `${Y - ago}년 ${genre === 'pop' ? '팝송' : '가요'}`); }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-fl]'); if (!b) return;
-  const order = FOLLOW_ORDER.filter(k => C.follow && C.follow[k] && C.follow[k].videoId), i = order.indexOf(b.dataset.fl); playFollow(order, i);
+  const src = MOVE_ORDER.includes(b.dataset.fl) ? MOVE_ORDER : FOLLOW_ORDER;
+  const order = src.filter(k => C.follow && C.follow[k] && C.follow[k].videoId), i = order.indexOf(b.dataset.fl); playFollow(order, i);
 });
 function playFollow(order, i) {
   const it = C.follow[order[i]]; if (!it) return;
@@ -406,7 +438,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '오늘, 몸을 깨우는 시간'], phrase: ['detail_phrase', '오늘의 회화', () => '오늘의 한 문장' + (C.phrase && C.phrase.topic ? '<br>' + esc(C.phrase.topic) : '')], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_follow', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], phrase: ['detail_phrase', '오늘의 회화', () => '오늘의 한 문장' + (C.phrase && C.phrase.topic ? '<br>' + esc(C.phrase.topic) : '')], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -466,7 +498,7 @@ function route() { const k = location.hash.slice(1);
 $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-5]$/.test(NS[0]) ? NS[0] : ''); };
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
-renderEra(); route();
+renderEra(); renderMind(); route();
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');

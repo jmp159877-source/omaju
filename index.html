@@ -88,6 +88,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
       <button type="button" data-tab="g1" aria-pressed="true"><b>오늘 즐기기</b><small>하루를 기분 좋게</small></button>
       <button type="button" data-tab="g2"><b>그때 돌아보기</b><small>그 시절을 꺼내다</small></button>
       <button type="button" data-tab="g5"><b>앞으로 나아가기</b><small>여행 · 관광 · 취미</small></button>
+      <button type="button" data-tab="g3"><b>나를 돌보기</b><small>운동 · 마음 · 건강</small></button>
       <button type="button" data-tab="g4"><b>나의 수첩</b><small>메모와 일정</small></button>
     </nav>
     <section class="tabsec on" data-g="g1">
@@ -156,6 +157,15 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
     <button type="button" class="banner photo" data-open="phrase" data-corner="phrase" style="background-image:url('img/phrase.jpg')"><div class="b-text"><div><h3 id="phrase-title">영어 · 일본어 · 중국어</h3><p id="phrase-sub">하루 한 문장, 듣고 따라 말하기</p></div><span>들어가기</span></div></button>
 
     </section>
+    <section class="tabsec" data-g="g3">
+
+    <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27C9 22 4 18 4 13a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-5 9-12 14z" stroke="#C9A24A"/></svg>오늘의 몸 풀기</div>
+    <button type="button" class="banner photo" data-open="move" data-corner="move" style="background-image:url('img/follow.jpg')"><div class="b-text"><div><h3>요가 · 명상</h3><p id="move-sub">오늘은 십 분만 몸과 숨을 고르게</p></div><span>따라 해 보기</span></div></button>
+
+    <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27C9 22 4 18 4 13a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-5 9-12 14z" stroke="#C9A24A"/></svg>오늘의 마음 한 줄</div>
+    <button type="button" class="banner photo" data-open="mind" data-corner="mind" style="background-image:url('img/culture.jpg'); background-position: center 60%"><div class="b-text"><div><h3 id="mind-title">마음 한 줄</h3><p id="mind-sub"></p></div><span>읽어 보기</span></div></button>
+
+    </section>
     <section class="tabsec" data-g="g4">
 
     <div id="nb-gate" class="nb-gate" hidden><p>로그인하면 나만의 수첩이 열립니다.<br>메모·일정·기억할 날을 말로 적고, 그날 아침 첫 화면에서 알려 드립니다.</p><button type="button" class="btn green" id="nb-login">로그인 · 회원가입</button></div>
@@ -213,6 +223,8 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
     <section class="dsec" data-k="quiz"><div id="issue-card"></div><p class="cu-kind" style="margin-top:26px">확인 문제</p><p class="quiz-q" id="quiz-q"></p><div class="opts" id="opts"></div><div class="quiz-foot"><button type="button" class="btn green" id="quiz-check" disabled>정답 확인</button><span id="quiz-result"></span></div><div class="quiz-exp" id="quiz-exp" hidden></div></section>
     <section class="dsec" data-k="culture"><div id="culture-body"></div></section>
     <section class="dsec" data-k="follow"><div id="follow-body"></div></section>
+    <section class="dsec" data-k="move"><div id="move-body"></div></section>
+    <section class="dsec" data-k="mind"><div id="mind-body"></div></section>
     <section class="dsec" data-k="phrase"><div id="phrase-body"></div></section>
     <section class="dsec" data-k="outing"><div class="picks" id="outing-tabs" role="group"></div><div id="outing-body"></div></section>
     <section class="dsec" data-k="story"><div id="story-body"></div></section>

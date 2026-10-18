@@ -179,6 +179,20 @@ def gen_fortune(d):
     return out
 
 
+def gen_mind(d):
+    """오늘의 마음 한 줄 — 짧은 문장 하나와 풀이, 오늘 해 볼 것."""
+    j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 하루를 차분히 붙잡아 주는 '마음 한 줄'을 쓴다.
+읽는 사람은 50~60대지만 생각과 생활은 40대다. 설교·훈계·자기계발서 말투 금지. 치유·힐링·멘탈 같은 외래어 금지. 나이 이야기 금지.
+- line: 오늘의 문장 한 줄(25~45자). 누구나 아는 흔한 명언(법정·니체·괴테의 유명 구절 등) 금지. 담백하고 결이 있는 문장. 출처가 있으면 그대로, 없으면 새로 쓴다.
+- by: 출처(사람 이름이나 책 제목). 지어내지 말 것 — 확실하지 않으면 빈 문자열.
+- note: 그 문장을 오늘 하루에 붙여 읽는 풀이 두 문장(70~110자). 구체적인 장면이 떠오르게.
+- todo: 오늘 해 볼 작은 일 한 문장(25~45자). 돈 들지 않고 혼자 지금 할 수 있는 것.
+형식(JSON만): {{"line":"...","by":"...","note":"...","todo":"..."}}""", json_mode=True)
+    out = {k: str(j.get(k, "")).strip() for k in ("line", "by", "note", "todo")}
+    assert out["line"] and out["note"], "마음 한 줄 비어 있음"
+    return out
+
+
 def gen_era(d):
     era, used = {}, []
     for ago in (50, 40, 30, 20, 10):
@@ -527,7 +541,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -559,7 +573,7 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
         if only and name not in only:
             continue
         if not force and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
