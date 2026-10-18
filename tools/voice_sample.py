@@ -10,18 +10,20 @@ PROFILE_ANCHOR = {
  'hangyeol': '[목소리 설정] 46세 한국 남성 아나운서. 반듯하고 신뢰감 있는 진행자. 낮고 안정된 중저음, 여유 있고 차분하지만 따뜻하다. 까부는 톤·과장된 리액션·들뜬 말투 금지.',
 }
 AUDITION = {
- 'miso': (['Gacrux', 'Vindemiatrix', 'Kore', 'Callirrhoe'],
+ 'miso': (['Callirrhoe'],
           '좋은 아침입니다, 윤미소입니다. 월요일 아침이네요. 창을 열면 공기가 제법 서늘합니다. '
           '오늘 오마주에는 무라카미 하루키와 오자와 세이지가 음반을 들으며 나눈 이야기, 그 한 권이 올라와 있습니다. '
           '오늘 인사 카드에는 가을볕을 담은 글귀가 담겼습니다. 마음 가는 분께 한 장 보내 보세요. '
           '오늘도 좋은 하루 보내세요. 오마주, 윤미소였습니다.'),
- 'hangyeol': (['Charon', 'Orus', 'Sadaltager'],
-          '오늘 하루도 수고 많으셨습니다, 서한결입니다. 토요일 저녁이네요. '
-          '오늘 오마주에는 이번 주말에 볼 만한 무대와 전시를 모아 두었습니다. '
-          '편안한 저녁 보내십시오. 오마주, 서한결이었습니다.'),
+}
+# 같은 목소리에 '읽는 결'만 달리 시켜 본다 (소리를 늘이지 않는다 — 늘이면 목청까지 바뀐다)
+TONES = {
+ 'now':  '[목소리 설정] 45세 한국 여성 아나운서. 반듯하고 품위 있는 진행자. 안정된 중음, 따뜻하지만 가볍지 않고, 발음이 또렷하며 말끝이 단정하게 내려앉는다. 들뜬 톤·애교·과장된 웃음 금지.',
+ 'calm': '[목소리 설정] 45세 한국 여성 아나운서. 교양 프로그램을 오래 진행한 사람. 목소리를 평소보다 한 톤 낮춰, 가슴에서 나오는 차분한 중음으로 읽는다. 문장 끝을 올리지 않고 단정하게 내려놓는다. 서두르지 않고 한 박자 여유 있게. 밝게 들뜨거나 상냥하게 꾸미지 않는다. 애교·콧소리·끝을 늘이는 말투 금지.',
+ 'deep': '[목소리 설정] 45세 한국 여성 아나운서. 저녁 교양 프로그램 진행자. 낮고 깊은 중저음으로, 울림이 있게 읽는다. 말 사이에 숨을 두고 천천히. 문장 끝은 눌러서 끝낸다. 밝거나 상냥한 기색 없이, 품위 있고 담담하게. 애교·콧소리 금지.',
 }
 # 오디션 때 높이를 낮춘 벌도 같이 만든다 (0% · -8%) — 너무 어리게 들리는 걸 귀로 견줘 고르려고
-AUD_DROP = [('', 1.0), ('_low', 0.92)]
+AUD_DROP = []   # 늘여서 낮추는 방법은 쓰지 않는다 (2026-10-18)
 PROFILE = {
  'miso': '[목소리 설정] 45세 한국 여성 진행자. 세련되고 생기 있는 사람. 맑고 탄력 있는 중음, 웃음이 잘 묻어남. 차분한 낭독조·나이 든 말투 금지.',
  'hangyeol': '[목소리 설정] 46세 한국 남성 진행자. 유쾌하고 센스 있는 사람. 따뜻한 중저음이지만 무겁지 않고 경쾌함. 느린 설명조·아저씨 말투 금지.',
@@ -93,18 +95,19 @@ if os.environ.get('AUDITION'):
     for who, (vs, line) in AUDITION.items():
         if ONLY and who not in ONLY: continue
         for v in vs:
+          for tone, prof in TONES.items():
             time.sleep(7)
-            prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + PROFILE_ANCHOR[who] + '\n[연출] 아침·저녁 정보 프로그램을 여는 아나운서처럼 단정하고 따뜻하게. 보통 말 빠르기.\n\n[읽을 대본 — 이 부분만 읽기]\n' + line
+            prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + prof + '\n[연출] 아침 교양 프로그램을 여는 아나운서처럼. 보통보다 아주 조금 느리게.\n\n[읽을 대본 — 이 부분만 읽기]\n' + line
             for attempt in range(4):
                 try: pcm = tts(MODELS[0], v, prompt)
-                except Exception as e: say('실패', who, v, str(e)[:100]); time.sleep(20); continue
-                base = f'out_voice/{who}_{v}.wav'
+                except Exception as e: say('실패', who, v, tone, str(e)[:100]); time.sleep(20); continue
+                base = f'out_voice/{who}_{v}_{tone}.wav'
                 with wave.open(base, 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
                 for suf, r in AUD_DROP:   # 낮춘 벌: 같은 소리를 느린 박자로 적어 두면 높이도 같이 내려간다 (ffmpeg 없이)
                     if not suf: continue
                     with wave.open(f'out_voice/{who}_{v}{suf}.wav', 'wb') as w:
                         w.setnchannels(1); w.setsampwidth(2); w.setframerate(int(24000 * r)); w.writeframes(pcm)
-                say('완료', who, v, round(len(pcm) / 48000, 1)); break
+                say('완료', who, v, tone, round(len(pcm) / 48000, 1)); break
     SEG = {}
 for who, segs in SEG.items():
     for n, (kind, line) in enumerate(segs):
