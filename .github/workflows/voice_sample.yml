@@ -28,7 +28,17 @@ jobs:
           AUDITION: ${{ inputs.audition }}
           WHOLE: ${{ inputs.whole }}
           PAUSE: '30'
-        run: python3 tools/voice_sample.py
+        run: |
+          set +e
+          python3 -u tools/voice_sample.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -120 | tee tools/last-voice.log
+          echo "끝"
+      - name: 기록 남기기
+        if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add -A tools/last-voice.log || true
+          git diff --cached --quiet || git commit -m "목소리 견본 기록 [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push && break; git rebase --abort 2>/dev/null; sleep 5; done
       - name: 견본 가지에 올리기
         if: always()
         run: |
