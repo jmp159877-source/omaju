@@ -5,7 +5,7 @@ import { drawCard } from './cards.js';
 import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
-const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['여행·취미', '떠나고, 배우고, 즐기다', 'tab-travel', 3], g4: ['나의 수첩', '메모와 일정', 'tab-note', 4] };
+const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g4: ['나의 수첩', '메모와 일정', 'tab-note', 4] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;
 
 const $ = id => document.getElementById(id);
