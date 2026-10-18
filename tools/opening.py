@@ -15,7 +15,7 @@ args = [a for a in sys.argv[1:] if not a.startswith('--')]
 FORCE = '--force' in sys.argv
 DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 D = datetime.date.fromisoformat(DATE)
-HOST = 'miso' if (D - datetime.date(2026, 10, 16)).days % 2 == 0 else 'hangyeol'
+HOST = 'miso' if (D - datetime.date(2026, 10, 19)).days % 2 == 0 else 'hangyeol'   # 월요일(10/19)을 윤미소로 (운영자 2026-10-18)
 OTHER = 'hangyeol' if HOST == 'miso' else 'miso'
 NAME = {'miso': '윤미소', 'hangyeol': '서한결'}
 WD = '월화수목금토일'[D.weekday()]
