@@ -1530,3 +1530,4 @@ body.in-chapter #opening { display: none !important; }
 .auth-slot > * { grid-column: 1; grid-row: 1; justify-self: start; }
 .auth-slot > [hidden] { display: inline-flex !important; visibility: hidden; pointer-events: none; }
 .logo-wrap img { aspect-ratio: 800 / 653; height: auto; }  /* 로고가 늦게 떠도 자리가 밀리지 않게 */
+html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 있으면 설치 단추를 아예 그리지 않는다 */

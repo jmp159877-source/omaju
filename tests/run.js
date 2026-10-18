@@ -252,6 +252,21 @@ srv.listen(0, '127.0.0.1', async () => {
         ok('들어갈 때 화면이 튀지 않음 · ' + who, cls <= 0.005 && big, '밀림 ' + cls + (big ? '' : ', 큰 글씨 안 걸림'));
         await c.close(); } }
 
+    // 앱으로 깔아 둔 사람에게 '앱 아이콘 설치하기'가 잠깐이라도 비치면 안 된다
+    { const c = await ctx(false); const p = await c.newPage();
+      await p.addInitScript(() => { const mm = window.matchMedia.bind(window); window.matchMedia = q => /display-mode:\s*standalone/.test(q) ? { matches: true, media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} } : mm(q); });
+      await p.addInitScript(() => { globalThis.__seen = 0; const tick = () => { const b = document.getElementById('install-btn'); if (b && !b.hidden && b.offsetParent) globalThis.__seen++; requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+      await p.goto(base + '/index.html'); await wait(p, 2500);
+      const r = await p.evaluate(() => ({ seen: globalThis.__seen, shown: !!document.getElementById('install-btn').offsetParent }));
+      ok('깔아 둔 사람에게 설치 단추가 비치지 않음', r.seen === 0 && !r.shown, JSON.stringify(r));
+      await c.close(); }
+    // 아직 안 깔아 둔 사람에게는 설치 단추가 보인다
+    { const c = await ctx(false); const p = await c.newPage();
+      await p.goto(base + '/index.html'); await wait(p, 2000);
+      const shown = await p.evaluate(() => !!document.getElementById('install-btn').offsetParent);
+      ok('안 깔아 둔 사람에게는 설치 단추가 보임', shown, shown ? '' : '안 보임');
+      await c.close(); }
+
   } catch (e) { ok('시험 실행', false, e.message); }
   await b.close(); srv.close();
   const fails = results.filter(r => !r[0]).length; console.log(fails ? `\n실패 ${fails}개 — 올리지 말고 고칠 것` : '\n모두 통과'); process.exit(fails ? 1 : 0);
