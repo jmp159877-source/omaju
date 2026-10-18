@@ -114,6 +114,21 @@ srv.listen(0, '127.0.0.1', async () => {
           document.getElementById('nb-del').click(); await W(200); out.ask = !!document.getElementById('nb-del-yes'); document.getElementById('nb-del-yes').click(); await W(1000);
           out.deleted = document.querySelectorAll('#nb-memo .nb-item').length === before - 1 && ![...document.querySelectorAll('#nb-memo .nb-txt')].some(x => x.textContent === '고친 메모 내용'); out.hashAfterDel = location.hash; return out; });
         ok('수첩 고치기·지우기', r.label && /고치기/.test(r.editTitle) && r.edited && r.ask && r.deleted && r.hashAfterEdit === '#g4' && r.hashAfterDel === '#g4', JSON.stringify(r));
+        // 목록에서 바로 '지우기' (창을 열지 않고)
+        const r2 = await p.evaluate(async () => { const W = ms => new Promise(r => setTimeout(r, ms)); const out = {};
+          document.querySelector('.nb-hand[data-kind="memo"]').click(); await W(400);
+          document.getElementById('nb-text').value = '지울 메모'; document.getElementById('nb-save').click(); await W(1000);
+          const row = [...document.querySelectorAll('#nb-memo .nb-item')].find(x => x.textContent.includes('지울 메모'));
+          out.btn = !!(row && row.querySelector('.nb-rm'));
+          if (!out.btn) return out;
+          const before = document.querySelectorAll('#nb-memo .nb-item').length;
+          row.querySelector('.nb-rm').click(); await W(500);
+          out.ask = !!document.getElementById('nb-rm-yes');
+          out.noEditor = !document.getElementById('nb-save');
+          if (out.ask) { document.getElementById('nb-rm-yes').click(); await W(1000); }
+          out.gone = document.querySelectorAll('#nb-memo .nb-item').length === before - 1 && ![...document.querySelectorAll('#nb-memo .nb-txt')].some(x => x.textContent === '지울 메모');
+          out.hash = location.hash; return out; });
+        ok('수첩: 목록에서 바로 지우기', r2.btn && r2.ask && r2.noEditor && r2.gone && r2.hash === '#g4', JSON.stringify(r2));
       }
       await c.close();
     }

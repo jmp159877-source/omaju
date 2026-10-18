@@ -689,7 +689,7 @@ html, body { overscroll-behavior-y: none; }
 @keyframes nbpulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.12); opacity: 0.75; } }
 .nb-hint { margin: 10px 2px 0; font-size: 0.92rem; color: #777; }
 .nb-list { margin-top: 10px; }
-.nb-item { display: block; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid rgba(20,20,20,0.08); padding: 12px 4px; }
+.nb-item { display: block; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid rgba(20,20,20,0.08); padding: 12px 4px; cursor: pointer; }
 .nb-item .nb-when { display: block; font-size: 0.88rem; color: #2f6b4f; margin-bottom: 3px; }
 .nb-item .nb-txt { display: block; font-size: 1.08rem; color: #141414; line-height: 1.5; white-space: pre-wrap; }
 .nb-item.today .nb-when { color: #B5533C; font-weight: 700; }
@@ -1391,7 +1391,10 @@ html.big .dsec[data-k="history"] .row b { width: auto; }
 /* 수첩: 줄마다 '고치기' 표시 + 안내 한 줄 + 창 안 지우기 확인 */
 .nb-item { display: grid !important; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: center; }
 .nb-item .nb-when, .nb-item .nb-txt { grid-column: 1; min-width: 0; }
-.nb-item .nb-edit { grid-column: 2; grid-row: 1 / span 2; font-size: min(0.86rem, 3.6vw); color: #8A6D2C; white-space: nowrap; border-bottom: 1px solid rgba(201,162,74,0.6); padding-bottom: 1px; }
+.nb-item .nb-acts { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+.nb-item .nb-edit, .nb-item .nb-rm { font-size: min(0.86rem, 3.6vw); white-space: nowrap; background: none; border: 0; padding: 1px 0; border-bottom: 1px solid; }
+.nb-item .nb-edit { color: #8A6D2C; border-bottom-color: rgba(201,162,74,0.6); }
+.nb-item .nb-rm { color: #A4553F; border-bottom-color: rgba(164,85,63,0.45); }
 .nb-tip { margin: 2px 0 6px; font-size: 0.86rem; color: #8a8173; }
 .nb-ask { width: 100%; margin: 0 0 10px; font-size: 1.02rem; color: #3a2e2a; text-align: center; }
 /* 큰 글씨: '말로 적기'·'손으로 적기'가 두 줄로 갈라지지 않게, 짧은 안내창도 한 줄로 */
