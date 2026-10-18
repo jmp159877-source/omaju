@@ -64,7 +64,16 @@ srv.listen(0, '127.0.0.1', async () => {
       const sawDone = await p.evaluate(() => !!document.getElementById('nb-done'));
       await p.evaluate(() => document.getElementById('nb-done').click()); await wait(p, 900);
       const r = await p.evaluate(() => ({ modal: !!document.getElementById('nb-done'), q: (document.getElementById('ht-q') || {}).value || '' }));
-      ok('내 고향: 말하기 → 다 했어요 → 창 닫히고 주소 들어감', sawDone && !r.modal && r.q === '전주시 완산구 풍남동' && !errs.length, JSON.stringify({ sawDone, ...r, errs: errs.slice(0, 1) })); await c.close(); }
+      ok('내 고향: 말하기 → 다 했어요 → 창 닫히고 주소 들어감', sawDone && !r.modal && r.q === '전주시 완산구 풍남동' && !errs.length, JSON.stringify({ sawDone, ...r, errs: errs.slice(0, 1) }));
+      // 지금 그곳에 갔다 로드뷰로 돌아오면 보던 곳을 다시 적게 하지 않는다 (코너를 나갔다 와도)
+      const first = await p.evaluate(() => (document.getElementById('ht-empty') || {}).textContent || '');
+      await p.evaluate(() => document.querySelector('[data-ht="cam"]').click()); await wait(p, 500);
+      await p.evaluate(() => document.querySelector('[data-ht="road"]').click()); await wait(p, 800);
+      const back = await p.evaluate(() => ({ q: (document.getElementById('ht-q') || {}).value || '', empty: (document.getElementById('ht-empty') || {}).textContent || '' }));
+      await p.evaluate(() => window.omajuNav('g2')); await wait(p, 500); await p.evaluate(() => window.omajuNav('home')); await wait(p, 900);
+      const again = await p.evaluate(() => (document.getElementById('ht-q') || {}).value || '');
+      ok('내 고향: 칸을 옮겼다 와도 보던 곳 그대로', back.q === '전주시 완산구 풍남동' && !/주소를 넣으면/.test(back.empty) && again === '전주시 완산구 풍남동', JSON.stringify({ first: first.slice(0, 20), ...back, again }));
+      await c.close(); }
     // 4) 수첩: 말로 메모 → 다 했어요 → 저장 → 수첩에 그대로 (두 번)
     for (const ua of ['Mozilla/5.0 (Linux; Android 14; SM-F731N) AppleWebKit/537.36 Chrome/129 Mobile Safari/537.36', undefined]) {
       const c = await ctx(false, ua);

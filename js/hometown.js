@@ -13,6 +13,7 @@ const esc = s => H.esc(String(s == null ? '' : s));
 
 export async function load() {
   try { CFG = await (await fetch('data/hometown.json', { cache: 'no-cache' })).json(); } catch (e) { CFG = null; }
+  lastQ = H.store.get('homeQ', '') || '';   // 지난번에 보던 곳 — 코너에 다시 들어와도 다시 적게 하지 않는다
   region = H.store.get('homeRegion', null) || (CFG && CFG.cams && CFG.cams[0] && CFG.cams[0].region) || null;
   tab = H.store.get('homeTab', 'road');
   render();
@@ -43,6 +44,8 @@ function render() {
     <button type="button" data-ht="road" aria-pressed="${tab === 'road'}">로드뷰로 보기</button>
     <button type="button" data-ht="cam" aria-pressed="${tab === 'cam'}">지금 그곳</button></div>`;
   $('home-body').innerHTML = tabs + (tab === 'road' ? roadHtml() : camHtml());
+  // 칸을 그리면 로드뷰가 붙어 있던 자리가 없어진다 → 쥐고 있던 것을 버려야 돌아왔을 때 다시 선다
+  rv = null;
   if (tab === 'road' && lastQ) go(lastQ, true);
 }
 
