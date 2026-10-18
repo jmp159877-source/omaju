@@ -218,6 +218,20 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('로그인한 채로 열면 로그인 화면이 비치지 않음', f.login === 0 && f.gate === 0 && f.chipNow && f.loginNow && f.gateNow, JSON.stringify(f));
       await c.close(); }
 
+    // 다른 동네에 다녀오면, 단추를 누르지 않아도 지금 있는 곳 날씨로 바뀐다
+    { const c = await b.newContext({ viewport: { width: 390, height: 844 }, timezoneId: 'Asia/Seoul', permissions: ['geolocation'], geolocation: { latitude: 35.1796, longitude: 129.0756 } });
+      await c.route('https://www.gstatic.com/**', r => { const u = r.request().url(); const n = u.includes('firebase-app') ? 'app' : u.includes('firebase-auth') ? 'auth' : u.includes('firestore') ? 'firestore' : 'analytics'; r.fulfill({ contentType: 'application/javascript', body: n === 'firestore' ? fsStub : fs.readFileSync(path.join(STUB, n + '.js'), 'utf8') }); });
+      await c.route('https://fonts.googleapis.com/**', r => r.fulfill({ contentType: 'text/css', body: '' }));
+      await c.route('https://api.open-meteo.com/**', r => r.fulfill({ contentType: 'application/json', body: '{"current":{"temperature_2m":17,"apparent_temperature":16,"relative_humidity_2m":55,"weather_code":2}}' }));
+      await c.route('https://api.bigdatacloud.net/**', r => { const u = new URL(r.request().url()); const la = +u.searchParams.get('latitude'); r.fulfill({ contentType: 'application/json', body: JSON.stringify(la > 36 ? { city: '서울특별시', locality: '종로구' } : { city: '부산광역시', locality: '해운대구' }) }); });
+      const p = await c.newPage();
+      // 어제 서울에서 보던 상태로 만들어 둔다
+      await p.addInitScript(() => { try { localStorage.setItem('omaju.geo', JSON.stringify([37.5665, 126.978])); localStorage.setItem('omaju.geoName', JSON.stringify('서울특별시 종로구')); } catch (e) {} });
+      await p.goto(base + '/index.html'); await wait(p, 3000);
+      const r = await p.evaluate(() => ({ sub: document.getElementById('wx-sub').textContent, saved: localStorage.getItem('omaju.geoName') }));
+      ok('다른 동네에 가면 저절로 그곳 날씨로 바뀜', /부산/.test(r.sub) && /부산/.test(r.saved || ''), JSON.stringify(r));
+      await c.close(); }
+
   } catch (e) { ok('시험 실행', false, e.message); }
   await b.close(); srv.close();
   const fails = results.filter(r => !r[0]).length; console.log(fails ? `\n실패 ${fails}개 — 올리지 말고 고칠 것` : '\n모두 통과'); process.exit(fails ? 1 : 0);

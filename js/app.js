@@ -74,12 +74,29 @@ function askHere(silent) {
   if (!navigator.geolocation) { if (!silent) toast('이 기기에서는 위치를 알 수 없습니다.'); return; }
   const btn = $('wx-here'); if (!silent) { btn.textContent = '지금 계신 곳을 찾는 중…'; btn.disabled = true; }
   const done = () => { btn.textContent = '내 동네 날씨로 보기'; btn.disabled = false; };
-  navigator.geolocation.getCurrentPosition(async p => { const la = p.coords.latitude, lo = p.coords.longitude; store.set('geo', [la, lo]); const name = await placeName(la, lo); store.set('geoName', name); await loadWx(la, lo, name); if (!silent) { done(); toast(name + ' 날씨로 바꿨습니다.'); } }, err => { if (!silent) done(); if (silent) return; if (err.code === 1) modal(`<h2>위치 허용이 필요합니다</h2><p>휴대폰이 위치를 알려 주지 않도록 되어 있습니다.</p><div class="steps-ios">1. 크롬 주소창 왼쪽의 <b>자물쇠(또는 ⓘ)</b>를 누르세요.<br>2. <b>권한</b> → <b>위치</b>를 "허용"으로 바꾸세요.<br>3. 이 화면으로 돌아와 다시 눌러 주세요.</div><p class="note">허용하지 않아도 가입할 때 적은 거주 지역의 날씨를 보여 드립니다.</p>`); else toast('지금은 위치를 알 수 없습니다. 잠시 뒤 다시 눌러 주세요.'); }, { timeout: 8000 });
+  navigator.geolocation.getCurrentPosition(async p => { const la = p.coords.latitude, lo = p.coords.longitude; store.set('geo', [la, lo]); const name = await placeName(la, lo); store.set('geoName', name); await loadWx(la, lo, name); if (!silent) { done(); toast(name + ' 날씨로 바꿨습니다.'); } }, err => { if (!silent) done(); if (silent) return; if (err.code === 1) modal(`<h2>위치 허용이 필요합니다</h2><p>휴대폰이 위치를 알려 주지 않도록 되어 있습니다.</p><div class="steps-ios">1. 크롬 주소창 왼쪽의 <b>자물쇠(또는 ⓘ)</b>를 누르세요.<br>2. <b>권한</b> → <b>위치</b>를 "허용"으로 바꾸세요.<br>3. 이 화면으로 돌아와 다시 눌러 주세요.</div><p class="note">허용하지 않아도 가입할 때 적은 거주 지역의 날씨를 보여 드립니다.</p>`); else toast('지금은 위치를 알 수 없습니다. 잠시 뒤 다시 눌러 주세요.'); }, { timeout: 8000, maximumAge: 120000 });  // 2분 안에 잡아 둔 위치면 그대로 쓴다(빠르게)
 }
 // 시·도별 대표 좌표 (가입 때 적은 거주 지역으로 날씨 보기)
 const REGION_XY = { '서울': [37.5665, 126.978], '경기': [37.4138, 127.5183], '인천': [37.4563, 126.7052], '부산': [35.1796, 129.0756], '대구': [35.8714, 128.6014], '광주': [35.1595, 126.8526], '대전': [36.3504, 127.3845], '울산': [35.5384, 129.3114], '세종': [36.48, 127.289], '강원': [37.8813, 127.7298], '충북': [36.6424, 127.489], '충남': [36.6588, 126.6728], '전북': [35.8242, 127.148], '전남': [34.8161, 126.4629], '경북': [36.576, 128.5056], '경남': [35.2383, 128.6924], '제주': [33.4996, 126.5312] };
+// 열 때마다 '지금 있는 곳'으로 다시 맞춘다. 저장해 둔 곳을 먼저 보여 주고(화면이 비지 않게),
+// 위치를 받으면 조용히 바꿔 끼운다. 이미 허용한 사람은 허용 창이 다시 뜨지 않는다.
 const geo = store.get('geo', null);
-if (geo) loadWx(geo[0], geo[1], store.get('geoName', '내 동네')); else { loadWx(37.5665, 126.978, '서울'); askHere(true); }
+if (geo) loadWx(geo[0], geo[1], store.get('geoName', '내 동네')); else loadWx(37.5665, 126.978, '서울');
+let geoAt = 0;
+async function refreshHere(force) {
+  if (!navigator.geolocation) return;
+  if (!force && Date.now() - geoAt < 10 * 60 * 1000) return;  // 10분 안에 본 적 있으면 넘어간다
+  let st = 'prompt';
+  try { if (navigator.permissions) st = (await navigator.permissions.query({ name: 'geolocation' })).state; } catch (e) {}
+  if (st === 'denied') return;
+  if (st !== 'granted' && store.get('geo', null)) return;     // 아직 허용 안 한 분께 허용 창을 거듭 띄우지 않는다
+  geoAt = Date.now();
+  askHere(true);
+}
+refreshHere(true);
+// 앱을 내렸다가 다시 올려도(화면이 돌아와도) 그때 있는 곳으로 맞춘다
+document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshHere(false); });
+window.addEventListener('pageshow', e => { if (e.persisted) refreshHere(false); });
 function wxByRegion(p) { try { if (p && p.region && !store.get('outRegion', null)) { outRegion = p.region.split(' ')[0]; renderOuting(); } } catch (e) {} if (store.get('geo', null) || !p || !p.region) return; const sido = p.region.split(' ')[0], xy = REGION_XY[sido]; if (xy) loadWx(xy[0], xy[1], p.region); }
 $('wx-here').onclick = () => askHere(false);
 
