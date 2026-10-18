@@ -91,7 +91,11 @@ async function go(q, quiet) {
   if (empty) empty.textContent = '찾는 중입니다…';
   let kakao;
   try { kakao = await loadKakao(); }
-  catch (e) { if (empty) { empty.innerHTML = '지금은 로드뷰를 열 수 없습니다.<br><span class="note">지도 서비스가 이 주소를 아직 허용하지 않았거나, 연결이 잠시 끊겼습니다.</span>'; } return; }
+  catch (e) {
+    // 카카오가 거절하면 까닭은 거의 '이 주소가 등록 안 됨'이다 → 지금 이 화면의 주소를 그대로 보여 준다
+    if (empty) empty.innerHTML = '지금은 로드뷰를 열 수 없습니다.<br><span class="note">지도 서비스에 아래 주소가 등록되어 있어야 합니다.</span><br><code class="ht-origin">' + esc(location.origin) + '</code>';
+    return;
+  }
   new kakao.maps.services.Geocoder().addressSearch(q, (res, st) => {
     if (st !== kakao.maps.services.Status.OK || !res.length) {
       // 주소가 아니면 장소 이름으로도 찾아 본다

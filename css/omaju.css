@@ -1594,3 +1594,4 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .ht-cap { margin: 12px 0 0; }
 .ht-cap b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; color: var(--dark-green); }
 .ht-cap span { display: block; margin-top: 3px; font-size: 1rem; line-height: 1.65; color: #555; word-break: keep-all; }
+.ht-origin { display: inline-block; margin-top: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-family: ui-monospace, Menlo, monospace; font-size: 0.95rem; color: #3A2E00; word-break: break-all; }
