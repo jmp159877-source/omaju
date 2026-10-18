@@ -479,7 +479,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_follow', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], home: ['detail_history', '내 고향 둘러보기', () => '그 동네,<br>지금 이 시간'], phrase: ['detail_phrase', '여행 회화', () => '공항에서 시장까지,<br>다섯 나라 말'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행 회화', () => '공항에서 시장까지,<br>다섯 나라 말'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -778,5 +778,5 @@ $('tabs3').onclick = e => {
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
 // ── 오늘의 오프닝 (미소·한결) ──
-import('./hometown.js?v=10182010').then(m => { m.init({ toast, modal, closeModal, esc, store, DB }); m.load(); }).catch(e => console.warn('hometown', e));
+import('./hometown.js?v=10182210').then(m => { m.init({ toast, modal, closeModal, esc, store, DB }); m.load(); }).catch(e => console.warn('hometown', e));
 import('./opening.js?v=10170030').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));

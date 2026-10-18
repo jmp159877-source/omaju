@@ -31,6 +31,17 @@ srv.listen(0, '127.0.0.1', async () => {
     return c; };
   const wait = (p, ms) => p.waitForTimeout(ms);
   try {
+    // 0) 같은 사진을 두 곳에 쓰지 않는다 (운영자 규칙) — 코너 카드와 코너 표지 모두
+    { const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+      const cards = [...html.matchAll(/data-corner="(\w+)"[^>]*background-image:url\('(img\/[\w-]+\.jpg)'\)|background-image:url\('(img\/[\w-]+\.jpg)'\)[^>]*data-corner="(\w+)"/g)]
+        .map(m => m[2] || m[3]);
+      const app = fs.readFileSync(path.join(ROOT, 'js/app.js'), 'utf8');
+      const det = (app.match(/const DET = \{([\s\S]*?)\n/) || ['', ''])[1];
+      const heroes = [...det.matchAll(/(\w+): \['([a-z_0-9]+)'/g)].map(m => m[2]);
+      const dup = a => { const seen = {}, bad = []; for (const x of a) { if (seen[x]) bad.push(x); seen[x] = 1; } return [...new Set(bad)]; };
+      const missing = heroes.filter(h => !fs.existsSync(path.join(ROOT, 'img', h + '.jpg')));
+      const bad = [...dup(cards).map(x => '카드 ' + x), ...dup(heroes).map(x => '표지 ' + x), ...missing.map(x => '없는 사진 ' + x)];
+      ok('같은 사진을 두 곳에 쓰지 않음', !bad.length, bad.join(' / ')); }
     // 1) 화면 전부 × 보통·큰 글씨
     const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'home', 'culture', 'follow', 'food', 'fortune', 'history', 'music', 'outing', 'phrase', 'play', 'quiz', 'story'];
     for (const big of [false, true]) {
@@ -56,7 +67,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await p.goBack({ timeout: 3000 }).catch(() => {}); await wait(p, 600); ok('첫 화면 나가기 안내', t1 && t2 && p.url().includes('terms')); await c.close(); }
     // 3-2) 내 고향: 말하기 → '다 했어요' 누르면 창이 닫히고 주소 칸에 그대로 들어간다
     { const c = await ctx(false);
-      await c.addInitScript(() => { class SR { start() { const me = this; setTimeout(() => { me.onresult && me.onresult({ resultIndex: 0, results: [Object.assign([{ transcript: '전주시 완산구 풍남동' }], { isFinal: true })] }); }, 150); } stop() {} abort() {} } window.webkitSpeechRecognition = SR; window.SpeechRecognition = SR; });
+      await c.addInitScript(() => { class SR { start() { const me = this; setTimeout(() => { me.onresult && me.onresult({ resultIndex: 0, results: [Object.assign([{ transcript: '서울 종로구 삼청동' }], { isFinal: true })] }); }, 150); } stop() {} abort() {} } window.webkitSpeechRecognition = SR; window.SpeechRecognition = SR; });
       const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 1500);
       await p.evaluate(() => window.omajuNav('home')); await wait(p, 900);
       await p.evaluate(() => { const b = document.querySelector('[data-ht="road"]'); if (b) b.click(); }); await wait(p, 400);
@@ -64,7 +75,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const sawDone = await p.evaluate(() => !!document.getElementById('nb-done'));
       await p.evaluate(() => document.getElementById('nb-done').click()); await wait(p, 900);
       const r = await p.evaluate(() => ({ modal: !!document.getElementById('nb-done'), q: (document.getElementById('ht-q') || {}).value || '' }));
-      ok('내 고향: 말하기 → 다 했어요 → 창 닫히고 주소 들어감', sawDone && !r.modal && r.q === '전주시 완산구 풍남동' && !errs.length, JSON.stringify({ sawDone, ...r, errs: errs.slice(0, 1) }));
+      ok('내 고향: 말하기 → 다 했어요 → 창 닫히고 주소 들어감', sawDone && !r.modal && r.q === '서울 종로구 삼청동' && !errs.length, JSON.stringify({ sawDone, ...r, errs: errs.slice(0, 1) }));
       // 지금 그곳에 갔다 로드뷰로 돌아오면 보던 곳을 다시 적게 하지 않는다 (코너를 나갔다 와도)
       const first = await p.evaluate(() => (document.getElementById('ht-empty') || {}).textContent || '');
       await p.evaluate(() => document.querySelector('[data-ht="cam"]').click()); await wait(p, 500);
@@ -72,7 +83,13 @@ srv.listen(0, '127.0.0.1', async () => {
       const back = await p.evaluate(() => ({ q: (document.getElementById('ht-q') || {}).value || '', empty: (document.getElementById('ht-empty') || {}).textContent || '' }));
       await p.evaluate(() => window.omajuNav('g2')); await wait(p, 500); await p.evaluate(() => window.omajuNav('home')); await wait(p, 900);
       const again = await p.evaluate(() => (document.getElementById('ht-q') || {}).value || '');
-      ok('내 고향: 칸을 옮겼다 와도 보던 곳 그대로', back.q === '전주시 완산구 풍남동' && !/주소를 넣으면/.test(back.empty) && again === '전주시 완산구 풍남동', JSON.stringify({ first: first.slice(0, 20), ...back, again }));
+      ok('내 고향: 칸을 옮겼다 와도 보던 곳 그대로', back.q === '서울 종로구 삼청동' && !/주소를 넣으면/.test(back.empty) && again === '서울 종로구 삼청동', JSON.stringify({ first: first.slice(0, 20), ...back, again }));
+      // 앱을 닫았다 다시 열면 지난번 동네는 잊는다 (며칠 전 찾던 곳이 남아 있으면 안 된다)
+      await p.goto(base + '/index.html'); await wait(p, 1500);
+      await p.evaluate(() => window.omajuNav('home')); await wait(p, 900);
+      await p.evaluate(() => { const b = document.querySelector('[data-ht="road"]'); if (b) b.click(); }); await wait(p, 500);
+      const fresh = await p.evaluate(() => ({ q: (document.getElementById('ht-q') || {}).value || '', empty: (document.getElementById('ht-empty') || {}).textContent || '' }));
+      ok('내 고향: 앱을 다시 열면 빈 칸에서 시작', fresh.q === '' && /주소를 넣으면/.test(fresh.empty), JSON.stringify(fresh));
       await c.close(); }
     // 4) 수첩: 말로 메모 → 다 했어요 → 저장 → 수첩에 그대로 (두 번)
     for (const ua of ['Mozilla/5.0 (Linux; Android 14; SM-F731N) AppleWebKit/537.36 Chrome/129 Mobile Safari/537.36', undefined]) {

@@ -13,7 +13,6 @@ const esc = s => H.esc(String(s == null ? '' : s));
 
 export async function load() {
   try { CFG = await (await fetch('data/hometown.json', { cache: 'no-cache' })).json(); } catch (e) { CFG = null; }
-  lastQ = H.store.get('homeQ', '') || '';   // 지난번에 보던 곳 — 코너에 다시 들어와도 다시 적게 하지 않는다
   region = H.store.get('homeRegion', null) || (CFG && CFG.cams && CFG.cams[0] && CFG.cams[0].region) || null;
   tab = H.store.get('homeTab', 'road');
   render();
@@ -53,7 +52,7 @@ function roadHtml() {
   const ready = !!(CFG && CFG.kakaoJsKey);
   return `<p class="ht-lead">가고 싶은 곳의 주소를 말하거나 적어 보세요. 그 자리에 서서 둘러볼 수 있습니다.</p>
   <form class="ht-form" id="ht-form">
-    <input type="text" id="ht-q" inputmode="text" placeholder="예: 전주시 완산구 풍남동" value="${esc(lastQ)}" autocomplete="off">
+    <input type="text" id="ht-q" inputmode="text" placeholder="예: 서울 종로구 삼청동" value="${esc(lastQ)}" autocomplete="off">
     <button type="button" class="btn line ht-mic" id="ht-mic" aria-label="말로 주소 넣기"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>말하기</span></button>
     <button type="submit" class="btn green">보기</button>
   </form>
@@ -88,7 +87,7 @@ function camHtml() {
 
 async function go(q, quiet) {
   q = String(q || '').trim(); if (!q) return;
-  lastQ = q; H.store.set('homeQ', q);
+  lastQ = q;   // 앱을 닫으면 잊는다 — 다음에 열 때 지난번 동네가 남아 있으면 안 된다
   const empty = $('ht-empty'), box = $('ht-road');
   if (!box) return;
   if (empty) empty.textContent = '찾는 중입니다…';
@@ -103,7 +102,7 @@ async function go(q, quiet) {
     if (st !== kakao.maps.services.Status.OK || !res.length) {
       // 주소가 아니면 장소 이름으로도 찾아 본다
       new kakao.maps.services.Places().keywordSearch(q, (r2, s2) => {
-        if (s2 !== kakao.maps.services.Status.OK || !r2.length) { if (empty) empty.textContent = '그 주소를 찾지 못했습니다. 동네 이름까지 넣어 보세요. (예: 전주시 완산구 풍남동)'; return; }
+        if (s2 !== kakao.maps.services.Status.OK || !r2.length) { if (empty) empty.textContent = '그 주소를 찾지 못했습니다. 동네 이름까지 넣어 보세요. (예: 서울 종로구 삼청동)'; return; }
         show(kakao, +r2[0].y, +r2[0].x);
       });
       return;

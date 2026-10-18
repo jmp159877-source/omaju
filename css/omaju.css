@@ -1595,3 +1595,5 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .ht-cap b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; color: var(--dark-green); }
 .ht-cap span { display: block; margin-top: 3px; font-size: 1rem; line-height: 1.65; color: #555; word-break: keep-all; }
 .ht-origin { display: inline-block; margin-top: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-family: ui-monospace, Menlo, monospace; font-size: 0.95rem; color: #3A2E00; word-break: break-all; }
+/* 윗줄에 .b-text p span 을 font:inherit !important 로 묶어 둔 규칙이 있어 여기도 !important 가 필요하다 */
+.b-text p span.b-eg { display: block !important; margin-top: 4px; font-size: 0.84em !important; opacity: 0.82; word-break: keep-all; }
