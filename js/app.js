@@ -208,7 +208,8 @@ async function wikiImg(ref) {
   try { const [lang, title] = ref.split(/:(.+)/); const j = await (await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)).json(); const th = (j.thumbnail || {}).source || ''; return th ? { img: th.includes('/thumb/') ? th.replace(/\/\d+px-/, '/1280px-') : th, thumb: th.includes('/thumb/') ? th.replace(/\/\d+px-/, '/640px-') : th } : null; } catch (e) { return null; }
 }
 const CU_TABS = [['poem', '시'], ['painting', '그림'], ['quote', '명언'], ['essay', '에세이'], ['bible', '성경'], ['dharma', '법문'], ['music', '음악'], ['humor', '유머']];
-let cuTab = store.get('cuTab', 'poem'), muGenre = store.get('muGenre', '발라드');
+// cuTab 이 null 이면 '무엇을 볼까' 고르는 화면. 하나를 고르면 그 글이 열리고, 뒤로 가기를 누르면 다시 고르는 화면으로 온다.
+let cuTab = null, muGenre = store.get('muGenre', '발라드');
 const MU_GENRES = ['발라드', '트로트', '댄스', '팝', '클래식'];
 function dayN() { return Math.floor(Date.UTC(Y, M, D) / 86400000) + 719163; } // 서버(파이썬 toordinal)와 같은 번호
 async function loadCulture() {
@@ -220,6 +221,7 @@ async function loadCulture() {
 }
 function renderCulture() {
   const c = CULT; if (!c || !c.poem) return;
+  if (!cuTab) { $('culture-body').innerHTML = cuMenuHtml(c); return; }   // 무엇을 볼까 고르는 화면
   const tabs = `<div class="cu-tabs" id="cu-tabs">${CU_TABS.map(([k, l]) => `<button type="button" data-cu="${k}" aria-pressed="${k === cuTab}">${l}</button>`).join('')}</div>`;
   let body = '';
   if (cuTab === 'poem') { const p = c.poem; body = `<div class="cu-block"><div class="cu-poem-page" style="background-image:url('img/poem/${String(dayN() % 23 + 1).padStart(2, '0')}.jpg')"><p class="cu-kind">오늘의 시</p><h2 class="cu-title">${esc(p.title)}</h2><p class="cu-by">${esc(p.author)} · ${esc(p.year)}</p><div class="cu-poem">${esc(p.text)}</div></div>${p.bg ? `<p class="is-sub">이 시가 나온 때</p><p class="cu-note">${esc(p.bg)}</p>` : ''}${p.words && p.words.length ? `<p class="is-sub">낱말 풀이</p><dl class="cu-words">${p.words.map(w => `<dt>${esc(Array.isArray(w) ? w[0] : w.w)}</dt><dd>${esc(Array.isArray(w) ? w[1] : w.m)}</dd>`).join('')}</dl>` : ''}${p.note ? `<p class="is-sub">감상</p><p class="cu-note">${esc(p.note)}</p>` : ''}</div>`; }
@@ -232,9 +234,27 @@ function renderCulture() {
   else if (cuTab === 'music') { const list = musicList(muGenre); body = `<div class="cu-block"><p class="cu-kind">오늘의 음악</p><div class="genre mu-genre" id="mu-genre" style="grid-template-columns:repeat(5,1fr)">${MU_GENRES.map(g => `<button type="button" data-mu="${g}" aria-pressed="${g === muGenre}">${g}</button>`).join('')}</div><div class="rows">${list.map((s, i) => `<button type="button" class="row song-row" data-msong="${i}"><span class="song-no">${i + 1}</span><p><strong>${esc(s[0])}</strong><span>${esc(s[1])}</span></p><span class="song-play" aria-hidden="true">▶</span></button>`).join('') || '<p class="note">목록을 불러오는 중입니다.</p>'}</div></div>`; }
   $('culture-body').innerHTML = tabs + body;
 }
+// 고르는 화면: 여덟 칸에 오늘 실린 것의 제목을 미리 한 줄씩 보여 준다
+const CU_PEEK = {
+  poem: c => c.poem && `${c.poem.title} · ${c.poem.author}`,
+  painting: c => c.painting && `${c.painting.title} · ${c.painting.artist}`,
+  quote: c => c.quote && c.quote.who,
+  essay: c => c.essay && c.essay.title,
+  bible: c => c.bible && c.bible.ref,
+  dharma: c => c.dharma && c.dharma.src,
+  music: () => MU_GENRES.join(' · '),
+  humor: c => c.humor && (c.humor.title || c.humor.kind),
+};
+function cuMenuHtml(c) {
+  return `<p class="cu-lead">오늘은 무엇을 보실까요.</p>
+  <div class="cu-menu">${CU_TABS.map(([k, l]) => {
+    let peek = ''; try { peek = CU_PEEK[k] ? (CU_PEEK[k](c) || '') : ''; } catch (e) {}
+    return `<button type="button" class="cu-pick" data-cu="${k}"><b>${l}</b>${peek ? `<span>${esc(String(peek))}</span>` : ''}</button>`;
+  }).join('')}</div>`;
+}
 function musicList(g) { const l = (SONGS_ALL && SONGS_ALL['genre:' + g]) || []; if (!l.length) return []; const st = (dayN() * 2) % l.length; return Array.from({ length: Math.min(5, l.length) }, (_, i) => l[(st + i) % l.length]); }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-cu]'); if (t) { cuTab = t.dataset.cu; store.set('cuTab', cuTab); renderCulture(); DB.track('culture_tab', { tab: cuTab }); return; }
+  const t = e.target.closest('[data-cu]'); if (t) { nav('cu-' + t.dataset.cu); DB.track('culture_tab', { tab: t.dataset.cu }); return; }
   const g = e.target.closest('[data-mu]'); if (g) { muGenre = g.dataset.mu; store.set('muGenre', muGenre); renderCulture(); return; }
   const m = e.target.closest('[data-msong]'); if (m) playFrom(musicList(muGenre), +m.dataset.msong, '오늘의 ' + muGenre);
 });
@@ -419,7 +439,8 @@ const gameDone = {};
 // ── 화면 이동: 잡지 넘기듯 '단계'로 쌓는다 (첫 화면 0 → 장 1 → 코너 2 → 놀이 3).
 // 같은 단계끼리 옮겨 다니면 쌓지 않고 바꿔 끼운다 → 몇 개를 열어 봐도 뒤로 가기는 한 단계씩 위로, 많아야 4번이면 나간다.
 const NAV_GAMES = new Set(['malmoi', 'shisen', 'num50', 'sudoku']);
-const LV = k => !k ? 0 : /^g[1-5]$/.test(k) ? 1 : NAV_GAMES.has(k) ? 3 : 2;
+const CU_RE = /^cu-[a-z]+$/;   // 오늘의 문화 안쪽 (시·그림…) — 놀이와 같은 단계라 뒤로 가면 고르는 화면으로 온다
+const LV = k => !k ? 0 : /^g[1-5]$/.test(k) ? 1 : (NAV_GAMES.has(k) || CU_RE.test(k)) ? 3 : 2;
 const NS = [location.hash.slice(1)]; let navOurs = false, navPending = null;
 function nav(h) {
   h = String(h || '').replace(/^#/, ''); const top = NS[NS.length - 1]; if (h === top) return;
@@ -434,7 +455,10 @@ window.addEventListener('hashchange', () => {
   if (navOurs) { navOurs = false; if (navPending != null) { const h = navPending; navPending = null; if (LV(h) > LV(NS[NS.length - 1])) { NS.push(h); navOurs = true; location.hash = h; } else { NS[NS.length - 1] = h; navOurs = true; location.replace('#' + h); } } return; }
   if (NS.length > 1 && NS[NS.length - 2] === k) NS.pop(); else NS[NS.length - 1] = k; // 휴대폰 뒤로 가기
 });
-function route() { const k = location.hash.slice(1); cur = DET[k] ? k : null;
+function route() { const k = location.hash.slice(1);
+  // 오늘의 문화: #culture 는 고르는 화면, #cu-poem 처럼 뒤가 붙으면 그 글을 보는 화면
+  if (k === 'culture' || CU_RE.test(k)) { const t = CU_RE.test(k) ? k.slice(3) : null; if (t !== cuTab) { cuTab = CU_TABS.some(([x]) => x === t) ? t : null; renderCulture(); } }
+  cur = CU_RE.test(k) ? 'culture' : (DET[k] ? k : null);
   if (/^g[1-5]$/.test(k)) setChapter(k); else if (!cur) { const was = document.body.classList.contains('in-chapter'); setChapter(null); if (was) { route.y = null; const t = $('tabs3'); window.scrollTo(0, Math.max(0, t.getBoundingClientRect().top + window.scrollY - 80)); } }
   document.body.classList.toggle('game-mode', !!GAME[cur] || cur === 'play'); if (!GAME[cur]) PLAY.stopAll();
   if (cur === 'play') PLAY.hub($('play-root'));

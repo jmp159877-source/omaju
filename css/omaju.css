@@ -1514,3 +1514,12 @@ body.in-chapter #opening { display: none !important; }
 /* 운세: '조심할 것' 한 줄만 결을 달리해 눈에 들어오게 (2026-10-18) */
 #fortune .fo-row.fo-care { background: #FBF6EC; margin: 0 -14px; padding: 12px 14px; }
 #fortune .fo-row.fo-care b { color: #9A5B2B; }
+
+/* 오늘의 문화: 무엇을 볼까 고르는 화면 (2026-10-18) */
+.cu-lead { margin: 26px 0 16px; font-size: 1.02rem; line-height: 1.75; color: #555; word-break: keep-all; }
+.cu-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.cu-pick { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; padding: 16px 14px; background: #fff; border: 1px solid var(--line); border-radius: 12px; text-align: left; box-shadow: 0 2px 10px rgba(60,40,10,0.05); }
+.cu-pick b { font-family: 'Nanum Myeongjo', serif; font-size: 1.3rem; font-weight: 800; color: var(--dark-green); line-height: 1.2; }
+.cu-pick span { display: block; width: 100%; min-width: 0; font-size: 0.92rem; line-height: 1.5; color: #777; word-break: keep-all; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.cu-pick::after { content: ''; width: 26px; height: 1px; background: var(--gold); margin-top: 2px; }
+@media (max-width: 380px) { .cu-menu { grid-template-columns: 1fr; } }
