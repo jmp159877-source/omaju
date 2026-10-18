@@ -241,6 +241,17 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('꾸미는 파일을 못 받아도 맨 화면이 되지 않음', r.tabsGrid === 'grid' && r.sheets > 0, JSON.stringify({ ...r, blocked }));
       await c.close(); }
 
+    // 앱 아이콘으로 처음 들어갈 때 화면이 '튀지' 않는다
+    { for (const [who, seed] of [['처음 온 사람', false], ['로그인한 사람', true]]) {
+        const c = await ctx(false); const p = await c.newPage();
+        if (seed) await p.addInitScript(() => { globalThis.__omajuAuth = { uid: 'u_tester', email: 'tester@omaju.kr', delay: 500 }; });
+        await p.addInitScript(() => { globalThis.__cls = 0; new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) globalThis.__cls += e.value; }).observe({ type: 'layout-shift', buffered: true }); });
+        await p.goto(base + '/index.html'); await wait(p, 3000);
+        const cls = await p.evaluate(() => +globalThis.__cls.toFixed(4));
+        const big = await p.evaluate(() => document.documentElement.classList.contains('big'));
+        ok('들어갈 때 화면이 튀지 않음 · ' + who, cls <= 0.005 && big, '밀림 ' + cls + (big ? '' : ', 큰 글씨 안 걸림'));
+        await c.close(); } }
+
   } catch (e) { ok('시험 실행', false, e.message); }
   await b.close(); srv.close();
   const fails = results.filter(r => !r[0]).length; console.log(fails ? `\n실패 ${fails}개 — 올리지 말고 고칠 것` : '\n모두 통과'); process.exit(fails ? 1 : 0);
