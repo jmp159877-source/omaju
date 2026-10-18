@@ -71,8 +71,8 @@ export function parseSpeech(text, kind) {
   return r;
 }
 
-// ── 음성 ──
-function listen(onText) {
+// ── 음성 ── (다른 코너에서도 쓴다: 내 고향 둘러보기 주소 말하기)
+export function listen(onText) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { toast('이 브라우저에서는 말로 적기를 쓸 수 없습니다. 크롬으로 열어 주세요.'); return; }
   // 끊기지 않게: 계속 듣기 + 중간에 멈추면 저절로 다시 켜기, 말한 내용은 화면에 바로바로 글로
