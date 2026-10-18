@@ -51,20 +51,20 @@
   },
   {
    "label": "비트코인",
-   "value": 110489000.0,
+   "value": 110437000.0,
    "unit": "원",
-   "change": 0.32,
+   "change": 0.27,
    "note": ""
   },
   {
    "label": "이더리움",
-   "value": 3267000.0,
+   "value": 3266000.0,
    "unit": "원",
-   "change": 0.55,
+   "change": 0.52,
    "note": ""
   }
  ],
- "updatedAt": "2026-10-18T12:36:01.532384+09:00",
+ "updatedAt": "2026-10-18T12:23:43.420663+09:00",
  "errors": [],
  "wx_seoul": {
   "kma_seamless": {
@@ -92,104 +92,12 @@
    "hourly_min": null
   },
   "기본": {
-   "now": 19.3,
+   "now": 19.0,
    "code": 63,
-   "max": 21.0,
-   "min": 15.0,
+   "max": 21.1,
+   "min": 14.4,
    "hourly_max": 21.0,
    "hourly_min": 15.0
-  }
- },
- "fx_debug": {
-  "FX_USDKRW": {
-   "mobile": {
-    "categoryType": "exchange",
-    "reutersCode": "FX_USDKRW",
-    "symbolCode": "USD",
-    "exchangeCode": "USD",
-    "name": "미국 USD",
-    "fullName": null,
-    "description": "하나은행 고시회차",
-    "localTradedAt": "2026-10-17T13:13:47+09:00",
-    "closePrice": "1,337.80",
-    "fluctuations": "-4.70",
-    "fluctuationsRatio": "-0.35",
-    "fluctuationsType": {
-     "code": "5",
-     "text": "하락",
-     "name": "FALLING"
-    },
-    "marketStatus": "OPEN",
-    "priceDataType": "NOTICE_ROUND",
-    "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_USDKRW",
-    "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_USDKRW",
-    "unit": "KRW",
-    "degreeCount": 996,
-    "calcPrice": "1337.8"
-   },
-   "pc": {
-    "error": "substring not found"
-   }
-  },
-  "FX_JPYKRW": {
-   "mobile": {
-    "categoryType": "exchange",
-    "reutersCode": "FX_JPYKRW",
-    "symbolCode": "JPY",
-    "exchangeCode": "JPY",
-    "name": "일본 JPY",
-    "fullName": "일본 JPY 100",
-    "description": "하나은행 고시회차",
-    "localTradedAt": "2026-10-17T13:13:47+09:00",
-    "closePrice": "846.63",
-    "fluctuations": "-2.65",
-    "fluctuationsRatio": "-0.31",
-    "fluctuationsType": {
-     "code": "5",
-     "text": "하락",
-     "name": "FALLING"
-    },
-    "marketStatus": "OPEN",
-    "priceDataType": "NOTICE_ROUND",
-    "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_JPYKRW",
-    "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_JPYKRW",
-    "unit": "KRW",
-    "degreeCount": 996,
-    "calcPrice": "846.63"
-   },
-   "pc": {
-    "error": "substring not found"
-   }
-  },
-  "FX_EURKRW": {
-   "mobile": {
-    "categoryType": "exchange",
-    "reutersCode": "FX_EURKRW",
-    "symbolCode": "EUR",
-    "exchangeCode": "EUR",
-    "name": "유럽 EUR",
-    "fullName": "유럽연합 EUR",
-    "description": "하나은행 고시회차",
-    "localTradedAt": "2026-10-17T13:13:47+09:00",
-    "closePrice": "1,503.62",
-    "fluctuations": "-1.73",
-    "fluctuationsRatio": "-0.11",
-    "fluctuationsType": {
-     "code": "5",
-     "text": "하락",
-     "name": "FALLING"
-    },
-    "marketStatus": "OPEN",
-    "priceDataType": "NOTICE_ROUND",
-    "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_EURKRW",
-    "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_EURKRW",
-    "unit": "KRW",
-    "degreeCount": 996,
-    "calcPrice": "1503.62"
-   },
-   "pc": {
-    "error": "substring not found"
-   }
   }
  }
 }
