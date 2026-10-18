@@ -124,7 +124,7 @@ def problems(s):
         if not s.get('next_title'): p.append('내일 제목 없음')
         
         n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in s['greet']['morning'] + s['body'] + [s['message']])
-        if not (240 <= n <= 520): p.append(f'길이 {n}음절')
+        if not (190 <= n <= 400): p.append(f'길이 {n}음절')   # 60~70초로 줄인 뒤 기준도 내림 (2026-10-19)
     except Exception as e:
         p.append('형식 ' + str(e)[:60])
     return p
