@@ -162,6 +162,26 @@ def main():
                     "hourly_max": max(hr) if hr else None, "hourly_min": min(hr) if hr else None}
             except Exception as e:
                 doc["wx_seoul"][mdl or "기본"] = {"error": str(e)[:120]}
+        # 점검용: 환율을 두 곳(모바일 JSON / PC 시장지표=하나은행 고시)에서 받은 값을 나란히 남김
+        doc["fx_debug"] = {}
+        for cd in ("FX_USDKRW", "FX_JPYKRW", "FX_EURKRW"):
+            d = {}
+            try:
+                j = get(f"https://m.stock.naver.com/front-api/marketIndex/productDetail?category=exchange&reutersCode={cd}")
+                j = j.get("result", j)
+                d["mobile"] = {k: v for k, v in j.items() if not isinstance(v, (list, dict)) or k == "fluctuationsType"}
+            except Exception as e: d["mobile"] = {"error": str(e)[:120]}
+            try:
+                import re
+                html = get_text("https://finance.naver.com/marketindex/")
+                i = html.index(f"marketindexCd={cd}"); blk = html[i:i + 1500]
+                d["pc"] = {"value": re.search(r'class="value">([\d,.]+)<', blk).group(1),
+                           "change": re.search(r'class="change">\s*([\d,.]+)\s*<', blk).group(1),
+                           "down": bool(re.search(r'point_dn|하락', blk[:blk.find('class="change"') + 200])),
+                           "time": (re.search(r'class="time">([^<]+)<', blk) or [None, None])[1],
+                           "src": (re.search(r'class="source"[^>]*>([^<]+)<', blk) or [None, None])[1]}
+            except Exception as e: d["pc"] = {"error": str(e)[:120]}
+            doc["fx_debug"][cd] = d
         json.dump(doc, open(os.path.join(HERE, "last-market.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("저장 완료", doc["updatedAt"])
 
