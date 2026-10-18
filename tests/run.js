@@ -12,7 +12,9 @@ const full = days.filter(f => f.slice(0, 10) <= kstToday).map(f => [f, JSON.pars
 const daily = (full.length ? full[full.length - 1] : [null, JSON.parse(fs.readFileSync(path.join(ROOT, 'daily', days[days.length - 1]), 'utf8'))])[1];
 const fsStub = (() => { const s = fs.readFileSync(path.join(STUB, 'firestore.js'), 'utf8'), i = s.indexOf('const key=');
   const today = "(()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')})()";
-  return s.slice(0, i) + `store['daily/'+${today}]=${JSON.stringify(daily)};` + s.slice(i); })();
+  return s.slice(0, i) + `store['daily/'+${today}]=${JSON.stringify(daily)};`
+    + `store['users/u_tester']={username:'tester',nick:'시험이',nickKey:'시험이',role:'member',region:'서울 종로구',streak:3,lastCheckin:'',checkinCount:3};`
+    + s.slice(i); })();
 const results = []; const ok = (name, pass, info = '') => { results.push([pass, name, info]); console.log(`${pass ? 'PASS' : 'FAIL'}  ${name}${info ? '  — ' + info : ''}`); };
 
 const srv = http.createServer((q, r) => { let f = path.join(ROOT, decodeURIComponent(q.url.split('?')[0])); if (f.endsWith('/')) f += 'index.html'; fs.readFile(f, (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'Content-Type': mime[path.extname(f)] || 'application/octet-stream' }); r.end(d); }); });
@@ -197,6 +199,23 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('오프닝: 자정 넘어 새벽 5시 전엔 어제 저녁 인사', /2026-10-16\.json/.test(asked[0] || '') && /저녁/.test(mid.who), JSON.stringify({ asked: asked[0], mid }));
       await p3.close();
       await c.close(); }
+    // 이미 로그인된 사람이 앱을 열 때 '로그인·회원가입'이나 수첩 잠금 화면이 잠깐 비치면 안 된다
+    { const c = await ctx(false); const p = await c.newPage();
+      await p.addInitScript(() => { globalThis.__omajuAuth = { uid: 'u_tester', email: 'tester@omaju.kr', delay: 600 }; });
+      await p.addInitScript(() => {
+        globalThis.__flash = { login: 0, gate: 0, chip: 0 };
+        const look = () => { const l = document.getElementById('login-btn'), g = document.getElementById('nb-gate'), u = document.getElementById('user-chip');
+          if (l && !l.hidden && l.offsetParent) globalThis.__flash.login++;
+          if (g && !g.hidden && g.offsetParent) globalThis.__flash.gate++;
+          if (u && !u.hidden) globalThis.__flash.chip++; };
+        const tick = () => { look(); requestAnimationFrame(tick); }; requestAnimationFrame(tick);
+      });
+      await p.goto(base + '/index.html'); await wait(p, 400);
+      await p.evaluate(() => { location.hash = 'g4'; }); await wait(p, 2200);
+      const f = await p.evaluate(() => ({ ...globalThis.__flash, loginNow: !!document.getElementById('login-btn') && document.getElementById('login-btn').hidden, chipNow: !document.getElementById('user-chip').hidden, gateNow: document.getElementById('nb-gate').hidden }));
+      ok('로그인한 채로 열면 로그인 화면이 비치지 않음', f.login === 0 && f.gate === 0 && f.chipNow && f.loginNow && f.gateNow, JSON.stringify(f));
+      await c.close(); }
+
   } catch (e) { ok('시험 실행', false, e.message); }
   await b.close(); srv.close();
   const fails = results.filter(r => !r[0]).length; console.log(fails ? `\n실패 ${fails}개 — 올리지 말고 고칠 것` : '\n모두 통과'); process.exit(fails ? 1 : 0);

@@ -23,8 +23,13 @@ export const validPhone = s => /^01[016789]-?\d{3,4}-?\d{4}$/.test(s);
 
 // ── 로그인 상태 ──
 let me = null, profile = null;
+// 앱이 열리자마자는 로그인 여부를 아직 모른다(파이어베이스가 저장된 로그인을 되살리는 데 잠깐 걸린다).
+// 그 사이에 '로그인 안 된 화면'을 그리면 로그인 단추가 깜빡였다가 사라진다 → 알 때까지 아무것도 알리지 않는다.
+let authKnown = false;
 const listeners = new Set();
-export function onUser(cb) { listeners.add(cb); cb(me, profile); return () => listeners.delete(cb); }
+export const authReady = () => authKnown;
+export function onUser(cb) { listeners.add(cb); if (authKnown) cb(me, profile); return () => listeners.delete(cb); }
+const tellAll = () => { authKnown = true; document.documentElement.classList.add('auth-known'); listeners.forEach(cb => cb(me, profile)); };
 onAuthStateChanged(auth, async user => {
   me = user; profile = null;
   if (user) {
@@ -32,8 +37,10 @@ onAuthStateChanged(auth, async user => {
     if (!profile) return; // 가입 직후: 프로필이 써지면 signup()이 직접 알린다
     try { await updateDoc(doc(db, 'users', user.uid), { lastSeen: serverTimestamp(), lastSeenDay: todayKey() }); } catch (e) {}
   }
-  listeners.forEach(cb => cb(me, profile));
+  tellAll();
 });
+// 파이어베이스가 끝내 대답하지 않아도(네트워크 끊김 등) 화면이 영영 비어 있지 않게
+setTimeout(() => { if (!authKnown) tellAll(); }, 6000);
 export const currentUser = () => me;
 export const currentProfile = () => profile;
 export const isAdmin = () => !!(profile && profile.role === ADMIN_ROLE);
@@ -71,7 +78,7 @@ export async function signup({ username, pw, nick, phone, region, marketing, gen
     });
   });
   profile = { username, nick, nickKey: normNick(nick), phone: phone.replace(/-/g, ''), region: region || '', gender, birthYear, role: 'member', marketing: !!marketing, streak: 0, lastCheckin: '', checkinCount: 0 };
-  listeners.forEach(cb => cb(me, profile));
+  tellAll();
   track('sign_up');
   return uid;
 }
