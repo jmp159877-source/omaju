@@ -26,7 +26,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10181355" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10181410" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -57,6 +57,11 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
   (function(){try{var h=document.querySelector('.hero');if(!h||innerWidth>768)return;
   var v=Math.max(innerHeight,screen.height*0.9);h.style.minHeight=Math.round(v*1.28)+'px';
   var b=h.querySelector(':scope > div:last-child');if(b)b.style.paddingTop=Math.round(v*0.07+18)+'px';}catch(e){}})();
+  (function(){try{var _h=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(!_h)return;
+  if(_h.s==='in'&&_h.n){var g=new Date().getHours();
+  document.getElementById('user-nick').textContent=_h.n+' 님, '+(g<12?'좋은 아침입니다.':g<18?'좋은 오후입니다.':'편안한 저녁입니다.');
+  document.getElementById('user-chip').hidden=false;}
+  else if(_h.s==='out'){document.getElementById('login-btn').hidden=false;}}catch(e){}})();
   </script>
 
   <main class="content">
@@ -224,6 +229,6 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 </div>
 <div id="modal-root"></div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10181355"></script>
+<script type="module" src="js/app.js?v=10181410"></script>
 </body>
 </html>

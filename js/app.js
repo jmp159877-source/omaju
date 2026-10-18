@@ -669,6 +669,8 @@ DB.onUser((u, p) => {
   $('admin-btn').hidden = !(p && p.role === 'admin');
   if (p && p.role === 'admin') $('maint').hidden = true;
   if (u && p) { $('user-nick').textContent = p.nick + ' 님, ' + (new Date().getHours() < 12 ? '좋은 아침입니다.' : new Date().getHours() < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); if (p.zodiac && !myZ) { myZ = p.zodiac; renderZ(); } wxByRegion(p); if (p.region && !store.get('outRegion', null)) { outRegion = p.region.split(' ')[0]; renderOuting(); } }
+  // 다음에 열 때 인사말을 그리기 전에 띄울 수 있게 적어 둔다 (늦게 띄우면 화면이 한 번 밀린다)
+  store.set('hello', u && p ? { s: 'in', n: p.nick } : { s: 'out' });
   renderStamp(p); renderCmts();
 });
 

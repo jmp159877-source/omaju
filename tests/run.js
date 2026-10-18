@@ -241,15 +241,29 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('꾸미는 파일을 못 받아도 맨 화면이 되지 않음', r.tabsGrid === 'grid' && r.sheets > 0, JSON.stringify({ ...r, blocked }));
       await c.close(); }
 
-    // 앱 아이콘으로 처음 들어갈 때 화면이 '튀지' 않는다
-    { for (const [who, seed] of [['처음 온 사람', false], ['로그인한 사람', true]]) {
+    // 들어갈 때 '보였다 사라지는 것'도 '늦게 나타나 아래를 미는 것'도 없어야 한다
+    { const CASES = [['처음 온 사람', { seed: false }], ['로그인 · 앱으로 깔아 둔 사람', { seed: true, app: true, hello: 'in' }], ['로그인 · 브라우저', { seed: true, hello: 'in' }], ['로그아웃한 채 늘 쓰는 사람', { seed: false, hello: 'out' }]];
+      for (const [who, o] of CASES) {
         const c = await ctx(false); const p = await c.newPage();
-        if (seed) await p.addInitScript(() => { globalThis.__omajuAuth = { uid: 'u_tester', email: 'tester@omaju.kr', delay: 500 }; });
-        await p.addInitScript(() => { globalThis.__cls = 0; new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) globalThis.__cls += e.value; }).observe({ type: 'layout-shift', buffered: true }); });
+        if (o.hello) await p.addInitScript(v => { try { localStorage.setItem('omaju.hello', JSON.stringify(v === 'in' ? { s: 'in', n: '시험이' } : { s: 'out' })); } catch (e) {} }, o.hello);
+        if (o.app) await p.addInitScript(() => { const mm = window.matchMedia.bind(window); window.matchMedia = q => /display-mode:\s*standalone/.test(q) ? { matches: true, media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} } : mm(q); });
+        if (o.seed) await p.addInitScript(() => { globalThis.__omajuAuth = { uid: 'u_tester', email: 'tester@omaju.kr', delay: 500 }; });
+        await p.addInitScript(() => {
+          globalThis.__cls = 0; new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) globalThis.__cls += e.value; }).observe({ type: 'layout-shift', buffered: true });
+          globalThis.__life = {};
+          const key = el => el.id ? '#' + el.id : '.' + String(el.className || '').split(' ')[0];
+          const look = () => { const t = Math.round(performance.now());
+            for (const el of document.querySelectorAll('body [id], body [hidden]')) { if (!el.id && !el.hasAttribute('hidden')) continue;
+              const on = !!el.offsetParent && !el.hidden, k = key(el), r = globalThis.__life[k] || (globalThis.__life[k] = { flips: [] });
+              if (r.last === undefined) r.last = on; if (on !== r.last) { r.flips.push((on ? '보임' : '사라짐') + '@' + t); r.last = on; } }
+            requestAnimationFrame(look); };
+          requestAnimationFrame(look);
+        });
         await p.goto(base + '/index.html'); await wait(p, 3000);
-        const cls = await p.evaluate(() => +globalThis.__cls.toFixed(4));
-        const big = await p.evaluate(() => document.documentElement.classList.contains('big'));
-        ok('들어갈 때 화면이 튀지 않음 · ' + who, cls <= 0.005 && big, '밀림 ' + cls + (big ? '' : ', 큰 글씨 안 걸림'));
+        // '보였다 사라지는 것'은 무조건 잘못. 늦게 나타나는 것은 화면이 밀리지 않으면(cls) 괜찮다.
+        const r = await p.evaluate(() => ({ cls: +globalThis.__cls.toFixed(4), big: document.documentElement.classList.contains('big'),
+          bad: Object.entries(globalThis.__life).filter(([, v]) => v.flips.some(f => f.startsWith('사라짐'))).map(([k, v]) => k + ' ' + v.flips.join('→')) }));
+        ok('들어갈 때 깜빡임·밀림 없음 · ' + who, r.cls <= 0.005 && !r.bad.length && r.big, JSON.stringify(r));
         await c.close(); } }
 
     // 앱으로 깔아 둔 사람에게 '앱 아이콘 설치하기'가 잠깐이라도 비치면 안 된다
