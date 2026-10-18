@@ -1534,7 +1534,7 @@ body.in-chapter #opening { display: none !important; }
 html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 있으면 설치 단추를 아예 그리지 않는다 */
 
 /* 오늘의 마음 한 줄 — 숨 고르기 (2026-10-18) */
-.mn-breath { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); text-align: center; }
+.mn-breath { margin-top: 4px; padding-top: 22px; text-align: center; }  /* 윗선은 .cu-block 이 이미 긋는다 */
 .mn-say { margin: 10px 0 18px; font-size: 1.05rem; line-height: 1.7; color: #555; word-break: keep-all; }
 .mn-ring { width: min(52vw, 190px); height: min(52vw, 190px); margin: 0 auto 20px; border-radius: 50%; border: 2px solid var(--line); background: #FBF8F0; display: grid; place-items: center; font-family: 'Nanum Myeongjo', serif; font-size: 2.6rem; color: var(--dark-green); transform: scale(0.72); transition: transform 1s linear, background-color 1s linear, border-color 1s linear; }
 .mn-ring.in { transform: scale(1); background: #EAF4EC; border-color: var(--leaf-deep); }
