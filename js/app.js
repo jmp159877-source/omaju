@@ -12,8 +12,8 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const store = { get(k, d) { try { const v = localStorage.getItem('omaju.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('omaju.' + k, JSON.stringify(v)); } catch (e) {} } };
 let toastT, readingBtn = null; function toast(m) { const t = $('toast'); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2800); }
-const SITE = location.origin + '/';
-const TAGLINE = '— 오마주, 매일 아침 5분, 마음은 주니어\n' + location.origin + '/';
+const SITE = 'https://omaju.kr/';   // 앱을 vercel 주소에서 열었어도 남에게 보낼 땐 늘 omaju.kr
+const TAGLINE = '— 오마주, 매일매일 펼쳐 보는 즐거움\n' + SITE;
 
 // ── 날짜 ──
 const now = new Date(), M = now.getMonth(), D = now.getDate(), Y = now.getFullYear(), WD = ['일', '월', '화', '수', '목', '금', '토'];
