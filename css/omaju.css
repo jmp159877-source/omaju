@@ -1446,7 +1446,7 @@ html.big .dsec[data-k="history"] .row b { width: auto; }
 .tabs3 button[data-tab="g4"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g4"]::before { background: linear-gradient(to top, rgba(156,123,211,0.92) 0%, rgba(156,123,211,0.45) 42%, rgba(20,20,20,0.06) 78%) !important; }
 .tabs3 button.soon::before, body:not(.in-chapter) .tabs3:not(.compact) button.soon::before { background: linear-gradient(to top, rgba(70,70,70,0.85) 0%, rgba(70,70,70,0.5) 50%, rgba(20,20,20,0.2) 100%) !important; }
 .toc.toc-c:not(.opn-toc) { position: relative; }
-.toc.toc-c:not(.opn-toc)::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--c-g1); box-shadow: 12px 0 var(--c-g2), 24px 0 var(--c-g3), 36px 0 var(--c-g5), 48px 0 var(--c-g4); transform: translateX(-27px); }
+.toc.toc-c:not(.opn-toc)::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--c-g1); box-shadow: 12px 0 var(--c-g2), 24px 0 var(--c-g5), 36px 0 var(--c-g4); transform: translateX(-21px); }
 body[data-ch="g1"] { --acc: var(--c-g1); } body[data-ch="g2"] { --acc: var(--c-g2); } body[data-ch="g3"] { --acc: var(--c-g3); } body[data-ch="g5"] { --acc: var(--c-g5); } body[data-ch="g4"] { --acc: var(--c-g4); }
 body[data-ch^="g"] .ch-k { display: inline-block; background: var(--acc); color: #fff; opacity: 1; padding: 5px 12px 4px; border-radius: 999px; margin-bottom: 10px; }
 body[data-ch^="g"] .label { border-bottom-color: var(--acc) !important; }
@@ -1498,17 +1498,11 @@ body.in-chapter #opening { display: none !important; }
 .ph-full p { flex: 0 0 auto; margin: 0; max-width: 680px; text-align: center; color: #f0e8d8; font-family: 'Nanum Myeongjo', serif; font-size: 1.05rem; line-height: 1.6; word-break: keep-all; }
 
 /* 장 다섯으로 다시 나눔 (2026-10-17): 3장 몸과 마음, 4장 손과 발(g5), 5장 나의 수첩 */
-.tabs3 button[data-tab="g3"] { background-image: url('../img/tab-health.jpg') !important; background-position: center 40% !important; }
-.tabs3 button[data-tab="g3"][aria-pressed="true"] { background-image: url('../img/tab-health.jpg') !important; }
 .tabs3 button[data-tab="g5"], .tabs3 button[data-tab="g5"][aria-pressed="true"] { background-image: url('../img/tab-travel.jpg') !important; background-size: cover !important; background-position: center 30% !important; }
-.tabs-mini button[data-tab="g3"] { background-image: url('../img/tab-health.jpg'); background-position: center 40%; }
 .tabs-mini button[data-tab="g5"] { background-image: url('../img/tab-travel.jpg'); background-position: center 30%; }
 .tabs3 button[data-tab="g5"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g5"]::before { background: linear-gradient(to top, rgba(91,143,217,0.92) 0%, rgba(91,143,217,0.45) 42%, rgba(20,20,20,0.06) 78%) !important; }
 .tabs-mini button[data-tab="g5"][aria-pressed="true"] { box-shadow: 0 0 0 2px var(--c-g5); }
 
-/* 마지막 장은 한 줄을 다 쓴다 (다섯 칸이라 혼자 남지 않게). 넓어진 만큼 높이는 낮게 눕힌다. */
-.tabs3:not(.compact) button[data-tab="g4"] { grid-column: 1 / -1; aspect-ratio: 16 / 7; min-height: 0; }
-@media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 7.6; } }
 .tabs3 button[data-tab="g4"] { background-position: center 55% !important; }
 
 /* 운세: '조심할 것' 한 줄만 결을 달리해 눈에 들어오게 (2026-10-18) */
