@@ -1620,5 +1620,8 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .sw-regions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
 .sw-regions button { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 0.98rem; color: #444; }
 .sw-regions button[aria-pressed="true"] { background: var(--dark-green); border-color: var(--dark-green); color: #fff; font-weight: 700; }
-.sw-row b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.18rem; line-height: 1.4; color: var(--dark-green); word-break: keep-all; }
+.sw-row { display: block; }
+.sw-row p { margin: 0 0 4px; }
+.sw-row .linkbtn { display: inline-block; margin-top: 8px; }
+.sw-row b { display: block; width: auto; font-family: 'Nanum Myeongjo', serif; font-size: 1.18rem; line-height: 1.4; color: var(--dark-green); word-break: keep-all; }
 .sw-meta { margin: 4px 0 8px; font-size: 0.96rem; line-height: 1.6; color: #6b6354; word-break: keep-all; }
