@@ -1,3 +1,12 @@
 [models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
-[ok] mind
-2026-10-18 저장 완료. 코너 1개
+[skip] greetings 이미 있음
+[skip] fortune 이미 있음
+[skip] era 이미 있음
+[skip] mind 이미 있음
+[skip] meal 이미 있음
+[skip] quiz 이미 있음
+[skip] story 이미 있음
+[skip] follow 이미 있음
+[skip] phrase 이미 있음
+[skip] culture 이미 있음
+2026-10-18 모든 코너가 이미 있음.
