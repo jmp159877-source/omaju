@@ -1,7 +1,11 @@
-wide_move2 morning walk path autumn light 7
-wide_move2 stretching park sunrise back view 30
-wide_move2 walking trail golden hour 30
-wide_move2 nordic walking countryside 30
-wide_move2 morning run park warm light 30
-wide_move2 park bench morning sunlight trees 30
-완료 {'wide_move2': 30}
+wide_book open book window sunlight table 28
+wide_book books stack wooden table warm light 30
+wide_book reading armchair morning light room 30
+wide_book bookshelf warm lamp light 30
+wide_book book coffee table autumn light 30
+wide_show theater red seats empty interior 7
+wide_show concert hall interior warm light 16
+wide_show art gallery white wall daylight 30
+wide_show museum exhibition hall interior 30
+wide_show theatre stage curtain warm 30
+완료 {'wide_book': 30, 'wide_show': 30}
