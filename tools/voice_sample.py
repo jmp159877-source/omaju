@@ -90,7 +90,6 @@ if os.environ.get('WHOLE'):
             if ok: break
     SEG = {}
 if os.environ.get('AUDITION'):
-    import subprocess
     for who, (vs, line) in AUDITION.items():
         if ONLY and who not in ONLY: continue
         for v in vs:
@@ -101,12 +100,10 @@ if os.environ.get('AUDITION'):
                 except Exception as e: say('실패', who, v, str(e)[:100]); time.sleep(20); continue
                 base = f'out_voice/{who}_{v}.wav'
                 with wave.open(base, 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
-                for suf, r in AUD_DROP:
+                for suf, r in AUD_DROP:   # 낮춘 벌: 같은 소리를 느린 박자로 적어 두면 높이도 같이 내려간다 (ffmpeg 없이)
                     if not suf: continue
-                    sr = int(24000 * r)
-                    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', base,
-                                    '-af', f'asetrate={sr},aresample=24000,atempo={1/r:.4f}',
-                                    f'out_voice/{who}_{v}{suf}.wav'], check=False)
+                    with wave.open(f'out_voice/{who}_{v}{suf}.wav', 'wb') as w:
+                        w.setnchannels(1); w.setsampwidth(2); w.setframerate(int(24000 * r)); w.writeframes(pcm)
                 say('완료', who, v, round(len(pcm) / 48000, 1)); break
     SEG = {}
 for who, segs in SEG.items():
