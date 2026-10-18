@@ -190,10 +190,51 @@ document.addEventListener('click', e => {
 });
 
 const LANG = { en: ['영어', 'en-US'], ja: ['일본어', 'ja-JP'], zh: ['중국어', 'zh-CN'] };
+// ── 여행 회화책: 나라말 5 × 상황 6 ──
+let PB = null, pbLang = store.get('pbLang', 'en'), pbScene = store.get('pbScene', 'air'), pbWarned = {};
+fetch('data/phrasebook.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { PB = j; renderPhrase(); }).catch(() => {});
+if (window.speechSynthesis) speechSynthesis.onvoiceschanged = () => {};  // 목소리 목록을 미리 불러 둔다
+function voiceFor(bcp) {
+  const want = bcp.slice(0, 2).toLowerCase();
+  const vs = (window.speechSynthesis ? speechSynthesis.getVoices() : []).filter(v => v.lang && v.lang.replace('_', '-').toLowerCase().startsWith(want));
+  return vs.sort((a, b) => (/google|natural|neural|premium/i.test(b.name) ? 1 : 0) - (/google|natural|neural|premium/i.test(a.name) ? 1 : 0))[0] || null;
+}
+function pbHtml() {
+  if (!PB) return '';
+  const L = PB.langs.find(x => x.k === pbLang) || PB.langs[0];
+  const rows = ((PB.phrases[L.k] || {})[pbScene]) || [];
+  const sc = PB.scenes.find(x => x.k === pbScene) || PB.scenes[0];
+  return `<div class="pb">
+  <p class="cu-kind">여행 회화</p>
+  <div class="pb-pick" role="group" aria-label="나라말 고르기">${PB.langs.map(x => `<button type="button" data-pbl="${x.k}" aria-pressed="${x.k === L.k}"><b>${esc(x.name)}</b><span>${esc(x.sub)}</span></button>`).join('')}</div>
+  <div class="pb-scenes" role="group" aria-label="상황 고르기">${PB.scenes.map(x => `<button type="button" data-pbs="${x.k}" aria-pressed="${x.k === pbScene}">${esc(x.name)}</button>`).join('')}</div>
+  <p class="pb-scene-sub">${esc(sc.name)} · ${esc(sc.sub)}</p>
+  ${L.tip ? `<p class="pb-tip">${esc(L.tip)}</p>` : ''}
+  <div class="pb-list">${rows.map((x, i) => `<div class="pb-row"><p class="pb-ko">${esc(x.ko)}</p><p class="pb-t" lang="${esc(L.bcp)}">${esc(x.t)}</p><p class="pb-r">${esc(x.r)}</p><div class="pb-btns"><button type="button" class="btn line" data-pb="${i}" data-rate="1">듣기</button><button type="button" class="btn line" data-pb="${i}" data-rate="0.65">천천히</button></div></div>`).join('')}</div>
+  </div>`;
+}
+function pbSay(i, rate) {
+  if (!PB || !('speechSynthesis' in window)) return toast('이 기기에서는 듣기를 쓸 수 없습니다.');
+  const L = PB.langs.find(x => x.k === pbLang), x = ((PB.phrases[pbLang] || {})[pbScene] || [])[i];
+  if (!L || !x) return;
+  speechSynthesis.cancel();
+  const v = voiceFor(L.bcp);
+  if (!v && !pbWarned[pbLang]) { pbWarned[pbLang] = 1; toast(`이 휴대폰에는 ${L.name} 목소리가 없습니다. 한글 발음을 보고 읽어 보세요.`); }
+  const u = new SpeechSynthesisUtterance(x.t);
+  u.lang = L.bcp; u.rate = +rate; if (v) u.voice = v;
+  speechSynthesis.speak(u);
+  DB.track('pb_say', { lang: pbLang, scene: pbScene });
+}
+document.addEventListener('click', e => {
+  const l = e.target.closest('[data-pbl]'); if (l) { pbLang = l.dataset.pbl; store.set('pbLang', pbLang); renderPhrase(); return; }
+  const c = e.target.closest('[data-pbs]'); if (c) { pbScene = c.dataset.pbs; store.set('pbScene', pbScene); renderPhrase(); return; }
+  const b = e.target.closest('[data-pb]'); if (b) pbSay(+b.dataset.pb, b.dataset.rate);
+});
 function renderPhrase() {
-  const p = C.phrase; if (!p) { $('phrase-body').innerHTML = '<p class="note" style="margin-top:30px">오늘 문장이 준비되지 않았습니다.</p>'; return; }
-  $('phrase-body').innerHTML = `<p class="lead" style="margin-top:26px">오늘의 상황: <b>${esc(p.topic || '')}</b>. 듣고, 소리 내어 따라 말해 보세요.</p>` + Object.keys(LANG).filter(k => p[k]).map(k => { const x = p[k]; return `<div class="ph-card"><div class="ph-lang">${LANG[k][0]}</div><p class="ph-text">${esc(x.text)}</p><p class="ph-read" id="ph-read-${k}">${(ws => ws.length > 3 && ws.every(w => w.length === 1) ? ws.map(w => `<span>${esc(w)}</span>`).join('') : ws.map(w => `<span>${esc(w)}</span>`).join(' '))(String(x.reading || '').split(/\s+/).filter(Boolean))}</p><p class="ph-mean">${esc(x.meaning || '')}</p>${x.tip ? `<p class="ph-tip">${esc(x.tip)}</p>` : ''}<div class="ph-actions"><button type="button" class="btn green" data-say="${k}" data-rate="0.9">듣기</button><button type="button" class="btn line" data-say="${k}" data-rate="0.6">천천히 듣기</button></div></div>`; }).join('');
-  if (C.phrase.topic) $('phrase-title').textContent = '오늘의 상황: ' + C.phrase.topic;
+  const p = C.phrase;
+  const today = !p ? '' : `<h3 class="subhead">오늘의 한마디</h3><p class="lead">오늘의 상황: <b>${esc(p.topic || '')}</b>. 듣고, 소리 내어 따라 말해 보세요.</p>` + Object.keys(LANG).filter(k => p[k]).map(k => { const x = p[k]; return `<div class="ph-card"><div class="ph-lang">${LANG[k][0]}</div><p class="ph-text">${esc(x.text)}</p><p class="ph-read" id="ph-read-${k}">${(ws => ws.length > 3 && ws.every(w => w.length === 1) ? ws.map(w => `<span>${esc(w)}</span>`).join('') : ws.map(w => `<span>${esc(w)}</span>`).join(' '))(String(x.reading || '').split(/\s+/).filter(Boolean))}</p><p class="ph-mean">${esc(x.meaning || '')}</p>${x.tip ? `<p class="ph-tip">${esc(x.tip)}</p>` : ''}<div class="ph-actions"><button type="button" class="btn green" data-say="${k}" data-rate="0.9">듣기</button><button type="button" class="btn line" data-say="${k}" data-rate="0.6">천천히 듣기</button></div></div>`; }).join('');
+  $('phrase-body').innerHTML = pbHtml() + today;
+  $('phrase-title').textContent = '다섯 나라 말 · 상황별';
 }
 document.addEventListener('click', e => {
   const zf = e.target.closest('[data-zoom]'); if (zf && CULT && CULT.painting) { const p = CULT.painting; modal(`<div class="lb-wrap"><img src="${esc(p.img)}" alt="${esc(p.title)}" referrerpolicy="no-referrer"></div><p class="lb-cap"><b>${esc(p.title)}</b> · ${esc(p.artist)}, ${esc(p.year)}</p><p class="lb-tip">두 손가락으로 벌리면 더 크게 볼 수 있습니다</p>`, () => $('modal').classList.add('lightbox')); return; }
