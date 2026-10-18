@@ -347,7 +347,7 @@ REGIONS = ["서울", "경기", "인천", "부산", "대구", "광주", "대전",
 
 
 # 잡지에 어울리지 않는 영상 거르기: 나이 딱지(실버·시니어·어르신·노인·치매), 쇼츠, 광고·이벤트, 짧은 맛보기
-YT_BAD = re.compile(r"실버|시니어|어르신|노인|치매|요양|shorts|#shorts|이벤트|구독|광고|협찬|리액션|먹방", re.I)
+YT_BAD = re.compile(r"실버|시니어|어르신|노인|치매|요양|shorts|#shorts|이벤트|구독|광고|협찬|리액션|먹방|레전드|전국노래자랑|노래자랑|\d{2}세\b|\(\d{2}세\)|알아내다니|굿바이|충격|대박|미쳤", re.I)
 def yt_ok(items):
     good = [it for it in items if not YT_BAD.search(it["snippet"]["title"] + " " + it["snippet"].get("channelTitle", ""))]
     return good or []
