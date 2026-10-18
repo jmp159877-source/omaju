@@ -45,8 +45,29 @@ function render() {
   $('home-body').innerHTML = tabs + (tab === 'road' ? roadHtml() : camHtml());
   // 칸을 그리면 로드뷰가 붙어 있던 자리가 없어진다 → 쥐고 있던 것을 버려야 돌아왔을 때 다시 선다
   rv = null;
+  camStopped = false;
   if (tab === 'road' && lastQ) go(lastQ, true);
+  if (tab === 'cam') watchCam();
 }
+
+// ── 라이브캠은 보고 있을 때만 튼다 ──
+// 다른 코너로 가거나, 다른 앱으로 넘어가거나, 화면 밖으로 밀려나면 바로 끊는다.
+// (유튜브 iframe 은 숨겨도 혼자 계속 돌아간다 — 주소를 비워야 멎는다)
+let camStopped = false, camWatch = null;
+function stopCam() {
+  const f = document.querySelector('.ht-cam iframe');
+  if (!f || !f.getAttribute('src') || f.getAttribute('src') === 'about:blank') return;
+  f.setAttribute('src', 'about:blank');
+  camStopped = true;
+}
+function watchCam() {
+  if (camWatch) { try { camWatch.disconnect(); } catch (e) {} camWatch = null; }
+  const box = document.querySelector('.ht-cam'); if (!box) return;
+  try { camWatch = new IntersectionObserver(es => es.forEach(e => { if (e.intersectionRatio < 0.3) stopCam(); }), { threshold: [0, 0.3] }); camWatch.observe(box); } catch (e) {}
+}
+function here() { return location.hash.slice(1) === 'home'; }
+window.addEventListener('hashchange', () => { if (!here()) stopCam(); else if (camStopped && tab === 'cam') render(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) stopCam(); });
 
 function roadHtml() {
   const ready = !!(CFG && CFG.kakaoJsKey);

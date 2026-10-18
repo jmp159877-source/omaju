@@ -90,6 +90,16 @@ srv.listen(0, '127.0.0.1', async () => {
       await p.evaluate(() => { const b = document.querySelector('[data-ht="road"]'); if (b) b.click(); }); await wait(p, 500);
       const fresh = await p.evaluate(() => ({ q: (document.getElementById('ht-q') || {}).value || '', empty: (document.getElementById('ht-empty') || {}).textContent || '' }));
       ok('내 고향: 앱을 다시 열면 빈 칸에서 시작', fresh.q === '' && /주소를 넣으면/.test(fresh.empty), JSON.stringify(fresh));
+      // 라이브캠은 보고 있을 때만 — 다른 코너·다른 앱으로 가면 끊긴다
+      await p.evaluate(() => document.querySelector('[data-ht="cam"]').click()); await wait(p, 700);
+      const on = await p.evaluate(() => (document.querySelector('.ht-cam iframe') || {}).src || '');
+      await p.evaluate(() => window.omajuNav('g2')); await wait(p, 600);
+      const away = await p.evaluate(() => (document.querySelector('.ht-cam iframe') || {}).src || '');
+      await p.evaluate(() => window.omajuNav('home')); await wait(p, 800);
+      const back2 = await p.evaluate(() => (document.querySelector('.ht-cam iframe') || {}).src || '');
+      await p.evaluate(() => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); }); await wait(p, 400);
+      const hid = await p.evaluate(() => (document.querySelector('.ht-cam iframe') || {}).src || '');
+      ok('내 고향: 라이브캠이 코너를 떠나면 멎음', /youtube\.com/.test(on) && /about:blank/.test(away) && /youtube\.com/.test(back2) && /about:blank/.test(hid), JSON.stringify({ on: on.slice(-24), away, back2: back2.slice(-24), hid }));
       await c.close(); }
     // 4) 수첩: 말로 메모 → 다 했어요 → 저장 → 수첩에 그대로 (두 번)
     for (const ua of ['Mozilla/5.0 (Linux; Android 14; SM-F731N) AppleWebKit/537.36 Chrome/129 Mobile Safari/537.36', undefined]) {
