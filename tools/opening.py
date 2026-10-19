@@ -269,8 +269,19 @@ def build():
         close.setdefault('cap', [close['say']])
         segs = g + s['body'] + [s['message'], close, teaser, sign]
         text = '\n'.join(x['say'] for x in segs)
-        time.sleep(20)
-        pcm = tts(text, HOST)
+        # 높이가 목표에서 많이 벗어난 녹음은 억지로 끌어내리면 목청이 일그러진다 → 가까운 테이크가 나올 때까지 다시 녹음
+        # (2026-10-19: 아침이 218Hz로 나와 195로 11% 끌어내렸더니 "목소리가 안 예쁘다")
+        tgt0 = PITCH[HOST]; pcm = None; best = None
+        for take in range(3):
+            time.sleep(20)
+            got = tts(text, HOST)
+            if got is None: continue
+            gf = f0(got)
+            off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
+            say(sl, f'{take + 1}번째 녹음 높이', gf and round(gf), '목표', tgt0, '벗어남', round(off * 100, 1), '%')
+            if best is None or off < best[1]: best = (got, off)
+            if off <= 0.05: break
+        pcm = best[0] if best else None
         if pcm is None: raise SystemExit('녹음 실패 ' + sl)
         raw = f'/tmp/op_{sl}.wav'; wav_write(raw, pcm)
         lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
@@ -278,6 +289,8 @@ def build():
         rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))   # 늘어지지 않게 (운영자 2026-10-18)
         af = []
         pf = f0(pcm); tgt = PITCH[HOST]
+        # 5% 넘게 벗어난 것은 아예 건드리지 않는다 (끌어내리면 목청이 바뀐다). 3~5% 안쪽만 살짝 맞춘다
+        if tgt and pf and abs(pf / tgt - 1) > 0.05: tgt = None
         if tgt and pf and abs(pf / tgt - 1) > 0.03:
             r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
         else: tempo_eff = tempo
