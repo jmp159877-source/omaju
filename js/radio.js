@@ -89,7 +89,7 @@ export async function init(h) {
     const sub = $('rd-' + ch + '-sub'), go = $('rd-' + ch + '-go');
     if (!d || !d.marks || !d.marks.length) { if (sub) sub.textContent = '오늘 안내는 잠시 뒤에 올라옵니다'; if (go) go.textContent = '준비 중'; box.classList.add('rd-off'); continue; }
     data[ch] = d;
-    if (sub) sub.textContent = `${d.title}, 틀어 놓고 들으세요 · ${mmss(d.end)}`;
+    if (sub) sub.textContent = `${d.title}, 틀어 놓고 들으세요 · 약 ${Math.max(1, Math.round(d.end / 60))}분`;
     if (go) go.textContent = '눌러서 듣기';
     box.classList.remove('rd-off');
     const btn = $('rd-' + ch + '-face');
