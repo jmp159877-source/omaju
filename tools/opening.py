@@ -110,9 +110,9 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
 [구성]
 1. 첫인사 2조각 — 아침·낮·저녁 세 벌.
    **첫 문장은 어느 시간대든 반드시 "안녕하세요"로 시작합니다.** 눌러서 들을 때 인사부터 나와야 반갑습니다.
-   - 아침: "안녕하세요, 좋은 아침입니다. {name}예요."
-   - 낮:   "안녕하세요, 점심은 맛있게 드셨어요? {name}예요."
-   - 저녁: "안녕하세요, 오늘 하루도 수고 많으셨어요. {name}예요."
+   - 아침: "안녕하세요, 좋은 아침입니다. {name}{yeyo}."
+   - 낮:   "안녕하세요, 점심은 맛있게 드셨어요? {name}{yeyo}."
+   - 저녁: "안녕하세요, 오늘 하루도 수고 많으셨어요. {name}{yeyo}."
    (인사 뒤에 느낌표를 쓰지 않습니다 — 느낌표를 붙이면 읽을 때 음이 과하게 올라가 발음이 뭉갭니다.)
    둘째 문장에 오늘 요일을 넣어 그 시간대에 맞는 기분 좋은 한마디 (상투적 문구 금지, 구체적인 장면).
 2. 오늘의 한 조각 4~6조각 — 위 요일 테마대로. 한 조각 60자 이내.
@@ -138,7 +138,7 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
  - "~예요 / ~죠 / ~거든요 / ~더라고요 / ~네요 / ~볼까요" 를 섞어 씁니다.
  - **"~입니다"로만 끝나는 보도 말투 금지.** 설명문·공지문 말투 금지. 딱딱한 한자어 금지.
  - 듣는 사람을 부르는 말("여러분", "오늘 하루") 을 가끔 넣어 혼자 읽는 느낌이 아니게 합니다.
- - 다만 첫 문장("좋은 아침입니다, {name}예요")과 사인오프("사랑합니다. 오마주, {name}…")는 그대로 둡니다. 사인오프는 쓰지 말고 비워 두세요 — 뒤에 저희가 붙입니다.
+ - 다만 첫 문장("좋은 아침입니다, {name}{yeyo}")과 사인오프("사랑합니다. 오마주, {name}…")는 그대로 둡니다. 사인오프는 쓰지 말고 비워 두세요 — 뒤에 저희가 붙입니다.
  - 애교·과장·호들갑 금지. 지적이되 어렵지 않게.
  한 조각은 1~3문장, 한 조각 60자 이내.
 [길이] 전체를 소리 내어 읽어 60~70초 (한글 280~330자).
@@ -224,7 +224,7 @@ def make_script():
     today_in = today_corners()
     desc = '45세 여성 라디오 진행자, 지적이면서 다정하고 친근한' if HOST == 'miso' else '46세 남성 라디오 진행자, 포근하고 다정다감한'
     for k in range(3):
-        s, m = gemini_json(PROMPT.format(name=NAME[HOST], desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()]))
+        s, m = gemini_json(PROMPT.format(name=NAME[HOST], yeyo=yeyo(NAME[HOST]), desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()]))
         if not s: continue
         p = problems(s)
         say('대본', m, '문제:', p or '없음')
@@ -322,16 +322,25 @@ def music(voice_mp3, sl, dur):
     return LEAD, TAIL
 
 
-def nodup(segs):
+def nodup(segs, pick=None):
     """같은 장면이 연달아 걸리지 않게 (2026-10-19: 어제 아침 마지막 16초가 한 장면으로 멈춰 있었다).
-    첫 두 조각(서서 인사)과 마지막 사인오프는 정해진 장면이니 건드리지 않는다."""
+    첫 두 조각(서서 인사)과 마지막 사인오프는 정해진 장면이니 건드리지 않는다.
+    태그가 달라도 빈 장면을 메우느라 **같은 사진 파일**이 될 수 있으므로 파일로 비교한다
+    (2026-10-20: 한결 2벌 저녁에 talk 가 read 사진으로 메워져 같은 사진이 세 번 이어졌다)."""
+    f = (lambda t: pick.get(t, t)) if pick else (lambda t: t)
     for i in range(2, len(segs) - 1):
-        if segs[i]['tag'] != segs[i - 1]['tag']: continue
-        nxt = segs[i + 1]['tag'] if i + 1 < len(segs) else None
+        if f(segs[i]['tag']) != f(segs[i - 1]['tag']): continue
+        nxt = f(segs[i + 1]['tag']) if i + 1 < len(segs) else None
         for t in TAGS:
-            if t != segs[i - 1]['tag'] and t != nxt:
+            if f(t) != f(segs[i - 1]['tag']) and f(t) != nxt:
                 segs[i] = dict(segs[i], tag=t); break
     return segs
+
+
+def yeyo(n):
+    """첫인사 '○○예요 / ○○이에요' — 이름 끝 받침에 따라 (2026-10-20: '서한결예요'로 나갔다)"""
+    c = ord(n[-1]); bat = (c - 0xAC00) % 28 if 0xAC00 <= c <= 0xD7A3 else 0
+    return '이에요' if bat else '예요'
 
 
 def signoff(who):
@@ -394,6 +403,11 @@ def build():
         where['c' + sl] = [len(allsegs)]; allsegs.append(c)
     where['sign'] = [len(allsegs)]; allsegs.append(sign)
 
+    nm = NAME[HOST]
+    if yeyo(nm) == '이에요':
+        for x in allsegs:
+            x['say'] = x['say'].replace(nm + '예요', nm + '이에요')
+            if isinstance(x.get('cap'), list): x['cap'] = [c.replace(nm + '예요', nm + '이에요') for c in x['cap']]
     text = '\n'.join(x['say'] for x in allsegs)
     tgt0 = PITCH[HOST]; best = None
     for take in range(4):
@@ -443,7 +457,7 @@ def build():
         dur = t
         lead, tail = music(dst, sl, dur)
         for x in segs: x['t'] = round(x['t'] + lead, 2)
-        res['slots'][sl] = {'audio': mp3, 'end': round(lead + dur + tail, 2), 'segs': nodup(segs)}
+        res['slots'][sl] = {'audio': mp3, 'end': round(lead + dur + tail, 2), 'segs': nodup(segs, imgs['eve' if sl == 'evening' else 'mor'])}
         say(sl, '길이', round(lead + dur + tail, 1), '초', '조각', len(segs), '음악', bool(lead))
 
     json.dump(res, open(path, 'w'), ensure_ascii=False, indent=1)
