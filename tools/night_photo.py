@@ -19,18 +19,27 @@ def night(src, dst):
     X, Y = xx / w, yy / h
 
     # 1) 창유리 → 밤하늘 (창틀처럼 어두운 곳은 그대로 둔다)
-    win = np.clip((0.43 - X) / 0.10, 0, 1) * np.clip((0.72 - Y) / 0.07, 0, 1) * np.clip((L - 0.34) / 0.26, 0, 1)
+    # 나뭇결 탁자는 붉고(R-B≈0.17) 창유리는 중성에 가깝다(0.02~0.07) — 탁자가 같이 검어지지 않게 가른다
+    warm = a[..., 0] - a[..., 2]
+    notwarm = np.clip((0.115 - warm) / 0.045, 0, 1)
+    # 창 자리는 밝기와 상관없이 밤으로 눌러야 한다 — 밝은 데만 바꾸면 낮의 뿌연 바깥 풍경이 허옇게 남는다
+    reg = np.clip((0.43 - X) / 0.10, 0, 1) * np.clip((0.72 - Y) / 0.07, 0, 1)
+    # 나뭇결 가리기는 탁자가 있는 아래쪽에서만 쓴다 — 위쪽 창에는 햇빛 번짐처럼 붉은 기가 있어서
+    # 위에까지 적용하면 그 자리가 허옇게 남는다
+    low = np.clip((Y - 0.44) / 0.05, 0, 1)
+    keep = 1 - low * (1 - notwarm)
+    win = reg * keep * (0.62 + 0.38 * np.clip((L - 0.34) / 0.26, 0, 1))
     win = blur(win, 4)[..., None]
     t = np.clip((L - 0.45) / 0.55, 0, 1)
     sky = np.stack([0.085 + 0.05 * t, 0.095 + 0.06 * t, 0.130 + 0.09 * t], -1).astype(np.float32)
     # 멀리 도시 불빛 — 가로 띠처럼 모아 둔다
     dots = np.zeros((h, w), np.float32)
-    for _ in range(70):
+    for _ in range(40):
         cy = int(rng.normal(0.52, 0.045) * h); cx = int(rng.uniform(0.01, 0.37) * w)
-        if 0 <= cy < h - 3: dots[cy:cy + 2, cx:cx + 2] = rng.uniform(0.45, 1.0)
+        if 0 <= cy < h - 3: dots[cy:cy + 2, cx:cx + 2] = rng.uniform(0.35, 0.8)
     band = np.exp(-((Y - 0.52) / 0.07) ** 2) * np.clip((0.38 - X) / 0.1, 0, 1) * 0.055
-    glow = blur(dots, 10) * 0.6 + blur(dots, 2)
-    sky = sky + glow[..., None] * np.array([0.85, 0.70, 0.42], np.float32) + band[..., None] * np.array([1.0, 0.8, 0.5], np.float32)
+    glow = blur(dots, 7) * 0.25 + blur(dots, 1.5) * 0.45
+    sky = sky + glow[..., None] * np.array([0.55, 0.44, 0.26], np.float32) + band[..., None] * np.array([1.0, 0.8, 0.5], np.float32)
     out = a * (1 - win) + np.clip(sky, 0, 1) * win
 
     # 2) 얇은 커튼 — 밖이 어두우니 같이 가라앉는다
