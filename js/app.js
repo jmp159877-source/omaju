@@ -1,6 +1,7 @@
 import { DEFAULT_CONTENT } from './content.js';
 import * as DB from './db.js';
 import * as NB from './notebook.js';
+import * as RADIO from './radio.js';
 import { drawCard } from './cards.js';
 import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
@@ -518,6 +519,7 @@ document.addEventListener('click', e => {
   const order = src.filter(k => C.follow && C.follow[k] && C.follow[k].videoId), i = order.indexOf(b.dataset.fl); playFollow(order, i);
 });
 function playFollow(order, i) {
+  if (window.omajuRadio) window.omajuRadio.pause();
   const it = C.follow[order[i]]; if (!it) return;
   modal(`<div class="pl-head"><span class="pl-no">${i + 1} / ${order.length}</span><h2>${esc(it.name)}</h2><p>${esc(unent(it.title || ''))}</p></div><div class="pl-video"><iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(it.videoId)}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="${esc(it.name)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="pl-nav"><button type="button" class="btn line" id="pl-prev" ${i === 0 ? 'disabled' : ''}>이전</button><button type="button" class="btn green" id="pl-next" ${i === order.length - 1 ? 'disabled' : ''}>다음</button></div>`, () => {
     $('modal').classList.add('pl-modal');
@@ -526,6 +528,7 @@ function playFollow(order, i) {
   DB.track('follow_play', { k: order[i] });
 }
 function playFrom(list, i, tag) {
+  if (window.omajuRadio) window.omajuRadio.pause();
   const s = list[i]; if (!s) return;
   const v = SONGV && SONGV[`${s[0]}|${s[1]}`];
   const nav = `<div class="pl-nav"><button type="button" class="btn line" id="pl-prev" ${i === 0 ? 'disabled' : ''}>이전 곡</button><button type="button" class="btn green" id="pl-next" ${i === list.length - 1 ? 'disabled' : ''}>다음 곡</button></div>`;
@@ -556,6 +559,7 @@ if (CBOX[location.hash.slice(1)]) renderCbox(location.hash.slice(1));
 
 PLAY.init({ toast, modal, closeModal, esc, openGate: (...a) => openGate(...a) });
 NB.init({ toast, modal, closeModal, openGate });
+RADIO.init({ toast });
 
 // ── 오늘의 시세 ──
 (async function market() {
