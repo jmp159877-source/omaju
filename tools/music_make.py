@@ -120,8 +120,10 @@ for slot, text in PROMPT.items():
         say('  → 쓸 만한 것이 없음'); continue
     g, f, v, sec = best
     dst = os.path.join(ROOT, 'music', f'{slot}.mp3')
-    subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', f, '-ac', '2', '-ar', '44100',
-                    '-b:a', '128k', dst], check=True)
+    # 앞 12초는 버린다(만든 음악은 앞이 거의 들리지 않게 시작한다) + 세 벌 음량을 똑같이 맞춘다
+    subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-ss', '12', '-i', f,
+                    '-af', 'loudnorm=I=-16:TP=-1.5:LRA=6,afade=t=in:st=0:d=0.8',
+                    '-ac', '2', '-ar', '44100', '-b:a', '128k', dst], check=True)
     picked[slot] = {'grade': g, 'sec': round(sec), **v}
     say(f'  → 골랐습니다 ({g}점, {round(sec)}초)')
 

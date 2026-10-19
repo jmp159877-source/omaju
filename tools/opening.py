@@ -258,7 +258,7 @@ def split(pcm, lens):
 # 음악이 먼저 혼자 흐르다(LEAD) 말이 시작되면 밑으로 내려가 깔리고, 끝에서 서서히 사라진다.
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LEAD, TAIL = 2.4, 3.2      # 앞에 혼자 흐르는 시간 / 끝에 남아 사라지는 시간
-TOP, BED = 0.30, 0.075     # 혼자일 때 크기 / 말 밑에 깔릴 때 크기 (말을 가리지 않게 아주 작게)
+TOP, BED = 0.55, 0.10      # 혼자일 때 크기 / 말 밑에 깔릴 때 크기 (music/*.mp3 는 -16 LUFS 로 고르게 맞춰 둔다)
 
 
 def music(voice_mp3, sl, dur):
