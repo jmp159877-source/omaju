@@ -2,7 +2,7 @@
 // 소리는 '소리 켜고 듣기'를 눌러야만 나고, 칸이 화면에서 벗어나거나 다른 코너·앱으로 가면 저절로 멈춘다.
 const RAW = 'https://raw.githubusercontent.com/jmp159877-source/omaju/media/opening/';
 const CDN = 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@media/opening/';
-const NAME = { miso: '윤미소', hangyeol: '서한결' };
+const NAME = { miso: '윤미소', hangyeol: '서한결', eunchae: '송은채' };
 const SLOT_KO = { morning: '아침', noon: '낮', evening: '저녁' };
 const WD = ['일', '월', '화', '수', '목', '금', '토'];
 const $ = id => document.getElementById(id);
@@ -25,8 +25,9 @@ export async function init({ modal, closeModal, toast, DB }) {
   // 저녁은 여섯 시부터 (운영자 2026-10-19: 다섯 시는 아직 낮이다)
   const slot = h >= 5 && h < 11 ? 'morning' : h >= 11 && h < 18 ? 'noon' : 'evening';
   const S = data.slots[slot] || data.slots.morning; if (!S || !S.segs || !S.segs.length) return;
-  const period = slot === 'evening' ? 'eve' : 'mor';
-  const host = data.host === 'hangyeol' ? 'hangyeol' : 'miso';
+  // 저녁 사진이 아직 없는 진행자는 아침 장면을 그대로 쓴다 (만드는 쪽에서 eve:false 로 알려 준다)
+  const period = (slot === 'evening' && data.eve !== false) ? 'eve' : 'mor';
+  const host = NAME[data.host] ? data.host : 'miso';
   const img = tag => `img/hosts/${host}-${period}-${tag}.jpg`;
   const dd = new Date(data.date + 'T00:00:00');
 

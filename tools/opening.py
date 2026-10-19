@@ -15,17 +15,20 @@ args = [a for a in sys.argv[1:] if not a.startswith('--')]
 FORCE = '--force' in sys.argv
 DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 D = datetime.date.fromisoformat(DATE)
-HOST = 'miso' if (D - datetime.date(2026, 10, 19)).days % 2 == 0 else 'hangyeol'   # 월요일(10/19)을 윤미소로 (운영자 2026-10-18)
-OTHER = 'hangyeol' if HOST == 'miso' else 'miso'
-NAME = {'miso': '윤미소', 'hangyeol': '서한결'}
+# 진행자는 사흘에 한 바퀴: 윤미소 → 송은채 → 서한결 (운영자 2026-10-20). 10/21(수)을 윤미소로 잡는다.
+ROTATE = ['miso', 'eunchae', 'hangyeol']
+HOST = ROTATE[(D - datetime.date(2026, 10, 21)).days % 3]
+OTHER = ROTATE[(ROTATE.index(HOST) + 1) % 3]
+NAME = {'miso': '윤미소', 'hangyeol': '서한결', 'eunchae': '송은채'}
 WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
 # 사진이 실제로 있는 장면만 쓴다. 사연을 없앤 뒤 surprise·moved·secret 은 쓰지 않는다 (2026-10-19).
 TAGS = ['read', 'smile', 'laugh', 'talk', 'curious', 'delight', 'thumb']
-VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon'}
-PITCH = {'miso': 195, 'hangyeol': None}   # 미소는 고른 견본 높이(195Hz)에 맞춘다
+VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon', 'eunchae': 'Callirrhoe'}
+PITCH = {'miso': 195, 'hangyeol': None, 'eunchae': 210}   # 미소 195 · 은채 210 (제 높이로 고정해 서로 다른 사람이 되게)
 PROFILE = {
  'miso': '[목소리 설정] 45세 한국 여성 방송 진행자. **맑고 경쾌하고, 무엇보다 반갑다.** 문을 열고 들어온 사람을 보고 \"어서 오세요!\" 하는 그 밝은 기운이 첫마디부터 묻어난다. 목소리에 미소가 걸려 있고, 톤이 살짝 올라가며 생기가 있다. 지적이지만 하나도 어렵지 않고 친구처럼 가깝다. **금지: 뉴스 앵커의 보도 말투, 심야 라디오의 낮고 차분한 톤, 명상 안내 같은 느린 말투, 애교·콧소리.**',
+ 'eunchae': '[목소리 설정] 44세 한국 여성 방송 진행자. **밝고 또렷하고 기분 좋게 가볍다.** 아침에 좋은 것을 먼저 보고 와서 알려 주는 사람의 들뜨지 않은 생기가 있다. 친근하지만 또박또박하고, 말끝이 처지지 않는다. **금지: 뉴스 앵커의 보도 말투, 심야 라디오의 낮고 차분한 톤, 느린 낭독조, 애교·콧소리.**',
  'hangyeol': '[목소리 설정] 46세 한국 남성 방송 진행자. **밝고 반갑고 경쾌하다.** 반가운 사람을 만난 듯 첫마디부터 환하다. 따뜻한 중저음이지만 처지지 않고 생기가 있으며, 듣는 사람을 챙기는 다정함이 있다. **금지: 뉴스 앵커의 보도 말투, 심야 라디오의 낮고 차분한 톤, 느린 낭독조, 까부는 톤.**',
 }
 DIRECT = ('[연출] 아침을 여는 생방송 오프닝. **첫마디 "안녕하세요"는 반갑게, 그러나 음을 끝까지 올리지 않는다.** '
@@ -343,7 +346,8 @@ def build():
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
     sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'wave'}
-    res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'],
+    eve = os.path.exists(os.path.join(ROOT, 'img', 'hosts', f'{HOST}-eve-read.jpg'))
+    res = {'date': DATE, 'host': HOST, 'eve': eve, 'title': s.get('title', ''), 'next_title': s['next_title'],
            'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'slots': {}}
     # ── 세 벌을 '한 번에' 녹음하고 잘라 쓴다 (운영자 2026-10-19) ──
     # 따로 녹음하면 같은 목소리로 시킨 것도 벌마다 다르게 나온다(171~222Hz). 높이를 맞춰 봐도
