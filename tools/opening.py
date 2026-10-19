@@ -20,7 +20,9 @@ OTHER = 'hangyeol' if HOST == 'miso' else 'miso'
 NAME = {'miso': '윤미소', 'hangyeol': '서한결'}
 WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
-TAGS = ['read', 'smile', 'surprise', 'moved', 'laugh', 'talk', 'curious', 'secret', 'delight', 'thumb']
+# 사진이 실제로 있는 장면만 쓴다. 사연을 없앤 뒤 surprise·moved·secret 은 쓰지 않고,
+# thumb(엄지)은 새 사진이 오면 되살린다 (2026-10-19).
+TAGS = ['read', 'smile', 'laugh', 'talk', 'curious', 'delight']
 VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon'}
 PITCH = {'miso': 195, 'hangyeol': None}   # 미소는 고른 견본 높이(195Hz)에 맞춘다
 PROFILE = {
@@ -291,6 +293,18 @@ def music(voice_mp3, sl, dur):
     return LEAD, TAIL
 
 
+def nodup(segs):
+    """같은 장면이 연달아 걸리지 않게 (2026-10-19: 어제 아침 마지막 16초가 한 장면으로 멈춰 있었다).
+    첫 두 조각(서서 인사)과 마지막 사인오프는 정해진 장면이니 건드리지 않는다."""
+    for i in range(2, len(segs) - 1):
+        if segs[i]['tag'] != segs[i - 1]['tag']: continue
+        nxt = segs[i + 1]['tag'] if i + 1 < len(segs) else None
+        for t in TAGS:
+            if t != segs[i - 1]['tag'] and t != nxt:
+                segs[i] = dict(segs[i], tag=t); break
+    return segs
+
+
 def signoff(who):
     """사인오프 — 이름 끝 받침에 따라 '였습니다 / 이었습니다' (서한결였습니다 가 되지 않게)"""
     n = NAME[who]; c = ord(n[-1])
@@ -305,7 +319,7 @@ def build():
     # 내일 예고는 말로 하지 않는다 (운영자 2026-10-19: "이 내용은 그냥 없어도 될 것 같은데").
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
-    sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'smile'}
+    sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'wave'}
     res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'], 'slots': {}}
     for sl in SLOTS:
         g = [dict(x) for x in s['greet'][sl]]
@@ -314,7 +328,7 @@ def build():
         close = dict(s['close'][sl]); close.setdefault('tag', 'smile'); close['tag'] = 'smile'
         if isinstance(close.get('cap'), str): close['cap'] = [close['cap']]
         close.setdefault('cap', [close['say']])
-        segs = g + s['body'] + [s['message'], close, sign]
+        segs = nodup(g + s['body'] + [s['message'], close, sign])
         text = '\n'.join(x['say'] for x in segs)
         # 높이가 목표에서 많이 벗어난 녹음은 억지로 끌어내리면 목청이 일그러진다 → 가까운 테이크가 나올 때까지 다시 녹음
         # (2026-10-19: 아침이 218Hz로 나와 195로 11% 끌어내렸더니 "목소리가 안 예쁘다")
