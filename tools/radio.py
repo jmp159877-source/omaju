@@ -227,7 +227,7 @@ def build(ch):
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
     starts, T = OP.split(pcm, lens)
-    rate = sum(lens) / T; tempo = max(0.88, min(1.18, 4.8 / rate))
+    rate = sum(lens) / T; tempo = max(0.80, min(1.18, 4.8 / rate))   # 듣는 것이라 빠르면 늦춘다 (4.8음절/초)
     pf = OP.f0(pcm); tgt = tgt0
     # 끌어내리는 것은 5%까지, 올리는 것은 10%까지 (그 이상 당기면 목청이 바뀌어 다른 사람이 된다).
     # 많이 벗어났다고 그냥 두면 오프닝과 딴 사람이 되므로, 할 수 있는 만큼만 끌어당긴다.
