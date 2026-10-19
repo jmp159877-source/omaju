@@ -291,9 +291,8 @@ def build():
     path = os.path.join(OUT, DATE + '.json')
     if os.path.exists(path) and not FORCE: say('이미 있음', DATE); return
     s = make_script()
-    nt = (s.get('next_title') or '').strip()
-    teaser = {'say': f'내일은 {NAME[OTHER]} 씨가 {nt} 이야기를 가져옵니다.' if nt else f'내일은 {NAME[OTHER]} 씨가 찾아옵니다.',
-              'cap': [f'내일은 {NAME[OTHER]} 씨가\n{nt}'] if nt else [f'내일은 {NAME[OTHER]} 씨가\n찾아옵니다.'], 'tag': 'thumb'}
+    # 내일 예고는 말로 하지 않는다 (운영자 2026-10-19: "이 내용은 그냥 없어도 될 것 같은데").
+    # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
     sign = {'say': f'오마주, {NAME[HOST]}였습니다.', 'cap': [f'오마주, {NAME[HOST]}였습니다.'], 'tag': 'smile'}
     res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'], 'slots': {}}
@@ -304,7 +303,7 @@ def build():
         close = dict(s['close'][sl]); close.setdefault('tag', 'smile'); close['tag'] = 'smile'
         if isinstance(close.get('cap'), str): close['cap'] = [close['cap']]
         close.setdefault('cap', [close['say']])
-        segs = g + s['body'] + [s['message'], close, teaser, sign]
+        segs = g + s['body'] + [s['message'], close, sign]
         text = '\n'.join(x['say'] for x in segs)
         # 높이가 목표에서 많이 벗어난 녹음은 억지로 끌어내리면 목청이 일그러진다 → 가까운 테이크가 나올 때까지 다시 녹음
         # (2026-10-19: 아침이 218Hz로 나와 195로 11% 끌어내렸더니 "목소리가 안 예쁘다")
