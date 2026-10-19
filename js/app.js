@@ -159,7 +159,7 @@ const unent = t => String(t || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'"
 function renderFollow() {
   const f = C.follow; if (!f) { const m = '<p class="note" style="margin-top:30px">오늘 영상이 준비되지 않았습니다. 내일 다시 들러 주세요.</p>'; $('follow-body').innerHTML = m; $('move-body').innerHTML = m; return; }
   flList('move-body', MOVE_ORDER, f); flList('follow-body', FOLLOW_ORDER, f);
-  const mv = MOVE_ORDER.map(k => f[k] && f[k].name).filter(Boolean).join(' · '); if ($('move-sub') && mv) $('move-sub').textContent = mv + ' · 오늘은 십 분만';
+  // 몸 풀기 카드 글씨는 index.html 에 '요가 · 명상 · 매일 10분' 으로 고정 (운영자 2026-10-19: 글씨가 밑으로 떨어졌다)
 }
 function flList(id, order, f) {
   $(id).innerHTML = '<div class="fl-list">' + order.filter(k => f[k]).map(k => { const it = f[k];     return `<div class="fl-item"><div class="fl-head"><b>${esc(it.name)}</b><span>${esc(it.say || '')}</span></div>${it.videoId ? `<button type="button" class="fl-thumb" data-fl="${k}" aria-label="${esc(it.name)} 영상 보기"><img loading="lazy" src="https://i.ytimg.com/vi/${esc(it.videoId)}/hqdefault.jpg" alt=""><span class="fl-play">▶</span></button><p class="fl-cap">${esc(cleanT(it.title))}${it.channel ? ' · ' + esc(unent(it.channel)) : ''}</p>` : ''}${it.videoId ? '' : `<p class="note" style="margin:10px 0 0">오늘 영상을 준비하는 중입니다. 잠시 뒤에 다시 들러 주세요.</p>`}</div>`; }).join('') + '</div>';

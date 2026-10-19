@@ -162,6 +162,9 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('1 to 50 두 판 모두 순위 반영', okr(r1) && okr(r2) && !errs.length, `1판: ${r1.replace(/\s+/g, ' ').slice(0, 40)} / 2판: ${r2.replace(/\s+/g, ' ').slice(0, 40)}`);
       const src = ['shisen', 'sudoku'].map(g => fs.readFileSync(path.join(ROOT, 'js/games', g + '.js'), 'utf8'));
       ok('사천성·스도쿠 새 판도 순위로', src.every(t => !/반영되지 않/.test(t) && /P\.finish\(/.test(t))); await c.close(); }
+    // FAST=1 이면 코너마다 눌러 보는 긴 시험을 건너뛴다 — 화면 배치만 바꿨을 때 쓴다 (운영자 2026-10-19).
+    // 넘침·깜빡임·밀림·사진 겹침·장 구성은 그대로 돌린다. 전체는 새벽 점검에서 다시 돈다.
+    if (!process.env.FAST) {
     // 7) 코너마다 실제로 써 보기 (로그인한 사람처럼)
     { const c = await ctx(false); await c.route('https://www.youtube-nocookie.com/**', r => r.fulfill({ contentType: 'text/html', body: '<html></html>' }));
       await c.addInitScript(() => { window.__spoke = []; Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: { speak: u => { window.__spoke.push(u.text); setTimeout(() => { u.onstart && u.onstart(); setTimeout(() => u.onend && u.onend(), 300); }, 50); }, cancel() {}, getVoices: () => [], speaking: false } }); window.SpeechSynthesisUtterance = function (t) { this.text = t; }; });
@@ -365,6 +368,7 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('오프닝: 자정 넘어 새벽 5시 전엔 어제 저녁 인사', /2026-10-16\.json/.test(asked[0] || '') && /저녁/.test(mid.who), JSON.stringify({ asked: asked[0], mid }));
       await p3.close();
       await c.close(); }
+    }
     // 이미 로그인된 사람이 앱을 열 때 '로그인·회원가입'이나 수첩 잠금 화면이 잠깐 비치면 안 된다
     { const c = await ctx(false); const p = await c.newPage();
       await p.addInitScript(() => { globalThis.__omajuAuth = { uid: 'u_tester', email: 'tester@omaju.kr', delay: 600 }; });
