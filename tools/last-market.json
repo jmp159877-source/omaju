@@ -2,69 +2,69 @@
  "items": [
   {
    "label": "미국 달러",
-   "value": 1337.8,
+   "value": 1332.2,
    "unit": "원",
-   "change": -0.35,
+   "change": -0.43,
    "note": ""
   },
   {
    "label": "일본 엔 (100엔)",
-   "value": 846.63,
+   "value": 842.95,
    "unit": "원",
-   "change": -0.31,
+   "change": -0.58,
    "note": ""
   },
   {
    "label": "유로",
-   "value": 1503.62,
+   "value": 1495.86,
    "unit": "원",
-   "change": -0.11,
+   "change": -0.43,
    "note": ""
   },
   {
    "label": "코스피",
-   "value": 5668.05,
+   "value": 5717.03,
    "unit": "",
-   "change": 2.05,
+   "change": 0.86,
    "note": ""
   },
   {
    "label": "코스닥",
-   "value": 794.78,
+   "value": 799.65,
    "unit": "",
-   "change": 4.46,
+   "change": 0.61,
    "note": ""
   },
   {
    "label": "금 1돈",
    "value": 672000.0,
    "unit": "원",
-   "change": 0.08,
+   "change": 0.0,
    "note": "한국거래소 기준"
   },
   {
    "label": "은 1돈",
-   "value": 9243.0,
+   "value": 9283.0,
    "unit": "원",
-   "change": 0.82,
+   "change": 1.4,
    "note": "국제 시세 환산"
   },
   {
    "label": "비트코인",
-   "value": 110437000.0,
+   "value": 111166000.0,
    "unit": "원",
-   "change": 0.27,
+   "change": 0.58,
    "note": ""
   },
   {
    "label": "이더리움",
    "value": 3266000.0,
    "unit": "원",
-   "change": 0.52,
+   "change": 0.55,
    "note": ""
   }
  ],
- "updatedAt": "2026-10-18T12:23:43.420663+09:00",
+ "updatedAt": "2026-10-19T12:24:30.897206+09:00",
  "errors": [],
  "wx_seoul": {
   "kma_seamless": {
@@ -92,12 +92,104 @@
    "hourly_min": null
   },
   "기본": {
-   "now": 19.0,
-   "code": 63,
-   "max": 21.1,
-   "min": 14.4,
-   "hourly_max": 21.0,
-   "hourly_min": 15.0
+   "now": 15.7,
+   "code": 1,
+   "max": 18.0,
+   "min": 9.1,
+   "hourly_max": 18.0,
+   "hourly_min": 9.2
+  }
+ },
+ "fx_debug": {
+  "FX_USDKRW": {
+   "mobile": {
+    "categoryType": "exchange",
+    "reutersCode": "FX_USDKRW",
+    "symbolCode": "USD",
+    "exchangeCode": "USD",
+    "name": "미국 USD",
+    "fullName": null,
+    "description": "하나은행 고시회차",
+    "localTradedAt": "2026-10-19T12:23:33+09:00",
+    "closePrice": "1,332.20",
+    "fluctuations": "-5.80",
+    "fluctuationsRatio": "-0.43",
+    "fluctuationsType": {
+     "code": "5",
+     "text": "하락",
+     "name": "FALLING"
+    },
+    "marketStatus": "OPEN",
+    "priceDataType": "NOTICE_ROUND",
+    "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_USDKRW",
+    "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_USDKRW",
+    "unit": "KRW",
+    "degreeCount": 283,
+    "calcPrice": "1332.2"
+   },
+   "pc": {
+    "error": "substring not found"
+   }
+  },
+  "FX_JPYKRW": {
+   "mobile": {
+    "categoryType": "exchange",
+    "reutersCode": "FX_JPYKRW",
+    "symbolCode": "JPY",
+    "exchangeCode": "JPY",
+    "name": "일본 JPY",
+    "fullName": "일본 JPY 100",
+    "description": "하나은행 고시회차",
+    "localTradedAt": "2026-10-19T12:23:33+09:00",
+    "closePrice": "842.95",
+    "fluctuations": "-4.88",
+    "fluctuationsRatio": "-0.58",
+    "fluctuationsType": {
+     "code": "5",
+     "text": "하락",
+     "name": "FALLING"
+    },
+    "marketStatus": "OPEN",
+    "priceDataType": "NOTICE_ROUND",
+    "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_JPYKRW",
+    "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_JPYKRW",
+    "unit": "KRW",
+    "degreeCount": 283,
+    "calcPrice": "842.95"
+   },
+   "pc": {
+    "error": "substring not found"
+   }
+  },
+  "FX_EURKRW": {
+   "mobile": {
+    "categoryType": "exchange",
+    "reutersCode": "FX_EURKRW",
+    "symbolCode": "EUR",
+    "exchangeCode": "EUR",
+    "name": "유럽 EUR",
+    "fullName": "유럽연합 EUR",
+    "description": "하나은행 고시회차",
+    "localTradedAt": "2026-10-19T12:23:33+09:00",
+    "closePrice": "1,495.86",
+    "fluctuations": "-6.51",
+    "fluctuationsRatio": "-0.43",
+    "fluctuationsType": {
+     "code": "5",
+     "text": "하락",
+     "name": "FALLING"
+    },
+    "marketStatus": "OPEN",
+    "priceDataType": "NOTICE_ROUND",
+    "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_EURKRW",
+    "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_EURKRW",
+    "unit": "KRW",
+    "degreeCount": 283,
+    "calcPrice": "1495.86"
+   },
+   "pc": {
+    "error": "substring not found"
+   }
   }
  }
 }
