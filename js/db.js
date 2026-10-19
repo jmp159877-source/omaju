@@ -232,6 +232,21 @@ export async function addNote(n) {
 export async function updateNote(id, n) { if (!me) throw new Error('로그인이 필요합니다.'); await updateDoc(doc(db, 'notes', id), { ...n, uid: me.uid, updatedAt: Date.now() }); }
 export async function deleteNote(id) { await deleteDoc(doc(db, 'notes', id)); }
 
+// ── 담아 두기 ──
+// 마음에 든 글을 통째로 베껴 수첩에 모아 둔다. 원본이 바뀌거나 지워져도 담아 둔 것은 그대로 남는다.
+// 문서 이름을 '아이디__열쇠'로 두어 두 번 담아도 하나로 덮어쓴다.
+export async function listSaves() {
+  if (!me) return [];
+  const s = await getDocs(query(collection(db, 'saves'), where('uid', '==', me.uid)));
+  return s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+}
+export async function addSave(it) {
+  if (!me) throw new Error('로그인이 필요합니다.');
+  const title = String(it.title || '').slice(0, 200);
+  await setDoc(doc(db, 'saves', `${me.uid}__${it.key}`), { ...it, title, uid: me.uid, createdAt: Date.now() });
+}
+export async function removeSave(key) { if (!me) throw new Error('로그인이 필요합니다.'); await deleteDoc(doc(db, 'saves', `${me.uid}__${key}`)); }
+
 // ── 아침 알림 (FCM 웹 푸시) ──
 async function tokenId(t) { const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(h)].slice(0, 16).map(b => b.toString(16).padStart(2, '0')).join(''); }
 export async function pushSubscribe(hour) {

@@ -308,6 +308,27 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('놀이 순위 보기 창', async () => { await E(() => document.querySelector('[data-rank]').click()); await W(800); const t = await modalText(); await closeM(); return /순위/.test(t) || t.slice(0, 40); });
       await step('수첩: 달력 펼치고 날짜 고르기', async () => { await E(() => window.omajuNav('g4')); await W(700); await E(() => document.getElementById('nb-calbtn').click()); await W(400); const open = await E(() => document.getElementById('nb-calbtn').getAttribute('aria-expanded')); await E(() => { const d = document.querySelectorAll('[data-cal]'); d[Math.min(10, d.length - 1)].click(); }); await W(300); const day = await E(() => !!document.querySelector('.cal-day')); return (open === 'true' && day) || `펼침 ${open}, 날짜 ${day}`; });
       await step('수첩: 손으로 일정 적기', async () => { await E(() => document.querySelector('.nb-hand[data-kind="event"]').click()); await W(400); await E(() => { document.getElementById('nb-text').value = '치과 예약'; document.getElementById('nb-save').click(); }); await W(900); return (await E(() => [...document.querySelectorAll('#nb-event .nb-txt')].some(x => x.textContent === '치과 예약'))) || '안 보임'; });
+      await step('담아 두기: 코너에서 담고 → 수첩에서 읽고 → 빼기', async () => {
+        await E(() => window.omajuNav('body')); await W(700);
+        const b0 = await E(() => { const b = document.querySelector('#bd-body [data-save]'); return b ? { tx: b.querySelector('.sv-tx').textContent, on: b.getAttribute('aria-pressed') } : null; });
+        if (!b0) return '담아 두기 단추 없음';
+        if (b0.on !== 'false') return '처음부터 담긴 상태';
+        await E(() => document.querySelector('#bd-body [data-save]').click()); await W(700);
+        const b1 = await E(() => ({ on: document.querySelector('#bd-body [data-save]').getAttribute('aria-pressed'), tx: document.querySelector('#bd-body .sv-tx').textContent }));
+        if (b1.on !== 'true') return '눌러도 담기지 않음 ' + JSON.stringify(b1);
+        await E(() => window.omajuNav('g4')); await W(900);
+        const list = await E(() => [...document.querySelectorAll('#nb-saves .sv-item')].map(x => (x.querySelector('strong') || {}).textContent || ''));
+        if (!list.length) return '수첩에 안 보임';
+        await E(() => document.querySelector('#nb-saves .sv-head').click()); await W(400);
+        const full = await E(() => (document.querySelector('#nb-saves .sv-full') || {}).textContent || '');
+        if (full.length < 40) return '펼쳐도 내용이 없음';
+        await E(() => document.querySelector('#nb-saves [data-srm]').click()); await W(800);
+        const left = await E(() => document.querySelectorAll('#nb-saves .sv-item').length);
+        if (left) return '빼도 남아 있음';
+        await E(() => window.omajuNav('body')); await W(600);
+        const b2 = await E(() => document.querySelector('#bd-body [data-save]').getAttribute('aria-pressed'));
+        return b2 === 'false' || '뺐는데 단추가 그대로';
+      });
       await step('아침 알림 시간 고르기 창', async () => { await E(() => window.omajuNav('g1')); await W(500); const has = await E(() => { const b = document.getElementById('push-cta'); if (!b || b.hidden) return 'none'; b.click(); return 'ok'; }); if (has === 'none') return true; await W(600); const n = await E(() => document.querySelectorAll('[data-hour]').length); await closeM(); return n === 3 || `시간 단추 ${n}`; });
       await step('내 정보 창', async () => { await E(() => document.getElementById('my').click()); await W(500); const t = await modalText(); await closeM(); return /별명|비밀번호|글자/.test(t) || t.slice(0, 40); });
       await step('로그아웃 → 다시 로그인', async () => { await E(() => document.getElementById('logout').click()); await W(800); await closeM(); const out = await E(() => !document.getElementById('login-btn').hidden); await E(() => document.getElementById('login-btn').click()); await W(400); await E(() => { const b = document.getElementById('g-login'); b && b.click(); }); await W(400); await p.fill('#l-id', 'use1960'); await p.fill('#l-pw', '123456'); await E(() => document.getElementById('l-go').click()); await W(1000); const back = await E(() => !!document.getElementById('user-nick').textContent); return (out && back) || `로그아웃 ${out}, 로그인 ${back}`; });

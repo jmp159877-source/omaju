@@ -191,13 +191,68 @@ function askRemove(id) {
 
 async function refresh() { try { notes = await DB.listNotes(); } catch (e) { notes = []; } render(); }
 
+// ── 담아 둔 것 ──
+// 코너에서 담아 둔 글을 그대로 보관한다. 누르면 그 자리에서 펼쳐 읽는다.
+let saves = [], svOpen = null;
+const SV_LABEL = { mind: '마음 한 줄', body: '몸 한 가지', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '시사 상식', culture: '오늘의 문화' };
+const CU_LABEL = { poem: '시', painting: '그림', essay: '에세이', quote: '명언', humor: '유머', bible: '성경', dharma: '법문' };
+// 코너마다 펼쳐서 보여 줄 차례 — [작은 제목, 열쇠]. 작은 제목이 빈 칸이면 제목 없이 글만.
+const SV_FIELDS = {
+  mind: [['', 'line'], ['', 'by'], ['풀이', 'note'], ['오늘 해 볼 것', 'todo']],
+  body: [['', 'line'], ['', 'note'], ['오늘 해 볼 것', 'todo'], ['', 'tip']],
+  book: [['', 'blurb'], ['멈추게 되는 대목', 'scene'], ['', 'why']],
+  quiz: [['', 'meaning'], ['왜 나왔나', 'why'], ['이렇게 씁니다', 'example']],
+  poem: [['', 'text'], ['이 시가 나온 때', 'bg'], ['감상', 'note']],
+  painting: [['', 'about'], ['화가 이야기', 'artist_story']],
+  essay: [['', 'paras'], ['', 'by']],
+  quote: [['', 'text'], ['', 'who'], ['', 'note']],
+  humor: [['', 'text'], ['', 'punch']],
+  bible: [['', 'text'], ['', 'ref'], ['묵상', 'note']],
+  dharma: [['', 'text'], ['', 'src'], ['풀이', 'note']],
+};
+function svWhen(d) { if (!d) return ''; const [y, m, dd] = d.split('-').map(Number); return `${m}월 ${dd}일`; }
+function svBody(it) {
+  const d = it.data || {}, out = [];
+  if (it.corner === 'food') {
+    if (d.lead) out.push(`<p class="sv-p">${esc(d.lead)}</p>`);
+    if (d.ingredients && d.ingredients.length) out.push(`<p class="is-sub">재료</p><ul class="ing">${d.ingredients.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`);
+    if (d.steps && d.steps.length) out.push(`<p class="is-sub">만드는 법</p><ol class="steps">${d.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`);
+    if (d.tip) out.push(`<p class="sv-p">${esc(d.tip)}</p>`);
+  } else {
+    if (it.corner === 'painting' || (it.corner === 'culture' && it.kind === 'painting')) {
+      if (d.img) out.push(`<figure class="sv-fig"><img src="${esc(d.img)}" alt="${esc(d.title || '')}" referrerpolicy="no-referrer" loading="lazy"></figure>`);
+    }
+    for (const [label, k] of (SV_FIELDS[it.kind] || SV_FIELDS[it.corner] || [])) {
+      const v = d[k]; if (!v) continue;
+      if (label) out.push(`<p class="is-sub">${esc(label)}</p>`);
+      out.push(Array.isArray(v) ? v.map(x => `<p class="sv-p">${esc(x)}</p>`).join('') : `<p class="sv-p">${esc(v)}</p>`);
+    }
+  }
+  return out.join('') || '<p class="sv-p">담아 둔 글이 비어 있습니다.</p>';
+}
+function renderSaves() {
+  const box = $('nb-saves'); if (!box) return;
+  if (!saves.length) { box.innerHTML = '<p class="nb-empty">아직 담아 둔 것이 없습니다. 마음에 드는 글 밑에서 <b>담아 두기</b>를 누르면 여기에 모입니다.</p>'; return; }
+  box.innerHTML = saves.map(it => {
+    const open = svOpen === it.key;
+    const tag = it.corner === 'culture' ? (CU_LABEL[it.kind] || SV_LABEL.culture) : (SV_LABEL[it.corner] || '');
+    return `<div class="sv-item${open ? ' open' : ''}"><button type="button" class="sv-head" data-sopen="${esc(it.key)}" aria-expanded="${open}"><span class="sv-meta"><span class="sv-tag">${esc(tag)}</span><span class="sv-date">${esc(svWhen(it.date))}</span></span><strong>${esc(it.title || '')}</strong></button>${open ? `<div class="sv-full">${svBody(it)}<button type="button" class="sv-rm" data-srm="${esc(it.key)}">수첩에서 빼기</button></div>` : ''}</div>`;
+  }).join('');
+}
+export async function refreshSaves() {
+  try { saves = await DB.listSaves(); } catch (e) { saves = []; }
+  renderSaves();
+}
+
 function bind() {
   document.addEventListener('click', e => {
     const mic = e.target.closest('.nb-mic'); if (mic) { const kind = mic.dataset.kind; listen(t => { const p = parseSpeech(t, kind); editor(kind, p); }); return; }
     const hand = e.target.closest('.nb-hand'); if (hand) { editor(hand.dataset.kind); return; }
     const rm = e.target.closest('[data-rm]'); if (rm) { askRemove(rm.dataset.rm); return; }
     const it = e.target.closest('.nb-item'); if (it) { const n = notes.find(x => x.id === it.dataset.id); if (n) editor(n.kind, n, n.id); return; }
+    const so = e.target.closest('[data-sopen]'); if (so) { svOpen = svOpen === so.dataset.sopen ? null : so.dataset.sopen; renderSaves(); return; }
+    const srm = e.target.closest('[data-srm]'); if (srm) { const k = srm.dataset.srm; DB.removeSave(k).then(() => { saves = saves.filter(x => x.key !== k); svOpen = null; renderSaves(); toast('수첩에서 뺐습니다.'); if (window.omajuSvRemoved) window.omajuSvRemoved(k); }).catch(err => toast(err.message)); return; }
     if (e.target.id === 'nb-login') openGate('나의 수첩을 쓰려면');
   });
-  DB.onUser(u => { $('nb-gate').hidden = !!u; $('nb-body').hidden = !u; if (u) refresh(); else { notes = []; const tl = $('today-line'); if (tl) tl.hidden = true; } });
+  DB.onUser(u => { $('nb-gate').hidden = !!u; $('nb-body').hidden = !u; if (u) { refresh(); refreshSaves(); } else { notes = []; saves = []; renderSaves(); const tl = $('today-line'); if (tl) tl.hidden = true; } });
 }

@@ -220,8 +220,44 @@ function renderBook() {
     <p class="is-sub">어디서 볼 수 있나</p>
     <div class="bk-go"><a class="btn line" href="https://search.kyobobook.co.kr/search?keyword=${q}" target="_blank" rel="noopener">교보문고</a><a class="btn line" href="https://www.aladin.co.kr/search/wsearchresult.aspx?SearchWord=${q}" target="_blank" rel="noopener">알라딘</a><a class="btn line" href="https://www.nl.go.kr/NL/contents/search.do?kwd=${q}" target="_blank" rel="noopener">도서관에서 찾기</a></div>
     <p class="note bk-note">책 속 문장을 그대로 옮기지 않고, 읽은 느낌을 우리 말로 적었습니다.</p>
-  </article>`;
+  </article>` + svBar('book', 'book_' + TODAY, b.title);
+  svSync();
 }
+
+// ── 담아 두기 ──
+// 마음에 든 글을 통째로 수첩에 베껴 둔다. 담을 수 있는 코너만 단추가 붙는다(운세·그해 오늘처럼 다시 볼 값이 없는 것은 뺐다).
+const SV_NAME = { mind: '마음 한 줄', body: '몸 한 가지', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '시사 상식', culture: '오늘의 문화' };
+const SV_DATA = { mind: () => C.mind, body: () => C.body, food: () => C.meal, book: () => C.book, quiz: () => C.quiz, culture: () => (C.culture || {})[cuTab] };
+let SAVED = new Set();
+function svBar(corner, key, title, kind = '') {
+  return `<div class="sv"><button type="button" class="sv-btn" data-save="${esc(corner)}" data-sk="${esc(key)}" data-st="${esc(title || '')}" data-sv="${esc(kind)}" aria-pressed="false"><span class="sv-ic" aria-hidden="true">+</span><span class="sv-tx">담아 두기</span></button></div>`;
+}
+function svSync() {
+  document.querySelectorAll('[data-save]').forEach(b => {
+    const on = SAVED.has(b.dataset.sk);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.querySelector('.sv-ic').textContent = on ? '\u2713' : '+';
+    b.querySelector('.sv-tx').textContent = on ? '수첩에 담아 둠' : '담아 두기';
+  });
+}
+window.omajuSvSync = svSync;
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-save]'); if (!b) return;
+  const corner = b.dataset.save, key = b.dataset.sk;
+  if (!DB.currentUser()) return openGate('마음에 든 글을 담아 두려면');
+  try {
+    if (SAVED.has(key)) { await DB.removeSave(key); SAVED.delete(key); toast('수첩에서 뺐습니다.'); }
+    else {
+      const d = (SV_DATA[corner] || (() => null))();
+      if (!d) return toast('담을 내용이 아직 없습니다.');
+      await DB.addSave({ key, corner, kind: b.dataset.sv || '', date: TODAY, title: b.dataset.st, data: d });
+      SAVED.add(key); toast('나의 수첩에 담았습니다.');
+    }
+    svSync(); NB.refreshSaves();
+  } catch (err) { toast(err.message || '담아 두지 못했습니다.'); }
+});
+DB.onUser(async u => { try { SAVED = new Set(u ? (await DB.listSaves()).map(x => x.key) : []); } catch (e) { SAVED = new Set(); } svSync(); });
+window.omajuSvRemoved = k => { SAVED.delete(k); svSync(); };
 
 function renderBody() {
   const b = C.body;
@@ -235,15 +271,17 @@ function renderBody() {
     <p class="bd-todo">${esc(b.todo)}</p>
     ${b.tip ? `<p class="bd-tip">${esc(b.tip)}</p>` : ''}
     <p class="note bd-foot">몸이 보내는 신호가 평소와 다르면 미루지 말고 진료를 받아 보세요.</p>
-  </article>`;
+  </article>` + svBar('body', 'body_' + TODAY, b.line);
+  svSync();
 }
 
 function renderMind() {
   const m = C.mind;
   if (!m || !m.line) { $('mind-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 마음 한 줄을 다듬고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
   if ($('mind-sub')) $('mind-sub').textContent = m.line.length > 34 ? m.line.slice(0, 33) + '…' : m.line;
-  $('mind-body').innerHTML = `<div class="cu-block cu-quote"><p class="cu-kind">오늘의 마음 한 줄</p><blockquote>${esc(m.line)}</blockquote>${m.by ? `<p class="cu-by">— ${esc(m.by)}</p>` : ''}${m.note ? `<p class="is-sub">풀이</p><p class="cu-note">${esc(m.note)}</p>` : ''}${m.todo ? `<p class="is-sub">오늘 해 볼 것</p><p class="cu-note">${esc(m.todo)}</p>` : ''}</div>`
+  $('mind-body').innerHTML = `<div class="cu-block cu-quote"><p class="cu-kind">오늘의 마음 한 줄</p><blockquote>${esc(m.line)}</blockquote>${m.by ? `<p class="cu-by">— ${esc(m.by)}</p>` : ''}${m.note ? `<p class="is-sub">풀이</p><p class="cu-note">${esc(m.note)}</p>` : ''}${m.todo ? `<p class="is-sub">오늘 해 볼 것</p><p class="cu-note">${esc(m.todo)}</p>` : ''}</div>` + svBar('mind', 'mind_' + TODAY, m.line)
     + `<div class="mn-breath"><p class="cu-kind">숨 고르기</p><p class="mn-say" id="mn-say">단추를 누르고 동그라미에 맞춰 숨을 쉬어 보세요.</p><div class="mn-ring" id="mn-ring"><span id="mn-cnt">4</span></div><button type="button" class="btn green" id="mn-go">숨 고르기 시작</button></div>`;
+  svSync();
 }
 // 들숨 4초 · 멈춤 4초 · 날숨 6초를 네 번. 숫자와 동그라미로만 안내한다(소리 없음).
 let mnT = null;
@@ -406,6 +444,11 @@ async function loadCulture() {
   if (!CULT.painting && d.paintings) { const ps = d.paintings; for (let k = 0; k < 4 && !CULT.painting; k++) { const c = ps[(n * 3 + k) % ps.length]; const im = await wikiImg(c.wiki); if (im) CULT.painting = { ...c, ...im }; } }
   renderCulture();
 }
+// 담아 둘 때 쓸 제목 — 갈래마다 '제목'에 해당하는 곳이 다르다
+function cuTitle(c) {
+  const d = (c || {})[cuTab] || {};
+  return d.title || d.text || d.line || SV_NAME.culture;
+}
 function renderCulture() {
   const c = CULT; if (!c || !c.poem) return;
   if (!cuTab) { $('culture-body').innerHTML = cuMenuHtml(c); return; }   // 무엇을 볼까 고르는 화면
@@ -419,7 +462,8 @@ function renderCulture() {
   else if (cuTab === 'dharma') { const b = c.dharma; body = b ? `<div class="cu-block cu-quote"><p class="cu-kind">오늘의 법문</p><blockquote>${esc(b.text)}</blockquote><p class="cu-by">— ${esc(b.src)}</p>${b.note ? `<p class="is-sub">풀이</p><p class="cu-note">${esc(b.note)}</p>` : ''}</div>` : ''; }
   else if (cuTab === 'humor') { const h = c.humor; body = h ? `<div class="cu-block cu-humor"><p class="cu-kind">오늘의 유머 · ${esc(h.kind || '')}</p>${h.title ? `<h2 class="cu-title">${esc(h.title)}</h2>` : ''}<p class="hu-text">${esc(h.text).replace(/\n/g, '<br>')}</p><button type="button" class="btn green hu-open" id="hu-open">${h.kind === '넌센스 퀴즈' ? '정답 보기' : '그래서 어떻게 됐을까요?'}</button><p class="hu-punch" id="hu-punch" hidden>${esc(h.punch)}</p></div>` : ''; }
   else if (cuTab === 'music') { const list = musicList(muGenre); body = `<div class="cu-block"><p class="cu-kind">오늘의 음악</p><div class="genre mu-genre" id="mu-genre" style="grid-template-columns:repeat(5,1fr)">${MU_GENRES.map(g => `<button type="button" data-mu="${g}" aria-pressed="${g === muGenre}">${g}</button>`).join('')}</div><div class="rows">${list.map((s, i) => `<button type="button" class="row song-row" data-msong="${i}"><span class="song-no">${i + 1}</span><p><strong>${esc(s[0])}</strong><span>${esc(s[1])}</span></p><span class="song-play" aria-hidden="true">▶</span></button>`).join('') || '<p class="note">목록을 불러오는 중입니다.</p>'}</div></div>`; }
-  $('culture-body').innerHTML = tabs + body;
+  $('culture-body').innerHTML = tabs + body + (SV_DATA.culture() && cuTab !== 'music' ? svBar('culture', 'culture_' + cuTab + '_' + TODAY, cuTitle(c), cuTab) : '');
+  svSync();
 }
 // 고르는 화면: 여덟 칸에 오늘 실린 것의 제목을 미리 한 줄씩 보여 준다
 const CU_PEEK = {
@@ -590,7 +634,7 @@ document.addEventListener('submit', e => { if (e.target.id !== 'memo') return; e
 
 // ── 한 끼 · 사연 ──
 $('meal-title').textContent = C.meal.title; $('meal-sub').textContent = C.meal.sub;
-$('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${C.meal.ingredients.map(i => `<li>${esc(i)}</li>`).join('')}</ul><ol class="steps">${C.meal.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol><p class="note">${esc(C.meal.tip || '')}</p>`;
+$('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${C.meal.ingredients.map(i => `<li>${esc(i)}</li>`).join('')}</ul><ol class="steps">${C.meal.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol><p class="note">${esc(C.meal.tip || '')}</p>` + svBar('food', 'food_' + TODAY, C.meal.title);
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
@@ -660,6 +704,7 @@ renderEra(); renderMind(); renderBody(); renderBook(); renderShow(); route();
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');
 if (C.quiz.meaning) $('quiz-sub').textContent = C.quiz.meaning;
 $('issue-card').innerHTML = C.quiz.term ? `<div class="is-card"><p class="cu-kind">오늘의 시사 상식</p><h2 class="is-term">${esc(C.quiz.term)}</h2><p class="is-mean">${esc(C.quiz.meaning || '')}</p><p class="is-exp">${esc(C.quiz.explain || '')}</p>${C.quiz.why ? `<p class="is-sub">요즘 자주 들리는 까닭</p><p class="is-exp">${esc(C.quiz.why)}</p>` : ''}${C.quiz.example ? `<p class="is-sub">이렇게 씁니다</p><p class="is-ex">“${esc(C.quiz.example)}”</p>` : ''}</div>` : '';
+if (C.quiz.term) $('issue-card').innerHTML += svBar('quiz', 'quiz_' + TODAY, C.quiz.term);
 $('quiz-q').textContent = C.quiz.question;
 let pick = null;
 function renderQuiz() {
