@@ -1,0 +1,14 @@
+name: 배경 음악 음원 확인
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 -u tools/music_probe.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
