@@ -680,10 +680,15 @@ def main():
         if missing or errors:
             raise SystemExit("아무것도 만들지 못함: " + ", ".join(errors)[:300])
         print(f"{key} 모든 코너가 이미 있음."); return
+    # 코너는 위에서 이미 하나씩 저장했다. 여기서 또 한꺼번에 저장하면 한 코너의 모양이 조금만 어긋나도
+    # (2026-10-20: "Property era contains an invalid nested entity") 그날치 기록 전체가 날아간다.
+    # 그래서 마지막에는 표시만 남기고, 내용은 읽어 와서 파일로 떠 둔다.
+    try:
+        ref.set({"source": "auto", "generatedAt": datetime.datetime.now(KST).isoformat(), "errors": errors}, merge=True)
+    except Exception as e:
+        print(f"[fail] 표시 저장: {e}", file=sys.stderr)
     out["source"] = "auto"
-    out["generatedAt"] = datetime.datetime.now(KST).isoformat()
     out["errors"] = errors
-    ref.set(out, merge=True)
     os.makedirs(os.path.join(HERE, "..", "daily"), exist_ok=True)
     full = ref.get().to_dict() or out
     with open(os.path.join(HERE, "..", "daily", key + ".json"), "w", encoding="utf-8") as f:
