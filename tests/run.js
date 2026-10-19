@@ -177,7 +177,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('회원가입 → 로그인 상태', async () => (await E(() => !document.getElementById('user-chip').hidden || !!document.getElementById('user-nick').textContent)) || 'user-chip 안 보임');
       await closeM();
       await step('장 다섯 개 · 차례와 표지 번호가 맞음', async () => { const want = [['g1', '오늘 즐기기', '1'], ['g2', '그때 돌아보기', '2'], ['g5', '앞으로 나아가기', '3'], ['g3', '나를 돌보기', '4'], ['g4', '나의 수첩', '5']]; const tabs = await E(() => [...document.querySelectorAll('#tabs3 button')].map(b => [b.dataset.tab || '', (b.querySelector('b') || {}).textContent || ''])); if (tabs.length !== 5) return `탭이 ${tabs.length}개`; for (let i = 0; i < 5; i++) if (tabs[i][0] !== want[i][0] || tabs[i][1] !== want[i][1]) return `${i + 1}번째가 ${JSON.stringify(tabs[i])}`; const bad = []; for (const [g, title, no] of want) { await E(x => window.omajuNav(x), g); await W(500); const r = await E(() => { const h = document.getElementById('ch-head'); return h ? { k: (h.querySelector('.ch-k') || {}).textContent, t: (h.querySelector('h2') || {}).textContent } : null; }); if (!r || r.t !== title || r.k !== 'CHAPTER ' + no) bad.push(`${g}:${JSON.stringify(r)}`); } await E(() => window.omajuNav('g1')); await W(300); return !bad.length || bad.join(' / '); });
-      await step('코너가 제 장에 들어 있음', async () => { const want = { g1: ['play', 'fortune', 'food', 'book', 'quiz', 'culture'], g2: ['history', 'music', 'story', 'home'], g5: ['follow', 'show', 'outing', 'phrase'], g3: ['move', 'mind'], g4: [] }; const got = await E(() => { const o = {}; for (const s of document.querySelectorAll('.tabsec')) o[s.dataset.g] = [...s.querySelectorAll('[data-open]')].map(b => b.dataset.open); return o; }); const bad = Object.keys(want).filter(g => (got[g] || []).join(',') !== want[g].join(',')); return !bad.length || bad.map(g => `${g}=${(got[g] || []).join(',')}`).join(' / '); });
+      await step('코너가 제 장에 들어 있음', async () => { const want = { g1: ['play', 'fortune', 'food', 'book', 'quiz', 'culture'], g2: ['history', 'music', 'story', 'home'], g5: ['follow', 'show', 'outing', 'phrase'], g3: ['hike', 'move', 'mind'], g4: [] }; const got = await E(() => { const o = {}; for (const s of document.querySelectorAll('.tabsec')) o[s.dataset.g] = [...s.querySelectorAll('[data-open]')].map(b => b.dataset.open); return o; }); const bad = Object.keys(want).filter(g => (got[g] || []).join(',') !== want[g].join(',')); return !bad.length || bad.map(g => `${g}=${(got[g] || []).join(',')}`).join(' / '); });
       await step('글자 크기 바꾸기', async () => { const a = await E(() => document.documentElement.classList.contains('big')); await E(() => document.getElementById('sizer').click()); const b = await E(() => document.documentElement.classList.contains('big')); await E(() => document.getElementById('sizer').click()); return a !== b || '안 바뀜'; });
       await E(() => window.omajuNav('g1')); await W(700);
       await step('인사 카드 눌러 보내기 창', async () => { await E(() => document.querySelector('[data-copy="0"]').click()); await W(1800); const t = await modalText(); const img = await E(() => { const i = document.querySelector('#modal img'); return !!(i && i.naturalWidth > 0); }); await closeM(); return (/인사 카드가 준비/.test(t) && img) || ('창: ' + t.slice(0, 40)); });
@@ -238,6 +238,21 @@ srv.listen(0, '127.0.0.1', async () => {
         await E(() => document.querySelector('[data-sw="exhibit"]').click()); await W(400);
         const ex = await E(() => document.querySelectorAll('.sw-row').length || /모으는/.test((document.querySelector('#show-body .note') || {}).textContent || ''));
         return (first !== null && !!ex) || JSON.stringify({ first, ex }); });
+      await step('오늘의 산: 지역 바꾸기 · 몸 챙기는 요령', async () => { await E(() => window.omajuNav('hike')); await W(900);
+        const rs = await E(() => [...document.querySelectorAll('[data-hkr]')].map(b => b.dataset.hkr));
+        const note = await E(() => (document.querySelector('#hike-body .note') || {}).textContent || '');
+        if (!rs.length) return /모으고/.test(note) || '지역도 안내도 없음';
+        const a = await E(() => [...document.querySelectorAll('#hike-body .sw-row')].map(r => ({
+          t: (r.querySelector('b') || {}).textContent || '', meta: (r.querySelector('.sw-meta') || {}).textContent || '',
+          care: (r.querySelector('.sw-tip') || {}).textContent || '', link: !!r.querySelector('.linkbtn') })));
+        if (!a.length || !a.every(x => x.t && x.link)) return '첫 지역: ' + JSON.stringify(a).slice(0, 140);
+        if (!a.some(x => x.care)) return '몸 챙기는 요령이 하나도 없음';
+        if (rs.length > 1) {
+          await E(r => document.querySelector(`[data-hkr="${r}"]`).click(), rs[1]); await W(500);
+          const on = await E(() => (document.querySelector('[data-hkr][aria-pressed="true"]') || {}).textContent || '');
+          if (on !== rs[1]) return '지역 안 바뀜: ' + on;
+        }
+        return true; });
       await step('여행: 네 칸(회화·해외 골프·관광·자유여행) 오가기', async () => { await E(() => window.omajuNav('phrase')); await W(800);
         const tabs = await E(() => [...document.querySelectorAll('[data-trv]')].map(b => b.dataset.trv));
         if (tabs.join(',') !== 'talk,golf,tour,free') return '칸: ' + tabs.join(',');

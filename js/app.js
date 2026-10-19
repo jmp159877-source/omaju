@@ -5,7 +5,7 @@ import { drawCard } from './cards.js';
 import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
-const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '운동 · 마음 · 건강', 'tab-health', 4], g4: ['나의 수첩', '메모와 일정', 'tab-note', 5] };
+const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '산 · 운동 · 마음 · 건강', 'tab-health', 4], g4: ['나의 수첩', '메모와 일정', 'tab-note', 5] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;
 
 const $ = id => document.getElementById(id);
@@ -335,7 +335,30 @@ function renderOuting() {
   $('outing-title').textContent = `${outRegion} · 이번 주말 가볼 만한 곳`;
 }
 $('outing-tabs').onclick = e => { const b = e.target.closest('[data-region]'); if (!b) return; outRegion = b.dataset.region; store.set('outRegion', outRegion); renderOuting(); };
-renderFollow(); renderPhrase(); renderOuting();
+// ── 오늘의 산 (나를 돌보기) ── 지역별로 주 단위로 쌓인다. 산에 가기 전 몸 챙기는 요령도 한 줄 (운영자 2026-10-19)
+let HIKE = null, hikeRegion = store.get('hikeRegion', '서울');
+function renderHike() {
+  const body = $('hike-body'), tabs = $('hike-tabs'); if (!body || !tabs) return;
+  const rs = HIKE && HIKE.regions ? Object.keys(REGION_XY).filter(r => (HIKE.regions[r] || []).length) : [];
+  if (!rs.length) { tabs.innerHTML = ''; body.innerHTML = '<p class="note" style="margin-top:30px">이번 주 산길을 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
+  if (!rs.includes(hikeRegion)) hikeRegion = rs[0];
+  tabs.innerHTML = rs.map(r => `<button type="button" data-hkr="${esc(r)}" aria-pressed="${r === hikeRegion}">${esc(r)}</button>`).join('');
+  const list = HIKE.regions[hikeRegion] || [];
+  body.innerHTML = '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
+    + `<b>${esc(x.title)}</b>`
+    + `<p class="sw-meta">${esc(x.where || '')}${x.course ? ` <span class="nw">· ${esc(x.course)}</span>` : ''}${x.hours ? ` <span class="nw">· ${esc(x.hours)}</span>` : ''}${x.level ? ` <span class="nw">· ${esc(x.level)}</span>` : ''}</p>`
+    + `<p>${esc(x.why || '')}</p>`
+    + (x.care ? `<p class="sw-tip">${esc(x.care)}</p>` : '')
+    + `<a class="linkbtn" href="https://map.naver.com/p/search/${encodeURIComponent(x.where || x.title)}" target="_blank" rel="noopener">지도에서 보기</a>`
+    + `</div>`).join('') + '</div><p class="note">산 사정은 날씨에 따라 달라집니다. 떠나시기 전에 입산 시간과 날씨를 한 번 더 확인해 주세요.</p>';
+  $('hike-title').textContent = '오늘의 산';
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-hkr]'); if (!b) return;
+  hikeRegion = b.dataset.hkr; store.set('hikeRegion', hikeRegion); renderHike();
+});
+fetch('data/hike.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { HIKE = j; renderHike(); }).catch(() => {});
+renderFollow(); renderPhrase(); renderOuting(); renderHike();
 // 이번 주말 나들이는 주 단위로 쌓이는 data/outing.json 에서 (지역이 채워지는 대로 늘어남)
 fetch('data/outing.json', { cache: 'no-cache' }).then(r => r.json()).then(w => {
   if (!w || !w.regions || !Object.keys(w.regions).length) return;
@@ -556,7 +579,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──

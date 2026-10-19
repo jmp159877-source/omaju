@@ -26,7 +26,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10192040" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10192110" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -169,6 +169,9 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
     </section>
     <section class="tabsec" data-g="g3">
 
+    <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 24l8-12 5 7 4-5 9 10z" stroke="#C9A24A"/><circle cx="23" cy="8" r="3"/></svg>오늘의 산</div>
+    <button type="button" class="banner photo" data-open="hike" data-corner="hike" style="background-image:url('img/hike.jpg')"><div class="b-text"><div><h3 id="hike-title">오늘의 산</h3><p id="hike-sub">이번 주 걷기 좋은 산길</p></div><span>들어가기</span></div></button>
+
     <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27C9 22 4 18 4 13a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-5 9-12 14z" stroke="#C9A24A"/></svg>오늘의 몸 풀기</div>
     <button type="button" class="banner photo" data-open="move" data-corner="move" style="background-image:url('img/move.jpg')"><div class="b-text"><div><h3>요가 · 명상</h3><p id="move-sub">오늘은 십 분만 몸과 숨을 고르게</p></div><span>따라 해 보기</span></div></button>
 
@@ -239,6 +242,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
     <section class="dsec" data-k="show"><div id="show-body"></div></section>
     <section class="dsec" data-k="home"><div id="home-body"></div></section>
     <section class="dsec" data-k="phrase"><div id="phrase-body"></div></section>
+    <section class="dsec" data-k="hike"><div class="picks" id="hike-tabs" role="group"></div><div id="hike-body"></div></section>
     <section class="dsec" data-k="outing"><div class="picks" id="outing-tabs" role="group"></div><div id="outing-body"></div></section>
     <section class="dsec" data-k="story"><div id="story-body"></div></section>
   </div>
@@ -249,6 +253,6 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 </div>
 <div id="modal-root"></div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10192040"></script>
+<script type="module" src="js/app.js?v=10192110"></script>
 </body>
 </html>

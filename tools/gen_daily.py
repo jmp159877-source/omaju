@@ -689,3 +689,24 @@ def gen_travel(d, kind, avoid=()):
 형식(JSON만): {{"items":[{{"title":"...","where":"...","when":"...","cost":"...","why":"...","tip":"..."}}, ...]}}"""
     j = gemini(prompt, json_mode=True, search=True)
     return [x for x in j.get("items", []) if x.get("title") and x.get("why")][:4]
+
+
+def gen_hike(d, region):
+    """오늘의 산 — 한 지역에서 이번 주 걷기 좋은 산길 셋. '나를 돌보기' 결이라 몸 챙기는 요령을 함께."""
+    prompt = f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 한국 '{region}' 안에서 지금 걷기 좋은 산 세 곳을 구글 검색으로 확인해서 골라라.
+읽는 사람은 나이는 50~60대지만 생각과 생활은 40대다. 등산을 즐기지만 무릎과 발목을 아낀다.
+[반드시] {d.month}월 지금 가기 좋은 곳. 단풍이 어디까지 내려왔는지, 길이 미끄럽지는 않은지를 헤아려라.
+[반드시] 세 곳의 난이도를 다르게. 하나는 평탄하게 걷는 둘레길, 하나는 보통, 하나는 제법 오르는 길.
+[반드시] 실제로 있는 산과 실제 코스 이름만. 확인되지 않으면 빼라.
+[금지] 시니어·어르신·노인 같은 말. 밧줄을 타거나 바위를 기어오르는 위험한 코스.
+각 항목:
+ title: 산과 코스 이름 (20자 이내, 예: '북한산 둘레길 소나무숲길')
+ where: 어디인지 (20자 이내, 예: '서울 강북구')
+ course: 길이 ('7.5km' 꼴, 10자 이내)
+ hours: 걸리는 시간 ('3시간 안팎' 꼴, 10자 이내)
+ level: 난이도 ('평탄' '보통' '제법 오름' 중 하나)
+ why: 이 길이 지금 왜 좋은지 한 문장 (50~80자). 눈에 보이는 장면으로.
+ care: 이 길을 걸을 때 몸을 챙기는 요령 한 줄 (30~60자). 무릎·발목·숨 고르기·물·햇빛 같은 실제로 쓸모 있는 것.
+형식(JSON만): {{"items":[{{"title":"...","where":"...","course":"...","hours":"...","level":"...","why":"...","care":"..."}}, ...]}}"""
+    j = gemini(prompt, json_mode=True, search=True)
+    return [x for x in j.get("items", []) if x.get("title") and x.get("why")][:3]

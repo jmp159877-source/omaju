@@ -1,0 +1,34 @@
+# 오늘의 산: 주 단위로 지역별로 쌓는다(data/hike.json). 아직 없는 지역만 하루 몇 번 나눠 채움.
+name: hike
+on:
+  schedule:
+    - cron: '30 9 * * 1'      # 월 18:30 KST
+    - cron: '30 12 * * 1'     # 월 21:30 KST
+    - cron: '40 16 * * 1,2'   # 화·수 01:40 KST (남은 지역 이어 채움)
+  workflow_dispatch:
+    inputs:
+      limit: { description: '한 번에 만들 지역 수 (기본 9)', required: false }
+permissions:
+  contents: write
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 산길 채우기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          LIMIT: ${{ github.event.inputs.limit || '9' }}
+        run: |
+          set +e
+          timeout 35m python -u tools/hike_week.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200 | tee daily/last-hike.log
+      - name: 기록
+        if: always()
+        run: |
+          git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
+          git add -A data/ daily/last-hike.log 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "이번 주 오늘의 산 [skip ci]"
+          ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
