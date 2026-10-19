@@ -250,6 +250,21 @@ document.addEventListener('click', e => {
 const LANG = { en: ['영어', 'en-US'], ja: ['일본어', 'ja-JP'], zh: ['중국어', 'zh-CN'] };
 // ── 여행 회화책: 나라말 5 × 상황 6 ──
 let PB = null, pbLang = store.get('pbLang', 'en'), pbScene = store.get('pbScene', 'air'), pbWarned = {};
+// 여행 코너 — 회화 한 칸에 해외 골프·관광·자유여행 세 칸을 더했다 (운영자 2026-10-19)
+const TRV_TABS = [['talk', '회화'], ['golf', '해외 골프'], ['tour', '해외 관광'], ['free', '자유여행']];
+let TRAVEL = null, trvTab = store.get('trvTab', 'talk');
+function trvHtml(k) {
+  const list = (TRAVEL && TRAVEL[k]) || [];
+  if (!list.length) return '<p class="note" style="margin-top:24px">갈 만한 곳을 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>';
+  return '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
+    + `<b>${esc(x.title)}</b>`
+    + `<p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.cost ? ` <span class="nw">· ${esc(x.cost)}</span>` : ''}</p>`
+    + `<p>${esc(x.why || '')}</p>`
+    + (x.tip ? `<p class="sw-tip">${esc(x.tip)}</p>` : '')
+    + `<a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent((x.where || '') + ' ' + x.title)}" target="_blank" rel="noopener">더 찾아보기</a>`
+    + `</div>`).join('') + '</div><p class="note">값과 일정은 바뀝니다. 떠나시기 전에 한 번 더 확인해 주세요.</p>';
+}
+fetch('data/travel.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { TRAVEL = j; renderPhrase(); }).catch(() => {});
 fetch('data/phrasebook.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(j => { PB = j; renderPhrase(); }).catch(() => {});
 if (window.speechSynthesis) speechSynthesis.onvoiceschanged = () => {};  // 목소리 목록을 미리 불러 둔다
 function voiceFor(bcp) {
@@ -284,6 +299,7 @@ function pbSay(i, rate) {
   DB.track('pb_say', { lang: pbLang, scene: pbScene });
 }
 document.addEventListener('click', e => {
+  const tv = e.target.closest('[data-trv]'); if (tv) { trvTab = tv.dataset.trv; store.set('trvTab', trvTab); renderPhrase(); return; }
   const l = e.target.closest('[data-pbl]'); if (l) { pbLang = l.dataset.pbl; store.set('pbLang', pbLang); renderPhrase(); return; }
   const c = e.target.closest('[data-pbs]'); if (c) { pbScene = c.dataset.pbs; store.set('pbScene', pbScene); renderPhrase(); return; }
   const b = e.target.closest('[data-pb]'); if (b) pbSay(+b.dataset.pb, b.dataset.rate);
@@ -291,8 +307,9 @@ document.addEventListener('click', e => {
 function renderPhrase() {
   const p = C.phrase;
   const today = !p ? '' : `<h3 class="subhead">오늘의 한마디</h3><p class="lead">${p.topic ? `오늘은 <b>${esc(p.topic)}</b>. ` : ''}듣고, 소리 내어 따라 말해 보세요.</p>` + Object.keys(LANG).filter(k => p[k]).map(k => { const x = p[k]; return `<div class="ph-card"><div class="ph-lang">${LANG[k][0]}</div><p class="ph-text">${esc(x.text)}</p><p class="ph-read" id="ph-read-${k}">${(ws => ws.length > 3 && ws.every(w => w.length === 1) ? ws.map(w => `<span>${esc(w)}</span>`).join('') : ws.map(w => `<span>${esc(w)}</span>`).join(' '))(String(x.reading || '').split(/\s+/).filter(Boolean))}</p><p class="ph-mean">${esc(x.meaning || '')}</p>${x.tip ? `<p class="ph-tip">${esc(x.tip)}</p>` : ''}<div class="ph-actions"><button type="button" class="btn green" data-say="${k}" data-rate="0.9">듣기</button><button type="button" class="btn line" data-say="${k}" data-rate="0.6">천천히 듣기</button></div></div>`; }).join('');
-  $('phrase-body').innerHTML = pbHtml() + today;
-  $('phrase-title').textContent = '다섯 나라 말 · 상황별';
+  const tabs = `<div class="sw-tabs t4" role="group" aria-label="여행">${TRV_TABS.map(([k, n]) => `<button type="button" data-trv="${k}" aria-pressed="${k === trvTab}">${n}</button>`).join('')}</div>`;
+  $('phrase-body').innerHTML = tabs + (trvTab === 'talk' ? pbHtml() + today : trvHtml(trvTab));
+  $('phrase-title').textContent = '여행';
 }
 document.addEventListener('click', e => {
   const zf = e.target.closest('[data-zoom]'); if (zf && CULT && CULT.painting) { const p = CULT.painting; modal(`<div class="lb-wrap"><img src="${esc(p.img)}" alt="${esc(p.title)}" referrerpolicy="no-referrer"></div><p class="lb-cap"><b>${esc(p.title)}</b> · ${esc(p.artist)}, ${esc(p.year)}</p><p class="lb-tip">두 손가락으로 벌리면 더 크게 볼 수 있습니다</p>`, () => $('modal').classList.add('lightbox')); return; }
@@ -537,7 +554,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행 회화', () => '공항에서 시장까지,<br>다섯 나라 말'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──

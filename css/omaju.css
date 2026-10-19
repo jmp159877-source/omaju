@@ -1615,6 +1615,9 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 
 /* 이번 주, 무엇을 볼까 (2026-10-18) */
 .sw-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 26px 0 16px; }
+/* 네 칸짜리(여행)는 두 줄로 — 큰 글씨에서도 '해외 골프'가 안 잘리게 */
+.sw-tabs.t4 { grid-template-columns: repeat(2, 1fr); }
+.sw-tip { margin: 6px 0 0; font-size: 0.96rem; line-height: 1.65; color: #6b6354; border-left: 2px solid var(--gold, #C9A24A); padding-left: 10px; word-break: keep-all; }
 .sw-tabs button { padding: 12px 6px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-size: 1.04rem; font-weight: 700; color: var(--dark-green); }
 .sw-tabs button[aria-pressed="true"] { background: var(--dark-green); border-color: var(--dark-green); color: #fff; }
 .sw-regions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }

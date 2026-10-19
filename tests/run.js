@@ -238,10 +238,26 @@ srv.listen(0, '127.0.0.1', async () => {
         await E(() => document.querySelector('[data-sw="exhibit"]').click()); await W(400);
         const ex = await E(() => document.querySelectorAll('.sw-row').length || /모으는/.test((document.querySelector('#show-body .note') || {}).textContent || ''));
         return (first !== null && !!ex) || JSON.stringify({ first, ex }); });
-      await step('여행 회화: 표지 제목이 앱 용어가 아님', async () => { await E(() => window.omajuNav('phrase')); await W(800); const r = await E(() => { const h = document.getElementById('ch-head'); const t = document.getElementById('d-title'); return { tag: (document.getElementById('d-tag') || {}).textContent || '', title: (t || {}).textContent || '' }; }); if (/추천 요청|undefined|null/.test(r.title)) return '제목: ' + r.title; return (/다섯 나라 말/.test(r.title) && r.tag === '여행 회화') || JSON.stringify(r); });
-      await step('여행 회화: 태국어 남녀 말끝 안내', async () => { await E(() => document.querySelector('[data-pbl="th"]').click()); await W(300); const tip = await E(() => (document.querySelector('.pb-tip') || {}).textContent || ''); await E(() => document.querySelector('[data-pbl="en"]').click()); await W(200); const none = await E(() => !document.querySelector('.pb-tip')); return (/크랍/.test(tip) && /카/.test(tip) && none) || JSON.stringify({ tip, none }); });
+      await step('여행: 네 칸(회화·해외 골프·관광·자유여행) 오가기', async () => { await E(() => window.omajuNav('phrase')); await W(800);
+        const tabs = await E(() => [...document.querySelectorAll('[data-trv]')].map(b => b.dataset.trv));
+        if (tabs.join(',') !== 'talk,golf,tour,free') return '칸: ' + tabs.join(',');
+        const out = {};
+        for (const k of ['golf', 'tour', 'free']) {
+          await E(x => document.querySelector(`[data-trv="${x}"]`).click(), k); await W(400);
+          out[k] = await E(() => ({ on: (document.querySelector('[data-trv][aria-pressed="true"]') || {}).textContent || '',
+            rows: document.querySelectorAll('#phrase-body .sw-row').length,
+            note: (document.querySelector('#phrase-body .note') || {}).textContent || '',
+            pb: !!document.querySelector('#phrase-body .pb') }));
+          if (out[k].pb) return k + ' 칸인데 회화가 보임';
+          if (!out[k].rows && !/모으고/.test(out[k].note)) return k + ' 칸이 빈 화면';
+        }
+        await E(() => document.querySelector('[data-trv="talk"]').click()); await W(400);
+        const back = await E(() => !!document.querySelector('#phrase-body .pb'));
+        return back || ('회화로 못 돌아옴 ' + JSON.stringify(out)); });
+      await step('여행 회화: 표지 제목이 앱 용어가 아님', async () => { await E(() => window.omajuNav('phrase')); await W(800); const r = await E(() => { const h = document.getElementById('ch-head'); const t = document.getElementById('d-title'); return { tag: (document.getElementById('d-tag') || {}).textContent || '', title: (t || {}).textContent || '' }; }); if (/추천 요청|undefined|null/.test(r.title)) return '제목: ' + r.title; return (/여행/.test(r.title) && r.tag === '여행') || JSON.stringify(r); });
+      await step('여행 회화: 태국어 남녀 말끝 안내', async () => { await E(() => document.querySelector('[data-trv="talk"]').click()); await W(300); await E(() => document.querySelector('[data-pbl="th"]').click()); await W(300); const tip = await E(() => (document.querySelector('.pb-tip') || {}).textContent || ''); await E(() => document.querySelector('[data-pbl="en"]').click()); await W(200); const none = await E(() => !document.querySelector('.pb-tip')); return (/크랍/.test(tip) && /카/.test(tip) && none) || JSON.stringify({ tip, none }); });
       await step('여행 회화: 듣기·천천히 눌러 보기', async () => { await E(() => { window.__said = []; const S = window.speechSynthesis; if (S) { window.__realSpeak = S.speak.bind(S); S.speak = u => window.__said.push({ t: u.text, lang: u.lang, rate: u.rate }); } }); await E(() => document.querySelector('[data-pbl="vi"]').click()); await W(300); await E(() => document.querySelector('[data-pbs="way"]').click()); await W(300); await E(() => document.querySelectorAll('.pb-row')[0].querySelector('[data-rate="1"]').click()); await W(200); await E(() => document.querySelectorAll('.pb-row')[0].querySelector('[data-rate="0.65"]').click()); await W(200); const said = await E(() => { const S = window.speechSynthesis; if (S && window.__realSpeak) S.speak = window.__realSpeak; return window.__said; }); return (said.length === 2 && said[0].lang === 'vi-VN' && said[0].rate === 1 && said[1].rate === 0.65 && /đâu|Đây/.test(said[0].t)) || JSON.stringify(said); });
-      await step('회화: 듣기', async () => { await E(() => window.omajuNav('phrase')); await W(600); await E(() => document.querySelector('[data-say]').click()); await W(500); return (await E(() => window.__spoke.length)) > 0 || '소리 안 남'; });
+      await step('회화: 듣기', async () => { await E(() => window.omajuNav('phrase')); await W(600); await E(() => document.querySelector('[data-trv="talk"]').click()); await W(300); await E(() => document.querySelector('[data-say]').click()); await W(500); return (await E(() => window.__spoke.length)) > 0 || '소리 안 남'; });
       await step('내 고향 둘러보기: 두 칸 · 말하기 · 라이브캠', async () => { await E(() => window.omajuNav('home')); await W(900);
         const t = await E(() => [...document.querySelectorAll('[data-ht]')].map(b => b.dataset.ht));
         if (t.join(',') !== 'road,cam') return '칸: ' + t.join(',');

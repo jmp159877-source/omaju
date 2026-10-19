@@ -1,0 +1,30 @@
+# 여행(해외 골프·관광·자유여행): 주 단위로 data/travel.json 에 쌓는다. 아직 없는 칸만 이어 채움.
+name: travel
+on:
+  schedule:
+    - cron: '10 9 * * 1'      # 월 18:10 KST
+    - cron: '10 16 * * 1,2'   # 화·수 01:10 KST (못 채운 칸 이어 채움)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 여행 채우기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          set +e
+          timeout 25m python -u tools/travel_week.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200 | tee daily/last-travel.log
+      - name: 기록
+        if: always()
+        run: |
+          git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
+          git add -A data/ daily/last-travel.log 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "이번 주 여행(해외 골프·관광·자유여행) [skip ci]"
+          ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
