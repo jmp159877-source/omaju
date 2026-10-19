@@ -1,0 +1,38 @@
+name: 오프닝 배경 음악 후보 찾기
+on:
+  workflow_dispatch:
+    inputs:
+      want:
+        description: '슬롯마다 남길 개수'
+        required: false
+        default: '3'
+      try:
+        description: '슬롯마다 들어 볼 개수'
+        required: false
+        default: '14'
+permissions:
+  contents: write
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: 찾기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          WANT: ${{ inputs.want }}
+          TRY: ${{ inputs.try }}
+        run: |
+          set +e
+          python3 -u tools/music_find.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200
+          echo "끝"
+      - name: 후보 가지에 올리기
+        if: always()
+        run: |
+          mkdir -p /tmp/m && cp out_music/* /tmp/m/ 2>/dev/null || true
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git checkout --orphan music-try && git rm -rqf .
+          cp /tmp/m/* . 2>/dev/null; true
+          git add -A && git commit -qm "배경 음악 후보" && git push -f origin music-try
