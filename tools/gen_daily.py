@@ -194,6 +194,39 @@ def gen_mind(d):
 
 
 
+# 오늘의 몸 한 가지 — 날마다 주제를 돌려 쓴다(한 달 안에 겹치지 않게)
+BODY_TOPICS = [
+    "무릎", "허리", "어깨와 목", "발과 발목", "손과 손목", "눈",
+    "잠", "혈압", "혈당", "소화", "체온과 추위·더위", "숨과 폐활량",
+    "다리 근력", "균형 감각", "걷는 자세", "앉아 있는 시간", "물 마시기", "단백질",
+    "치아와 잇몸", "귀와 소리", "피부", "장", "심장 박동", "손톱·머리카락",
+    "아침에 일어나는 법", "저녁에 몸을 식히는 법", "계단", "가방 드는 법",
+]
+
+
+def gen_body(d):
+    """오늘의 몸 한 가지 — 몸에 관한 것 하나를 짧고 담백하게. 겁주지 않고, 오늘 해 볼 것 한 줄까지."""
+    topic = BODY_TOPICS[d.toordinal() % len(BODY_TOPICS)]
+    j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 오늘의 주제는 '{topic}'이다. 이 주제로 '오늘의 몸 한 가지'를 쓴다.
+읽는 사람은 50~60대지만 생각과 생활은 40대다(러닝·골프·혼자 여행·새 일). 고급 라이프스타일 매거진의 몸 이야기 한 꼭지처럼 쓴다.
+지킬 것:
+- 겁주지 않는다. 병 이름을 늘어놓거나 '이러면 위험합니다' 식으로 쓰지 않는다. 진단·처방·약 이야기 금지.
+- 시니어·어르신·노화·치매·은퇴·건강관리·웰니스·힐링 같은 말을 쓰지 않는다. 나이를 들먹이지 않는다.
+- 누구나 아는 뻔한 말(물 많이 드세요, 스트레칭 하세요) 금지. 알아 두면 오늘 바로 써먹을 수 있는 구체적인 것 하나.
+- 수치를 쓸 때는 널리 알려진 것만. 확실하지 않으면 숫자를 쓰지 않는다.
+쓸 것:
+- part: 주제를 한 낱말로(예: 무릎). '{topic}' 을 그대로 써도 된다.
+- line: 오늘의 한 줄(20~34자). 제목처럼 또렷하게. 끝에 마침표를 찍지 않는다.
+- note: 왜 그런지 풀어 주는 두세 문장(110~170자). 구체적인 장면(계단, 지하철, 책상, 골프장 같은)으로 시작하면 좋다.
+- todo: 오늘 해 볼 것 한 문장(25~45자). 돈 들지 않고 지금 당장 혼자 할 수 있는 것. 횟수나 시간을 또렷하게.
+- tip: 덧붙이는 한 줄(25~45자). 흔히 잘못 알고 있는 것을 바로잡거나, 하면 더 좋아지는 요령.
+형식(JSON만): {{"part":"...","line":"...","note":"...","todo":"...","tip":"..."}}""", json_mode=True)
+    out = {k: str(j.get(k, "")).strip() for k in ("part", "line", "note", "todo", "tip")}
+    out["part"] = out["part"] or topic
+    assert out["line"] and out["note"] and out["todo"], "오늘의 몸 한 가지 비어 있음"
+    return out
+
+
 def gen_book(d):
     """오늘의 한 권 — 실제로 나온 책 하나를 골라 잡지 책 소개면처럼.
     책 속 문장을 그대로 옮기지 않는다(저작권). 어떤 대목에서 멈추게 되는지를 내 말로 쓴다."""
@@ -594,7 +627,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -626,7 +659,7 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
         if only and name not in only:
             continue
         if not force and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
