@@ -1,33 +1,33 @@
 대본 gemini-3.1-pro-preview 문제: 없음
 녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 gemini-2.5-pro-preview-tts 248.5 초 일치 0.98 통과
-1번째 녹음 높이 216 기준 195 벗어남 10.9 %
-녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 400: Bad Request
 녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
 녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 gemini-2.5-pro-preview-tts 247.1 초 일치 0.99 통과
-2번째 녹음 높이 220 기준 195 벗어남 12.9 %
-녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 400: Bad Request
-녹음 gemini-2.5-pro-preview-tts 224.3 초 일치 0.98 통과
-3번째 녹음 높이 211 기준 195 벗어남 8.0 %
-녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 gemini-2.5-pro-preview-tts 245.5 초 일치 0.98 통과
-4번째 녹음 높이 222 기준 195 벗어남 14.0 %
+녹음 gemini-2.5-pro-preview-tts 239.6 초 일치 0.98 통과
+1번째 녹음 높이 212 기준 195 벗어남 8.9 %
 녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
 녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
 녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 gemini-2.5-pro-preview-tts 260.1 초 일치 0.98 통과
-5번째 녹음 높이 211 기준 195 벗어남 8.4 %
-완료 g1 258.5 초 빠르기 5.34 높이 211 → 200
+녹음 gemini-2.5-pro-preview-tts 230.1 초 일치 0.99 통과
+2번째 녹음 높이 233 기준 195 벗어남 19.5 %
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
+녹음 gemini-2.5-pro-preview-tts 225.7 초 일치 0.98 통과
+3번째 녹음 높이 216 기준 195 벗어남 10.9 %
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
+녹음 gemini-2.5-pro-preview-tts 239.5 초 일치 0.99 통과
+4번째 녹음 높이 220 기준 195 벗어남 12.9 %
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
+녹음 gemini-2.5-pro-preview-tts 237.2 초 일치 0.99 통과
+5번째 녹음 높이 220 기준 195 벗어남 12.9 %
+완료 g1 266.8 초 빠르기 4.8 높이 212 → 202
 --- 만들어진 것 ---
-total 5380
--rw-r--r-- 1 runner runner    4260 Oct 19 15:00 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 19 15:00 2026-10-19-g1.mp3
--rw-r--r-- 1 runner runner    5240 Oct 19 15:32 2026-10-20-g1.json
--rw-r--r-- 1 runner runner 3102451 Oct 19 15:32 2026-10-20-g1.mp3
+total 5476
+-rw-r--r-- 1 runner runner    4260 Oct 19 15:41 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 19 15:41 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    4906 Oct 19 16:19 2026-10-20-g1.json
+-rw-r--r-- 1 runner runner 3202134 Oct 19 16:19 2026-10-20-g1.mp3
