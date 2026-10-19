@@ -357,9 +357,13 @@ def build():
         af = []
         pf = f0(pcm); tgt = tgt0
         if ref[0] is None: ref[0] = pf      # 아침 벌의 높이를 기준으로 삼아 낮·저녁을 여기에 맞춘다
-        # 5% 넘게 벗어난 것은 아예 건드리지 않는다 (끌어내리면 목청이 바뀐다). 3~5% 안쪽만 살짝 맞춘다
-        if tgt and pf and abs(pf / tgt - 1) > 0.05: tgt = None
-        if tgt and pf and abs(pf / tgt - 1) > 0.03:
+        # 끌어내리는 것과 끌어올리는 것은 다르다 (2026-10-19).
+        #  - 끌어내리면 목청이 묵직해져 다른 사람이 된다 → 5% 까지만.
+        #  - 끌어올리면 되레 맑아진다. 저녁 벌은 몇 번을 다시 녹음해도 낮게 나오므로(189·188·173·181)
+        #    10% 까지 올려서 아침과 같은 높이로 맞춘다. 그냥 두면 "늙고 무겁다".
+        cap = 0.05 if (pf and tgt and pf > tgt) else 0.10
+        if tgt and pf and abs(pf / tgt - 1) > cap: tgt = None
+        if tgt and pf and abs(pf / tgt - 1) > 0.02:
             r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
         else: tempo_eff = tempo
         af.append(f'atempo={tempo_eff:.4f}')
