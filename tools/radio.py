@@ -61,9 +61,9 @@ PROMPT = '''오늘은 {date}년 {wd}요일. 당신은 '오마주'의 진행자 {
 
 [길이]
 - open: 장을 여는 인사 두세 문장. 오늘이 며칠 무슨 요일인지 한 번 짚고, 이 장에 무엇이 있는지 한 줄로.
-- items: 아래 코너 차례 그대로, 하나도 빠뜨리지 말고 하나씩. **코너마다 180~260자** (세 문장에서 다섯 문장).
+- items: 아래 코너 차례 그대로, 하나도 빠뜨리지 말고 하나씩. **코너마다 220~300자** (네 문장에서 여섯 문장).
 - close: 닫는 인사 한두 문장. 다 듣고 나서 "아, 오늘 볼 만하네" 싶게. 사인오프는 쓰지 않습니다.
-전체가 4분에서 5분 사이가 되게.
+전체가 4분 30초에서 6분 사이가 되게.
 
 [오늘 이 장에 들어온 것]
 {material}
@@ -153,15 +153,15 @@ def problems(s, keys):
         if got != keys: p.append(f'코너 차례가 다름 {got}')
         for x in s['items']:
             n = len(re.sub(r'\s', '', x['say']))
-            if n < 120: p.append(f'{x["k"]} 너무 짧음 {n}자')
-            if n > 400: p.append(f'{x["k"]} 너무 긺 {n}자')
+            if n < 170: p.append(f'{x["k"]} 너무 짧음 {n}자')
+            if n > 460: p.append(f'{x["k"]} 너무 긺 {n}자')
         whole = s['open'] + ' '.join(x['say'] for x in s['items']) + s['close']
         for w in BAD:
             if w in whole: p.append('쓰지 않기로 한 말: ' + w)
         if '!' in whole: p.append('느낌표')
         if re.search(r'(아래|여기|화면 아래|밑에) (있|보)', whole): p.append('눈으로 보는 사람에게 하는 말')
         tot = len(re.sub(r'[^가-힣]', '', whole))
-        if not (900 <= tot <= 1700): p.append(f'전체 길이 {tot}자 (4~5분이 되게)')
+        if not (1250 <= tot <= 1950): p.append(f'전체 길이 {tot}자 (4분 30초~6분이 되게)')
     except Exception as e:
         p.append('형식 ' + str(e)[:60])
     return p
@@ -213,8 +213,8 @@ def build(ch):
     text = '\n'.join(x['say'] for x in segs)
 
     tgt0 = OP.PITCH[host]; best = None
-    for take in range(3):
-        if take: time.sleep(20)
+    for take in range(5):
+        if take: time.sleep(15)
         got = OP.tts(text, host)
         if got is None: continue
         gf = OP.f0(got)
@@ -227,10 +227,14 @@ def build(ch):
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
     starts, T = OP.split(pcm, lens)
-    rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))
+    rate = sum(lens) / T; tempo = max(0.88, min(1.18, 4.8 / rate))
     pf = OP.f0(pcm); tgt = tgt0
-    cap = 0.05 if (pf and tgt and pf > tgt) else 0.10     # 끌어내리는 것은 5%까지, 올리는 것은 10%까지
-    if tgt and pf and abs(pf / tgt - 1) > cap: tgt = None
+    # 끌어내리는 것은 5%까지, 올리는 것은 10%까지 (그 이상 당기면 목청이 바뀌어 다른 사람이 된다).
+    # 많이 벗어났다고 그냥 두면 오프닝과 딴 사람이 되므로, 할 수 있는 만큼만 끌어당긴다.
+    if pf and tgt:
+        cap = 0.05 if pf > tgt else 0.10
+        lo, hi = pf * (1 - cap), pf * (1 + cap)
+        tgt = min(max(tgt, lo), hi)
     af = []
     if tgt and pf and abs(pf / tgt - 1) > 0.02:
         r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
