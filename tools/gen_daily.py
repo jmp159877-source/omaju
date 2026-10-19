@@ -639,6 +639,15 @@ def complete(name, v):
     return all(v.get(k) for k in NEED.get(name, ())) if isinstance(v, dict) else bool(v)
 
 
+def snapshot(ref, key, fallback=None):
+    """서버에 들어간 그날치를 daily/{날짜}.json 으로 떠 둔다 (오프닝·읽어 드려요가 이 파일을 읽는다)."""
+    os.makedirs(os.path.join(HERE, "..", "daily"), exist_ok=True)
+    full = ref.get().to_dict() or fallback or {}
+    with open(os.path.join(HERE, "..", "daily", key + ".json"), "w", encoding="utf-8") as fp:
+        json.dump(full, fp, ensure_ascii=False, indent=1, default=str)
+    return full
+
+
 def main():
     gemini.models = list_models()
     force = "--force" in sys.argv
@@ -679,6 +688,8 @@ def main():
         missing = [n for n in (only or []) if not have.get(n)]
         if missing or errors:
             raise SystemExit("아무것도 만들지 못함: " + ", ".join(errors)[:300])
+        # 다 있어도 그날치 기록 파일은 떠 둔다 — 오프닝·읽어 드려요가 이 파일을 보고 대본을 쓴다 (2026-10-20)
+        snapshot(ref, key)
         print(f"{key} 모든 코너가 이미 있음."); return
     # 코너는 위에서 이미 하나씩 저장했다. 여기서 또 한꺼번에 저장하면 한 코너의 모양이 조금만 어긋나도
     # (2026-10-20: "Property era contains an invalid nested entity") 그날치 기록 전체가 날아간다.
@@ -689,10 +700,7 @@ def main():
         print(f"[fail] 표시 저장: {e}", file=sys.stderr)
     out["source"] = "auto"
     out["errors"] = errors
-    os.makedirs(os.path.join(HERE, "..", "daily"), exist_ok=True)
-    full = ref.get().to_dict() or out
-    with open(os.path.join(HERE, "..", "daily", key + ".json"), "w", encoding="utf-8") as f:
-        json.dump(full, f, ensure_ascii=False, indent=1, default=str)
+    snapshot(ref, key, out)
     print(f"{key} 저장 완료. 코너 {len(out) - 3}개" + (f", 실패 {len(errors)}개" if errors else ""))
 
 
