@@ -313,6 +313,28 @@ def signoff(who):
     return f"오마주, {n}{'이었' if bat else '였'}습니다."
 
 
+def cut(src, spans, dst):
+    """한 벌로 녹음한 소리에서 필요한 토막만 떼어 이어 붙인다 (이음매는 20ms 씩 여며서)"""
+    fl = []; names = []
+    for n, (a, b) in enumerate(spans):
+        d = b - a
+        fl.append(f'[0:a]atrim={a:.3f}:{b:.3f},asetpts=N/SR/TB,'
+                  f'afade=t=in:st=0:d=0.02,afade=t=out:st={max(0.0, d - 0.02):.3f}:d=0.02[p{n}]')
+        names.append(f'[p{n}]')
+    fl.append(''.join(names) + f'concat=n={len(spans)}:v=0:a=1[a]')
+    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', src, '-filter_complex', ';'.join(fl),
+                    '-map', '[a]', '-ac', '1', '-b:a', '64k', dst], check=True)
+
+
+def merge(idxs):
+    """이어진 번호끼리 묶는다: [0,1,2,7,9] → [(0,2),(7,7),(9,9)]"""
+    out = []
+    for i in sorted(idxs):
+        if out and i == out[-1][1] + 1: out[-1][1] = i
+        else: out.append([i, i])
+    return [tuple(x) for x in out]
+
+
 def build():
     path = os.path.join(OUT, DATE + '.json')
     if os.path.exists(path) and not FORCE: say('이미 있음', DATE); return
@@ -323,59 +345,77 @@ def build():
     sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'wave'}
     res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'],
            'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'slots': {}}
-    ref = [None]        # 아침 벌의 높이 — 낮·저녁을 여기에 맞춘다
+    # ── 세 벌을 '한 번에' 녹음하고 잘라 쓴다 (운영자 2026-10-19) ──
+    # 따로 녹음하면 같은 목소리로 시킨 것도 벌마다 다르게 나온다(171~222Hz). 높이를 맞춰 봐도
+    # 어느 한 벌은 꼭 어긋났다. 가운데 본문은 세 벌이 똑같으니, 인사 셋 · 본문 · 마무리 셋 · 사인오프를
+    # 한 번에 읽히고 토막내어 조립한다. 한 번에 읽었으니 세 벌이 다를 수가 없다.
+    allsegs = []; where = {}
     for sl in SLOTS:
         g = [dict(x) for x in s['greet'][sl]]
         g[0]['tag'] = 'wave'
         if len(g) > 1: g[1]['tag'] = 'stand'
-        close = dict(s['close'][sl]); close.setdefault('tag', 'smile'); close['tag'] = 'smile'
-        if isinstance(close.get('cap'), str): close['cap'] = [close['cap']]
-        close.setdefault('cap', [close['say']])
-        segs = nodup(g + s['body'] + [s['message'], close, sign])
-        text = '\n'.join(x['say'] for x in segs)
-        # 높이가 목표에서 많이 벗어난 녹음은 억지로 끌어내리면 목청이 일그러진다 → 가까운 테이크가 나올 때까지 다시 녹음
-        # (2026-10-19: 아침이 218Hz로 나와 195로 11% 끌어내렸더니 "목소리가 안 예쁘다")
-        # 세 벌이 서로 같은 사람으로 들려야 한다 (2026-10-19: 저녁만 다른 사람 같다는 지적).
-        # 고정 숫자에 각자 맞추면 서로는 안 맞는다 → 아침 벌을 기준으로 삼고 낮·저녁을 거기에 맞춘다.
-        tgt0 = ref[0] or PITCH[HOST]
-        pcm = None; best = None
-        for take in range(4):
-            time.sleep(20)
-            got = tts(text, HOST)
-            if got is None: continue
-            gf = f0(got)
-            off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
-            say(sl, f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0 and round(tgt0), '벗어남', round(off * 100, 1), '%')
-            if best is None or off < best[1]: best = (got, off)
-            if off <= 0.03: break
-        pcm = best[0] if best else None
-        if pcm is None: raise SystemExit('녹음 실패 ' + sl)
-        raw = f'/tmp/op_{sl}.wav'; wav_write(raw, pcm)
-        lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
-        starts, T = split(pcm, lens)
-        rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))   # 늘어지지 않게 (운영자 2026-10-18)
-        af = []
-        pf = f0(pcm); tgt = tgt0
-        # 끌어내리는 것과 끌어올리는 것은 다르다 (2026-10-19).
-        #  - 끌어내리면 목청이 묵직해져 다른 사람이 된다 → 5% 까지만.
-        #  - 끌어올리면 되레 맑아진다. 저녁 벌은 몇 번을 다시 녹음해도 낮게 나오므로(189·188·173·181)
-        #    10% 까지 올려서 아침과 같은 높이로 맞춘다. 그냥 두면 "늙고 무겁다".
-        cap = 0.05 if (pf and tgt and pf > tgt) else 0.10
-        if tgt and pf and abs(pf / tgt - 1) > cap: tgt = None
-        if tgt and pf and abs(pf / tgt - 1) > 0.02:
-            r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
-        else: tempo_eff = tempo
-        af.append(f'atempo={tempo_eff:.4f}')
-        # 아침 벌이 '손본 뒤' 실제로 가진 높이를 기준으로 삼아야 낮·저녁이 아침과 같아진다
-        if ref[0] is None: ref[0] = tgt or pf
-        mp3 = f'{DATE}-{sl}.mp3'
-        dst = os.path.join(OUT, mp3)
-        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af), '-ac', '1', '-b:a', '64k', dst], check=True)
-        dur = T / tempo
+        where['g' + sl] = list(range(len(allsegs), len(allsegs) + len(g))); allsegs += g
+    body = [dict(x) for x in s['body']] + [dict(s['message'])]
+    where['body'] = list(range(len(allsegs), len(allsegs) + len(body))); allsegs += body
+    for sl in SLOTS:
+        c = dict(s['close'][sl]); c['tag'] = 'smile'
+        if isinstance(c.get('cap'), str): c['cap'] = [c['cap']]
+        c.setdefault('cap', [c['say']])
+        where['c' + sl] = [len(allsegs)]; allsegs.append(c)
+    where['sign'] = [len(allsegs)]; allsegs.append(sign)
+
+    text = '\n'.join(x['say'] for x in allsegs)
+    tgt0 = PITCH[HOST]; best = None
+    for take in range(4):
+        if take: time.sleep(20)
+        got = tts(text, HOST)
+        if got is None: continue
+        gf = f0(got)
+        off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
+        say(f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0, '벗어남', round(off * 100, 1), '%')
+        if best is None or off < best[1]: best = (got, off)
+        if off <= 0.04: break
+    pcm = best[0] if best else None
+    if pcm is None: raise SystemExit('녹음 실패')
+
+    lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in allsegs]
+    starts, T = split(pcm, lens)
+    rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))
+    pf = f0(pcm); tgt = tgt0
+    # 끌어내리면 목청이 묵직해진다(5% 까지만), 끌어올리면 되레 맑아진다(10% 까지)
+    cap = 0.05 if (pf and tgt and pf > tgt) else 0.10
+    if tgt and pf and abs(pf / tgt - 1) > cap: tgt = None
+    af = []
+    if tgt and pf and abs(pf / tgt - 1) > 0.02:
+        r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
+    else: tempo_eff = tempo
+    af.append(f'atempo={tempo_eff:.4f}')
+    raw = '/tmp/op_all.wav'; wav_write(raw, pcm)
+    whole = '/tmp/op_all.mp3'
+    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af),
+                    '-ac', '1', '-b:a', '64k', whole], check=True)
+    say('한 벌 녹음', round(T / tempo, 1), '초', '빠르기', round(rate * tempo, 2),
+        '높이', pf and round(pf), '→', tgt and round(tgt))
+
+    # 조각마다 (시작, 끝) — 고친 소리 기준
+    edge = [st / tempo for st in starts] + [T / tempo]
+
+    for sl in SLOTS:
+        pick = where['g' + sl] + where['body'] + where['c' + sl] + where['sign']
+        spans = [(edge[a], edge[b + 1]) for a, b in merge(pick)]
+        mp3 = f'{DATE}-{sl}.mp3'; dst = os.path.join(OUT, mp3)
+        cut(whole, spans, dst)
+        # 이어 붙인 뒤의 시작 시각을 다시 센다
+        t = 0.0; segs = []
+        for i in pick:
+            segs.append({'t': round(t, 2), 'tag': allsegs[i]['tag'], 'cap': allsegs[i]['cap']})
+            t += edge[i + 1] - edge[i]
+        dur = t
         lead, tail = music(dst, sl, dur)
-        res['slots'][sl] = {'audio': mp3, 'end': round(lead + dur + tail, 2),
-                            'segs': [{'t': round(lead + st / tempo, 2), 'tag': x['tag'], 'cap': x['cap']} for st, x in zip(starts, segs)]}
-        say(sl, '길이', round(lead + dur + tail, 1), '빠르기', round(rate * tempo, 2), '높이', pf and round(pf), '→', tgt and round(tgt), '음악', bool(lead))
+        for x in segs: x['t'] = round(x['t'] + lead, 2)
+        res['slots'][sl] = {'audio': mp3, 'end': round(lead + dur + tail, 2), 'segs': nodup(segs)}
+        say(sl, '길이', round(lead + dur + tail, 1), '초', '조각', len(segs), '음악', bool(lead))
+
     json.dump(res, open(path, 'w'), ensure_ascii=False, indent=1)
     # 최근 5일만 남김
     keep = {(D - datetime.timedelta(days=k)).isoformat() for k in range(5)} | {(D + datetime.timedelta(days=1)).isoformat()}
