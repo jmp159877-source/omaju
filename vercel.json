@@ -1,3 +1,3 @@
 {
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)tools' ':(exclude).github' ':(exclude)tests' ':(exclude)docs' ':(exclude)daily' ':(exclude)CLAUDE.md' ':(exclude)README-올리기.txt'"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)tools' ':(exclude).github' ':(exclude)tests' ':(exclude)docs' ':(exclude)daily' ':(exclude)music' ':(exclude)CLAUDE.md' ':(exclude)README-올리기.txt'"
 }
