@@ -1,11 +1,5 @@
-wide_book open book window sunlight table 28
-wide_book books stack wooden table warm light 30
-wide_book reading armchair morning light room 30
-wide_book bookshelf warm lamp light 30
-wide_book book coffee table autumn light 30
-wide_show theater red seats empty interior 7
-wide_show concert hall interior warm light 16
-wide_show art gallery white wall daylight 30
-wide_show museum exhibition hall interior 30
-wide_show theatre stage curtain warm 30
-완료 {'wide_book': 30, 'wide_show': 30}
+wide_hike autumn mountain trail hiking 13
+wide_hike mountain ridge autumn morning mist 30
+wide_hike forest trail autumn sunlight path 30
+wide_hike mountain peak autumn panorama 30
+완료 {'wide_hike': 30}
