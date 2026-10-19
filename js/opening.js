@@ -22,7 +22,8 @@ export async function init({ modal, closeModal, toast, DB }) {
   let data = null;
   for (let back = 0; back < 3 && !data; back++) { const d = new Date(base); d.setDate(d.getDate() - back); data = await loadDay(key(d)); }
   if (!data || !data.slots) return;
-  const slot = h >= 5 && h < 11 ? 'morning' : h >= 11 && h < 17 ? 'noon' : 'evening';
+  // 저녁은 여섯 시부터 (운영자 2026-10-19: 다섯 시는 아직 낮이다)
+  const slot = h >= 5 && h < 11 ? 'morning' : h >= 11 && h < 18 ? 'noon' : 'evening';
   const S = data.slots[slot] || data.slots.morning; if (!S || !S.segs || !S.segs.length) return;
   const period = slot === 'evening' ? 'eve' : 'mor';
   const host = data.host === 'hangyeol' ? 'hangyeol' : 'miso';
@@ -62,7 +63,9 @@ export async function init({ modal, closeModal, toast, DB }) {
   const playBtn = $('opn-play'), playLabel = playBtn.querySelector('span');
   // 목소리 파일은 대본(JSON)을 준 곳(raw)에서 먼저 받는다. jsDelivr는 그날 새 파일이 몇 시간 늦게 잡혀 첫 재생이 실패하던 원인.
   // 눌러야만 소리가 나되, 파일은 미리 받아 두어 한 번에 재생되게 한다(preload 만으로는 소리가 나지 않음).
-  const bases = [RAW, CDN]; let srcI = 0; const setSrc = () => { au.src = bases[srcI] + S.audio; };
+  // 소리에도 ?v= 를 붙인다 — 대본(JSON)만 새로 받고 소리는 옛것이 남으면 다른 사람 목소리가 난다 (2026-10-19)
+  const vq = data.built ? '?v=' + data.built : '';
+  const bases = [RAW, CDN]; let srcI = 0; const setSrc = () => { au.src = bases[srcI] + S.audio + vq; };
   au.preload = 'auto'; setSrc();
   const onPlaying = () => { started = true; playLabel.textContent = '▶ 소리 켜고 듣기'; playBtn.hidden = true; $('opn-ctrl').hidden = false; setCtrl(true); };
   const fail = () => { playLabel.textContent = '▶ 소리 켜고 듣기'; playBtn.disabled = false; toast && toast('소리를 켜지 못했습니다. 다시 눌러 주세요.'); };

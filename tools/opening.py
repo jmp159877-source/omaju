@@ -38,7 +38,9 @@ DIRECT = ('[연출] 아침을 여는 생방송 오프닝. **첫마디 "안녕하
           '또박또박 끊어 선언하듯 말하지 말고, 미소를 머금은 채 숨을 살짝 섞어 "사랑합니다" 를 하나로 이어 흘리듯, '
           '끝을 아주 살며시 내려놓는다. 힘주지 말고, 가까운 사람에게 작게 건네는 말처럼. '
           '바로 뒤 "오마주, 이름였습니다" 도 같은 결로 조용하고 따뜻하게 닫는다. '
-          '뉴스 읽기·낭독조·느린 설명조 금지. 그렇다고 호들갑·애교는 아니다.')
+          '뉴스 읽기·낭독조·느린 설명조 금지. 그렇다고 호들갑·애교는 아니다. '
+          '**대본이 낮이든 저녁이든 목소리와 기운은 똑같이 유지한다.** 저녁 대본이라고 톤을 낮추거나 '
+          '느리게 읽거나 가라앉히지 말 것 — 아침·낮·저녁 세 벌이 같은 사람의 같은 방송으로 들려야 한다.')
 BAD = ['시니어', '어르신', '노인', '치매', '두뇌', '은퇴', '손주', '손자', '시어머니', '며느리', '효도', '내복']
 LOG = []
 def say(*a): s = ' '.join(map(str, a)); print(s); LOG.append(s)
@@ -319,7 +321,9 @@ def build():
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
     sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'wave'}
-    res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'], 'slots': {}}
+    res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'],
+           'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'slots': {}}
+    ref = [None]        # 아침 벌의 높이 — 낮·저녁을 여기에 맞춘다
     for sl in SLOTS:
         g = [dict(x) for x in s['greet'][sl]]
         g[0]['tag'] = 'wave'
@@ -331,16 +335,19 @@ def build():
         text = '\n'.join(x['say'] for x in segs)
         # 높이가 목표에서 많이 벗어난 녹음은 억지로 끌어내리면 목청이 일그러진다 → 가까운 테이크가 나올 때까지 다시 녹음
         # (2026-10-19: 아침이 218Hz로 나와 195로 11% 끌어내렸더니 "목소리가 안 예쁘다")
-        tgt0 = PITCH[HOST]; pcm = None; best = None
-        for take in range(3):
+        # 세 벌이 서로 같은 사람으로 들려야 한다 (2026-10-19: 저녁만 다른 사람 같다는 지적).
+        # 고정 숫자에 각자 맞추면 서로는 안 맞는다 → 아침 벌을 기준으로 삼고 낮·저녁을 거기에 맞춘다.
+        tgt0 = ref[0] or PITCH[HOST]
+        pcm = None; best = None
+        for take in range(4):
             time.sleep(20)
             got = tts(text, HOST)
             if got is None: continue
             gf = f0(got)
             off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
-            say(sl, f'{take + 1}번째 녹음 높이', gf and round(gf), '목표', tgt0, '벗어남', round(off * 100, 1), '%')
+            say(sl, f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0 and round(tgt0), '벗어남', round(off * 100, 1), '%')
             if best is None or off < best[1]: best = (got, off)
-            if off <= 0.05: break
+            if off <= 0.03: break
         pcm = best[0] if best else None
         if pcm is None: raise SystemExit('녹음 실패 ' + sl)
         raw = f'/tmp/op_{sl}.wav'; wav_write(raw, pcm)
@@ -348,7 +355,8 @@ def build():
         starts, T = split(pcm, lens)
         rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))   # 늘어지지 않게 (운영자 2026-10-18)
         af = []
-        pf = f0(pcm); tgt = PITCH[HOST]
+        pf = f0(pcm); tgt = tgt0
+        if ref[0] is None: ref[0] = pf      # 아침 벌의 높이를 기준으로 삼아 낮·저녁을 여기에 맞춘다
         # 5% 넘게 벗어난 것은 아예 건드리지 않는다 (끌어내리면 목청이 바뀐다). 3~5% 안쪽만 살짝 맞춘다
         if tgt and pf and abs(pf / tgt - 1) > 0.05: tgt = None
         if tgt and pf and abs(pf / tgt - 1) > 0.03:
