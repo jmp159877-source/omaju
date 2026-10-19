@@ -31,8 +31,18 @@ jobs:
         run: |
           set +o pipefail
           mkdir -p media/radio
-          python3 -u tools/radio.py ${{ inputs.date }} ${{ inputs.only && format('--only={0}', inputs.only) || '' }} ${{ inputs.force == '1' && '--force' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -150 | tee media/radio/last.log
-          exit ${PIPESTATUS[0]}
+          python3 -u tools/radio.py ${{ inputs.date }} ${{ inputs.only && format('--only={0}', inputs.only) || '' }} ${{ inputs.force == '1' && '--force' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200 | tee daily/last-radio.log
+          code=${PIPESTATUS[0]}
+          echo "--- 만들어진 것 ---" >> daily/last-radio.log
+          ls -l media/radio >> daily/last-radio.log 2>&1 || echo '(radio 폴더 없음)' >> daily/last-radio.log
+          exit $code
+      - name: 기록 남기기
+        if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add -A daily/last-radio.log 2>/dev/null || true
+          git diff --cached --quiet || git commit -qm "읽어 드려요 기록 [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
       - name: media 가지에 올리기 (기록 없이 새로)
         if: always()
         run: |
