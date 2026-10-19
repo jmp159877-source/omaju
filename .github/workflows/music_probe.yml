@@ -2,7 +2,7 @@ name: 배경 음악 음원 확인
 on:
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
@@ -11,4 +11,14 @@ jobs:
       - uses: actions/checkout@v4
       - env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python3 -u tools/music_probe.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+        run: |
+          set +e
+          python3 -u tools/music_probe.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tee /tmp/probe.txt
+          echo "끝"
+      - name: 결과 올리기
+        if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git checkout --orphan music-try && git rm -rqf .
+          cp /tmp/probe.txt probe.txt
+          git add -A && git commit -qm "음원 확인 결과" && git push -f origin music-try
