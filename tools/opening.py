@@ -356,7 +356,6 @@ def build():
         rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))   # 늘어지지 않게 (운영자 2026-10-18)
         af = []
         pf = f0(pcm); tgt = tgt0
-        if ref[0] is None: ref[0] = pf      # 아침 벌의 높이를 기준으로 삼아 낮·저녁을 여기에 맞춘다
         # 끌어내리는 것과 끌어올리는 것은 다르다 (2026-10-19).
         #  - 끌어내리면 목청이 묵직해져 다른 사람이 된다 → 5% 까지만.
         #  - 끌어올리면 되레 맑아진다. 저녁 벌은 몇 번을 다시 녹음해도 낮게 나오므로(189·188·173·181)
@@ -367,6 +366,8 @@ def build():
             r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
         else: tempo_eff = tempo
         af.append(f'atempo={tempo_eff:.4f}')
+        # 아침 벌이 '손본 뒤' 실제로 가진 높이를 기준으로 삼아야 낮·저녁이 아침과 같아진다
+        if ref[0] is None: ref[0] = tgt or pf
         mp3 = f'{DATE}-{sl}.mp3'
         dst = os.path.join(OUT, mp3)
         subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af), '-ac', '1', '-b:a', '64k', dst], check=True)
@@ -374,7 +375,7 @@ def build():
         lead, tail = music(dst, sl, dur)
         res['slots'][sl] = {'audio': mp3, 'end': round(lead + dur + tail, 2),
                             'segs': [{'t': round(lead + st / tempo, 2), 'tag': x['tag'], 'cap': x['cap']} for st, x in zip(starts, segs)]}
-        say(sl, '길이', round(lead + dur + tail, 1), '빠르기', round(rate * tempo, 2), '높이', pf and round(pf), '→', tgt, '음악', bool(lead))
+        say(sl, '길이', round(lead + dur + tail, 1), '빠르기', round(rate * tempo, 2), '높이', pf and round(pf), '→', tgt and round(tgt), '음악', bool(lead))
     json.dump(res, open(path, 'w'), ensure_ascii=False, indent=1)
     # 최근 5일만 남김
     keep = {(D - datetime.timedelta(days=k)).isoformat() for k in range(5)} | {(D + datetime.timedelta(days=1)).isoformat()}
