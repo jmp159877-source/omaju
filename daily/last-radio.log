@@ -1,0 +1,16 @@
+대본 gemini-3.1-pro-preview 문제: 없음
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 gemini-3.1-flash-tts-preview 197.1 초 일치 0.99 통과
+1번째 녹음 높이 226 기준 195 벗어남 16.1 %
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
+녹음 gemini-2.5-pro-preview-tts 221.7 초 일치 0.97 통과
+2번째 녹음 높이 218 기준 195 벗어남 11.9 %
+녹음 gemini-3.1-flash-tts-preview 195.1 초 일치 0.99 통과
+3번째 녹음 높이 214 기준 195 벗어남 9.9 %
+완료 g1 198.8 초 빠르기 5.49 높이 214 → None
+--- 만들어진 것 ---
+total 2340
+-rw-r--r-- 1 runner runner    4260 Oct 19 14:58 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 19 14:58 2026-10-19-g1.mp3
