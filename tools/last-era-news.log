@@ -1,15 +1,67 @@
-2026-10-19
-1976 이미 있음
-1986 이미 있음
-1996 이미 있음
-2006 이미 있음
-2016 이미 있음
+2026-10-20
+1976 후보 4 → 3건 사회/연예/스포츠
+1986 후보 7 → 3건 문화/연예/스포츠
+1996 후보 10 → 5건 정치/경제/사회/연예/생활
+2006 후보 76 → 7건 정치/경제/문화/연예/생활/스포츠
+2016 후보 288 → 7건 정치/경제/사회/문화/연예/생활/스포츠
 --- 자세히 ---
-
---- 실행 로그(마지막 200줄) 2026-10-18T15:57:44Z ---
+검색 1976: Gemini 후보 14개 http://monthly.chosun.com/client/news/viw.asp?nNewsNumb=2009; https://ko.wikipedia.org/wiki/1976%EB%85%84_%EC%A0%80%EC%9E%; https://www.todayenergy.kr/news/articleView.html?idxno=76907; https://bemil.chosun.com/nbrd/bbs/view.html?b_bbs_id=10158&n; https://www.hani.co.kr/arti/animalpeople/ecology_evolution/5; https://namu.wiki/w/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%85%98%20%
+fetch 실패 https://namu.wiki/w/%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%85%98%20%EB%82%98%EC%9D%B4%ED HTTP Error 403: Forbidden
+fetch 실패 https://www.hani.co.kr/arti/animalpeople/ecology_evolution/536848.html HTTP Error 404: Not Found
+fetch 실패 http://monthly.chosun.com/client/news/viw.asp?nNewsNumb=200910100021 HTTP Error 404: Not Found
+fetch 실패 https://ko.wikipedia.org/wiki/%EB%8D%94_%EC%86%A1_%EB%A6%AC%EB%A9%94%EC%9D%B8%EC HTTP Error 404: Not Found
+fetch 실패 https://encyclopedia.catholic.or.kr/detail.do?id=4977 HTTP Error 404: Not Found
+날짜 없음 https://bemil.chosun.com/nbrd/bbs/view.html?b_bbs_id=10158&num=5288
+fetch 실패 https://namu.wiki/w/1976%EB%85%84%20%EC%9B%94%EB%93%9C%20%EC%8B%9C%EB%A6%AC%EC%A HTTP Error 403: Forbidden
+날짜 없음 https://encykorea.aks.ac.kr/Article/E0064376
+fetch 실패 https://www.seongnam.go.kr/city/1000219/10189/contents.do <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 al
+fetch 실패 https://theme.archives.go.kr/next/koreanHistory/viewMain.do HTTP Error 404: Not Found
+검색 1986: Gemini 후보 18개 https://monthly.chosun.com/client/news/viw.asp?ctcd=E&nNewsN; https://ko.wikipedia.org/wiki/%EC%82%AC%EB%AA%A8%EB%9D%BC_%E; https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%B8%A0%ED%95%98%ED; https://www.pa.go.kr/research/contents/collection/collection; https://mobile.hankyung.com/newspaper/19861020; https://www.hani.co.kr/arti/society/area/199043.html
+fetch 실패 https://mobile.hankyung.com/newspaper/19861020 <urlopen error [Errno -2] Name or service not known>
+fetch 실패 https://www.hani.co.kr/arti/society/area/199043.html HTTP Error 404: Not Found
+fetch 실패 https://namu.wiki/w/%EC%95%84%EC%97%90%EB%A1%9C%ED%94%8C%EB%A1%9C%ED%8A%B8%20650 HTTP Error 403: Forbidden
+fetch 실패 https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%B8%A0%ED%95%98%ED%81%AC_%EC%83%A4%EB% HTTP Error 404: Not Found
+날짜 없음 https://www.jemin.com/news/articleView.html?idxno=375080
+날짜 없음 https://encykorea.aks.ac.kr/Article/E0003730
+fetch 실패 https://www.goodoc.co.kr/medicines/48045 HTTP Error 404: Not Found
+fetch 실패 https://www.donga.com/news/Economy/article/all/20060224/8278278/1 HTTP Error 404: Not Found
+fetch 실패 https://sports.donga.com/sports/article/all/20121019/50239082/3 HTTP Error 404: Not Found
+날짜 없음 https://monthly.chosun.com/client/news/viw.asp?ctcd=E&nNewsNumb=202408
+fetch 실패 https://www.pa.go.kr/research/contents/collection/collection03_02.jsp <urlopen error timed out>
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102001001 HTTP Error 404: Not Found
+서울신문90 probe /1996102001001 → 없음
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102001004 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102001003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102002003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102002002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102002001 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102001002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102001005 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102001001 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102003005 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102003003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102002005 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102003004 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102002004 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102003001 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/20/1996102004001 HTTP Error 404: Not Found
+서울신문90 probe /1996102101001 → 없음
+검색 1996: Gemini 후보 21개 https://ko.wikipedia.org/wiki/1996년_대한민국_재보궐선거; https://ko.wikipedia.org/wiki/제41회_일본_중의원_의원_총선거; https://www.donga.com/news/article/all/19961019/7201235/1; https://www.donga.com/news/article/all/19961020/7201414/1; https://www.donga.com/news/article/all/19961020/7201406/1; https://www.donga.com/news/article/all/19961020/7201367/1
+검색 2006: Gemini 후보 12개 https://www.korea.kr/briefing/policyBriefingView.do?newsId=1; https://theminjoo.kr/main/sub/news/view.php?brd=15&post=3782; https://www.joseilbo.com/news/htmls/2006/10/2006102047514.ht; https://www.mediatoday.co.kr/news/articleView.html?idxno=510; https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A00; https://www.korea.kr/briefing/policyBriefingView.do?newsId=1
+날짜 없음 https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0000367355
+날짜 없음 https://www.korea.kr/briefing/policyBriefingView.do?newsId=148624967
+날짜 없음 https://www.korea.kr/briefing/policyBriefingView.do?newsId=148624991
+검색 2016: Gemini 후보 10개 https://www.donga.com/news/article/all/20161020/80903028/2; https://www.donga.com/news/article/all/20161019/80873755/2; https://www.donga.com/news/article/all/20161019/80859639/1; https://www.donga.com/news/article/all/20161019/80869533/1; https://ko.wikipedia.org/wiki/%EC%98%A4%ED%8C%A8%EC%82%B0%ED; https://www.donga.com/news/article/all/20161019/80863700/2
+날짜 없음 https://shindonga.donga.com/society/article/all/13/770094/1
+--- 실행 로그(마지막 200줄) 2026-10-19T17:36:49Z ---
 [models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
-1976 이미 있음
-1986 이미 있음
-1996 이미 있음
-2006 이미 있음
-2016 이미 있음
+[gather] 1976: 직접 훑은 후보 0
+[gather] 1986: 직접 훑은 후보 0
+[gather] 1996: 직접 훑은 후보 0
+[gather] 2006: 직접 훑은 후보 73
+[gather] 2016: 직접 훑은 후보 281
+1976 후보 4 → 3건 사회/연예/스포츠
+1986 후보 7 → 3건 문화/연예/스포츠
+1996 후보 10 → 5건 정치/경제/사회/연예/생활
+2006 후보 76 → 7건 정치/경제/문화/연예/생활/스포츠
+2016 후보 288 → 7건 정치/경제/사회/문화/연예/생활/스포츠
