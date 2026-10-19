@@ -40,8 +40,9 @@ function paint() {
   const pp = $('rd-bar-pp'); if (pp) { pp.textContent = au.paused ? '이어 듣기' : '잠시 멈춤'; pp.setAttribute('aria-pressed', String(!au.paused)); }
   document.querySelectorAll('[data-corner]').forEach(c => c.classList.toggle('rd-now', !au.paused && c.dataset.corner === m.k));
   const f = $('rd-' + cur.ch + '-face'); if (f) f.classList.toggle('playing', !au.paused);
+  face(cur.ch, !au.paused, '이어 듣기');
 }
-function face(ch, playing, labelIdle) {
+function face(ch, playing, labelIdle = '눌러서 듣기') {
   const go = $('rd-' + ch + '-go'); if (go) go.textContent = playing ? '듣는 중' : labelIdle;
 }
 
