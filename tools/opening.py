@@ -20,9 +20,8 @@ OTHER = 'hangyeol' if HOST == 'miso' else 'miso'
 NAME = {'miso': '윤미소', 'hangyeol': '서한결'}
 WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
-# 사진이 실제로 있는 장면만 쓴다. 사연을 없앤 뒤 surprise·moved·secret 은 쓰지 않고,
-# thumb(엄지)은 새 사진이 오면 되살린다 (2026-10-19).
-TAGS = ['read', 'smile', 'laugh', 'talk', 'curious', 'delight']
+# 사진이 실제로 있는 장면만 쓴다. 사연을 없앤 뒤 surprise·moved·secret 은 쓰지 않는다 (2026-10-19).
+TAGS = ['read', 'smile', 'laugh', 'talk', 'curious', 'delight', 'thumb']
 VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon'}
 PITCH = {'miso': 195, 'hangyeol': None}   # 미소는 고른 견본 높이(195Hz)에 맞춘다
 PROFILE = {
