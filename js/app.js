@@ -255,8 +255,10 @@ const TRV_TABS = [['talk', '회화'], ['golf', '해외 골프'], ['tour', '해�
 let TRAVEL = null, trvTab = store.get('trvTab', 'talk');
 function trvHtml(k) {
   const list = (TRAVEL && TRAVEL[k]) || [];
-  if (!list.length) return '<p class="note" style="margin-top:24px">갈 만한 곳을 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>';
-  return '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
+  // 칸마다 띠 사진 — 자리를 미리 잡아 두어(aspect-ratio) 사진이 늦게 와도 아래가 밀리지 않는다
+  const band = `<div class="trv-band" data-band="${k}" style="background-image:url('img/trv-${k}.jpg')" role="img" aria-label=""></div>`;
+  if (!list.length) return band + '<p class="note" style="margin-top:24px">갈 만한 곳을 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>';
+  return band + '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
     + `<b>${esc(x.title)}</b>`
     + `<p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.cost ? ` <span class="nw">· ${esc(x.cost)}</span>` : ''}</p>`
     + `<p>${esc(x.why || '')}</p>`

@@ -244,11 +244,15 @@ srv.listen(0, '127.0.0.1', async () => {
         const out = {};
         for (const k of ['golf', 'tour', 'free']) {
           await E(x => document.querySelector(`[data-trv="${x}"]`).click(), k); await W(400);
-          out[k] = await E(() => ({ on: (document.querySelector('[data-trv][aria-pressed="true"]') || {}).textContent || '',
-            rows: document.querySelectorAll('#phrase-body .sw-row').length,
-            note: (document.querySelector('#phrase-body .note') || {}).textContent || '',
-            pb: !!document.querySelector('#phrase-body .pb') }));
+          out[k] = await E(() => { const b = document.querySelector('#phrase-body .trv-band');
+            return { on: (document.querySelector('[data-trv][aria-pressed="true"]') || {}).textContent || '',
+              rows: document.querySelectorAll('#phrase-body .sw-row').length,
+              note: (document.querySelector('#phrase-body .note') || {}).textContent || '',
+              band: b ? b.dataset.band : '', h: b ? Math.round(b.getBoundingClientRect().height) : 0,
+              pb: !!document.querySelector('#phrase-body .pb') }; });
           if (out[k].pb) return k + ' 칸인데 회화가 보임';
+          if (out[k].band !== k) return k + ' 칸인데 띠 사진이 ' + out[k].band;
+          if (out[k].h < 60) return k + ' 띠 사진 높이 ' + out[k].h;
           if (!out[k].rows && !/모으고/.test(out[k].note)) return k + ' 칸이 빈 화면';
         }
         await E(() => document.querySelector('[data-trv="talk"]').click()); await W(400);
