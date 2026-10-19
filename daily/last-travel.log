@@ -1,0 +1,6 @@
+[models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
+이번 주 2026-10-19 채운 칸 []
+[ok] 해외 골프 4
+[ok] 해외 관광 4
+[ok] 자유여행 4
+저장: {'golf': 4, 'tour': 4, 'free': 4}
