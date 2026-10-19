@@ -31,8 +31,10 @@ print("이번 주", mon, "채운 칸", [k for k in KINDS if cur[k]])
 for k in KINDS:
     if cur[k]:
         continue
+    avoid = [f"{x.get('where','')} {x.get('title','')}".strip()
+             for j in KINDS if j != k for x in cur[j]]
     try:
-        got = g.gen_travel(today, k)
+        got = g.gen_travel(today, k, avoid)
         if got:
             cur[k] = got; save(); print("[ok]", KO[k], len(got))
         else:
