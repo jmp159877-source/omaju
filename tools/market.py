@@ -164,10 +164,11 @@ def main():
                 doc["wx_seoul"][mdl or "기본"] = {"error": str(e)[:120]}
         # 점검용: 환율을 두 곳(모바일 JSON / PC 시장지표=하나은행 고시)에서 받은 값을 나란히 남김
         doc["fx_debug"] = {}
-        for cd in ("FX_USDKRW", "FX_JPYKRW", "FX_EURKRW"):
+        for cd in ("FX_USDKRW", "FX_JPYKRW", "FX_EURKRW", "M04020000"):
             d = {}
             try:
-                j = get(f"https://m.stock.naver.com/front-api/marketIndex/productDetail?category=exchange&reutersCode={cd}")
+                cat = "metals" if cd.startswith("M0") else "exchange"
+                j = get(f"https://m.stock.naver.com/front-api/marketIndex/productDetail?category={cat}&reutersCode={cd}")
                 j = j.get("result", j)
                 d["mobile"] = {k: v for k, v in j.items() if not isinstance(v, (list, dict)) or k == "fluctuationsType"}
             except Exception as e: d["mobile"] = {"error": str(e)[:120]}
