@@ -9,6 +9,8 @@
 결과: music/<슬롯>.mp3  (고른 것)  /  out_music/ (들어 본 것 전부 + 보고서)
 """
 import os, sys, json, time, base64, urllib.request, subprocess
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from models import pick
 
 KEY = os.environ['GEMINI_API_KEY']
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -78,8 +80,14 @@ def judge(path, ko):
            '드럼이 셈, 잡음·히스, 싸구려 미디 음색, 촌스럽거나 유치함, 노리는 결과 다름.')
     body = {'contents': [{'parts': [{'inline_data': {'mime_type': 'audio/mpeg', 'data': b}}, {'text': ask}]}],
             'generationConfig': {'responseMimeType': 'application/json'}}
-    d = post(f'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash:generateContent?key={KEY}', body, 300)
-    return json.loads(d['candidates'][0]['content']['parts'][0]['text'])
+    last = None
+    for m in pick('flash')[:3]:
+        try:
+            d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}', body, 300)
+            return json.loads(d['candidates'][0]['content']['parts'][0]['text'])
+        except Exception as e:
+            last = e; say('    들어보기 모델', m, '안 됨', str(e)[:60]); time.sleep(3)
+    raise last
 
 
 TAKES = int(os.environ.get('TAKES', '3'))
