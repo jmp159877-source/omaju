@@ -1,0 +1,41 @@
+# 장 음성 안내 '읽어 드려요': 장마다 오늘 올라온 것을 읽어 주는 3~5분짜리 → media 가지 (최근 3일만)
+name: 읽어 드려요
+on:
+  schedule:
+    - cron: '50 15 * * *'   # 00:50 KST (daily 콘텐츠가 들어온 뒤)
+    - cron: '30 20 * * *'   # 05:30 KST (빠졌으면 다시)
+  workflow_dispatch:
+    inputs:
+      date: { description: '날짜 (YYYY-MM-DD, 비우면 오늘)', required: false, default: '' }
+      only: { description: '이 장만 (예: g1)', required: false, default: '' }
+      force: { description: '1이면 있어도 다시 만들기', required: false, default: '' }
+permissions:
+  contents: write
+concurrency: { group: media, cancel-in-progress: false }
+jobs:
+  radio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: media 가지 가져오기
+        run: |
+          if git fetch -q origin media 2>/dev/null; then git worktree add -q media origin/media 2>/dev/null || (mkdir -p media && git --work-tree=media checkout origin/media -- .); else mkdir -p media/radio; fi
+          ls media || true
+      - name: 준비
+        run: sudo apt-get -qq update && sudo apt-get -qq install -y ffmpeg >/dev/null && pip install -q numpy
+      - name: 만들기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MEDIA_DIR: media
+        run: |
+          set +o pipefail
+          mkdir -p media/radio
+          python3 -u tools/radio.py ${{ inputs.date }} ${{ inputs.only && format('--only={0}', inputs.only) || '' }} ${{ inputs.force == '1' && '--force' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -150 | tee media/radio/last.log
+          exit ${PIPESTATUS[0]}
+      - name: media 가지에 올리기 (기록 없이 새로)
+        if: always()
+        run: |
+          cd media
+          rm -rf .git 2>/dev/null; git init -q -b media; git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add -A && git commit -qm "읽어 드려요 $(date -u +%F)" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" media

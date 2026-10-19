@@ -423,5 +423,7 @@ def build():
         if f[:10] not in keep: os.remove(os.path.join(OUT, f))
     say('완료', DATE, HOST)
 
-try: build()
-finally: open(os.path.join(MEDIA, 'last-opening.log'), 'w').write('\n'.join(LOG))
+# 다른 도구(tools/radio.py)가 녹음·자르기 함수를 그대로 가져다 쓰므로, 직접 실행할 때만 만든다
+if __name__ == '__main__':
+    try: build()
+    finally: open(os.path.join(MEDIA, 'last-opening.log'), 'w').write('\n'.join(LOG))
