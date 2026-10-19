@@ -334,10 +334,24 @@ def gen_meal(d):
     return m
 
 
+def recent_quiz_terms(d, days=21):
+    """요 며칠 다룬 시사 용어 — 같은 말이 연달아 나오지 않게 (2026-10-20: 사흘 내리 '텍스트힙')"""
+    out = []
+    for k in range(1, days + 1):
+        p = os.path.join(HERE, "..", "daily", (d - datetime.timedelta(days=k)).isoformat() + ".json")
+        try:
+            t = (json.load(open(p, encoding="utf-8")).get("quiz") or {}).get("term")
+            if t and t not in out: out.append(t)
+        except Exception:
+            pass
+    return out
+
+
 def gen_quiz(d):
     """오늘의 시사 상식: 최근 뉴스에 자주 나오는 말 하나를 골라 풀어 주고, 확인 문제 하나."""
+    recent = ", ".join(recent_quiz_terms(d)) or "없음"
     prompt = f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 최근 일주일 한국 뉴스·방송·인터넷에서 자주 나오는 시사 용어 하나를 구글 검색으로 골라라.
-경제·기술·생활·문화·건강·사회 현상 중에서. 정치인 이름·정당 논쟁·사건사고·특정 기업 홍보는 피한다. 40~60대 교양 있는 독자가 "아, 요즘 이걸 이렇게 부르는구나" 하고 배울 만한 말.
+경제·기술·생활·문화·건강·사회 현상 중에서. **요 며칠 다룬 {recent} 은(는) 절대 고르지 말고, 결이 다른 분야에서 고른다.** 정치인 이름·정당 논쟁·사건사고·특정 기업 홍보는 피한다. 40~60대 교양 있는 독자가 "아, 요즘 이걸 이렇게 부르는구나" 하고 배울 만한 말.
 '디지털 디톡스·워라밸·MZ·소확행·번아웃'처럼 이미 몇 년째 누구나 아는 말은 피하고, 최근 1~2년 사이 새로 자주 쓰이는 말을 고른다. 모임에서 꺼내면 대화가 되는 수준.
 형식(JSON만):
 {{"quiz": {{"kind":"시사 상식", "term":"용어(15자 이내)", "meaning":"한 줄 뜻(30자 이내)",
