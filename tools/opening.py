@@ -15,9 +15,11 @@ args = [a for a in sys.argv[1:] if not a.startswith('--')]
 FORCE = '--force' in sys.argv
 DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 D = datetime.date.fromisoformat(DATE)
-# 진행자는 사흘에 한 바퀴: 윤미소 → 송은채 → 서한결 (운영자 2026-10-20). 10/21(수)을 윤미소로 잡는다.
+# 진행자 세 사람 × 옷 두 벌 = 엿새에 한 바퀴 (운영자 2026-10-20). 10/21(수)을 윤미소 1벌로 잡는다.
+# 같은 사람이 나올 때마다 옷이 바뀌어 '녹화 한 번 떠 놓고 돌려 쓰는' 느낌이 나지 않게.
+ROUND = [('miso', 1), ('eunchae', 1), ('hangyeol', 1), ('miso', 2), ('eunchae', 2), ('hangyeol', 2)]
 ROTATE = ['miso', 'eunchae', 'hangyeol']
-HOST = ROTATE[(D - datetime.date(2026, 10, 21)).days % 3]
+HOST, OUTFIT = ROUND[(D - datetime.date(2026, 10, 21)).days % 6]
 OTHER = ROTATE[(ROTATE.index(HOST) + 1) % 3]
 NAME = {'miso': '윤미소', 'hangyeol': '서한결', 'eunchae': '송은채'}
 WD = '월화수목금토일'[D.weekday()]
@@ -44,6 +46,29 @@ DIRECT = ('[연출] 아침을 여는 생방송 오프닝. **첫마디 "안녕하
           '뉴스 읽기·낭독조·느린 설명조 금지. 그렇다고 호들갑·애교는 아니다. '
           '**대본이 낮이든 저녁이든 목소리와 기운은 똑같이 유지한다.** 저녁 대본이라고 톤을 낮추거나 '
           '느리게 읽거나 가라앉히지 말 것 — 아침·낮·저녁 세 벌이 같은 사람의 같은 방송으로 들려야 한다.')
+# 빠진 장면은 **같은 옷 안에서** 비슷한 것으로 메운다 (운영자 2026-10-20: 사진을 더 받지 않기로).
+# 옷이 중간에 바뀌면 안 되므로 다른 벌로는 절대 넘어가지 않는다. 저녁 사진이 없는 벌은 낮 사진을 쓴다.
+ALT = {
+    'wave': ['stand', 'delight', 'smile'], 'stand': ['wave', 'smile', 'delight'],
+    'read': ['talk', 'smile'], 'talk': ['read', 'delight', 'smile'],
+    'delight': ['smile', 'laugh'], 'smile': ['delight', 'stand'],
+    'laugh': ['delight', 'smile'], 'curious': ['smile', 'read'],
+    'thumb': ['delight', 'smile'], 'surprise': ['talk', 'delight'], 'moved': ['smile', 'curious'],
+}
+
+
+def shot(period, tag):
+    """그날 쓸 사진 파일 이름. 같은 벌 안에서만 고른다."""
+    sfx = '' if OUTFIT == 1 else '2'
+    # 한 방송 안에서 낮 사진과 밤 사진이 섞이면 조명이 튄다 —
+    # 그래서 **그 시간대 안에서 비슷한 장면으로 먼저 메우고**, 그래도 없을 때만 다른 시간대로 넘어간다.
+    for p in ([period, 'mor', 'eve'] if period == 'eve' else [period, 'eve']):
+        for t in [tag] + ALT.get(tag, []):
+            f = f'{HOST}-{p}{sfx}-{t}.jpg'
+            if os.path.exists(os.path.join(ROOT, 'img', 'hosts', f)): return f
+    return f'{HOST}-mor{sfx}-smile.jpg'
+
+
 BAD = ['시니어', '어르신', '노인', '치매', '두뇌', '은퇴', '손주', '손자', '시어머니', '며느리', '효도', '내복']
 LOG = []
 def say(*a): s = ' '.join(map(str, a)); print(s); LOG.append(s)
@@ -346,8 +371,9 @@ def build():
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
     sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'wave'}
-    eve = os.path.exists(os.path.join(ROOT, 'img', 'hosts', f'{HOST}-eve-read.jpg'))
-    res = {'date': DATE, 'host': HOST, 'eve': eve, 'title': s.get('title', ''), 'next_title': s['next_title'],
+    imgs = {p: {t: shot(p, t) for t in set(TAGS) | {'wave', 'stand'}} for p in ('mor', 'eve')}
+    res = {'date': DATE, 'host': HOST, 'outfit': OUTFIT, 'imgs': imgs,
+           'title': s.get('title', ''), 'next_title': s['next_title'],
            'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'slots': {}}
     # ── 세 벌을 '한 번에' 녹음하고 잘라 쓴다 (운영자 2026-10-19) ──
     # 따로 녹음하면 같은 목소리로 시킨 것도 벌마다 다르게 나온다(171~222Hz). 높이를 맞춰 봐도

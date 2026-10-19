@@ -25,10 +25,12 @@ export async function init({ modal, closeModal, toast, DB }) {
   // 저녁은 여섯 시부터 (운영자 2026-10-19: 다섯 시는 아직 낮이다)
   const slot = h >= 5 && h < 11 ? 'morning' : h >= 11 && h < 18 ? 'noon' : 'evening';
   const S = data.slots[slot] || data.slots.morning; if (!S || !S.segs || !S.segs.length) return;
-  // 저녁 사진이 아직 없는 진행자는 아침 장면을 그대로 쓴다 (만드는 쪽에서 eve:false 로 알려 준다)
-  const period = (slot === 'evening' && data.eve !== false) ? 'eve' : 'mor';
+  // 어떤 사진을 쓸지는 만드는 쪽(tools/opening.py)이 정해서 imgs 에 담아 준다 —
+  // 옷이 두 벌이고 빠진 장면도 있어서, 같은 옷 안에서 메운 결과를 그대로 받아 쓴다.
+  const period = slot === 'evening' ? 'eve' : 'mor';
   const host = NAME[data.host] ? data.host : 'miso';
-  const img = tag => `img/hosts/${host}-${period}-${tag}.jpg`;
+  const pick = (data.imgs || {})[period] || {};
+  const img = tag => 'img/hosts/' + (pick[tag] || `${host}-${data.eve === false && period === 'eve' ? 'mor' : period}-${tag}.jpg`);
   const dd = new Date(data.date + 'T00:00:00');
 
   // 장면(조각마다)·자막(조각 안에서 글자 수 비례) 시간표
