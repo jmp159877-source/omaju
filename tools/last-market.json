@@ -2,69 +2,69 @@
  "items": [
   {
    "label": "미국 달러",
-   "value": 1332.2,
+   "value": 1332.7,
    "unit": "원",
-   "change": -0.43,
+   "change": -0.4,
    "note": ""
   },
   {
    "label": "일본 엔 (100엔)",
-   "value": 842.95,
+   "value": 843.03,
    "unit": "원",
-   "change": -0.58,
+   "change": -0.57,
    "note": ""
   },
   {
    "label": "유로",
-   "value": 1495.86,
+   "value": 1496.29,
    "unit": "원",
-   "change": -0.43,
+   "change": -0.4,
    "note": ""
   },
   {
    "label": "코스피",
-   "value": 5717.03,
+   "value": 5711.78,
    "unit": "",
-   "change": 0.86,
+   "change": 0.77,
    "note": ""
   },
   {
    "label": "코스닥",
-   "value": 799.65,
+   "value": 799.78,
    "unit": "",
-   "change": 0.61,
+   "change": 0.63,
    "note": ""
   },
   {
    "label": "금 1돈",
-   "value": 672000.0,
+   "value": 671625.0,
    "unit": "원",
-   "change": 0.0,
+   "change": -0.06,
    "note": "한국거래소 기준"
   },
   {
    "label": "은 1돈",
-   "value": 9283.0,
+   "value": 9291.0,
    "unit": "원",
-   "change": 1.4,
+   "change": 1.46,
    "note": "국제 시세 환산"
   },
   {
    "label": "비트코인",
-   "value": 111166000.0,
+   "value": 111103000.0,
    "unit": "원",
-   "change": 0.58,
+   "change": 0.52,
    "note": ""
   },
   {
    "label": "이더리움",
-   "value": 3266000.0,
+   "value": 3261000.0,
    "unit": "원",
-   "change": 0.55,
+   "change": 0.4,
    "note": ""
   }
  ],
- "updatedAt": "2026-10-19T12:24:30.897206+09:00",
+ "updatedAt": "2026-10-19T12:31:34.932062+09:00",
  "errors": [],
  "wx_seoul": {
   "kma_seamless": {
@@ -92,7 +92,7 @@
    "hourly_min": null
   },
   "기본": {
-   "now": 15.7,
+   "now": 16.1,
    "code": 1,
    "max": 18.0,
    "min": 9.1,
@@ -110,10 +110,10 @@
     "name": "미국 USD",
     "fullName": null,
     "description": "하나은행 고시회차",
-    "localTradedAt": "2026-10-19T12:23:33+09:00",
-    "closePrice": "1,332.20",
-    "fluctuations": "-5.80",
-    "fluctuationsRatio": "-0.43",
+    "localTradedAt": "2026-10-19T12:29:33+09:00",
+    "closePrice": "1,332.70",
+    "fluctuations": "-5.30",
+    "fluctuationsRatio": "-0.40",
     "fluctuationsType": {
      "code": "5",
      "text": "하락",
@@ -124,8 +124,8 @@
     "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_USDKRW",
     "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_USDKRW",
     "unit": "KRW",
-    "degreeCount": 283,
-    "calcPrice": "1332.2"
+    "degreeCount": 295,
+    "calcPrice": "1332.7"
    },
    "pc": {
     "error": "substring not found"
@@ -140,10 +140,10 @@
     "name": "일본 JPY",
     "fullName": "일본 JPY 100",
     "description": "하나은행 고시회차",
-    "localTradedAt": "2026-10-19T12:23:33+09:00",
-    "closePrice": "842.95",
-    "fluctuations": "-4.88",
-    "fluctuationsRatio": "-0.58",
+    "localTradedAt": "2026-10-19T12:29:33+09:00",
+    "closePrice": "843.03",
+    "fluctuations": "-4.80",
+    "fluctuationsRatio": "-0.57",
     "fluctuationsType": {
      "code": "5",
      "text": "하락",
@@ -154,8 +154,8 @@
     "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_JPYKRW",
     "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_JPYKRW",
     "unit": "KRW",
-    "degreeCount": 283,
-    "calcPrice": "842.95"
+    "degreeCount": 295,
+    "calcPrice": "843.03"
    },
    "pc": {
     "error": "substring not found"
@@ -170,10 +170,10 @@
     "name": "유럽 EUR",
     "fullName": "유럽연합 EUR",
     "description": "하나은행 고시회차",
-    "localTradedAt": "2026-10-19T12:23:33+09:00",
-    "closePrice": "1,495.86",
-    "fluctuations": "-6.51",
-    "fluctuationsRatio": "-0.43",
+    "localTradedAt": "2026-10-19T12:29:33+09:00",
+    "closePrice": "1,496.29",
+    "fluctuations": "-6.08",
+    "fluctuationsRatio": "-0.40",
     "fluctuationsType": {
      "code": "5",
      "text": "하락",
@@ -184,8 +184,52 @@
     "endUrl": "https://m.stock.naver.com/marketindex/exchange/FX_EURKRW",
     "newPcUrl": "https://stock.naver.com/marketindex/exchange/FX_EURKRW",
     "unit": "KRW",
-    "degreeCount": 283,
-    "calcPrice": "1495.86"
+    "degreeCount": 295,
+    "calcPrice": "1496.29"
+   },
+   "pc": {
+    "error": "substring not found"
+   }
+  },
+  "M04020000": {
+   "mobile": {
+    "categoryType": "metals",
+    "reutersCode": "M04020000",
+    "symbolCode": "M04020000",
+    "name": "국내 금",
+    "fullName": "국내 금",
+    "nameEng": null,
+    "itemLogoUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/index/MarketIndexMetals.svg",
+    "itemLogoPngUrl": "https://ssl.pstatic.net/imgstock/fn/real/logo/png/index/MarketIndexMetals.png",
+    "delayTime": 0,
+    "delayTimeName": "실시간",
+    "description": "",
+    "localTradedAt": "2026-10-19T12:30:47+09:00",
+    "closePrice": "179,100",
+    "fluctuations": "-100",
+    "fluctuationsRatio": "-0.06",
+    "fluctuationsType": {
+     "code": "5",
+     "text": "하락",
+     "name": "FALLING"
+    },
+    "marketStatus": "OPEN",
+    "priceDataType": "REALTIME",
+    "endUrl": "https://m.stock.naver.com/marketindex/metals/M04020000",
+    "chartIqEndUrl": "https://m.stock.naver.com/fchart/marketindex/metals/M04020000",
+    "unit": "원/g",
+    "degreeCount": null,
+    "statementSource": null,
+    "nationType": "KOR",
+    "nationName": "대한민국",
+    "nextReleaseKoreaDate": null,
+    "calendars": null,
+    "openPrice": null,
+    "highPrice": null,
+    "lowPrice": null,
+    "month": "",
+    "newPcUrl": "https://stock.naver.com/marketindex/metals/M04020000",
+    "highPriceOf52Weeks": "269,810"
    },
    "pc": {
     "error": "substring not found"
