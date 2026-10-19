@@ -11,7 +11,7 @@ on:
       force: { description: '1이면 있어도 다시 만들기', required: false, default: '' }
 permissions:
   contents: write
-concurrency: { group: media, cancel-in-progress: false }
+concurrency: { group: radio, cancel-in-progress: false }
 jobs:
   radio:
     runs-on: ubuntu-latest
@@ -46,6 +46,10 @@ jobs:
       - name: media 가지에 올리기 (기록 없이 새로)
         if: always()
         run: |
+          # 다른 작업(오프닝/읽어 드려요)이 그 사이에 올린 파일을 덮어쓰지 않게, 올리기 직전에 한 번 더 받아 와 합친다.
+          # (기록 없이 새로 밀어 넣는 방식이라 이 과정이 없으면 서로의 결과가 지워진다)
+          rm -rf /tmp/oldmedia && git clone -q --depth 1 --branch media "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /tmp/oldmedia 2>/dev/null || true
+          if [ -d /tmp/oldmedia ]; then rm -rf /tmp/oldmedia/.git; cp -rn /tmp/oldmedia/. media/ 2>/dev/null || true; fi
           cd media
           rm -rf .git 2>/dev/null; git init -q -b media; git config user.name omaju-bot; git config user.email bot@omaju.kr
           git add -A && git commit -qm "읽어 드려요 $(date -u +%F)" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" media
