@@ -254,6 +254,39 @@ def split(pcm, lens):
     for k in range(N, 0, -1): i = bk[k][j]; sel.append(i); j = i
     return [0.0] + [round(pts[i], 2) for i in sel[::-1][1:]], round(T, 2)
 
+# ── 배경 음악 ──
+# 음악이 먼저 혼자 흐르다(LEAD) 말이 시작되면 밑으로 내려가 깔리고, 끝에서 서서히 사라진다.
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LEAD, TAIL = 2.4, 3.2      # 앞에 혼자 흐르는 시간 / 끝에 남아 사라지는 시간
+TOP, BED = 0.30, 0.075     # 혼자일 때 크기 / 말 밑에 깔릴 때 크기 (말을 가리지 않게 아주 작게)
+
+
+def music(voice_mp3, sl, dur):
+    """말소리 밑에 배경 음악을 깐다. 음악 파일이 없으면 손대지 않는다. → (앞 여유, 뒤 여유)"""
+    src = os.path.join(ROOT, 'music', f'{sl}.mp3')
+    if not os.path.exists(src):
+        return 0.0, 0.0
+    total = LEAD + dur + TAIL
+    out = voice_mp3 + '.mix.mp3'
+    # 말이 시작되기 직전부터 1초에 걸쳐 TOP → BED 로 내려간다
+    vol = (f"volume='if(lt(t,{LEAD - 0.5:.2f}),{TOP},"
+           f"if(lt(t,{LEAD + 0.5:.2f}),{TOP}-{TOP - BED:.4f}*(t-{LEAD - 0.5:.2f}),{BED}))':eval=frame")
+    fc = (f"[0:a]aformat=sample_rates=44100:channel_layouts=stereo,"
+          f"adelay={int(LEAD * 1000)}:all=1[v];"
+          f"[1:a]aformat=sample_rates=44100:channel_layouts=stereo,"
+          f"atrim=0:{total:.2f},asetpts=N/SR/TB,{vol},"
+          f"afade=t=in:st=0:d=1.4,afade=t=out:st={total - TAIL:.2f}:d={TAIL}[m];"
+          f"[v][m]amix=inputs=2:duration=longest:dropout_transition=0:normalize=0[a]")
+    try:
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', voice_mp3,
+                        '-stream_loop', '-1', '-i', src, '-filter_complex', fc,
+                        '-map', '[a]', '-ac', '2', '-ar', '44100', '-b:a', '96k', out], check=True)
+    except Exception as e:
+        say('음악 입히기 실패 — 말소리만 둔다', sl, str(e)[:80]); return 0.0, 0.0
+    os.replace(out, voice_mp3)
+    return LEAD, TAIL
+
+
 def build():
     path = os.path.join(OUT, DATE + '.json')
     if os.path.exists(path) and not FORCE: say('이미 있음', DATE); return
@@ -300,10 +333,13 @@ def build():
         else: tempo_eff = tempo
         af.append(f'atempo={tempo_eff:.4f}')
         mp3 = f'{DATE}-{sl}.mp3'
-        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af), '-ac', '1', '-b:a', '64k', os.path.join(OUT, mp3)], check=True)
-        res['slots'][sl] = {'audio': mp3, 'end': round(T / tempo, 2),
-                            'segs': [{'t': round(st / tempo, 2), 'tag': x['tag'], 'cap': x['cap']} for st, x in zip(starts, segs)]}
-        say(sl, '길이', round(T / tempo, 1), '빠르기', round(rate * tempo, 2), '높이', pf and round(pf), '→', tgt)
+        dst = os.path.join(OUT, mp3)
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af), '-ac', '1', '-b:a', '64k', dst], check=True)
+        dur = T / tempo
+        lead, tail = music(dst, sl, dur)
+        res['slots'][sl] = {'audio': mp3, 'end': round(lead + dur + tail, 2),
+                            'segs': [{'t': round(lead + st / tempo, 2), 'tag': x['tag'], 'cap': x['cap']} for st, x in zip(starts, segs)]}
+        say(sl, '길이', round(lead + dur + tail, 1), '빠르기', round(rate * tempo, 2), '높이', pf and round(pf), '→', tgt, '음악', bool(lead))
     json.dump(res, open(path, 'w'), ensure_ascii=False, indent=1)
     # 최근 5일만 남김
     keep = {(D - datetime.timedelta(days=k)).isoformat() for k in range(5)} | {(D + datetime.timedelta(days=1)).isoformat()}
