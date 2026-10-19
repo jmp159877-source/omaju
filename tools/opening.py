@@ -103,7 +103,7 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
  - "~예요 / ~죠 / ~거든요 / ~더라고요 / ~네요 / ~볼까요" 를 섞어 씁니다.
  - **"~입니다"로만 끝나는 보도 말투 금지.** 설명문·공지문 말투 금지. 딱딱한 한자어 금지.
  - 듣는 사람을 부르는 말("여러분", "오늘 하루") 을 가끔 넣어 혼자 읽는 느낌이 아니게 합니다.
- - 다만 첫 문장("좋은 아침입니다, {name}입니다")과 사인오프("오마주, {name}였습니다")는 그대로 둡니다.
+ - 다만 첫 문장("좋은 아침입니다, {name}예요")과 사인오프("사랑합니다. 오마주, {name}…")는 그대로 둡니다. 사인오프는 쓰지 말고 비워 두세요 — 뒤에 저희가 붙입니다.
  - 애교·과장·호들갑 금지. 지적이되 어렵지 않게.
  한 조각은 1~3문장, 한 조각 60자 이내.
 [길이] 전체를 소리 내어 읽어 60~70초 (한글 280~330자).
@@ -287,6 +287,13 @@ def music(voice_mp3, sl, dur):
     return LEAD, TAIL
 
 
+def signoff(who):
+    """사인오프 — 이름 끝 받침에 따라 '였습니다 / 이었습니다' (서한결였습니다 가 되지 않게)"""
+    n = NAME[who]; c = ord(n[-1])
+    bat = (c - 0xAC00) % 28 if 0xAC00 <= c <= 0xD7A3 else 0
+    return f"오마주, {n}{'이었' if bat else '였'}습니다."
+
+
 def build():
     path = os.path.join(OUT, DATE + '.json')
     if os.path.exists(path) and not FORCE: say('이미 있음', DATE); return
@@ -294,7 +301,7 @@ def build():
     # 내일 예고는 말로 하지 않는다 (운영자 2026-10-19: "이 내용은 그냥 없어도 될 것 같은데").
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
-    sign = {'say': f'오마주, {NAME[HOST]}였습니다.', 'cap': [f'오마주, {NAME[HOST]}였습니다.'], 'tag': 'smile'}
+    sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'smile'}
     res = {'date': DATE, 'host': HOST, 'title': s.get('title', ''), 'next_title': s['next_title'], 'slots': {}}
     for sl in SLOTS:
         g = [dict(x) for x in s['greet'][sl]]
