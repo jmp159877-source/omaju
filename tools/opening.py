@@ -171,6 +171,9 @@ def problems(s):
         for sl in SLOTS:
             if len(s['greet'][sl]) < 1: p.append('인사 없음 ' + sl)
             if not s['close'][sl]['say']: p.append('마무리 없음 ' + sl)
+            # 첫인사에 진행자 이름이 빠지면 누가 진행하는지 모른다 (2026-10-20 점검에서 확인)
+            g = ' '.join(x['say'] for x in s['greet'][sl])
+            if NAME[HOST] not in g: p.append('첫인사에 이름 없음 ' + sl)
         if not (5 <= len(s['body']) <= 9): p.append(f"오늘의 한 조각 {len(s['body'])}개")
         segs = [x for sl in SLOTS for x in s['greet'][sl]] + s['body'] + [s['message']]
         for x in segs:
