@@ -1724,6 +1724,6 @@ body.rd-on { padding-bottom: 124px; }
 .intro-mast { margin: 26px 0 0; text-align: right; font-family: 'Cormorant Garamond', serif;
   font-weight: 600; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: rgba(255,255,255,0.82); text-shadow: 0 1px 6px rgba(0,30,60,0.5); }
-/* 휴대폰에서만 커버와 같은 폭으로 꽉 채운다. PC 에서는 커버(왼쪽 기둥)에 붙어 촌스러워진다 (2026-10-20) */
-@media (max-width: 768px) { .intro { margin: 30px -18px 0; padding: 40px 22px 42px; border-radius: 0; } }
+/* 좌우 여백은 CONTENTS 칸과 똑같이 — 휴대폰도 PC 도 같은 자리에서 시작한다 (운영자 2026-10-20) */
+@media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 42px; } }
 @media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
