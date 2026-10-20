@@ -1,19 +1,26 @@
 대본 gemini-3.1-pro-preview 문제: 없음
-대본 1829 자 · 11 토막
+대본 1929 자 · 11 토막
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 3 'content'
+토막이 길어 반으로 쪼갬 5 조각
+녹음 gemini-3.1-flash-tts-preview 51.3 초 일치 0.99 통과
+녹음 gemini-3.1-flash-tts-preview 120.7 초 일치 1.0 통과
 녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 400: Bad Request
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
 녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 400: Bad Request
 녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 400: Bad Request
-토막이 길어 반으로 쪼갬 6 조각
-녹음 gemini-3.1-flash-tts-preview 83.0 초 일치 0.98 통과
-녹음 gemini-3.1-flash-tts-preview 114.3 초 일치 1.0 통과
-녹음 gemini-3.1-flash-tts-preview 144.0 초 일치 1.0 통과
-토막 3 개 · [83, 114, 144] 초 · [222, 220, 192]
-토막 높이 [222, 220, 192] → [211, 210, 210] (기준 210 )
-완료 g1 362.3 초 빠르기 5.1 높이 214 → 210
+토막이 길어 반으로 쪼갬 4 조각
+녹음 gemini-3.1-flash-tts-preview 87.4 초 일치 1.0 통과
+녹음 gemini-3.1-flash-tts-preview 85.7 초 일치 0.99 통과
+녹음 gemini-3.1-flash-tts-preview 52.4 초 일치 1.0 통과
+토막 5 개 · [51, 121, 87, 86, 52] 초 · [202, 186, 187, 198, 186]
+토막 높이 [202, 186, 187, 198, 186] → [196, 196, 196, 196, 196] (기준 196 )
+완료 g1 381.9 초 빠르기 5.1 높이 197 → 196
 --- 만들어진 것 ---
-total 6596
--rw-r--r-- 1 runner runner    4260 Oct 20 08:42 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 20 08:42 2026-10-19-g1.mp3
--rw-r--r-- 1 runner runner    6975 Oct 20 08:47 2026-10-20-g1.json
--rw-r--r-- 1 runner runner 4347865 Oct 20 08:47 2026-10-20-g1.mp3
+total 6824
+-rw-r--r-- 1 runner runner    4260 Oct 20 08:48 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 20 08:48 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    7317 Oct 20 08:58 2026-10-20-g1.json
+-rw-r--r-- 1 runner runner 4583280 Oct 20 08:58 2026-10-20-g1.mp3
