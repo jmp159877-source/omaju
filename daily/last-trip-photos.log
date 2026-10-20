@@ -1,41 +1,16 @@
 [여행 golf]
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-  못 구함 — 가와나 후지 코스 · 
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.1-pro-preview HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.8-flash HTTP Error 402: Payment Required )
-   (gemini 실패 gemini-3.7-flash HTTP Error 402: Payment Required )
-Traceback (most recent call last):
-  File "/home/runner/work/omaju/omaju/tools/trip_photos.py", line 230, in <module>
-    main()
-  File "/home/runner/work/omaju/omaju/tools/trip_photos.py", line 213, in main
-    a, b = run(tab, d.get(tab) or [])
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/omaju/omaju/tools/trip_photos.py", line 200, in run
-    if have or fetch(q, name, x, kind):
-               ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/omaju/omaju/tools/trip_photos.py", line 180, in fetch
-    n, why = judge(cands, item, kind)
-             ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/omaju/omaju/tools/trip_photos.py", line 147, in judge
-    return (n, str(j.get('why', ''))[:60]) if 1 <= n <= len(cands) else (0, str(j.get('why', ''))[:60])
-                                                                                ^^^^^
-AttributeError: 'list' object has no attribute 'get'
+  ok golf-8a345b2b57.jpg ← "seaside golf course green" (밝기 129 채도 119) · 인물에 치우치지 않고 푸른 그린과 바다 풍광이 시원하게 펼쳐져 가와나의 해안 코스 정취와 가로 띠 판형에 가
+  ok golf-8c2b5879c3.jpg ← "valley golf course green" (밝기 186 채도 55) · 산안개가 감도는 웅장한 능선과 울창한 숲속 코스가 고급스럽게 어우러져 카오야이 고원 골프장의 정취를 가장 품
+  ok golf-7236cb01b8.jpg ← "pine tree golf course fairway" (밝기 115 채도 70) · 달랏 특유의 울창한 소나무 숲과 푸른 페어웨이가 조화를 이루는 고즈넉한 골프장 풍경이 가로 띠 형태로 잘 어
+  ok golf-95552c2d9c.jpg ← "coastal golf course fairway" (밝기 146 채도 81) · 푸른 바다와 완만한 구릉의 페어웨이가 넓게 펼쳐져 가로 띠 형태로 잘랐을 때 해안 골프장의 풍광이 가장 잘 
+[여행 tour]
+  ok tour-21a776cc76.jpg ← "Tuscany rolling hills vineyard" (밝기 115 채도 103) · 황금빛으로 물든 완만한 구릉과 사이프러스 나무, 농가가 어우러져 토스카나의 가을 정취를 한눈에 가장 잘 보여
+  ok tour-ca3893e594.jpg ← "Samarkand Registan blue dome" (밝기 153 채도 67) · 사마르칸트의 상징인 레기스탄 광장 건축물의 웅장한 이완과 푸른 돔이 한눈에 보이며, 가로 띠로 잘라도 풍경의
+  ok tour-d806e5f05d.jpg ← "Kamikochi Nagano autumn river" (밝기 106 채도 102) · 가미코치를 대표하는 호타카 연봉과 맑은 아즈사가와의 풍경이 고스란히 담겨 가로 띠 배너로 알맞습니다.
+  ok tour-bbee3fb6df.jpg ← "traditional Asian street food alley" (밝기 138 채도 41) · 골목길 노점 수레가 가로로 자연스럽게 배치되어 있어 띠 형태로 잘라도 중화권 골목 미식의 정취가 잘 살아납니
+[여행 free]
+  ok free-f7f321fc54.jpg ← "Kurashiki canal willow" (밝기 131 채도 44) · 구라시키 미관지구 특유의 버드나무와 운하, 나룻배가 고즈넉하게 어우러져 가로 띠로 잘라도 물가 풍경의 정취가
+  ok free-2495b9cb9e.jpg ← "Seville orange alley" (밝기 114 채도 97) · 세비야를 대표하는 스페인 광장의 운하와 건축물이 유려하게 담겨 있어 고급 여행 매거진의 물가 풍경 띠로 적합
+  ok free-dda0493c65.jpg ← "Turkey mediterranean ancient ruins" (밝기 115 채도 104) · 지중해 수평선과 로마 신전 유적이 파노라마로 펼쳐져 있어 가로 띠 크롭 시 주제와 구도가 가장 안정적으로 살
+  ok free-7f8dd4816b.jpg ← "Australia city alley cafe" (밝기 123 채도 47) · 나뭇잎 사이로 드는 따스한 봄 햇살과 고즈넉한 노천카페 거리가 '골목과 커피'라는 주제의 정서에 가장 잘 부
+사진 12 장 / 목록 12 개
