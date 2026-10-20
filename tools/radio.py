@@ -320,12 +320,19 @@ def build(ch):
     # 그래서 코너를 묶어 토막으로 나눠 읽히고 이어 붙인다. **이음매마다 목소리가 조금씩 달라지므로
     # 토막은 될 수 있는 대로 크게 묶는다** (운영자 2026-10-20: "운세 넘어가면서 다른 사람 같다").
     MAX = 950   # 이음매에서 목소리가 바뀐다(운영자: 운세에서 다른 사람 같다). 되도록 크게 묶는다
+    # 꽉꽉 채워 나누면 끝에 짧은 토막이 남는다(147·145·51초). 짧은 토막일수록 높이가 엉뚱하게 나와
+    # 거기서 사람이 바뀐 것처럼 들린다(운영자 2026-10-20: 끝에 오늘 PLAY 에서 또 바뀐다).
+    # 그래서 **몇 토막이 필요한지 먼저 세고 고르게 나눈다.**
+    lens0 = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
+    need = max(1, -(-sum(lens0) // MAX))
+    want = sum(lens0) / need
     groups, cur, n = [], [], 0
-    for x in segs:
-        ln = len(re.sub(r'[^가-힣]', '', x['say']))
-        if cur and n + ln > MAX: groups.append(cur); cur, n = [], 0
+    for x, ln in zip(segs, lens0):
+        if cur and n >= want and len(groups) < need - 1:
+            groups.append(cur); cur, n = [], 0
         cur.append(x); n += ln
     if cur: groups.append(cur)
+    texts = ['\n'.join(x['say'] for x in g) for g in groups]
 
     def read(gs, depth=0):
         """토막을 읽힌다. 길어서 못 읽으면(빈 응답) 반으로 쪼개 다시 — 한 번만."""
@@ -343,7 +350,22 @@ def build(ch):
 
     pcms = read(groups)
     f0s = [OP.f0(p) or 0 for p in pcms]
-    say('토막', len(pcms), '개 ·', [round(len(p) / 48000) for p in pcms], '초')
+    say('토막', len(pcms), '개 ·', [round(len(p) / 48000) for p in pcms], '초 ·', [round(x) for x in f0s])
+
+    # 기준에서 6% 넘게 벗어난 토막은 **그 토막만** 다시 읽힌다. 당기는 폭(내리기 5%)으로는 못 메우고,
+    # 그대로 두면 거기서 다른 사람 목소리가 난다. 전체를 다시 녹음하지 않으므로 한도도 아낀다.
+    if tgt0 and len(texts) == len(pcms):
+        for i in range(len(pcms)):
+            for _ in range(2):
+                f = f0s[i]
+                if not f or abs(f / tgt0 - 1) <= 0.06: break
+                say(f'토막 {i + 1} 높이 {round(f)} — 기준({tgt0})에서 멀어 다시 읽힘')
+                time.sleep(6)
+                again = tts(texts[i], host)
+                if again is None: break
+                nf = OP.f0(again) or 0
+                if nf and abs(nf / tgt0 - 1) < abs(f / tgt0 - 1): pcms[i], f0s[i] = again, nf
+                else: break
     # 토막마다 높이가 제각각 나온다(202~245). 그대로 이으면 이음매에서 다른 사람처럼 들린다.
     # 가운뎃값에 맞추면 그날 높게 나온 토막 쪽으로 전체가 끌려가므로(226 이 됐다),
     # **그 진행자의 기준 높이**로 토막마다 당긴다. 당기는 폭은 늘 그대로 — 내리기 5%·올리기 10%까지.
