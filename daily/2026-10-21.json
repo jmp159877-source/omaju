@@ -1,820 +1,96 @@
 {
- "greetings": [
-  "가을볕이 곱네요\n차 한잔 들고\n바람을 봅니다",
-  "문득 생각나서\n안부 전합니다\n좋은 날 되세요",
-  "오늘의 중요 일정\n햇볕 아래서\n멍하니 있기",
-  "알람은 껐지만\n이불이 저를\n안 놓아줍니다"
- ],
- "follow": {
-  "meditate": {
-   "name": "명상",
-   "say": "숨을 천천히 들이쉬며 마음속 소음을 가만히 내려놓습니다.",
-   "query": "차분한 하루를 위한 10분 명상",
-   "channel": "요가소년",
-   "videoId": "HtHS8oO9Tg8",
-   "thumb": "https://i.ytimg.com/vi/HtHS8oO9Tg8/mqdefault.jpg",
-   "title": "마음이 편안해지는 10분 명상 가이드 | 요가소년 468"
-  },
-  "park": {
-   "name": "파크골프",
-   "say": "그린 위에서 홀컵을 정직하게 겨누는 감각을 익혀보세요.",
-   "query": "파크골프 방향성 높이는 퍼팅",
-   "channel": "하이샷파크골프 아카데미",
-   "videoId": "f-xAOwZuh-4",
-   "thumb": "https://i.ytimg.com/vi/f-xAOwZuh-4/mqdefault.jpg",
-   "title": "파크골프 퍼팅하는 방법! 이렇게만 하세요 | 하이샷파크골프"
-  },
-  "golf": {
-   "name": "골프 레슨",
-   "say": "힘을 들이지 않고 몸의 회전만으로 공을 보내는 요령입니다.",
-   "query": "힘 빼고 치는 드라이버 스윙 레슨",
-   "channel": "박경준프로의 이기는골프",
-   "videoId": "TC_qlWx9PLg",
-   "thumb": "https://i.ytimg.com/vi/TC_qlWx9PLg/mqdefault.jpg",
-   "title": "[박경준프로]힘을 빼고 스윙하는 3단계 연습법/ 힘이 빠집니다 winning golf lesson"
-  },
-  "sing": {
-   "name": "노래 교실",
-   "say": "익숙한 노래의 숨은 마디를 짚어가며 소리를 틔워보세요.",
-   "query": "노래교실 추억의 가요 배우기",
-   "channel": "한가은TV",
-   "videoId": "VoaGNKQdocA",
-   "thumb": "https://i.ytimg.com/vi/VoaGNKQdocA/mqdefault.jpg",
-   "title": "쏙쏙 노래교실/가수 강덕인/아이스케키/강사 한가은/노래배우기!!#한가은 #한가은노래교실 #노래교실인기곡 #노래교실 #트로트 #가요무대 #추억의명곡 #강덕인 #아이스케키"
-  },
-  "gym": {
-   "name": "요가",
-   "say": "굳어 있던 어깨와 허리를 부드럽게 펴며 하루를 시작해 보세요.",
-   "query": "초보자를 위한 아침 요가 15분",
-   "channel": "에일린 mind yoga",
-   "videoId": "2RaErjnOzmU",
-   "thumb": "https://i.ytimg.com/vi/2RaErjnOzmU/mqdefault.jpg",
-   "title": "누구나 할 수 있는 15분 홈요가 | 기초요가 스트레칭, 데일리 전신스트레칭"
-  },
-  "dance": {
-   "name": "댄스",
-   "say": "경쾌한 리듬에 맞춰 가볍게 발을 딛는 즐거움을 만끽하세요.",
-   "query": "초보를 위한 라인댄스 기본 스텝",
-   "channel": "Hyo Linedance",
-   "videoId": "7UuRwzfcvH4",
-   "thumb": "https://i.ytimg.com/vi/7UuRwzfcvH4/mqdefault.jpg",
-   "title": "초보자를위한 라인댄스기본스텝 배워보기 Line Dance  Basic Step"
-  }
- },
- "startedAt": "2026-10-21T04:06:10.910595+09:00",
- "mind": {
-  "line": "마음의 보폭을 늦추면 비로소 사물의 서늘한 결이 손에 잡힙니다.",
-  "by": "",
-  "todo": "책상 위에 어질러진 필기구 세 개를 가지런히 모아 제자리에 둡니다.",
-  "note": "아침 공기가 서늘해진 창가에 서서 김이 오르는 잔을 가만히 내려다봅니다. 서두르지 않고 온도를 음미하는 동안 하루의 윤곽이 단정하게 잡힙니다."
- },
- "quiz": {
-  "question": "다음 중 요노의 태도에 가장 잘 들어맞는 사례는 무엇입니까?",
-  "term": "요노",
-  "example": "유행하는 옷을 다 사기보다 요노 방식으로 기본 외투 한 벌만 골랐어요.",
-  "answer": 2,
-  "kind": "시사 상식",
-  "why": "고물가와 경기 둔화가 이어지면서 불필요한 과시보다 실속을 챙기려는 합리적 소비 심리가 사회 전반으로 번졌기 때문입니다.",
-  "meaning": "꼭 필요한 것 하나만 사며 실속을 챙기는 소비 방식",
-  "explain": "‘하나만 있으면 된다(You Only Need One)’는 영어 문장의 머리글자를 딴 말입니다. 과거 유행했던 ‘인생은 한 번뿐(YOLO)’ 식의 과시적 소비와 달리 불필요한 낭비를 줄이고 꼭 필요한 것만 고릅니다. 무작정 안 쓰는 게 아니라 물건의 쓰임새와 가치를 꼼꼼히 따져 하나를 제대로 장만하는 태도입니다.",
-  "options": [
-   "남들에게 보여주기 위해 유명 식당의 값비싼 코스 요리를 예약한다",
-   "할인 행사를 한다는 소식에 당장 쓰지 않을 물건을 대량으로 사둔다",
-   "평소 매일 입을 질 좋은 기본 외투 한 벌을 신중히 골라 오래 입는다",
-   "유행하는 전자제품이 출시될 때마다 쓰던 기기가 멀쩡해도 바로 바꾼다"
-  ]
- },
- "fortune": {
-  "말": {
-   "time": "오전 11시 무렵",
-   "do": "신발장 구두와 운동화를 단정하게 정돈하기.",
-   "people": "오랜 친구에게서 먼저 온 연락이 뜻밖의 활력을 전해 줍니다.",
-   "work": "복잡하게 엉켰던 서류나 집안 정리가 단번에 가닥을 잡습니다.",
-   "care": "말을 너무 직설적으로 건네면 상대가 위축될 수 있습니다.",
-   "num": "14",
-   "total": "머뭇거리던 일에 기분 좋은 속도가 붙는 날입니다. 계획했던 일을 망설이지 말고 정면으로 마주하면 결과가 명확해집니다. 저녁에는 가벼운 성취감과 함께 홀가분한 시간을 누릴 수 있습니다.",
-   "place": "탁 트인 찻집",
-   "money": "오래 쓸 만한 생활 물품이라면 오늘 장만해도 무방합니다.",
-   "color": "감청색"
-  },
-  "개": {
-   "time": "오전 9시 무렵",
-   "do": "외출 전 현관 앞을 깨끗하게 비질하기.",
-   "people": "가족이나 오랜 동료와 나누는 저녁 식사 자리가 훈훈합니다.",
-   "work": "손이 많이 가던 살림이나 업무가 매끄럽게 제자리를 찾습니다.",
-   "care": "원칙만 고집하면 융통성이 부족하다는 인상을 줄 수 있습니다.",
-   "num": "5",
-   "total": "성실하게 다져 온 노력이 믿음직한 호응을 얻는 단단한 날입니다. 준비해 둔 생각이나 계획을 사람들에게 담백하게 알리기 좋습니다. 기대 이상의 인정을 받으며 보람찬 하루를 닫게 됩니다.",
-   "place": "볕이 잘 드는 마당",
-   "money": "집안에 둘 화분이나 작은 소품에 쓰는 비용은 길합니다.",
-   "color": "벽돌색"
-  },
-  "쥐": {
-   "time": "오전 10시 무렵",
-   "do": "책상 위나 서랍 한 칸을 말끔히 비워 보세요.",
-   "people": "가까운 동료나 이웃이 먼저 손을 내밀어 든든한 지원군이 되어 줍니다.",
-   "work": "미뤄 두었던 서류 정리나 집안 정돈이 한 번에 매끄럽게 끝납니다.",
-   "care": "기분이 들떠 한 번에 여러 일을 벌이지 않도록 하세요.",
-   "num": "14",
-   "total": "막혔던 일이 자연스럽게 풀려 활기를 되찾는 날입니다. 마음먹었던 계획을 행동으로 옮기면 기대보다 수월하게 진행됩니다. 저녁에는 가벼운 성취감과 함께 하루를 기분 좋게 마무리합니다.",
-   "place": "단골 서점",
-   "money": "작은 생활용품을 살 때 생각지 못한 할인을 챙길 수 있습니다.",
-   "color": "남색"
-  },
-  "원숭이": {
-   "time": "오후 1시 무렵",
-   "do": "자주 쓰는 볼펜과 다이어리를 책상에 챙겨 두기.",
-   "people": "동료나 이웃과의 짧은 대화 속에서 기발한 제안을 얻습니다.",
-   "work": "까다로운 약속이나 협의 사항이 내 의도대로 수월하게 풀립니다.",
-   "care": "지나친 장난은 상대의 사소한 오해를 부를 수 있으니 삼가세요.",
-   "num": "9",
-   "total": "재치 있는 말 한마디가 분위기를 반전시키는 경쾌한 날입니다. 주변의 요청이 잇따르니 가벼운 마음으로 도움을 건네면 운이 활짝 트입니다. 뿌듯한 보람을 안고 기분 좋게 잠자리에 들 수 있습니다.",
-   "place": "문구점",
-   "money": "지인에게 대접하는 커피 한 잔이 몇 배의 호의로 돌아옵니다.",
-   "color": "황금색"
-  },
-  "용": {
-   "time": "늦은 오후 5시 무렵",
-   "do": "가벼운 체조로 어깨의 긴장을 풀어 주세요.",
-   "people": "상대방의 무심한 한마디에 즉각 반응하지 말고 흘려넘기세요.",
-   "work": "진행 중인 일의 마감 일정을 한 번 더 확인하고 재점검하세요.",
-   "care": "부탁을 받을 때 즉답을 피하고 생각할 시간을 두세요.",
-   "num": "42",
-   "total": "사소한 오해가 생기기 쉬우니 한 발 물러서서 지켜보는 날입니다. 내 뜻을 억지로 관철하려 들면 불필요한 마찰로 피로해질 수 있습니다. 말을 아끼고 관망하는 태도가 결국 본전 이상의 이익을 지켜 줍니다.",
-   "place": "동네 산책로",
-   "money": "기분 전환을 핑계로 지갑을 열면 금세 후회가 남습니다.",
-   "color": "짙은 녹색"
-  },
-  "토끼": {
-   "time": "오전 11시 무렵",
-   "do": "아끼던 컵에 신선한 물을 채워 마셔 보세요.",
-   "people": "소원했던 친구에게 가벼운 안부 메시지를 보내면 온기가 돌아옵니다.",
-   "work": "늘 해오던 일상의 과업들이 군더더기 없이 깔끔하게 처리됩니다.",
-   "care": "약속 시간에 촉박하게 나가지 않도록 십 분 일찍 움직이세요.",
-   "num": "8",
-   "total": "일상의 소소한 균형이 편안하게 자리를 잡는 날입니다. 큰 변화를 꾀하기보다 늘 하던 일을 정성스럽게 매만지는 데 집중하세요. 잔잔하게 흘러간 시간 덕분에 마음의 여유를 넉넉히 누립니다.",
-   "place": "식물이 많은 화원",
-   "money": "충동적인 장보기만 피한다면 지출 관리가 아주 깔끔한 하루입니다.",
-   "color": "연회색"
-  },
-  "호랑이": {
-   "time": "오후 1시 무렵",
-   "do": "평소 입지 않던 단정한 옷을 꺼내 입으세요.",
-   "people": "나를 신뢰하는 오랜 지인에게서 반가운 안부와 칭찬을 듣습니다.",
-   "work": "주저하던 일거리나 안건을 밀어붙이면 막힘없이 통과됩니다.",
-   "care": "내 주장만 앞세워 상대방의 작은 배려를 놓치지 마세요.",
-   "num": "28",
-   "total": "망설이던 일에 힘이 실리고 주도권을 잡기 좋은 날입니다. 내 의견을 명확하게 밝힐수록 주변 사람들이 흔쾌히 뜻을 모아 줍니다. 하루를 마칠 즈음에는 오랜만에 분명한 보람을 손에 쥐게 됩니다.",
-   "place": "확 트인 카페",
-   "money": "지갑을 열더라도 나를 위한 의미 있는 소비라면 아깝지 않습니다.",
-   "color": "올리브"
-  },
-  "닭": {
-   "time": "오후 5시 무렵",
-   "do": "읽다 멈춘 책의 다음 장을 세 장 넘겨 보기.",
-   "people": "무리한 약속을 억지로 잡기보다 정중하게 다음을 기약하세요.",
-   "work": "내 몫의 작업만 조용히 끝내고 다른 이의 일에 개입하지 마세요.",
-   "care": "사소한 일에 날을 세우면 결국 내 기분만 상하게 됩니다.",
-   "num": "43",
-   "total": "주변의 소음에서 한 걸음 물러나 혼자만의 틈을 챙겨야 하는 날입니다. 남의 사정에 참견하기보다 나만의 정취를 돌보는 데 시간을 쓰세요. 밤이 깊어질수록 머릿속이 맑아지며 편안한 고요를 맞이합니다.",
-   "place": "동네 서점",
-   "money": "세일 문구에 흔들리지 말고 꼭 필요한 식자재만 구입하세요.",
-   "color": "짙은녹색"
-  },
-  "뱀": {
-   "time": "오전 9시 무렵",
-   "do": "서랍 속 메모지와 필기구를 가지런히 정리하세요.",
-   "people": "취향이 비슷한 사람과 짧은 대화로도 깊은 공감을 나눕니다.",
-   "work": "까다롭던 문제의 핵심을 짚어내어 수월한 해결책을 제시합니다.",
-   "care": "눈앞의 사소한 흠에 지나치게 집착하지 마세요.",
-   "num": "19",
-   "total": "남들이 지나친 세밀한 부분을 먼저 포착해 돋보이는 날입니다. 조용히 내 자리를 지키면서도 번뜩이는 안목으로 명쾌한 답을 찾아냅니다. 해 질 녘에는 홀가분한 기분으로 조용한 저녁을 맞이합니다.",
-   "place": "조용한 전시장",
-   "money": "안목을 믿고 고른 작은 소품이 오랫동안 만족을 줍니다.",
-   "color": "보라"
-  },
-  "양": {
-   "time": "오후 3시 무렵",
-   "do": "따뜻한 보리차를 천천히 마시며 숨 고르기.",
-   "people": "가까운 사람의 푸념을 가만히 들어주는 것만으로 신뢰가 깊어집니다.",
-   "work": "중요한 결정은 내일로 넘기고 하던 일의 마무리에 집중하세요.",
-   "care": "잘 모르는 분야의 권유에 선뜻 고개를 끄덕이지 마세요.",
-   "num": "28",
-   "total": "새로운 시도보다 손에 익은 흐름을 유지하는 편이 이로운 날입니다. 조급하게 결론을 내리려 애쓰지 말고 평소의 박자를 지키는 것이 안전합니다. 하루를 마무리할 때쯤 묵묵히 버틴 보람을 체감하게 됩니다.",
-   "place": "익숙한 산책로",
-   "money": "충동적으로 집어 든 소품은 내려놓고 장바구니를 비우세요.",
-   "color": "상아색"
-  },
-  "돼지": {
-   "time": "오후 7시 무렵",
-   "do": "좋아하는 음악을 틀고 어깨와 목을 가볍게 풀기.",
-   "people": "부담스러운 자리는 그럴듯한 핑계를 대고 사양해도 좋습니다.",
-   "work": "한 번에 여러 일을 벌이지 말고 중요한 한 가지에만 몰입하세요.",
-   "care": "피로가 쌓이기 쉬운 날이니 불필요한 이동을 줄이세요.",
-   "num": "32",
-   "total": "주변을 챙기느라 정작 내 여유를 놓치기 쉬운 날입니다. 부탁받은 일에 바로 답하지 말고 내 일정을 먼저 돌아보는 지혜가 필요합니다. 무리하지 않고 일찍 귀가하면 편안한 쉼이 기다립니다.",
-   "place": "아늑한 서재",
-   "money": "남의 눈을 의식해 계산을 자처하지 말고 각자 부담하세요.",
-   "color": "연회색"
-  },
-  "소": {
-   "time": "오후 3시 무렵",
-   "do": "따뜻한 차 한 잔을 천천히 음미해 보세요.",
-   "people": "상대의 하소연에 무리하게 맞장구치기보다 조용히 들어주는 것이 좋습니다.",
-   "work": "새로운 일을 시작하기보다 이미 진행 중인 일을 꼼꼼히 점검하세요.",
-   "care": "대화 중에 굳이 따지지 않아도 될 일에 정색하지 마세요.",
-   "num": "3",
-   "total": "평소보다 발걸음을 반 박자 늦추는 편이 이로운 날입니다. 성급히 결정을 내리기보다 주변 상황의 흐름을 묵묵히 살피는 편이 낫습니다. 서두르지 않은 덕분에 뜻밖의 실수를 피하고 안도하게 됩니다.",
-   "place": "조용한 차실",
-   "money": "값이 나가는 물건은 오늘 바로 결제하지 말고 며칠 더 지켜보세요.",
-   "color": "갈색"
-  }
- },
  "story": {
   "by": "오마주 편집실",
+  "title": "초록 다이얼",
   "sub": "손끝에 닿던 서늘한 금속음",
   "paras": [
    "1987년 겨울, 거실 서랍장 위에는 초록색 다이얼 전화기가 놓여 있었습니다. 숫자 구멍에 검지손가락을 넣고 끝까지 돌리면 찰칵거리며 되돌아오는 금속 소리가 났습니다. 수화기 너머로 멀리 사는 이모의 목소리가 들릴 때면 묘하게 쇠 냄새와 먼지 냄새가 섞여 코끝에 머물렀습니다.",
    "꼬인 전선 줄을 손가락에 감았다 풀며 나누던 대화는 그리 길지 않았습니다. 통화료가 올라갈까 서둘러 끊고 나면 방 안에는 무거운 정적만 남았습니다. 손가락 끝에 밴 엷은 쇠 냄새를 맡던 그 밤의 서늘함이 아직도 손끝에 남아 있습니다."
-  ],
-  "title": "초록 다이얼"
+  ]
  },
- "body": {
-  "line": "새벽 찬 바람이 스치는 목덜미만 감싸도 온기가 돕니다",
-  "part": "체온",
-  "todo": "외출 전 얇은 머플러나 손수건으로 목 뒤 움푹 파인 곳을 감싸 보세요.",
-  "note": "이른 아침 골프장이나 러닝 코스에 나설 때 몸통을 두껍게 싸매기보다 목 뒤를 덮는 것이 요령입니다. 굵은 혈관이 피부 가까이 지나는 목덜미가 차가워지면 뇌는 몸 전체가 춥다고 판단해 말초 혈관을 좁힙니다. 얇은 스카프 하나가 두꺼운 패딩보다 몸을 가볍고 따뜻하게 만듭니다.",
-  "tip": "두꺼운 옷 한 벌보다 얇은 옷을 겹쳐 입는 편이 체온 조절에 훨씬 유연합니다."
+ "culture": {
+  "poem": {
+   "bg": "1923년 문예지 『백조』에 처음 발표된 뒤 1925년 시집 『진달래꽃』에 수록된 작품입니다. 일제강점기 삶의 터전을 잃고 유랑해야 했던 당대 사람들의 서글픈 처지가 배경에 짙게 깔려 있습니다. 떠나야만 하는 현실과 발길을 잡는 미련이 전통 민요조 가락 속에 깊이 스며 있습니다.",
+   "author": "김소월",
+   "note": "떠나야 하는 걸 알면서도 차마 발길이 떨어지지 않는 망설임이 짧은 행간 속에 고스란히 담겨 있습니다. 까마귀 울음과 재촉하는 강물은 매정한 세월처럼 머뭇거리는 마음을 채근합니다. 뒤를 돌아보며 묵묵히 걸음을 옮기는 이의 뒷모습이 마음에 오래 머뭅니다.",
+   "year": "1923",
+   "words": [
+    {
+     "m": "해가 지는 서쪽 산.",
+     "w": "서산"
+    },
+    {
+     "m": "'흐르더군요'라는 뜻의 평안도 방언 종결형.",
+     "w": "흐릅디다려"
+    },
+    {
+     "m": "끊이지 않고 잇달아 계속해서.",
+     "w": "연달아"
+    }
+   ],
+   "text": "그립다\n말을 할까\n하니 그리워\n\n그냥 갈까\n그래도\n다시 더 한 번\n\n저 산에도 까마귀, 들에 까마귀\n서산에는 해 진다고\n지저귑니다\n\n앞 강물, 뒷 강물\n흐르는 물은\n어서 따라오라고 따라가자고\n흘러도 연달아 흐릅디다려",
+   "title": "가는 길"
+  },
+  "quote": {
+   "note": "세상의 잣대로 재단하는 실용성 너머에 깃든 참된 생명의 가치를 짚은 『장자』 「인간세」 편의 대목입니다. 당장의 득실이나 효율에 얽매이지 않고 그저 머무르는 시간 자체의 온전함을 느껴보는 하루가 되길 바랍니다.",
+   "text": "사람들은 모두 쓸모 있는 것의 쓸모는 알지만, 쓸모없는 것의 쓸모는 알지 못한다.",
+   "who": "장자, 「인간세」"
+  },
+  "essay": {
+   "by": "오마주 편집실",
+   "title": "도마 위의 사과 껍질",
+   "paras": [
+    "아침 공기가 제법 차가워 문을 닫고 부엌에 섰습니다. 단단한 능금 한 알을 깎아내는 칼끝에서 사각거리는 마른 소리가 납니다. 붉은 껍질이 끊어지지 않고 둥글게 이어져 내려앉는 동안, 달착지근하면서도 서늘한 향이 좁은 도마 주변을 가득 채웁니다.",
+    "가을은 늘 껍질의 바깥쪽보다 칼이 지나간 과육의 흰 단면처럼 다가옵니다. 서두르지 않고 깎아낸 조각을 입에 물면, 맑은 단물이 번지며 잠투정 같던 아침의 나른함이 가십니다. 무언가를 새로 시작하기에 알맞은 서늘함이 혀끝에 머뭅니다.",
+    "식탁 위에 남은 껍질을 그러모아 유리병 옆에 둡니다. 마르면서 더 짙어질 가을 냄새를 한동안 방 안에 둘 생각입니다. 창밖으로 비치는 볕이 어제보다 한 뼘 더 길어졌습니다. 물 한 잔을 마시고 오늘 입을 외투를 꺼냅니다."
+   ]
+  },
+  "bible": {
+   "ref": "시편 23:1",
+   "note": "비워낸 마음이라야 채워지는 평안이 있습니다. 쥐고 있는 손을 펴고 맡길 때, 이미 내 곁에 와 있는 온전함을 만납니다.",
+   "text": "여호와는 나의 목자시니 내가 부족함이 없으리로다"
+  },
+  "painting": {
+   "wiki": "en:Sunflowers_(Van_Gogh_series)",
+   "title": "해바라기",
+   "year": "1888",
+   "page": "https://en.wikipedia.org/wiki/Sunflowers_(Van_Gogh_series)",
+   "artist_story": "빈센트 반 고흐는 생전에 단 한 점의 그림만을 팔았을 만큼 고독과 빈곤 속에서 작업했습니다. 자연과 사물이 뿜어내는 내면의 빛을 붙잡기 위해 끊임없이 색채를 탐구한 후기 인상주의의 거장입니다.",
+   "about": "1888년 남프랑스 아를에서 화가 폴 고갱과의 공동생활을 기대하며 노란 집 화실을 꾸미기 위해 그린 연작입니다. 해바라기라는 단일한 소재에 다채로운 노란색 물감을 겹쳐 올리며 강렬한 빛과 생명력을 담아냈습니다. 대표적인 1888년 작 해바라기는 런던 내셔널 갤러리와 뮌헨 노이에 피나코테크 등에 나뉘어 소장되어 있습니다.",
+   "artist": "빈센트 반 고흐",
+   "points": [
+    "물감을 두텁게 쌓아 올려 유화 특유의 입체감과 생동감을 살려낸 거친 붓질입니다.",
+    "활짝 핀 꽃과 이미 시들어 씨앗을 드러낸 꽃이 한 화병에 어우러진 생명의 순환입니다.",
+    "화병과 배경, 꽃잎을 가득 채운 여러 층위의 노란빛이 빚어내는 온기입니다."
+   ],
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_Willem_van_Gogh_127.jpg/1280px-Vincent_Willem_van_Gogh_127.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_Willem_van_Gogh_127.jpg/640px-Vincent_Willem_van_Gogh_127.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+  },
+  "dharma": {
+   "note": "수많은 말로 채우기보다 침묵 속에 머무는 다정한 한마디가 깊습니다. 비워낸 고요 속에서 진정한 안식이 번져갑니다.",
+   "src": "『법구경』",
+   "text": "천 마디 쓸데없는 말보다 들으면 마음이 고요해지는 한마디가 낫다."
+  },
+  "humor": {
+   "text": "아내가 거실 화분의 잎을 하나하나 닦으며 깊은 한숨을 쉬었습니다.\n요즘 식물들이 통 힘이 없다며 물 주는 주기와 일조량을 꼼꼼히 적더군요.\n지나가다 보니 거실 창문 블라인드가 보름째 굳게 내려져 있었습니다.",
+   "title": "식물 도감",
+   "punch": "햇빛을 줘야 자라지, 식물 일기 쓴다고 자라나요.",
+   "kind": "짧은 이야기"
+  }
  },
- "generatedAt": "2026-10-21T04:15:07.203486+09:00",
+ "book": {
+  "publisher": "디자인하우스",
+  "title": "다시, 그림이다",
+  "year": "2012",
+  "kind": "예술",
+  "scene": "길가에 흔히 자란 풀꽃도 손으로 직접 그리다 보면 렌즈로 볼 때와는 전혀 다른 생명력을 보게 된다고 말하는 대목이 있습니다. 세상을 건성으로 스쳐 지나가지 않고 오래 응시하는 사람만이 마주하는 조용한 경이입니다.",
+  "author": "마틴 게이퍼드",
+  "translator": "주은정",
+  "why": "가을 햇살이 따스한 날, 미술관 산책을 마치고 조용한 찻집에 앉았을 때.",
+  "blurb": "화가 데이비드 호크니와 비평가 마틴 게이퍼드가 십 년 넘게 나눈 대화를 엮었습니다. 화폭과 사진, 디지털 화면을 넘나들며 사물을 눈에 담는 일의 기쁨을 집요하게 파고듭니다. 익숙한 풍경도 정성껏 들여다보면 완전히 새로운 세계가 된다는 사실을 일깨워 줍니다."
+ },
  "era": {
-  "30": {
-   "papers": [
-    {
-     "name": "동아일보",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-21&officeId=00020"
-    },
-    {
-     "name": "경향신문",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-21&officeId=00032"
-    },
-    {
-     "name": "매일경제",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-21&officeId=00009"
-    }
-   ],
-   "mood": "가을이 깊어가는 길목에서 사회의 온기와 질서를 바로잡으려는 크고 작은 움직임들이 차분하게 이어지는 날입니다.",
-   "songs": [
-    [
-     "기억속의 먼 그대에게",
-     "박미경"
-    ],
-    [
-     "전사의 후예",
-     "H.O.T."
-    ],
-    [
-     "Come Back Home",
-     "서태지와 아이들"
-    ],
-    [
-     "캔디",
-     "H.O.T."
-    ],
-    [
-     "스피드",
-     "김건모"
-    ],
-    [
-     "꿍따리 샤바라",
-     "클론"
-    ],
-    [
-     "정",
-     "영턱스클럽"
-    ],
-    [
-     "천생연분",
-     "솔리드"
-    ],
-    [
-     "3! 4!",
-     "룰라"
-    ],
-    [
-     "운명",
-     "쿨"
-    ]
-   ],
-   "facts": [
-    [
-     "이소라의 프로포즈",
-     "10월 19일, 심야 음악 프로그램 <이소라의 프로포즈>가 첫 방송을 탔습니다. 진행자의 담담한 목소리와 깊이 있는 라이브 무대가 주말 밤을 감미롭게 채웠습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/180617_Lee_So-ra_at_Pilsner_Festival.png/640px-180617_Lee_So-ra_at_Pilsner_Festival.png?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "남자셋 여자셋",
-     "10월 21일, 청춘 시트콤 <남자셋 여자셋>이 첫선을 보였습니다. 신촌 하숙집을 배경으로 젊은이들의 우정과 사랑을 유쾌하게 그리며 안방극장에 큰 웃음을 전했습니다."
-    ],
-    [
-     "드라마 애인 종영",
-     "10월 22일, 문화방송 드라마 <애인>이 큰 화제 속에 종영했습니다. 주인공들의 감각적인 옷차림과 세련된 배경음악이 맞물려 이른바 애인 신드롬을 일으켰습니다."
-    ]
-   ],
-   "news": [
-    {
-     "field": "사회",
-     "source_name": "동아일보",
-     "summary": "정부와 여당이 어린이를 대상으로 한 성범죄는 고소나 고발이 없어도 처벌할 수 있도록 법 개정을 추진합니다. 사회적 약자를 보호하기 위한 법적 제도가 한층 강화될 전망입니다.",
-     "source_url": "https://www.donga.com/news/article/all/19961021/7201602/1",
-     "headline": "13세 미만 대상 성범죄 고소 없이 처벌 추진"
-    }
-   ],
-   "pop": [
-    [
-     "Don't Speak",
-     "No Doubt"
-    ],
-    [
-     "Always Be My Baby",
-     "Mariah Carey"
-    ],
-    [
-     "It's All Coming Back to Me Now",
-     "Celine Dion"
-    ],
-    [
-     "Change the World",
-     "Eric Clapton"
-    ],
-    [
-     "Wonderwall",
-     "Oasis"
-    ],
-    [
-     "Un-Break My Heart",
-     "Toni Braxton"
-    ],
-    [
-     "Macarena",
-     "Los del Río"
-    ],
-    [
-     "Because You Loved Me",
-     "Celine Dion"
-    ],
-    [
-     "One Sweet Day",
-     "Mariah Carey & Boyz II Men"
-    ],
-    [
-     "Wannabe",
-     "Spice Girls"
-    ]
-   ]
-  },
-  "40": {
-   "papers": [
-    {
-     "name": "동아일보",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-21&officeId=00020"
-    },
-    {
-     "name": "경향신문",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-21&officeId=00032"
-    },
-    {
-     "name": "매일경제",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-21&officeId=00009"
-    }
-   ],
-   "mood": "깊어가는 가을날 새로운 음악과 승부의 뒤안길이 교차하며 차분한 여운을 남깁니다.",
-   "songs": [
-    [
-     "오늘밤",
-     "김완선"
-    ],
-    [
-     "알 수 없어요",
-     "이선희"
-    ],
-    [
-     "사랑하기에",
-     "이정석"
-    ],
-    [
-     "젊음의 노트",
-     "유미리"
-    ],
-    [
-     "아직도 어두운 밤인가봐",
-     "전영록"
-    ],
-    [
-     "가까이 하기엔 너무 먼 당신",
-     "이광조"
-    ],
-    [
-     "그 겨울의 찻집",
-     "조용필"
-    ],
-    [
-     "겨울비는 내리고",
-     "김범룡"
-    ],
-    [
-     "그대 떠난 빈들에 서서",
-     "이수만"
-    ],
-    [
-     "어젯밤 이야기",
-     "소방차"
-    ]
-   ],
-   "facts": [
-    [
-     "한강 유람선 출항",
-     "10월 25일, 한강 물길 위로 첫 유람선이 뱃고동을 울리며 떴습니다. 여의도와 잠실을 오가는 배 위에서 시원한 강바람을 맞으며 도시를 바라보는 새로운 뱃길 나들이가 시작되었습니다."
-    ],
-    [
-     "드라마 노다지",
-     "10월 25일, 대하드라마 '노다지'가 첫 전파를 탔습니다. 격동의 역사를 살아낸 여인의 삶을 다룬 작품으로, 주연 한혜숙의 1인 2역 열연이 주말 밤 안방극장을 깊은 울림으로 채웠습니다."
-    ],
-    [
-     "아시시 평화 기도",
-     "10월 27일, 요한 바오로 2세 교황의 초대로 세계 종교 지도자들이 이탈리아 아시시에 모였습니다. 서로 다른 신앙을 지닌 이들이 한자리에 모여 인류 평화를 위해 나란히 기도를 올렸습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Pope_John_Paul_II_smile.jpg/640px-Pope_John_Paul_II_smile.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ]
-   ],
-   "news": [
-    {
-     "field": "연예",
-     "source_name": "위키백과",
-     "summary": "영국의 인기 싱어송라이터 폴 영이 정규 3집 음반을 선보였습니다. 특유의 호소력 짙은 음색과 감각적인 록 사운드를 담아 팬들의 기대를 모으고 있습니다.",
-     "source_url": "https://ko.wikipedia.org/wiki/Between_Two_Fires",
-     "headline": "폴 영, 새 정규 음반 \"비트윈 투 파이어스\" 발표"
-    },
-    {
-     "field": "스포츠",
-     "source_name": "위키백과",
-     "summary": "프로야구 삼성 라이온즈의 김영덕 감독이 지휘봉을 내려놓았습니다. 한국시리즈 준우승의 아쉬움을 뒤로한 채 물러나며 프로야구 판도의 새로운 변화를 예고했습니다.",
-     "source_url": "https://ko.wikipedia.org/wiki/%EA%B9%80%EC%98%81%EB%8D%95_(%EC%95%BC%EA%B5%AC%EC%9D%B8)",
-     "headline": "프로야구 삼성 라이온즈, 김영덕 감독 사임"
-    }
-   ],
-   "pop": [
-    [
-     "Kyrie",
-     "Mr. Mister"
-    ],
-    [
-     "Say You, Say Me",
-     "Lionel Richie"
-    ],
-    [
-     "Addicted to Love",
-     "Robert Palmer"
-    ],
-    [
-     "The Final Countdown",
-     "Europe"
-    ],
-    [
-     "Livin' on a Prayer",
-     "Bon Jovi"
-    ],
-    [
-     "Sledgehammer",
-     "Peter Gabriel"
-    ],
-    [
-     "That's What Friends Are For",
-     "Dionne Warwick & Friends"
-    ],
-    [
-     "Take My Breath Away",
-     "Berlin"
-    ],
-    [
-     "Glory of Love",
-     "Peter Cetera"
-    ],
-    [
-     "Greatest Love of All",
-     "Whitney Houston"
-    ]
-   ]
-  },
-  "10": {
-   "papers": [
-    {
-     "name": "동아일보",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-21&officeId=00020"
-    },
-    {
-     "name": "경향신문",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-21&officeId=00032"
-    },
-    {
-     "name": "매일경제",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-21&officeId=00009"
-    }
-   ],
-   "mood": "기온이 한층 쌀쌀해진 가운데 차분하게 한 주를 정리하고 주말을 맞이하는 하루입니다.",
-   "songs": [
-    [
-     "Russian Roulette",
-     "Red Velvet"
-    ],
-    [
-     "이 사랑",
-     "다비치"
-    ],
-    [
-     "You Are My Everything",
-     "거미"
-    ],
-    [
-     "하늘바라기",
-     "정은지"
-    ],
-    [
-     "Very Very Very",
-     "I.O.I"
-    ],
-    [
-     "Stay With Me",
-     "찬열, 펀치"
-    ],
-    [
-     "Cheer Up",
-     "TWICE"
-    ],
-    [
-     "TT",
-     "TWICE"
-    ],
-    [
-     "피 땀 눈물",
-     "방탄소년단"
-    ],
-    [
-     "우주를 줄게",
-     "볼빨간사춘기"
-    ]
-   ],
-   "facts": [
-    [
-     "경복궁의 달빛",
-     "10월 19일, 드라마 ‘구르미 그린 달빛’ 주연 배우들이 경복궁 흥례문 앞에서 팬들과 만났습니다. 고운 한복 차림의 인사에 궁궐 앞마당이 설렘으로 물들었습니다.",
-     "https://thumb.wikimedia.org/wikipedia/ko/thumb/3/3e/%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg/640px-%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "유해진의 럭키",
-     "10월 23일, 배우 유해진 주연의 영화 ‘럭키’가 개봉 열흘 만에 400만 관객을 넘어섰습니다. 정감 어린 웃음과 소박한 위로를 전하며 가을 극장가에 훈훈한 바람을 일으켰습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Yoo_Hae-jin_at_The_King%27s_Warden_production_press_conference.jpg/640px-Yoo_Hae-jin_at_The_King%27s_Warden_production_press_conference.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "눈물짓는 티티",
-     "10월 24일, 걸그룹 트와이스가 신곡 ‘티티(TT)’를 발표했습니다. 우는 시늉을 낸 손가락 안무와 밝은 멜로디가 큰 인기를 얻으며 거리마다 노랫소리가 울려 퍼졌습니다."
-    ]
-   ],
-   "news": [
-    {
-     "field": "정치",
-     "source_name": "서울신문",
-     "summary": "국회 운영위원회의 청와대 국정감사에 우병우 민정수석이 모습을 드러내지 않았습니다. 여야는 출석 요구와 동행명령장 발부를 두고 종일 팽팽한 신경전을 이어갔습니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021800044",
-     "headline": "우병우 민정수석 국감 불출석에 여야 공방"
-    },
-    {
-     "field": "경제",
-     "source_name": "서울신문",
-     "summary": "코스피가 유럽 통화정책에 대한 불안과 미국 증시 약세 여파로 하락세를 보였습니다. 기관의 매도세가 이어지며 장중 한때 2030선 안팎까지 밀려났습니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021800048",
-     "headline": "코스피, 대외 불확실성에 2030선으로 후퇴"
-    },
-    {
-     "field": "사회",
-     "source_name": "서울신문",
-     "summary": "학교법인 이화학당이 이사회를 열고 최근 사의를 표명한 최경희 총장의 사표를 가결했습니다. 후임 총장이 선출될 때까지는 송덕수 부총장이 총장 직무를 대행합니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500136",
-     "headline": "이화여대 이사회, 최경희 총장 사표 공식 수리"
-    },
-    {
-     "field": "문화",
-     "source_name": "서울신문",
-     "summary": "국립중앙박물관에 보관되던 황희 정승의 유일한 초상화 원본이 상주 옥동서원으로 돌아옵니다. 세종 6년에 그려진 이 영정은 조선 초기 회화 연구의 귀중한 자료입니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500142",
-     "headline": "현존 유일 황희 정승 초상화, 8년 만에 상주로"
-    },
-    {
-     "field": "연예",
-     "source_name": "서울신문",
-     "summary": "배우 유해진 주연의 코미디 영화 '럭키'가 개봉 9일 만에 누적 관객 300만 명을 넘어섰습니다. 유쾌한 웃음을 앞세워 역대 코미디 장르 가운데 가장 빠른 흥행 속도를 보입니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500134",
-     "headline": "영화 \"럭키\", 9일 만에 300만 관객 돌파"
-    },
-    {
-     "field": "생활",
-     "source_name": "서울신문",
-     "summary": "애플의 신작 스마트폰 아이폰7 시리즈가 21일 국내 이동통신 매장에서 판매를 시작했습니다. 새롭게 선보인 검정 계열 모델을 중심으로 개통 대기 줄이 길게 늘어섰습니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021800035",
-     "headline": "아이폰7 국내 정식 출시, 제트블랙 품귀"
-    },
-    {
-     "field": "스포츠",
-     "source_name": "서울신문",
-     "summary": "맨체스터 유나이티드가 유럽축구연맹 유로파리그 조별리그 3차전에서 페네르바체를 4대1로 꺾었습니다. 부진 논란에 휩싸였던 폴 포그바가 두 골을 몰아치며 승리를 이끌었습니다.",
-     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500062",
-     "headline": "맨유, 포그바 멀티골 힘입어 페네르바체에 대승"
-    }
-   ],
-   "pop": [
-    [
-     "Treat You Better",
-     "Shawn Mendes"
-    ],
-    [
-     "Work",
-     "Rihanna"
-    ],
-    [
-     "I Took a Pill in Ibiza",
-     "Mike Posner"
-    ],
-    [
-     "We Don't Talk Anymore",
-     "Charlie Puth"
-    ],
-    [
-     "This Is What You Came For",
-     "Calvin Harris"
-    ],
-    [
-     "7 Years",
-     "Lukas Graham"
-    ],
-    [
-     "Love Yourself",
-     "Justin Bieber"
-    ],
-    [
-     "One Dance",
-     "Drake"
-    ],
-    [
-     "Closer",
-     "The Chainsmokers"
-    ],
-    [
-     "Stressed Out",
-     "Twenty One Pilots"
-    ]
-   ]
-  },
-  "50": {
-   "papers": [
-    {
-     "name": "동아일보",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-21&officeId=00020"
-    },
-    {
-     "name": "경향신문",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-21&officeId=00032"
-    },
-    {
-     "name": "매일경제",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-21&officeId=00009"
-    }
-   ],
-   "mood": "가을빛이 짙어가는 계절 속에 시대를 풍미할 웅장한 선율이 울려 퍼지는 하루입니다.",
-   "songs": [
-    [
-     "해뜰날",
-     "송대관"
-    ],
-    [
-     "당신은 모르실거야",
-     "혜은이"
-    ],
-    [
-     "빗속을 둘이서",
-     "투에이스"
-    ],
-    [
-     "내 마음 갈 곳을 잃어",
-     "최백호"
-    ],
-    [
-     "당신만을 사랑해",
-     "혜은이"
-    ],
-    [
-     "아내에게 바치는 노래",
-     "하수영"
-    ],
-    [
-     "나는 못난이",
-     "딕훼밀리"
-    ],
-    [
-     "목마와 숙녀",
-     "박인희"
-    ],
-    [
-     "또 만나요",
-     "딕훼밀리"
-    ],
-    [
-     "여고 졸업반",
-     "김인순"
-    ]
-   ],
-   "facts": [
-    [
-     "마라도나의 데뷔",
-     "10월 20일, 열여섯 생일을 앞둔 디에고 마라도나가 아르헨티나 프로 무대에 첫발을 디뎠습니다. 투입 직후 수비수 다리 사이로 공을 빼내는 묘기를 선보이며 전설의 서막을 열었습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Maradona-Mundial_86_con_la_copa.JPG/640px-Maradona-Mundial_86_con_la_copa.JPG?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "소머즈의 등장",
-     "10월 22일, 문화방송에서 외화 《특수공작원 소머즈》를 처음 방영했습니다. 귀 뒤로 머리카락을 넘기며 먼 소리를 듣던 그의 모습은 전국에 신선한 바람을 일으켰습니다."
-    ],
-    [
-     "신안 해저선 발굴",
-     "10월 27일, 전남 신안 앞바다에서 수백 년간 잠들어 있던 무역선의 본격적인 발굴이 시작되었습니다. 바닷속에서 온전하게 건져 올린 도자기들이 온 나라를 설레게 했습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/%EC%8B%A0%EC%95%88_%EC%95%9E%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C_%EC%9D%B8%EC%96%91%ED%95%9C_%EC%A4%91%EA%B5%AD_%EC%86%A1-%EC%9B%90%EB%8C%80_%EB%8F%84%EC%9E%90%EA%B8%B0.jpg/640px-%EC%8B%A0%EC%95%88_%EC%95%9E%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C_%EC%9D%B8%EC%96%91%ED%95%9C_%EC%A4%91%EA%B5%AD_%EC%86%A1-%EC%9B%90%EB%8C%80_%EB%8F%84%EC%9E%90%EA%B8%B0.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ]
-   ],
-   "news": [
-    {
-     "field": "연예",
-     "source_name": "위키백과",
-     "summary": "미국 록 밴드 캔자스가 대표곡을 담은 새 음반을 21일 선보였습니다. 화려한 연주와 깊이 있는 선율이 어우러져 음악 팬들의 큰 기대를 모읍니다.",
-     "source_url": "https://ko.wikipedia.org/wiki/Leftoverture",
-     "headline": "미국 록 밴드 캔자스, 명반 \"레프트오버추어\" 발표"
-    }
-   ],
-   "pop": [
-    [
-     "I Write the Songs",
-     "Barry Manilow"
-    ],
-    [
-     "Love Hurts",
-     "Nazareth"
-    ],
-    [
-     "December, 1963 (Oh, What a Night)",
-     "The Four Seasons"
-    ],
-    [
-     "Tonight's the Night",
-     "Rod Stewart"
-    ],
-    [
-     "Play That Funky Music",
-     "Wild Cherry"
-    ],
-    [
-     "Let Your Love Flow",
-     "Bellamy Brothers"
-    ],
-    [
-     "Dancing Queen",
-     "ABBA"
-    ],
-    [
-     "Bohemian Rhapsody",
-     "Queen"
-    ],
-    [
-     "Don't Go Breaking My Heart",
-     "Elton John & Kiki Dee"
-    ],
-    [
-     "Silly Love Songs",
-     "Wings"
-    ]
-   ]
-  },
   "20": {
-   "papers": [
-    {
-     "name": "동아일보",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-21&officeId=00020"
-    },
-    {
-     "name": "경향신문",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-21&officeId=00032"
-    },
-    {
-     "name": "매일경제",
-     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-21&officeId=00009"
-    }
-   ],
-   "mood": "가을빛이 짙어가는 주말, 차분한 공기 속에 반가운 소식들이 이어집니다.",
    "songs": [
     [
      "추억은 사랑을 닮아",
@@ -857,57 +133,41 @@
      "씨야"
     ]
    ],
-   "facts": [
-    [
-     "환상의 커플",
-     "10월 14일, MBC 드라마 《환상의 커플》이 첫 방송되었습니다. 도도한 안나 조와 억척스러운 장철수의 코믹한 사랑 이야기는 짜장면 유행과 숱한 명대사를 낳았습니다."
-    ],
-    [
-     "악마는 프라다를",
-     "10월 25일, 뉴욕 패션계를 배경으로 한 영화 《악마는 프라다를 입는다》가 개봉했습니다. 사회 초년생의 치열한 성장담과 화려한 의상이 여성 관객들의 큰 공감을 샀습니다.",
-     "https://upload.wikimedia.org/wikipedia/ko/a/a7/%EC%95%85%EB%A7%88%EB%8A%94%ED%94%84%EB%9D%BC%EB%8B%A4%EB%A5%BC%EC%9E%85%EB%8A%94%EB%8B%A4_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-    ],
-    [
-     "영화 마음이",
-     "10월 25일, 남매와 개의 교감을 담은 영화 《마음이...》가 개봉했습니다. 동물 배우 '달이'의 영리한 연기와 애틋한 가족애가 극장가를 따뜻한 눈물로 물들였습니다.",
-     "https://upload.wikimedia.org/wikipedia/ko/3/34/%EB%A7%88%EC%9D%8C%EC%9D%B4_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-    ]
-   ],
    "news": [
     {
-     "field": "정치",
-     "source_name": "한겨레",
      "summary": "베이징을 찾은 라이스 미 국무장관이 중국 지도부와 만나 북핵 사태 해법을 논의했습니다. 중국 측은 외교적 해결을 강조했고, 미국은 조건 없는 회담 복귀를 촉구했습니다.",
-     "source_url": "https://www.hani.co.kr/arti/politics/defense/166060.html",
-     "headline": "미국 라이스 장관 방중, 북한 6자회담 복귀 촉구"
-    },
-    {
-     "field": "경제",
-     "source_name": "newspim.com",
-     "summary": "국회 정무위원회 소속 여야 의원들이 외환은행 매각 과정을 두고 금융감독위원회를 강하게 비판했습니다. 매각 승인 경위와 부실 심사 여부를 둘러싸고 책임 공방이 이어졌습니다.",
-     "source_url": "https://www.newspim.com/news/view/20061020000085",
-     "headline": "국회 정무위, 외환은행 부실 매각 의혹 집중 질타"
-    },
-    {
-     "field": "문화",
      "source_name": "한겨레",
+     "field": "정치",
+     "headline": "미국 라이스 장관 방중, 북한 6자회담 복귀 촉구",
+     "source_url": "https://www.hani.co.kr/arti/politics/defense/166060.html"
+    },
+    {
+     "summary": "국회 정무위원회 소속 여야 의원들이 외환은행 매각 과정을 두고 금융감독위원회를 강하게 비판했습니다. 매각 승인 경위와 부실 심사 여부를 둘러싸고 책임 공방이 이어졌습니다.",
+     "source_name": "newspim.com",
+     "field": "경제",
+     "headline": "국회 정무위, 외환은행 부실 매각 의혹 집중 질타",
+     "source_url": "https://www.newspim.com/news/view/20061020000085"
+    },
+    {
      "summary": "서울 인사동 이문학회를 이끌며 후학 양성에 힘써 온 원로 한학자 노촌 이구영 선생이 20일 노환으로 별세했습니다. 고인은 평생 고전을 연구하며 학문의 벗들을 모아 왔습니다.",
-     "source_url": "https://www.hani.co.kr/arti/society/society_general/166066.html",
-     "headline": "인사동 한학의 큰 별, 노촌 이구영 별세"
+     "source_name": "한겨레",
+     "field": "문화",
+     "headline": "인사동 한학의 큰 별, 노촌 이구영 별세",
+     "source_url": "https://www.hani.co.kr/arti/society/society_general/166066.html"
     },
     {
-     "field": "연예",
-     "source_name": "OSEN",
      "summary": "가수 김정민이 재일동포 출신 가수 다니 루미코와 서울의 한 호텔에서 화촉을 밝혔습니다. 두 사람은 많은 동료들의 축복 속에 미래를 함께하기로 약속했습니다.",
-     "source_url": "https://osen.co.kr/article/G0610210119",
-     "headline": "가수 김정민, 다니 루미코와 백년가약"
+     "source_name": "OSEN",
+     "field": "연예",
+     "headline": "가수 김정민, 다니 루미코와 백년가약",
+     "source_url": "https://osen.co.kr/article/G0610210119"
     },
     {
-     "field": "스포츠",
-     "source_name": "OSEN",
      "summary": "삼성이 한화를 4 대 0으로 꺾고 한국시리즈 2연패를 향한 첫 걸음을 가볍게 내디뎠습니다. 선발로 나선 에이스 배영수가 무실점 호투를 펼치며 팀의 완승을 이끌었습니다.",
-     "source_url": "https://osen.co.kr/article/G0610210083",
-     "headline": "삼성, 배영수 역투 앞세워 한국시리즈 1차전 완승"
+     "source_name": "OSEN",
+     "field": "스포츠",
+     "headline": "삼성, 배영수 역투 앞세워 한국시리즈 1차전 완승",
+     "source_url": "https://osen.co.kr/article/G0610210083"
     }
    ],
    "pop": [
@@ -951,128 +211,868 @@
      "Bad Day",
      "Daniel Powter"
     ]
-   ]
+   ],
+   "facts": [
+    [
+     "환상의 커플",
+     "10월 14일, MBC 드라마 《환상의 커플》이 첫 방송되었습니다. 도도한 안나 조와 억척스러운 장철수의 코믹한 사랑 이야기는 짜장면 유행과 숱한 명대사를 낳았습니다."
+    ],
+    [
+     "악마는 프라다를",
+     "10월 25일, 뉴욕 패션계를 배경으로 한 영화 《악마는 프라다를 입는다》가 개봉했습니다. 사회 초년생의 치열한 성장담과 화려한 의상이 여성 관객들의 큰 공감을 샀습니다.",
+     "https://upload.wikimedia.org/wikipedia/ko/a/a7/%EC%95%85%EB%A7%88%EB%8A%94%ED%94%84%EB%9D%BC%EB%8B%A4%EB%A5%BC%EC%9E%85%EB%8A%94%EB%8B%A4_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "영화 마음이",
+     "10월 25일, 남매와 개의 교감을 담은 영화 《마음이...》가 개봉했습니다. 동물 배우 '달이'의 영리한 연기와 애틋한 가족애가 극장가를 따뜻한 눈물로 물들였습니다.",
+     "https://upload.wikimedia.org/wikipedia/ko/3/34/%EB%A7%88%EC%9D%8C%EC%9D%B4_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ]
+   ],
+   "papers": [
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-21&officeId=00020",
+     "name": "동아일보"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-21&officeId=00032",
+     "name": "경향신문"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-21&officeId=00009",
+     "name": "매일경제"
+    }
+   ],
+   "mood": "가을빛이 짙어가는 주말, 차분한 공기 속에 반가운 소식들이 이어집니다."
+  },
+  "50": {
+   "songs": [
+    [
+     "해뜰날",
+     "송대관"
+    ],
+    [
+     "당신은 모르실거야",
+     "혜은이"
+    ],
+    [
+     "빗속을 둘이서",
+     "투에이스"
+    ],
+    [
+     "내 마음 갈 곳을 잃어",
+     "최백호"
+    ],
+    [
+     "당신만을 사랑해",
+     "혜은이"
+    ],
+    [
+     "아내에게 바치는 노래",
+     "하수영"
+    ],
+    [
+     "나는 못난이",
+     "딕훼밀리"
+    ],
+    [
+     "목마와 숙녀",
+     "박인희"
+    ],
+    [
+     "또 만나요",
+     "딕훼밀리"
+    ],
+    [
+     "여고 졸업반",
+     "김인순"
+    ]
+   ],
+   "news": [
+    {
+     "summary": "미국 록 밴드 캔자스가 대표곡을 담은 새 음반을 21일 선보였습니다. 화려한 연주와 깊이 있는 선율이 어우러져 음악 팬들의 큰 기대를 모읍니다.",
+     "source_name": "위키백과",
+     "field": "연예",
+     "headline": "미국 록 밴드 캔자스, 명반 \"레프트오버추어\" 발표",
+     "source_url": "https://ko.wikipedia.org/wiki/Leftoverture"
+    }
+   ],
+   "pop": [
+    [
+     "I Write the Songs",
+     "Barry Manilow"
+    ],
+    [
+     "Love Hurts",
+     "Nazareth"
+    ],
+    [
+     "December, 1963 (Oh, What a Night)",
+     "The Four Seasons"
+    ],
+    [
+     "Tonight's the Night",
+     "Rod Stewart"
+    ],
+    [
+     "Play That Funky Music",
+     "Wild Cherry"
+    ],
+    [
+     "Let Your Love Flow",
+     "Bellamy Brothers"
+    ],
+    [
+     "Dancing Queen",
+     "ABBA"
+    ],
+    [
+     "Bohemian Rhapsody",
+     "Queen"
+    ],
+    [
+     "Don't Go Breaking My Heart",
+     "Elton John & Kiki Dee"
+    ],
+    [
+     "Silly Love Songs",
+     "Wings"
+    ]
+   ],
+   "facts": [
+    [
+     "마라도나의 데뷔",
+     "10월 20일, 열여섯 생일을 앞둔 디에고 마라도나가 아르헨티나 프로 무대에 첫발을 디뎠습니다. 투입 직후 수비수 다리 사이로 공을 빼내는 묘기를 선보이며 전설의 서막을 열었습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Maradona-Mundial_86_con_la_copa.JPG/640px-Maradona-Mundial_86_con_la_copa.JPG?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "소머즈의 등장",
+     "10월 22일, 문화방송에서 외화 《특수공작원 소머즈》를 처음 방영했습니다. 귀 뒤로 머리카락을 넘기며 먼 소리를 듣던 그의 모습은 전국에 신선한 바람을 일으켰습니다."
+    ],
+    [
+     "신안 해저선 발굴",
+     "10월 27일, 전남 신안 앞바다에서 수백 년간 잠들어 있던 무역선의 본격적인 발굴이 시작되었습니다. 바닷속에서 온전하게 건져 올린 도자기들이 온 나라를 설레게 했습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/%EC%8B%A0%EC%95%88_%EC%95%9E%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C_%EC%9D%B8%EC%96%91%ED%95%9C_%EC%A4%91%EA%B5%AD_%EC%86%A1-%EC%9B%90%EB%8C%80_%EB%8F%84%EC%9E%90%EA%B8%B0.jpg/640px-%EC%8B%A0%EC%95%88_%EC%95%9E%EB%B0%94%EB%8B%A4%EC%97%90%EC%84%9C_%EC%9D%B8%EC%96%91%ED%95%9C_%EC%A4%91%EA%B5%AD_%EC%86%A1-%EC%9B%90%EB%8C%80_%EB%8F%84%EC%9E%90%EA%B8%B0.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ]
+   ],
+   "papers": [
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-21&officeId=00020",
+     "name": "동아일보"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-21&officeId=00032",
+     "name": "경향신문"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-21&officeId=00009",
+     "name": "매일경제"
+    }
+   ],
+   "mood": "가을빛이 짙어가는 계절 속에 시대를 풍미할 웅장한 선율이 울려 퍼지는 하루입니다."
+  },
+  "40": {
+   "songs": [
+    [
+     "오늘밤",
+     "김완선"
+    ],
+    [
+     "알 수 없어요",
+     "이선희"
+    ],
+    [
+     "사랑하기에",
+     "이정석"
+    ],
+    [
+     "젊음의 노트",
+     "유미리"
+    ],
+    [
+     "아직도 어두운 밤인가봐",
+     "전영록"
+    ],
+    [
+     "가까이 하기엔 너무 먼 당신",
+     "이광조"
+    ],
+    [
+     "그 겨울의 찻집",
+     "조용필"
+    ],
+    [
+     "겨울비는 내리고",
+     "김범룡"
+    ],
+    [
+     "그대 떠난 빈들에 서서",
+     "이수만"
+    ],
+    [
+     "어젯밤 이야기",
+     "소방차"
+    ]
+   ],
+   "news": [
+    {
+     "summary": "영국의 인기 싱어송라이터 폴 영이 정규 3집 음반을 선보였습니다. 특유의 호소력 짙은 음색과 감각적인 록 사운드를 담아 팬들의 기대를 모으고 있습니다.",
+     "source_name": "위키백과",
+     "field": "연예",
+     "headline": "폴 영, 새 정규 음반 \"비트윈 투 파이어스\" 발표",
+     "source_url": "https://ko.wikipedia.org/wiki/Between_Two_Fires"
+    },
+    {
+     "summary": "프로야구 삼성 라이온즈의 김영덕 감독이 지휘봉을 내려놓았습니다. 한국시리즈 준우승의 아쉬움을 뒤로한 채 물러나며 프로야구 판도의 새로운 변화를 예고했습니다.",
+     "source_name": "위키백과",
+     "field": "스포츠",
+     "headline": "프로야구 삼성 라이온즈, 김영덕 감독 사임",
+     "source_url": "https://ko.wikipedia.org/wiki/%EA%B9%80%EC%98%81%EB%8D%95_(%EC%95%BC%EA%B5%AC%EC%9D%B8)"
+    }
+   ],
+   "pop": [
+    [
+     "Kyrie",
+     "Mr. Mister"
+    ],
+    [
+     "Say You, Say Me",
+     "Lionel Richie"
+    ],
+    [
+     "Addicted to Love",
+     "Robert Palmer"
+    ],
+    [
+     "The Final Countdown",
+     "Europe"
+    ],
+    [
+     "Livin' on a Prayer",
+     "Bon Jovi"
+    ],
+    [
+     "Sledgehammer",
+     "Peter Gabriel"
+    ],
+    [
+     "That's What Friends Are For",
+     "Dionne Warwick & Friends"
+    ],
+    [
+     "Take My Breath Away",
+     "Berlin"
+    ],
+    [
+     "Glory of Love",
+     "Peter Cetera"
+    ],
+    [
+     "Greatest Love of All",
+     "Whitney Houston"
+    ]
+   ],
+   "facts": [
+    [
+     "한강 유람선 출항",
+     "10월 25일, 한강 물길 위로 첫 유람선이 뱃고동을 울리며 떴습니다. 여의도와 잠실을 오가는 배 위에서 시원한 강바람을 맞으며 도시를 바라보는 새로운 뱃길 나들이가 시작되었습니다."
+    ],
+    [
+     "드라마 노다지",
+     "10월 25일, 대하드라마 '노다지'가 첫 전파를 탔습니다. 격동의 역사를 살아낸 여인의 삶을 다룬 작품으로, 주연 한혜숙의 1인 2역 열연이 주말 밤 안방극장을 깊은 울림으로 채웠습니다."
+    ],
+    [
+     "아시시 평화 기도",
+     "10월 27일, 요한 바오로 2세 교황의 초대로 세계 종교 지도자들이 이탈리아 아시시에 모였습니다. 서로 다른 신앙을 지닌 이들이 한자리에 모여 인류 평화를 위해 나란히 기도를 올렸습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Pope_John_Paul_II_smile.jpg/640px-Pope_John_Paul_II_smile.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ]
+   ],
+   "papers": [
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-21&officeId=00020",
+     "name": "동아일보"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-21&officeId=00032",
+     "name": "경향신문"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-21&officeId=00009",
+     "name": "매일경제"
+    }
+   ],
+   "mood": "깊어가는 가을날 새로운 음악과 승부의 뒤안길이 교차하며 차분한 여운을 남깁니다."
+  },
+  "30": {
+   "songs": [
+    [
+     "기억속의 먼 그대에게",
+     "박미경"
+    ],
+    [
+     "전사의 후예",
+     "H.O.T."
+    ],
+    [
+     "Come Back Home",
+     "서태지와 아이들"
+    ],
+    [
+     "캔디",
+     "H.O.T."
+    ],
+    [
+     "스피드",
+     "김건모"
+    ],
+    [
+     "꿍따리 샤바라",
+     "클론"
+    ],
+    [
+     "정",
+     "영턱스클럽"
+    ],
+    [
+     "천생연분",
+     "솔리드"
+    ],
+    [
+     "3! 4!",
+     "룰라"
+    ],
+    [
+     "운명",
+     "쿨"
+    ]
+   ],
+   "news": [
+    {
+     "summary": "정부와 여당이 어린이를 대상으로 한 성범죄는 고소나 고발이 없어도 처벌할 수 있도록 법 개정을 추진합니다. 사회적 약자를 보호하기 위한 법적 제도가 한층 강화될 전망입니다.",
+     "source_name": "동아일보",
+     "field": "사회",
+     "headline": "13세 미만 대상 성범죄 고소 없이 처벌 추진",
+     "source_url": "https://www.donga.com/news/article/all/19961021/7201602/1"
+    }
+   ],
+   "pop": [
+    [
+     "Don't Speak",
+     "No Doubt"
+    ],
+    [
+     "Always Be My Baby",
+     "Mariah Carey"
+    ],
+    [
+     "It's All Coming Back to Me Now",
+     "Celine Dion"
+    ],
+    [
+     "Change the World",
+     "Eric Clapton"
+    ],
+    [
+     "Wonderwall",
+     "Oasis"
+    ],
+    [
+     "Un-Break My Heart",
+     "Toni Braxton"
+    ],
+    [
+     "Macarena",
+     "Los del Río"
+    ],
+    [
+     "Because You Loved Me",
+     "Celine Dion"
+    ],
+    [
+     "One Sweet Day",
+     "Mariah Carey & Boyz II Men"
+    ],
+    [
+     "Wannabe",
+     "Spice Girls"
+    ]
+   ],
+   "facts": [
+    [
+     "이소라의 프로포즈",
+     "10월 19일, 심야 음악 프로그램 <이소라의 프로포즈>가 첫 방송을 탔습니다. 진행자의 담담한 목소리와 깊이 있는 라이브 무대가 주말 밤을 감미롭게 채웠습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/180617_Lee_So-ra_at_Pilsner_Festival.png/640px-180617_Lee_So-ra_at_Pilsner_Festival.png?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "남자셋 여자셋",
+     "10월 21일, 청춘 시트콤 <남자셋 여자셋>이 첫선을 보였습니다. 신촌 하숙집을 배경으로 젊은이들의 우정과 사랑을 유쾌하게 그리며 안방극장에 큰 웃음을 전했습니다."
+    ],
+    [
+     "드라마 애인 종영",
+     "10월 22일, 문화방송 드라마 <애인>이 큰 화제 속에 종영했습니다. 주인공들의 감각적인 옷차림과 세련된 배경음악이 맞물려 이른바 애인 신드롬을 일으켰습니다."
+    ]
+   ],
+   "papers": [
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-21&officeId=00020",
+     "name": "동아일보"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-21&officeId=00032",
+     "name": "경향신문"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-21&officeId=00009",
+     "name": "매일경제"
+    }
+   ],
+   "mood": "가을이 깊어가는 길목에서 사회의 온기와 질서를 바로잡으려는 크고 작은 움직임들이 차분하게 이어지는 날입니다."
+  },
+  "10": {
+   "songs": [
+    [
+     "Russian Roulette",
+     "Red Velvet"
+    ],
+    [
+     "이 사랑",
+     "다비치"
+    ],
+    [
+     "You Are My Everything",
+     "거미"
+    ],
+    [
+     "하늘바라기",
+     "정은지"
+    ],
+    [
+     "Very Very Very",
+     "I.O.I"
+    ],
+    [
+     "Stay With Me",
+     "찬열, 펀치"
+    ],
+    [
+     "Cheer Up",
+     "TWICE"
+    ],
+    [
+     "TT",
+     "TWICE"
+    ],
+    [
+     "피 땀 눈물",
+     "방탄소년단"
+    ],
+    [
+     "우주를 줄게",
+     "볼빨간사춘기"
+    ]
+   ],
+   "news": [
+    {
+     "summary": "국회 운영위원회의 청와대 국정감사에 우병우 민정수석이 모습을 드러내지 않았습니다. 여야는 출석 요구와 동행명령장 발부를 두고 종일 팽팽한 신경전을 이어갔습니다.",
+     "source_name": "서울신문",
+     "field": "정치",
+     "headline": "우병우 민정수석 국감 불출석에 여야 공방",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021800044"
+    },
+    {
+     "summary": "코스피가 유럽 통화정책에 대한 불안과 미국 증시 약세 여파로 하락세를 보였습니다. 기관의 매도세가 이어지며 장중 한때 2030선 안팎까지 밀려났습니다.",
+     "source_name": "서울신문",
+     "field": "경제",
+     "headline": "코스피, 대외 불확실성에 2030선으로 후퇴",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021800048"
+    },
+    {
+     "summary": "학교법인 이화학당이 이사회를 열고 최근 사의를 표명한 최경희 총장의 사표를 가결했습니다. 후임 총장이 선출될 때까지는 송덕수 부총장이 총장 직무를 대행합니다.",
+     "source_name": "서울신문",
+     "field": "사회",
+     "headline": "이화여대 이사회, 최경희 총장 사표 공식 수리",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500136"
+    },
+    {
+     "summary": "국립중앙박물관에 보관되던 황희 정승의 유일한 초상화 원본이 상주 옥동서원으로 돌아옵니다. 세종 6년에 그려진 이 영정은 조선 초기 회화 연구의 귀중한 자료입니다.",
+     "source_name": "서울신문",
+     "field": "문화",
+     "headline": "현존 유일 황희 정승 초상화, 8년 만에 상주로",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500142"
+    },
+    {
+     "summary": "배우 유해진 주연의 코미디 영화 '럭키'가 개봉 9일 만에 누적 관객 300만 명을 넘어섰습니다. 유쾌한 웃음을 앞세워 역대 코미디 장르 가운데 가장 빠른 흥행 속도를 보입니다.",
+     "source_name": "서울신문",
+     "field": "연예",
+     "headline": "영화 \"럭키\", 9일 만에 300만 관객 돌파",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500134"
+    },
+    {
+     "summary": "애플의 신작 스마트폰 아이폰7 시리즈가 21일 국내 이동통신 매장에서 판매를 시작했습니다. 새롭게 선보인 검정 계열 모델을 중심으로 개통 대기 줄이 길게 늘어섰습니다.",
+     "source_name": "서울신문",
+     "field": "생활",
+     "headline": "아이폰7 국내 정식 출시, 제트블랙 품귀",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021800035"
+    },
+    {
+     "summary": "맨체스터 유나이티드가 유럽축구연맹 유로파리그 조별리그 3차전에서 페네르바체를 4대1로 꺾었습니다. 부진 논란에 휩싸였던 폴 포그바가 두 골을 몰아치며 승리를 이끌었습니다.",
+     "source_name": "서울신문",
+     "field": "스포츠",
+     "headline": "맨유, 포그바 멀티골 힘입어 페네르바체에 대승",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/21/20161021500062"
+    }
+   ],
+   "pop": [
+    [
+     "Treat You Better",
+     "Shawn Mendes"
+    ],
+    [
+     "Work",
+     "Rihanna"
+    ],
+    [
+     "I Took a Pill in Ibiza",
+     "Mike Posner"
+    ],
+    [
+     "We Don't Talk Anymore",
+     "Charlie Puth"
+    ],
+    [
+     "This Is What You Came For",
+     "Calvin Harris"
+    ],
+    [
+     "7 Years",
+     "Lukas Graham"
+    ],
+    [
+     "Love Yourself",
+     "Justin Bieber"
+    ],
+    [
+     "One Dance",
+     "Drake"
+    ],
+    [
+     "Closer",
+     "The Chainsmokers"
+    ],
+    [
+     "Stressed Out",
+     "Twenty One Pilots"
+    ]
+   ],
+   "facts": [
+    [
+     "경복궁의 달빛",
+     "10월 19일, 드라마 ‘구르미 그린 달빛’ 주연 배우들이 경복궁 흥례문 앞에서 팬들과 만났습니다. 고운 한복 차림의 인사에 궁궐 앞마당이 설렘으로 물들었습니다.",
+     "https://thumb.wikimedia.org/wikipedia/ko/thumb/3/3e/%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg/640px-%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "유해진의 럭키",
+     "10월 23일, 배우 유해진 주연의 영화 ‘럭키’가 개봉 열흘 만에 400만 관객을 넘어섰습니다. 정감 어린 웃음과 소박한 위로를 전하며 가을 극장가에 훈훈한 바람을 일으켰습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Yoo_Hae-jin_at_The_King%27s_Warden_production_press_conference.jpg/640px-Yoo_Hae-jin_at_The_King%27s_Warden_production_press_conference.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "눈물짓는 티티",
+     "10월 24일, 걸그룹 트와이스가 신곡 ‘티티(TT)’를 발표했습니다. 우는 시늉을 낸 손가락 안무와 밝은 멜로디가 큰 인기를 얻으며 거리마다 노랫소리가 울려 퍼졌습니다."
+    ]
+   ],
+   "papers": [
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-21&officeId=00020",
+     "name": "동아일보"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-21&officeId=00032",
+     "name": "경향신문"
+    },
+    {
+     "url": "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-21&officeId=00009",
+     "name": "매일경제"
+    }
+   ],
+   "mood": "기온이 한층 쌀쌀해진 가운데 차분하게 한 주를 정리하고 주말을 맞이하는 하루입니다."
   }
  },
- "phrase": {
-  "zh": {
-   "meaning": "퇴실 시간을 조금 늦출 수 있을까요?",
-   "reading": "커이 옌츠 투이팡 마",
-   "text": "可以延迟退房吗？",
-   "tip": "당일 아침에 미리 양해를 구할 때 씁니다."
-  },
-  "ja": {
-   "meaning": "퇴실 시간을 조금 늦출 수 있을까요?",
-   "reading": "레이토 체크아우토와 데키마스카",
-   "text": "レイトチェックアウトはできますか。",
-   "tip": "오전 중에 프런트에 물어볼 때 씁니다."
-  },
-  "en": {
-   "meaning": "퇴실 시간을 조금 늦출 수 있을까요?",
-   "reading": "쿠드 아이 해브 어 레이트 체크아웃",
-   "text": "Could I have a late check-out?",
-   "tip": "출발 전 프런트에 미리 확인하면 좋습니다."
-  },
-  "topic": "호텔에서 늦은 퇴실을 물을 때"
+ "body": {
+  "line": "새벽 찬 바람이 스치는 목덜미만 감싸도 온기가 돕니다",
+  "note": "이른 아침 골프장이나 러닝 코스에 나설 때 몸통을 두껍게 싸매기보다 목 뒤를 덮는 것이 요령입니다. 굵은 혈관이 피부 가까이 지나는 목덜미가 차가워지면 뇌는 몸 전체가 춥다고 판단해 말초 혈관을 좁힙니다. 얇은 스카프 하나가 두꺼운 패딩보다 몸을 가볍고 따뜻하게 만듭니다.",
+  "tip": "두꺼운 옷 한 벌보다 얇은 옷을 겹쳐 입는 편이 체온 조절에 훨씬 유연합니다.",
+  "todo": "외출 전 얇은 머플러나 손수건으로 목 뒤 움푹 파인 곳을 감싸 보세요.",
+  "part": "체온"
  },
  "meal": {
+  "lead": "10월의 생표고는 향이 깊고 살이 단단합니다. 달걀물을 살짝 풀어 밥 위에 올리면 온기가 오래 머뭅니다.",
+  "title": "표고버섯 달걀덮밥",
+  "sub": "1인분 · 15분 · 재료 4가지",
   "ingredients": [
    "생표고버섯 2개",
    "달걀 2개",
    "대파 반 대",
    "진간장 1큰술"
   ],
-  "title": "표고버섯 달걀덮밥",
-  "sub": "1인분 · 15분 · 재료 4가지",
-  "lead": "10월의 생표고는 향이 깊고 살이 단단합니다. 달걀물을 살짝 풀어 밥 위에 올리면 온기가 오래 머뭅니다.",
+  "tip": "달걀을 너무 완벽하게 풀지 않아야 흰자와 노른자의 부드러운 결이 살아납니다.",
   "steps": [
    "표고버섯은 도톰하게 저미고 대파는 어슷하게 썰어둡니다.",
    "작은 팬에 물 반 컵과 진간장을 붓고 끓으면 썰어둔 채소를 넣어 살짝 익힙니다.",
    "가볍게 푼 달걀물을 둘러 붓고 불을 끈 뒤 뚜껑을 덮어 잔열로 부드럽게 익힙니다."
-  ],
-  "tip": "달걀을 너무 완벽하게 풀지 않아야 흰자와 노른자의 부드러운 결이 살아납니다."
+  ]
  },
- "errors": [],
  "source": "auto",
- "book": {
-  "publisher": "디자인하우스",
-  "blurb": "화가 데이비드 호크니와 비평가 마틴 게이퍼드가 십 년 넘게 나눈 대화를 엮었습니다. 화폭과 사진, 디지털 화면을 넘나들며 사물을 눈에 담는 일의 기쁨을 집요하게 파고듭니다. 익숙한 풍경도 정성껏 들여다보면 완전히 새로운 세계가 된다는 사실을 일깨워 줍니다.",
-  "title": "다시, 그림이다",
-  "kind": "예술",
-  "why": "가을 햇살이 따스한 날, 미술관 산책을 마치고 조용한 찻집에 앉았을 때.",
-  "author": "마틴 게이퍼드",
-  "year": "2012",
-  "scene": "길가에 흔히 자란 풀꽃도 손으로 직접 그리다 보면 렌즈로 볼 때와는 전혀 다른 생명력을 보게 된다고 말하는 대목이 있습니다. 세상을 건성으로 스쳐 지나가지 않고 오래 응시하는 사람만이 마주하는 조용한 경이입니다.",
-  "translator": "주은정"
+ "greetings": [
+  "가을볕이 곱네요\n차 한잔 들고\n바람을 봅니다",
+  "문득 생각나서\n안부 전합니다\n좋은 날 되세요",
+  "오늘의 중요 일정\n햇볕 아래서\n멍하니 있기",
+  "알람은 껐지만\n이불이 저를\n안 놓아줍니다"
+ ],
+ "mind": {
+  "by": "",
+  "line": "마음의 보폭을 늦추면 비로소 사물의 서늘한 결이 손에 잡힙니다.",
+  "note": "아침 공기가 서늘해진 창가에 서서 김이 오르는 잔을 가만히 내려다봅니다. 서두르지 않고 온도를 음미하는 동안 하루의 윤곽이 단정하게 잡힙니다.",
+  "todo": "책상 위에 어질러진 필기구 세 개를 가지런히 모아 제자리에 둡니다."
  },
- "culture": {
-  "quote": {
-   "text": "사람들은 모두 쓸모 있는 것의 쓸모는 알지만, 쓸모없는 것의 쓸모는 알지 못한다.",
-   "note": "세상의 잣대로 재단하는 실용성 너머에 깃든 참된 생명의 가치를 짚은 『장자』 「인간세」 편의 대목입니다. 당장의 득실이나 효율에 얽매이지 않고 그저 머무르는 시간 자체의 온전함을 느껴보는 하루가 되길 바랍니다.",
-   "who": "장자, 「인간세」"
+ "follow": {
+  "golf": {
+   "channel": "박경준프로의 이기는골프",
+   "title": "[박경준프로]힘을 빼고 스윙하는 3단계 연습법/ 힘이 빠집니다 winning golf lesson",
+   "query": "힘 빼고 치는 드라이버 스윙 레슨",
+   "videoId": "TC_qlWx9PLg",
+   "name": "골프 레슨",
+   "thumb": "https://i.ytimg.com/vi/TC_qlWx9PLg/mqdefault.jpg",
+   "say": "힘을 들이지 않고 몸의 회전만으로 공을 보내는 요령입니다."
   },
-  "painting": {
-   "title": "해바라기",
-   "about": "1888년 남프랑스 아를에서 화가 폴 고갱과의 공동생활을 기대하며 노란 집 화실을 꾸미기 위해 그린 연작입니다. 해바라기라는 단일한 소재에 다채로운 노란색 물감을 겹쳐 올리며 강렬한 빛과 생명력을 담아냈습니다. 대표적인 1888년 작 해바라기는 런던 내셔널 갤러리와 뮌헨 노이에 피나코테크 등에 나뉘어 소장되어 있습니다.",
-   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_Willem_van_Gogh_127.jpg/640px-Vincent_Willem_van_Gogh_127.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_Willem_van_Gogh_127.jpg/1280px-Vincent_Willem_van_Gogh_127.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-   "points": [
-    "물감을 두텁게 쌓아 올려 유화 특유의 입체감과 생동감을 살려낸 거친 붓질입니다.",
-    "활짝 핀 꽃과 이미 시들어 씨앗을 드러낸 꽃이 한 화병에 어우러진 생명의 순환입니다.",
-    "화병과 배경, 꽃잎을 가득 채운 여러 층위의 노란빛이 빚어내는 온기입니다."
-   ],
-   "artist": "빈센트 반 고흐",
-   "page": "https://en.wikipedia.org/wiki/Sunflowers_(Van_Gogh_series)",
-   "year": "1888",
-   "wiki": "en:Sunflowers_(Van_Gogh_series)",
-   "artist_story": "빈센트 반 고흐는 생전에 단 한 점의 그림만을 팔았을 만큼 고독과 빈곤 속에서 작업했습니다. 자연과 사물이 뿜어내는 내면의 빛을 붙잡기 위해 끊임없이 색채를 탐구한 후기 인상주의의 거장입니다."
+  "sing": {
+   "channel": "한가은TV",
+   "title": "쏙쏙 노래교실/가수 강덕인/아이스케키/강사 한가은/노래배우기!!#한가은 #한가은노래교실 #노래교실인기곡 #노래교실 #트로트 #가요무대 #추억의명곡 #강덕인 #아이스케키",
+   "query": "노래교실 추억의 가요 배우기",
+   "videoId": "VoaGNKQdocA",
+   "name": "노래 교실",
+   "thumb": "https://i.ytimg.com/vi/VoaGNKQdocA/mqdefault.jpg",
+   "say": "익숙한 노래의 숨은 마디를 짚어가며 소리를 틔워보세요."
   },
-  "essay": {
-   "by": "오마주 편집실",
-   "paras": [
-    "아침 공기가 제법 차가워 문을 닫고 부엌에 섰습니다. 단단한 능금 한 알을 깎아내는 칼끝에서 사각거리는 마른 소리가 납니다. 붉은 껍질이 끊어지지 않고 둥글게 이어져 내려앉는 동안, 달착지근하면서도 서늘한 향이 좁은 도마 주변을 가득 채웁니다.",
-    "가을은 늘 껍질의 바깥쪽보다 칼이 지나간 과육의 흰 단면처럼 다가옵니다. 서두르지 않고 깎아낸 조각을 입에 물면, 맑은 단물이 번지며 잠투정 같던 아침의 나른함이 가십니다. 무언가를 새로 시작하기에 알맞은 서늘함이 혀끝에 머뭅니다.",
-    "식탁 위에 남은 껍질을 그러모아 유리병 옆에 둡니다. 마르면서 더 짙어질 가을 냄새를 한동안 방 안에 둘 생각입니다. 창밖으로 비치는 볕이 어제보다 한 뼘 더 길어졌습니다. 물 한 잔을 마시고 오늘 입을 외투를 꺼냅니다."
-   ],
-   "title": "도마 위의 사과 껍질"
+  "gym": {
+   "channel": "에일린 mind yoga",
+   "title": "누구나 할 수 있는 15분 홈요가 | 기초요가 스트레칭, 데일리 전신스트레칭",
+   "query": "초보자를 위한 아침 요가 15분",
+   "videoId": "2RaErjnOzmU",
+   "name": "요가",
+   "thumb": "https://i.ytimg.com/vi/2RaErjnOzmU/mqdefault.jpg",
+   "say": "굳어 있던 어깨와 허리를 부드럽게 펴며 하루를 시작해 보세요."
   },
-  "poem": {
-   "words": [
-    {
-     "m": "해가 지는 서쪽 산.",
-     "w": "서산"
-    },
-    {
-     "m": "'흐르더군요'라는 뜻의 평안도 방언 종결형.",
-     "w": "흐릅디다려"
-    },
-    {
-     "m": "끊이지 않고 잇달아 계속해서.",
-     "w": "연달아"
-    }
-   ],
-   "bg": "1923년 문예지 『백조』에 처음 발표된 뒤 1925년 시집 『진달래꽃』에 수록된 작품입니다. 일제강점기 삶의 터전을 잃고 유랑해야 했던 당대 사람들의 서글픈 처지가 배경에 짙게 깔려 있습니다. 떠나야만 하는 현실과 발길을 잡는 미련이 전통 민요조 가락 속에 깊이 스며 있습니다.",
-   "title": "가는 길",
-   "author": "김소월",
-   "note": "떠나야 하는 걸 알면서도 차마 발길이 떨어지지 않는 망설임이 짧은 행간 속에 고스란히 담겨 있습니다. 까마귀 울음과 재촉하는 강물은 매정한 세월처럼 머뭇거리는 마음을 채근합니다. 뒤를 돌아보며 묵묵히 걸음을 옮기는 이의 뒷모습이 마음에 오래 머뭅니다.",
-   "year": "1923",
-   "text": "그립다\n말을 할까\n하니 그리워\n\n그냥 갈까\n그래도\n다시 더 한 번\n\n저 산에도 까마귀, 들에 까마귀\n서산에는 해 진다고\n지저귑니다\n\n앞 강물, 뒷 강물\n흐르는 물은\n어서 따라오라고 따라가자고\n흘러도 연달아 흐릅디다려"
+  "park": {
+   "channel": "하이샷파크골프 아카데미",
+   "title": "파크골프 퍼팅하는 방법! 이렇게만 하세요 | 하이샷파크골프",
+   "query": "파크골프 방향성 높이는 퍼팅",
+   "videoId": "f-xAOwZuh-4",
+   "name": "파크골프",
+   "thumb": "https://i.ytimg.com/vi/f-xAOwZuh-4/mqdefault.jpg",
+   "say": "그린 위에서 홀컵을 정직하게 겨누는 감각을 익혀보세요."
   },
-  "humor": {
-   "title": "식물 도감",
-   "text": "아내가 거실 화분의 잎을 하나하나 닦으며 깊은 한숨을 쉬었습니다.\n요즘 식물들이 통 힘이 없다며 물 주는 주기와 일조량을 꼼꼼히 적더군요.\n지나가다 보니 거실 창문 블라인드가 보름째 굳게 내려져 있었습니다.",
-   "punch": "햇빛을 줘야 자라지, 식물 일기 쓴다고 자라나요.",
-   "kind": "짧은 이야기"
+  "dance": {
+   "channel": "Hyo Linedance",
+   "title": "초보자를위한 라인댄스기본스텝 배워보기 Line Dance  Basic Step",
+   "query": "초보를 위한 라인댄스 기본 스텝",
+   "videoId": "7UuRwzfcvH4",
+   "name": "댄스",
+   "thumb": "https://i.ytimg.com/vi/7UuRwzfcvH4/mqdefault.jpg",
+   "say": "경쾌한 리듬에 맞춰 가볍게 발을 딛는 즐거움을 만끽하세요."
   },
-  "bible": {
-   "ref": "시편 23:1",
-   "note": "비워낸 마음이라야 채워지는 평안이 있습니다. 쥐고 있는 손을 펴고 맡길 때, 이미 내 곁에 와 있는 온전함을 만납니다.",
-   "text": "여호와는 나의 목자시니 내가 부족함이 없으리로다"
-  },
-  "dharma": {
-   "text": "천 마디 쓸데없는 말보다 들으면 마음이 고요해지는 한마디가 낫다.",
-   "note": "수많은 말로 채우기보다 침묵 속에 머무는 다정한 한마디가 깊습니다. 비워낸 고요 속에서 진정한 안식이 번져갑니다.",
-   "src": "『법구경』"
+  "meditate": {
+   "channel": "요가소년",
+   "title": "마음이 편안해지는 10분 명상 가이드 | 요가소년 468",
+   "query": "차분한 하루를 위한 10분 명상",
+   "videoId": "HtHS8oO9Tg8",
+   "name": "명상",
+   "thumb": "https://i.ytimg.com/vi/HtHS8oO9Tg8/mqdefault.jpg",
+   "say": "숨을 천천히 들이쉬며 마음속 소음을 가만히 내려놓습니다."
   }
+ },
+ "startedAt": "2026-10-21T04:48:07.516864+09:00",
+ "errors": [],
+ "fortune": {
+  "쥐": {
+   "total": "막혔던 일이 자연스럽게 풀려 활기를 되찾는 날입니다. 마음먹었던 계획을 행동으로 옮기면 기대보다 수월하게 진행됩니다. 저녁에는 가벼운 성취감과 함께 하루를 기분 좋게 마무리합니다.",
+   "care": "기분이 들떠 한 번에 여러 일을 벌이지 않도록 하세요.",
+   "place": "단골 서점",
+   "num": "14",
+   "people": "가까운 동료나 이웃이 먼저 손을 내밀어 든든한 지원군이 되어 줍니다.",
+   "money": "작은 생활용품을 살 때 생각지 못한 할인을 챙길 수 있습니다.",
+   "time": "오전 10시 무렵",
+   "color": "남색",
+   "work": "미뤄 두었던 서류 정리나 집안 정돈이 한 번에 매끄럽게 끝납니다.",
+   "do": "책상 위나 서랍 한 칸을 말끔히 비워 보세요."
+  },
+  "양": {
+   "total": "새로운 시도보다 손에 익은 흐름을 유지하는 편이 이로운 날입니다. 조급하게 결론을 내리려 애쓰지 말고 평소의 박자를 지키는 것이 안전합니다. 하루를 마무리할 때쯤 묵묵히 버틴 보람을 체감하게 됩니다.",
+   "care": "잘 모르는 분야의 권유에 선뜻 고개를 끄덕이지 마세요.",
+   "place": "익숙한 산책로",
+   "num": "28",
+   "people": "가까운 사람의 푸념을 가만히 들어주는 것만으로 신뢰가 깊어집니다.",
+   "money": "충동적으로 집어 든 소품은 내려놓고 장바구니를 비우세요.",
+   "time": "오후 3시 무렵",
+   "color": "상아색",
+   "work": "중요한 결정은 내일로 넘기고 하던 일의 마무리에 집중하세요.",
+   "do": "따뜻한 보리차를 천천히 마시며 숨 고르기."
+  },
+  "닭": {
+   "total": "주변의 소음에서 한 걸음 물러나 혼자만의 틈을 챙겨야 하는 날입니다. 남의 사정에 참견하기보다 나만의 정취를 돌보는 데 시간을 쓰세요. 밤이 깊어질수록 머릿속이 맑아지며 편안한 고요를 맞이합니다.",
+   "care": "사소한 일에 날을 세우면 결국 내 기분만 상하게 됩니다.",
+   "place": "동네 서점",
+   "num": "43",
+   "people": "무리한 약속을 억지로 잡기보다 정중하게 다음을 기약하세요.",
+   "money": "세일 문구에 흔들리지 말고 꼭 필요한 식자재만 구입하세요.",
+   "time": "오후 5시 무렵",
+   "color": "짙은녹색",
+   "work": "내 몫의 작업만 조용히 끝내고 다른 이의 일에 개입하지 마세요.",
+   "do": "읽다 멈춘 책의 다음 장을 세 장 넘겨 보기."
+  },
+  "원숭이": {
+   "total": "재치 있는 말 한마디가 분위기를 반전시키는 경쾌한 날입니다. 주변의 요청이 잇따르니 가벼운 마음으로 도움을 건네면 운이 활짝 트입니다. 뿌듯한 보람을 안고 기분 좋게 잠자리에 들 수 있습니다.",
+   "care": "지나친 장난은 상대의 사소한 오해를 부를 수 있으니 삼가세요.",
+   "place": "문구점",
+   "num": "9",
+   "people": "동료나 이웃과의 짧은 대화 속에서 기발한 제안을 얻습니다.",
+   "money": "지인에게 대접하는 커피 한 잔이 몇 배의 호의로 돌아옵니다.",
+   "time": "오후 1시 무렵",
+   "color": "황금색",
+   "work": "까다로운 약속이나 협의 사항이 내 의도대로 수월하게 풀립니다.",
+   "do": "자주 쓰는 볼펜과 다이어리를 책상에 챙겨 두기."
+  },
+  "호랑이": {
+   "total": "망설이던 일에 힘이 실리고 주도권을 잡기 좋은 날입니다. 내 의견을 명확하게 밝힐수록 주변 사람들이 흔쾌히 뜻을 모아 줍니다. 하루를 마칠 즈음에는 오랜만에 분명한 보람을 손에 쥐게 됩니다.",
+   "care": "내 주장만 앞세워 상대방의 작은 배려를 놓치지 마세요.",
+   "place": "확 트인 카페",
+   "num": "28",
+   "people": "나를 신뢰하는 오랜 지인에게서 반가운 안부와 칭찬을 듣습니다.",
+   "money": "지갑을 열더라도 나를 위한 의미 있는 소비라면 아깝지 않습니다.",
+   "time": "오후 1시 무렵",
+   "color": "올리브",
+   "work": "주저하던 일거리나 안건을 밀어붙이면 막힘없이 통과됩니다.",
+   "do": "평소 입지 않던 단정한 옷을 꺼내 입으세요."
+  },
+  "말": {
+   "total": "머뭇거리던 일에 기분 좋은 속도가 붙는 날입니다. 계획했던 일을 망설이지 말고 정면으로 마주하면 결과가 명확해집니다. 저녁에는 가벼운 성취감과 함께 홀가분한 시간을 누릴 수 있습니다.",
+   "care": "말을 너무 직설적으로 건네면 상대가 위축될 수 있습니다.",
+   "place": "탁 트인 찻집",
+   "num": "14",
+   "people": "오랜 친구에게서 먼저 온 연락이 뜻밖의 활력을 전해 줍니다.",
+   "money": "오래 쓸 만한 생활 물품이라면 오늘 장만해도 무방합니다.",
+   "time": "오전 11시 무렵",
+   "color": "감청색",
+   "work": "복잡하게 엉켰던 서류나 집안 정리가 단번에 가닥을 잡습니다.",
+   "do": "신발장 구두와 운동화를 단정하게 정돈하기."
+  },
+  "돼지": {
+   "total": "주변을 챙기느라 정작 내 여유를 놓치기 쉬운 날입니다. 부탁받은 일에 바로 답하지 말고 내 일정을 먼저 돌아보는 지혜가 필요합니다. 무리하지 않고 일찍 귀가하면 편안한 쉼이 기다립니다.",
+   "care": "피로가 쌓이기 쉬운 날이니 불필요한 이동을 줄이세요.",
+   "place": "아늑한 서재",
+   "num": "32",
+   "people": "부담스러운 자리는 그럴듯한 핑계를 대고 사양해도 좋습니다.",
+   "money": "남의 눈을 의식해 계산을 자처하지 말고 각자 부담하세요.",
+   "time": "오후 7시 무렵",
+   "color": "연회색",
+   "work": "한 번에 여러 일을 벌이지 말고 중요한 한 가지에만 몰입하세요.",
+   "do": "좋아하는 음악을 틀고 어깨와 목을 가볍게 풀기."
+  },
+  "토끼": {
+   "total": "일상의 소소한 균형이 편안하게 자리를 잡는 날입니다. 큰 변화를 꾀하기보다 늘 하던 일을 정성스럽게 매만지는 데 집중하세요. 잔잔하게 흘러간 시간 덕분에 마음의 여유를 넉넉히 누립니다.",
+   "care": "약속 시간에 촉박하게 나가지 않도록 십 분 일찍 움직이세요.",
+   "place": "식물이 많은 화원",
+   "num": "8",
+   "people": "소원했던 친구에게 가벼운 안부 메시지를 보내면 온기가 돌아옵니다.",
+   "money": "충동적인 장보기만 피한다면 지출 관리가 아주 깔끔한 하루입니다.",
+   "time": "오전 11시 무렵",
+   "color": "연회색",
+   "work": "늘 해오던 일상의 과업들이 군더더기 없이 깔끔하게 처리됩니다.",
+   "do": "아끼던 컵에 신선한 물을 채워 마셔 보세요."
+  },
+  "뱀": {
+   "total": "남들이 지나친 세밀한 부분을 먼저 포착해 돋보이는 날입니다. 조용히 내 자리를 지키면서도 번뜩이는 안목으로 명쾌한 답을 찾아냅니다. 해 질 녘에는 홀가분한 기분으로 조용한 저녁을 맞이합니다.",
+   "care": "눈앞의 사소한 흠에 지나치게 집착하지 마세요.",
+   "place": "조용한 전시장",
+   "num": "19",
+   "people": "취향이 비슷한 사람과 짧은 대화로도 깊은 공감을 나눕니다.",
+   "money": "안목을 믿고 고른 작은 소품이 오랫동안 만족을 줍니다.",
+   "time": "오전 9시 무렵",
+   "color": "보라",
+   "work": "까다롭던 문제의 핵심을 짚어내어 수월한 해결책을 제시합니다.",
+   "do": "서랍 속 메모지와 필기구를 가지런히 정리하세요."
+  },
+  "개": {
+   "total": "성실하게 다져 온 노력이 믿음직한 호응을 얻는 단단한 날입니다. 준비해 둔 생각이나 계획을 사람들에게 담백하게 알리기 좋습니다. 기대 이상의 인정을 받으며 보람찬 하루를 닫게 됩니다.",
+   "care": "원칙만 고집하면 융통성이 부족하다는 인상을 줄 수 있습니다.",
+   "place": "볕이 잘 드는 마당",
+   "num": "5",
+   "people": "가족이나 오랜 동료와 나누는 저녁 식사 자리가 훈훈합니다.",
+   "money": "집안에 둘 화분이나 작은 소품에 쓰는 비용은 길합니다.",
+   "time": "오전 9시 무렵",
+   "color": "벽돌색",
+   "work": "손이 많이 가던 살림이나 업무가 매끄럽게 제자리를 찾습니다.",
+   "do": "외출 전 현관 앞을 깨끗하게 비질하기."
+  },
+  "용": {
+   "total": "사소한 오해가 생기기 쉬우니 한 발 물러서서 지켜보는 날입니다. 내 뜻을 억지로 관철하려 들면 불필요한 마찰로 피로해질 수 있습니다. 말을 아끼고 관망하는 태도가 결국 본전 이상의 이익을 지켜 줍니다.",
+   "care": "부탁을 받을 때 즉답을 피하고 생각할 시간을 두세요.",
+   "place": "동네 산책로",
+   "num": "42",
+   "people": "상대방의 무심한 한마디에 즉각 반응하지 말고 흘려넘기세요.",
+   "money": "기분 전환을 핑계로 지갑을 열면 금세 후회가 남습니다.",
+   "time": "늦은 오후 5시 무렵",
+   "color": "짙은 녹색",
+   "work": "진행 중인 일의 마감 일정을 한 번 더 확인하고 재점검하세요.",
+   "do": "가벼운 체조로 어깨의 긴장을 풀어 주세요."
+  },
+  "소": {
+   "total": "평소보다 발걸음을 반 박자 늦추는 편이 이로운 날입니다. 성급히 결정을 내리기보다 주변 상황의 흐름을 묵묵히 살피는 편이 낫습니다. 서두르지 않은 덕분에 뜻밖의 실수를 피하고 안도하게 됩니다.",
+   "care": "대화 중에 굳이 따지지 않아도 될 일에 정색하지 마세요.",
+   "place": "조용한 차실",
+   "num": "3",
+   "people": "상대의 하소연에 무리하게 맞장구치기보다 조용히 들어주는 것이 좋습니다.",
+   "money": "값이 나가는 물건은 오늘 바로 결제하지 말고 며칠 더 지켜보세요.",
+   "time": "오후 3시 무렵",
+   "color": "갈색",
+   "work": "새로운 일을 시작하기보다 이미 진행 중인 일을 꼼꼼히 점검하세요.",
+   "do": "따뜻한 차 한 잔을 천천히 음미해 보세요."
+  }
+ },
+ "generatedAt": "2026-10-21T04:15:07.203486+09:00",
+ "phrase": {
+  "en": {
+   "text": "Could I have a late check-out?",
+   "reading": "쿠드 아이 해브 어 레이트 체크아웃",
+   "tip": "출발 전 프런트에 미리 확인하면 좋습니다.",
+   "meaning": "퇴실 시간을 조금 늦출 수 있을까요?"
+  },
+  "ja": {
+   "text": "レイトチェックアウトはできますか。",
+   "reading": "레이토 체크아우토와 데키마스카",
+   "tip": "오전 중에 프런트에 물어볼 때 씁니다.",
+   "meaning": "퇴실 시간을 조금 늦출 수 있을까요?"
+  },
+  "zh": {
+   "text": "可以延迟退房吗？",
+   "reading": "커이 옌츠 투이팡 마",
+   "tip": "당일 아침에 미리 양해를 구할 때 씁니다.",
+   "meaning": "퇴실 시간을 조금 늦출 수 있을까요?"
+  },
+  "topic": "호텔에서 늦은 퇴실을 물을 때"
+ },
+ "quiz": {
+  "explain": "‘하나만 있으면 된다(You Only Need One)’는 영어 문장의 머리글자를 딴 말입니다. 과거 유행했던 ‘인생은 한 번뿐(YOLO)’ 식의 과시적 소비와 달리 불필요한 낭비를 줄이고 꼭 필요한 것만 고릅니다. 무작정 안 쓰는 게 아니라 물건의 쓰임새와 가치를 꼼꼼히 따져 하나를 제대로 장만하는 태도입니다.",
+  "options": [
+   "남들에게 보여주기 위해 유명 식당의 값비싼 코스 요리를 예약한다",
+   "할인 행사를 한다는 소식에 당장 쓰지 않을 물건을 대량으로 사둔다",
+   "평소 매일 입을 질 좋은 기본 외투 한 벌을 신중히 골라 오래 입는다",
+   "유행하는 전자제품이 출시될 때마다 쓰던 기기가 멀쩡해도 바로 바꾼다"
+  ],
+  "term": "요노",
+  "meaning": "꼭 필요한 것 하나만 사며 실속을 챙기는 소비 방식",
+  "answer": 2,
+  "question": "다음 중 요노의 태도에 가장 잘 들어맞는 사례는 무엇입니까?",
+  "why": "고물가와 경기 둔화가 이어지면서 불필요한 과시보다 실속을 챙기려는 합리적 소비 심리가 사회 전반으로 번졌기 때문입니다.",
+  "kind": "시사 상식",
+  "example": "유행하는 옷을 다 사기보다 요노 방식으로 기본 외투 한 벌만 골랐어요."
  }
 }
