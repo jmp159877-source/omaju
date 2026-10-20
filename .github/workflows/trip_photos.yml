@@ -31,9 +31,10 @@ jobs:
       - name: 목록 올리기 (main)
         run: |
           git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git add data/trip_photos.json daily/last-trip-photos.log 2>/dev/null || true
+          git add data/trip_photos.json 2>/dev/null || true
           git diff --cached --quiet || git commit -qm "여행·산 사진 목록 [skip ci]"
           for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/last-trip-photos.log
       - name: 사진 올리기 (trip-photos 가지, 기록 없이 새로)
         run: |
           # 지난번 사진을 먼저 받아 와 합친다 — 이번에 못 구한 칸의 사진이 사라지지 않게

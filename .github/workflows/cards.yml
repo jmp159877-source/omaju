@@ -22,6 +22,7 @@ jobs:
           if [ -n "${{ github.event.inputs.only }}" ]; then export ONLY="${{ github.event.inputs.only }}" OUT=img/cards_new MINB=140 QUERIES="${{ github.event.inputs.queries }}"; rm -rf img/cards_new; else rm -rf img/cards; fi
           python -u tools/card_photos.py 2>&1 | tee tools/last-cards.log
           git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
-          git add -A img/cards img/cards_new data/card_photos.json tools/last-cards.log
+          git add -A img/cards img/cards_new data/card_photos.json
           git commit -m "인사 카드 사진 모음 [skip ci]" || true
           ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-cards.log

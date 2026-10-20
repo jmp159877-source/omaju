@@ -25,5 +25,5 @@ jobs:
           sed -E 's/(AIza|ya29\.)[A-Za-z0-9_\-]+/[키]/g' /tmp/rules.log > tools/last-rules.log
           cat tools/last-rules.log
           git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git add tools/last-rules.log; git diff --cached --quiet || (git commit -m "규칙 게시 기록 [skip ci]" && git push)
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-rules.log
           exit $rc

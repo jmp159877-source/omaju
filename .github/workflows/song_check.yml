@@ -15,5 +15,4 @@ jobs:
       - if: always()
         run: |
           git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git add daily/song_check.md && git commit -qm "노래 영상 점검 [skip ci]" || exit 0
-          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; sleep 5; done
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/song_check.md

@@ -52,6 +52,7 @@ jobs:
         if: always()
         run: |
           git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
-          git add daily/ || true
+          git add daily/*.json || true
           git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
           ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/last-run.log

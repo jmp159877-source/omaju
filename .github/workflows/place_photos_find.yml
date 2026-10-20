@@ -38,6 +38,7 @@ jobs:
         if: always()
         run: |
           git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git add data tools/last-place-photos-find.log 2>/dev/null || true
+          git add data 2>/dev/null || true
           git commit -qm "그해 그곳 사진 후보 [skip ci]" || exit 0
           for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-place-photos-find.log
