@@ -21,8 +21,10 @@ const now = new Date(), M = now.getMonth(), D = now.getDate(), Y = now.getFullYe
 const TODAY = DB.todayKey(now);
 $('date').textContent = `${Y}년 ${M + 1}월 ${D}일 ${WD[now.getDay()]}요일`;
 try { const p = new Intl.DateTimeFormat('ko-KR-u-ca-dangi', { month: 'numeric', day: 'numeric' }).formatToParts(now); const m = p.find(x => x.type === 'month'), d = p.find(x => x.type === 'day'); if (m && d) $('lunar').textContent = `음력 ${m.value}월 ${d.value}일`; } catch (e) {}
+// 철은 1일 자로 바뀐다 (운영자 2026-10-20): 3/1 봄 · 6/1 여름 · 9/1 가을 · 12/1 겨울
 const SEASON = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
 $('wx-card').style.backgroundImage = `url('img/wx-${SEASON}.jpg')`;
+$('wx-card').dataset.season = SEASON;  // 봄·겨울 사진은 왼쪽이 환해서 CSS 에서 막을 더 두껍게 한다
 
 // ── 글자 크기 ──
 function applySize(b) { document.documentElement.classList.toggle('big', b); $('sizer').textContent = b ? '글자 보통' : '글자 크게'; }
