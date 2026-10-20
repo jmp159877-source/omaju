@@ -31,6 +31,8 @@ a { color: var(--dark-green); text-underline-offset: 4px; }
 .spot { display: inline-block; position: relative; font-size: 1.45em; font-weight: 700; margin: 0 0.02em; }
 .spot::before { content: "●"; position: absolute; top: -0.45em; left: 50%; transform: translateX(-50%); color: var(--leaf); font-size: 10px; }
 .hero-desc { font-size: 1.1rem; font-weight: 300; opacity: 0.92; line-height: 1.7; border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 20px; margin: 0; }
+/* 처음 온 사람이 '여기가 어디지' 하지 않게, 무엇인지부터 한 줄로 (운영자 2026-10-20) */
+.hero-lede { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.32rem; font-weight: 700; line-height: 1.45; margin: 0 0 10px; color: #fff; opacity: 1; }
 .hero-foot { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; justify-content: space-between; font-size: 0.95rem; }
 .when { opacity: 0.9; font-weight: 300; }
 .btn { border: 0; border-radius: 30px; padding: 11px 22px; font-size: 0.95rem; font-weight: 500; background: var(--gold); color: var(--black); }
@@ -1693,3 +1695,12 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .rd-bar-b { min-height: 44px; padding: 8px 13px; border: 1px solid #6a6050; border-radius: 8px; background: transparent; color: #F6F1E6; font: inherit; font-size: 0.93rem; cursor: pointer; white-space: nowrap; }
 .rd-bar-x { min-width: 44px; min-height: 42px; border: 0; background: transparent; color: #C3B9A5; font-size: 1.1rem; cursor: pointer; }
 body.rd-on { padding-bottom: 124px; }
+
+/* ── 오마주 소개 배너 (커버 ↔ 오프닝 사이) — 운영자 2026-10-20 ──
+   분위기만 있고 정체가 없으면 처음 온 사람은 그냥 나간다. 커버는 그대로 두고 여기서 한 번 말해 준다. */
+.intro { margin: 26px 0 0; padding: 30px 22px 32px; text-align: center; background: var(--ivory2);
+  border-top: 1px solid rgba(227,176,75,0.55); border-bottom: 1px solid rgba(227,176,75,0.55); }
+.intro-lede { margin: 0 0 12px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+  font-size: 1.52rem; line-height: 1.45; color: var(--dark-green); word-break: keep-all; }
+.intro-sub { margin: 0; font-size: 1.04rem; line-height: 1.8; color: #6b6354; word-break: keep-all; }
+@media (max-width: 420px) { .intro { padding: 26px 18px 28px; } .intro-lede { font-size: 1.38rem; } }
