@@ -1363,7 +1363,10 @@ html.big .dsec[data-k="history"] .row b { width: auto; }
 .tabs-mini button span { word-break: keep-all; overflow-wrap: normal; }
 /* 날씨 칸 계절 사진(봄 3/1·여름 6/1·가을 9/1·겨울 12/1): 사진이 화사해 글씨 쪽만 살짝 더 눌러 또렷하게 */
 .wx-card { background-position: center 40% !important; }
-.wx-card::after { background: linear-gradient(to right, rgba(24,22,18,0.62) 0%, rgba(24,22,18,0.42) 50%, rgba(24,22,18,0.06) 100%) !important; }
+/* 창가 정물 사진으로 바꾸면서 다시 잡았다 (운영자 2026-10-20) — 글이 가운데까지 오므로 70% 까지 덮고,
+   찻잔과 단풍잎이 있는 오른쪽 끝만 비운다. */
+.wx-card::after { background: linear-gradient(to top, rgba(24,22,18,0.44) 0%, rgba(24,22,18,0.06) 58%),
+    linear-gradient(to right, rgba(24,22,18,0.78) 0%, rgba(24,22,18,0.62) 48%, rgba(24,22,18,0.28) 78%, rgba(24,22,18,0.05) 100%) !important; }
 .wx-card .wx-in, .wx-card .wx-in * { text-shadow: 0 1px 3px rgba(0,0,0,0.45), 0 2px 12px rgba(0,0,0,0.3); }
 
 /* ── 인사 카드: 고급 편지지 6가지 (2026-10-16) ── */
