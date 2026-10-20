@@ -55,6 +55,15 @@ srv.listen(0, '127.0.0.1', async () => {
       ok(`화면 ${ROUTES.length}개 오류·넘침 (${big ? '큰' : '보통'} 글씨)`, !errs.length && !bad.length, [...new Set(errs)].concat(bad).join(' / '));
       await c.close();
     }
+    // 1-1) 소개 배너는 첫 화면에만 — 장·코너에 들어가면 따라붙지 않아야 한다 (운영자 2026-10-20)
+    { const c = await ctx(false); const p = await c.newPage(); await p.goto(base + '/index.html'); await wait(p, 1500);
+      const seen = {};
+      for (const h of ['', 'g1', 'g3', 'food', '']) {
+        await p.evaluate(x => { location.hash = x; }, h); await wait(p, 600);
+        seen[h || '첫화면'] = await p.evaluate(() => { const e = document.querySelector('.intro'); return !!(e && e.offsetParent); });
+      }
+      ok('소개 배너는 첫 화면에만 보임', seen['첫화면'] === true && !seen.g1 && !seen.g3 && !seen.food, JSON.stringify(seen));
+      await c.close(); }
     // 2) 뒤로 가기: 여러 화면을 열고 몇 번 만에 나가는지 (단계: 놀이→장→첫화면→안내→나감)
     { const c = await ctx(false); const p = await c.newPage(); await p.goto(base + '/terms.html'); await p.goto(base + '/index.html'); await wait(p, 1500);
       const go = async h => { await p.evaluate(h => window.omajuNav(h), h); await wait(p, 700); };

@@ -1183,6 +1183,8 @@ body.in-detail.nav-solid .top-nav img { display: none; }
 .ch-zoom::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.45)); }
 .ch-zoom.out { opacity: 0; }
 body.in-chapter .toc, body.in-chapter #tabs3 { display: none; }
+/* 소개 배너는 첫 화면에만 — 장에 들어가면 따라붙는다 (운영자 2026-10-20) */
+body.in-chapter .intro { display: none; }
 @media (max-width: 768px) { body.in-chapter .hero { display: none; } body.in-chapter main.content { padding-top: 0; } }
 .ch-head { position: relative; margin: 0 -18px 26px; min-height: 46vh; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 0 22px 26px; color: #fff; animation: chin .5s ease-out; }
 .ch-head::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.05) 35%, rgba(20,16,10,0.72) 100%); }
