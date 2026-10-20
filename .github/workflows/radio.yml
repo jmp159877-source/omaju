@@ -9,6 +9,7 @@ on:
       date: { description: '날짜 (YYYY-MM-DD, 비우면 오늘)', required: false, default: '' }
       only: { description: '이 장만 (예: g1)', required: false, default: '' }
       force: { description: '1이면 있어도 다시 만들기', required: false, default: '' }
+      chunk: { description: '한 토막 최대 글자수 (비우면 950)', required: false, default: '' }
 permissions:
   contents: write
 concurrency: { group: radio, cancel-in-progress: false }
@@ -28,6 +29,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MEDIA_DIR: media
+          CHUNK_MAX: ${{ inputs.chunk }}
         run: |
           set +o pipefail
           mkdir -p media/radio
