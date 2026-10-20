@@ -1739,36 +1739,27 @@ body.rd-on { padding-bottom: 124px; }
 @media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 42px; } }
 @media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
 
-/* ── 오늘의 이슈 바탕 (운영자 2026-10-20: 은빛 유리는 밋밋해 눈에 안 띈다) ──
-   집에서 이미 쓰는 방식으로 맞춘다 — 오늘 PLAY·운세·한 끼처럼 사진 위에 짙은 초록 막, 글씨는 흰색.
-   다만 그 칸들은 글이 아래 두 줄뿐이라 아래만 덮으면 되지만, 여기는 다섯 줄이 꽉 차므로 고르게 덮는다. */
-.is-card { position: relative; overflow: hidden; color: #fff;
-  background: linear-gradient(to top, rgba(10,45,32,0.90) 0%, rgba(10,45,32,0.76) 48%, rgba(10,45,32,0.58) 100%),
-              url('../img/bg-issue.jpg') center 30% / cover no-repeat;
-  border: 0; box-shadow: 0 8px 24px rgba(10,45,32,0.24);
-  padding: 8px 20px 14px; }
-.is-item { border-bottom-color: rgba(255,255,255,0.16); }
-.is-item:last-child { border-bottom-color: transparent; }
+/* ── 경제·이슈 칸 바탕 (운영자 2026-10-20) ──
+   집안 방식 그대로 — 오늘 PLAY·운세·한 끼처럼 사진 위에 짙은 초록 막, 글씨는 흰색.
+   그 칸들은 글이 아래 두 줄뿐이라 아래만 덮으면 되지만, 여기는 줄이 꽉 차므로 고르게 덮는다.
+   사진은 운영자가 주문해 받은 탁자 정물 두 장 — 경제는 따뜻한 오크를 옆에서, 이슈는 찬 돌판을 위에서. */
+.mk-card, .is-card { position: relative; overflow: hidden; color: #fff;
+  border: 0; box-shadow: 0 8px 24px rgba(10,45,32,0.24); }
+.mk-card { background: linear-gradient(to top, rgba(30,20,11,0.88) 0%, rgba(30,20,11,0.76) 50%, rgba(30,20,11,0.58) 100%),
+             url('../img/bg-econ.jpg') center 42% / cover no-repeat; padding: 10px 20px 14px; }
+.is-card { background: linear-gradient(to top, rgba(10,45,32,0.90) 0%, rgba(10,45,32,0.80) 50%, rgba(10,45,32,0.64) 100%),
+             url('../img/bg-issue.jpg') center 35% / cover no-repeat; padding: 8px 20px 14px; }
+.mk-card::before { display: none; }
+.mk-item, .mk-item:last-child, .mk-item:nth-last-child(-n+2), .is-item { border-bottom-color: rgba(255,255,255,0.16); }
+.mk-item:last-child, .is-item:last-child { border-bottom-color: transparent; }
+.mk-card .mk-l, .mk-card .mk-item .mk-l { color: rgba(255,255,255,0.88) !important; text-shadow: 0 1px 3px rgba(0,0,0,0.45); }
+.mk-card .mk-v, .mk-card .mk-item .mk-v { color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,0.40); }
+.mk-card .mk-c, .mk-card .mk-item .mk-c { color: rgba(255,255,255,0.78); }
+.mk-card .mk-c.up { color: #FFB6A2; } .mk-card .mk-c.down { color: #A8D4F6; }
+.mk-foot { color: rgba(255,255,255,0.62); }
 .is-cat { color: #F2CE7E; font-weight: 700; font-size: 0.92rem; letter-spacing: 0.10em; }
 .is-src { color: rgba(255,255,255,0.64); }
 .is-src:not(:empty)::before { color: rgba(242,206,126,0.6); }
 .is-line { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.32); }
 .is-item a:active .is-line { opacity: 0.6; }
 .is-foot { color: rgba(255,255,255,0.60); }
-
-/* ── 오늘의 경제 바탕: 운영자 제공 (한낮의 도시) ──
-   밝은 사진이라 흰 막을 옅게 깔고 글씨는 먹남색. 위는 하늘이 그대로 비치게 두고,
-   아래로 갈수록 막을 두껍게 해 창문 격자 위에서도 숫자가 또렷하게. */
-.mk-card { position: relative; overflow: hidden; color: #16202C;
-  background: linear-gradient(rgba(255,255,255,var(--ev-a,0.34)) 0%, rgba(243,248,255,var(--ev-b,0.70)) 50%, rgba(240,246,255,var(--ev-c,0.82)) 100%),
-              url('../img/bg-econ.jpg') center 30% / cover no-repeat;
-  border: 1px solid rgba(20,50,90,0.10); box-shadow: 0 6px 20px rgba(20,50,90,0.14);
-  padding: 10px 20px 14px; }
-.mk-card::before { display: none; }
-.mk-item, .mk-item:last-child, .mk-item:nth-last-child(-n+2) { border-bottom-color: rgba(20,45,80,0.14); }
-.mk-item:last-child { border-bottom-color: transparent; }
-.mk-card .mk-l, .mk-card .mk-item .mk-l { color: #2C3A4C !important; text-shadow: 0 1px 2px rgba(255,255,255,0.6); }
-.mk-card .mk-v, .mk-card .mk-item .mk-v { color: #10192A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.55); }
-.mk-card .mk-c, .mk-card .mk-item .mk-c { color: #5A6472; }
-.mk-card .mk-c.up { color: #B5533C; } .mk-card .mk-c.down { color: #2F6B9A; }
-.mk-foot { color: #5A6472; }
