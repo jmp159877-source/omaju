@@ -1,18 +1,18 @@
 대본 gemini-3.1-pro-preview 문제: 없음
-녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 400: Bad Request
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
 녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 402: Payment Required
-녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 402: Payment Required
+녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 400: Bad Request
+녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 429: Too Many Requests
 그만둠 g1 녹음 실패
 --- 만들어진 것 ---
 total 2340
--rw-r--r-- 1 runner runner    4260 Oct 20 04:28 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 20 04:28 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    4260 Oct 20 05:20 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 20 05:20 2026-10-19-g1.mp3
