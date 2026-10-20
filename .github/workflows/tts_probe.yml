@@ -1,0 +1,20 @@
+# 구글 TTS 가 왜 막혔는지 한 번만 찔러 본다 (한도인지 크레딧인지)
+name: TTS 상태 보기
+on: { workflow_dispatch: {} }
+permissions: { contents: write }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - env: { GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}" }
+        run: |
+          python3 -u tools/tts_probe.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tee daily/last-tts-probe.log
+      - if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add daily/last-tts-probe.log && git commit -qm "TTS 상태 [skip ci]" || exit 0
+          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; sleep 5; done
