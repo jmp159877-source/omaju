@@ -1711,5 +1711,9 @@ body.rd-on { padding-bottom: 124px; }
   font-size: 1.56rem; line-height: 1.45; color: #fff; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,0.45); }
 .intro-sub { margin: 0; font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,0.93); word-break: keep-all;
   text-shadow: 0 2px 9px rgba(0,30,60,0.55); }
+/* 오른쪽 아래 영문 한 줄 — 잡지 판권처럼. 그림과 흰 글씨만 있으면 허전하다 (운영자 2026-10-20) */
+.intro-mast { margin: 26px 0 0; text-align: right; font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.82); text-shadow: 0 1px 6px rgba(0,30,60,0.5); }
 @media (max-width: 768px) { .intro { margin: 30px -18px 0; padding: 40px 22px 42px; } }
 @media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
