@@ -1,21 +1,19 @@
 대본 gemini-3.1-pro-preview 문제: 없음
-대본 1819 자 · 11 토막
-녹음 gemini-3.1-flash-tts-preview 93.2 초 일치 0.96 통과
-녹음 gemini-3.1-flash-tts-preview 80.7 초 일치 1.0 통과
-녹음 gemini-3.1-flash-tts-preview 83.8 초 일치 0.99 통과
-녹음 gemini-3.1-flash-tts-preview 79.3 초 일치 0.98 통과
-녹음 gemini-3.1-flash-tts-preview 53.4 초 일치 0.99 통과
-토막 5 개 · [93, 81, 84, 79, 53] 초 · [205, 174, 190, 185, 205]
-토막 2 높이 174 — 기준(196)에서 멀어 다시 읽힘
-녹음 gemini-3.1-flash-tts-preview 82.8 초 일치 1.0 통과
-토막 2 높이 175 — 기준(196)에서 멀어 다시 읽힘
-녹음 gemini-3.1-flash-tts-preview 82.4 초 일치 1.0 통과
-토막 높이 [205, 184, 190, 185, 205] → [196, 196, 196, 196, 196] (기준 196 )
-토막 음량 [6485, 5695, 5407, 5206, 5041] → 5407
-완료 g1 340.6 초 빠르기 5.4 높이 197 → 196
+대본 1829 자 · 11 토막
+녹음 gemini-3.1-flash-tts-preview 92.3 초 일치 0.98 통과
+녹음 gemini-3.1-flash-tts-preview 82.1 초 일치 1.0 통과
+녹음 gemini-3.1-flash-tts-preview 78.2 초 일치 1.0 통과
+녹음 gemini-3.1-flash-tts-preview 81.4 초 일치 1.0 통과
+녹음 gemini-3.1-flash-tts-preview 48.4 초 일치 1.0 통과
+토막 5 개 · [92, 82, 78, 81, 48] 초 · [194, 188, 190, 191, 197]
+토막 높이 [194, 188, 190, 191, 197] → [196, 196, 196, 196, 196] (기준 196 )
+토막 음량 [4974, 6801, 6006, 6032, 7842] → 6032
+완료 g1 342.4 초 빠르기 5.4 높이 195 → 196
 --- 만들어진 것 ---
-total 6340
--rw-r--r-- 1 runner runner    4260 Oct 20 10:14 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 20 10:14 2026-10-19-g1.mp3
--rw-r--r-- 1 runner runner    6949 Oct 20 10:20 2026-10-20-g1.json
--rw-r--r-- 1 runner runner 4086431 Oct 20 10:20 2026-10-20-g1.mp3
+total 10364
+-rw-r--r-- 1 runner runner    4260 Oct 20 19:38 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 20 19:38 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    6949 Oct 20 19:38 2026-10-20-g1.json
+-rw-r--r-- 1 runner runner 4086431 Oct 20 19:38 2026-10-20-g1.mp3
+-rw-r--r-- 1 runner runner    6975 Oct 20 19:43 2026-10-21-g1.json
+-rw-r--r-- 1 runner runner 4108688 Oct 20 19:43 2026-10-21-g1.mp3
