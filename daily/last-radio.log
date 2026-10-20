@@ -1,21 +1,17 @@
 대본 gemini-3.1-pro-preview 문제: 없음
-대본 1806 자 · 11 토막
-녹음 gemini-3.1-flash-tts-preview 117.3 초 일치 0.98 통과
-토막 1/4 117.3 초 · 높이 198
-녹음 gemini-3.1-flash-tts-preview 106.2 초 일치 0.99 통과
-토막 2/4 106.2 초 · 높이 212
-녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 400: Bad Request
+대본 1856 자 · 11 토막
+녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
+녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
 녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 400: Bad Request
-녹음 gemini-3.1-flash-tts-preview 113.2 초 일치 0.99 통과
-토막 3/4 113.2 초 · 높이 216
-녹음 gemini-3.1-flash-tts-preview 8.0 초 일치 0.96 통과
-토막 4/4 8.0 초 · 높이 185
-토막 높이 [198, 212, 216, 185] → [210, 210, 210, 203] (기준 210 )
-완료 g1 379.9 초 빠르기 4.8 높이 212 → 210
+녹음 gemini-3.1-flash-tts-preview 146.8 초 일치 0.98 통과
+녹음 gemini-3.1-flash-tts-preview 145.0 초 일치 0.99 통과
+녹음 gemini-3.1-flash-tts-preview 51.1 초 일치 0.99 통과
+토막 3 개 · [147, 145, 51] 초
+토막 높이 [207, 203, 231] → [210, 210, 219] (기준 210 )
+완료 g1 367.6 초 빠르기 5.1 높이 211 → 210
 --- 만들어진 것 ---
-total 6804
--rw-r--r-- 1 runner runner    4260 Oct 20 07:56 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 20 07:56 2026-10-19-g1.mp3
--rw-r--r-- 1 runner runner    6925 Oct 20 08:01 2026-10-20-g1.json
--rw-r--r-- 1 runner runner 4559457 Oct 20 08:01 2026-10-20-g1.mp3
+total 6660
+-rw-r--r-- 1 runner runner    4260 Oct 20 08:02 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 20 08:02 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    7088 Oct 20 08:08 2026-10-20-g1.json
+-rw-r--r-- 1 runner runner 4411499 Oct 20 08:08 2026-10-20-g1.mp3
