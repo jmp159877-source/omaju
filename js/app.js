@@ -314,6 +314,7 @@ let TRAVEL = null, trvTab = store.get('trvTab', 'talk');
 const PH_CDN = 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@trip-photos/';
 const PH_RAW = 'https://raw.githubusercontent.com/jmp159877-source/omaju/trip-photos/';
 let TRIPPH = {};
+const hasShots = list => !!(list && list.length && list.every(x => TRIPPH[(x.title || '') + '|' + (x.where || '')]));
 function shotHtml(x) {
   const f = TRIPPH[(x.title || '') + '|' + (x.where || '')];
   if (!f) return '';
@@ -325,10 +326,13 @@ fetch('data/trip_photos.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() 
 function trvHtml(k) {
   const list = (TRAVEL && TRAVEL[k]) || [];
   // 칸마다 띠 사진 — 자리를 미리 잡아 두어(aspect-ratio) 사진이 늦게 와도 아래가 밀리지 않는다
-  const band = `<div class="trv-band" data-band="${k}" style="background-image:url('img/trv-${k}.jpg')" role="img" aria-label=""></div>`;
+  // 사진은 그 칸이 **다 갖춰졌을 때만** 보여 준다 — 한둘만 있으면 나머지가 빠뜨린 것처럼 보인다.
+  // 다 갖춰지면 맨 위 띠 사진은 뺀다(사진이 둘씩 겹쳐 쌓이면 되레 어수선하다). (2026-10-20)
+  const shots = hasShots(list);
+  const band = shots ? '' : `<div class="trv-band" data-band="${k}" style="background-image:url('img/trv-${k}.jpg')" role="img" aria-label=""></div>`;
   if (!list.length) return band + '<p class="note" style="margin-top:24px">갈 만한 곳을 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>';
   return band + '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
-    + shotHtml(x)
+    + (shots ? shotHtml(x) : '')
     + `<b>${esc(x.title)}</b>`
     + `<p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.cost ? ` <span class="nw">· ${esc(x.cost)}</span>` : ''}</p>`
     + `<p>${esc(x.why || '')}</p>`
@@ -414,8 +418,9 @@ function renderHike() {
   if (!rs.includes(hikeRegion)) hikeRegion = rs[0];
   tabs.innerHTML = rs.map(r => `<button type="button" data-hkr="${esc(r)}" aria-pressed="${r === hikeRegion}">${esc(r)}</button>`).join('');
   const list = HIKE.regions[hikeRegion] || [];
+  const shots = hasShots(list);
   body.innerHTML = '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
-    + shotHtml(x)
+    + (shots ? shotHtml(x) : '')
     + `<b>${esc(x.title)}</b>`
     + `<p class="sw-meta">${esc(x.where || '')}${x.course ? ` <span class="nw">· ${esc(x.course)}</span>` : ''}${x.hours ? ` <span class="nw">· ${esc(x.hours)}</span>` : ''}${x.level ? ` <span class="nw">· ${esc(x.level)}</span>` : ''}</p>`
     + `<p>${esc(x.why || '')}</p>`

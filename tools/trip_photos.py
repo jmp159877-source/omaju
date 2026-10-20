@@ -79,7 +79,7 @@ def queries(items, kind):
 {lst}
 형식(JSON만): {{"q": [["검색어1","검색어2","검색어3","검색어4"], ...]}} — 목록과 같은 순서, 같은 개수.'''
     j = gemini([{'text': p}]) or {}
-    q = j.get('q') or []
+    q = (j.get('q') if isinstance(j, dict) else j) or []
     out = []
     for i, x in enumerate(items):
         got = [str(s) for s in (q[i] if i < len(q) and isinstance(q[i], list) else []) if s]
@@ -140,6 +140,8 @@ def judge(cands, item, kind):
         parts.append({'text': f'{i+1}번'})
         parts.append({'inline_data': {'mime_type': 'image/jpeg', 'data': thumb(im)}})
     j = gemini(parts) or {}
+    if isinstance(j, list): j = (j[0] if j and isinstance(j[0], dict) else {})
+    if not isinstance(j, dict): j = {}
     try:
         n = int(j.get('pick', 0))
     except Exception:

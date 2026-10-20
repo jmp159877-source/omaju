@@ -36,5 +36,9 @@ jobs:
           for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
       - name: 사진 올리기 (trip-photos 가지, 기록 없이 새로)
         run: |
+          # 지난번 사진을 먼저 받아 와 합친다 — 이번에 못 구한 칸의 사진이 사라지지 않게
+          rm -rf /tmp/oldtrip && git clone -q --depth 1 --branch trip-photos "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /tmp/oldtrip || true
+          if [ -d /tmp/oldtrip ]; then rm -rf /tmp/oldtrip/.git; cp -rn /tmp/oldtrip/. /tmp/trip-out/ 2>/dev/null || true; fi
+          ls /tmp/trip-out/*.jpg >/dev/null 2>&1 || { echo "사진이 하나도 없어 올리지 않음"; exit 0; }
           cd /tmp/trip-out && git init -q -b trip-photos && git config user.name omaju-bot && git config user.email bot@omaju.kr
           git add -A && git commit -qm "여행·산 사진 $(date -u +%F)" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trip-photos
