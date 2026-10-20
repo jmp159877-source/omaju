@@ -24,7 +24,13 @@ srv.listen(0, '127.0.0.1', async () => {
     await c.route('https://www.gstatic.com/**', r => { const u = r.request().url(); const n = u.includes('firebase-app') ? 'app' : u.includes('firebase-auth') ? 'auth' : u.includes('firestore') ? 'firestore' : 'analytics'; r.fulfill({ contentType: 'application/javascript', body: n === 'firestore' ? fsStub : fs.readFileSync(path.join(STUB, n + '.js'), 'utf8') }); });
     await c.route('https://fonts.googleapis.com/**', r => r.fulfill({ contentType: 'text/css', body: "@font-face{font-family:'Nanum Myeongjo';font-weight:800;src:local('Noto Serif CJK KR Bold');}" }));
     await c.route('https://api.open-meteo.com/**', r => r.fulfill({ contentType: 'application/json', body: '{"current":{"temperature_2m":17,"apparent_temperature":16,"relative_humidity_2m":55,"weather_code":2}}' }));
-    await c.route(/(raw\.githubusercontent\.com|cdn\.jsdelivr\.net)\/.*radio\/.*\.json/, r => r.fulfill({ contentType: 'application/json', body: fs.readFileSync(path.join(__dirname, 'fixtures/radio.json'), 'utf8') }));
+    // 네 장 모두 같은 견본을 쓰되, 주소에 든 장 이름으로 ch·title 만 바꿔 준다
+    await c.route(/(raw\.githubusercontent\.com|cdn\.jsdelivr\.net)\/.*radio\/.*\.json/, r => {
+      const m = r.request().url().match(/-(g\d)\.json/); const d = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/radio.json'), 'utf8'));
+      const T = { g1: '오늘 즐기기', g2: '그때 돌아보기', g5: '앞으로 나아가기', g3: '나를 돌보기' };
+      if (m) { d.ch = m[1]; d.title = T[m[1]] || d.title; d.audio = `2026-01-01-${m[1]}.mp3`; }
+      r.fulfill({ contentType: 'application/json', body: JSON.stringify(d) });
+    });
     await c.route(/raw\.githubusercontent\.com\/.*opening\/.*\.json|cdn\.jsdelivr\.net\/gh\/.*opening\/.*\.json/, r => r.fulfill({ contentType: 'application/json', body: fs.readFileSync(path.join(__dirname, 'fixtures/opening.json'), 'utf8') }));
     await c.route(/raw\.githubusercontent\.com\/.*place-photos\/.*\.jpg/, r => r.fulfill({ contentType: 'image/jpeg', body: fs.readFileSync(path.join(ROOT, 'img/history.jpg')) }));
     await c.route(/(raw\.githubusercontent\.com|cdn\.jsdelivr\.net)\/.*\.mp3/, r => r.fulfill({ contentType: 'audio/mpeg', body: fs.readFileSync(path.join(__dirname, 'fixtures/opening.mp3')) }));
@@ -381,21 +387,26 @@ srv.listen(0, '127.0.0.1', async () => {
         const b2 = await E(() => document.querySelector('#bd-body [data-save]').getAttribute('aria-pressed'));
         return b2 === 'false' || '뺐는데 단추가 그대로';
       });
-      await step('읽어 드려요: 눌러 듣기 · 코너 옮겨도 이어짐 · 장 나가면 멎음', async () => {
-        await E(() => window.omajuNav('g1')); await W(900);
-        const a = await E(() => { const b = document.getElementById('rd-g1-face'); return b ? { sub: document.getElementById('rd-g1-sub').textContent, go: document.getElementById('rd-g1-go').textContent, off: document.getElementById('rd-g1').classList.contains('rd-off') } : null; });
-        if (!a) return '띠가 없음';
-        if (a.off) return '오늘 안내를 못 받음 ' + JSON.stringify(a);
-        if (!/분/.test(a.sub)) return '길이 안내가 없음 ' + a.sub;
-        await E(() => document.getElementById('rd-g1-face').click()); await W(900);
-        const b = await E(() => ({ bar: !document.getElementById('rd-bar').hidden, playing: !!(window.omajuRadio && document.querySelectorAll('audio')).length }));
-        if (!b.bar) return '아래 띠가 안 뜸';
-        await E(() => window.omajuNav('food')); await W(700);
-        const c = await E(() => !document.getElementById('rd-bar').hidden);
-        if (!c) return '코너로 들어가니 멎음';
-        await E(() => window.omajuNav('g2')); await W(700);
-        const d = await E(() => document.getElementById('rd-bar').hidden);
-        return d || '장을 나갔는데 안 멎음';
+      await step('읽어 드려요: 네 장 모두 · 코너 옮겨도 이어짐 · 장 나가면 멎음', async () => {
+        // 장마다 띠가 있고, 눌러 들으면 아래 띠가 뜨고, 그 장 안 코너로 가도 이어지고, 장을 나가면 멎는다
+        const CH = [['g1', 'food'], ['g2', 'history'], ['g5', 'outing'], ['g3', 'mind']];
+        const bad = [];
+        for (const [ch, corner] of CH) {
+          await E(x => window.omajuNav(x), ch); await W(900);
+          const a = await E(c => { const b = document.getElementById('rd-' + c + '-face'); return b ? { sub: document.getElementById('rd-' + c + '-sub').textContent, go: document.getElementById('rd-' + c + '-go').textContent, off: document.getElementById('rd-' + c).classList.contains('rd-off') } : null; }, ch);
+          if (!a) { bad.push(ch + ': 띠 없음'); continue; }
+          if (a.off) { bad.push(ch + ': 오늘 안내 못 받음'); continue; }
+          if (!/분/.test(a.sub)) { bad.push(ch + ': 길이 안내 없음'); continue; }
+          await E(c => document.getElementById('rd-' + c + '-face').click(), ch); await W(900);
+          if (await E(() => document.getElementById('rd-bar').hidden)) { bad.push(ch + ': 아래 띠가 안 뜸'); continue; }
+          await E(x => window.omajuNav(x), corner); await W(700);
+          if (await E(() => document.getElementById('rd-bar').hidden)) { bad.push(ch + ': 코너로 들어가니 멎음'); continue; }
+          await E(x => window.omajuNav(x), ch === 'g1' ? 'g2' : 'g1'); await W(700);
+          if (!(await E(() => document.getElementById('rd-bar').hidden))) bad.push(ch + ': 장을 나갔는데 안 멎음');
+          await E(() => { try { window.omajuRadio.stop(); } catch (e) {} }); await W(300);
+        }
+        await E(() => window.omajuNav('g1')); await W(400);
+        return !bad.length || bad.join(' / ');
       });
       await step('아침 알림 시간 고르기 창', async () => { await E(() => window.omajuNav('g1')); await W(500); const has = await E(() => { const b = document.getElementById('push-cta'); if (!b || b.hidden) return 'none'; b.click(); return 'ok'; }); if (has === 'none') return true; await W(600); const n = await E(() => document.querySelectorAll('[data-hour]').length); await closeM(); return n === 3 || `시간 단추 ${n}`; });
       await step('내 정보 창', async () => { await E(() => document.getElementById('my').click()); await W(500); const t = await modalText(); await closeM(); return /별명|비밀번호|글자/.test(t) || t.slice(0, 40); });

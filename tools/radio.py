@@ -38,13 +38,32 @@ HOSTS = {
         'name': '송은채', 'voice': 'Callirrhoe', 'pitch': 196,
         'profile': ('[목소리 설정] 44세 한국 여성 방송 진행자. **낮고 차분하고 따뜻하다.** 미소보다 반 톤 낮은, 가라앉은 목소리다. 들뜨지 않고 서두르지 않으며, 옆에 앉아 조곤조곤 일러 주듯 이야기한다. 또렷하고 말끝이 처지지 않되 음을 높이 올리지 않는다. **금지: 들뜬 톤, 음을 치켜올리는 말끝, 애교·콧소리, 뉴스 앵커의 보도 말투, 느린 낭독조.**'),
     },
+    'hangyeol': {
+        # 그때 돌아보기는 남자 진행자 — 포근하고 다정다감하게 (운영자 2026-10-20)
+        'name': '서한결', 'voice': 'Charon', 'pitch': None,
+        'profile': ('[목소리 설정] 45세 한국 남성 방송 진행자. **포근하고 다정다감하다.** 옛날 이야기를 꺼내 놓듯 천천히, '
+                    '그러나 처지지 않게 이야기한다. 듣는 사람에게 친구나 동생 같은 사람이다. '
+                    '**금지: 뉴스 앵커의 보도 말투, 들뜬 톤, 까부는 톤, 느린 낭독조, 과장된 감탄.**'),
+    },
 }
 
+# 장마다 어떤 코너가 들어 있나 — 화면 차례 그대로.
+# 'need' 는 그날 daily JSON 에 반드시 있어야 하는 것. 없으면 만들지 않고 다음 시각에 다시 돈다
+# (없는 것을 AI 가 지어내면 화면과 다른 말이 나간다 — 운영자 2026-10-20).
 CH = {
-    'g1': {'host': 'eunchae', 'title': '오늘 즐기기',
+    'g1': {'host': 'eunchae', 'title': '오늘 즐기기', 'need': ('fortune', 'meal', 'book', 'quiz', 'culture'),
            'corners': [('weather', '오늘의 날씨'), ('market', '오늘의 경제'), ('cards', '오늘의 인사말 카드'),
                        ('fortune', '오늘의 운세'), ('food', '오늘의 한 끼'), ('book', '오늘의 한 권'),
                        ('quiz', '오늘의 시사 상식'), ('culture', '오늘의 문화'), ('play', '오늘 PLAY')]},
+    'g2': {'host': 'hangyeol', 'title': '그때 돌아보기', 'need': ('era', 'story'),
+           'corners': [('history', '그해 오늘'), ('music', '그 시절 노래'),
+                       ('story', '그날의 사연'), ('home', '그 동네 지금')]},
+    'g5': {'host': 'eunchae', 'title': '앞으로 나아가기', 'need': ('follow', 'phrase'),
+           'corners': [('follow', '오늘의 따라하기'), ('outing', '오늘의 나들이'),
+                       ('show', '이번 주, 무엇을 볼까'), ('phrase', '여행')]},
+    'g3': {'host': 'eunchae', 'title': '나를 돌보기', 'need': ('mind', 'body', 'follow'),
+           'corners': [('hike', '오늘의 산'), ('move', '오늘의 몸 풀기'),
+                       ('mind', '오늘의 마음 한 줄'), ('body', '오늘의 몸 한 가지')]},
 }
 
 # 배경 음악은 말 밑에 아주 낮게만 (오프닝보다 조용하게 — 4~5분을 듣는 것이라 피곤하면 안 된다)
@@ -227,6 +246,109 @@ def material_g1(d):
     return '\n'.join(out)
 
 
+def _wk(path, key):
+    """주마다 바뀌는 것(산·나들이·무엇을 볼까)은 data/ 에서 읽는다. 지역이 여럿이면 첫 지역만."""
+    try:
+        d = json.load(open(os.path.join(ROOT, path), encoding='utf-8'))
+    except Exception:
+        return None
+    rg = d.get('regions') or {}
+    if isinstance(rg, dict) and rg:
+        first = next(iter(rg.values()))
+        return {'week': d.get('week'), 'items': first if isinstance(first, list) else (first or {}).get(key) or []}
+    return {'week': d.get('week'), 'items': d.get(key) or []}
+
+
+def material_g2(d):
+    """그때 돌아보기 — 그해 오늘 · 그 시절 노래 · 그날의 사연 · 그 동네 지금."""
+    out = []
+    era = d.get('era') or {}
+    ago = '40' if '40' in era else (sorted(era, key=lambda x: -int(x))[0] if era else None)
+    e = era.get(ago) or {}
+    if e:
+        yr = D.year - int(ago)
+        facts = e.get('facts') or []
+        out.append(f'· 그해 오늘 ({yr}년, {ago}년 전): 그때 분위기 — {e.get("mood","")}\n'
+                   + '\n'.join(f'   - {t}: {b}' for t, b in facts[:3])
+                   + f'\n   (화면에서는 10·20·30·40·50년 전을 골라 볼 수 있다는 것도 한 번 짚어 주세요. '
+                     f'그날의 신문과 그해 그곳 사진도 함께 있습니다.)')
+        songs = e.get('songs') or []
+        if songs:
+            out.append(f'· 그 시절 노래 ({yr}년에 사랑받은 노래. 제목과 가수만 서너 곡 불러 주고, '
+                       '화면에서 눌러 들으실 수 있다고 안내. 노래를 설명하려 들지 말 것):\n'
+                       + '\n'.join(f'   - {t} / {a}' for t, a in songs[:5]))
+    st = d.get('story') or {}
+    if st.get('title'):
+        first = (st.get('paras') or [''])[0]
+        out.append(f'· 그날의 사연: 〈{st["title"]}〉 {st.get("sub","")}\n   첫 대목: {first[:160]}\n'
+                   '   (오마주가 엮은 이야기입니다. 실제 독자가 보낸 사연인 것처럼 말하지 말 것. '
+                   '어떤 이야기인지 맛만 보여 주고 읽어 보시라고 권하세요.)')
+    out.append('· 그 동네 지금: 살던 동네나 고향 주소를 말로 넣으면 지금 그 길을 그대로 보여 준다. '
+               '길 건너 가게가 아직 있는지, 골목이 어떻게 바뀌었는지 둘러볼 수 있다. '
+               '(날마다 바뀌는 내용이 아니라 언제든 쓰는 칸이니, 한 번 해 보시라고 권하는 정도로 짧게)')
+    return '\n'.join(out)
+
+
+def material_g5(d):
+    """앞으로 나아가기 — 따라하기 · 나들이 · 무엇을 볼까 · 여행."""
+    out = []
+    f = d.get('follow') or {}
+    fo = [(k, f[k]) for k in ('sing', 'dance', 'golf', 'park') if isinstance(f.get(k), dict) and f[k].get('title')]
+    if fo:
+        out.append('· 오늘의 따라하기 (노래 교실 · 댄스 · 골프 · 파크골프. 날마다 영상이 하나씩 새로 걸린다. '
+                   '유튜브 제목을 그대로 읽지 말고 무엇을 배우는 것인지로 풀어 주세요):\n'
+                   + '\n'.join(f'   - {v.get("name", k)}: {v.get("title","")} / 한마디: {v.get("say","")}' for k, v in fo))
+    ot = _wk('data/outing.json', 'items')
+    if ot and ot['items']:
+        it = ot['items'][:3]
+        out.append('· 오늘의 나들이 (이번 주 가 볼 만한 곳. 지역을 골라 볼 수 있다):\n'
+                   + '\n'.join('   - ' + ' / '.join(str(x.get(k, '')) for k in ('title', 'where', 'when') if x.get(k))
+                                for x in it if isinstance(x, dict)))
+    sh = _wk('data/shows.json', 'items')
+    if sh and sh['items']:
+        out.append('· 이번 주, 무엇을 볼까 (극장·무대·전시):\n'
+                   + '\n'.join('   - ' + ' / '.join(str(x.get(k, '')) for k in ('title', 'kind', 'where') if x.get(k))
+                                for x in sh['items'][:3] if isinstance(x, dict)))
+    ph = d.get('phrase') or {}
+    if ph.get('topic'):
+        bits = [f'{nm} "{ph[k]}"' for k, nm in (('en', '영어'), ('ja', '일본어'), ('zh', '중국어')) if ph.get(k)]
+        out.append(f'· 여행 (해외 골프 · 해외 관광 · 자유여행 · 회화 네 칸). 오늘 회화 주제는 "{ph["topic"]}" — '
+                   + ' , '.join(bits[:2]) + ' (한 마디만 또렷하게 들려주고, 나머지는 화면에서 들어 보시라고)')
+    else:
+        out.append('· 여행: 해외 골프 · 해외 관광 · 자유여행 · 회화 네 칸이 있다. 짧게 안내만.')
+    return '\n'.join(out)
+
+
+def material_g3(d):
+    """나를 돌보기 — 오늘의 산 · 몸 풀기 · 마음 한 줄 · 몸 한 가지."""
+    out = []
+    hk = _wk('data/hike.json', 'items')
+    if hk and hk['items']:
+        it = [x for x in hk['items'][:2] if isinstance(x, dict)]
+        out.append('· 오늘의 산 (이번 주 걷기 좋은 산길. 지역을 골라 볼 수 있다):\n'
+                   + '\n'.join(f'   - {x.get("name","")} {x.get("course","")} — {x.get("why","") or x.get("sub","")}'
+                                f' / 몸 챙기는 요령: {x.get("care","")}' for x in it))
+    f = d.get('follow') or {}
+    mv = [(k, f[k]) for k in ('gym', 'meditate') if isinstance(f.get(k), dict) and f[k].get('title')]
+    if mv:
+        out.append('· 오늘의 몸 풀기 (아침 체조 · 요가와 명상. 날마다 영상이 새로 걸린다):\n'
+                   + '\n'.join(f'   - {v.get("name", k)}: {v.get("title","")} / 한마디: {v.get("say","")}' for k, v in mv))
+    mn = d.get('mind') or {}
+    if mn.get('line'):
+        out.append(f'· 오늘의 마음 한 줄: "{mn["line"]}" {("— " + mn["by"]) if mn.get("by") else ""}\n'
+                   f'   풀이: {mn.get("note","")}\n   해 볼 것: {mn.get("todo","")}\n'
+                   '   (짧으니 한 줄은 그대로 읽어 주세요)')
+    bd = d.get('body') or {}
+    if bd.get('line'):
+        out.append(f'· 오늘의 몸 한 가지 ({bd.get("part","")}): {bd["line"]}\n   풀이: {bd.get("note","")}\n'
+                   f'   요령: {bd.get("tip","")}\n   오늘 해 볼 것: {bd.get("todo","")}\n'
+                   '   (겁주지 말 것. 병 이름·진단·처방 이야기 금지.)')
+    return '\n'.join(out)
+
+
+MATERIAL = {'g1': material_g1, 'g2': material_g2, 'g5': material_g5, 'g3': material_g3}
+
+
 BAD = ['시니어', '어르신', '노인', '치매', '두뇌', '은퇴', '손주', '손자', '시어머니', '며느리', '효도', '내복']
 
 
@@ -255,10 +377,10 @@ def problems(s, keys):
 def make_script(ch):
     c = CH[ch]; d = daily()
     keys = [k for k, _ in c['corners']]
-    need = [k for k in ('fortune', 'meal', 'book', 'quiz', 'culture') if not d.get(k)]
+    need = [k for k in c.get('need', ()) if not d.get(k)]
     if need:
         raise SystemExit('오늘 내용이 아직 덜 들어왔음 — ' + ', '.join(need))   # 없는 것을 지어내지 않는다
-    mat = material_g1(d) if ch == 'g1' else ''
+    mat = MATERIAL[ch](d)
     if not mat.strip():
         raise SystemExit('오늘 내용이 아직 없음')
     for k in range(3):
@@ -349,15 +471,29 @@ def repitch(pcm, f, tgt):
     return out or pcm
 
 
-def build(ch):
-    path = os.path.join(OUT, f'{DATE}-{ch}.json')
-    if os.path.exists(path) and not FORCE: say('이미 있음', ch); return
-    c = CH[ch]; host = c['host']
-    s = make_script(ch)
-    segs = [{'k': 'open', 'say': s['open']}] + [{'k': x['k'], 'say': x['say']} for x in s['items']] + [{'k': 'close', 'say': s['close']}]
+def build(chs):
+    """장 하나 또는 여럿을 만든다.
+
+    **같은 진행자가 맡은 장은 한 번에 읽히고 토막내어 나눈다** (운영자 2026-10-20 'AI 한도 아끼기').
+    녹음을 장마다 따로 하면 같은 목소리로 시켜도 높이가 제각각 나와 장마다 딴 사람이 된다.
+    한 번에 읽히면 녹음 횟수도 줄고 덤으로 장들의 목소리가 완전히 같아진다.
+    """
+    if isinstance(chs, str): chs = [chs]
+    chs = [c for c in chs if FORCE or not os.path.exists(os.path.join(OUT, f'{DATE}-{c}.json'))]
+    if not chs: return
+    host = CH[chs[0]]['host']
+    segs, spans = [], {}
+    for ch in chs:
+        s = make_script(ch)
+        a = len(segs)
+        segs += ([{'k': 'open', 'say': s['open']}]
+                 + [{'k': x['k'], 'say': x['say']} for x in s['items']]
+                 + [{'k': 'close', 'say': s['close']}])
+        spans[ch] = (a, len(segs))
     text = '\n'.join(x['say'] for x in segs)
 
     tgt0 = HOSTS[host]['pitch']
+    say('함께 만드는 장', ', '.join(chs))
     say('대본', len(re.sub(r'[^가-힣]', '', text)), '자 ·', len(segs), '토막')
 
     # 대본이 길면 한 번에 못 읽는다 — 응답이 비거나(400/빈 candidate) 끝까지 안 읽고 끊긴다 (2026-10-20).
@@ -457,27 +593,38 @@ def build(ch):
         r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
     else: tempo_eff = tempo
     af.append(f'atempo={tempo_eff:.4f}')
-    raw = f'/tmp/rd_{ch}.wav'; OP.wav_write(raw, pcm)
-    mp3 = f'{DATE}-{ch}.mp3'; dst = os.path.join(OUT, mp3)
-    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af),
-                    '-ac', '1', '-b:a', '64k', dst], check=True)
-    edge = [st / tempo for st in starts] + [T / tempo]
-    dur = edge[-1]
-    lead, tail = music(dst, dur, [t / tempo + LEAD for t in seam_raw])
-    marks = [{'t': round(edge[i] + lead, 2), 'k': segs[i]['k'], 'say': segs[i]['say']} for i in range(len(segs))]
-    res = {'date': DATE, 'ch': ch, 'host': host, 'name': HOSTS[host]['name'], 'title': c['title'],
-           'audio': mp3, 'end': round(lead + dur + tail, 2),
-           'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'marks': marks}
-    json.dump(res, open(path, 'w'), ensure_ascii=False, indent=1)
-    say('완료', ch, round(lead + dur + tail, 1), '초', '빠르기', round(rate * tempo, 2),
-        '높이', pf and round(pf), '→', tgt and round(tgt))
+    # 장마다 제 몫만 잘라 낸다. 높이·빠르기·음량은 위에서 **전체를 한 덩어리로** 맞췄으므로
+    # 잘라 놓아도 세 장의 목소리가 똑같다.
+    for ch in chs:
+        a, b = spans[ch]
+        s0 = starts[a]
+        s1 = starts[b] if b < len(segs) else T
+        cut = pcm[int(s0 * 48000):int(s1 * 48000)]
+        raw = f'/tmp/rd_{ch}.wav'; OP.wav_write(raw, cut)
+        mp3 = f'{DATE}-{ch}.mp3'; dst = os.path.join(OUT, mp3)
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af),
+                        '-ac', '1', '-b:a', '64k', dst], check=True)
+        edge = [(starts[i] - s0) / tempo for i in range(a, b)] + [(s1 - s0) / tempo]
+        dur = edge[-1]
+        seams = [t / tempo - s0 / tempo + LEAD for t in seam_raw if s0 < t < s1]
+        lead, tail = music(dst, dur, seams)
+        marks = [{'t': round(edge[i - a] + lead, 2), 'k': segs[i]['k'], 'say': segs[i]['say']} for i in range(a, b)]
+        res = {'date': DATE, 'ch': ch, 'host': host, 'name': HOSTS[host]['name'], 'title': CH[ch]['title'],
+               'audio': mp3, 'end': round(lead + dur + tail, 2),
+               'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'marks': marks}
+        json.dump(res, open(os.path.join(OUT, f'{DATE}-{ch}.json'), 'w'), ensure_ascii=False, indent=1)
+        say('완료', ch, round(lead + dur + tail, 1), '초', '빠르기', round(rate * tempo, 2),
+            '높이', pf and round(pf), '→', tgt and round(tgt))
 
 
 def main():
-    for ch in (ONLY or list(CH)):
-        if ch not in CH: continue
-        try: build(ch)
-        except SystemExit as e: say('그만둠', ch, e)
+    want = [ch for ch in (ONLY or list(CH)) if ch in CH]
+    by_host = {}
+    for ch in want:
+        by_host.setdefault(CH[ch]['host'], []).append(ch)
+    for host, chs in by_host.items():
+        try: build(chs)
+        except SystemExit as e: say('그만둠', ', '.join(chs), e)
     keep = {(D - datetime.timedelta(days=k)).isoformat() for k in range(3)}
     for f in os.listdir(OUT):
         if f[:10] not in keep:
