@@ -49,6 +49,7 @@ CH = {
 
 # 배경 음악은 말 밑에 아주 낮게만 (오프닝보다 조용하게 — 4~5분을 듣는 것이라 피곤하면 안 된다)
 LEAD, TAIL, TOP, BED = 1.2, 2.5, 0.22, 0.06
+SWELL = 0.14   # 이음매에서 음악이 잠깐 올라오는 크기 (코너가 바뀐다는 신호)
 
 PROMPT = '''오늘은 {date}년 {wd}요일. 당신은 '오마주'의 진행자 {name}입니다.
 '{title}' 장을 **눈으로 읽지 않고 귀로만 듣는 사람**에게 들려주는 음성 안내 대본을 씁니다.
@@ -270,14 +271,21 @@ def make_script(ch):
     raise SystemExit('대본을 만들지 못함')
 
 
-def music(mp3, dur):
-    """말 밑에 아주 낮게 음악을 깐다. 없으면 말소리만."""
+def music(mp3, dur, seams=()):
+    """말 밑에 아주 낮게 음악을 깐다. 없으면 말소리만.
+
+    seams: 토막이 이어 붙은 시각(초). 거기서 음악을 잠깐 올렸다 내린다 —
+    라디오가 꼭지를 바꿀 때 하는 것. 톤이 조금 달라져도 '다음 꼭지'로 들리지 '다른 사람'으로 안 들린다.
+    """
     src = os.path.join(ROOT, 'music', 'morning.mp3')
     if not os.path.exists(src): return 0.0, 0.0
     total = LEAD + dur + TAIL
     out = mp3 + '.mix.mp3'
+    # 이음매마다 삼각형으로 솟았다 내려오는 덧음량(1.6초 폭). 뚝 끊기지 않아 '뚝' 소리가 안 난다.
+    bump = ''.join(rf"+{SWELL}*max(0\,1-abs(t-{t:.2f})/0.8)" for t in seams)
+    bed = f"({BED}{bump})" if bump else f"{BED}"
     vol = (f"volume='if(lt(t,{LEAD - 0.4:.2f}),{TOP},"
-           f"if(lt(t,{LEAD + 0.6:.2f}),{TOP}-{TOP - BED:.4f}*(t-{LEAD - 0.4:.2f}),{BED}))':eval=frame")
+           f"if(lt(t,{LEAD + 0.6:.2f}),{TOP}-{TOP - BED:.4f}*(t-{LEAD - 0.4:.2f}),{bed}))':eval=frame")
     fc = (f"[0:a]aformat=sample_rates=44100:channel_layouts=stereo,adelay={int(LEAD * 1000)}:all=1[v];"
           f"[1:a]aformat=sample_rates=44100:channel_layouts=stereo,atrim=0:{total:.2f},asetpts=N/SR/TB,{vol},"
           f"afade=t=in:st=0:d=1.2,afade=t=out:st={total - TAIL:.2f}:d={TAIL}[m];"
@@ -289,6 +297,22 @@ def music(mp3, dur):
         say('음악 실패 — 말소리만', str(e)[:80]); return 0.0, 0.0
     os.replace(out, mp3)
     return LEAD, TAIL
+
+
+def rms(pcm):
+    import numpy as np
+    x = np.frombuffer(pcm, dtype='<i2').astype('float32')
+    x = x[np.abs(x) > 300]          # 쉬는 구간은 빼고 말하는 대목만
+    return float(np.sqrt((x * x).mean())) if x.size else 0.0
+
+
+def regain(pcm, g):
+    """토막 음량만 올리고 내린다. 5% 안쪽이면 손대지 않는다."""
+    import numpy as np
+    if abs(g - 1) <= 0.05: return pcm
+    g = max(0.7, min(1.45, g))
+    x = np.frombuffer(pcm, dtype='<i2').astype('float32') * g
+    return np.clip(x, -32000, 32000).astype('<i2').tobytes()
 
 
 def repitch(pcm, f, tgt):
@@ -377,8 +401,21 @@ def build(ch):
             aim.append(round(t))
             pcms[i] = repitch(pcms[i], f, t)
         say('토막 높이', [round(x) for x in f0s], '→', aim, '(기준', tgt0, ')')
-    gap = b'\x00' * 16800   # 토막 사이에 0.35초 숨 — 바로 이으면 말이 붙어 숨 가쁘게 들린다
+    # 높이를 맞춰도 **음량**이 다르면 여전히 다른 사람처럼 들린다. 말하는 대목의 크기를 가운뎃값에 맞춘다.
+    vols = [rms(p) for p in pcms]
+    ok2 = sorted(v for v in vols if v > 0)
+    if len(ok2) > 1:
+        mid = ok2[len(ok2) // 2]
+        pcms = [regain(p, mid / v if v else 1) for p, v in zip(pcms, vols)]
+        say('토막 음량', [round(v) for v in vols], '→', round(mid))
+
+    gap = b'\x00' * 48000   # 토막 사이 1초 — 코너가 바뀌는 쉼. 여기서 음악이 잠깐 올라온다
     pcm = gap.join(pcms)
+    # 이음매가 최종 소리에서 몇 초 자리인지 (음악을 거기서 올리려고)
+    seam_raw, acc = [], 0
+    for q in pcms[:-1]:
+        acc += len(q) / 48000
+        seam_raw.append(acc + 0.5); acc += 1.0
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
     starts, T = OP.split(pcm, lens)
@@ -401,7 +438,7 @@ def build(ch):
                     '-ac', '1', '-b:a', '64k', dst], check=True)
     edge = [st / tempo for st in starts] + [T / tempo]
     dur = edge[-1]
-    lead, tail = music(dst, dur)
+    lead, tail = music(dst, dur, [t / tempo + LEAD for t in seam_raw])
     marks = [{'t': round(edge[i] + lead, 2), 'k': segs[i]['k'], 'say': segs[i]['say']} for i in range(len(segs))]
     res = {'date': DATE, 'ch': ch, 'host': host, 'name': HOSTS[host]['name'], 'title': c['title'],
            'audio': mp3, 'end': round(lead + dur + tail, 2),
