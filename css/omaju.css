@@ -1698,9 +1698,9 @@ body.rd-on { padding-bottom: 124px; }
 
 /* ── 오마주 소개 배너 (커버와는 따로 선 한 단) — 운영자 2026-10-20 ──
    아래로 내려가면 끝까지 크림색뿐이라 숨 쉴 데가 없다. 여기만 찬 색으로 틔운다. */
-.intro { position: relative; margin: 34px 16px 0; padding: 40px 24px 42px; border-radius: 14px; overflow: hidden;
-  text-align: center; background: #123a57 url('../img/intro.jpg') center/cover no-repeat;
-  box-shadow: 0 6px 22px rgba(18,58,87,0.18); }
+/* 좌우는 커버와 같은 폭으로 — 안쪽 여백을 지워 글 칸 끝까지 꽉 채운다 (운영자 2026-10-20) */
+.intro { position: relative; margin: 34px -80px 0; padding: 46px 26px 48px; overflow: hidden;
+  text-align: center; background: #123a57 url('../img/intro.jpg') center/cover no-repeat; }
 /* 글씨가 구름 위에 와도 읽히게, 파란 결은 살린 채로 살짝 덮는다 */
 .intro::before { content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(8,34,62,0.20) 0%, rgba(8,34,62,0.40) 55%, rgba(8,34,62,0.46) 100%); }
@@ -1709,4 +1709,5 @@ body.rd-on { padding-bottom: 124px; }
   font-size: 1.56rem; line-height: 1.45; color: #fff; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,0.45); }
 .intro-sub { margin: 0; font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,0.93); word-break: keep-all;
   text-shadow: 0 2px 9px rgba(0,30,60,0.55); }
-@media (max-width: 420px) { .intro { margin: 30px 14px 0; padding: 34px 20px 36px; } .intro-lede { font-size: 1.42rem; } }
+@media (max-width: 768px) { .intro { margin: 30px -18px 0; padding: 40px 22px 42px; } }
+@media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
