@@ -337,11 +337,18 @@ def build(ch):
         if i + 1 < len(groups): time.sleep(6)
     # 토막마다 높이가 조금씩 다르게 나온다(2026-10-20: 207·207·212·227). 그대로 이으면 끝에서 목소리가
     # 들린다. 가운뎃값에 맞춰 토막을 하나씩 당겨 놓고 잇는다 — 길이는 그대로 두고 높이만 옮긴다.
-    ok = sorted(x for x in f0s if x)
-    if len(ok) > 1:
-        med = ok[len(ok) // 2]
-        pcms = [repitch(p, f, med) for p, f in zip(pcms, f0s)]
-        say('토막 높이 맞춤 →', round(med))
+    # 가운뎃값에 맞추면 그날 어느 토막이 높게 나왔느냐에 따라 전체가 끌려간다(2026-10-20: 229 로 끌려감).
+    # 그래서 **그 진행자의 기준 높이**로 토막마다 당긴다. 당기는 폭은 늘 그대로 — 내리기 5%·올리기 10%까지.
+    if tgt0:
+        aim = []
+        for i, f in enumerate(f0s):
+            t = tgt0
+            if f:
+                cap = 0.05 if f > tgt0 else 0.10
+                t = min(max(tgt0, f * (1 - cap)), f * (1 + cap))
+            aim.append(round(t))
+            pcms[i] = repitch(pcms[i], f, t)
+        say('토막 높이', [round(x) for x in f0s], '→', aim, '(기준', tgt0, ')')
     gap = b'\x00' * 16800   # 토막 사이에 0.35초 숨 — 바로 이으면 말이 붙어 숨 가쁘게 들린다
     pcm = gap.join(pcms)
 
