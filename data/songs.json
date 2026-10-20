@@ -1,1277 +1,1269 @@
 {
- "_설명": "해마다 사랑받은 노래 목록. 매일 10곡씩 돌아가며 보여 준다. [제목, 가수]. 올해(2026) 필요한 해는 1976·1986·1996·2006·2016, 내년은 1977·1987·1997·2007·2017. 내년 목록은 연말에 확인해서 채운다. 팝은 'pop:연도' 키.",
- "1976": [
-  [
-   "돌아와요 부산항에",
-   "조용필"
-  ],
-  [
-   "오동잎",
-   "최헌"
-  ],
-  [
-   "해뜰날",
-   "송대관"
-  ],
-  [
-   "당신은 모르실거야",
-   "혜은이"
-  ],
-  [
-   "빗속을 둘이서",
-   "투에이스"
-  ],
-  [
-   "내 마음 갈 곳을 잃어",
-   "최백호"
-  ],
-  [
-   "당신만을 사랑해",
-   "혜은이"
-  ],
-  [
-   "아내에게 바치는 노래",
-   "하수영"
-  ],
-  [
-   "나는 못난이",
-   "딕훼밀리"
-  ],
-  [
-   "목마와 숙녀",
-   "박인희"
-  ],
-  [
-   "또 만나요",
-   "딕훼밀리"
-  ],
-  [
-   "여고 졸업반",
-   "김인순"
-  ],
-  [
-   "긴 머리 소녀",
-   "둘다섯"
-  ],
-  [
-   "사랑은 나비인가봐",
-   "현이와 덕이"
-  ],
-  [
-   "밤배",
-   "둘다섯"
-  ],
-  [
-   "잊어야 한다면",
-   "이종용"
-  ]
- ],
- "1986": [
-  [
-   "난 아직 모르잖아요",
-   "이문세"
-  ],
-  [
-   "허공",
-   "조용필"
-  ],
-  [
-   "오늘밤",
-   "김완선"
-  ],
-  [
-   "알 수 없어요",
-   "이선희"
-  ],
-  [
-   "사랑하기에",
-   "이정석"
-  ],
-  [
-   "젊음의 노트",
-   "유미리"
-  ],
-  [
-   "아직도 어두운 밤인가봐",
-   "전영록"
-  ],
-  [
-   "가까이 하기엔 너무 먼 당신",
-   "이광조"
-  ],
-  [
-   "그 겨울의 찻집",
-   "조용필"
-  ],
-  [
-   "겨울비는 내리고",
-   "김범룡"
-  ],
-  [
-   "그대 떠난 빈들에 서서",
-   "이수만"
-  ],
-  [
-   "어젯밤 이야기",
-   "소방차"
-  ],
-  [
-   "사랑이 지나가면",
-   "이문세"
-  ],
-  [
-   "나의 사랑 나의 어둠",
-   "이선희"
-  ],
-  [
-   "남남",
-   "최성수"
-  ],
-  [
-   "바람 바람 바람",
-   "김범룡"
-  ]
- ],
- "1996": [
-  [
-   "캔디",
-   "H.O.T."
-  ],
-  [
-   "스피드",
-   "김건모"
-  ],
-  [
-   "꿍따리 샤바라",
-   "클론"
-  ],
-  [
-   "정",
-   "영턱스클럽"
-  ],
-  [
-   "천생연분",
-   "솔리드"
-  ],
-  [
-   "3! 4!",
-   "룰라"
-  ],
-  [
-   "운명",
-   "쿨"
-  ],
-  [
-   "여름 이야기",
-   "DJ DOC"
-  ],
-  [
-   "그때 또 다시",
-   "임창정"
-  ],
-  [
-   "나보다 조금 더 높은 곳에 니가 있을 뿐",
-   "신승훈"
-  ],
-  [
-   "상상속의 너",
-   "노이즈"
-  ],
-  [
-   "그녀는 예뻤다",
-   "박진영"
-  ],
-  [
-   "기억속의 먼 그대에게",
-   "박미경"
-  ],
-  [
-   "전사의 후예",
-   "H.O.T."
-  ],
-  [
-   "이젠 나만의 길",
-   "김민종"
-  ],
-  [
-   "Come Back Home",
-   "서태지와 아이들"
-  ]
- ],
- "2006": [
-  [
-   "사랑 안 해",
-   "백지영"
-  ],
-  [
-   "내 사람",
-   "SG워너비"
-  ],
-  [
-   "남자를 몰라",
-   "버즈"
-  ],
-  [
-   "그 남자 그 여자",
-   "바이브"
-  ],
-  [
-   "하기 힘든 말",
-   "이승기"
-  ],
-  [
-   "제자리걸음",
-   "김종국"
-  ],
-  [
-   "여인의 향기",
-   "씨야"
-  ],
-  [
-   "거리에서",
-   "성시경"
-  ],
-  [
-   "U",
-   "슈퍼주니어"
-  ],
-  [
-   "이따 이따요",
-   "장윤정"
-  ],
-  [
-   "O-正.反.合.",
-   "동방신기"
-  ],
-  [
-   "Grace",
-   "이수영"
-  ],
-  [
-   "추억은 사랑을 닮아",
-   "박효신"
-  ],
-  [
-   "사랑했나봐",
-   "윤도현"
-  ],
-  [
-   "첫사랑은 없다",
-   "SG워너비"
-  ],
-  [
-   "애인 만들기",
-   "거미"
-  ]
- ],
- "1977": [
-  [
-   "나 어떡해",
-   "샌드페블즈"
-  ],
-  [
-   "아니 벌써",
-   "산울림"
-  ],
-  [
-   "사랑만은 않겠어요",
-   "윤수일"
-  ],
-  [
-   "진짜 진짜 좋아해",
-   "혜은이"
-  ],
-  [
-   "당신은 몰라",
-   "최헌"
-  ],
-  [
-   "진정 난 몰랐네",
-   "최병걸"
-  ]
- ],
- "1987": [
-  [
-   "사랑이 지나가면",
-   "이문세"
-  ],
-  [
-   "그녀의 웃음소리뿐",
-   "이문세"
-  ],
-  [
-   "어젯밤 이야기",
-   "소방차"
-  ],
-  [
-   "그녀에게 전해주오",
-   "소방차"
-  ],
-  [
-   "마도요",
-   "조용필"
-  ],
-  [
-   "동행",
-   "최성수"
-  ],
-  [
-   "보이네",
-   "나미"
-  ],
-  [
-   "몰래한 사랑",
-   "김지애"
-  ],
-  [
-   "그대 모습은 장미",
-   "민해경"
-  ]
- ],
- "1997": [
-  [
-   "말해줘",
-   "지누션"
-  ],
-  [
-   "가위",
-   "유승준"
-  ],
-  [
-   "애송이의 사랑",
-   "양파"
-  ],
-  [
-   "Forever",
-   "안재욱"
-  ],
-  [
-   "행복",
-   "H.O.T."
-  ],
-  [
-   "폼생폼사",
-   "젝스키스"
-  ],
-  [
-   "짱가",
-   "김건모"
-  ],
-  [
-   "결혼해줘",
-   "임창정"
-  ],
-  [
-   "Goodbye Yesterday",
-   "터보"
-  ],
-  [
-   "해변의 여인",
-   "쿨"
-  ],
-  [
-   "다시 만나줘",
-   "업타운"
-  ]
- ],
- "2007": [
-  [
-   "거짓말",
-   "빅뱅"
-  ],
-  [
-   "Tell Me",
-   "원더걸스"
-  ],
-  [
-   "사랑앓이",
-   "FT아일랜드"
-  ],
-  [
-   "유혹의 소나타",
-   "아이비"
-  ],
-  [
-   "Fan",
-   "에픽하이"
-  ],
-  [
-   "사랑의 인사",
-   "씨야"
-  ],
-  [
-   "어제보다 오늘 더",
-   "김종국"
-  ],
-  [
-   "콩깍지",
-   "장윤정"
-  ],
-  [
-   "비밀번호 486",
-   "윤하"
-  ],
-  [
-   "미인",
-   "이기찬"
-  ],
-  [
-   "다시 만난 세계",
-   "소녀시대"
-  ]
- ],
- "pop:1976": [
-  [
-   "Dancing Queen",
-   "ABBA"
-  ],
-  [
-   "Bohemian Rhapsody",
-   "Queen"
-  ],
-  [
-   "Don't Go Breaking My Heart",
-   "Elton John & Kiki Dee"
-  ],
-  [
-   "Silly Love Songs",
-   "Wings"
-  ],
-  [
-   "Fernando",
-   "ABBA"
-  ],
-  [
-   "If You Leave Me Now",
-   "Chicago"
-  ],
-  [
-   "I Write the Songs",
-   "Barry Manilow"
-  ],
-  [
-   "Love Hurts",
-   "Nazareth"
-  ],
-  [
-   "December, 1963 (Oh, What a Night)",
-   "The Four Seasons"
-  ],
-  [
-   "Tonight's the Night",
-   "Rod Stewart"
-  ],
-  [
-   "Play That Funky Music",
-   "Wild Cherry"
-  ],
-  [
-   "Let Your Love Flow",
-   "Bellamy Brothers"
-  ]
- ],
- "pop:1986": [
-  [
-   "That's What Friends Are For",
-   "Dionne Warwick & Friends"
-  ],
-  [
-   "Take My Breath Away",
-   "Berlin"
-  ],
-  [
-   "Glory of Love",
-   "Peter Cetera"
-  ],
-  [
-   "Greatest Love of All",
-   "Whitney Houston"
-  ],
-  [
-   "Papa Don't Preach",
-   "Madonna"
-  ],
-  [
-   "Live to Tell",
-   "Madonna"
-  ],
-  [
-   "Kyrie",
-   "Mr. Mister"
-  ],
-  [
-   "Say You, Say Me",
-   "Lionel Richie"
-  ],
-  [
-   "Addicted to Love",
-   "Robert Palmer"
-  ],
-  [
-   "The Final Countdown",
-   "Europe"
-  ],
-  [
-   "Livin' on a Prayer",
-   "Bon Jovi"
-  ],
-  [
-   "Sledgehammer",
-   "Peter Gabriel"
-  ]
- ],
- "pop:1996": [
-  [
-   "Macarena",
-   "Los del Río"
-  ],
-  [
-   "Because You Loved Me",
-   "Celine Dion"
-  ],
-  [
-   "One Sweet Day",
-   "Mariah Carey & Boyz II Men"
-  ],
-  [
-   "Wannabe",
-   "Spice Girls"
-  ],
-  [
-   "Killing Me Softly",
-   "Fugees"
-  ],
-  [
-   "Ironic",
-   "Alanis Morissette"
-  ],
-  [
-   "Don't Speak",
-   "No Doubt"
-  ],
-  [
-   "Always Be My Baby",
-   "Mariah Carey"
-  ],
-  [
-   "It's All Coming Back to Me Now",
-   "Celine Dion"
-  ],
-  [
-   "Change the World",
-   "Eric Clapton"
-  ],
-  [
-   "Wonderwall",
-   "Oasis"
-  ],
-  [
-   "Un-Break My Heart",
-   "Toni Braxton"
-  ]
- ],
- "pop:2006": [
-  [
-   "Crazy",
-   "Gnarls Barkley"
-  ],
-  [
-   "Hips Don't Lie",
-   "Shakira"
-  ],
-  [
-   "SexyBack",
-   "Justin Timberlake"
-  ],
-  [
-   "Bad Day",
-   "Daniel Powter"
-  ],
-  [
-   "You're Beautiful",
-   "James Blunt"
-  ],
-  [
-   "Unwritten",
-   "Natasha Bedingfield"
-  ],
-  [
-   "Irreplaceable",
-   "Beyoncé"
-  ],
-  [
-   "Chasing Cars",
-   "Snow Patrol"
-  ],
-  [
-   "Over My Head (Cable Car)",
-   "The Fray"
-  ],
-  [
-   "Promiscuous",
-   "Nelly Furtado"
-  ],
-  [
-   "How to Save a Life",
-   "The Fray"
-  ],
-  [
-   "Waiting on the World to Change",
-   "John Mayer"
-  ]
- ],
- "pop:1977": [
-  [
-   "Hotel California",
-   "Eagles"
-  ],
-  [
-   "How Deep Is Your Love",
-   "Bee Gees"
-  ],
-  [
-   "Don't Stop",
-   "Fleetwood Mac"
-  ],
-  [
-   "Dreams",
-   "Fleetwood Mac"
-  ],
-  [
-   "Sir Duke",
-   "Stevie Wonder"
-  ],
-  [
-   "Rich Girl",
-   "Daryl Hall & John Oates"
-  ],
-  [
-   "Evergreen",
-   "Barbra Streisand"
-  ],
-  [
-   "I Just Want to Be Your Everything",
-   "Andy Gibb"
-  ],
-  [
-   "You Light Up My Life",
-   "Debby Boone"
-  ],
-  [
-   "We Will Rock You",
-   "Queen"
-  ]
- ],
- "pop:1987": [
-  [
-   "With or Without You",
-   "U2"
-  ],
-  [
-   "I Wanna Dance with Somebody",
-   "Whitney Houston"
-  ],
-  [
-   "Nothing's Gonna Stop Us Now",
-   "Starship"
-  ],
-  [
-   "La Bamba",
-   "Los Lobos"
-  ],
-  [
-   "Never Gonna Give You Up",
-   "Rick Astley"
-  ],
-  [
-   "Walk Like an Egyptian",
-   "The Bangles"
-  ],
-  [
-   "Alone",
-   "Heart"
-  ],
-  [
-   "Faith",
-   "George Michael"
-  ],
-  [
-   "Here I Go Again",
-   "Whitesnake"
-  ],
-  [
-   "Livin' on a Prayer",
-   "Bon Jovi"
-  ]
- ],
- "pop:1997": [
-  [
-   "Candle in the Wind 1997",
-   "Elton John"
-  ],
-  [
-   "MMMBop",
-   "Hanson"
-  ],
-  [
-   "Bitter Sweet Symphony",
-   "The Verve"
-  ],
-  [
-   "I'll Be Missing You",
-   "Puff Daddy & Faith Evans"
-  ],
-  [
-   "Barbie Girl",
-   "Aqua"
-  ],
-  [
-   "Tubthumping",
-   "Chumbawamba"
-  ],
-  [
-   "Truly Madly Deeply",
-   "Savage Garden"
-  ],
-  [
-   "Quit Playing Games (with My Heart)",
-   "Backstreet Boys"
-  ],
-  [
-   "Torn",
-   "Natalie Imbruglia"
-  ],
-  [
-   "Men in Black",
-   "Will Smith"
-  ]
- ],
- "pop:2007": [
-  [
-   "Umbrella",
-   "Rihanna"
-  ],
-  [
-   "Apologize",
-   "Timbaland & OneRepublic"
-  ],
-  [
-   "Big Girls Don't Cry",
-   "Fergie"
-  ],
-  [
-   "Hey There Delilah",
-   "Plain White T's"
-  ],
-  [
-   "Girlfriend",
-   "Avril Lavigne"
-  ],
-  [
-   "Rehab",
-   "Amy Winehouse"
-  ],
-  [
-   "Bubbly",
-   "Colbie Caillat"
-  ],
-  [
-   "Before He Cheats",
-   "Carrie Underwood"
-  ],
-  [
-   "Stronger",
-   "Kanye West"
-  ],
-  [
-   "Love Song",
-   "Sara Bareilles"
-  ]
- ],
- "genre:발라드": [
-  [
-   "광화문 연가",
-   "이문세"
-  ],
-  [
-   "인연",
-   "이선희"
-  ],
-  [
-   "서른 즈음에",
-   "김광석"
-  ],
-  [
-   "보이지 않는 사랑",
-   "신승훈"
-  ],
-  [
-   "너를 위해",
-   "임재범"
-  ],
-  [
-   "거리에서",
-   "성시경"
-  ],
-  [
-   "걱정 말아요 그대",
-   "이적"
-  ],
-  [
-   "기억의 습작",
-   "전람회"
-  ],
-  [
-   "희망사항",
-   "변진섭"
-  ],
-  [
-   "좋니",
-   "윤종신"
-  ],
-  [
-   "바람이 분다",
-   "이소라"
-  ],
-  [
-   "눈의 꽃",
-   "박효신"
-  ],
-  [
-   "밤편지",
-   "아이유"
-  ],
-  [
-   "그 겨울의 찻집",
-   "조용필"
-  ],
-  [
-   "사랑했지만",
-   "김광석"
-  ]
- ],
- "genre:트로트": [
-  [
-   "홍시",
-   "나훈아"
-  ],
-  [
-   "님과 함께",
-   "남진"
-  ],
-  [
-   "비 내리는 영동교",
-   "주현미"
-  ],
-  [
-   "사랑은 아무나 하나",
-   "태진아"
-  ],
-  [
-   "네박자",
-   "송대관"
-  ],
-  [
-   "어머나",
-   "장윤정"
-  ],
-  [
-   "이제 나만 믿어요",
-   "임영웅"
-  ],
-  [
-   "동백 아가씨",
-   "이미자"
-  ],
-  [
-   "봉선화 연정",
-   "현철"
-  ],
-  [
-   "다함께 차차차",
-   "설운도"
-  ],
-  [
-   "아모르 파티",
-   "김연자"
-  ],
-  [
-   "찐이야",
-   "영탁"
-  ]
- ],
- "genre:댄스": [
-  [
-   "리듬 속의 그 춤을",
-   "김완선"
-  ],
-  [
-   "널 그리며",
-   "박남정"
-  ],
-  [
-   "어젯밤 이야기",
-   "소방차"
-  ],
-  [
-   "날개 잃은 천사",
-   "룰라"
-  ],
-  [
-   "해변의 여인",
-   "쿨"
-  ],
-  [
-   "DOC와 춤을",
-   "DJ DOC"
-  ],
-  [
-   "쿵따리 샤바라",
-   "클론"
-  ],
-  [
-   "순정",
-   "코요태"
-  ],
-  [
-   "Festival",
-   "엄정화"
-  ],
-  [
-   "10 Minutes",
-   "이효리"
-  ],
-  [
-   "강남스타일",
-   "싸이"
-  ],
-  [
-   "Tell Me",
-   "원더걸스"
-  ],
-  [
-   "Gee",
-   "소녀시대"
-  ]
- ],
- "genre:팝": [
-  [
-   "Yesterday Once More",
-   "Carpenters"
-  ],
-  [
-   "Bridge over Troubled Water",
-   "Simon & Garfunkel"
-  ],
-  [
-   "Let It Be",
-   "The Beatles"
-  ],
-  [
-   "Can't Help Falling in Love",
-   "Elvis Presley"
-  ],
-  [
-   "Hello",
-   "Lionel Richie"
-  ],
-  [
-   "I Will Always Love You",
-   "Whitney Houston"
-  ],
-  [
-   "How Deep Is Your Love",
-   "Bee Gees"
-  ],
-  [
-   "Hotel California",
-   "Eagles"
-  ],
-  [
-   "My Heart Will Go On",
-   "Celine Dion"
-  ],
-  [
-   "What a Wonderful World",
-   "Louis Armstrong"
-  ],
-  [
-   "My Way",
-   "Frank Sinatra"
-  ],
-  [
-   "Unforgettable",
-   "Nat King Cole"
-  ],
-  [
-   "My Love",
-   "Westlife"
-  ],
-  [
-   "Dancing Queen",
-   "ABBA"
-  ]
- ],
- "genre:클래식": [
-  [
-   "월광 소나타 1악장",
-   "베토벤"
-  ],
-  [
-   "교향곡 5번 운명",
-   "베토벤"
-  ],
-  [
-   "아이네 클라이네 나흐트무지크",
-   "모차르트"
-  ],
-  [
-   "사계 중 봄",
-   "비발디"
-  ],
-  [
-   "G선상의 아리아",
-   "바흐"
-  ],
-  [
-   "녹턴 2번 Op.9",
-   "쇼팽"
-  ],
-  [
-   "달빛",
-   "드뷔시"
-  ],
-  [
-   "캐논",
-   "파헬벨"
-  ],
-  [
-   "백조의 호수",
-   "차이콥스키"
-  ],
-  [
-   "사랑의 인사",
-   "엘가"
-  ],
-  [
-   "백조",
-   "생상스"
-  ],
-  [
-   "헝가리 무곡 5번",
-   "브람스"
-  ],
-  [
-   "세레나데",
-   "슈베르트"
-  ],
-  [
-   "타이스의 명상곡",
-   "마스네"
-  ],
-  [
-   "아름답고 푸른 도나우",
-   "요한 슈트라우스 2세"
-  ]
- ],
- "2016": [
-  [
-   "Cheer Up",
-   "TWICE"
-  ],
-  [
-   "TT",
-   "TWICE"
-  ],
-  [
-   "피 땀 눈물",
-   "방탄소년단"
-  ],
-  [
-   "우주를 줄게",
-   "볼빨간사춘기"
-  ],
-  [
-   "시간을 달려서",
-   "여자친구"
-  ],
-  [
-   "휘파람",
-   "BLACKPINK"
-  ],
-  [
-   "Russian Roulette",
-   "Red Velvet"
-  ],
-  [
-   "이 사랑",
-   "다비치"
-  ],
-  [
-   "You Are My Everything",
-   "거미"
-  ],
-  [
-   "하늘바라기",
-   "정은지"
-  ],
-  [
-   "Very Very Very",
-   "I.O.I"
-  ],
-  [
-   "Stay With Me",
-   "찬열, 펀치"
-  ]
- ],
- "2017": [
-  [
-   "밤편지",
-   "아이유"
-  ],
-  [
-   "팔레트",
-   "아이유"
-  ],
-  [
-   "좋니",
-   "윤종신"
-  ],
-  [
-   "봄날",
-   "방탄소년단"
-  ],
-  [
-   "DNA",
-   "방탄소년단"
-  ],
-  [
-   "빨간 맛",
-   "Red Velvet"
-  ],
-  [
-   "Knock Knock",
-   "TWICE"
-  ],
-  [
-   "Likey",
-   "TWICE"
-  ],
-  [
-   "에너제틱",
-   "워너원"
-  ],
-  [
-   "Beautiful",
-   "크러쉬"
-  ],
-  [
-   "마지막처럼",
-   "BLACKPINK"
-  ],
-  [
-   "Signal",
-   "TWICE"
-  ]
- ],
- "pop:2016": [
-  [
-   "Love Yourself",
-   "Justin Bieber"
-  ],
-  [
-   "One Dance",
-   "Drake"
-  ],
-  [
-   "Closer",
-   "The Chainsmokers"
-  ],
-  [
-   "Stressed Out",
-   "Twenty One Pilots"
-  ],
-  [
-   "Can't Stop the Feeling!",
-   "Justin Timberlake"
-  ],
-  [
-   "Cheap Thrills",
-   "Sia"
-  ],
-  [
-   "Treat You Better",
-   "Shawn Mendes"
-  ],
-  [
-   "Work",
-   "Rihanna"
-  ],
-  [
-   "I Took a Pill in Ibiza",
-   "Mike Posner"
-  ],
-  [
-   "We Don't Talk Anymore",
-   "Charlie Puth"
-  ],
-  [
-   "This Is What You Came For",
-   "Calvin Harris"
-  ],
-  [
-   "7 Years",
-   "Lukas Graham"
-  ]
- ],
- "pop:2017": [
-  [
-   "Shape of You",
-   "Ed Sheeran"
-  ],
-  [
-   "Perfect",
-   "Ed Sheeran"
-  ],
-  [
-   "Despacito",
-   "Luis Fonsi"
-  ],
-  [
-   "That's What I Like",
-   "Bruno Mars"
-  ],
-  [
-   "Believer",
-   "Imagine Dragons"
-  ],
-  [
-   "Feel It Still",
-   "Portugal. The Man"
-  ],
-  [
-   "Attention",
-   "Charlie Puth"
-  ],
-  [
-   "Havana",
-   "Camila Cabello"
-  ],
-  [
-   "New Rules",
-   "Dua Lipa"
-  ],
-  [
-   "Something Just Like This",
-   "The Chainsmokers & Coldplay"
-  ],
-  [
-   "Look What You Made Me Do",
-   "Taylor Swift"
-  ],
-  [
-   "HUMBLE.",
-   "Kendrick Lamar"
-  ]
- ]
+"_설명": "해마다 사랑받은 노래 목록. 매일 10곡씩 돌아가며 보여 준다. [제목, 가수]. 올해(2026) 필요한 해는 1976·1986·1996·2006·2016, 내년은 1977·1987·1997·2007·2017. 내년 목록은 연말에 확인해서 채운다. 팝은 'pop:연도' 키.",
+"1976": [
+[
+"돌아와요 부산항에",
+"조용필"
+],
+[
+"오동잎",
+"최헌"
+],
+[
+"해뜰날",
+"송대관"
+],
+[
+"당신은 모르실거야",
+"혜은이"
+],
+[
+"빗속을 둘이서",
+"투에이스"
+],
+[
+"내 마음 갈 곳을 잃어",
+"최백호"
+],
+[
+"당신만을 사랑해",
+"혜은이"
+],
+[
+"아내에게 바치는 노래",
+"하수영"
+],
+[
+"나는 못난이",
+"딕훼밀리"
+],
+[
+"목마와 숙녀",
+"박인희"
+],
+[
+"또 만나요",
+"딕훼밀리"
+],
+[
+"여고 졸업반",
+"김인순"
+],
+[
+"긴 머리 소녀",
+"둘다섯"
+],
+[
+"사랑은 나비인가봐",
+"현이와 덕이"
+],
+[
+"밤배",
+"둘다섯"
+],
+[
+"잊어야 한다면",
+"이종용"
+]
+],
+"1986": [
+[
+"난 아직 모르잖아요",
+"이문세"
+],
+[
+"허공",
+"조용필"
+],
+[
+"오늘밤",
+"김완선"
+],
+[
+"알 수 없어요",
+"이선희"
+],
+[
+"사랑하기에",
+"이정석"
+],
+[
+"젊음의 노트",
+"유미리"
+],
+[
+"아직도 어두운 밤인가봐",
+"전영록"
+],
+[
+"가까이 하기엔 너무 먼 당신",
+"이광조"
+],
+[
+"그 겨울의 찻집",
+"조용필"
+],
+[
+"겨울비는 내리고",
+"김범룡"
+],
+[
+"그대 떠난 빈들에 서서",
+"이수만"
+],
+[
+"어젯밤 이야기",
+"소방차"
+],
+[
+"사랑이 지나가면",
+"이문세"
+],
+[
+"나의 사랑 나의 어둠",
+"이선희"
+],
+[
+"남남",
+"최성수"
+],
+[
+"바람 바람 바람",
+"김범룡"
+]
+],
+"1996": [
+[
+"캔디",
+"H.O.T."
+],
+[
+"스피드",
+"김건모"
+],
+[
+"꿍따리 샤바라",
+"클론"
+],
+[
+"정",
+"영턱스클럽"
+],
+[
+"천생연분",
+"솔리드"
+],
+[
+"3! 4!",
+"룰라"
+],
+[
+"운명",
+"쿨"
+],
+[
+"여름 이야기",
+"DJ DOC"
+],
+[
+"그때 또 다시",
+"임창정"
+],
+[
+"나보다 조금 더 높은 곳에 니가 있을 뿐",
+"신승훈"
+],
+[
+"상상속의 너",
+"노이즈"
+],
+[
+"그녀는 예뻤다",
+"박진영"
+],
+[
+"기억속의 먼 그대에게",
+"박미경"
+],
+[
+"전사의 후예",
+"H.O.T."
+],
+[
+"Come Back Home",
+"서태지와 아이들"
+]
+],
+"2006": [
+[
+"사랑 안 해",
+"백지영"
+],
+[
+"내 사람",
+"SG워너비"
+],
+[
+"남자를 몰라",
+"버즈"
+],
+[
+"그 남자 그 여자",
+"바이브"
+],
+[
+"하기 힘든 말",
+"이승기"
+],
+[
+"제자리걸음",
+"김종국"
+],
+[
+"여인의 향기",
+"씨야"
+],
+[
+"거리에서",
+"성시경"
+],
+[
+"U",
+"슈퍼주니어"
+],
+[
+"이따 이따요",
+"장윤정"
+],
+[
+"O-正.反.合.",
+"동방신기"
+],
+[
+"Grace",
+"이수영"
+],
+[
+"추억은 사랑을 닮아",
+"박효신"
+],
+[
+"사랑했나봐",
+"윤도현"
+],
+[
+"애인 만들기",
+"거미"
+]
+],
+"1977": [
+[
+"나 어떡해",
+"샌드페블즈"
+],
+[
+"아니 벌써",
+"산울림"
+],
+[
+"사랑만은 않겠어요",
+"윤수일"
+],
+[
+"진짜 진짜 좋아해",
+"혜은이"
+],
+[
+"당신은 몰라",
+"최헌"
+],
+[
+"진정 난 몰랐네",
+"최병걸"
+]
+],
+"1987": [
+[
+"사랑이 지나가면",
+"이문세"
+],
+[
+"그녀의 웃음소리뿐",
+"이문세"
+],
+[
+"어젯밤 이야기",
+"소방차"
+],
+[
+"그녀에게 전해주오",
+"소방차"
+],
+[
+"마도요",
+"조용필"
+],
+[
+"동행",
+"최성수"
+],
+[
+"보이네",
+"나미"
+],
+[
+"몰래한 사랑",
+"김지애"
+],
+[
+"그대 모습은 장미",
+"민해경"
+]
+],
+"1997": [
+[
+"말해줘",
+"지누션"
+],
+[
+"가위",
+"유승준"
+],
+[
+"애송이의 사랑",
+"양파"
+],
+[
+"Forever",
+"안재욱"
+],
+[
+"행복",
+"H.O.T."
+],
+[
+"폼생폼사",
+"젝스키스"
+],
+[
+"짱가",
+"김건모"
+],
+[
+"결혼해줘",
+"임창정"
+],
+[
+"Goodbye Yesterday",
+"터보"
+],
+[
+"해변의 여인",
+"쿨"
+],
+[
+"다시 만나줘",
+"업타운"
+]
+],
+"2007": [
+[
+"거짓말",
+"빅뱅"
+],
+[
+"Tell Me",
+"원더걸스"
+],
+[
+"사랑앓이",
+"FT아일랜드"
+],
+[
+"유혹의 소나타",
+"아이비"
+],
+[
+"Fan",
+"에픽하이"
+],
+[
+"사랑의 인사",
+"씨야"
+],
+[
+"어제보다 오늘 더",
+"김종국"
+],
+[
+"콩깍지",
+"장윤정"
+],
+[
+"비밀번호 486",
+"윤하"
+],
+[
+"미인",
+"이기찬"
+],
+[
+"다시 만난 세계",
+"소녀시대"
+]
+],
+"pop:1976": [
+[
+"Dancing Queen",
+"ABBA"
+],
+[
+"Bohemian Rhapsody",
+"Queen"
+],
+[
+"Don't Go Breaking My Heart",
+"Elton John & Kiki Dee"
+],
+[
+"Silly Love Songs",
+"Wings"
+],
+[
+"Fernando",
+"ABBA"
+],
+[
+"If You Leave Me Now",
+"Chicago"
+],
+[
+"I Write the Songs",
+"Barry Manilow"
+],
+[
+"Love Hurts",
+"Nazareth"
+],
+[
+"December, 1963 (Oh, What a Night)",
+"The Four Seasons"
+],
+[
+"Tonight's the Night",
+"Rod Stewart"
+],
+[
+"Play That Funky Music",
+"Wild Cherry"
+],
+[
+"Let Your Love Flow",
+"Bellamy Brothers"
+]
+],
+"pop:1986": [
+[
+"That's What Friends Are For",
+"Dionne Warwick & Friends"
+],
+[
+"Take My Breath Away",
+"Berlin"
+],
+[
+"Glory of Love",
+"Peter Cetera"
+],
+[
+"Greatest Love of All",
+"Whitney Houston"
+],
+[
+"Papa Don't Preach",
+"Madonna"
+],
+[
+"Live to Tell",
+"Madonna"
+],
+[
+"Kyrie",
+"Mr. Mister"
+],
+[
+"Say You, Say Me",
+"Lionel Richie"
+],
+[
+"Addicted to Love",
+"Robert Palmer"
+],
+[
+"The Final Countdown",
+"Europe"
+],
+[
+"Livin' on a Prayer",
+"Bon Jovi"
+],
+[
+"Sledgehammer",
+"Peter Gabriel"
+]
+],
+"pop:1996": [
+[
+"Macarena",
+"Los del Río"
+],
+[
+"Because You Loved Me",
+"Celine Dion"
+],
+[
+"One Sweet Day",
+"Mariah Carey & Boyz II Men"
+],
+[
+"Wannabe",
+"Spice Girls"
+],
+[
+"Killing Me Softly",
+"Fugees"
+],
+[
+"Ironic",
+"Alanis Morissette"
+],
+[
+"Don't Speak",
+"No Doubt"
+],
+[
+"Always Be My Baby",
+"Mariah Carey"
+],
+[
+"It's All Coming Back to Me Now",
+"Celine Dion"
+],
+[
+"Change the World",
+"Eric Clapton"
+],
+[
+"Wonderwall",
+"Oasis"
+],
+[
+"Un-Break My Heart",
+"Toni Braxton"
+]
+],
+"pop:2006": [
+[
+"Crazy",
+"Gnarls Barkley"
+],
+[
+"Hips Don't Lie",
+"Shakira"
+],
+[
+"SexyBack",
+"Justin Timberlake"
+],
+[
+"Bad Day",
+"Daniel Powter"
+],
+[
+"You're Beautiful",
+"James Blunt"
+],
+[
+"Unwritten",
+"Natasha Bedingfield"
+],
+[
+"Irreplaceable",
+"Beyoncé"
+],
+[
+"Chasing Cars",
+"Snow Patrol"
+],
+[
+"Over My Head (Cable Car)",
+"The Fray"
+],
+[
+"Promiscuous",
+"Nelly Furtado"
+],
+[
+"How to Save a Life",
+"The Fray"
+],
+[
+"Waiting on the World to Change",
+"John Mayer"
+]
+],
+"pop:1977": [
+[
+"Hotel California",
+"Eagles"
+],
+[
+"How Deep Is Your Love",
+"Bee Gees"
+],
+[
+"Don't Stop",
+"Fleetwood Mac"
+],
+[
+"Dreams",
+"Fleetwood Mac"
+],
+[
+"Sir Duke",
+"Stevie Wonder"
+],
+[
+"Rich Girl",
+"Daryl Hall & John Oates"
+],
+[
+"Evergreen",
+"Barbra Streisand"
+],
+[
+"I Just Want to Be Your Everything",
+"Andy Gibb"
+],
+[
+"You Light Up My Life",
+"Debby Boone"
+],
+[
+"We Will Rock You",
+"Queen"
+]
+],
+"pop:1987": [
+[
+"With or Without You",
+"U2"
+],
+[
+"I Wanna Dance with Somebody",
+"Whitney Houston"
+],
+[
+"Nothing's Gonna Stop Us Now",
+"Starship"
+],
+[
+"La Bamba",
+"Los Lobos"
+],
+[
+"Never Gonna Give You Up",
+"Rick Astley"
+],
+[
+"Walk Like an Egyptian",
+"The Bangles"
+],
+[
+"Alone",
+"Heart"
+],
+[
+"Faith",
+"George Michael"
+],
+[
+"Here I Go Again",
+"Whitesnake"
+],
+[
+"Livin' on a Prayer",
+"Bon Jovi"
+]
+],
+"pop:1997": [
+[
+"Candle in the Wind 1997",
+"Elton John"
+],
+[
+"MMMBop",
+"Hanson"
+],
+[
+"Bitter Sweet Symphony",
+"The Verve"
+],
+[
+"I'll Be Missing You",
+"Puff Daddy & Faith Evans"
+],
+[
+"Barbie Girl",
+"Aqua"
+],
+[
+"Tubthumping",
+"Chumbawamba"
+],
+[
+"Truly Madly Deeply",
+"Savage Garden"
+],
+[
+"Quit Playing Games (with My Heart)",
+"Backstreet Boys"
+],
+[
+"Torn",
+"Natalie Imbruglia"
+],
+[
+"Men in Black",
+"Will Smith"
+]
+],
+"pop:2007": [
+[
+"Umbrella",
+"Rihanna"
+],
+[
+"Apologize",
+"Timbaland & OneRepublic"
+],
+[
+"Big Girls Don't Cry",
+"Fergie"
+],
+[
+"Hey There Delilah",
+"Plain White T's"
+],
+[
+"Girlfriend",
+"Avril Lavigne"
+],
+[
+"Rehab",
+"Amy Winehouse"
+],
+[
+"Bubbly",
+"Colbie Caillat"
+],
+[
+"Before He Cheats",
+"Carrie Underwood"
+],
+[
+"Stronger",
+"Kanye West"
+],
+[
+"Love Song",
+"Sara Bareilles"
+]
+],
+"genre:발라드": [
+[
+"광화문 연가",
+"이문세"
+],
+[
+"인연",
+"이선희"
+],
+[
+"서른 즈음에",
+"김광석"
+],
+[
+"보이지 않는 사랑",
+"신승훈"
+],
+[
+"너를 위해",
+"임재범"
+],
+[
+"거리에서",
+"성시경"
+],
+[
+"걱정 말아요 그대",
+"이적"
+],
+[
+"기억의 습작",
+"전람회"
+],
+[
+"희망사항",
+"변진섭"
+],
+[
+"좋니",
+"윤종신"
+],
+[
+"바람이 분다",
+"이소라"
+],
+[
+"눈의 꽃",
+"박효신"
+],
+[
+"밤편지",
+"아이유"
+],
+[
+"그 겨울의 찻집",
+"조용필"
+],
+[
+"사랑했지만",
+"김광석"
+]
+],
+"genre:트로트": [
+[
+"홍시",
+"나훈아"
+],
+[
+"님과 함께",
+"남진"
+],
+[
+"비 내리는 영동교",
+"주현미"
+],
+[
+"사랑은 아무나 하나",
+"태진아"
+],
+[
+"네박자",
+"송대관"
+],
+[
+"어머나",
+"장윤정"
+],
+[
+"이제 나만 믿어요",
+"임영웅"
+],
+[
+"동백 아가씨",
+"이미자"
+],
+[
+"봉선화 연정",
+"현철"
+],
+[
+"다함께 차차차",
+"설운도"
+],
+[
+"아모르 파티",
+"김연자"
+],
+[
+"찐이야",
+"영탁"
+]
+],
+"genre:댄스": [
+[
+"리듬 속의 그 춤을",
+"김완선"
+],
+[
+"널 그리며",
+"박남정"
+],
+[
+"어젯밤 이야기",
+"소방차"
+],
+[
+"날개 잃은 천사",
+"룰라"
+],
+[
+"해변의 여인",
+"쿨"
+],
+[
+"DOC와 춤을",
+"DJ DOC"
+],
+[
+"쿵따리 샤바라",
+"클론"
+],
+[
+"순정",
+"코요태"
+],
+[
+"Festival",
+"엄정화"
+],
+[
+"10 Minutes",
+"이효리"
+],
+[
+"강남스타일",
+"싸이"
+],
+[
+"Tell Me",
+"원더걸스"
+],
+[
+"Gee",
+"소녀시대"
+]
+],
+"genre:팝": [
+[
+"Yesterday Once More",
+"Carpenters"
+],
+[
+"Bridge over Troubled Water",
+"Simon & Garfunkel"
+],
+[
+"Let It Be",
+"The Beatles"
+],
+[
+"Can't Help Falling in Love",
+"Elvis Presley"
+],
+[
+"Hello",
+"Lionel Richie"
+],
+[
+"I Will Always Love You",
+"Whitney Houston"
+],
+[
+"How Deep Is Your Love",
+"Bee Gees"
+],
+[
+"Hotel California",
+"Eagles"
+],
+[
+"My Heart Will Go On",
+"Celine Dion"
+],
+[
+"What a Wonderful World",
+"Louis Armstrong"
+],
+[
+"My Way",
+"Frank Sinatra"
+],
+[
+"Unforgettable",
+"Nat King Cole"
+],
+[
+"My Love",
+"Westlife"
+],
+[
+"Dancing Queen",
+"ABBA"
+]
+],
+"genre:클래식": [
+[
+"월광 소나타 1악장",
+"베토벤"
+],
+[
+"교향곡 5번 운명",
+"베토벤"
+],
+[
+"아이네 클라이네 나흐트무지크",
+"모차르트"
+],
+[
+"사계 중 봄",
+"비발디"
+],
+[
+"G선상의 아리아",
+"바흐"
+],
+[
+"녹턴 2번 Op.9",
+"쇼팽"
+],
+[
+"달빛",
+"드뷔시"
+],
+[
+"캐논",
+"파헬벨"
+],
+[
+"백조의 호수",
+"차이콥스키"
+],
+[
+"사랑의 인사",
+"엘가"
+],
+[
+"백조",
+"생상스"
+],
+[
+"헝가리 무곡 5번",
+"브람스"
+],
+[
+"세레나데",
+"슈베르트"
+],
+[
+"타이스의 명상곡",
+"마스네"
+],
+[
+"아름답고 푸른 도나우",
+"요한 슈트라우스 2세"
+]
+],
+"2016": [
+[
+"Cheer Up",
+"TWICE"
+],
+[
+"TT",
+"TWICE"
+],
+[
+"피 땀 눈물",
+"방탄소년단"
+],
+[
+"우주를 줄게",
+"볼빨간사춘기"
+],
+[
+"시간을 달려서",
+"여자친구"
+],
+[
+"휘파람",
+"BLACKPINK"
+],
+[
+"Russian Roulette",
+"Red Velvet"
+],
+[
+"이 사랑",
+"다비치"
+],
+[
+"You Are My Everything",
+"거미"
+],
+[
+"하늘바라기",
+"정은지"
+],
+[
+"Very Very Very",
+"I.O.I"
+],
+[
+"Stay With Me",
+"찬열, 펀치"
+]
+],
+"2017": [
+[
+"밤편지",
+"아이유"
+],
+[
+"팔레트",
+"아이유"
+],
+[
+"좋니",
+"윤종신"
+],
+[
+"봄날",
+"방탄소년단"
+],
+[
+"DNA",
+"방탄소년단"
+],
+[
+"빨간 맛",
+"Red Velvet"
+],
+[
+"Knock Knock",
+"TWICE"
+],
+[
+"Likey",
+"TWICE"
+],
+[
+"에너제틱",
+"워너원"
+],
+[
+"Beautiful",
+"크러쉬"
+],
+[
+"마지막처럼",
+"BLACKPINK"
+],
+[
+"Signal",
+"TWICE"
+]
+],
+"pop:2016": [
+[
+"Love Yourself",
+"Justin Bieber"
+],
+[
+"One Dance",
+"Drake"
+],
+[
+"Closer",
+"The Chainsmokers"
+],
+[
+"Stressed Out",
+"Twenty One Pilots"
+],
+[
+"Can't Stop the Feeling!",
+"Justin Timberlake"
+],
+[
+"Cheap Thrills",
+"Sia"
+],
+[
+"Treat You Better",
+"Shawn Mendes"
+],
+[
+"Work",
+"Rihanna"
+],
+[
+"I Took a Pill in Ibiza",
+"Mike Posner"
+],
+[
+"We Don't Talk Anymore",
+"Charlie Puth"
+],
+[
+"This Is What You Came For",
+"Calvin Harris"
+],
+[
+"7 Years",
+"Lukas Graham"
+]
+],
+"pop:2017": [
+[
+"Shape of You",
+"Ed Sheeran"
+],
+[
+"Perfect",
+"Ed Sheeran"
+],
+[
+"Despacito",
+"Luis Fonsi"
+],
+[
+"That's What I Like",
+"Bruno Mars"
+],
+[
+"Believer",
+"Imagine Dragons"
+],
+[
+"Feel It Still",
+"Portugal. The Man"
+],
+[
+"Attention",
+"Charlie Puth"
+],
+[
+"Havana",
+"Camila Cabello"
+],
+[
+"New Rules",
+"Dua Lipa"
+],
+[
+"Something Just Like This",
+"The Chainsmokers & Coldplay"
+],
+[
+"Look What You Made Me Do",
+"Taylor Swift"
+],
+[
+"HUMBLE.",
+"Kendrick Lamar"
+]
+]
 }
