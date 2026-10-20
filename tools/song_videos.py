@@ -89,8 +89,14 @@ for t, a in todo[:400]:
     items.sort(key=score, reverse=True)
     # 길이가 맞는 것으로 — 노래 한 곡은 80초~10분이다. 모음집·전막·예능은 여기서 걸러진다.
     got = None
+    # 제목이 맞는 것만 — 가수만 맞고 다른 노래가 걸리던 것을 막는다
+    # (2026-10-20: '이젠 나만의 길' 자리에 '아름다운 아픔'이 들어와 있었다)
+    def title_hit(it):
+        ti = it["snippet"]["title"].lower()
+        return norm(t) in norm(ti) or norm(en(t)) in norm(ti)
+    items = [x for x in items if title_hit(x)] or items
     for it in items[:6]:
-        if score(it) < 3: break
+        if score(it) < 3 or not title_hit(it): break
         sec = length(it["id"]["videoId"])
         if sec is None or 80 <= sec <= 600: got = it; break
         print("  길이로 거름", it["snippet"]["title"][:40], f"{sec // 60}분")
