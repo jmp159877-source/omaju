@@ -1,0 +1,38 @@
+# 여행·오늘의 산 칸마다 어울리는 무료 사진(Pixabay) 한 장씩 → trip-photos 가지
+name: 여행·산 사진
+on:
+  schedule:
+    - cron: '0 11 * * 1'   # 월 20:00 KST (travel.yml·hike.yml 이 돈 뒤)
+  workflow_dispatch:
+    inputs:
+      what: { description: 'travel | hike | all', required: false, default: 'all' }
+permissions: { contents: write }
+concurrency: { group: trip-photos, cancel-in-progress: false }
+jobs:
+  photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q pillow
+      - name: 사진 모으기
+        env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PHOTO_OUT: /tmp/trip-out
+        run: |
+          set +e
+          python3 -u tools/trip_photos.py "${{ inputs.what || 'all' }}" 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200 | tee daily/last-trip-photos.log
+          ls -l /tmp/trip-out | tail -5
+      - name: 목록 올리기 (main)
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add data/trip_photos.json daily/last-trip-photos.log 2>/dev/null || true
+          git diff --cached --quiet || git commit -qm "여행·산 사진 목록 [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
+      - name: 사진 올리기 (trip-photos 가지, 기록 없이 새로)
+        run: |
+          cd /tmp/trip-out && git init -q -b trip-photos && git config user.name omaju-bot && git config user.email bot@omaju.kr
+          git add -A && git commit -qm "여행·산 사진 $(date -u +%F)" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trip-photos
