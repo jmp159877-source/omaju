@@ -1629,6 +1629,8 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .sw-row .linkbtn { display: inline-block; margin-top: 8px; }
 .sw-row b { display: block; width: auto; font-family: 'Nanum Myeongjo', serif; font-size: 1.18rem; line-height: 1.4; color: var(--dark-green); word-break: keep-all; }
 .sw-meta { margin: 4px 0 8px; font-size: 0.96rem; line-height: 1.6; color: #6b6354; word-break: keep-all; }
+/* 칸마다 띠 사진 — 자리를 미리 잡아 두어(aspect-ratio) 늦게 와도 아래가 밀리지 않는다 (2026-10-20) */
+.sw-shot { display: block; width: 100%; aspect-ratio: 16 / 5; object-fit: cover; margin: -2px 0 14px; border-radius: 3px; background: #EFEAE0; }
 
 /* 오늘의 몸 한 가지 (2026-10-19) */
 .bd-line { font-family: 'Nanum Myeongjo', serif; font-size: 1.5rem; line-height: 1.5; margin: 2px 0 14px; color: #141414; word-break: keep-all; }

@@ -58,16 +58,26 @@ HINT = {
 }
 
 
+FALLBACK = {
+    'golf': ['golf course fairway morning light', 'golf links coast green'],
+    'tour': ['old town square golden hour', 'historic city skyline warm light'],
+    'free': ['narrow street cafe morning light', 'canal old town quiet street'],
+    'hike': ['mountain ridge trail autumn', 'forest path morning light'],
+}
+
+
 def queries(items, kind):
     lst = '\n'.join(f'{i}. {x.get("title","")} / {x.get("where","")}' for i, x in enumerate(items))
     p = f'''아래는 오마주의 목록이다. {HINT.get(kind, "")}
-칸마다 **영어 사진 검색어 세 개**를 만든다(무료 사진 사이트 Pixabay 용).
-- 1번은 지명 중심, 2번은 그 나라·지역의 큰 범위 + 결(예: "Tuscany countryside vineyard"), 3번은 지명 없이 결만(예: "vineyard hills golden light").
-- 사람이 주인공인 사진이 걸리지 않게 people, portrait, wedding 같은 말은 넣지 않는다.
-- 골프면 세 개 모두에 golf course 를 넣는다.
+칸마다 **영어 사진 검색어 네 개**를 만든다(무료 사진 사이트 Pixabay 용). 앞에서부터 차례로 써 보고
+쓸 만한 사진이 나오면 멈추므로, **뒤로 갈수록 넓고 흔한 말**로 간다.
+- 1번 지명 중심 / 2번 그 나라·지역의 큰 범위 + 결 / 3번 지명 없이 결만 / 4번 아주 흔한 말(그 결의 풍경이면 무엇이든).
+- 사람이 주인공인 사진이 걸리지 않게 people, portrait, player, swing, wedding 같은 말은 넣지 않는다.
+- 골프면 네 개 모두 **코스 풍경**이 나오게 쓴다(golf course / fairway / green / links). 공·채·자세 접사가 나오는
+  'golf', 'golf ball', 'golf club' 만 쓰지 않는다.
 목록:
 {lst}
-형식(JSON만): {{"q": [["검색어1","검색어2","검색어3"], ...]}} — 목록과 같은 순서, 같은 개수.'''
+형식(JSON만): {{"q": [["검색어1","검색어2","검색어3","검색어4"], ...]}} — 목록과 같은 순서, 같은 개수.'''
     j = gemini([{'text': p}]) or {}
     q = j.get('q') or []
     out = []
@@ -147,9 +157,14 @@ def band(img, path):
 
 
 def fetch(qs, name, item, kind):
-    """검색어를 돌며 후보를 모으고(최대 8장), 눈으로 골라 한 장을 남긴다."""
-    cands, seen = [], set()
-    for q in qs:
+    """검색어를 **하나씩** 써 보며 그때마다 눈으로 골라 본다. 좁은 말부터 넓은 말 순서.
+
+    한 번에 다 모아 놓고 한 번만 보면, 첫 검색어가 엉뚱한 사진만 물어 왔을 때 그대로 빈손이 된다
+    (2026-10-20 골프 세 칸). 차례로 보고 쓸 만한 것이 나오면 멈춘다.
+    """
+    seen, last = set(), ''
+    for q in list(qs) + FALLBACK.get(kind, []):
+        cands = []
         for hit in search(q):
             u = hit.get('largeImageURL')
             if not u or u in seen: continue
@@ -159,20 +174,18 @@ def fetch(qs, name, item, kind):
             except Exception:
                 continue
             ok, why = good(im)
-            if ok:
-                cands.append((q, im, why))
-            if len(cands) >= 8: break
-        if len(cands) >= 8: break
-    if not cands:
-        print('  후보 없음', name, qs); return False
-    n, why = judge(cands, item, kind)
-    if not n:
-        print(f'  눈으로 보고 모두 물림 ({len(cands)}장) {item.get("title","")} — {why}')
-        return False
-    q, im, m = cands[n - 1]
-    band(im, os.path.join(OUT, name))
-    print(f'  ok {name} ← "{q}" ({m}) · {why}')
-    return True
+            if ok: cands.append((q, im, why))
+            if len(cands) >= 6: break
+        if not cands: continue
+        n, why = judge(cands, item, kind)
+        last = why
+        if n:
+            q2, im, m = cands[n - 1]
+            band(im, os.path.join(OUT, name))
+            print(f'  ok {name} ← "{q2}" ({m}) · {why}')
+            return True
+    print(f'  못 구함 — {item.get("title","")} · {last}')
+    return False
 
 
 def run(kind, rows):
@@ -201,7 +214,7 @@ def main():
             got.update(a); miss += b
     if WHAT in ('hike', 'all'):
         d = json.load(open(os.path.join(ROOT, 'data', 'hike.json'), encoding='utf-8'))
-        for region, rows in d.items():
+        for region, rows in (d.get('regions') or d).items():
             if not isinstance(rows, list): continue
             print(f'[산 {region}]')
             a, b = run('hike', rows)

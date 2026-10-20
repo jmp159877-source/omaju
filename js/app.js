@@ -307,12 +307,28 @@ let PB = null, pbLang = store.get('pbLang', 'en'), pbScene = store.get('pbScene'
 // 여행 코너 — 회화 한 칸에 해외 골프·관광·자유여행 세 칸을 더했다 (운영자 2026-10-19)
 const TRV_TABS = [['talk', '회화'], ['golf', '해외 골프'], ['tour', '해외 관광'], ['free', '자유여행']];
 let TRAVEL = null, trvTab = store.get('trvTab', 'talk');
+
+// ── 칸마다 띠 사진 (여행·산) ──
+// 사진은 trip-photos 가지에 두고 여기서 읽어 온다(저장소가 무거워지지 않게). 자리는 CSS 로 미리 잡아 두어
+// 사진이 늦게 와도 글이 밀리지 않는다. 없으면 그냥 글만 — 빈 칸이 보이지 않게 한다.
+const PH_CDN = 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@trip-photos/';
+const PH_RAW = 'https://raw.githubusercontent.com/jmp159877-source/omaju/trip-photos/';
+let TRIPPH = {};
+function shotHtml(x) {
+  const f = TRIPPH[(x.title || '') + '|' + (x.where || '')];
+  if (!f) return '';
+  return `<img class="sw-shot" src="${PH_CDN}${esc(f)}" alt="" loading="lazy" decoding="async"`
+    + ` onerror="if(this.dataset.r){this.remove()}else{this.dataset.r=1;this.src='${PH_RAW}${esc(f)}'}">`;
+}
+fetch('data/trip_photos.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null)
+  .then(j => { if (j) { TRIPPH = j; renderPhrase(); renderHike(); } }).catch(() => {});
 function trvHtml(k) {
   const list = (TRAVEL && TRAVEL[k]) || [];
   // 칸마다 띠 사진 — 자리를 미리 잡아 두어(aspect-ratio) 사진이 늦게 와도 아래가 밀리지 않는다
   const band = `<div class="trv-band" data-band="${k}" style="background-image:url('img/trv-${k}.jpg')" role="img" aria-label=""></div>`;
   if (!list.length) return band + '<p class="note" style="margin-top:24px">갈 만한 곳을 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>';
   return band + '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
+    + shotHtml(x)
     + `<b>${esc(x.title)}</b>`
     + `<p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.cost ? ` <span class="nw">· ${esc(x.cost)}</span>` : ''}</p>`
     + `<p>${esc(x.why || '')}</p>`
@@ -399,6 +415,7 @@ function renderHike() {
   tabs.innerHTML = rs.map(r => `<button type="button" data-hkr="${esc(r)}" aria-pressed="${r === hikeRegion}">${esc(r)}</button>`).join('');
   const list = HIKE.regions[hikeRegion] || [];
   body.innerHTML = '<div class="rows" style="margin-top:20px">' + list.map(x => `<div class="row sw-row">`
+    + shotHtml(x)
     + `<b>${esc(x.title)}</b>`
     + `<p class="sw-meta">${esc(x.where || '')}${x.course ? ` <span class="nw">· ${esc(x.course)}</span>` : ''}${x.hours ? ` <span class="nw">· ${esc(x.hours)}</span>` : ''}${x.level ? ` <span class="nw">· ${esc(x.level)}</span>` : ''}</p>`
     + `<p>${esc(x.why || '')}</p>`
