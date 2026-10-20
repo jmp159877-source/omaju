@@ -21,7 +21,10 @@ jobs:
         with: { python-version: '3.12' }
       - env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: python tools/song_videos.py ${{ inputs.redo && format('--redo={0}', inputs.redo) || '' }}
+          REDO: ${{ inputs.redo }}
+        run: |
+          # 제목에 | 와 빈칸이 들어가므로 반드시 따옴표로 묶어 넘긴다 (2026-10-20: 따옴표가 없어 파이프로 잘려 실패)
+          if [ -n "$REDO" ]; then python tools/song_videos.py --redo="$REDO"; else python tools/song_videos.py; fi
       - run: |
           git config user.name omaju-bot; git config user.email bot@omaju.kr
           cp tools/songs.json data/songs.json; git add data/song_videos.json data/songs.json; git diff --cached --quiet || git commit -m "노래 영상 목록 [skip ci]"
