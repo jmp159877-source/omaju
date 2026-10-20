@@ -23,8 +23,30 @@ def en(x):
     for k, v in ALIAS.items(): x = x.replace(k, v)
     return x.replace("2번", "no. 2").replace("번", "")
 
+_len = {}
+def length(vid):
+    """영상 길이(초). 못 받아 오면 None — 그때는 길이로 거르지 않는다."""
+    if vid in _len: return _len[vid]
+    try:
+        p = urllib.parse.urlencode({"part": "contentDetails", "id": vid, "key": KEY})
+        with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/videos?{p}", timeout=30) as r:
+            it = json.load(r)["items"][0]["contentDetails"]["duration"]
+        m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", it)
+        h, mi, se = (int(x) if x else 0 for x in m.groups())
+        _len[vid] = h * 3600 + mi * 60 + se
+    except Exception:
+        _len[vid] = None
+    return _len[vid]
+
+
 songs = json.load(open(os.path.join(HERE, "songs.json"), encoding="utf-8"))
 have = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
+# --redo=제목|가수,제목|가수 … 로 특정 곡만 다시 고른다 (잘못 걸린 것 손보기)
+for arg in sys.argv[1:]:
+    if arg.startswith("--redo="):
+        for k in arg.split("=", 1)[1].split(","):
+            have.pop(k.strip(), None)
+
 import datetime
 Y = datetime.date.today().year
 now_years = {str(Y - n) for n in (50, 40, 30, 20)}
@@ -36,7 +58,8 @@ for y in sorted([k for k in songs if not k.startswith("_")], key=prio):
     for t, a in songs[y]:
         if not have.get(f"{t}|{a}") and (t, a) not in seen: seen.add((t, a)); todo.append((t, a))
 print("남은 노래", len(todo))
-bad = re.compile(r"커버|cover|노래방|karaoke|반주|\bmr\b|\binst\b|lesson|강좌|리액션|reaction|shorts|배우기|실버|시니어|어르신|노인", re.I)
+# 강좌·모음집·예능·하이라이트가 걸리던 것을 막는다 (운영자 2026-10-20: 기타교실·78분 무대모음·55분 예능이 걸려 있었다)
+bad = re.compile(r"커버|cover|노래방|karaoke|반주|\bmr\b|\binst\b|lesson|강좌|교실|리액션|reaction|shorts|배우기|실버|시니어|어르신|노인|메들리|모음|모음집|playlist|플레이리스트|작업용|하이라이트|highlight|라디오스타|인간극장|퀴즈쇼|예능|방송분|두뇌|전막|complete ballet|1 ?hour|\d+시간", re.I)
 def score(it):
     sn = it["snippet"]; ti = sn["title"].lower(); s = 0
     if norm(t) in norm(ti) or norm(en(t)) in norm(ti): s += 3
@@ -64,9 +87,16 @@ for t, a in todo[:400]:
         try: items = (items or []) + scrape(q2)
         except Exception: pass
     items.sort(key=score, reverse=True)
-    if items and score(items[0]) >= 3:
-        it = items[0]; have[f"{t}|{a}"] = {"v": it["id"]["videoId"], "t": it["snippet"]["title"], "c": it["snippet"]["channelTitle"]}
-        print("ok", t, "-", a, "→", it["snippet"]["title"][:50])
+    # 길이가 맞는 것으로 — 노래 한 곡은 80초~10분이다. 모음집·전막·예능은 여기서 걸러진다.
+    got = None
+    for it in items[:6]:
+        if score(it) < 3: break
+        sec = length(it["id"]["videoId"])
+        if sec is None or 80 <= sec <= 600: got = it; break
+        print("  길이로 거름", it["snippet"]["title"][:40], f"{sec // 60}분")
+    if got:
+        have[f"{t}|{a}"] = {"v": got["id"]["videoId"], "t": got["snippet"]["title"], "c": got["snippet"]["channelTitle"]}
+        print("ok", t, "-", a, "→", got["snippet"]["title"][:50])
     else:
         have[f"{t}|{a}"] = None; print("못 찾음", t, a)
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
