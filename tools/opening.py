@@ -98,14 +98,24 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
 {topic}
 최근에 다룬 것 (겹치지 말 것): {recent}
 
-[오늘의 한 조각 — 요일마다 다릅니다. 오늘은 {wd}요일이므로 "{theme}"]
-월: 한 주를 여는 문장 하나. 누구나 아는 흔한 명언 금지, 자기계발·확언 말투 금지. 결이 있는 문장과 그 문장이 붙는 구체적인 장면.
-화: 그해 오늘 — 10·20·30·40년 전 이맘때 한국의 한 장면. 검색으로 확인된 사실만. "그때 그랬지" 소리가 나오게.
-수: 오늘 바로 쓸 만한 생활 요령 하나 — 날씨·옷·살림·장보기. 민간요법이나 건강 효능 주장 금지.
-목: 그 시절 노래 한 곡에 얽힌 이야기. 가사를 그대로 옮기지 말고 그 노래가 흐르던 때의 풍경으로.
-금: 이번 주말에 볼 만한 것 하나 — 극장·공연·전시 가운데. 확인된 것만.
-토: 주말 아침에 어울리는 가벼운 이야기 하나.
-일: 한 주를 닫는 차분한 이야기 하나.
+[오늘의 한 조각 — 시간대마다 **다른 이야기** 셋을 씁니다 (운영자 2026-10-20)]
+듣고 나면 기운이 나는 **실화 한 조각**입니다. 늦게 시작한 사람, 오래 버틴 사람, 한참 뒤에 빛을 본 사람.
+보는 분들이 50~60대이니 **마흔·쉰·예순에 무언가를 시작하거나 바꾼 사람**이 가장 잘 맞습니다.
+한국 사람과 외국 사람을 섞되, 한 주에 한국 사람이 적어도 두 번은 나오게 합니다.
+
+ - 아침 = **시작하는 힘**. 늦게 시작해서 해낸 사람. 듣고 나서 "오늘 뭐라도 해 볼까" 싶게.
+ - 낮  = **버티는 힘**. 지루한 반복을 오래 견딘 사람. 한창 지친 시간이니 몰아붙이지 말고 등을 토닥이듯.
+ - 저녁 = **돌아보는 힘**. 아무 일 없어 보이던 시간이 나중에 값이 된 사람. 오늘 하루를 인정해 주는 결로.
+
+[이야기 쓰는 법 — 가장 중요]
+ - **검색으로 확인되는 실존 인물의 사실만** 씁니다. 나이·연도·무슨 일을 했는지가 맞아야 합니다.
+ - **그 사람이 한 말을 따옴표로 옮기지 마세요.** 확인되지 않은 인용을 실제 발언처럼 내보내는 것이 가장 위험합니다.
+   감동은 인용이 아니라 **구체적인 장면**에서 나옵니다(뒷마당 창고, 공모전 봉투, 예순에 다시 앉은 강의실).
+ - 마무리 한 줄은 **진행자 자신의 말**로. 교훈을 설명하지 말고 슬쩍 건네듯.
+ - **설교·확언·자기계발 말투 금지**("할 수 있습니다", "포기하지 마세요", "여러분도 ~하세요").
+   밀어붙이지 않습니다. 이야기를 들려주고 듣는 분이 알아서 가져가게 둡니다.
+ - 누구나 아는 흔한 위인(에디슨·링컨·헬렌 켈러)은 피합니다. 최근에 쓴 인물({recent})도 피합니다.
+ - 한 시간대 3~4조각, 한 조각 60자 이내.
 
 [구성]
 1. 첫인사 2조각 — 아침·낮·저녁 세 벌.
@@ -116,12 +126,7 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
    (처음 오신 분이 "여기가 어디고 이 사람이 누구인지"를 첫마디에 알 수 있게 **진행자 소개를 반드시 넣습니다** — 운영자 2026-10-20.)
    (인사 뒤에 느낌표를 쓰지 않습니다 — 느낌표를 붙이면 읽을 때 음이 과하게 올라가 발음이 뭉갭니다.)
    둘째 문장에 오늘 요일을 넣어 그 시간대에 맞는 기분 좋은 한마디 (상투적 문구 금지, 구체적인 장면).
-2. 오늘의 한 조각 4~6조각 — 위 요일 테마대로. 한 조각 60자 이내.
-   **재미와 호기심이 가장 중요합니다.** 설명문이 되면 실패입니다.
-   - **첫 조각에서 궁금하게 만듭니다.** 질문을 던지거나("혹시 아셨어요?"), 뜻밖의 사실을 먼저 꺼내거나, 장면을 눈앞에 그려 줍니다.
-   - 가운데에서 "어?" 싶은 대목이 하나는 있어야 합니다 — 몰랐던 사실, 뒤집히는 반전, 숫자 하나, 그때만의 디테일.
-   - 마지막 조각에서 무릎을 치게 하거나 빙긋 웃게 만듭니다.
-   - 누구나 아는 뻔한 이야기, 사전에서 옮긴 듯한 설명, 교훈으로 끝내는 마무리 금지.
+2. 오늘의 한 조각 — **아침·낮·저녁 세 벌을 각각 따로** 씁니다(위 '이야기 쓰는 법'대로). 서로 다른 인물, 다른 이야기.
 3. 오늘 오마주 안내 1~2조각 — 오늘 앱에 들어온 것 가운데 하나나 둘을 구체적인 이름으로 알려 준다. 광고 말투 금지, 담담하게.
    {today_in}
    둘 중 하나는 될 수 있으면 인사 카드로: "오늘 인사 카드에는 ○○ 같은 글이 담겼습니다. 마음 가는 분께 한 장 보내 보세요." 처럼.
@@ -148,7 +153,8 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
 
 JSON으로만 답하세요:
 {{"title":"오늘의 한 조각 제목(10~16자)","greet":{{"morning":[{{"tag":"smile","say":"","cap":[""]}}, ...2개],"noon":[...],"evening":[...]}},
- "body":[{{"tag":"read","say":"","cap":["",""]}}, ...],"message":{{"tag":"talk","say":"","cap":[""]}},
+ "story":{{"morning":[{{"tag":"read","say":"","cap":["",""]}}, ...3~4개],"noon":[...],"evening":[...]}},
+ "body":[{{"tag":"read","say":"","cap":["",""]}}, ...1~2개],"message":{{"tag":"talk","say":"","cap":[""]}},
  "close":{{"morning":{{"say":"","cap":[""]}},"noon":{{...}},"evening":{{...}}}},"next_title":""}}
 '''
 WD_THEME = {0: '한 주를 여는 문장', 1: '그해 오늘', 2: '오늘 쓸 만한 생활 요령', 3: '그 시절 노래 이야기',
@@ -175,8 +181,11 @@ def problems(s):
             # 첫인사에 진행자 이름이 빠지면 누가 진행하는지 모른다 (2026-10-20 점검에서 확인)
             g = ' '.join(x['say'] for x in s['greet'][sl])
             if NAME[HOST] not in g: p.append('첫인사에 이름 없음 ' + sl)
-        if not (5 <= len(s['body']) <= 9): p.append(f"오늘의 한 조각 {len(s['body'])}개")
-        segs = [x for sl in SLOTS for x in s['greet'][sl]] + s['body'] + [s['message']]
+        for sl in SLOTS:
+            if not (2 <= len(s.get('story', {}).get(sl, [])) <= 5): p.append(f'한 조각 개수 {sl}')
+        if not (1 <= len(s['body']) <= 3): p.append(f"오마주 안내 {len(s['body'])}개")
+        segs = ([x for sl in SLOTS for x in s['greet'][sl]] + [x for sl in SLOTS for x in s['story'][sl]]
+                + s['body'] + [s['message']])
         for x in segs:
             if x.get('tag') not in TAGS: x['tag'] = 'read'
             if re.search(r'[0-9A-Za-z]', x['say']): p.append('읽을 글에 숫자/영문: ' + x['say'][:20])
@@ -187,10 +196,11 @@ def problems(s):
             if w in alltext: p.append('금지 낱말 ' + w)
         if not s.get('next_title'): p.append('내일 제목 없음')
         
-        n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in s['greet']['morning'] + s['body'] + [s['message']])
+        n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in
+                s['greet']['morning'] + s['story']['morning'] + s['body'] + [s['message']])
         if not (190 <= n <= 400): p.append(f'길이 {n}음절')
         # 지어낸 사람 사연이 끼어들면 버린다 (2026-10-19)
-        body_say = ' '.join(x['say'] for x in s['body'])
+        body_say = ' '.join(x['say'] for sl in SLOTS for x in s['story'][sl]) + ' ' + ' '.join(x['say'] for x in s['body'])
         if re.search(r'[가-힣]{2,3} ?씨(의|는|가|도|에게)?\s', body_say) or '사연' in body_say: p.append('지어낸 사연이 들어감')
         if '사연' in (s.get('next_title') or ''): p.append('내일 예고가 사연 꼴')   # 60~70초로 줄인 뒤 기준도 내림 (2026-10-19)
     except Exception as e:
@@ -255,6 +265,23 @@ def tts(text, who):
 
 def wav_write(path, pcm):
     with wave.open(path, 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
+
+def deslide(pcm):
+    """한 번에 길게 읽히면 뒤로 갈수록 목소리가 사그라든다(2026-10-20 읽어 드려요에서 확인).
+    자연스러운 높낮이는 두고 **처음부터 끝까지의 기울기만** 편다. 최대 ±4dB."""
+    import numpy as np
+    x = np.frombuffer(pcm, dtype='<i2').astype('float32')
+    if x.size < 48000: return pcm
+    w = 12000; n = x.size // w
+    e = np.array([np.sqrt((x[i * w:(i + 1) * w] ** 2).mean()) + 1e-6 for i in range(n)])
+    keep = e > (e.max() * 0.12)
+    if keep.sum() < 6: return pcm
+    a, b = np.polyfit(np.arange(n)[keep], 20 * np.log10(e[keep]), 1)
+    drop = a * (n - 1)
+    if abs(drop) < 1.0: return pcm
+    ramp = np.linspace(0, -max(-4.0, min(4.0, drop)), x.size)
+    return np.clip(x * (10 ** (ramp / 20)), -32000, 32000).astype('<i2').tobytes()
+
 
 def f0(pcm):
     import numpy as np
@@ -398,7 +425,10 @@ def build():
         g[0]['tag'] = 'wave'
         if len(g) > 1: g[1]['tag'] = 'stand'
         where['g' + sl] = list(range(len(allsegs), len(allsegs) + len(g))); allsegs += g
-    body = [dict(x) for x in s['body']] + [dict(s['message'])]
+    for sl in SLOTS:                      # 시간대마다 다른 이야기 (아침 시작·낮 버팀·저녁 돌아봄)
+        st = [dict(x) for x in s['story'][sl]]
+        where['s' + sl] = list(range(len(allsegs), len(allsegs) + len(st))); allsegs += st
+    body = [dict(x) for x in s['body']] + [dict(s['message'])]   # 오마주 안내·한마디는 셋이 같이 쓴다
     where['body'] = list(range(len(allsegs), len(allsegs) + len(body))); allsegs += body
     for sl in SLOTS:
         c = dict(s['close'][sl]); c['tag'] = 'smile'
@@ -424,7 +454,7 @@ def build():
         say(f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0, '벗어남', round(off * 100, 1), '%')
         if best is None or off < best[1]: best = (got, off)
         if not (tgt0 and gf) or tgt0 * 0.905 <= gf <= tgt0 * 1.052: break
-    pcm = best[0] if best else None
+    pcm = deslide(best[0]) if best else None   # 길어진 대본에서 뒤로 갈수록 흐려지는 것 펴기
     if pcm is None: raise SystemExit('녹음 실패')
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in allsegs]
@@ -450,7 +480,7 @@ def build():
     edge = [st / tempo for st in starts] + [T / tempo]
 
     for sl in SLOTS:
-        pick = where['g' + sl] + where['body'] + where['c' + sl] + where['sign']
+        pick = where['g' + sl] + where['s' + sl] + where['body'] + where['c' + sl] + where['sign']
         spans = [(edge[a], edge[b + 1]) for a, b in merge(pick)]
         mp3 = f'{DATE}-{sl}.mp3'; dst = os.path.join(OUT, mp3)
         cut(whole, spans, dst)
