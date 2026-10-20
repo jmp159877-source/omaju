@@ -301,20 +301,32 @@ def build(ch):
     segs = [{'k': 'open', 'say': s['open']}] + [{'k': x['k'], 'say': x['say']} for x in s['items']] + [{'k': 'close', 'say': s['close']}]
     text = '\n'.join(x['say'] for x in segs)
 
-    tgt0 = HOSTS[host]['pitch']; best = None
-    # 높이가 '끌어당길 수 있는 범위'(내리기 5%·올리기 10%) 안이면 더 녹음하지 않는다 —
-    # 그 안이면 어차피 ffmpeg 로 공짜로 기준에 맞춘다. 다시 읽히는 것이 AI 한도를 가장 많이 먹는다 (2026-10-20).
-    for take in range(3):
-        if take: time.sleep(15)
-        got = tts(text, host)
-        if got is None: continue
-        gf = OP.f0(got)
-        off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
-        say(f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0, '벗어남', round(off * 100, 1), '%')
-        if best is None or off < best[1]: best = (got, off)
-        if not (tgt0 and gf) or tgt0 * 0.905 <= gf <= tgt0 * 1.052: break
-    if best is None: raise SystemExit('녹음 실패')
-    pcm = best[0]
+    tgt0 = HOSTS[host]['pitch']
+    say('대본', len(re.sub(r'[^가-힣]', '', text)), '자 ·', len(segs), '토막')
+
+    # 대본이 길면 한 번에 못 읽는다 — 응답이 비거나(400/빈 candidate) 끝까지 안 읽고 끊긴다 (2026-10-20).
+    # 그래서 코너를 묶어 토막으로 나눠 읽히고 이어 붙인다. 같은 모델·같은 목소리·같은 연출이라
+    # 토막끼리 목소리가 달라지지는 않지만, 혹시 몰라 토막마다 높이를 적어 둔다(많이 벌어지면 기록에 남는다).
+    MAX = 620
+    groups, cur, n = [], [], 0
+    for x in segs:
+        ln = len(re.sub(r'[^가-힣]', '', x['say']))
+        if cur and n + ln > MAX: groups.append(cur); cur, n = [], 0
+        cur.append(x); n += ln
+    if cur: groups.append(cur)
+
+    pcms, f0s = [], []
+    for i, g in enumerate(groups):
+        got = tts('\n'.join(x['say'] for x in g), host)
+        if got is None: raise SystemExit(f'녹음 실패 — 토막 {i + 1}/{len(groups)}')
+        pcms.append(got)
+        f = OP.f0(got); f0s.append(f or 0)
+        say(f'토막 {i + 1}/{len(groups)}', round(len(got) / 48000, 1), '초 · 높이', f and round(f))
+        if i + 1 < len(groups): time.sleep(6)
+    if len(f0s) > 1 and min(f0s) > 0 and max(f0s) / min(f0s) > 1.12:
+        say('조심 — 토막끼리 높이가 벌어짐', [round(x) for x in f0s])
+    gap = b'\x00' * 16800   # 토막 사이에 0.35초 숨 — 바로 이으면 말이 붙어 숨 가쁘게 들린다
+    pcm = gap.join(pcms)
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
     starts, T = OP.split(pcm, lens)
