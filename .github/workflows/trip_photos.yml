@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       what: { description: 'travel | hike | all', required: false, default: 'all' }
+      force: { description: '이미 있는 것도 다시 고르기 (1)', required: false, default: '0' }
 permissions: { contents: write }
 concurrency: { group: trip-photos, cancel-in-progress: false }
 jobs:
@@ -22,6 +23,7 @@ jobs:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PHOTO_OUT: /tmp/trip-out
+          FORCE: "${{ inputs.force || '0' }}"
         run: |
           set +e
           python3 -u tools/trip_photos.py "${{ inputs.what || 'all' }}" 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200 | tee daily/last-trip-photos.log
