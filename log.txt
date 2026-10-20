@@ -1,0 +1,9 @@
+이미지 모델: ['gemini-2.5-flash-image', 'gemini-3-pro-image-preview', 'gemini-3-pro-image', 'gemini-3.1-flash-image-preview', 'gemini-3.1-flash-image', 'gemini-3.1-flash-lite-image']
+완료 econ1 gemini-3-pro-image-preview 529774
+완료 econ2 gemini-3-pro-image-preview 519770
+완료 econ3 gemini-3-pro-image-preview 555188
+완료 econ4 gemini-3-pro-image-preview 699873
+완료 iss1 gemini-3-pro-image-preview 463340
+완료 iss2 gemini-3-pro-image-preview 532657
+완료 iss3 gemini-3-pro-image-preview 516561
+완료 iss4 gemini-3-pro-image-preview 541768
