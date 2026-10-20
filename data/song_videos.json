@@ -1409,20 +1409,10 @@
 "t": "[Lyric Video] 이문세 (LeeMoonSae) - 사랑이 지나가면 (When love passes)",
 "c": "VOSTOK_MUSIC / 보스토크뮤직"
 },
-"이젠 나만의 길|김민종": {
-"v": "2UEm3VZ3afA",
-"t": "김민종(Kim Minjong) - 아름다운 아픔 [윤도현의 러브레터] | KBS 20030503 방송",
-"c": "Again 가요톱10 : KBS KPOP Classic"
-},
 "내 사람|SG워너비": {
 "v": "icHBHT1URB8",
 "t": "내사람 (Partner For Life) - SG워너비 [더 시즌즈-이효리의 레드카펫] | KBS 240308 방송",
 "c": "KBS Kpop"
-},
-"첫사랑은 없다|SG워너비": {
-"v": "PZ1hPamugZ8",
-"t": "이석훈(SG워너비)♥️사랑은 또",
-"c": "선민 엘리사벳"
 },
 "님과 함께|남진": {
 "v": "MnByj9J0Ug4",
@@ -1463,5 +1453,7 @@
 "v": "d9IxdwEFk1c",
 "t": "[MV] IU(아이유) _ Palette(팔레트) (Feat. G-DRAGON)",
 "c": "1theK (원더케이)"
-}
+},
+"이젠 나만의 길|김민종": null,
+"첫사랑은 없다|SG워너비": null
 }
