@@ -1,0 +1,35 @@
+name: 칸 바탕 사진 만들기
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: '다시 만들 이름 (쉼표로, 예: econ2,iss3)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 앞서 만든 것 가져오기 (다시 만들 때 나머지를 지우지 않게)
+        run: |
+          mkdir -p out
+          git clone -q --depth 1 --branch bg-try "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /tmp/bgold 2>/dev/null || true
+          if [ -d /tmp/bgold ]; then rm -rf /tmp/bgold/.git; cp -r /tmp/bgold/. out/ 2>/dev/null || true; fi
+          ls -l out || true
+      - name: 사진 만들기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ONLY: ${{ inputs.only }}
+        run: python3 -u tools/bg_images.py
+      - name: 결과 올리기
+        if: always()
+        run: |
+          cd out
+          rm -rf .git; git init -q -b bg-try
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add -A && git commit -qm "칸 바탕 사진 [skip ci]" && \
+            git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" bg-try
