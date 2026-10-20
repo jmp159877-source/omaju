@@ -195,6 +195,7 @@ def problems(s):
         for w in BAD:
             if w in alltext: p.append('금지 낱말 ' + w)
         if not s.get('next_title'): p.append('내일 제목 없음')
+        if s.get('title') and s.get('title') == prev_next_title(): p.append('제목이 어제 예고를 그대로 베낌')
         
         n = sum(len(re.sub(r'[^가-힣]', '', x['say'])) for x in
                 s['greet']['morning'] + s['story']['morning'] + s['body'] + [s['message']])
@@ -252,7 +253,8 @@ def make_script():
     topic = prev_next_title()
     if topic and '사연' in topic: topic = ''   # 옛 형식(지어낸 사연)은 물려받지 않는다 (2026-10-19)
     # 어제 예고 제목은 오늘의 한 조각(title) 결에만 참고한다. 오마주 안내에 넣으면 없는 코너를 지어낸다 (2026-10-21)
-    topic = (f'어제 예고한 제목은 "{topic}" 입니다. 오늘의 한 조각 제목(title)을 정할 때 결만 참고하세요. '
+    topic = (f'어제 화면에 예고한 제목은 "{topic}" 입니다. 오늘의 실화 가운데 하나가 이 결과 닿으면 좋지만 억지로 맞추지 마세요. '
+             'title 은 오늘 세 이야기를 아우르는 말로 **새로** 지으세요(예고 제목을 그대로 베끼지 말 것). '
              '이 제목을 오마주 안내에 넣거나 "생활 팁" 같은 코너가 있는 것처럼 말하지 마세요.') if topic else ''
     theme = WD_THEME[D.weekday()]
     today_in = today_corners()
@@ -483,7 +485,8 @@ def build():
     pf = f0(pcm); tgt = tgt0
     # 끌어내리면 목청이 묵직해진다(5% 까지만), 끌어올리면 되레 맑아진다(10% 까지)
     cap = 0.05 if (pf and tgt and pf > tgt) else 0.10
-    if tgt and pf and abs(pf / tgt - 1) > cap: tgt = None
+    # 범위를 넘으면 그냥 두지 말고 할 수 있는 만큼(cap)만 당긴다 — 205Hz 가 5.2% 라 아예 안 당겨지던 것 (2026-10-21)
+    if tgt and pf and abs(pf / tgt - 1) > cap: tgt = pf / (1 + cap) if pf > tgt else pf * (1 + cap)
     af = []
     if tgt and pf and abs(pf / tgt - 1) > 0.02:
         r = tgt / pf; af.append(f'asetrate={int(24000 * r)},aresample=24000'); tempo_eff = tempo / r
