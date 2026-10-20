@@ -1,14 +1,18 @@
 [models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
-[skip] greetings 이미 있음
-[skip] fortune 이미 있음
-[skip] era 이미 있음
-[skip] mind 이미 있음
-[skip] body 이미 있음
-[skip] book 이미 있음
-[skip] meal 이미 있음
-[skip] quiz 이미 있음
-[skip] story 이미 있음
-[skip] follow 이미 있음
-[skip] phrase 이미 있음
-[skip] culture 이미 있음
-2026-10-20 모든 코너가 이미 있음.
+[ok] greetings
+[ok] fortune
+[gemini] gemini-3.8-flash 시도 1 실패: The read operation timed out
+[culture] 그림 사진 실패 ko:한강유람선: HTTP Error 404: Not Found
+[gemini] gemini-3.8-flash 시도 1 실패: The read operation timed out
+[culture] 그림 사진 실패 ko:럭키 (영화): HTTP Error 404: Not Found
+[ok] era
+[ok] mind
+[ok] body
+[ok] book
+[ok] meal
+[ok] quiz
+[ok] story
+[ok] follow
+[ok] phrase
+[ok] culture
+2026-10-21 저장 완료. 코너 11개
