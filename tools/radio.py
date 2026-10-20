@@ -93,7 +93,7 @@ PROMPT = '''오늘은 {date}년 {wd}요일. 당신은 '오마주'의 진행자 {
 
 [길이]
 - open: 장을 여는 인사 두세 문장. 오늘이 며칠 무슨 요일인지 한 번 짚고, 이 장에 무엇이 있는지 한 줄로.
-- items: 아래 코너 차례 그대로, 하나도 빠뜨리지 말고 하나씩. **코너마다 220~300자** (네 문장에서 여섯 문장).
+- items: 아래 코너 차례 그대로, 하나도 빠뜨리지 말고 하나씩. **코너마다 {lo}~{hi}자**.
 - close: 닫는 인사 한두 문장. 다 듣고 나서 "아, 오늘 볼 만하네" 싶게. 사인오프는 쓰지 않습니다.
 전체가 4분 30초에서 6분 사이가 되게.
 
@@ -354,6 +354,7 @@ BAD = ['시니어', '어르신', '노인', '치매', '두뇌', '은퇴', '손주
 
 def problems(s, keys):
     p = []
+    cap = min(480, max(360, int(1550 / max(1, len(keys)) * 1.30)))
     try:
         if not s.get('open') or not s.get('close'): p.append('여는 말/닫는 말 없음')
         got = [x['k'] for x in s['items']]
@@ -361,7 +362,7 @@ def problems(s, keys):
         for x in s['items']:
             n = len(re.sub(r'\s', '', x['say']))
             if n < 170: p.append(f'{x["k"]} 너무 짧음 {n}자')
-            if n > 460: p.append(f'{x["k"]} 너무 긺 {n}자')
+            if n > cap: p.append(f'{x["k"]} 너무 긺 {n}자')
         whole = s['open'] + ' '.join(x['say'] for x in s['items']) + s['close']
         for w in BAD:
             if w in whole: p.append('쓰지 않기로 한 말: ' + w)
@@ -384,8 +385,13 @@ def make_script(ch):
     if not mat.strip():
         raise SystemExit('오늘 내용이 아직 없음')
     for k in range(3):
+        # 장마다 코너 수가 다르다(9개도 있고 4개도 있다). 전체 4분 30초~6분을 맞추려면
+        # 코너가 적은 장은 코너마다 더 길게 이야기해야 한다 (운영자 규칙: 장당 4분 30초~6분).
+        per = 1550 / max(1, len(keys))
+        lo = min(340, max(170, int(per * 0.80) // 10 * 10))
+        hi = min(460, max(lo + 60, int(per * 1.15) // 10 * 10))
         s, m = gemini_json(PROMPT.format(date=DATE, wd=WD, name=HOSTS[c['host']]['name'], title=c['title'],
-                                         material=mat, keys=', '.join(keys)))
+                                         material=mat, keys=', '.join(keys), lo=lo, hi=hi))
         if not s: continue
         p = problems(s, keys)
         say('대본', m, '문제:', p or '없음')
