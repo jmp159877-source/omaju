@@ -1673,6 +1673,13 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .rd { margin: 0 0 22px; }
 .rd-face { display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 16px; border: 1px solid #E8E0CD; border-radius: 14px; background: linear-gradient(100deg, #FFFDF7 0%, #F6F0E0 100%); box-shadow: 0 6px 18px rgba(70,52,22,0.08); cursor: pointer; font: inherit; text-align: left; }
 .rd-ph { flex: 0 0 auto; width: 62px; height: 62px; border-radius: 50%; background: 46% 26% / 170% no-repeat #E9DFC9; box-shadow: 0 2px 8px rgba(70,52,22,0.18); }
+/* 진행자 셋을 동그랗게 겹쳐 둔다 — '여러 사람이 코너마다 맡는구나'로 보이게 (운영자 2026-10-20) */
+.rd-phs { flex: 0 0 auto; display: flex; align-items: center; }
+.rd-phs i { display: block; width: 48px; height: 48px; border-radius: 50%; background: center / cover no-repeat #E9DFC9;
+  border: 2px solid #FFFDF7; box-shadow: 0 2px 8px rgba(70,52,22,0.18); }
+.rd-phs i + i { margin-left: -18px; }
+.rd-face.playing .rd-phs i { box-shadow: 0 0 0 2px #F9E9A8, 0 2px 10px rgba(70,52,22,0.22); }
+@media (max-width: 380px) { .rd-phs i { width: 42px; height: 42px; } .rd-phs i + i { margin-left: -16px; } }
 .rd-face.playing .rd-ph { box-shadow: 0 0 0 3px #F9E9A8, 0 2px 10px rgba(70,52,22,0.22); }
 .rd-tx { flex: 1 1 120px; min-width: 0; }
 .rd-tx b { display: block; font-size: 1.08rem; color: #2b2620; line-height: 1.5; word-break: keep-all; }
@@ -1690,7 +1697,7 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .rd-bar-x { grid-area: x; }
 .rd-bar-btns { grid-area: b; display: flex; gap: 8px; }
 .rd-bar-btns .rd-bar-b { flex: 1 1 0; justify-content: center; text-align: center; }
-.rd-bar-ph { width: 38px; height: 38px; border-radius: 50%; background: 46% 26% / 170% no-repeat #4a4134; }
+.rd-bar-ph { width: 38px; height: 38px; border-radius: 50%; background: center / cover no-repeat #4a4134; }
 .rd-bar-tx { min-width: 0; }
 .rd-bar-tx b { display: block; font-size: 0.98rem; font-weight: 600; line-height: 1.4; word-break: keep-all; }
 .rd-bar-tx small { display: block; font-size: 0.82rem; color: #C3B9A5; }
