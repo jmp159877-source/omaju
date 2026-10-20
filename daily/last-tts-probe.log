@@ -1,2 +1,10 @@
-[보냄] 1300자
-[되다] gemini-3.1-flash-tts-preview — 소리 158720 바이트. 한도 풀렸음.
+[보냄] 6자
+[막힘] gemini-3.1-flash-tts-preview HTTP 402
+{
+  "error": {
+    "code": 402,
+    "message": "Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
