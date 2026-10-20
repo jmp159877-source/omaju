@@ -138,18 +138,10 @@ cardsEl.onclick = async e => {
 })();
 
 
-// 따라오는 한 줄 메뉴: 큰 네 칸이 화면 위로 지나가면 별도의 띠가 나타난다 (화면 길이 안 바뀜)
-(function miniTabs() {
-  const t = $('tabs3'); if (!t) return;
-  const mini = document.createElement('nav'); mini.className = 'tabs-mini'; mini.id = 'tabs-mini';
-  mini.innerHTML = [...t.querySelectorAll('[data-tab]')].map(b => `<button type="button" data-tab="${b.dataset.tab}" aria-pressed="${b.getAttribute('aria-pressed')}"><span>${b.querySelector('b').textContent}</span></button>`).join('');
-  document.body.appendChild(mini);
-  mini.onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; if (document.body.classList.contains('in-chapter')) { history.replaceState(history.state, '', '#' + b.dataset.tab); setChapter(b.dataset.tab); window.scrollTo(0, 0); } else t.querySelector(`[data-tab="${b.dataset.tab}"]`).click(); };
-  const sync = () => mini.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', t.querySelector(`[data-tab="${x.dataset.tab}"]`).getAttribute('aria-pressed')));
-  new MutationObserver(sync).observe(t, { attributes: true, subtree: true, attributeFilter: ['aria-pressed'] });
-  const onScroll = () => { const h = document.getElementById('ch-head'), inCh = document.body.classList.contains('in-chapter'), r = (inCh && h ? h : t).getBoundingClientRect(); mini.classList.toggle('show', r.bottom < 0 && !document.body.classList.contains('in-detail')); };
-  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-})();
+// 따라오는 한 줄 메뉴는 뺐다 (운영자 2026-10-20: "스크롤 하면 상단에 고정돼 따라오는 게 눈에 거슬린다").
+// 장을 옮기려면 맨 위 CONTENTS 로 올라가거나 뒤로 가기를 쓴다. 띠를 아래로 내리는 것도 해 봤는데
+// '읽어 드려요' 재생 띠(.rd-bar)가 같은 자리에 깔려 서로 가린다. css 의 .tabs-mini 규칙은 남아 있다 —
+// 되살릴 일이 있으면 이 자리에 다시 만들면 된다.
 
 
 
