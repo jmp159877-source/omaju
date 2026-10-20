@@ -299,6 +299,28 @@ def music(mp3, dur, seams=()):
     return LEAD, TAIL
 
 
+def deslide(pcm):
+    """한 토막 안에서 뒤로 갈수록 작아지는 것을 되돌린다 (TTS 가 길어지면 목소리를 흘린다).
+    자연스러운 높낮이는 두고, **처음부터 끝까지의 기울기만** 편다. 최대 ±4dB."""
+    import numpy as np
+    x = np.frombuffer(pcm, dtype='<i2').astype('float32')
+    if x.size < 48000: return pcm
+    w = 12000                                   # 0.5초씩 재서
+    n = x.size // w
+    e = np.array([np.sqrt((x[i * w:(i + 1) * w] ** 2).mean()) + 1e-6 for i in range(n)])
+    keep = e > (e.max() * 0.12)                 # 쉬는 구간은 빼고
+    if keep.sum() < 6: return pcm
+    t = np.arange(n)[keep]
+    db = 20 * np.log10(e[keep])
+    a, b = np.polyfit(t, db, 1)                 # 기울기 a dB/0.5초
+    drop = a * (n - 1)                          # 처음→끝 변화량(dB)
+    if abs(drop) < 1.0: return pcm              # 1dB 안쪽이면 그대로
+    fix = -max(-4.0, min(4.0, drop))            # 되돌릴 양
+    ramp = np.linspace(0, fix, x.size)
+    y = x * (10 ** (ramp / 20))
+    return np.clip(y, -32000, 32000).astype('<i2').tobytes()
+
+
 def rms(pcm):
     import numpy as np
     x = np.frombuffer(pcm, dtype='<i2').astype('float32')
@@ -341,7 +363,10 @@ def build(ch):
     # 대본이 길면 한 번에 못 읽는다 — 응답이 비거나(400/빈 candidate) 끝까지 안 읽고 끊긴다 (2026-10-20).
     # 그래서 코너를 묶어 토막으로 나눠 읽히고 이어 붙인다. **이음매마다 목소리가 조금씩 달라지므로
     # 토막은 될 수 있는 대로 크게 묶는다** (운영자 2026-10-20: "운세 넘어가면서 다른 사람 같다").
-    MAX = int(os.environ.get('CHUNK_MAX') or 950)   # 이음매에서 목소리가 바뀐다. 되도록 크게 묶는다
+    # **길게 읽힐수록 뒤로 가면서 목소리가 사그라든다**(운영자 2026-10-20: "중간쯤부터 속삭이듯 한다").
+    # 이음매를 줄이려고 크게 묶었더니 되레 한 토막 안에서 서서히 다른 사람이 됐다.
+    # 그래서 반대로 **짧게 끊어 읽힌다** — 토막마다 기운이 살아 있는 앞부분만 쓰는 셈.
+    MAX = int(os.environ.get('CHUNK_MAX') or 420)
     # 꽉꽉 채워 나누면 끝에 짧은 토막이 남는다(147·145·51초). 짧은 토막일수록 높이가 엉뚱하게 나와
     # 거기서 사람이 바뀐 것처럼 들린다(운영자 2026-10-20: 끝에 오늘 PLAY 에서 또 바뀐다).
     # 그래서 **몇 토막이 필요한지 먼저 세고 고르게 나눈다.**
@@ -370,7 +395,7 @@ def build(ch):
             time.sleep(6)
         return out
 
-    pcms = read(groups)
+    pcms = [deslide(p) for p in read(groups)]
     f0s = [OP.f0(p) or 0 for p in pcms]
     say('토막', len(pcms), '개 ·', [round(len(p) / 48000) for p in pcms], '초 ·', [round(x) for x in f0s])
 
