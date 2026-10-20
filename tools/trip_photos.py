@@ -234,6 +234,8 @@ def main():
             got.update(a); miss += b
     p = os.path.join(ROOT, 'data', 'trip_photos.json')
     old = json.load(open(p, encoding='utf-8')) if os.path.exists(p) else {}
+    if FORCE:   # 다시 골랐는데 못 구한 칸은 옛 사진도 뺀다 — 남겨 두면 예전의 겹친 사진이 그대로 남는다 (2026-10-21)
+        for k in [k for k, v in old.items() if k.split('|')[0] in miss and k not in got]: old.pop(k)
     old.update(got)
     json.dump(old, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
     print('사진', len(got), '장 / 목록', len(old), '개')

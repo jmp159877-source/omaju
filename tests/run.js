@@ -318,10 +318,12 @@ srv.listen(0, '127.0.0.1', async () => {
               rows: document.querySelectorAll('#phrase-body .sw-row').length,
               note: (document.querySelector('#phrase-body .note') || {}).textContent || '',
               band: b ? b.dataset.band : '', h: b ? Math.round(b.getBoundingClientRect().height) : 0,
-              pb: !!document.querySelector('#phrase-body .pb') }; });
+              pb: !!document.querySelector('#phrase-body .pb'), shots: document.querySelectorAll('#phrase-body .sw-row .sw-shot').length }; });
           if (out[k].pb) return k + ' 칸인데 회화가 보임';
-          if (out[k].band !== k) return k + ' 칸인데 띠 사진이 ' + out[k].band;
-          if (out[k].h < 60) return k + ' 띠 사진 높이 ' + out[k].h;
+          // 칸마다 사진이 다 갖춰지면 맨 위 띠는 빼는 것이 맞다 (app.js trvHtml, 2026-10-20)
+          const allShots = out[k].rows && out[k].shots === out[k].rows;
+          if (!allShots && out[k].band !== k) return k + ' 칸인데 띠 사진이 ' + out[k].band;
+          if (!allShots && out[k].h < 60) return k + ' 띠 사진 높이 ' + out[k].h;
           if (!out[k].rows && !/모으고/.test(out[k].note)) return k + ' 칸이 빈 화면';
         }
         await E(() => document.querySelector('[data-trv="talk"]').click()); await W(400);
