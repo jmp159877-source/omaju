@@ -1739,21 +1739,22 @@ body.rd-on { padding-bottom: 124px; }
 @media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 42px; } }
 @media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
 
-/* ── 오늘의 이슈 바탕: 운영자 제공 (맑은 유리·금속 면) ──
-   밝은 바탕이라 글씨는 먹남색. 아래쪽이 어두워 흰 막을 아래로 갈수록 두껍게 깔아 다섯 줄이 모두 또렷하게. */
-.is-card { position: relative; overflow: hidden;
-  background: linear-gradient(rgba(255,255,255,var(--veil-a,0.34)), rgba(255,255,255,var(--veil-b,0.80))),
-              url('../img/bg-issue.jpg') center 22% / cover no-repeat;
-  border: 1px solid rgba(20,40,70,0.10);
-  box-shadow: 0 6px 20px rgba(20,40,70,0.12);
+/* ── 오늘의 이슈 바탕 (운영자 2026-10-20: 은빛 유리는 밋밋해 눈에 안 띈다) ──
+   집에서 이미 쓰는 방식으로 맞춘다 — 오늘 PLAY·운세·한 끼처럼 사진 위에 짙은 초록 막, 글씨는 흰색.
+   다만 그 칸들은 글이 아래 두 줄뿐이라 아래만 덮으면 되지만, 여기는 다섯 줄이 꽉 차므로 고르게 덮는다. */
+.is-card { position: relative; overflow: hidden; color: #fff;
+  background: linear-gradient(to top, rgba(10,45,32,0.90) 0%, rgba(10,45,32,0.76) 48%, rgba(10,45,32,0.58) 100%),
+              url('../img/bg-issue.jpg') center 30% / cover no-repeat;
+  border: 0; box-shadow: 0 8px 24px rgba(10,45,32,0.24);
   padding: 8px 20px 14px; }
-.is-item { border-bottom-color: rgba(20,36,58,0.14); }
+.is-item { border-bottom-color: rgba(255,255,255,0.16); }
 .is-item:last-child { border-bottom-color: transparent; }
-.is-cat { color: #8A6A22; }
-.is-src { color: #5E6773; }
-.is-src:not(:empty)::before { color: #B08F3C; }
-.is-line { color: #16202C; text-shadow: 0 1px 2px rgba(255,255,255,0.55); }
-.is-foot { color: #6A737F; }
+.is-cat { color: #F2CE7E; font-weight: 700; font-size: 0.92rem; letter-spacing: 0.10em; }
+.is-src { color: rgba(255,255,255,0.64); }
+.is-src:not(:empty)::before { color: rgba(242,206,126,0.6); }
+.is-line { color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.32); }
+.is-item a:active .is-line { opacity: 0.6; }
+.is-foot { color: rgba(255,255,255,0.60); }
 
 /* ── 오늘의 경제 바탕: 운영자 제공 (한낮의 도시) ──
    밝은 사진이라 흰 막을 옅게 깔고 글씨는 먹남색. 위는 하늘이 그대로 비치게 두고,
