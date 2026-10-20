@@ -1,6 +1,9 @@
 # 구글 TTS 가 왜 막혔는지 한 번만 찔러 본다 (한도인지 크레딧인지)
 name: TTS 상태 보기
-on: { workflow_dispatch: {} }
+on:
+  workflow_dispatch:
+    inputs:
+      len: { description: '보낼 글자 수 (1=짧게, 1300=읽어 드려요 길이)', required: false, default: '1' }
 permissions: { contents: write }
 jobs:
   probe:
@@ -10,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
-      - env: { GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}" }
+      - env: { GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}", LEN: "${{ inputs.len || '1' }}" }
         run: |
           python3 -u tools/tts_probe.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tee daily/last-tts-probe.log
       - if: always()

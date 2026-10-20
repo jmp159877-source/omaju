@@ -4,7 +4,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models import pick
 KEY = os.environ['GEMINI_API_KEY']
 m = (pick('tts', ('gemini-3.1-flash-tts-preview',)) or ['gemini-3.1-flash-tts-preview'])[0]
-body = {'contents': [{'parts': [{'text': '안녕하세요.'}]}],
+N = int(os.environ.get('LEN', '1'))   # LEN=긴 글자수 (읽어 드려요 대본만 한 길이로 찔러 보려면 1300 쯤)
+text = '안녕하세요.' if N <= 1 else ('오늘도 좋은 하루 보내세요. ' * (N // 14 + 1))[:N]
+print(f'[보냄] {len(text)}자')
+body = {'contents': [{'parts': [{'text': text}]}],
         'generationConfig': {'responseModalities': ['AUDIO'],
                              'speechConfig': {'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': 'Callirrhoe'}}}}}
 req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
