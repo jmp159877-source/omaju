@@ -1313,9 +1313,8 @@ i.ev { background: #3E8A63; } i.mm { background: #9C9488; } i.an { background: #
 .ph-read span { transition: color .15s, background .15s; border-radius: 4px; padding: 0 1px; }
 .ph-read span.done { color: #8a6d2c; }
 .ph-read span.on { background: var(--warm); color: #3A2E00; font-weight: 800; }
-/* 오늘의 경제: 운영자 제공 배경(펼친 모눈 노트와 경제 지면) */
-.mk-card { background: #F6F1E7 url('../img/market-bg.jpg') 0% 40% / 124% auto no-repeat !important; border: 1px solid #E6DCC6; padding: 10px 16px 10px !important; }
-.mk-card::before { background: linear-gradient(to right, rgba(250,247,240,0.72) 0%, rgba(250,247,240,0.6) 60%, rgba(250,247,240,0.4) 100%) !important; }
+/* 오늘의 경제 바탕은 이 파일 맨 아래 '경제·이슈 칸 바탕'에서 다시 잡는다 (운영자 2026-10-20).
+   예전 바탕(운영자 제공 모눈 노트 img/market-bg.jpg)은 크림색이 이어져 숨 쉴 데가 없다는 말씀에 내렸다. */
 .tabs3 button[data-tab="g3"], .tabs-mini button[data-tab="g3"] { background-position: center 35% !important; }
 /* 판권면 헌사 */
 .colophon .co-ded { margin: 26px 0 0; line-height: 1; color: #6b665c; }
@@ -1739,3 +1738,36 @@ body.rd-on { padding-bottom: 124px; }
 /* 좌우 여백은 CONTENTS 칸과 똑같이 — 휴대폰도 PC 도 같은 자리에서 시작한다 (운영자 2026-10-20) */
 @media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 42px; } }
 @media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
+
+/* ── 오늘의 이슈 바탕: 운영자 제공 (맑은 유리·금속 면) ──
+   밝은 바탕이라 글씨는 먹남색. 아래쪽이 어두워 흰 막을 아래로 갈수록 두껍게 깔아 다섯 줄이 모두 또렷하게. */
+.is-card { position: relative; overflow: hidden;
+  background: linear-gradient(rgba(255,255,255,var(--veil-a,0.34)), rgba(255,255,255,var(--veil-b,0.80))),
+              url('../img/bg-issue.jpg') center 22% / cover no-repeat;
+  border: 1px solid rgba(20,40,70,0.10);
+  box-shadow: 0 6px 20px rgba(20,40,70,0.12);
+  padding: 8px 20px 14px; }
+.is-item { border-bottom-color: rgba(20,36,58,0.14); }
+.is-item:last-child { border-bottom-color: transparent; }
+.is-cat { color: #8A6A22; }
+.is-src { color: #5E6773; }
+.is-src:not(:empty)::before { color: #B08F3C; }
+.is-line { color: #16202C; text-shadow: 0 1px 2px rgba(255,255,255,0.55); }
+.is-foot { color: #6A737F; }
+
+/* ── 오늘의 경제 바탕: 운영자 제공 (한낮의 도시) ──
+   밝은 사진이라 흰 막을 옅게 깔고 글씨는 먹남색. 위는 하늘이 그대로 비치게 두고,
+   아래로 갈수록 막을 두껍게 해 창문 격자 위에서도 숫자가 또렷하게. */
+.mk-card { position: relative; overflow: hidden; color: #16202C;
+  background: linear-gradient(rgba(255,255,255,var(--ev-a,0.34)) 0%, rgba(243,248,255,var(--ev-b,0.70)) 50%, rgba(240,246,255,var(--ev-c,0.82)) 100%),
+              url('../img/bg-econ.jpg') center 30% / cover no-repeat;
+  border: 1px solid rgba(20,50,90,0.10); box-shadow: 0 6px 20px rgba(20,50,90,0.14);
+  padding: 10px 20px 14px; }
+.mk-card::before { display: none; }
+.mk-item, .mk-item:last-child, .mk-item:nth-last-child(-n+2) { border-bottom-color: rgba(20,45,80,0.14); }
+.mk-item:last-child { border-bottom-color: transparent; }
+.mk-card .mk-l, .mk-card .mk-item .mk-l { color: #2C3A4C !important; text-shadow: 0 1px 2px rgba(255,255,255,0.6); }
+.mk-card .mk-v, .mk-card .mk-item .mk-v { color: #10192A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.55); }
+.mk-card .mk-c, .mk-card .mk-item .mk-c { color: #5A6472; }
+.mk-card .mk-c.up { color: #B5533C; } .mk-card .mk-c.down { color: #2F6B9A; }
+.mk-foot { color: #5A6472; }
