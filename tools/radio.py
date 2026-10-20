@@ -269,14 +269,14 @@ def material_g2(d):
         yr = D.year - int(ago)
         facts = e.get('facts') or []
         out.append(f'· 그해 오늘 ({yr}년, {ago}년 전): 그때 분위기 — {e.get("mood","")}\n'
-                   + '\n'.join(f'   - {t}: {b}' for t, b in facts[:3])
+                   + '\n'.join(f'   - {x[0]}: {x[1]}' for x in facts[:3] if isinstance(x, (list, tuple)) and len(x) >= 2)
                    + f'\n   (화면에서는 10·20·30·40·50년 전을 골라 볼 수 있다는 것도 한 번 짚어 주세요. '
                      f'그날의 신문과 그해 그곳 사진도 함께 있습니다.)')
         songs = e.get('songs') or []
         if songs:
             out.append(f'· 그 시절 노래 ({yr}년에 사랑받은 노래. 제목과 가수만 서너 곡 불러 주고, '
                        '화면에서 눌러 들으실 수 있다고 안내. 노래를 설명하려 들지 말 것):\n'
-                       + '\n'.join(f'   - {t} / {a}' for t, a in songs[:5]))
+                       + '\n'.join(f'   - {x[0]} / {x[1]}' for x in songs[:5] if isinstance(x, (list, tuple)) and len(x) >= 2))
     st = d.get('story') or {}
     if st.get('title'):
         first = (st.get('paras') or [''])[0]
@@ -302,12 +302,12 @@ def material_g5(d):
     if ot and ot['items']:
         it = ot['items'][:3]
         out.append('· 오늘의 나들이 (이번 주 가 볼 만한 곳. 지역을 골라 볼 수 있다):\n'
-                   + '\n'.join('   - ' + ' / '.join(str(x.get(k, '')) for k in ('title', 'where', 'when') if x.get(k))
+                   + '\n'.join(f'   - {x.get("title","")} ({x.get("where","")}, {x.get("when","")}) — {x.get("why","")}'
                                 for x in it if isinstance(x, dict)))
     sh = _wk('data/shows.json', 'items')
     if sh and sh['items']:
         out.append('· 이번 주, 무엇을 볼까 (극장·무대·전시):\n'
-                   + '\n'.join('   - ' + ' / '.join(str(x.get(k, '')) for k in ('title', 'kind', 'where') if x.get(k))
+                   + '\n'.join(f'   - {x.get("title","")} ({x.get("where","")}, {x.get("when","")}) — {x.get("why","")}'
                                 for x in sh['items'][:3] if isinstance(x, dict)))
     ph = d.get('phrase') or {}
     if ph.get('topic'):
@@ -326,8 +326,8 @@ def material_g3(d):
     if hk and hk['items']:
         it = [x for x in hk['items'][:2] if isinstance(x, dict)]
         out.append('· 오늘의 산 (이번 주 걷기 좋은 산길. 지역을 골라 볼 수 있다):\n'
-                   + '\n'.join(f'   - {x.get("name","")} {x.get("course","")} — {x.get("why","") or x.get("sub","")}'
-                                f' / 몸 챙기는 요령: {x.get("care","")}' for x in it))
+                   + '\n'.join(f'   - {x.get("title","")} ({x.get("where","")}, {x.get("course","")} {x.get("hours","")})'
+                                f' — {x.get("why","")} / 몸 챙기는 요령: {x.get("care","")}' for x in it))
     f = d.get('follow') or {}
     mv = [(k, f[k]) for k in ('gym', 'meditate') if isinstance(f.get(k), dict) and f[k].get('title')]
     if mv:
