@@ -21,6 +21,9 @@ sys.path.insert(0, HERE)
 from models import pick
 
 W, H = 1600, 500
+# 한 번 쓴 사진은 다른 칸에 다시 쓰지 않는다 (2026-10-21: 산 23곳에 같은 '운해 속 정자' 한 장이 붙었다).
+USED = set()
+MONTH = __import__('datetime').datetime.now(__import__('datetime').timezone(__import__('datetime').timedelta(hours=9))).month
 WHAT = (sys.argv[1] if len(sys.argv) > 1 else 'all')
 
 
@@ -137,11 +140,13 @@ def judge(cands, item, kind):
 3) 잡지에 실릴 사진인가 — 따뜻한 빛, 여백, 얕은 심도. 광고 사진 같은 것, 원색이 쨍한 것, 관광 안내판·글자·로고가
    크게 박힌 것, 사람 얼굴이 크게 나온 것, 흔한 합성·일러스트는 쓰지 않는다.
 4) 가로로 길게(1600x500) 잘라 쓰므로 가운데 띠만 남아도 뜻이 통해야 한다.
+5) **철이 맞아야 한다.** 글에 계절이 적혀 있으면 그 계절, 없으면 {{season}}. 그 철과 다른 사진(가을 칸에 눈 덮인 산·벚꽃)은 0번
+   (2026-10-21: 10월 한라산·태백산 칸에 설경, 팔공산 칸에 벚꽃이 들어왔다).
 
 아래 {len(cands)}장 중 가장 맞는 것의 번호 하나. 쓸 만한 것이 하나도 없으면 0.
-형식(JSON만): {{"pick": 번호, "why": "한 줄"}}'''
+형식(JSON만): {{"pick": 번호, "why": "한 줄"}}'''.replace('{season}', (f'한국은 지금 {MONTH}월' if kind == 'hike' else f'지금({MONTH}월) 그곳의 철') )
     parts = [{'text': head}]
-    for i, (_, im, _) in enumerate(cands):
+    for i, (_, im, _, _) in enumerate(cands):
         parts.append({'text': f'{i+1}번'})
         parts.append({'inline_data': {'mime_type': 'image/jpeg', 'data': thumb(im)}})
     j = gemini(parts) or {}
@@ -174,20 +179,21 @@ def fetch(qs, name, item, kind):
         cands = []
         for hit in search(q):
             u = hit.get('largeImageURL')
-            if not u or u in seen: continue
+            if not u or u in seen or hit.get('id') in USED: continue
             seen.add(u)
             try:
                 im = Image.open(io.BytesIO(get(u)))
             except Exception:
                 continue
             ok, why = good(im)
-            if ok: cands.append((q, im, why))
+            if ok: cands.append((q, im, why, hit.get('id')))
             if len(cands) >= 6: break
         if not cands: continue
         n, why = judge(cands, item, kind)
         last = why
         if n:
-            q2, im, m = cands[n - 1]
+            q2, im, m, pid = cands[n - 1]
+            USED.add(pid)
             band(im, os.path.join(OUT, name))
             print(f'  ok {name} ← "{q2}" ({m}) · {why}')
             return True
