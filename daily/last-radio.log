@@ -1,19 +1,23 @@
 대본 gemini-3.1-pro-preview 문제: 없음
-대본 1829 자 · 11 토막
-녹음 gemini-3.1-flash-tts-preview 92.3 초 일치 0.98 통과
-녹음 gemini-3.1-flash-tts-preview 82.1 초 일치 1.0 통과
-녹음 gemini-3.1-flash-tts-preview 78.2 초 일치 1.0 통과
-녹음 gemini-3.1-flash-tts-preview 81.4 초 일치 1.0 통과
-녹음 gemini-3.1-flash-tts-preview 48.4 초 일치 1.0 통과
-토막 5 개 · [92, 82, 78, 81, 48] 초 · [194, 188, 190, 191, 197]
-토막 높이 [194, 188, 190, 191, 197] → [196, 196, 196, 196, 196] (기준 196 )
-토막 음량 [4974, 6801, 6006, 6032, 7842] → 6032
-완료 g1 342.4 초 빠르기 5.4 높이 195 → 196
+대본 1818 자 · 11 토막
+녹음 gemini-3.1-flash-tts-preview 92.9 초 일치 0.98 통과
+녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 429: Too Many Requests
+녹음 gemini-3.1-flash-tts-preview 83.1 초 일치 1.0 통과
+녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 429: Too Many Requests
+토막이 길어 반으로 쪼갬 2 조각
+녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 1 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 2 HTTP Error 429: Too Many Requests
+녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 429: Too Many Requests
+그만둠 g1 녹음 실패 — 토막을 못 읽음
 --- 만들어진 것 ---
 total 10364
--rw-r--r-- 1 runner runner    4260 Oct 20 19:38 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 20 19:38 2026-10-19-g1.mp3
--rw-r--r-- 1 runner runner    6949 Oct 20 19:38 2026-10-20-g1.json
--rw-r--r-- 1 runner runner 4086431 Oct 20 19:38 2026-10-20-g1.mp3
--rw-r--r-- 1 runner runner    6975 Oct 20 19:43 2026-10-21-g1.json
--rw-r--r-- 1 runner runner 4108688 Oct 20 19:43 2026-10-21-g1.mp3
+-rw-r--r-- 1 runner runner    4260 Oct 20 20:09 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 20 20:09 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    6949 Oct 20 20:09 2026-10-20-g1.json
+-rw-r--r-- 1 runner runner 4086431 Oct 20 20:09 2026-10-20-g1.mp3
+-rw-r--r-- 1 runner runner    6975 Oct 20 20:09 2026-10-21-g1.json
+-rw-r--r-- 1 runner runner 4108688 Oct 20 20:09 2026-10-21-g1.mp3
