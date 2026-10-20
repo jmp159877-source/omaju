@@ -1,0 +1,19 @@
+# 노래 영상이 제대로 걸렸는지 길이·채널로 재 본다
+name: 노래 영상 점검
+on: { workflow_dispatch: {} }
+permissions: { contents: write }
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - env: { YOUTUBE_API_KEY: "${{ secrets.YOUTUBE_API_KEY }}" }
+        run: python3 -u tools/song_check.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+      - if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git add daily/song_check.md && git commit -qm "노래 영상 점검 [skip ci]" || exit 0
+          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push -q && break; sleep 5; done
