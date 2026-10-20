@@ -1745,9 +1745,9 @@ body.rd-on { padding-bottom: 124px; }
    사진은 운영자가 주문해 받은 탁자 정물 두 장 — 경제는 따뜻한 오크를 옆에서, 이슈는 찬 돌판을 위에서. */
 .mk-card, .is-card { position: relative; overflow: hidden; color: #fff;
   border: 0; box-shadow: 0 8px 24px rgba(10,45,32,0.24); }
-.mk-card { background: linear-gradient(to top, rgba(30,20,11,0.88) 0%, rgba(30,20,11,0.76) 50%, rgba(30,20,11,0.58) 100%),
+.mk-card { background: linear-gradient(to top, rgba(30,20,11,0.86) 0%, rgba(30,20,11,0.62) 55%, rgba(30,20,11,0.30) 100%),
              url('../img/bg-econ.jpg') center 42% / cover no-repeat; padding: 10px 20px 14px; }
-.is-card { background: linear-gradient(to top, rgba(10,45,32,0.90) 0%, rgba(10,45,32,0.80) 50%, rgba(10,45,32,0.64) 100%),
+.is-card { background: linear-gradient(to top, rgba(10,45,32,0.88) 0%, rgba(10,45,32,0.66) 55%, rgba(10,45,32,0.34) 100%),
              url('../img/bg-issue.jpg') center 35% / cover no-repeat; padding: 8px 20px 14px; }
 .mk-card::before { display: none; }
 .mk-item, .mk-item:last-child, .mk-item:nth-last-child(-n+2), .is-item { border-bottom-color: rgba(255,255,255,0.16); }
