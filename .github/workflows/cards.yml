@@ -23,5 +23,5 @@ jobs:
           python -u tools/card_photos.py 2>&1 | tee tools/last-cards.log
           git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
           git add -A img/cards img/cards_new data/card_photos.json tools/last-cards.log
-          git commit -m "인사 카드 사진 모음" || true
+          git commit -m "인사 카드 사진 모음 [skip ci]" || true
           ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }

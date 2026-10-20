@@ -42,4 +42,4 @@ jobs:
           git config user.name omaju-bot; git config user.email bot@omaju.kr
           git checkout --orphan music-try -f && git rm -rqf .
           cp /tmp/m/* . 2>/dev/null; true
-          git add -A && git commit -qm "배경 음악 들어 본 것" && git push -f origin music-try
+          git add -A && git commit -qm "배경 음악 들어 본 것 [skip ci]" && git push -f origin music-try

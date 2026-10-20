@@ -21,4 +21,4 @@ jobs:
           git config user.name omaju-bot; git config user.email bot@omaju.kr
           git checkout --orphan music-try && git rm -rqf .
           cp /tmp/probe.txt probe.txt
-          git add -A && git commit -qm "음원 확인 결과" && git push -f origin music-try
+          git add -A && git commit -qm "음원 확인 결과 [skip ci]" && git push -f origin music-try

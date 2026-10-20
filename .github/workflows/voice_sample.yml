@@ -44,4 +44,4 @@ jobs:
         run: |
           mkdir -p /tmp/v && cp -r out_voice/* /tmp/v/ || true
           git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git checkout --orphan voice-samples && git rm -rqf . && cp /tmp/v/* . 2>/dev/null; true && git add -A && git commit -qm "목소리 견본" && git push -f origin voice-samples
+          git checkout --orphan voice-samples && git rm -rqf . && cp /tmp/v/* . 2>/dev/null; true && git add -A && git commit -qm "목소리 견본 [skip ci]" && git push -f origin voice-samples

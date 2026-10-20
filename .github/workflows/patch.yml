@@ -21,5 +21,5 @@ jobs:
         run: |
           if [ "$PATCH" = "era_photos" ]; then python -u tools/era_photos.py "$DATE" --all 2>&1 | tee tools/last-era-photos.log; else python tools/patch_daily.py; fi
           git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
-          git add daily tools/last-era-photos.log 2>/dev/null; git add daily; git commit -m "하루 콘텐츠 손봄 $DATE" || true
+          git add daily tools/last-era-photos.log 2>/dev/null; git add daily; git commit -m "하루 콘텐츠 손봄 $DATE [skip ci]" || true
           ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }

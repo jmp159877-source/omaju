@@ -41,4 +41,4 @@ jobs:
         run: |
           git config user.name omaju-bot; git config user.email bot@omaju.kr
           if git ls-remote --exit-code --heads origin place-photos >/dev/null; then git fetch -q origin place-photos && git checkout -q place-photos; else git checkout -q --orphan place-photos && git rm -rfq . && git clean -fdq; fi
-          mkdir -p out && cp /tmp/out/* out/ && git add out && git commit -qm "그해 그곳 사진" && git push -q origin place-photos || true
+          mkdir -p out && cp /tmp/out/* out/ && git add out && git commit -qm "그해 그곳 사진 [skip ci]" && git push -q origin place-photos || true
