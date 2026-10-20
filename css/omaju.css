@@ -1280,7 +1280,7 @@ i.ev { background: #3E8A63; } i.mm { background: #9C9488; } i.an { background: #
 .cu-poem-page .cu-kind { color: rgba(255,255,255,0.85) !important; letter-spacing: 0.2em; font-size: 0.85rem; }
 .cu-poem-page .cu-title { color: #fff !important; font-family: 'Nanum Myeongjo', serif; font-size: min(2.2rem, 9vw); margin: 6px 0 4px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 .cu-poem-page .cu-by { color: rgba(255,255,255,0.85) !important; margin-bottom: 30px; }
-.cu-poem-page .cu-poem { background: transparent !important; box-shadow: none !important; border: 0 !important; padding: 0 !important; color: #fff !important; font-family: 'Nanum Myeongjo', serif; font-size: 1.22rem; line-height: 2.05; white-space: pre-line; text-shadow: 0 1px 6px rgba(0,0,0,0.45); }
+.cu-poem-page .cu-poem { background: transparent !important; box-shadow: none !important; border: 0 !important; padding: 0 !important; color: #fff !important; font-family: 'Nanum Myeongjo', serif; font-size: 1.22rem; line-height: 2.05; white-space: pre-line; text-shadow: 0 2px 10px rgba(0,30,60,0.55); }
 @media (min-width: 769px) { .cu-poem-page { margin: 6px 0 30px; border-radius: 18px; } }
 /* 달력: 접어 두었다가 펼치기 */
 .nb-calbtn { display: flex; align-items: center; gap: 10px; width: 100%; margin: 4px 0 18px; padding: 14px 16px; background: #FFFDF8; border: 1px solid #E6DCC6; border-radius: 12px; font-family: 'Nanum Myeongjo', serif; font-size: 1.1rem; font-weight: 700; color: #1f1f1f; text-align: left; }
@@ -1696,11 +1696,17 @@ html.app-installed #install-btn { display: none !important; }  /* 이미 깔려 
 .rd-bar-x { min-width: 44px; min-height: 42px; border: 0; background: transparent; color: #C3B9A5; font-size: 1.1rem; cursor: pointer; }
 body.rd-on { padding-bottom: 124px; }
 
-/* ── 오마주 소개 배너 (커버 ↔ 오프닝 사이) — 운영자 2026-10-20 ──
-   분위기만 있고 정체가 없으면 처음 온 사람은 그냥 나간다. 커버는 그대로 두고 여기서 한 번 말해 준다. */
-.intro { margin: 26px 0 0; padding: 30px 22px 32px; text-align: center; background: var(--ivory2);
-  border-top: 1px solid rgba(227,176,75,0.55); border-bottom: 1px solid rgba(227,176,75,0.55); }
-.intro-lede { margin: 0 0 12px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
-  font-size: 1.52rem; line-height: 1.45; color: var(--dark-green); word-break: keep-all; }
-.intro-sub { margin: 0; font-size: 1.04rem; line-height: 1.8; color: #6b6354; word-break: keep-all; }
-@media (max-width: 420px) { .intro { padding: 26px 18px 28px; } .intro-lede { font-size: 1.38rem; } }
+/* ── 오마주 소개 배너 (커버와는 따로 선 한 단) — 운영자 2026-10-20 ──
+   아래로 내려가면 끝까지 크림색뿐이라 숨 쉴 데가 없다. 여기만 찬 색으로 틔운다. */
+.intro { position: relative; margin: 34px 16px 0; padding: 40px 24px 42px; border-radius: 14px; overflow: hidden;
+  text-align: center; background: #123a57 url('../img/intro.jpg') center/cover no-repeat;
+  box-shadow: 0 6px 22px rgba(18,58,87,0.18); }
+/* 글씨가 구름 위에 와도 읽히게, 파란 결은 살린 채로 살짝 덮는다 */
+.intro::before { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,34,62,0.20) 0%, rgba(8,34,62,0.40) 55%, rgba(8,34,62,0.46) 100%); }
+.intro > * { position: relative; }
+.intro-lede { margin: 0 0 14px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+  font-size: 1.56rem; line-height: 1.45; color: #fff; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,0.45); }
+.intro-sub { margin: 0; font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,0.93); word-break: keep-all;
+  text-shadow: 0 2px 9px rgba(0,30,60,0.55); }
+@media (max-width: 420px) { .intro { margin: 30px 14px 0; padding: 34px 20px 36px; } .intro-lede { font-size: 1.42rem; } }
