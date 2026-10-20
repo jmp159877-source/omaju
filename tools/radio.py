@@ -382,7 +382,7 @@ def build(ch):
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
     starts, T = OP.split(pcm, lens)
-    rate = sum(lens) / T; tempo = max(0.80, min(1.22, 5.1 / rate))   # 읽어 드려요는 오프닝보다 조금 빠르게 (5.1음절/초, 운영자 2026-10-20)
+    rate = sum(lens) / T; tempo = max(0.80, min(1.30, 5.4 / rate))   # 차분한 목소리라 조금 더 빠르게 (5.4음절/초, 운영자 2026-10-20)
     pf = OP.f0(pcm); tgt = tgt0
     # 끌어내리는 것은 5%까지, 올리는 것은 10%까지 (그 이상 당기면 목청이 바뀌어 다른 사람이 된다).
     # 많이 벗어났다고 그냥 두면 날마다 딴 사람이 되므로, 할 수 있는 만큼은 끌어당긴다.
