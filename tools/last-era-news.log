@@ -1,69 +1,56 @@
 2026-10-21
-1976 후보 1 → 1건 연예
-1986 후보 4 → 2건 연예/스포츠
-1996 후보 1 → 1건 사회
-2006 후보 136 → 5건 정치/경제/문화/연예/스포츠
-2016 후보 276 → 7건 정치/경제/사회/문화/연예/생활/스포츠
+1976 후보 2 → 1건 연예
+1986 후보 2 → 2건 연예/생활
+1996 후보 20 → 6건 정치/경제/사회/문화/연예/스포츠
 --- 자세히 ---
-검색 1976: Gemini 후보 21개 http://monthly.chosun.com/client/news/viw.asp?ctcd=&nNewsNum; https://ko.wikipedia.org/wiki/제주특별자치도_부지사; https://namu.wiki/w/탐마삿%20학살; https://www.todayenergy.kr/news/articleView.html?idxno=77341; https://film.k-heritage.tv/front/item/themeList.do?theme_id=; https://bemil.chosun.com/nbrd/bbs/view.html?b_bbs_id=10108&n
+검색 1976: Gemini 후보 15개 https://ko.wikipedia.org/wiki/제주특별자치도_부지사; http://monthly.chosun.com/client/news/viw.asp?nNewsNumb=2009; https://namu.wiki/w/탐마삿%20학살; https://film.k-heritage.tv/record/subjectDetail.do?id=12586; https://www.seongnam.go.kr/tour/1001476/10850/contents.do; https://www.policemuseum.go.kr/sub/bbs/detail.do?idx=1432&bb
 fetch 실패 https://ko.wikipedia.org/wiki/제주특별자치도_부지사 'ascii' codec can't encode characters in position 10-16: ord
 fetch 실패 https://namu.wiki/w/탐마삿%20학살 'ascii' codec can't encode characters in position 7-9: ordin
-fetch 실패 https://film.k-heritage.tv/front/item/themeList.do?theme_id=6 <urlopen error [Errno -2] Name or service not known>
-fetch 실패 https://namu.wiki/w/스테이션%20나이트클럽%20화재%20사고 'ascii' codec can't encode characters in position 7-10: ordi
-날짜 없음 https://bemil.chosun.com/nbrd/bbs/view.html?b_bbs_id=10108&num=40
-fetch 실패 https://www.hani.co.kr/arti/society/environment/536859.html HTTP Error 404: Not Found
-fetch 실패 https://namu.wiki/w/브라질에서%20온%20소년들 'ascii' codec can't encode characters in position 7-11: ordi
-fetch 실패 https://ko.wikipedia.org/wiki/동물의_왕국 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://namu.wiki/w/테네리페%20참사 'ascii' codec can't encode characters in position 7-10: ordi
 fetch 실패 https://ko.wikipedia.org/wiki/더_송_리메인즈_더_세임_(영화) 'ascii' codec can't encode character '\ub354' in position 10
-fetch 실패 http://www.softbook.co.kr/book/magazine/sm-read.phtml?idx=2028 HTTP Error 404: Not Found
-날짜 없음 https://encykorea.aks.ac.kr/Article/E0064433
-fetch 실패 https://photo.chungbuk.go.kr/home/sub.do?mbl=002001&idx=108425 HTTP Error 400: 400
-fetch 실패 http://m.xn--ok0b115bsnaw00c.com/view.php?idx=2056 <urlopen error [Errno -2] Name or service not known>
+fetch 실패 http://monthly.chosun.com/client/news/viw.asp?nNewsNumb=200910100067 HTTP Error 404: Not Found
+fetch 실패 https://ko.wikipedia.org/wiki/동물의_왕국 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://film.k-heritage.tv/record/subjectDetail.do?id=12586 <urlopen error [Errno -2] Name or service not known>
 fetch 실패 https://ko.wikipedia.org/wiki/1976년_월드_시리즈 'ascii' codec can't encode character '\ub144' in position 14
-fetch 실패 https://namu.wiki/w/올%20아시아%20헤비급%20챔피언십 'ascii' codec can't encode character '\uc62c' in position 7:
-fetch 실패 https://ko.wikipedia.org/wiki/디에고_마라도나 'ascii' codec can't encode characters in position 10-12: ord
-fetch 실패 https://www.seongnam.go.kr/tour/1001931/10839/contents.do <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 al
-날짜 없음 https://www.todayenergy.kr/news/articleView.html?idxno=77341
-날짜 없음 https://www.yeongnam.com/web/view.php?key=20231003010000216
-날짜 없음 http://monthly.chosun.com/client/news/viw.asp?ctcd=&nNewsNumb=20091110
-검색 1986: Gemini 후보 16개 https://www.ytn.co.kr/_ln/0101_201710210411218556; https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A00; https://namu.wiki/w/%EC%9D%B4%EC%B8%A0%ED%95%98%ED%81%AC%20%; https://www.hankyung.com/article/1986102100011; https://www.hankyung.com/article/1986102100011; https://www.joongang.co.kr/article/2090487
-fetch 실패 https://namu.wiki/w/%EC%9D%B4%EC%B8%A0%ED%95%98%ED%81%AC%20%EC%83%A4%EB%AF%B8%EB HTTP Error 403: Forbidden
+fetch 실패 https://ko.wikipedia.org/wiki/니콜라_레그로탈리에 'ascii' codec can't encode characters in position 10-12: ord
+날짜 없음 https://www.policemuseum.go.kr/sub/bbs/detail.do?idx=1432&bbs_code=G00
+날짜 없음 https://encykorea.aks.ac.kr/Article/E0064434
+fetch 실패 https://www.hani.co.kr/arti/society/environment/536762.html HTTP Error 404: Not Found
+fetch 실패 https://www.seongnam.go.kr/tour/1001476/10850/contents.do <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 al
+검색 1986: Gemini 후보 15개 https://shindonga.donga.com/3/all/13/99507/1; https://ko.wikipedia.org/wiki/마셜_제도; https://ko.wikipedia.org/wiki/이츠하크_샤미르; https://www.hankyung.com/article/1986102100011; https://www.hankyung.com/article/1986102100011; https://ko.wikipedia.org/wiki/이춘재_연쇄_살인_사건
+fetch 실패 https://ko.wikipedia.org/wiki/마셜_제도 'ascii' codec can't encode characters in position 10-11: ord
+fetch 실패 https://ko.wikipedia.org/wiki/이츠하크_샤미르 'ascii' codec can't encode characters in position 10-13: ord
+fetch 실패 https://ko.wikipedia.org/wiki/이춘재_연쇄_살인_사건 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://ko.wikipedia.org/wiki/박태준_(음악가) 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://namu.wiki/w/더%20스미스/싱글%20목록 'ascii' codec can't encode character '\ub354' in position 7:
+fetch 실패 https://namu.wiki/w/오냥코클럽/디스코그래피 'ascii' codec can't encode characters in position 7-11: ordi
+fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
+fetch 실패 https://ko.wikipedia.org/wiki/틀:1986년_한국시리즈 'ascii' codec can't encode character '\ud2c0' in position 10
+fetch 실패 https://ko.wikipedia.org/wiki/1986년_월드_시리즈 'ascii' codec can't encode character '\ub144' in position 14
 fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
 fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
-fetch 실패 https://www.joongang.co.kr/article/2090487 HTTP Error 404: Not Found
-fetch 실패 https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%B8%A8%EC%9E%AC_%EC%97%B0%EC%87%84_%EC HTTP Error 404: Not Found
-fetch 실패 https://namu.wiki/w/%EB%8D%94%20%EC%8A%A4%EB%AF%B8%EC%8A%A4/%EC%8B%B1%EA%B8%80%2 HTTP Error 403: Forbidden
+날짜 없음 https://shindonga.donga.com/3/all/13/99507/1
 fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
-fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
-fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
-fetch 실패 https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0002996253 HTTP Error 404: Page Not Found
-날짜 없음 https://www.pressian.com/pages/articles/173003
-날짜 없음 https://www.ytn.co.kr/_ln/0101_201710210411218556
 fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101001 HTTP Error 404: Not Found
 서울신문90 probe /1996102101001 → 없음
-fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101004 HTTP Error 404: Not Found
 fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102001 HTTP Error 404: Not Found
-fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101001 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102003 HTTP Error 404: Not Found
 fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101005 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102004 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102103001 HTTP Error 404: Not Found
 서울신문90 probe /1996102201001 → 없음
-검색 1996: Gemini 후보 14개 https://www.donga.com/news/article/all/19961021/7201602/1; https://ko.wikipedia.org/wiki/제41회_일본_중의원_의원_총선거; https://www.ytn.co.kr/_ln/0101_201610210000007269; http://www.kyeongin.com/main/view.php?key=416954; https://www.donga.com/news/article/all/19961021/7201389/1; https://www.ajunews.com/view/20241018090714704
-날짜 없음 https://www.ytn.co.kr/_ln/0101_201610210000007269
-날짜 없음 https://www.imbc.com/broad/tv/ent/3men3women/
-날짜 없음 http://www.kyeongin.com/main/view.php?key=416954
-검색 2006: Gemini 후보 10개 https://www.hani.co.kr/arti/politics/defense/166060.html; https://www.newspim.com/news/view/20061020000085; https://www.knnews.co.kr/news/articleView.php?idxno=607909; https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A00; https://www.hani.co.kr/arti/society/society_general/165977.h; https://www.hani.co.kr/arti/society/society_general/165985.h
-날짜 없음 https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0000367370
-검색 2016: Gemini 후보 13개 https://www.chosun.com/site/data/html_dir/2016/10/21/2016102; https://www.chosun.com/site/data/html_dir/2016/10/21/2016102; https://www.chosun.com/site/data/html_dir/2016/10/21/2016102; https://zdnet.co.kr/view/?no=20161021171810; https://biz.chosun.com/site/data/html_dir/2016/10/21/2016102; https://www.chosun.com/site/data/html_dir/2016/10/21/2016102
---- 실행 로그(마지막 200줄) 2026-10-20T19:46:04Z ---
+검색 1996: Gemini 후보 20개 https://www.donga.com/news/article/all/19961021/7201602/1; https://www.donga.com/news/article/all/19961021/7201597/1; https://www.donga.com/news/article/all/19961020/7201372/1; https://www.donga.com/news/article/all/19961021/7201492/9; https://www.donga.com/news/article/all/19961021/7201502/9; https://www.donga.com/news/article/all/19961021/7201505/1
+--- 실행 로그(마지막 200줄) 2026-10-20T20:18:40Z ---
 [models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
 [gather] 1976: 직접 훑은 후보 0
 [gather] 1986: 직접 훑은 후보 0
 [gather] 1996: 직접 훑은 후보 0
-[gemini] gemini-3.8-flash 시도 1 실패: 'candidates'
-[gemini] gemini-3.7-flash 시도 1 실패: 'candidates'
-[gather] 2006: 직접 훑은 후보 131
-[gather] 2016: 직접 훑은 후보 271
-1976 후보 1 → 1건 연예
-1986 후보 4 → 2건 연예/스포츠
-1996 후보 1 → 1건 사회
-2006 후보 136 → 5건 정치/경제/문화/연예/스포츠
-2016 후보 276 → 7건 정치/경제/사회/문화/연예/생활/스포츠
+[gemini] gemini-3.8-flash 시도 1 실패: The read operation timed out
+1976 후보 2 → 1건 연예
+1986 후보 2 → 2건 연예/생활
+1996 후보 20 → 6건 정치/경제/사회/문화/연예/스포츠
