@@ -293,6 +293,18 @@ def music(mp3, dur):
     return LEAD, TAIL
 
 
+def repitch(pcm, f, tgt):
+    """토막 하나의 높이만 옮긴다(길이는 그대로). 2% 안쪽이면 손대지 않는다."""
+    if not f or not tgt or abs(f / tgt - 1) <= 0.02: return pcm
+    r = tgt / f
+    p = '/tmp/rd_chunk.wav'; OP.wav_write(p, pcm)
+    out = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', p,
+                          '-af', f'asetrate={int(24000 * r)},aresample=24000,atempo={1 / r:.4f}',
+                          '-f', 's16le', '-ac', '1', '-ar', '24000', '-'],
+                         capture_output=True).stdout
+    return out or pcm
+
+
 def build(ch):
     path = os.path.join(OUT, f'{DATE}-{ch}.json')
     if os.path.exists(path) and not FORCE: say('이미 있음', ch); return
@@ -323,8 +335,13 @@ def build(ch):
         f = OP.f0(got); f0s.append(f or 0)
         say(f'토막 {i + 1}/{len(groups)}', round(len(got) / 48000, 1), '초 · 높이', f and round(f))
         if i + 1 < len(groups): time.sleep(6)
-    if len(f0s) > 1 and min(f0s) > 0 and max(f0s) / min(f0s) > 1.12:
-        say('조심 — 토막끼리 높이가 벌어짐', [round(x) for x in f0s])
+    # 토막마다 높이가 조금씩 다르게 나온다(2026-10-20: 207·207·212·227). 그대로 이으면 끝에서 목소리가
+    # 들린다. 가운뎃값에 맞춰 토막을 하나씩 당겨 놓고 잇는다 — 길이는 그대로 두고 높이만 옮긴다.
+    ok = sorted(x for x in f0s if x)
+    if len(ok) > 1:
+        med = ok[len(ok) // 2]
+        pcms = [repitch(p, f, med) for p, f in zip(pcms, f0s)]
+        say('토막 높이 맞춤 →', round(med))
     gap = b'\x00' * 16800   # 토막 사이에 0.35초 숨 — 바로 이으면 말이 붙어 숨 가쁘게 들린다
     pcm = gap.join(pcms)
 
