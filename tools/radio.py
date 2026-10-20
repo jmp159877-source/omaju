@@ -317,9 +317,9 @@ def build(ch):
     say('대본', len(re.sub(r'[^가-힣]', '', text)), '자 ·', len(segs), '토막')
 
     # 대본이 길면 한 번에 못 읽는다 — 응답이 비거나(400/빈 candidate) 끝까지 안 읽고 끊긴다 (2026-10-20).
-    # 그래서 코너를 묶어 토막으로 나눠 읽히고 이어 붙인다. 같은 모델·같은 목소리·같은 연출이라
-    # 토막끼리 목소리가 달라지지는 않지만, 혹시 몰라 토막마다 높이를 적어 둔다(많이 벌어지면 기록에 남는다).
-    MAX = 620
+    # 그래서 코너를 묶어 토막으로 나눠 읽히고 이어 붙인다. **이음매마다 목소리가 조금씩 달라지므로
+    # 토막은 될 수 있는 대로 크게 묶는다** (운영자 2026-10-20: "운세 넘어가면서 다른 사람 같다").
+    MAX = 950   # 이음매에서 목소리가 바뀐다(운영자: 운세에서 다른 사람 같다). 되도록 크게 묶는다
     groups, cur, n = [], [], 0
     for x in segs:
         ln = len(re.sub(r'[^가-힣]', '', x['say']))
@@ -327,18 +327,26 @@ def build(ch):
         cur.append(x); n += ln
     if cur: groups.append(cur)
 
-    pcms, f0s = [], []
-    for i, g in enumerate(groups):
-        got = tts('\n'.join(x['say'] for x in g), host)
-        if got is None: raise SystemExit(f'녹음 실패 — 토막 {i + 1}/{len(groups)}')
-        pcms.append(got)
-        f = OP.f0(got); f0s.append(f or 0)
-        say(f'토막 {i + 1}/{len(groups)}', round(len(got) / 48000, 1), '초 · 높이', f and round(f))
-        if i + 1 < len(groups): time.sleep(6)
-    # 토막마다 높이가 조금씩 다르게 나온다(2026-10-20: 207·207·212·227). 그대로 이으면 끝에서 목소리가
-    # 들린다. 가운뎃값에 맞춰 토막을 하나씩 당겨 놓고 잇는다 — 길이는 그대로 두고 높이만 옮긴다.
-    # 가운뎃값에 맞추면 그날 어느 토막이 높게 나왔느냐에 따라 전체가 끌려간다(2026-10-20: 229 로 끌려감).
-    # 그래서 **그 진행자의 기준 높이**로 토막마다 당긴다. 당기는 폭은 늘 그대로 — 내리기 5%·올리기 10%까지.
+    def read(gs, depth=0):
+        """토막을 읽힌다. 길어서 못 읽으면(빈 응답) 반으로 쪼개 다시 — 한 번만."""
+        out = []
+        for g in gs:
+            got = tts('\n'.join(x['say'] for x in g), host)
+            if got is None:
+                if depth or len(g) < 2: raise SystemExit('녹음 실패 — 토막을 못 읽음')
+                say('토막이 길어 반으로 쪼갬', len(g), '조각')
+                h = len(g) // 2
+                out += read([g[:h], g[h:]], depth + 1); continue
+            out.append(got)
+            time.sleep(6)
+        return out
+
+    pcms = read(groups)
+    f0s = [OP.f0(p) or 0 for p in pcms]
+    say('토막', len(pcms), '개 ·', [round(len(p) / 48000) for p in pcms], '초')
+    # 토막마다 높이가 제각각 나온다(202~245). 그대로 이으면 이음매에서 다른 사람처럼 들린다.
+    # 가운뎃값에 맞추면 그날 높게 나온 토막 쪽으로 전체가 끌려가므로(226 이 됐다),
+    # **그 진행자의 기준 높이**로 토막마다 당긴다. 당기는 폭은 늘 그대로 — 내리기 5%·올리기 10%까지.
     if tgt0:
         aim = []
         for i, f in enumerate(f0s):
@@ -354,7 +362,7 @@ def build(ch):
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in segs]
     starts, T = OP.split(pcm, lens)
-    rate = sum(lens) / T; tempo = max(0.80, min(1.18, 4.8 / rate))   # 듣는 것이라 빠르면 늦춘다 (4.8음절/초)
+    rate = sum(lens) / T; tempo = max(0.80, min(1.22, 5.1 / rate))   # 읽어 드려요는 오프닝보다 조금 빠르게 (5.1음절/초, 운영자 2026-10-20)
     pf = OP.f0(pcm); tgt = tgt0
     # 끌어내리는 것은 5%까지, 올리는 것은 10%까지 (그 이상 당기면 목청이 바뀌어 다른 사람이 된다).
     # 많이 벗어났다고 그냥 두면 날마다 딴 사람이 되므로, 할 수 있는 만큼은 끌어당긴다.
