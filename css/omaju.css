@@ -676,6 +676,18 @@ html, body { overscroll-behavior-y: none; }
 .mk-v { font-size: 1.25rem; justify-self: end; white-space: nowrap; }
 .mk-c { min-width: 68px; text-align: right; font-size: 0.85rem; }
 .mk-item:not(:has(.mk-c)) .mk-v { grid-column: 2 / 4; }
+/* 오늘의 이슈 — 분야·출처를 눈썹줄로 올리고 한 문장은 통째로 한 줄 차지(큰 글씨에서도 안 눌린다) */
+.is-card { background: #fff; border-radius: 10px; padding: 4px 18px 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+.is-list { list-style: none; margin: 0; padding: 0; }
+.is-item { border-bottom: 1px solid rgba(20,20,20,0.08); }
+.is-item:last-child { border-bottom: 0; }
+.is-item a { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; padding: 13px 0; text-decoration: none; color: inherit; }
+.is-cat { order: 1; font-family: 'Nanum Myeongjo', serif; font-size: 0.85rem; letter-spacing: 0.08em; color: #A8873A; white-space: nowrap; }
+.is-src { order: 2; font-size: 0.8rem; color: #9a9a9a; min-width: 0; }
+.is-src:not(:empty)::before { content: '·'; margin-right: 8px; color: #C9A24A; }
+.is-line { order: 3; flex: 1 0 100%; min-width: 0; margin-top: 4px; font-family: 'Nanum Myeongjo', serif; font-size: 1.12rem; line-height: 1.55; color: #141414; }
+.is-item a:active .is-line { opacity: 0.55; }
+.is-foot { margin: 10px 0 0; font-size: 0.82rem; color: #888; line-height: 1.6; }
 /* 나의 수첩 */
 .nb-gate { background: #fff; border-radius: 10px; padding: 26px 22px; text-align: center; margin-top: 16px; }
 .nb-gate p { font-size: 1.05rem; line-height: 1.7; margin: 0 0 16px; color: #333; }

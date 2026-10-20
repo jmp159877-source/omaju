@@ -593,6 +593,15 @@ RADIO.init({ toast });
   $('mk-sec').hidden = false;
 })();
 
+// ── 오늘의 이슈 (정치 빼고 경제·사회·스포츠·연예, 하루 네 번 갱신) ──
+(async function issues() {
+  const m = await DB.loadIssues(); if (!m || !m.items || m.items.length < 3) return;
+  $('is-list').innerHTML = m.items.slice(0, 5).map(i => `<li class="is-item"><a href="${esc(i.url)}" target="_blank" rel="noopener"><span class="is-cat">${esc(i.cat || '')}</span><span class="is-line">${esc(i.line)}</span><span class="is-src">${esc(i.src || '')}</span></a></li>`).join('');
+  const t = new Date(m.updatedAt);
+  $('is-foot').textContent = `${t.getMonth() + 1}월 ${t.getDate()}일 ${t.getHours()}시 기준 · 한 줄은 오마주가 정리했습니다. 누르면 기사가 열립니다.`;
+  $('is-sec').hidden = false;
+})();
+
 // ── 운세 ──
 const ZO = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양', '원숭이', '닭', '개', '돼지'].filter(z => C.fortune && C.fortune[z]); // 자축인묘 순서
 let myZ = store.get('zodiac', null);

@@ -82,6 +82,28 @@ srv.listen(0, '127.0.0.1', async () => {
         return o; });
       ok('PC 화면 첫 화면', !errs.length && !r.length, [...new Set(errs)].concat(r).join(' / '));
       await c.close(); }
+    // 1-3) 오늘의 이슈: 다섯 줄이 뜨고, 보통·큰 글씨 모두 칸 밖으로 안 넘치고, 누르면 기사로 간다
+    for (const big of [false, true]) {
+      const c = await ctx(big); const p = await c.newPage(); await p.goto(base + '/index.html'); await wait(p, 1600);
+      await p.evaluate(() => window.omajuNav('g1')); await wait(p, 700);
+      const r = await p.evaluate(() => {
+        const sec = document.getElementById('is-sec'); if (!sec || sec.hidden || !sec.offsetParent) return ['이슈 칸이 안 보임'];
+        const o = [], rows = [...document.querySelectorAll('#is-list .is-item')];
+        if (rows.length !== 5) o.push('줄 수 ' + rows.length);
+        const card = document.querySelector('.is-card').getBoundingClientRect();
+        for (const li of rows) {
+          const a = li.querySelector('a'); if (!a || !/^https?:/.test(a.href)) { o.push('기사 주소 없음'); continue; }
+          if (a.target !== '_blank') o.push('새 창으로 안 열림');
+          const t = li.querySelector('.is-line').getBoundingClientRect();
+          if (t.right > card.right + 1 || t.left < card.left - 1) o.push('글이 칸 밖으로 넘침');
+          if (t.height < 10) o.push('글이 안 보임');
+        }
+        if (!document.getElementById('is-foot').textContent.trim()) o.push('기준 시각 없음');
+        if (document.documentElement.scrollWidth > innerWidth + 1) o.push('가로 넘침');
+        return [...new Set(o)]; });
+      ok(`오늘의 이슈 칸 (${big ? '큰' : '보통'} 글씨)`, !r.length, r.join(' / '));
+      await c.close();
+    }
     // 2) 뒤로 가기: 여러 화면을 열고 몇 번 만에 나가는지 (단계: 놀이→장→첫화면→안내→나감)
     { const c = await ctx(false); const p = await c.newPage(); await p.goto(base + '/terms.html'); await p.goto(base + '/index.html'); await wait(p, 1500);
       const go = async h => { await p.evaluate(h => window.omajuNav(h), h); await wait(p, 700); };

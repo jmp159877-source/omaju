@@ -148,6 +148,9 @@ export async function loadMaint() {
 export async function loadMarket() {
   try { const s = await getDoc(doc(db, 'settings', 'market')); return s.exists() ? s.data() : null; } catch (e) { return null; }
 }
+export async function loadIssues() {
+  try { const s = await getDoc(doc(db, 'settings', 'issues')); return s.exists() ? s.data() : null; } catch (e) { return null; }
+}
 export async function loadNotice() {
   try {
     const s = await getDocs(query(collection(db, 'notices'), where('active', '==', true)));
