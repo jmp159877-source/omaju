@@ -64,6 +64,24 @@ srv.listen(0, '127.0.0.1', async () => {
       }
       ok('소개 배너는 첫 화면에만 보임', seen['첫화면'] === true && !seen.g1 && !seen.g3 && !seen.food, JSON.stringify(seen));
       await c.close(); }
+    // 1-2) PC 화면도 본다 (운영자 2026-10-20: PC 에서 배너가 커버에 붙고 수첩 칸만 거대했다)
+    { const c = await b.newContext({ viewport: { width: 1440, height: 900 }, timezoneId: 'Asia/Seoul' });
+      await c.route('https://www.gstatic.com/**', r => { const u = r.request().url(); const n = u.includes('firebase-app') ? 'app' : u.includes('firebase-auth') ? 'auth' : u.includes('firestore') ? 'firestore' : 'analytics'; r.fulfill({ contentType: 'application/javascript', body: n === 'firestore' ? fsStub : fs.readFileSync(path.join(STUB, n + '.js'), 'utf8') }); });
+      await c.route('https://fonts.googleapis.com/**', r => r.fulfill({ contentType: 'text/css', body: '' }));
+      await c.route('https://api.open-meteo.com/**', r => r.fulfill({ contentType: 'application/json', body: '{"current":{"temperature_2m":17}}' }));
+      const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+      await p.goto(base + '/index.html'); await wait(p, 1600);
+      const r = await p.evaluate(() => {
+        const o = [];
+        if (document.documentElement.scrollWidth > innerWidth + 1) o.push('가로 넘침');
+        const i = document.querySelector('.intro'), t = document.querySelector('.content');
+        if (i && t) { const a = i.getBoundingClientRect(), b = t.getBoundingClientRect();
+          if (a.left <= b.left + 1) o.push('소개 배너가 글 칸 끝에 붙음'); }
+        const cards = [...document.querySelectorAll('.tabs3:not(.compact) button')].map(e => e.getBoundingClientRect().height);
+        if (cards.length && Math.max(...cards) > Math.min(...cards) * 1.6) o.push('장 칸 높이가 들쭉날쭉 ' + cards.map(Math.round).join('/'));
+        return o; });
+      ok('PC 화면 첫 화면', !errs.length && !r.length, [...new Set(errs)].concat(r).join(' / '));
+      await c.close(); }
     // 2) 뒤로 가기: 여러 화면을 열고 몇 번 만에 나가는지 (단계: 놀이→장→첫화면→안내→나감)
     { const c = await ctx(false); const p = await c.newPage(); await p.goto(base + '/terms.html'); await p.goto(base + '/index.html'); await wait(p, 1500);
       const go = async h => { await p.evaluate(h => window.omajuNav(h), h); await wait(p, 700); };

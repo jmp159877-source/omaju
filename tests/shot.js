@@ -22,7 +22,8 @@ srv.listen(0, '127.0.0.1', async () => {
   const base = `http://127.0.0.1:${srv.address().port}`;
   const b = await chromium.launch({ executablePath: exe });
   for (const big of [false, true]) {
-    const c = await b.newContext({ viewport: { width: 390, height: 844 }, timezoneId: 'Asia/Seoul', deviceScaleFactor: 2 });
+    const PC = process.env.PC === '1';   // PC=1 이면 데스크톱 화면으로 찍는다 (운영자 2026-10-20)
+    const c = await b.newContext({ viewport: PC ? { width: 1440, height: 900 } : { width: 390, height: 844 }, timezoneId: 'Asia/Seoul', deviceScaleFactor: PC ? 1 : 2 });
     await c.route('https://www.gstatic.com/**', r => { const u = r.request().url(); const n = u.includes('firebase-app') ? 'app' : u.includes('firebase-auth') ? 'auth' : u.includes('firestore') ? 'firestore' : 'analytics'; r.fulfill({ contentType: 'application/javascript', body: n === 'firestore' ? fsStub : fs.readFileSync(path.join(STUB, n + '.js'), 'utf8') }); });
     await c.route('https://fonts.googleapis.com/**', r => r.fulfill({ contentType: 'text/css', body: "@font-face{font-family:'Nanum Myeongjo';font-weight:800;src:local('Noto Serif CJK KR Bold');}" }));
     await c.route('https://api.open-meteo.com/**', r => r.fulfill({ contentType: 'application/json', body: '{"current":{"temperature_2m":17,"apparent_temperature":16,"relative_humidity_2m":55,"weather_code":2}}' }));
@@ -39,7 +40,7 @@ srv.listen(0, '127.0.0.1', async () => {
         window.scrollTo(0, 0);
       });
       await p.waitForTimeout(900);
-      const name = `${screen}${tab ? '-' + tab : ''}-${big ? '큰글씨' : '보통'}.png`;
+      const name = `${screen}${tab ? '-' + tab : ''}-${PC ? 'PC-' : ''}${big ? '큰글씨' : '보통'}.png`;
       await p.screenshot({ path: path.join(OUT, name), fullPage: true });
       console.log(' 찍음', name);
     }

@@ -1515,6 +1515,8 @@ body.in-chapter #opening { display: none !important; }
 /* 장이 다섯이라 마지막 칸은 한 줄을 다 쓴다 (혼자 남지 않게) */
 .tabs3:not(.compact) button[data-tab="g4"] { grid-column: 1 / -1; aspect-ratio: 16 / 7; min-height: 0; }
 @media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 7.6; } }
+/* PC 는 칸이 넓어서 16/7 이면 혼자 거대해진다 — 납작하게 (운영자 2026-10-20) */
+@media (min-width: 769px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 4.2; } }
 .tabs3 button[data-tab="g4"] { background-position: center 55% !important; }
 .tabs3 button[data-tab="g3"], .tabs3 button[data-tab="g3"][aria-pressed="true"] { background-image: url('../img/tab-health.jpg') !important; background-size: cover !important; background-position: center 40% !important; }
 .tabs-mini button[data-tab="g3"] { background-image: url('../img/tab-health.jpg'); background-position: center 40%; }
@@ -1708,7 +1710,7 @@ body.rd-on { padding-bottom: 124px; }
 /* ── 오마주 소개 배너 (커버와는 따로 선 한 단) — 운영자 2026-10-20 ──
    아래로 내려가면 끝까지 크림색뿐이라 숨 쉴 데가 없다. 여기만 찬 색으로 틔운다. */
 /* 좌우는 커버와 같은 폭으로 — 안쪽 여백을 지워 글 칸 끝까지 꽉 채운다 (운영자 2026-10-20) */
-.intro { position: relative; margin: 34px -80px 0; padding: 46px 26px 48px; overflow: hidden;
+.intro { position: relative; margin: 34px 0 0; padding: 46px 26px 48px; overflow: hidden; border-radius: 16px;
   text-align: center; background: #123a57 url('../img/intro.jpg') center/cover no-repeat; }
 /* 글씨가 구름 위에 와도 읽히게, 파란 결은 살린 채로 살짝 덮는다 */
 .intro::before { content: ""; position: absolute; inset: 0;
@@ -1722,5 +1724,6 @@ body.rd-on { padding-bottom: 124px; }
 .intro-mast { margin: 26px 0 0; text-align: right; font-family: 'Cormorant Garamond', serif;
   font-weight: 600; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: rgba(255,255,255,0.82); text-shadow: 0 1px 6px rgba(0,30,60,0.5); }
-@media (max-width: 768px) { .intro { margin: 30px -18px 0; padding: 40px 22px 42px; } }
+/* 휴대폰에서만 커버와 같은 폭으로 꽉 채운다. PC 에서는 커버(왼쪽 기둥)에 붙어 촌스러워진다 (2026-10-20) */
+@media (max-width: 768px) { .intro { margin: 30px -18px 0; padding: 40px 22px 42px; border-radius: 0; } }
 @media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
