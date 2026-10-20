@@ -413,7 +413,8 @@ def build():
             if isinstance(x.get('cap'), list): x['cap'] = [c.replace(nm + '예요', nm + '이에요') for c in x['cap']]
     text = '\n'.join(x['say'] for x in allsegs)
     tgt0 = PITCH[HOST]; best = None
-    for take in range(4):
+    # 끌어당길 수 있는 범위(내리기 5%·올리기 10%) 안이면 더 녹음하지 않는다 — 다시 읽히는 것이 AI 한도를 가장 많이 먹는다 (2026-10-20)
+    for take in range(3):
         if take: time.sleep(20)
         got = tts(text, HOST)
         if got is None: continue
@@ -421,7 +422,7 @@ def build():
         off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
         say(f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0, '벗어남', round(off * 100, 1), '%')
         if best is None or off < best[1]: best = (got, off)
-        if off <= 0.04: break
+        if not (tgt0 and gf) or tgt0 * 0.905 <= gf <= tgt0 * 1.052: break
     pcm = best[0] if best else None
     if pcm is None: raise SystemExit('녹음 실패')
 

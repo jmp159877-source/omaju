@@ -302,7 +302,9 @@ def build(ch):
     text = '\n'.join(x['say'] for x in segs)
 
     tgt0 = HOSTS[host]['pitch']; best = None
-    for take in range(5):
+    # 높이가 '끌어당길 수 있는 범위'(내리기 5%·올리기 10%) 안이면 더 녹음하지 않는다 —
+    # 그 안이면 어차피 ffmpeg 로 공짜로 기준에 맞춘다. 다시 읽히는 것이 AI 한도를 가장 많이 먹는다 (2026-10-20).
+    for take in range(3):
         if take: time.sleep(15)
         got = tts(text, host)
         if got is None: continue
@@ -310,7 +312,7 @@ def build(ch):
         off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
         say(f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0, '벗어남', round(off * 100, 1), '%')
         if best is None or off < best[1]: best = (got, off)
-        if off <= 0.04: break
+        if not (tgt0 and gf) or tgt0 * 0.905 <= gf <= tgt0 * 1.052: break
     if best is None: raise SystemExit('녹음 실패')
     pcm = best[0]
 
