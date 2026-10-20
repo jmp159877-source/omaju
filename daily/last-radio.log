@@ -1,19 +1,19 @@
-대본 gemini-3.1-pro-preview 문제: ['market 너무 짧음 169자']
+대본 gemini-3.1-pro-preview 문제: ['weather 너무 짧음 166자', 'cards 너무 짧음 165자']
+대본 gemini-3.1-pro-preview 문제: ['전체 길이 2050자 (4분 30초~6분이 되게)']
 대본 gemini-3.1-pro-preview 문제: 없음
-녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 3 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 0 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 3 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 0 HTTP Error 400: Bad Request
-녹음 실패 gemini-3.1-flash-tts-preview 1 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 2 'content'
-녹음 실패 gemini-3.1-flash-tts-preview 3 'content'
-그만둠 g1 녹음 실패
+대본 1862 자 · 11 토막
+녹음 gemini-3.1-flash-tts-preview 91.3 초 일치 0.97 통과
+토막 1/4 91.3 초 · 높이 212
+녹음 gemini-3.1-flash-tts-preview 111.4 초 일치 0.99 통과
+토막 2/4 111.4 초 · 높이 207
+녹음 gemini-3.1-flash-tts-preview 103.5 초 일치 0.99 통과
+토막 3/4 103.5 초 · 높이 207
+녹음 gemini-3.1-flash-tts-preview 49.0 초 일치 0.99 통과
+토막 4/4 49.0 초 · 높이 227
+완료 g1 391.6 초 빠르기 4.8 높이 211 → 210
 --- 만들어진 것 ---
-total 2340
--rw-r--r-- 1 runner runner    4260 Oct 20 07:22 2026-10-19-g1.json
--rw-r--r-- 1 runner runner 2386174 Oct 20 07:22 2026-10-19-g1.mp3
+total 6940
+-rw-r--r-- 1 runner runner    4260 Oct 20 07:40 2026-10-19-g1.json
+-rw-r--r-- 1 runner runner 2386174 Oct 20 07:40 2026-10-19-g1.mp3
+-rw-r--r-- 1 runner runner    7106 Oct 20 07:46 2026-10-20-g1.json
+-rw-r--r-- 1 runner runner 4699264 Oct 20 07:46 2026-10-20-g1.mp3
