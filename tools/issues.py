@@ -127,6 +127,9 @@ def main():
     doc = {"items": items, "updatedAt": datetime.datetime.now(KST).isoformat()}
     for i in items:
         print(f"  [{i['cat']}] {i['line']}  ({i['src']})")
+        # 실행 기록(로그)은 이 상자 밖에서 내려받을 수 없다 → 눈에 보이는 알림으로 남겨 나중에 읽는다
+        if os.environ.get("GITHUB_ACTIONS"):
+            print(f"::notice title=오늘의 이슈::[{i['cat']}] {i['line']} ({i['src']}) ← {i['title']}")
     if os.environ.get("DRY"):
         return
     db = G.firestore()
