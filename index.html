@@ -33,7 +33,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10212110" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10212125" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -68,7 +68,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
   if(_h.s==='in'&&_h.n){var g=new Date().getHours();
   document.getElementById('user-nick').textContent=_h.n+' 님, '+(g<12?'좋은 아침입니다.':g<18?'좋은 오후입니다.':'편안한 저녁입니다.');
   document.getElementById('user-chip').hidden=false;}
-  else if(_h.s==='out'){document.getElementById('login-btn').hidden=false;}}catch(e){}})();
+  else if(_h.s==='out'){document.getElementById('login-btn').hidden=false;document.documentElement.classList.add('logged-out');}}catch(e){}})();
   </script>
 
   <main class="content">
@@ -105,6 +105,17 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
       <button type="button" data-tab="g3"><b>나를 돌보기</b><small>산 · 운동 · 마음 · 건강</small></button>
       <button type="button" data-tab="g4"><b>나의 수첩</b><small>메모와 일정</small></button>
     </nav>
+    <!-- 로그인 안 한 분에게만 — 가입하면 무엇이 내 것이 되는지 (운영자 2026-10-21 밤) -->
+    <section class="join" id="join-box">
+      <h2>오마주를 내 것으로</h2>
+      <ul>
+        <li><b>그해 오늘</b>이 내 이야기가 됩니다 — 태어난 해를 넣으면 그해 내가 몇 살이었는지까지</li>
+        <li><b>기억할 날</b>을 적어 두면 그날 아침 먼저 알려 드립니다</li>
+        <li>마음에 든 글은 <b>담아 두고</b> 언제든 다시 봅니다</li>
+      </ul>
+      <button type="button" class="btn warm" id="join-go">무료로 시작하기</button>
+      <p class="join-note">가입비도 이용료도 없습니다.</p>
+    </section>
     <section class="tabsec on" data-g="g1">
 
     <div class="rd rd-off" id="rd-g1">
@@ -335,6 +346,6 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10212110"></script>
+<script type="module" src="js/app.js?v=10212125"></script>
 </body>
 </html>

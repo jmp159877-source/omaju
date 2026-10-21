@@ -440,6 +440,10 @@ srv.listen(0, '127.0.0.1', async () => {
         const gone = await E(() => ![...document.querySelectorAll('#nb-listbox .nt-head b')].some(x => x.textContent === '산악회 모임'));
         await E(() => { const m = document.getElementById('modal-x'); if (m) m.click(); }); await W(300);
         return (hasTitle === '산악회 모임' && gone) || `고치기 제목 ${hasTitle}, 지워짐 ${gone}`; });
+      await step("'오마주를 내 것으로' 칸: 로그인 안 한 분에게만", async () => {
+        const on = await E(() => { const j = document.getElementById('join-box'); return !!(j && j.offsetParent); });
+        if (on) return '로그인했는데도 보임';
+        return true; });
       await step('수첩: 메모를 노트로 옮기기 · 노트 맨 위에 두기', async () => {
         await E(() => window.omajuNav('g4')); await W(600);
         await E(() => document.querySelector('.nb-hand[data-kind="memo"]').click()); await W(400);

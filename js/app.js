@@ -979,11 +979,12 @@ async function openMy() {
   });
 }
 $('login-btn').onclick = () => openGate('');
+const jg = $('join-go'); if (jg) jg.onclick = () => openGate('');
 $('logout').onclick = async () => {
   try { await DB.logout(); } catch (e) { toast('로그아웃에 실패했습니다 (' + (e && (e.code || e.message) || '알 수 없음') + ')'); return; }
   // 파이어베이스가 끝내 대답하지 않아도 화면은 나간 모습이 되게 — 적어 둔 인사말도 지운다
   store.set('hello', { s: 'out' });
-  $('user-chip').hidden = true; $('login-btn').hidden = false;
+  $('user-chip').hidden = true; $('login-btn').hidden = false; document.documentElement.classList.add('logged-out');
   toast('나갔습니다. 내일 또 뵙겠습니다.');
 };
 $('my').onclick = openMy;
@@ -998,6 +999,7 @@ function renderStamp(p) {
 $('stamp').onclick = async () => { if (!DB.currentUser()) { afterLogin = () => $('stamp').click(); return openGate('출석 도장을 찍으려면'); } try { const s = await DB.checkin(); renderStamp(DB.currentProfile()); toast(s > 1 ? `도장을 찍었습니다. 연속 ${s}일째!` : '도장을 찍었습니다.'); } catch (e) { toast(e.message); } };
 DB.onUser((u, p) => {
   $('user-chip').hidden = !u; $('login-btn').hidden = !!u;
+  document.documentElement.classList.toggle('logged-out', !u);   // '오마주를 내 것으로' 칸
   $('admin-btn').hidden = !(p && p.role === 'admin');
   if (p && p.role === 'admin') $('maint').hidden = true;
   if (u && p) { $('user-nick').textContent = p.nick + ' 님, ' + (new Date().getHours() < 12 ? '좋은 아침입니다.' : new Date().getHours() < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); if (p.zodiac && !myZ) { myZ = p.zodiac; renderZ(); } wxByRegion(p); if (p.region && !store.get('outRegion', null)) { outRegion = p.region.split(' ')[0]; renderOuting(); } }
