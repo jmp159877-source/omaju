@@ -409,7 +409,12 @@ srv.listen(0, '127.0.0.1', async () => {
         const open = await E(() => document.getElementById('nb-calbtn').getAttribute('aria-expanded'));
         await E(() => { const d = document.querySelectorAll('[data-cal]'); d[Math.min(10, d.length - 1)].click(); }); await W(300);
         const day = await E(() => !!document.querySelector('.cal-day'));
-        return (first === 'false' && shut === 'true' && open === 'false' && day) || `처음 ${first}, 폄 ${shut}, 접음 ${open}, 날짜 ${day}`; });
+        // 폈다가 나갔다 다시 들어오면 다시 접혀 있어야 한다 (운영자 2026-10-21 밤)
+        await E(() => document.getElementById('nb-calbtn').click()); await W(300);
+        await E(() => window.omajuNav('g1')); await W(500);
+        await E(() => window.omajuNav('g4')); await W(600);
+        const again = await E(() => document.getElementById('nb-calbtn').getAttribute('aria-expanded'));
+        return (first === 'false' && shut === 'true' && open === 'false' && day && again === 'false') || `처음 ${first}, 폄 ${shut}, 접음 ${open}, 날짜 ${day}, 다시 ${again}`; });
       await step('수첩: 나의 노트 쓰기 → 펼쳐 읽기 → 고치기 → 지우기', async () => {
         await E(() => window.omajuNav('g4')); await W(600);
         await E(() => document.querySelector('.nb-hand[data-kind="note"]').click()); await W(400);

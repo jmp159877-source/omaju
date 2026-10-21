@@ -313,7 +313,17 @@ function openList(kind) {
   });
 }
 
+/** 수첩 화면은 지워지지 않고 숨었다 나오는 것이라, 펼쳐 둔 달력이 그대로 남아 있었다
+    (운영자 2026-10-21 밤). 들어올 때마다 접어 둔다. */
+function shutCal() {
+  const cb = $('nb-calbtn'); if (!cb) return;
+  cb.setAttribute('aria-expanded', 'false');
+  const b = cb.querySelector('b'); if (b) b.textContent = '달력으로 보기';
+  const w = $('nb-calwrap'); if (w) w.classList.remove('open');
+}
+
 function bind() {
+  addEventListener('hashchange', () => { if (location.hash === '#g4') shutCal(); });
   document.addEventListener('click', e => {
     const mic = e.target.closest('.nb-mic'); if (mic) { const kind = mic.dataset.kind; listen(t => {
       const p = kind === 'note' ? { text: t } : parseSpeech(t, kind);
