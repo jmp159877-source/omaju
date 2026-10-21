@@ -16,7 +16,7 @@ concurrency: { group: radio, cancel-in-progress: false }
 jobs:
   radio:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: media 가지 가져오기

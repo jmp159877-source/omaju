@@ -128,7 +128,9 @@ def tts(text, who):
     ms = pick('tts', ('gemini-3.1-flash-tts-preview', 'gemini-2.5-pro-preview-tts', 'gemini-2.5-flash-preview-tts'))
     m = ms[0] if ms else 'gemini-3.1-flash-tts-preview'
     prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + HOSTS[who]['profile'] + '\n' + DIRECT + '\n\n[읽을 대본 — 이 부분만 읽기]\n' + text
-    for attempt in range(4):
+    # 429 는 하루 한도가 아니라 분당 한도인 경우가 많다 — 한도가 막 풀린 16시에도 토막 하나 걸러 하나씩 429 가 났다
+    # (2026-10-21). 30초로는 못 버텨 쪼개기까지 가서 호출만 늘었다 → 429 면 1분·2분·3분… 으로 넉넉히 기다린다.
+    for attempt in range(6):
         try:
             d = OP.post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
                         {'contents': [{'parts': [{'text': prompt}]}],
@@ -137,7 +139,7 @@ def tts(text, who):
             import base64
             pcm = base64.b64decode(d['candidates'][0]['content']['parts'][0]['inlineData']['data'])
         except Exception as e:
-            say('녹음 실패', m, attempt, str(e)[:80]); time.sleep(30 if '429' in str(e) else 8); continue
+            say('녹음 실패', m, attempt, str(e)[:80]); time.sleep(60 * (attempt + 1) if '429' in str(e) else 8); continue
         from voice_check import check
         ok, heard, ratio = check(KEY, pcm, text)
         say('녹음', m, round(len(pcm) / 48000, 1), '초 일치', ratio, '통과' if ok else '불일치 ' + heard[:40])
