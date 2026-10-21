@@ -106,6 +106,7 @@ export function listen(onText) {
 // ── 적기·고치기 창 ──
 function editor(kind, n = {}, id = null) {
   const isNew = !id;
+  const back = listOpen;   // 목록 창에서 들어왔으면 끝나고 그 목록으로 돌아간다
   const fields = kind === 'memo' ? '' : kind === 'note' ? '' : kind === 'event'
     ? `<div class="field"><label>날짜</label><input type="date" id="nb-date" value="${esc(n.date || todayKey())}"></div><div class="field"><label>시간 (없으면 비워 두세요)</label><input type="time" id="nb-time" value="${esc(n.time || '')}"></div>`
     : `<div class="nb-row"><div class="field"><label>월</label><input type="number" id="nb-m" min="1" max="12" value="${n.month || ''}"></div><div class="field"><label>일</label><input type="number" id="nb-d" min="1" max="30" value="${n.day || ''}"></div></div><label class="nb-check"><input type="checkbox" id="nb-lunar" ${n.lunar ? 'checked' : ''}> 음력</label>`;
@@ -122,9 +123,10 @@ function editor(kind, n = {}, id = null) {
       if (kind === 'anniv') { data.month = +$('nb-m').value; data.day = +$('nb-d').value; data.lunar = $('nb-lunar').checked; if (!(data.month >= 1 && data.month <= 12 && data.day >= 1 && data.day <= 31)) return msg('월과 일을 넣어 주세요.'); }
       if (!data.text) return msg('내용을 적어 주세요.');
       try { if (isNew) await DB.addNote(data); else await DB.updateNote(id, data); closeModal(); toast(isNew ? '적어 두었습니다.' : '고쳤습니다.'); await refresh();
-        if (kind !== 'note') openCal(kind === 'event' ? data.date : todayKey()); } catch (e) { msg(e.message); }
+        if (back) openList(back);
+        else if (kind !== 'note') openCal(kind === 'event' ? data.date : todayKey()); } catch (e) { msg(e.message); }
     };
-    if (!isNew) $('nb-del').onclick = () => { const acts = $('nb-del').parentElement; acts.innerHTML = '<p class="nb-ask">정말 지울까요? 지우면 되돌릴 수 없습니다.</p><button type="button" class="btn line danger" id="nb-del-yes">지우기</button><button type="button" class="btn green" id="nb-del-no">그만두기</button>'; $('nb-del-no').onclick = () => { closeModal(); editor(kind, n, id); }; $('nb-del-yes').onclick = async () => { try { await DB.deleteNote(id); closeModal(); toast('지웠습니다.'); await refresh(); } catch (e) { msg(e.message); } }; };
+    if (!isNew) $('nb-del').onclick = () => { const acts = $('nb-del').parentElement; acts.innerHTML = '<p class="nb-ask">정말 지울까요? 지우면 되돌릴 수 없습니다.</p><button type="button" class="btn line danger" id="nb-del-yes">지우기</button><button type="button" class="btn green" id="nb-del-no">그만두기</button>'; $('nb-del-no').onclick = () => { closeModal(); editor(kind, n, id); }; $('nb-del-yes').onclick = async () => { try { await DB.deleteNote(id); closeModal(); toast('지웠습니다.'); await refresh(); if (back) openList(back); } catch (e) { msg(e.message); } }; };
     $('nb-text').focus();
   });
   const msg = t => { $('nb-msg').textContent = t; };
@@ -133,6 +135,8 @@ function editor(kind, n = {}, id = null) {
 // ── 달력 보기: 메모(적은 날)·일정·기억할 날을 한 달 달력에 점으로, 날짜를 누르면 그날 것 ──
 let calY = new Date().getFullYear(), calM = new Date().getMonth(), calSel = todayKey();
 let memoAll = false, ntOpen = null;
+const LIST = {};          // 칸별 목록 HTML — 창을 열 때 쓴다
+let listOpen = null;      // 지금 열려 있는 칸
 
 /** 적어 둔 뒤 그날 달력을 펼쳐 보여 준다 — 적자마자 그날 것만 눈에 들어오게. */
 function openCal(key) {
@@ -180,23 +184,25 @@ document.addEventListener('click', e => {
 function render() {
   renderCal();
   const by = k => notes.filter(n => n.kind === k);
-  const memo = by('memo'); const memoShow = memoAll ? memo : memo.slice(0, 3);
-  $('nb-memo').innerHTML = memo.length ? memoShow.map(n => `<div class="nb-item" data-id="${n.id}"><span class="nb-when">${fmtDate(todayKey(new Date(n.createdAt || Date.now())))}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">아직 메모가 없습니다. 위의 "말로 적기"를 눌러 보세요.</p>';
-  if (memo.length > 3) $('nb-memo').insertAdjacentHTML('beforeend',
-    `<button type="button" class="nb-more" id="nb-memo-more">${memoAll ? '접기' : `지난 메모 ${memo.length - 3}개 더 보기`}</button>`);
+  const memo = by('memo'); const memoShow = memoAll ? memo : memo.slice(0, 20);
+  LIST.memo = memo.length ? memoShow.map(n => `<div class="nb-item" data-id="${n.id}"><span class="nb-when">${fmtDate(todayKey(new Date(n.createdAt || Date.now())))}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">아직 메모가 없습니다. "말로 적기"를 눌러 보세요.</p>';
+  if (memo.length > 20) LIST.memo += `<button type="button" class="nb-more" id="nb-memo-more">${memoAll ? '접기' : `지난 메모 ${memo.length - 20}개 더 보기`}</button>`;
   const ev = by('event').filter(n => n.date >= todayKey()).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
   const past = by('event').filter(n => n.date < todayKey()).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
-  $('nb-event').innerHTML = (ev.length ? ev.map(n => `<div class="nb-item ${n.date === todayKey() ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.date === todayKey() ? '오늘' : fmtDate(n.date)}${n.time ? ' · ' + fmtTime(n.time) : ''}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">다가오는 일정이 없습니다.</p>')
+  LIST.event = (ev.length ? ev.map(n => `<div class="nb-item ${n.date === todayKey() ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.date === todayKey() ? '오늘' : fmtDate(n.date)}${n.time ? ' · ' + fmtTime(n.time) : ''}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">다가오는 일정이 없습니다.</p>')
     + (past.length ? `<p class="nb-sub">지난 일정</p>` + past.map(n => `<div class="nb-item past" data-id="${n.id}"><span class="nb-when">${fmtDate(n.date)}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '');
   // 나의 노트 — 오래 두고 찾아보는 것이라 날짜가 아니라 **최근 고친 순**. 목록에는 제목만.
   const nt = by('note').slice().sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
-  const ntEl = $('nb-note');
-  if (ntEl) ntEl.innerHTML = nt.length ? nt.map(x => `<div class="nt-row${ntOpen === x.id ? ' open' : ''}" data-nt="${x.id}"><button type="button" class="nt-head"><b>${esc(x.title || '제목 없음')}</b><i>${ntOpen === x.id ? '▴' : '▾'}</i></button>${ntOpen === x.id ? `<div class="nt-body">${esc(x.text).replace(/\n/g, '<br>')}</div><div class="nt-acts"><button type="button" class="btn line" data-nt-edit="${x.id}">고치기</button><button type="button" class="btn line danger" data-rm="${x.id}">지우기</button></div>` : ''}</div>`).join('')
+  LIST.note = nt.length ? nt.map(x => `<div class="nt-row${ntOpen === x.id ? ' open' : ''}" data-nt="${x.id}"><button type="button" class="nt-head"><b>${esc(x.title || '제목 없음')}</b><i>${ntOpen === x.id ? '▴' : '▾'}</i></button>${ntOpen === x.id ? `<div class="nt-body">${esc(x.text).replace(/\n/g, '<br>')}</div><div class="nt-acts"><button type="button" class="btn line" data-nt-edit="${x.id}">고치기</button><button type="button" class="btn line danger" data-rm="${x.id}">지우기</button></div>` : ''}</div>`).join('')
     : '<p class="nb-empty">아직 노트가 없습니다. 위의 "새 노트 쓰기"를 눌러 보세요.</p>';
   const an = by('anniv').map(n => ({ n, d: nextDate(n) })).filter(x => x.d).sort((a, b) => a.d - b.d);
-  $('nb-anniv').innerHTML = an.length ? an.map(({ n, d }) => { const left = daysUntil(d); return `<div class="nb-item ${left === 0 ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.lunar ? '음력 ' : ''}${n.month}월 ${n.day}일 → ${d.getMonth() + 1}월 ${d.getDate()}일 (${WD[d.getDay()]})${left === 0 ? ' · 오늘' : left === 1 ? ' · 내일' : ` · ${left}일 남음`}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`; }).join('') : '<p class="nb-empty">아직 없습니다. 가족 생일부터 하나 적어 보세요.</p>';
+  LIST.anniv = an.length ? an.map(({ n, d }) => { const left = daysUntil(d); return `<div class="nb-item ${left === 0 ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.lunar ? '음력 ' : ''}${n.month}월 ${n.day}일 → ${d.getMonth() + 1}월 ${d.getDate()}일 (${WD[d.getDay()]})${left === 0 ? ' · 오늘' : left === 1 ? ' · 내일' : ` · ${left}일 남음`}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`; }).join('') : '<p class="nb-empty">아직 없습니다. 가족 생일부터 하나 적어 보세요.</p>';
   // 적어 둔 것이 있으면 '누르면 고치거나 지울 수 있어요' 한 줄
-  ['nb-memo', 'nb-event', 'nb-anniv'].forEach(k => { const el = $(k); if (el && el.querySelector('.nb-item')) el.insertAdjacentHTML('afterbegin', '<p class="nb-tip">적어 둔 것을 누르면 고칠 수 있어요. 지우려면 지우기를 누르세요.</p>'); });
+  for (const k of ['memo', 'event', 'anniv']) if (/nb-item/.test(LIST[k] || '')) LIST[k] = '<p class="nb-tip">적어 둔 것을 누르면 고칠 수 있어요. 지우려면 지우기를 누르세요.</p>' + LIST[k];
+  // 칸에는 개수만, 목록은 눌러 들어가서 (운영자 2026-10-21: 첫 화면에 줄줄이 따라 나오면 안 된다)
+  const counts = { memo: memo.length, event: by('event').length, anniv: by('anniv').length, note: nt.length };
+  for (const k in counts) { const el = $('nb-n-' + k); if (el) el.textContent = counts[k]; }
+  if (listOpen && listOpen !== 'save') paintList();
   // 첫 화면 오늘 줄
   const tl = $('today-line'); if (!tl) return;
   const todays = [...ev.filter(n => n.date === todayKey()).map(n => (n.time ? fmtTime(n.time) + ' ' : '') + n.text), ...an.filter(x => daysUntil(x.d) === 0).map(x => x.n.text), ...an.filter(x => daysUntil(x.d) === 1).map(x => '내일 ' + x.n.text)];
@@ -205,10 +211,11 @@ function render() {
 
 function askRemove(id) {
   const n = notes.find(x => x.id === id); if (!n) return;
+  const back = listOpen;
   modal(`<h2>지울까요?</h2><p class="nb-ask">${esc(n.text)}</p><p class="note">지우면 되돌릴 수 없습니다.</p>
     <div class="modal-actions"><button type="button" class="btn line danger" id="nb-rm-yes">지우기</button><button type="button" class="btn green" id="nb-rm-no">그만두기</button></div>`, () => {
     $('nb-rm-no').onclick = () => closeModal();
-    $('nb-rm-yes').onclick = async () => { try { await DB.deleteNote(id); closeModal(); toast('지웠습니다.'); await refresh(); } catch (e) { toast(e.message); } };
+    $('nb-rm-yes').onclick = async () => { try { await DB.deleteNote(id); closeModal(); toast('지웠습니다.'); await refresh(); if (back) openList(back); } catch (e) { toast(e.message); } };
   });
 }
 
@@ -253,10 +260,9 @@ function svBody(it) {
   }
   return out.join('') || '<p class="sv-p">담아 둔 글이 비어 있습니다.</p>';
 }
-function renderSaves() {
-  const box = $('nb-saves'); if (!box) return;
-  if (!saves.length) { box.innerHTML = '<p class="nb-empty">아직 담아 둔 것이 없습니다. 마음에 드는 글 밑에서 <b>담아 두기</b>를 누르면 여기에 모입니다.</p>'; return; }
-  box.innerHTML = saves.map(it => {
+function svListHtml() {
+  if (!saves.length) return '<p class="nb-empty">아직 담아 둔 것이 없습니다. 마음에 드는 글 밑에서 <b>담아 두기</b>를 누르면 여기에 모입니다.</p>';
+  return saves.map(it => {
     const open = svOpen === it.key;
     const tag = it.corner === 'culture' ? (CU_LABEL[it.kind] || SV_LABEL.culture) : (SV_LABEL[it.corner] || '');
     return `<div class="sv-item${open ? ' open' : ''}"><button type="button" class="sv-head" data-sopen="${esc(it.key)}" aria-expanded="${open}"><span class="sv-meta"><span class="sv-tag">${esc(tag)}</span><span class="sv-date">${esc(svWhen(it.date))}</span></span><strong>${esc(it.title || '')}</strong></button>${open ? `<div class="sv-full">${svBody(it)}<button type="button" class="sv-rm" data-srm="${esc(it.key)}">수첩에서 빼기</button></div>` : ''}</div>`;
@@ -265,6 +271,31 @@ function renderSaves() {
 export async function refreshSaves() {
   try { saves = await DB.listSaves(); } catch (e) { saves = []; }
   renderSaves();
+}
+/** 담아 둔 것 개수는 칸에 적고, 창이 열려 있으면 목록도 다시 그린다. */
+function renderSaves() {
+  const n = $('nb-n-save'); if (n) n.textContent = saves.length;
+  if (listOpen === 'save') paintList();
+}
+
+
+// ── 칸을 눌러 들어가면 그 칸의 목록만 한 화면에 (운영자 2026-10-21) ──
+const LIST_TITLE = { memo: '적어 둔 메모', event: '나의 일정', anniv: '기억할 날', note: '나의 노트', save: '담아 둔 것' };
+function paintList() {
+  const box = $('nb-listbox'); if (!box) return;
+  box.innerHTML = listOpen === 'save' ? svListHtml() : (LIST[listOpen] || '');
+  box.className = listOpen === 'note' ? 'nb-list nt-list' : listOpen === 'save' ? 'sv-list' : 'nb-list';
+}
+function openList(kind) {
+  listOpen = kind;
+  ntOpen = null; svOpen = null;   // 들어오면 늘 목차부터 — 펼쳐 둔 것은 접고 시작한다
+  const add = kind === 'save' ? '' :
+    `<div class="modal-actions nb-add"><button type="button" class="nb-mic" data-kind="${kind}">말로 적기</button><button type="button" class="nb-hand" data-kind="${kind}">${kind === 'note' ? '새 노트 쓰기' : '손으로 적기'}</button></div>`;
+  modal(`<h2>${LIST_TITLE[kind]}</h2>${add}<div id="nb-listbox"></div>`, () => {
+    $('modal').classList.add('nb-listmodal');
+    paintList();
+    const x = $('modal-x'); if (x) x.onclick = () => { listOpen = null; closeModal(); };
+  });
 }
 
 function bind() {
@@ -275,6 +306,7 @@ function bind() {
       if (kind === 'note') p.title = (t.split(/[.\n]/)[0] || t).trim().slice(0, 20);
       editor(kind, p); }); return; }
     const hand = e.target.closest('.nb-hand'); if (hand) { editor(hand.dataset.kind); return; }
+    const op = e.target.closest('[data-nbopen]'); if (op) { openList(op.dataset.nbopen); return; }
     const ne = e.target.closest('[data-nt-edit]'); if (ne) { const n = notes.find(x => x.id === ne.dataset.ntEdit); if (n) editor('note', n, n.id); return; }
     const rm = e.target.closest('[data-rm]'); if (rm) { askRemove(rm.dataset.rm); return; }
     const nh = e.target.closest('.nt-head'); if (nh) { const id = nh.closest('[data-nt]').dataset.nt; ntOpen = ntOpen === id ? null : id; render(); return; }

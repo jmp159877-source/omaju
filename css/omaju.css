@@ -1967,3 +1967,13 @@ body.rd-on { padding-bottom: 124px; }
   font-size: min(1rem, 15px + 0.5vw); word-break: keep-all; white-space: normal; }
 .nt-acts { display: flex; gap: 8px; padding: 0 0 14px; }
 .nt-acts .btn { flex: 1; }
+
+/* 수첩 칸은 '문'이다 — 목록은 눌러 들어가서 본다 (운영자 2026-10-21) */
+button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
+.nb-open { display: block; width: 100%; margin: 12px 0 0; padding: 13px;
+  background: none; border: 1px solid var(--line, #E3DDCE); border-radius: 6px;
+  color: var(--dark-green, #1F5A43); font-size: min(0.95rem, 14px + 0.45vw); }
+.nb-open b { font-weight: 700; }
+.nb-open::after { content: ' ›'; color: #A79E8C; }
+.nb-listmodal .modal-box { max-width: 560px; }
+.nb-listmodal .nb-add { margin: 0 0 14px; }
