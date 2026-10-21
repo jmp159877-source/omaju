@@ -399,7 +399,8 @@ def problems(s, keys):
         if got != keys: p.append(f'코너 차례가 다름 {got}')
         for x in s['items']:
             n = len(re.sub(r'\s', '', x['say']))
-            if n < 170: p.append(f'{x["k"]} 너무 짧음 {n}자')
+            floor = min(170, max(120, int(1550 / max(1, len(keys)) * 0.72)))
+            if n < floor: p.append(f'{x["k"]} 너무 짧음 {n}자')
             if n > cap: p.append(f'{x["k"]} 너무 긺 {n}자')
         whole = s['open'] + ' '.join(x['say'] for x in s['items']) + s['close']
         for w in BAD:
@@ -428,7 +429,7 @@ def make_script(ch):
         # 코너 넷짜리 장은 300~440자를 주면 모델이 아래 끝에 붙어 전체 1160~1200자(한글만)로 나와
         # 1250자 문턱에 세 번 다 걸렸다(2026-10-21 g5·g3 못 만듦, g2 는 3분 56초). 아래 끝을 올린다.
         per = 1700 / max(1, len(keys))
-        lo = min(380, max(170, int(per * 0.85) // 10 * 10))
+        lo = min(380, max(130, int(per * 0.85) // 10 * 10))
         hi = min(480, max(lo + 60, int(per * 1.15) // 10 * 10))
         s, m = gemini_json(PROMPT.format(date=DATE, wd=WD, name=HOSTS[c['host']]['name'], title=c['title'],
                                          material=mat, keys=', '.join(keys), lo=lo, hi=hi))
