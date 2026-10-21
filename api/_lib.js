@@ -8,9 +8,19 @@ const b64 = o => Buffer.from(typeof o === 'string' ? o : JSON.stringify(o))
   .toString('base64').replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
 
 function serviceAccount() {
+  // 두 가지 방식 다 받는다.
+  //  ① FIREBASE_SERVICE_ACCOUNT — 서비스 계정 JSON 통째로 (GitHub Actions 가 쓰는 방식)
+  //  ② FIREBASE_CLIENT_EMAIL + FIREBASE_PRIVATE_KEY — Vercel 의 값 칸이 한 줄짜리라
+  //     여러 줄 JSON 이 잘려서 안 들어간다(운영자 2026-10-21). 이 둘은 각각 한 줄이라 그대로 붙는다.
   const raw = process.env.FIREBASE_SERVICE_ACCOUNT;
-  if (!raw) throw new Error('FIREBASE_SERVICE_ACCOUNT 없음');
-  return JSON.parse(raw);
+  if (raw && raw.trim().startsWith('{')) return JSON.parse(raw);
+  const email = (process.env.FIREBASE_CLIENT_EMAIL || '').trim();
+  let key = (process.env.FIREBASE_PRIVATE_KEY || '').trim();
+  if (email && key) {
+    if ((key.startsWith('"') && key.endsWith('"')) || (key.startsWith("'") && key.endsWith("'"))) key = key.slice(1, -1);
+    return { client_email: email, private_key: key.replace(/\\n/g, '\n') };
+  }
+  throw new Error('파이어베이스 열쇠가 없습니다 (FIREBASE_SERVICE_ACCOUNT 또는 FIREBASE_CLIENT_EMAIL + FIREBASE_PRIVATE_KEY)');
 }
 
 /** 파이어베이스 맞춤 토큰 — 화면에서 signInWithCustomToken 으로 로그인한다. */
