@@ -270,6 +270,20 @@ function renderBody() {
   svSync();
 }
 
+// 오늘의 정원 — 운영자가 실제로 하는 일이라 아무도 못 베끼는 자리 (운영자 2026-10-21 밤)
+function renderGarden() {
+  const g = C.garden;
+  if (!g || !g.title) { $('garden-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 정원을 고르고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
+  if ($('garden-sub')) $('garden-sub').textContent = g.when || '이 철에 해야 할 일 한 가지';
+  $('garden-body').innerHTML = `<div class="cu-block">
+    <p class="cu-kind">${esc(g.when || '')}</p>
+    <h3 class="gd-title">${esc(g.title)}</h3>
+    ${(g.body || []).map(x => `<p class="cu-note">${esc(x)}</p>`).join('')}
+    ${g.tip ? `<p class="is-sub">요령 하나</p><p class="cu-note">${esc(g.tip)}</p>` : ''}
+    ${g.myth ? `<p class="is-sub">잘못 알려진 것</p><p class="cu-note">${esc(g.myth)}</p>` : ''}
+    ${g.by ? `<p class="cu-by">— ${esc(g.by)}</p>` : ''}</div>`;
+}
+
 function renderMind() {
   const m = C.mind;
   if (!m || !m.line) { $('mind-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 마음 한 줄을 다듬고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
@@ -399,7 +413,12 @@ function renderOuting() {
   const o = C.outing; if (!o || !Object.keys(o).length) { $('outing-tabs').innerHTML = ''; $('outing-body').innerHTML = '<p class="note" style="margin-top:30px">이번 주 소식이 준비되지 않았습니다.</p>'; return; }
   const regions = Object.keys(REGION_XY).filter(r => o[r]); if (!o[outRegion]) outRegion = regions[0];
   $('outing-tabs').innerHTML = regions.map(r => `<button type="button" data-region="${r}" aria-pressed="${r === outRegion}">${r}</button>`).join('');
-  $('outing-body').innerHTML = '<div class="rows" style="margin-top:20px">' + o[outRegion].map(it => `<div class="row ot-row"><span class="ot-kind">${esc(it.kind || '나들이')}</span><b>${esc(it.title)}</b><p class="ot-meta">${esc(it.where || '')}${it.when ? ' <span class="nw">· ' + esc(it.when) + '</span>' : ''}</p><p>${esc(it.why || '')}</p><a class="linkbtn" href="https://map.naver.com/p/search/${encodeURIComponent(it.where || it.title)}" target="_blank" rel="noopener">지도에서 보기</a></div>`).join('') + '</div><p class="note">내용은 매일 아침 새로 찾아 넣습니다. 가기 전에 날짜와 시간을 한 번 더 확인해 주세요.</p>';
+  // '숨은 곳'은 따로 모아 소제목 아래에 — 번잡한 데를 피해 조용히 쉴 자리 (운영자 2026-10-21 밤)
+  const row = it => `<div class="row ot-row"><span class="ot-kind">${esc(it.kind || '나들이')}</span><b>${esc(it.title)}</b><p class="ot-meta">${esc(it.where || '')}${it.when ? ' <span class="nw">· ' + esc(it.when) + '</span>' : ''}</p><p>${esc(it.why || '')}</p><a class="linkbtn" href="https://map.naver.com/p/search/${encodeURIComponent(it.where || it.title)}" target="_blank" rel="noopener">지도에서 보기</a></div>`;
+  const all = o[outRegion], hide = all.filter(x => x.kind === '숨은 곳'), open = all.filter(x => x.kind !== '숨은 곳');
+  $('outing-body').innerHTML = '<div class="rows" style="margin-top:20px">' + open.map(row).join('') + '</div>'
+    + (hide.length ? '<p class="is-sub ot-sub">숨겨진 여가 공간</p><p class="note ot-subnote">사람 많은 곳을 피해, 조용히 쉬다 올 만한 자리입니다.</p><div class="rows">' + hide.map(row).join('') + '</div>' : '')
+    + '<p class="note">내용은 매일 아침 새로 찾아 넣습니다. 가기 전에 날짜와 시간을 한 번 더 확인해 주세요.</p>';
   $('outing-title').textContent = `${outRegion} · 이번 주말 가볼 만한 곳`;
 }
 $('outing-tabs').onclick = e => { const b = e.target.closest('[data-region]'); if (!b) return; outRegion = b.dataset.region; store.set('outRegion', outRegion); renderOuting(); };
@@ -669,7 +688,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -729,7 +748,7 @@ function route() { const k = location.hash.slice(1);
 $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-5]$/.test(NS[0]) ? NS[0] : ''); };
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
-renderEra(); renderMind(); renderBody(); renderBook(); renderShow(); route();
+renderEra(); renderMind(); renderGarden(); renderBody(); renderBook(); renderShow(); route();
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');
