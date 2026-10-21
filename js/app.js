@@ -850,10 +850,11 @@ function openGate(why) {
     <h1 class="gate-head">평생 무료로 열려 있는<br>당신만의 공간.</h1>
     <p class="gate-desc">${why ? why + ' 회원이 되셔야 합니다.<br>' : ''}가입비나 이용료 없이 오마주의 모든 이야기를 누려 보세요.<br>비밀번호를 외울 필요 없이, 평소 쓰시던 계정으로<br>나의 수첩을 채우고 따뜻한 한마디를 나눌 수 있습니다.</p>
     <div class="gate-btns">
-      <button type="button" class="gbtn kakao" id="g-kakao"><i aria-hidden="true"></i>카카오로 가장 빠르게 시작하기</button>
-      <button type="button" class="gbtn naver" id="g-naver"><i aria-hidden="true"></i>네이버로 가장 빠르게 시작하기</button>
+      <button type="button" class="gbtn kakao" id="g-kakao"><i aria-hidden="true"></i>카카오로 빠르게 시작하기</button>
+      <button type="button" class="gbtn naver" id="g-naver"><i aria-hidden="true"></i>네이버로 빠르게 시작하기</button>
     </div>
-    <p class="gate-links"><button type="button" id="g-signup">아이디로 가입하기</button><button type="button" id="g-login">이미 가입했어요, 로그인</button></p>
+    <p class="gate-links"><button type="button" id="g-signup">아이디로 가입하기</button><em></em><button type="button" id="g-login">이미 가입했어요, 로그인</button></p>
+    <p class="gate-note">바탕화면에 바로가기 아이콘 설치해 주세요.</p>
     <button type="button" class="gate-install" id="g-install">앱 아이콘 설치하기</button>
   </div>`,
   () => {
