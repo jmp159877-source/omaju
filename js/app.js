@@ -882,17 +882,17 @@ function openGate(why) {
 // (카카오·네이버가 주는 것은 회원 번호와 별명뿐이다. 태어난 해는 '그해 오늘'·'그 시절 노래'가 쓰므로 꼭 필요하다.)
 DB.onNeedProfile(async () => {
   const h = await DB.socialHint();
-  const where = h.via === 'naver' ? '네이버' : '카카오';
   const years = Array.from({ length: new Date().getFullYear() - 14 - 1925 + 1 }, (_, i) => 1925 + i).reverse();
-  modal(`<h2>거의 다 됐습니다 <span class="free-tag">무료</span></h2>
-  <p class="free-line">가입비도 이용료도 없습니다.</p>
-  <p>${where}로 들어오셨습니다. 세 가지만 알려 주시면 끝납니다.</p>
+  modal(`<div class="wel-in">
+  <h2>환영합니다, 오마주입니다.</h2>
+  <p>다음을 입력해 주세요.</p>
   <div class="field"><label>별명</label><input id="f-nick" maxlength="12" value="${esc(h.nick || '')}" placeholder="예: 강남 멋쟁이"><div class="hint">글을 쓸 때 보이는 이름입니다.</div></div>
   <div class="field"><label>성별</label><div class="seg2" id="f-gender"><button type="button" data-g="남">남성</button><button type="button" data-g="여">여성</button></div></div>
-  <div class="field"><label>태어난 해</label><select id="f-birth"><option value="">태어난 해를 고르세요</option>${years.map(y => `<option value="${y}">${y}년생</option>`).join('')}</select><div class="hint">그해 오늘·그 시절 노래를 고르는 데 씁니다.</div></div>
-  <label class="chk"><input type="checkbox" id="f-terms"><span>(필수) <b>이용약관</b>과 <b>개인정보처리방침</b>에 동의합니다. <a href="terms.html" target="_blank">약관</a> · <a href="privacy.html" target="_blank">처리방침</a></span></label>
-  <div class="modal-actions"><button type="button" class="btn warm" id="f-go">시작하기</button></div><div class="msg" id="f-msg"></div>`,
+  <div class="field"><label>태어난 해</label><select id="f-birth"><option value="">태어난 해를 고르세요</option>${years.map(y => `<option value="${y}">${y}년생</option>`).join('')}</select><div class="hint">그해 오늘·그 시절 노래에 씁니다.</div></div>
+  <label class="chk"><input type="checkbox" id="f-terms"><span>(필수) <a href="terms.html" target="_blank">이용약관</a>과 <a href="privacy.html" target="_blank">개인정보처리방침</a>에 동의합니다.</span></label>
+  <div class="modal-actions"><button type="button" class="btn warm" id="f-go">시작하기</button></div><div class="msg" id="f-msg"></div></div>`,
   () => {
+    $('modal').classList.add('wel-lux');
     let g = '';
     $('f-gender').onclick = e => { const b = e.target.closest('[data-g]'); if (!b) return; g = b.dataset.g; [...$('f-gender').children].forEach(x => x.setAttribute('aria-pressed', String(x === b))); };
     $('f-go').onclick = async () => {

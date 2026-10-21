@@ -1856,3 +1856,19 @@ body.rd-on { padding-bottom: 124px; }
   border: 1px solid rgba(244,241,234,0.35); color: #F4F1EA; border-radius: 4px;
   font-family: 'Noto Sans KR', sans-serif; font-size: min(0.95rem, 14px + 0.8vw); letter-spacing: 0.05em; }
 @media (max-width: 400px) { .gbtn { padding-left: 48px; } }
+
+/* ── 가입 마무리 한 장 (운영자 2026-10-21) ──
+   로그인 화면과 같은 '사진 한 장' 꼴이되 반대로 간다 — 로그인은 어둡게, 여기는 환하게.
+   가입이 끝나 문이 열리는 자리라서다. 사진 아래쪽이 리넨뿐이라 크림색으로 자연스럽게 이어진다. */
+.modal.wel-lux { padding: 0; align-items: stretch; background: #E9E4D8; }
+.wel-lux .modal-box { max-width: 520px; width: 100%; max-height: none; min-height: 100%;
+  margin: 0 auto; border-radius: 0; padding: 0; overflow: auto;
+  background: #F4F1EA url('../img/welcome-bg.jpg') center top / 100% auto no-repeat; }
+.wel-lux .x { position: absolute; left: auto; right: 12px; top: 8px; z-index: 3; color: #6A6253; }
+.wel-in { position: relative; z-index: 2; box-sizing: border-box; padding: 0 24px 30px;
+  /* 사진에서 찻잔이 놓인 위쪽은 비워 두고, 글이 시작되는 자리부터 크림색으로 덮는다 */
+  background: linear-gradient(to bottom, rgba(244,241,234,0) 0, rgba(244,241,234,0.70) 46vw, #F4F1EA 62vw); }
+.wel-in::before { content: ''; display: block; height: min(58vw, 230px); }
+.wel-in h2 { margin: 0 0 6px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+  font-size: min(1.45rem, 23px + 0.8vw); color: var(--dark-green, #1F5A43); word-break: keep-all; }
+.wel-in > p { margin: 0 0 18px; font-size: min(0.95rem, 15px + 0.5vw); color: #5B5446; }
