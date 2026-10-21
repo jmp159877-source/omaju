@@ -27,8 +27,8 @@ let me = null, profile = null;
 // 그 사이에 '로그인 안 된 화면'을 그리면 로그인 단추가 깜빡였다가 사라진다 → 알 때까지 아무것도 알리지 않는다.
 let authKnown = false;
 // 카카오·네이버로 들어왔는데 아직 우리 쪽 정보(별명·태어난 해·성별)가 없는 사람 — 마무리 화면을 띄우라고 알린다
-let needProfileCb = null;
-export function onNeedProfile(cb) { needProfileCb = cb; }
+let needProfileCb = null, pendingProfileUser = null;
+export function onNeedProfile(cb) { needProfileCb = cb; if (pendingProfileUser) cb(pendingProfileUser); }
 const listeners = new Set();
 export const authReady = () => authKnown;
 export function onUser(cb) { listeners.add(cb); if (authKnown) cb(me, profile); return () => listeners.delete(cb); }
@@ -39,7 +39,13 @@ onAuthStateChanged(auth, async user => {
     try { const s = await getDoc(doc(db, 'users', user.uid)); profile = s.exists() ? s.data() : null; } catch (e) {}
     // 아이디로 가입할 때도 잠깐 '정보 없음'을 지나므로(그때는 signup() 이 곧 써 준다),
     // 마무리 화면은 **카카오·네이버로 들어온 사람**에게만 띄운다.
-    if (!profile) { if (needProfileCb && /^(kakao|naver)_/.test(user.uid)) needProfileCb(user); return; }
+    if (!profile) {
+      // 알림을 받을 쪽이 아직 준비되지 않았을 수 있다(여기가 먼저 도는 때가 있다) → 적어 두었다가 준비되면 부른다.
+      if (/^(kakao|naver)_/.test(user.uid)) { pendingProfileUser = user; if (needProfileCb) needProfileCb(user); }
+      // 여기서 그냥 돌아가 버리면 화면은 영영 '아직 모름' 에 머문다 — 나의 정보도 로그아웃도 먹지 않는다
+      // (운영자 2026-10-21). 정보가 없는 채로라도 알린다.
+      tellAll(); return;
+    }
     try { await updateDoc(doc(db, 'users', user.uid), { lastSeen: serverTimestamp(), lastSeenDay: todayKey() }); } catch (e) {}
   }
   tellAll();

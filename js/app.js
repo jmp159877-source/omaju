@@ -958,7 +958,8 @@ function openForgot() {
   () => { $('f-go').onclick = async () => { const err = $('f-err'); err.hidden = true; try { await DB.requestReset($('f-id').value || 'unknown', $('f-phone').value); closeModal(); toast('요청했습니다. 확인 뒤 연락드리겠습니다.'); } catch (e) { err.textContent = e.message; err.hidden = false; } }; });
 }
 async function openMy() {
-  const p = DB.currentProfile(); if (!p) return;
+  const p = DB.currentProfile();
+  if (!p) { toast('정보를 불러오지 못했습니다. 새로고침한 뒤 다시 눌러 주세요.'); return; }
   const ym = TODAY.slice(0, 7), days = await DB.myCheckins(ym), set = new Set(days.map(d => +d.slice(8)));
   const first = new Date(Y, M, 1).getDay(), last = new Date(Y, M + 1, 0).getDate();
   let cal = WD.map(w => `<div class="h">${w}</div>`).join('') + '<div></div>'.repeat(first);
@@ -978,7 +979,13 @@ async function openMy() {
   });
 }
 $('login-btn').onclick = () => openGate('');
-$('logout').onclick = async () => { await DB.logout(); toast('나갔습니다. 내일 또 뵙겠습니다.'); };
+$('logout').onclick = async () => {
+  try { await DB.logout(); } catch (e) { toast('로그아웃에 실패했습니다 (' + (e && (e.code || e.message) || '알 수 없음') + ')'); return; }
+  // 파이어베이스가 끝내 대답하지 않아도 화면은 나간 모습이 되게 — 적어 둔 인사말도 지운다
+  store.set('hello', { s: 'out' });
+  $('user-chip').hidden = true; $('login-btn').hidden = false;
+  toast('나갔습니다. 내일 또 뵙겠습니다.');
+};
 $('my').onclick = openMy;
 
 // ── 출석 도장 ──
