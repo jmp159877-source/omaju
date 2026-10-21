@@ -556,7 +556,7 @@ srv.listen(0, '127.0.0.1', async () => {
         if (o.app) await p.addInitScript(() => { const mm = window.matchMedia.bind(window); window.matchMedia = q => /display-mode:\s*standalone/.test(q) ? { matches: true, media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} } : mm(q); });
         if (o.seed) await p.addInitScript(() => { globalThis.__omajuAuth = { uid: 'u_tester', email: 'tester@omaju.kr', delay: 500 }; });
         await p.addInitScript(() => {
-          globalThis.__cls = 0; new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) globalThis.__cls += e.value; }).observe({ type: 'layout-shift', buffered: true });
+          globalThis.__cls = 0; globalThis.__clsWho = []; new PerformanceObserver(l => { for (const e of l.getEntries()) if (!e.hadRecentInput) { globalThis.__cls += e.value; for (const s of (e.sources || [])) { const n = s.node; if (n && n.nodeType === 1) globalThis.__clsWho.push(e.value.toFixed(4) + ' ' + n.tagName + '.' + (n.className || '').toString().slice(0, 30) + '#' + (n.id || '')); } } }).observe({ type: 'layout-shift', buffered: true });
           globalThis.__life = {};
           const key = el => el.id ? '#' + el.id : '.' + String(el.className || '').split(' ')[0];
           const look = () => { const t = Math.round(performance.now());
@@ -568,7 +568,7 @@ srv.listen(0, '127.0.0.1', async () => {
         });
         await p.goto(base + '/index.html'); await wait(p, 3000);
         // '보였다 사라지는 것'은 무조건 잘못. 늦게 나타나는 것은 화면이 밀리지 않으면(cls) 괜찮다.
-        const r = await p.evaluate(() => ({ cls: +globalThis.__cls.toFixed(4), big: document.documentElement.classList.contains('big'),
+        const r = await p.evaluate(() => ({ cls: +globalThis.__cls.toFixed(4), who: globalThis.__clsWho.slice(0, 5), big: document.documentElement.classList.contains('big'),
           bad: Object.entries(globalThis.__life).filter(([, v]) => v.flips.some(f => f.startsWith('사라짐'))).map(([k, v]) => k + ' ' + v.flips.join('→')) }));
         ok('들어갈 때 깜빡임·밀림 없음 · ' + who, r.cls <= 0.005 && !r.bad.length && r.big, JSON.stringify(r));
         await c.close(); } }
