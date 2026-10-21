@@ -886,7 +886,7 @@ DB.onNeedProfile(async () => {
   modal(`<div class="wel-in">
   <h2>환영합니다, 오마주입니다.</h2>
   <p>다음을 입력해 주세요.</p>
-  <div class="field"><label>별명</label><input id="f-nick" maxlength="12" value="${esc(h.nick || '')}" placeholder="예: 강남 멋쟁이"><div class="hint">글을 쓸 때 보이는 이름입니다.</div></div>
+  <div class="field"><label>별명 <span class="lab-sub">(새로 만드셔도 됩니다)</span></label><input id="f-nick" maxlength="12" value="${esc(h.nick || '')}" placeholder="예: 강남 멋쟁이"><div class="hint">카카오·네이버에서 가져온 이름입니다. 글을 쓸 때 보입니다.</div></div>
   <div class="field"><label>성별</label><div class="seg2" id="f-gender"><button type="button" data-g="남">남성</button><button type="button" data-g="여">여성</button></div></div>
   <div class="field"><label>태어난 해</label><select id="f-birth"><option value="">태어난 해를 고르세요</option>${years.map(y => `<option value="${y}">${y}년생</option>`).join('')}</select><div class="hint">그해 오늘·그 시절 노래에 씁니다.</div></div>
   <label class="chk"><input type="checkbox" id="f-terms"><span>(필수) <a href="terms.html" target="_blank">이용약관</a>과 <a href="privacy.html" target="_blank">개인정보처리방침</a>에 동의합니다.</span></label>

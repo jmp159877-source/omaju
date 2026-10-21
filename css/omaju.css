@@ -1872,3 +1872,32 @@ body.rd-on { padding-bottom: 124px; }
 .wel-in h2 { margin: 0 0 6px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
   font-size: min(1.45rem, 23px + 0.8vw); color: var(--dark-green, #1F5A43); word-break: keep-all; }
 .wel-in > p { margin: 0 0 18px; font-size: min(0.95rem, 15px + 0.5vw); color: #5B5446; }
+
+/* 마무리 화면 안쪽 — 칸 테두리 대신 가는 금빛 밑줄과 명조체로 (운영자 2026-10-21:
+   "환영합니다"는 좋은데 그 밑이 딱딱하다). 다른 창의 입력칸은 건드리지 않게 .wel-lux 안으로만 묶는다. */
+.wel-lux .field { margin: 0 0 20px; }
+.wel-lux .field > label { font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+  font-size: min(0.9rem, 14px + 0.45vw); letter-spacing: 0.1em; color: var(--dark-green, #1F5A43); margin-bottom: 2px; }
+.wel-lux .field input, .wel-lux .field select {
+  padding: 11px 2px; background: transparent; border: 0; border-bottom: 1px solid rgba(201,162,74,0.6);
+  border-radius: 0 !important; box-shadow: none;
+  font-family: 'Nanum Myeongjo', serif; font-size: min(1.12rem, 17px + 0.55vw); color: #2A2520; }
+.wel-lux .field input::placeholder { color: #A79E8C; font-family: 'Noto Sans KR', sans-serif; font-size: 0.9em; }
+.wel-lux .field input:focus, .wel-lux .field select:focus { outline: none; border-bottom-color: var(--dark-green, #1F5A43); }
+.wel-lux .field select { -webkit-appearance: none; appearance: none; padding-right: 22px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231F5A43' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 2px center; background-size: 12px 8px; }
+.wel-lux .field .hint { margin-top: 7px; font-size: min(0.8rem, 12px + 0.35vw); color: #8C8373; }
+.wel-lux .seg2 { gap: 10px; margin-top: 4px; }
+.wel-lux .seg2 button { padding: 12px 0; border-radius: 2px !important; border: 1px solid rgba(201,162,74,0.6);
+  background: transparent; font-family: 'Nanum Myeongjo', serif; font-weight: 400;
+  font-size: min(1.05rem, 16px + 0.45vw); color: #4A4337; }
+.wel-lux .seg2 button[aria-pressed="true"] { background: var(--dark-green, #1F5A43);
+  border-color: var(--dark-green, #1F5A43); color: #F4F1EA; }
+.wel-lux .chk { margin: 18px 0 22px; font-size: min(0.86rem, 13px + 0.4vw); color: #5B5446; line-height: 1.6; }
+.wel-lux .chk a { color: var(--dark-green, #1F5A43); }
+.wel-lux .modal-actions .btn.warm { min-height: 56px; border-radius: 3px !important;
+  font-family: 'Nanum Myeongjo', serif; font-weight: 700; letter-spacing: 0.1em;
+  font-size: min(1.08rem, 16px + 0.5vw); }
+.wel-lux .field > label .lab-sub { font-family: 'Noto Sans KR', sans-serif; font-weight: 300;
+  font-size: 0.78em; letter-spacing: 0; color: #8C8373; }
