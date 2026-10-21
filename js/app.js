@@ -874,7 +874,8 @@ function openGate(why) {
   const clean = location.pathname + location.hash;
   history.replaceState(history.state, '', clean);
   if (why) { toast(why); return; }
-  DB.loginWithToken(t).catch(() => toast('로그인에 실패했습니다. 다시 눌러 주세요.'));
+  // 까닭을 함께 보여 준다 — 열쇠가 다른 프로젝트 것인지, 서명이 틀렸는지 바로 가려진다.
+  DB.loginWithToken(t).catch(e => toast('로그인에 실패했습니다 (' + (e && (e.code || e.message) || '알 수 없음') + ')'));
 })();
 
 // 카카오·네이버로는 들어왔지만 우리 쪽 정보가 아직 없는 분 — 짧게 세 가지만 받는다.
