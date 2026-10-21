@@ -848,7 +848,7 @@ function openGate(why) {
   modal(`<div class="gate-in">
     <p class="gate-logo"><span>오</span><span>마</span><span>주</span></p>
     <h1 class="gate-head">평생 무료로 열려 있는<br>당신만의 공간.</h1>
-    <p class="gate-desc">${why ? why + ' 회원이 되셔야 합니다.<br>' : ''}가입비나 이용료 없이 오마주의 모든 이야기를 누려 보세요.<br>비밀번호를 외울 필요 없이, 평소 쓰시던 계정으로<br>나의 수첩을 채우고 따뜻한 한마디를 나눌 수 있습니다.</p>
+    <p class="gate-desc">${why ? why + ' 회원이 되셔야 합니다.<br>' : ''}가입비나 이용료 없이 오마주의 모든 이야기를 누려 보세요.<br>나의 수첩을 채우고 따뜻한 한마디를 나눌 수 있습니다.</p>
     <div class="gate-btns">
       <button type="button" class="gbtn kakao" id="g-kakao"><i aria-hidden="true"></i>카카오로 빠르게 시작하기</button>
       <button type="button" class="gbtn naver" id="g-naver"><i aria-hidden="true"></i>네이버로 빠르게 시작하기</button>
