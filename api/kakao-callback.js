@@ -1,5 +1,5 @@
 // 카카오가 돌려보낸 코드를 받아 파이어베이스 로그인 토큰으로 바꾼다.
-const { customToken, post, get, readState, fail, done } = require('./_lib');
+const { siteHost, customToken, post, get, readState, fail, done } = require('./_lib');
 
 module.exports = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     if (!code) return fail(res, '카카오 응답이 비었습니다');
     if (!state || state !== readState(req, 'omaju_k')) return fail(res, '로그인이 만료되었습니다. 다시 눌러 주세요');
 
-    const redirect = `https://${req.headers.host}/api/kakao-callback`;
+    const redirect = `https://${siteHost(req)}/api/kakao-callback`;
     const tok = await post('https://kauth.kakao.com/oauth/token', new URLSearchParams({
       grant_type: 'authorization_code',
       client_id: process.env.KAKAO_REST_KEY,

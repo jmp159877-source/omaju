@@ -59,6 +59,14 @@ async function get(url, headers = {}) {
   return j || {};
 }
 
+/** 어느 주소로 들어왔든 돌아갈 곳은 하나로 맞춘다.
+    www 로 들어오면 redirect_uri 가 달라져 카카오가 KOE006(등록되지 않은 주소)으로 막는다
+    (운영자 폰에서 2026-10-21). 등록은 omaju.kr 하나만 해 두고 여기서 맞춘다. */
+function siteHost(req) {
+  const h = (req.headers.host || '').toLowerCase();
+  return /(^|\.)omaju\.kr$/.test(h) ? 'omaju.kr' : h;
+}
+
 /** 돌아왔을 때 우리가 보낸 요청이 맞는지 보려고 심는 한 번짜리 표 */
 function setState(res, name, value) {
   res.setHeader('Set-Cookie',
@@ -84,4 +92,4 @@ function done(res, token) {
   res.end();
 }
 
-module.exports = { customToken, post, get, setState, readState, newState, fail, done };
+module.exports = { siteHost, customToken, post, get, setState, readState, newState, fail, done };

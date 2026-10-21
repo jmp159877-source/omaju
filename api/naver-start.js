@@ -1,12 +1,12 @@
 // '네이버로 시작하기' — 네이버 로그인 화면으로 보낸다.
-const { setState, newState, fail } = require('./_lib');
+const { siteHost, setState, newState, fail } = require('./_lib');
 
 module.exports = async (req, res) => {
   const id = process.env.NAVER_CLIENT_ID;
   if (!id) return fail(res, '네이버 설정이 아직입니다');
   const state = newState();
   setState(res, 'omaju_n', state);
-  const host = req.headers.host;
+  const host = siteHost(req);
   const redirect = `https://${host}/api/naver-callback`;
   // ?re=1 — 이미 동의한 사람에게도 동의 화면을 다시 띄운다 (네이버 검수용 단계별 캡처를 찍으려고)
   const q = new URL(req.url, 'https://' + host).searchParams;

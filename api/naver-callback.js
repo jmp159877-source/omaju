@@ -1,5 +1,5 @@
 // 네이버가 돌려보낸 코드를 받아 파이어베이스 로그인 토큰으로 바꾼다.
-const { customToken, get, readState, fail, done } = require('./_lib');
+const { siteHost, customToken, get, readState, fail, done } = require('./_lib');
 
 module.exports = async (req, res) => {
   try {
