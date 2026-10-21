@@ -2013,7 +2013,5 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .ot-sub { margin-top: 30px; }
 .ot-subnote { margin: 2px 0 14px; }
 
-/* 오늘의 정원 — 사진이 오기 전까지 집안 초록으로 (빈 칸처럼 보이지 않게) */
-.banner.photo[data-open="garden"] { background-color: #1F5A43; }
 .gd-title { margin: 6px 0 14px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
   font-size: min(1.25rem, 19px + 0.6vw); color: var(--dark-green, #1F5A43); word-break: keep-all; }
