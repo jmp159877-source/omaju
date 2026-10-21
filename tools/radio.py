@@ -51,8 +51,9 @@ HOSTS = {
 # 'need' 는 그날 daily JSON 에 반드시 있어야 하는 것. 없으면 만들지 않고 다음 시각에 다시 돈다
 # (없는 것을 AI 가 지어내면 화면과 다른 말이 나간다 — 운영자 2026-10-20).
 CH = {
+    # 차례는 화면과 똑같이 (운영자 2026-10-21): 인사말 → 날씨 → 경제 → 운세 → 한 끼 → 한 권 → 시사 상식 → 문화 → PLAY
     'g1': {'host': 'eunchae', 'title': '오늘 즐기기', 'need': ('fortune', 'meal', 'book', 'quiz', 'culture'),
-           'corners': [('weather', '오늘의 날씨'), ('market', '오늘의 경제'), ('cards', '오늘의 인사말 카드'),
+           'corners': [('cards', '오늘의 인사말 카드'), ('weather', '오늘의 날씨'), ('market', '오늘의 경제'),
                        ('fortune', '오늘의 운세'), ('food', '오늘의 한 끼'), ('book', '오늘의 한 권'),
                        ('quiz', '오늘의 시사 상식'), ('culture', '오늘의 문화'), ('play', '오늘 PLAY')]},
     'g2': {'host': 'hangyeol', 'title': '그때 돌아보기', 'need': ('era', 'story'),
@@ -188,19 +189,54 @@ def weather_line():
         say('날씨 못 받아옴', str(e)[:60]); return ''
 
 
+def estate_lines():
+    """어제오늘 부동산 소식 제목 한두 개 (운영자 2026-10-21: 이 나이대는 부동산에 귀가 밝다).
+
+    제목만 가져와 AI 에게 넘긴다 — 숫자나 원인을 지어내지 않게 '제목에 있는 사실만' 이라고 못 박는다.
+    정치·사건사고 제목은 거른다(오늘의 이슈와 같은 기준).
+    """
+    import urllib.request, html as _h, xml.etree.ElementTree as ET
+    NO = ('대통령', '국회', '여당', '야당', '의원', '장관', '검찰', '특검', '탄핵', '총선', '대선',
+          '살해', '숨진', '사망', '구속', '영장', '징역', '사기', '고소', '고발', '논란', '의혹')
+    try:
+        u = 'https://news.google.com/rss/search?q=%EB%B6%80%EB%8F%99%EC%82%B0&hl=ko&gl=KR&ceid=KR:ko'
+        req = urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0 (omaju.kr)'})
+        with urllib.request.urlopen(req, timeout=25) as r:
+            root = ET.fromstring(r.read())
+    except Exception as e:
+        say('부동산 소식 못 받아옴', str(e)[:60]); return []
+    out, seen = [], set()
+    for it in root.iter('item'):
+        t = (it.findtext('title') or '').strip()
+        src = (it.findtext('source') or '').strip()
+        if ' - ' in t and t.endswith(' - ' + src): t = t[:-(len(src) + 3)]
+        t = _h.unescape(t).strip()
+        k = re.sub(r'[^가-힣0-9]', '', t)[:14]
+        if not t or k in seen or any(w in t for w in NO): continue
+        seen.add(k); out.append(t)
+        if len(out) == 2: break
+    return out
+
+
 def material_g1(d):
     """g1 대본에 넣어 줄 오늘 내용. 하루 종일 바뀌는 것(순위·날씨·시세)은 넣지 않는다."""
     out = []
-    w = weather_line()
-    if w: out.append(w)
-    out.append('· 오늘의 경제: 환율(달러·엔·유로), 코스피·코스닥, 금·은, 비트코인 시세가 날마다 올라온다. '
-               '시세는 하루 종일 바뀌므로 **숫자는 하나도 말하지 말 것.** '
-               '"관심 있는 것 참고하셔서 오늘 경제 활동에 도움이 되시면 좋겠다"는 정도로 가볍게 한두 문장.')
-    g = [x.replace('\n', ' ').strip() for x in (d.get('greetings') or []) if x]
-    if g:
+    g0 = [x.replace('\n', ' ').strip() for x in (d.get('greetings') or []) if x]
+    if g0:
         out.append('· 오늘의 인사말 카드 글귀 (이 가운데 하나를 골라 그대로 읽어 주고, 참 예쁜 말이라고 한마디 덧붙인 뒤, '
                    '마음에 드는 카드를 눌러 카톡으로 보내면 그 마음이 그대로 간다고 안내해 주세요):\n'
-                   + '\n'.join('   - ' + x for x in g[:4]))
+                   + '\n'.join('   - ' + x for x in g0[:4]))
+    w = weather_line()
+    if w: out.append(w)
+    es = estate_lines()
+    out.append('· 오늘의 경제 — **이 코너는 짧게 가세요** (운영자 2026-10-21: 너무 길다).\n'
+               '   환율·코스피·금·비트코인 시세가 화면에 올라와 있다는 것만 한 문장으로 짚고 넘어갑니다. '
+               '시세는 하루 종일 바뀌므로 **숫자는 하나도 말하지 말 것.** 종목을 줄줄이 늘어놓지도 말 것. '
+               '"관심 가는 것 있으면 보고 가시라" 정도.'
+               + ('\n   그다음 **부동산 소식 한두 줄**을 덧붙입니다. 어제오늘 나온 제목입니다 — '
+                  '**제목에 있는 사실만** 말하고, 제목에 없는 숫자·원인·전망을 보태지 마세요. '
+                  '"어제 이런 소식이 있었어요" 하고 담담하게:\n'
+                  + '\n'.join('   - ' + x for x in es) if es else ''))
     f = d.get('fortune') or {}
     if f:
         have = [(z, v) for z, v in f.items() if isinstance(v, dict) and v.get('total')]
