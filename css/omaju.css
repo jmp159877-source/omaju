@@ -1808,3 +1808,6 @@ body.rd-on { padding-bottom: 124px; }
   background: var(--dark-green, #1F5A43); color: #FFF8E3; font-family: 'Noto Sans KR', sans-serif;
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; }
 .modal-box .free-line { margin: 6px 0 14px; font-size: 1rem; color: var(--dark-green, #1F5A43); font-weight: 700; }
+/* 카카오·네이버 단추 위 작은 머리글 (운영자 2026-10-21: 간편 가입이라고 표시해 달라) */
+.modal-box .social-label { margin: 18px 0 8px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+  font-size: 0.95rem; letter-spacing: 0.1em; color: var(--dark-green, #1F5A43); }

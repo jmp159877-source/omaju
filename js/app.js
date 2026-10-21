@@ -846,6 +846,7 @@ function openGate(why) {
   modal(`<h2>오마주 회원이 되어 주세요 <span class="free-tag">무료</span></h2>
   <p class="free-line">가입비도 이용료도 없습니다.</p>
   <p>${why ? why + ' 회원가입이 필요합니다. ' : ''}가입하면 글쓰기와 나의 수첩(메모·일정)을 쓸 수 있습니다.</p>
+  <p class="social-label">간편 가입</p>
   <div class="modal-actions social"><button type="button" class="btn kakao" id="g-kakao"><span>카카오로 시작하기</span></button><button type="button" class="btn naver" id="g-naver"><span>네이버로 시작하기</span></button></div>
   <div class="divider"></div>
   <div class="modal-actions"><button type="button" class="btn warm" id="g-signup">아이디로 가입하기 <span class="free">무료</span></button><button type="button" class="btn line" id="g-login">이미 가입했어요, 로그인</button></div>
