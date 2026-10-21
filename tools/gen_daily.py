@@ -576,6 +576,41 @@ def era_photo(title, ref, year, desc=""):
     return wiki_find(key, year, text, title) or wiki_find(re.sub(r"^\d+월 \d+일,\s*", "", desc)[:40], None, text, title)
 
 
+def gen_garden(d):
+    """오늘의 정원 — 주 2~3회(월·수·금)만 새로 쓰고, 다른 날은 지난 것을 그대로 둔다.
+    철을 타는 이야기라 며칠 같아도 어색하지 않고, 매일 새로 쓰면 할 말이 금세 바닥난다."""
+    mm = d.month
+    season = ("한겨울" if mm in (12, 1, 2) else "봄" if mm in (3, 4, 5)
+              else "한여름" if mm in (6, 7, 8) else "가을")
+    prompt = f"""오늘은 {d.year}년 {d.month}월 {d.day}일, 한국의 {season}이다.
+마당·화분·주말농장을 가꾸는 사람에게 **이 철에 지금 해야 할 일 한 가지**를 알려 주는 짧은 글을 쓴다.
+읽는 사람은 40~70대, 베란다 화분부터 작은 마당까지 제각각이다.
+
+[쓰는 법]
+- 고급 라이프스타일 매거진의 정원 칼럼. 부드러운 구어체("~예요/~죠/~거든요"). 느낌표 금지.
+- **지금 이 주에 해야 하는 일**이어야 한다. 한 달 뒤에 할 일이나 이미 지난 일은 안 된다.
+- 숫자를 하나는 넣어 손이 가게 한다(깊이·간격·횟수·온도). 다만 어려운 학명·전문 용어는 쓰지 않는다.
+- 겁주지 않는다. 농약·비료 상품명과 정확한 약제량은 쓰지 않는다.
+- 시니어·어르신·노인 같은 말을 쓰지 않는다.
+- 베란다 화분만 있는 사람도 해 볼 수 있게 한 줄은 배려한다.
+
+[형식] JSON 만:
+{{"garden": {{
+ "title": "한 줄 제목 (16~28자, 할 일이 드러나게)",
+ "when": "지금 할 때 (예: 10월 중순 ~ 11월 초)",
+ "body": ["본문 1 (60~90자)", "본문 2 (60~90자)", "본문 3 (60~90자)"],
+ "tip": "요령 하나 (50~80자)",
+ "myth": "잘못 알려진 것 하나 — 따옴표로 그 말을 적고 바로잡는다 (50~90자)",
+ "by": "오마주 정원노트"
+}}}}"""
+    j = gemini(prompt, json_mode=True)
+    g = j.get("garden", {})
+    if not (g.get("title") and g.get("body")):
+        raise RuntimeError("정원 내용이 비었음")
+    g["by"] = "오마주 정원노트"
+    return g
+
+
 def gen_culture(d):
     data = json.load(open(os.path.join(HERE, "..", "data", "culture.json"), encoding="utf-8"))
     n = d.toordinal()
@@ -652,7 +687,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -662,6 +697,19 @@ def complete(name, v):
         # care(조심할 것)까지 있어야 '운세' 꼴이 된 것 — 옛 형식(total 만 있는 날)은 다시 만든다
         return isinstance(v, dict) and len(v) >= 12 and all(isinstance(x, dict) and x.get("total") and x.get("care") for x in v.values()) if isinstance(v, dict) else bool(v)
     return all(v.get(k) for k in NEED.get(name, ())) if isinstance(v, dict) else bool(v)
+
+
+def recent_garden(d):
+    """바로 앞 날짜들의 daily 파일에서 정원 글을 찾아 그대로 쓴다 (새로 쓰지 않는 날)."""
+    for back in range(1, 10):
+        f = os.path.join(HERE, "..", "daily", (d - datetime.timedelta(days=back)).isoformat() + ".json")
+        try:
+            with open(f, encoding="utf-8") as fp:
+                g = (json.load(fp) or {}).get("garden")
+            if g and g.get("title"): return g
+        except Exception:
+            pass
+    return None
 
 
 def snapshot(ref, key, fallback=None):
@@ -693,11 +741,16 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden)]:
         if only and name not in only:
             continue
         if not force and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
             print(f"[skip] {name} 이미 있음"); continue
+        if name == "garden" and not force and d.weekday() not in (0, 2, 4):
+            prev = recent_garden(d)        # 월·수·금에만 새로 쓴다 (운영자 2026-10-22: 주 2~3회)
+            if prev:
+                out["garden"] = prev; ref.set({"garden": prev}, merge=True)
+                print("[keep] garden 지난 것 그대로"); continue
         try:
             out[name] = fn(d)
             if name == "outing":
