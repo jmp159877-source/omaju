@@ -440,6 +440,30 @@ srv.listen(0, '127.0.0.1', async () => {
         const gone = await E(() => ![...document.querySelectorAll('#nb-listbox .nt-head b')].some(x => x.textContent === '산악회 모임'));
         await E(() => { const m = document.getElementById('modal-x'); if (m) m.click(); }); await W(300);
         return (hasTitle === '산악회 모임' && gone) || `고치기 제목 ${hasTitle}, 지워짐 ${gone}`; });
+      await step('수첩: 메모를 노트로 옮기기 · 노트 맨 위에 두기', async () => {
+        await E(() => window.omajuNav('g4')); await W(600);
+        await E(() => document.querySelector('.nb-hand[data-kind="memo"]').click()); await W(400);
+        await E(() => { document.getElementById('nb-text').value = '옮길 메모'; document.getElementById('nb-save').click(); }); await W(1100);
+        await E(() => { const x = document.getElementById('modal-x'); if (x) x.click(); }); await W(300);
+        await E(() => document.querySelector('.nb-open[data-nbopen="memo"]').click()); await W(600);
+        const row = await E(() => { const r = [...document.querySelectorAll('#nb-listbox .nb-item')].find(x => x.textContent.includes('옮길 메모')); if (!r) return false; r.querySelector('[data-tonote]').click(); return true; });
+        if (!row) return '노트로 단추가 없음';
+        await W(500);
+        await E(() => { document.getElementById('nb-title').value = '옮긴 노트'; document.getElementById('nb-save').click(); }); await W(1600);
+        await E(() => { const x = document.getElementById('modal-x'); if (x) x.click(); }); await W(300);
+        await E(() => document.querySelector('.nb-open[data-nbopen="memo"]').click()); await W(600);
+        const memoGone = await E(() => ![...document.querySelectorAll('#nb-listbox .nb-txt')].some(x => x.textContent === '옮길 메모'));
+        await E(() => { const x = document.getElementById('modal-x'); if (x) x.click(); }); await W(300);
+        await E(() => document.querySelector('.nb-open[data-nbopen="note"]').click()); await W(600);
+        const noteThere = await E(() => [...document.querySelectorAll('#nb-listbox .nt-head b')].some(x => x.textContent === '옮긴 노트'));
+        if (!noteThere) return '노트로 안 옮겨짐';
+        // 맨 위에 두기: 가장 아래 노트를 고정하면 첫 줄로 올라온다
+        const last = await E(() => { const hs = [...document.querySelectorAll('#nb-listbox .nt-head')]; const h = hs[hs.length - 1]; const t = h.querySelector('b').textContent; h.click(); return t; }); await W(400);
+        await E(() => { const b2 = document.querySelector('#nb-listbox [data-nt-pin]'); if (b2) b2.click(); }); await W(1500);
+        const first = await E(() => (document.querySelector('#nb-listbox .nt-head b') || {}).textContent || '');
+        const pinned = await E(() => !!document.querySelector('#nb-listbox .nt-pin'));
+        await E(() => { const x = document.getElementById('modal-x'); if (x) x.click(); }); await W(300);
+        return (memoGone && first === last && pinned) || `메모지워짐 ${memoGone}, 맨위 ${first} (바란 것 ${last}), 표시 ${pinned}`; });
       await step('수첩: 노트가 쌓이면 찾기로 걸러진다', async () => {
         await E(() => window.omajuNav('g4')); await W(600);
         for (const t of ['버스 노선', '치과 전화번호', '관리비 계좌', '우산 둔 곳', '와이파이 비밀번호']) {

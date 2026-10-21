@@ -1994,3 +1994,12 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
   font-size: min(1rem, 15px + 0.5vw); }
 .nb-find:focus { outline: none; border-color: var(--dark-green, #1F5A43); }
 .nb-none { margin: 18px 0; text-align: center; color: #8a8173; font-size: min(0.95rem, 14px + 0.5vw); }
+
+/* 노트 고정 · 메모를 노트로 · 빈 목록 예시 (운영자 2026-10-21 밤) */
+.nt-head .nt-pin { font-style: normal; color: #C9A24A; margin-right: 7px; flex: none; }
+.nt-acts { flex-wrap: wrap; }
+.nt-acts .btn { flex: 1 1 30%; min-width: 0; white-space: nowrap; font-size: min(0.92rem, 14px + 0.4vw); }
+.nb-item .nb-tonote { flex: 1; text-align: center; border: 1px solid rgba(31,90,67,0.45); border-radius: 4px;
+  background: none; color: var(--dark-green, #1F5A43);
+  padding: 10px 6px; font-size: min(0.92rem, 14px + 0.4vw); white-space: nowrap; }
+.nb-eg { display: inline-block; margin-top: 7px; color: #9a9384; font-size: 0.92em; word-break: keep-all; }
