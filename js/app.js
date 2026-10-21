@@ -843,17 +843,26 @@ function closeModal() { $('modal-root').innerHTML = ''; exitOpen = false; if (mo
 let afterLogin = null;
 function openGate(why) {
   afterLogin = null;
-  modal(`<h2>오마주 회원이 되어 주세요 <span class="free-tag">무료</span></h2>
-  <p class="free-line">가입비도 이용료도 없습니다.</p>
-  <p>${why ? why + ' 회원가입이 필요합니다. ' : ''}가입하면 글쓰기와 나의 수첩(메모·일정)을 쓸 수 있습니다.</p>
-  <p class="social-label">간편 가입</p>
-  <div class="modal-actions social"><button type="button" class="btn kakao" id="g-kakao"><span>카카오로 시작하기</span></button><button type="button" class="btn naver" id="g-naver"><span>네이버로 시작하기</span></button></div>
-  <div class="divider"></div>
-  <div class="modal-actions"><button type="button" class="btn warm" id="g-signup">아이디로 가입하기 <span class="free">무료</span></button><button type="button" class="btn line" id="g-login">이미 가입했어요, 로그인</button></div>
-  <div class="divider"></div><p class="note">바탕화면에 바로가기 앱 아이콘을 설치하세요.</p><div class="modal-actions"><button type="button" class="btn ivory" id="g-install">앱 아이콘 설치하기</button></div>`,
-  () => { $('modal').classList.add('gate-modal'); $('g-signup').onclick = openSignup; $('g-login').onclick = openLogin;
+  // 로그인·가입 화면 (운영자가 디자인해 옴, 2026-10-21): 창이 아니라 화면을 꽉 채우는 한 장.
+  // 사진 주소는 바깥(Unsplash)에 걸지 않는다 — 끊기면 화면이 깨진다. 우리 그림으로 쓴다.
+  modal(`<div class="gate-in">
+    <p class="gate-logo"><span>오</span><span>마</span><span>주</span></p>
+    <h1 class="gate-head">평생 무료로 열려 있는<br>당신만의 공간.</h1>
+    <p class="gate-desc">${why ? why + ' 회원이 되셔야 합니다.<br>' : ''}가입비나 이용료 없이 오마주의 모든 이야기를 누려 보세요.<br>비밀번호를 외울 필요 없이, 평소 쓰시던 계정으로<br>나의 수첩을 채우고 따뜻한 한마디를 나눌 수 있습니다.</p>
+    <div class="gate-btns">
+      <button type="button" class="gbtn kakao" id="g-kakao"><i aria-hidden="true"></i>카카오로 가장 빠르게 시작하기</button>
+      <button type="button" class="gbtn naver" id="g-naver"><i aria-hidden="true"></i>네이버로 가장 빠르게 시작하기</button>
+    </div>
+    <p class="gate-links"><button type="button" id="g-signup">아이디로 가입하기</button><button type="button" id="g-login">이미 가입했어요, 로그인</button></p>
+    <button type="button" class="gate-install" id="g-install">앱 아이콘 설치하기</button>
+  </div>`,
+  () => {
+    $('modal').classList.add('gate-lux');
+    $('g-signup').onclick = openSignup; $('g-login').onclick = openLogin;
     $('g-kakao').onclick = () => { location.href = '/api/kakao-start'; };
-    $('g-naver').onclick = () => { location.href = '/api/naver-start'; }; $('g-install').onclick = () => { closeModal(); $('install-btn').click(); }; });
+    $('g-naver').onclick = () => { location.href = '/api/naver-start'; };
+    $('g-install').onclick = () => { closeModal(); $('install-btn').click(); };
+  });
 }
 // ── 카카오·네이버로 들어오기 ──
 // 서버가 ?ct= 로 토큰을 들려 보낸다. 받아서 로그인하고 주소는 바로 지운다(새로고침해도 다시 안 쓰이게).
