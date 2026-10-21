@@ -843,11 +843,56 @@ function closeModal() { $('modal-root').innerHTML = ''; exitOpen = false; if (mo
 let afterLogin = null;
 function openGate(why) {
   afterLogin = null;
-  modal(`<h2>오마주 회원이 되어 주세요</h2><p>${why ? why + ' 회원가입이 필요합니다. ' : ''}가입하면 한마디 나누기, 나의 수첩(메모·일정·기억할 날)을 쓸 수 있습니다. 아이디와 숫자 비밀번호면 충분합니다.</p>
-  <div class="modal-actions"><button type="button" class="btn warm" id="g-signup">간편 회원가입하기 <span class="free">무료</span></button><button type="button" class="btn line" id="g-login">이미 가입했어요, 로그인</button></div>
+  modal(`<h2>오마주 회원이 되어 주세요</h2><p>${why ? why + ' 회원가입이 필요합니다. ' : ''}가입하면 한마디 나누기, 나의 수첩(메모·일정·기억할 날)을 쓸 수 있습니다. 쓰시던 카카오나 네이버로 바로 들어오실 수 있습니다.</p>
+  <div class="modal-actions social"><button type="button" class="btn kakao" id="g-kakao"><span>카카오로 시작하기</span></button><button type="button" class="btn naver" id="g-naver"><span>네이버로 시작하기</span></button></div>
+  <p class="note tip">가장 빠른 길입니다. 비밀번호를 따로 외우지 않으셔도 됩니다.</p>
+  <div class="divider"></div>
+  <div class="modal-actions"><button type="button" class="btn warm" id="g-signup">아이디로 가입하기 <span class="free">무료</span></button><button type="button" class="btn line" id="g-login">이미 가입했어요, 로그인</button></div>
   <div class="divider"></div><p class="note">매일 아침 바로 열어 보시려면</p><div class="modal-actions"><button type="button" class="btn ivory" id="g-install">앱 아이콘 설치하기</button></div>`,
-  () => { $('modal').classList.add('gate-modal'); $('g-signup').onclick = openSignup; $('g-login').onclick = openLogin; $('g-install').onclick = () => { closeModal(); $('install-btn').click(); }; });
+  () => { $('modal').classList.add('gate-modal'); $('g-signup').onclick = openSignup; $('g-login').onclick = openLogin;
+    $('g-kakao').onclick = () => { location.href = '/api/kakao-start'; };
+    $('g-naver').onclick = () => { location.href = '/api/naver-start'; }; $('g-install').onclick = () => { closeModal(); $('install-btn').click(); }; });
 }
+// ── 카카오·네이버로 들어오기 ──
+// 서버가 ?ct= 로 토큰을 들려 보낸다. 받아서 로그인하고 주소는 바로 지운다(새로고침해도 다시 안 쓰이게).
+(function socialReturn() {
+  const q = new URLSearchParams(location.search);
+  const t = q.get('ct'), why = q.get('login');
+  if (!t && !why) return;
+  const clean = location.pathname + location.hash;
+  history.replaceState(history.state, '', clean);
+  if (why) { toast(why); return; }
+  DB.loginWithToken(t).catch(() => toast('로그인에 실패했습니다. 다시 눌러 주세요.'));
+})();
+
+// 카카오·네이버로는 들어왔지만 우리 쪽 정보가 아직 없는 분 — 짧게 세 가지만 받는다.
+// (카카오·네이버가 주는 것은 회원 번호와 별명뿐이다. 태어난 해는 '그해 오늘'·'그 시절 노래'가 쓰므로 꼭 필요하다.)
+DB.onNeedProfile(async () => {
+  const h = await DB.socialHint();
+  const where = h.via === 'naver' ? '네이버' : '카카오';
+  const years = Array.from({ length: new Date().getFullYear() - 14 - 1925 + 1 }, (_, i) => 1925 + i).reverse();
+  modal(`<h2>거의 다 됐습니다</h2><p>${where}로 들어오셨습니다. 세 가지만 알려 주시면 끝납니다.</p>
+  <div class="field"><label>별명</label><input id="f-nick" maxlength="12" value="${esc(h.nick || '')}" placeholder="예: 강남 멋쟁이"><div class="hint">글을 쓸 때 보이는 이름입니다.</div></div>
+  <div class="field"><label>성별</label><div class="seg2" id="f-gender"><button type="button" data-g="남">남성</button><button type="button" data-g="여">여성</button></div></div>
+  <div class="field"><label>태어난 해</label><select id="f-birth"><option value="">태어난 해를 고르세요</option>${years.map(y => `<option value="${y}">${y}년생</option>`).join('')}</select><div class="hint">그해 오늘·그 시절 노래를 고르는 데 씁니다.</div></div>
+  <label class="chk"><input type="checkbox" id="f-terms"><span>(필수) <b>이용약관</b>과 <b>개인정보처리방침</b>에 동의합니다. <a href="terms.html" target="_blank">약관</a> · <a href="privacy.html" target="_blank">처리방침</a></span></label>
+  <div class="modal-actions"><button type="button" class="btn warm" id="f-go">시작하기</button></div><div class="msg" id="f-msg"></div>`,
+  () => {
+    let g = '';
+    $('f-gender').onclick = e => { const b = e.target.closest('[data-g]'); if (!b) return; g = b.dataset.g; [...$('f-gender').children].forEach(x => x.setAttribute('aria-pressed', String(x === b))); };
+    $('f-go').onclick = async () => {
+      if (!$('f-terms').checked) { $('f-msg').textContent = '약관에 동의해 주세요.'; return; }
+      $('f-go').disabled = true;
+      try {
+        await DB.finishSocial({ nick: $('f-nick').value, gender: g, birthYear: +$('f-birth').value });
+        closeModal(); toast('오마주에 오신 것을 환영합니다.');
+      } catch (e) { $('f-msg').textContent = e.message; $('f-go').disabled = false; }
+    };
+    // 끝내지 않고 창을 닫으면 어중간하게 남으므로 로그인을 풀어 둔다
+    $('modal-x').onclick = () => { DB.logout(); closeModal(); };
+  });
+});
+
 const REGIONS = { '서울': ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'], '경기': ['수원', '성남', '고양', '용인', '부천', '안산', '안양', '남양주', '화성', '평택', '의정부', '시흥', '파주', '김포', '광명', '광주', '군포', '하남', '오산', '양주', '이천', '구리', '안성', '포천', '의왕', '여주', '양평', '동두천', '과천', '가평', '연천'], '인천': ['중구', '동구', '미추홀구', '연수구', '남동구', '부평구', '계양구', '서구', '강화군', '옹진군'], '부산': ['중구', '서구', '동구', '영도구', '부산진구', '동래구', '남구', '북구', '해운대구', '사하구', '금정구', '강서구', '연제구', '수영구', '사상구', '기장군'], '대구': ['중구', '동구', '서구', '남구', '북구', '수성구', '달서구', '달성군', '군위군'], '광주': ['동구', '서구', '남구', '북구', '광산구'], '대전': ['동구', '중구', '서구', '유성구', '대덕구'], '울산': ['중구', '남구', '동구', '북구', '울주군'], '세종': ['세종'], '강원': ['춘천', '원주', '강릉', '동해', '태백', '속초', '삼척', '홍천', '횡성', '영월', '평창', '정선', '철원', '화천', '양구', '인제', '고성', '양양'], '충북': ['청주', '충주', '제천', '보은', '옥천', '영동', '증평', '진천', '괴산', '음성', '단양'], '충남': ['천안', '공주', '보령', '아산', '서산', '논산', '계룡', '당진', '금산', '부여', '서천', '청양', '홍성', '예산', '태안'], '전북': ['전주', '군산', '익산', '정읍', '남원', '김제', '완주', '진안', '무주', '장수', '임실', '순창', '고창', '부안'], '전남': ['목포', '여수', '순천', '나주', '광양', '담양', '곡성', '구례', '고흥', '보성', '화순', '장흥', '강진', '해남', '영암', '무안', '함평', '영광', '장성', '완도', '진도', '신안'], '경북': ['포항', '경주', '김천', '안동', '구미', '영주', '영천', '상주', '문경', '경산', '의성', '청송', '영양', '영덕', '청도', '고령', '성주', '칠곡', '예천', '봉화', '울진', '울릉'], '경남': ['창원', '진주', '통영', '사천', '김해', '밀양', '거제', '양산', '의령', '함안', '창녕', '고성', '남해', '하동', '산청', '함양', '거창', '합천'], '제주': ['제주시', '서귀포시'] };
 function openSignup() {
   modal(`<h2>간편 회원가입</h2>

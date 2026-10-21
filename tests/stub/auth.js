@@ -7,5 +7,6 @@ export function onAuthStateChanged(a,cb){cbs.push(cb);setTimeout(()=>cb(cur), SE
 const fire=()=>cbs.forEach(cb=>cb(cur));
 export async function createUserWithEmailAndPassword(a,email,pw){if(users[email])throw {code:'auth/email-already-in-use'};users[email]={pw,uid:'u_'+email.split('@')[0]};cur={uid:users[email].uid,email};fire();return {user:cur}}
 export async function signInWithEmailAndPassword(a,email,pw){if(!users[email]||users[email].pw!==pw)throw {code:'auth/invalid-credential'};cur={uid:users[email].uid,email};fire();return {user:cur}}
+export async function signInWithCustomToken(a,t){const id=String(t).slice(0,24);cur={uid:'kakao_'+id,email:'',getIdTokenResult:async()=>({claims:{via:'kakao',nick:'카카오별명'}})};fire();return {user:cur}}
 export async function signOut(){cur=null;fire()}
 export async function updatePassword(u,pw){users[u.email].pw=pw}

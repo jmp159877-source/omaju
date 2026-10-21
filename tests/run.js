@@ -110,6 +110,36 @@ srv.listen(0, '127.0.0.1', async () => {
       ok(`오늘의 이슈 칸 (${big ? '큰' : '보통'} 글씨)`, !r.length, r.join(' / '));
       await c.close();
     }
+    // 1-4) 카카오·네이버로 시작하기: 단추가 보이고, 두 회사 색이고, 누르면 우리 서버 다리로 간다
+    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+      await p.goto(base + '/index.html'); await wait(p, 1600);
+      await p.evaluate(() => document.getElementById('login-btn').click()); await wait(p, 600);
+      const r = await p.evaluate(() => {
+        const k = document.getElementById('g-kakao'), n = document.getElementById('g-naver');
+        if (!k || !n) return ['단추 없음'];
+        const o = [];
+        const ck = getComputedStyle(k), cn = getComputedStyle(n);
+        if (!/254, ?229, ?0/.test(ck.backgroundColor)) o.push('카카오 색 ' + ck.backgroundColor);
+        if (!/3, ?199, ?90/.test(cn.backgroundColor)) o.push('네이버 색 ' + cn.backgroundColor);
+        for (const b of [k, n]) { const t = b.getBoundingClientRect(); if (t.height < 44) o.push(b.id + ' 높이 ' + Math.round(t.height)); if (t.width < 100) o.push(b.id + ' 너비 ' + Math.round(t.width)); }
+        if (!/카카오/.test(k.textContent) || !/네이버/.test(n.textContent)) o.push('글씨가 다름');
+        return o; });
+      ok('카카오·네이버로 시작하기 단추', !errs.length && !r.length, [...new Set(errs)].concat(r).join(' / '));
+      await c.close(); }
+    // 1-5) 가입 마무리 한 장: 카카오로 들어왔는데 우리 쪽 정보가 없으면 별명·성별·태어난 해를 받는다
+    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+      await p.goto(base + '/index.html?ct=testtoken'); await wait(p, 2200);
+      const r = await p.evaluate(() => {
+        const o = [];
+        if (location.search) o.push('주소에 토큰이 남음 ' + location.search);
+        const m = document.getElementById('modal');
+        if (!m) return ['마무리 창이 안 뜸'];
+        for (const id of ['f-nick', 'f-gender', 'f-birth', 'f-terms', 'f-go']) if (!document.getElementById(id)) o.push(id + ' 없음');
+        const nick = document.getElementById('f-nick');
+        if (nick && !nick.value) o.push('별명이 미리 안 채워짐');
+        return o; });
+      ok('가입 마무리 한 장 (카카오로 들어온 분)', !errs.length && !r.length, [...new Set(errs)].concat(r).join(' / '));
+      await c.close(); }
     // 2) 뒤로 가기: 여러 화면을 열고 몇 번 만에 나가는지 (단계: 놀이→장→첫화면→안내→나감)
     { const c = await ctx(false); const p = await c.newPage(); await p.goto(base + '/terms.html'); await p.goto(base + '/index.html'); await wait(p, 1500);
       const go = async h => { await p.evaluate(h => window.omajuNav(h), h); await wait(p, 700); };

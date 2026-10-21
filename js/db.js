@@ -1,6 +1,6 @@
 // 오마주 — 파이어베이스 연결 (가입·로그인·저장)
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithCustomToken, signOut, onAuthStateChanged, updatePassword, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, where, orderBy, limit, getDocs, runTransaction, serverTimestamp, increment, deleteField, getCountFromServer } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js';
 import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js';
 import { firebaseConfig } from '../firebase-config.js';
@@ -26,6 +26,9 @@ let me = null, profile = null;
 // 앱이 열리자마자는 로그인 여부를 아직 모른다(파이어베이스가 저장된 로그인을 되살리는 데 잠깐 걸린다).
 // 그 사이에 '로그인 안 된 화면'을 그리면 로그인 단추가 깜빡였다가 사라진다 → 알 때까지 아무것도 알리지 않는다.
 let authKnown = false;
+// 카카오·네이버로 들어왔는데 아직 우리 쪽 정보(별명·태어난 해·성별)가 없는 사람 — 마무리 화면을 띄우라고 알린다
+let needProfileCb = null;
+export function onNeedProfile(cb) { needProfileCb = cb; }
 const listeners = new Set();
 export const authReady = () => authKnown;
 export function onUser(cb) { listeners.add(cb); if (authKnown) cb(me, profile); return () => listeners.delete(cb); }
@@ -34,7 +37,9 @@ onAuthStateChanged(auth, async user => {
   me = user; profile = null;
   if (user) {
     try { const s = await getDoc(doc(db, 'users', user.uid)); profile = s.exists() ? s.data() : null; } catch (e) {}
-    if (!profile) return; // 가입 직후: 프로필이 써지면 signup()이 직접 알린다
+    // 아이디로 가입할 때도 잠깐 '정보 없음'을 지나므로(그때는 signup() 이 곧 써 준다),
+    // 마무리 화면은 **카카오·네이버로 들어온 사람**에게만 띄운다.
+    if (!profile) { if (needProfileCb && /^(kakao|naver)_/.test(user.uid)) needProfileCb(user); return; }
     try { await updateDoc(doc(db, 'users', user.uid), { lastSeen: serverTimestamp(), lastSeenDay: todayKey() }); } catch (e) {}
   }
   tellAll();
@@ -81,6 +86,36 @@ export async function signup({ username, pw, nick, phone, region, marketing, gen
   tellAll();
   track('sign_up');
   return uid;
+}
+
+// ── 카카오·네이버로 들어오기 ──
+// 서버(api/*-callback)가 만들어 준 맞춤 토큰으로 로그인한다. 우리 쪽 정보가 없으면 마무리 화면이 뜬다.
+export async function loginWithToken(t) { await signInWithCustomToken(auth, t); track('login'); }
+export async function socialHint() {
+  try { const r = await me.getIdTokenResult(); return { via: r.claims.via || '', nick: r.claims.nick || '' }; }
+  catch (e) { return { via: '', nick: '' }; }
+}
+export async function finishSocial({ nick, gender, birthYear, marketing }) {
+  const u = me; if (!u) throw new Error('로그인이 풀렸습니다. 다시 눌러 주세요.');
+  nick = (nick || '').trim();
+  if (nick.length < 2 || nick.length > 12) throw new Error('별명은 2~12자로 적어 주세요.');
+  if (!['남', '여'].includes(gender)) throw new Error('성별을 골라 주세요.');
+  if (!(birthYear >= 1925 && birthYear <= new Date().getFullYear() - 14)) throw new Error('태어난 해를 골라 주세요.');
+  if (await nicknameTaken(nick)) throw new Error('이미 있는 별명입니다. 다른 별명을 넣어 주세요.');
+  const via = (await socialHint()).via;
+  await runTransaction(db, async tx => {
+    const n = doc(db, 'nicknames', normNick(nick));
+    if ((await tx.get(n)).exists()) throw new Error('이미 있는 별명입니다.');
+    tx.set(n, { uid: u.uid });
+    tx.set(doc(db, 'users', u.uid), {
+      username: '', nick, nickKey: normNick(nick), phone: '', region: '', gender, birthYear, role: 'member',
+      via, marketing: !!marketing, agreedAt: serverTimestamp(), createdAt: serverTimestamp(),
+      lastSeen: serverTimestamp(), lastSeenDay: todayKey(), streak: 0, lastCheckin: ''
+    });
+  });
+  profile = { username: '', nick, nickKey: normNick(nick), phone: '', region: '', gender, birthYear, role: 'member', via, marketing: !!marketing, streak: 0, lastCheckin: '', checkinCount: 0 };
+  tellAll();
+  track('sign_up');
 }
 
 export async function login(username, pw) {

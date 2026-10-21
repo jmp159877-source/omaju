@@ -1783,3 +1783,21 @@ body.rd-on { padding-bottom: 124px; }
 #issue-card .is-exp { color: rgba(255,255,255,0.94); text-shadow: 0 1px 3px rgba(0,0,0,0.30); }
 #issue-card .is-sub { color: #F2CE7E; letter-spacing: 0.06em; }
 #issue-card .is-ex { color: #fff; border-left-color: #F2CE7E; text-shadow: 0 1px 3px rgba(0,0,0,0.30); }
+
+/* ── 카카오·네이버로 시작하기 (운영자 2026-10-21) ──
+   두 회사가 정해 둔 색을 그대로 쓴다 — 사람들이 색으로 알아보고, 심사에서도 이 색을 본다. */
+.modal-actions.social { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.btn.kakao, .btn.naver { display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 54px; border: 0; border-radius: 10px; font-size: 1.1rem; font-weight: 700; }
+.btn.kakao { background: #FEE500; color: #191600; }
+.btn.naver { background: #03C75A; color: #fff; }
+.btn.kakao::before, .btn.naver::before { content: ''; width: 20px; height: 20px; flex: none;
+  background: currentColor; -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
+/* 말풍선(카카오) · N(네이버) 을 글자색으로 찍는다 — 그림 파일을 따로 두지 않으려고 */
+.btn.kakao::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.6 1.7 4.8 4.3 6.1l-1.1 4 4.3-2.4c.6.1 1.2.1 1.7.1 5.1 0 9.2-3.3 9.2-7.8S17.1 3 12 3z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 3C6.9 3 2.8 6.3 2.8 10.3c0 2.6 1.7 4.8 4.3 6.1l-1.1 4 4.3-2.4c.6.1 1.2.1 1.7.1 5.1 0 9.2-3.3 9.2-7.8S17.1 3 12 3z'/%3E%3C/svg%3E"); }
+.btn.naver::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 4h5l4.2 6.4V4H19v16h-5l-4.2-6.4V20H5z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 4h5l4.2 6.4V4H19v16h-5l-4.2-6.4V20H5z'/%3E%3C/svg%3E"); }
+.btn.kakao:active, .btn.naver:active { filter: brightness(0.94); }
+@media (min-width: 560px) { .modal-actions.social { grid-template-columns: 1fr 1fr; } }
