@@ -423,9 +423,11 @@ def make_script(ch):
     for k in range(3):
         # 장마다 코너 수가 다르다(9개도 있고 4개도 있다). 전체 4분 30초~6분을 맞추려면
         # 코너가 적은 장은 코너마다 더 길게 이야기해야 한다 (운영자 규칙: 장당 4분 30초~6분).
-        per = 1550 / max(1, len(keys))
-        lo = min(340, max(170, int(per * 0.80) // 10 * 10))
-        hi = min(460, max(lo + 60, int(per * 1.15) // 10 * 10))
+        # 코너 넷짜리 장은 300~440자를 주면 모델이 아래 끝에 붙어 전체 1160~1200자(한글만)로 나와
+        # 1250자 문턱에 세 번 다 걸렸다(2026-10-21 g5·g3 못 만듦, g2 는 3분 56초). 아래 끝을 올린다.
+        per = 1700 / max(1, len(keys))
+        lo = min(380, max(170, int(per * 0.85) // 10 * 10))
+        hi = min(480, max(lo + 60, int(per * 1.15) // 10 * 10))
         s, m = gemini_json(PROMPT.format(date=DATE, wd=WD, name=HOSTS[c['host']]['name'], title=c['title'],
                                          material=mat, keys=', '.join(keys), lo=lo, hi=hi))
         if not s: continue
