@@ -64,8 +64,8 @@ service cloud.firestore {
     // 나의 수첩: 본인 것만 읽고 쓰고 지운다 (관리자도 못 본다)
     match /notes/{id} {
       allow read, delete: if signedIn() && resource.data.uid == request.auth.uid;
-      allow create: if signedIn() && notBanned() && request.resource.data.uid == request.auth.uid && request.resource.data.text.size() <= 500;
-      allow update: if signedIn() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid && request.resource.data.text.size() <= 500;
+      allow create: if signedIn() && notBanned() && request.resource.data.uid == request.auth.uid && request.resource.data.text.size() <= 2000;
+      allow update: if signedIn() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid && request.resource.data.text.size() <= 2000;
     }
     // 담아 두기: 본인 것만 읽고 쓰고 지운다 (관리자도 못 본다)
     match /saves/{id} {

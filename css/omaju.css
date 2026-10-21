@@ -1950,3 +1950,20 @@ body.rd-on { padding-bottom: 124px; }
 .nb-band.event { background-image: url('../img/nb-event.jpg'); }
 .nb-band.anniv { background-image: url('../img/nb-anniv.jpg'); }
 .nb-band.save { background-image: url('../img/nb-save.jpg'); }
+
+/* 나의 노트 — 오래 두고 찾아보는 개인 기록. 목록에는 제목만, 누르면 그 자리에서 펼쳐 읽는다. */
+.nb-band.note { background-image: url('../img/nb-note.jpg'); }
+.nt-list { margin-top: 4px; }
+.nt-row { border-bottom: 1px solid var(--line, #E8E2D4); }
+.nt-row:last-child { border-bottom: 0; }
+.nt-head { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 15px 2px; background: none; border: 0; text-align: left;
+  font-family: 'Nanum Myeongjo', serif; font-weight: 700; color: var(--black, #1b1a17);
+  font-size: min(1.05rem, 16px + 0.5vw); }
+.nt-head b { font-weight: 700; min-width: 0; word-break: keep-all; }
+.nt-head i { font-style: normal; color: #9a9384; flex: none; }
+.nt-row.open .nt-head { color: var(--dark-green, #1F5A43); }
+.nt-body { padding: 2px 2px 14px; line-height: 1.85; color: #3a3630;
+  font-size: min(1rem, 15px + 0.5vw); word-break: keep-all; white-space: normal; }
+.nt-acts { display: flex; gap: 8px; padding: 0 0 14px; }
+.nt-acts .btn { flex: 1; }

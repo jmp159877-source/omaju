@@ -404,6 +404,25 @@ srv.listen(0, '127.0.0.1', async () => {
         await E(() => { const d = document.querySelectorAll('[data-cal]'); d[Math.min(10, d.length - 1)].click(); }); await W(300);
         const day = await E(() => !!document.querySelector('.cal-day'));
         return (first === 'true' && shut === 'false' && open === 'true' && day) || `처음 ${first}, 접음 ${shut}, 폄 ${open}, 날짜 ${day}`; });
+      await step('수첩: 나의 노트 쓰기 → 펼쳐 읽기 → 고치기 → 지우기', async () => {
+        await E(() => window.omajuNav('g4')); await W(600);
+        await E(() => document.querySelector('.nb-hand[data-kind="note"]').click()); await W(400);
+        await E(() => { document.getElementById('nb-title').value = '산악회 모임';
+          document.getElementById('nb-text').value = '매월 둘째 토요일 아침 일곱 시 사당역 1번 출구';
+          document.getElementById('nb-save').click(); }); await W(900);
+        const listed = await E(() => [...document.querySelectorAll('#nb-note .nt-head b')].some(x => x.textContent === '산악회 모임'));
+        if (!listed) return '목록에 안 보임';
+        await E(() => document.querySelector('#nb-note .nt-head').click()); await W(300);
+        const body = await E(() => (document.querySelector('#nb-note .nt-body') || {}).textContent || '');
+        if (!/사당역/.test(body)) return '펼쳐도 내용이 없음: ' + body.slice(0, 30);
+        await E(() => document.querySelector('#nb-note [data-nt-edit]').click()); await W(400);
+        const hasTitle = await E(() => (document.getElementById('nb-title') || {}).value || '');
+        await E(() => { const m = document.getElementById('modal-x'); if (m) m.click(); }); await W(400);
+        await E(() => { const r = document.querySelector('#nb-note [data-rm]'); if (r) r.click(); else document.querySelector('#nb-note .nt-head').click(); }); await W(400);
+        await E(() => { const r = document.querySelector('#nb-note [data-rm]'); if (r) r.click(); }); await W(400);
+        await E(() => { const y = document.getElementById('nb-rm-yes'); if (y) y.click(); }); await W(800);
+        const gone = await E(() => ![...document.querySelectorAll('#nb-note .nt-head b')].some(x => x.textContent === '산악회 모임'));
+        return (hasTitle === '산악회 모임' && gone) || `고치기 제목 ${hasTitle}, 지워짐 ${gone}`; });
       await step('수첩: 손으로 일정 적기', async () => { await E(() => document.querySelector('.nb-hand[data-kind="event"]').click()); await W(400); await E(() => { document.getElementById('nb-text').value = '치과 예약'; document.getElementById('nb-save').click(); }); await W(900); return (await E(() => [...document.querySelectorAll('#nb-event .nb-txt')].some(x => x.textContent === '치과 예약'))) || '안 보임'; });
       await step('담아 두기: 코너에서 담고 → 수첩에서 읽고 → 빼기', async () => {
         await E(() => window.omajuNav('body')); await W(700);

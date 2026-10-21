@@ -5,7 +5,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pad = n => String(n).padStart(2, '0');
 const todayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-const KIND = { memo: '메모', event: '일정', anniv: '기억할 날' };
+const KIND = { memo: '메모', event: '일정', anniv: '기억할 날', note: '노트' };
 let notes = [], toast = () => {}, modal = () => {}, closeModal = () => {}, openGate = () => {};
 
 export function init(h) { toast = h.toast; modal = h.modal; closeModal = h.closeModal; openGate = h.openGate; bind(); }
@@ -106,21 +106,23 @@ export function listen(onText) {
 // ── 적기·고치기 창 ──
 function editor(kind, n = {}, id = null) {
   const isNew = !id;
-  const fields = kind === 'memo' ? '' : kind === 'event'
+  const fields = kind === 'memo' ? '' : kind === 'note' ? '' : kind === 'event'
     ? `<div class="field"><label>날짜</label><input type="date" id="nb-date" value="${esc(n.date || todayKey())}"></div><div class="field"><label>시간 (없으면 비워 두세요)</label><input type="time" id="nb-time" value="${esc(n.time || '')}"></div>`
     : `<div class="nb-row"><div class="field"><label>월</label><input type="number" id="nb-m" min="1" max="12" value="${n.month || ''}"></div><div class="field"><label>일</label><input type="number" id="nb-d" min="1" max="30" value="${n.day || ''}"></div></div><label class="nb-check"><input type="checkbox" id="nb-lunar" ${n.lunar ? 'checked' : ''}> 음력</label>`;
   modal(`<h2>${isNew ? KIND[kind] + ' 적기' : KIND[kind] + ' 고치기'}</h2>
-    <div class="field"><label>${kind === 'memo' ? '내용' : kind === 'event' ? '무슨 일' : '무슨 날 (예: 큰딸 생일)'}</label><textarea id="nb-text" rows="${kind === 'memo' ? 4 : 2}" maxlength="500">${esc(n.text || '')}</textarea></div>
+    ${kind === 'note' ? `<div class="field"><label>제목</label><input id="nb-title" maxlength="30" placeholder="예: 산악회 모임" value="${esc(n.title || '')}"></div>` : ''}
+    <div class="field"><label>${kind === 'memo' ? '내용' : kind === 'note' ? '내용' : kind === 'event' ? '무슨 일' : '무슨 날 (예: 큰딸 생일)'}</label><textarea id="nb-text" rows="${kind === 'note' ? 12 : kind === 'memo' ? 4 : 2}" maxlength="${kind === 'note' ? 2000 : 500}">${esc(n.text || '')}</textarea></div>
     ${fields}
     <div class="modal-actions"><button type="button" class="btn green" id="nb-save">${isNew ? '저장' : '고친 내용 저장'}</button>${isNew ? '' : '<button type="button" class="btn line danger" id="nb-del">지우기</button>'}</div>
     <p class="msg" id="nb-msg"></p>`, () => {
     $('nb-save').onclick = async () => {
       const data = { kind, text: $('nb-text').value.trim() };
+      if (kind === 'note') { data.title = ($('nb-title').value || '').trim(); if (!data.title) return msg('제목을 적어 주세요.'); }
       if (kind === 'event') { data.date = $('nb-date').value; data.time = $('nb-time').value || ''; if (!data.date) return msg('날짜를 넣어 주세요.'); }
       if (kind === 'anniv') { data.month = +$('nb-m').value; data.day = +$('nb-d').value; data.lunar = $('nb-lunar').checked; if (!(data.month >= 1 && data.month <= 12 && data.day >= 1 && data.day <= 31)) return msg('월과 일을 넣어 주세요.'); }
       if (!data.text) return msg('내용을 적어 주세요.');
       try { if (isNew) await DB.addNote(data); else await DB.updateNote(id, data); closeModal(); toast(isNew ? '적어 두었습니다.' : '고쳤습니다.'); await refresh();
-        openCal(kind === 'event' ? data.date : todayKey()); } catch (e) { msg(e.message); }
+        if (kind !== 'note') openCal(kind === 'event' ? data.date : todayKey()); } catch (e) { msg(e.message); }
     };
     if (!isNew) $('nb-del').onclick = () => { const acts = $('nb-del').parentElement; acts.innerHTML = '<p class="nb-ask">정말 지울까요? 지우면 되돌릴 수 없습니다.</p><button type="button" class="btn line danger" id="nb-del-yes">지우기</button><button type="button" class="btn green" id="nb-del-no">그만두기</button>'; $('nb-del-no').onclick = () => { closeModal(); editor(kind, n, id); }; $('nb-del-yes').onclick = async () => { try { await DB.deleteNote(id); closeModal(); toast('지웠습니다.'); await refresh(); } catch (e) { msg(e.message); } }; };
     $('nb-text').focus();
@@ -130,7 +132,7 @@ function editor(kind, n = {}, id = null) {
 
 // ── 달력 보기: 메모(적은 날)·일정·기억할 날을 한 달 달력에 점으로, 날짜를 누르면 그날 것 ──
 let calY = new Date().getFullYear(), calM = new Date().getMonth(), calSel = todayKey();
-let memoAll = false;
+let memoAll = false, ntOpen = null;
 
 /** 적어 둔 뒤 그날 달력을 펼쳐 보여 준다 — 적자마자 그날 것만 눈에 들어오게. */
 function openCal(key) {
@@ -186,6 +188,11 @@ function render() {
   const past = by('event').filter(n => n.date < todayKey()).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
   $('nb-event').innerHTML = (ev.length ? ev.map(n => `<div class="nb-item ${n.date === todayKey() ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.date === todayKey() ? '오늘' : fmtDate(n.date)}${n.time ? ' · ' + fmtTime(n.time) : ''}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">다가오는 일정이 없습니다.</p>')
     + (past.length ? `<p class="nb-sub">지난 일정</p>` + past.map(n => `<div class="nb-item past" data-id="${n.id}"><span class="nb-when">${fmtDate(n.date)}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '');
+  // 나의 노트 — 오래 두고 찾아보는 것이라 날짜가 아니라 **최근 고친 순**. 목록에는 제목만.
+  const nt = by('note').slice().sort((a, b) => (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0));
+  const ntEl = $('nb-note');
+  if (ntEl) ntEl.innerHTML = nt.length ? nt.map(x => `<div class="nt-row${ntOpen === x.id ? ' open' : ''}" data-nt="${x.id}"><button type="button" class="nt-head"><b>${esc(x.title || '제목 없음')}</b><i>${ntOpen === x.id ? '▴' : '▾'}</i></button>${ntOpen === x.id ? `<div class="nt-body">${esc(x.text).replace(/\n/g, '<br>')}</div><div class="nt-acts"><button type="button" class="btn line" data-nt-edit="${x.id}">고치기</button><button type="button" class="btn line danger" data-rm="${x.id}">지우기</button></div>` : ''}</div>`).join('')
+    : '<p class="nb-empty">아직 노트가 없습니다. 위의 "새 노트 쓰기"를 눌러 보세요.</p>';
   const an = by('anniv').map(n => ({ n, d: nextDate(n) })).filter(x => x.d).sort((a, b) => a.d - b.d);
   $('nb-anniv').innerHTML = an.length ? an.map(({ n, d }) => { const left = daysUntil(d); return `<div class="nb-item ${left === 0 ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.lunar ? '음력 ' : ''}${n.month}월 ${n.day}일 → ${d.getMonth() + 1}월 ${d.getDate()}일 (${WD[d.getDay()]})${left === 0 ? ' · 오늘' : left === 1 ? ' · 내일' : ` · ${left}일 남음`}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`; }).join('') : '<p class="nb-empty">아직 없습니다. 가족 생일부터 하나 적어 보세요.</p>';
   // 적어 둔 것이 있으면 '누르면 고치거나 지울 수 있어요' 한 줄
@@ -262,9 +269,15 @@ export async function refreshSaves() {
 
 function bind() {
   document.addEventListener('click', e => {
-    const mic = e.target.closest('.nb-mic'); if (mic) { const kind = mic.dataset.kind; listen(t => { const p = parseSpeech(t, kind); editor(kind, p); }); return; }
+    const mic = e.target.closest('.nb-mic'); if (mic) { const kind = mic.dataset.kind; listen(t => {
+      const p = kind === 'note' ? { text: t } : parseSpeech(t, kind);
+      // 노트는 제목이 있어야 찾는다 — 말한 첫머리를 제목으로 미리 넣어 두고 고칠 수 있게 한다
+      if (kind === 'note') p.title = (t.split(/[.\n]/)[0] || t).trim().slice(0, 20);
+      editor(kind, p); }); return; }
     const hand = e.target.closest('.nb-hand'); if (hand) { editor(hand.dataset.kind); return; }
+    const ne = e.target.closest('[data-nt-edit]'); if (ne) { const n = notes.find(x => x.id === ne.dataset.ntEdit); if (n) editor('note', n, n.id); return; }
     const rm = e.target.closest('[data-rm]'); if (rm) { askRemove(rm.dataset.rm); return; }
+    const nh = e.target.closest('.nt-head'); if (nh) { const id = nh.closest('[data-nt]').dataset.nt; ntOpen = ntOpen === id ? null : id; render(); return; }
     const it = e.target.closest('.nb-item'); if (it) { const n = notes.find(x => x.id === it.dataset.id); if (n) editor(n.kind, n, n.id); return; }
     const so = e.target.closest('[data-sopen]'); if (so) { svOpen = svOpen === so.dataset.sopen ? null : so.dataset.sopen; renderSaves(); return; }
     const srm = e.target.closest('[data-srm]'); if (srm) { const k = srm.dataset.srm; DB.removeSave(k).then(() => { saves = saves.filter(x => x.key !== k); svOpen = null; renderSaves(); toast('수첩에서 뺐습니다.'); if (window.omajuSvRemoved) window.omajuSvRemoved(k); }).catch(err => toast(err.message)); return; }

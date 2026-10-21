@@ -33,7 +33,7 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10211840" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10211925" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -261,6 +261,14 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
       <p class="nb-hint">"음력 3월 12일 큰딸 생일" 처럼. 해마다 그날 아침에 알려 드립니다.</p>
       <div class="nb-list" id="nb-anniv"></div>
 
+    <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5h16a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H8z"/><path d="M8 5v24M12 11h10M12 16h10M12 21h6" stroke="#C9A24A"/></svg>나의 노트</div>
+    <div class="nb-card">
+      <div class="nb-band note" aria-hidden="true"></div>
+      <p class="nb-guide">모임 · 일정 · 활동 등 적어서 보관하고 찾아보는 개인 공간입니다.<br><small>예) "산악회 모임" · "자주 타는 버스" · "연락처"</small></p>
+      <div class="nb-actions"><button type="button" class="nb-mic" data-kind="note"><svg class="mic-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>말로 적기</button><button type="button" class="nb-hand" data-kind="note">새 노트 쓰기</button></div>
+      <div class="nb-list nt-list" id="nb-note"></div>
+    </div>
+
     <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h14v24l-7-5-7 5z" stroke="#C9A24A"/></svg>담아 둔 것</div>
     <div class="nb-card">
       <div class="nb-band save" aria-hidden="true"></div>
@@ -326,6 +334,6 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10211840"></script>
+<script type="module" src="js/app.js?v=10211925"></script>
 </body>
 </html>
