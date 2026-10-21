@@ -400,8 +400,8 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('운세: 수필이 아니라 운세 꼴', async () => { await E(() => window.omajuNav('fortune')); await W(700); await E(() => { const b = document.querySelector('#zodiac [data-z]'); if (b) b.click(); }); await W(500); const r = await E(() => { const f = document.getElementById('fortune'); const rows = [...f.querySelectorAll('.fo-row b')].map(b => b.textContent.trim()); return { total: (f.querySelector('.fo-total') || {}).textContent || '', rows, care: !!f.querySelector('.fo-care'), lucky: f.querySelectorAll('.fo-lucky span').length }; }); const need = ['하는 일', '사람', '지갑', '조심할 것', '해 보기']; const missing = need.filter(k => !r.rows.includes(k)); if (missing.length) return '빠진 칸: ' + missing.join(','); if (!/날입니다|좋습니다|낫습니다|필요한|합니다/.test(r.total)) return '총운이 판단 문장이 아님: ' + r.total.slice(0, 40); return (r.care && r.lucky >= 3) || JSON.stringify({ care: r.care, lucky: r.lucky }); });
       await step('놀이 4종 열림', async () => { const bad = []; for (const g of ['malmoi', 'shisen', 'num50', 'sudoku']) { await E(() => window.omajuNav('g1')); await W(300); await E(() => window.omajuNav('play')); await W(400); await E(g => window.omajuNav(g), g); await W(1500); const n = await E(g => (document.getElementById({ malmoi: 'mm-root', shisen: 'ss-root', num50: 'n5-root', sudoku: 'sd-root' }[g]) || {}).innerHTML.length || 0, g); if (n < 200) bad.push(g); } return !bad.length || '안 열림 ' + bad; });
       await step('놀이 순위 보기 창', async () => { await E(() => document.querySelector('[data-rank]').click()); await W(800); const t = await modalText(); await closeM(); return /순위/.test(t) || t.slice(0, 40); });
-      // 달력은 처음부터 펼쳐져 있다(운영자 2026-10-21) — 눌러서 접었다 다시 펴지는지까지 본다
-      await step('수첩: 달력 접었다 펴기 · 날짜 고르기', async () => { await E(() => window.omajuNav('g4')); await W(700);
+      // 달력은 접힌 채로 시작한다(운영자 2026-10-21 밤) — 눌러서 폈다 다시 접히는지까지 본다
+      await step('수첩: 달력 폈다 접기 · 날짜 고르기', async () => { await E(() => window.omajuNav('g4')); await W(700);
         const first = await E(() => document.getElementById('nb-calbtn').getAttribute('aria-expanded'));
         await E(() => document.getElementById('nb-calbtn').click()); await W(300);
         const shut = await E(() => document.getElementById('nb-calbtn').getAttribute('aria-expanded'));
@@ -409,7 +409,7 @@ srv.listen(0, '127.0.0.1', async () => {
         const open = await E(() => document.getElementById('nb-calbtn').getAttribute('aria-expanded'));
         await E(() => { const d = document.querySelectorAll('[data-cal]'); d[Math.min(10, d.length - 1)].click(); }); await W(300);
         const day = await E(() => !!document.querySelector('.cal-day'));
-        return (first === 'true' && shut === 'false' && open === 'true' && day) || `처음 ${first}, 접음 ${shut}, 폄 ${open}, 날짜 ${day}`; });
+        return (first === 'false' && shut === 'true' && open === 'false' && day) || `처음 ${first}, 폄 ${shut}, 접음 ${open}, 날짜 ${day}`; });
       await step('수첩: 나의 노트 쓰기 → 펼쳐 읽기 → 고치기 → 지우기', async () => {
         await E(() => window.omajuNav('g4')); await W(600);
         await E(() => document.querySelector('.nb-hand[data-kind="note"]').click()); await W(400);
@@ -435,6 +435,22 @@ srv.listen(0, '127.0.0.1', async () => {
         const gone = await E(() => ![...document.querySelectorAll('#nb-listbox .nt-head b')].some(x => x.textContent === '산악회 모임'));
         await E(() => { const m = document.getElementById('modal-x'); if (m) m.click(); }); await W(300);
         return (hasTitle === '산악회 모임' && gone) || `고치기 제목 ${hasTitle}, 지워짐 ${gone}`; });
+      await step('수첩: 노트가 쌓이면 찾기로 걸러진다', async () => {
+        await E(() => window.omajuNav('g4')); await W(600);
+        for (const t of ['버스 노선', '치과 전화번호', '관리비 계좌', '우산 둔 곳', '와이파이 비밀번호']) {
+          await E(() => document.querySelector('.nb-hand[data-kind="note"]').click()); await W(350);
+          await E(t => { document.getElementById('nb-title').value = t; document.getElementById('nb-text').value = t + ' 적어 둠'; document.getElementById('nb-save').click(); }, t); await W(900);
+          await E(() => { const x = document.getElementById('modal-x'); if (x) x.click(); }); await W(250);
+        }
+        await E(() => document.querySelector('.nb-open[data-nbopen="note"]').click()); await W(700);
+        const shown = await E(() => { const f = document.getElementById('nb-find'); return f && !f.hidden; });
+        if (!shown) return '찾기 칸이 안 보임';
+        await E(() => { const f = document.getElementById('nb-find'); f.value = '버스'; f.dispatchEvent(new Event('input')); }); await W(400);
+        const left = await E(() => [...document.querySelectorAll('#nb-listbox .nt-row')].filter(x => !x.hidden).map(x => x.textContent.trim().replace(/[▾▴]/g, '')));
+        await E(() => { const f = document.getElementById('nb-find'); f.value = '없는말'; f.dispatchEvent(new Event('input')); }); await W(400);
+        const none = await E(() => !!document.querySelector('#nb-listbox .nb-none'));
+        await E(() => { const x = document.getElementById('modal-x'); if (x) x.click(); }); await W(300);
+        return (left.length === 1 && /버스/.test(left[0]) && none) || `걸린 것 ${JSON.stringify(left)}, 없음안내 ${none}`; });
       await step('수첩: 손으로 일정 적기', async () => { await E(() => document.querySelector('.nb-hand[data-kind="event"]').click()); await W(400); await E(() => { document.getElementById('nb-text').value = '치과 예약'; document.getElementById('nb-save').click(); }); await W(900); await E(() => { const m = document.getElementById('modal'); if (m) document.getElementById('modal-x').click(); }); await W(300); await E(() => document.querySelector('.nb-open[data-nbopen="event"]').click()); await W(500); const seen = await E(() => [...document.querySelectorAll('#nb-listbox .nb-txt')].some(x => x.textContent === '치과 예약')); await E(() => { const m = document.getElementById('modal-x'); if (m) m.click(); }); await W(300); return seen || '안 보임'; });
       await step('담아 두기: 코너에서 담고 → 수첩에서 읽고 → 빼기', async () => {
         await E(() => window.omajuNav('body')); await W(700);

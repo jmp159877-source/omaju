@@ -285,15 +285,30 @@ function paintList() {
   const box = $('nb-listbox'); if (!box) return;
   box.innerHTML = listOpen === 'save' ? svListHtml() : (LIST[listOpen] || '');
   box.className = listOpen === 'note' ? 'nb-list nt-list' : listOpen === 'save' ? 'sv-list' : 'nb-list';
+  const f = $('nb-find');
+  if (f) { f.hidden = box.querySelectorAll('.nb-item, .nt-row, .sv-item').length < 5; if (!f.hidden && f.value) filterList(); }
+}
+/** 찾기: 줄 안의 글에 그 말이 없으면 감춘다. 목록이 쌓여도 두 글자로 찾게. */
+function filterList() {
+  const f = $('nb-find'), box = $('nb-listbox'); if (!f || !box) return;
+  const q = f.value.trim().toLowerCase();
+  let seen = 0;
+  for (const row of box.querySelectorAll('.nb-item, .nt-row, .sv-item')) {
+    const hit = !q || row.textContent.toLowerCase().includes(q);
+    row.hidden = !hit; if (hit) seen++;
+  }
+  const old = box.querySelector('.nb-none'); if (old) old.remove();
+  if (q && !seen) box.insertAdjacentHTML('beforeend', '<p class="nb-none">찾는 말이 없습니다.</p>');
 }
 function openList(kind) {
   listOpen = kind;
   ntOpen = null; svOpen = null;   // 들어오면 늘 목차부터 — 펼쳐 둔 것은 접고 시작한다
   const add = kind === 'save' ? '' :
     `<div class="modal-actions nb-add"><button type="button" class="nb-mic" data-kind="${kind}">말로 적기</button><button type="button" class="nb-hand" data-kind="${kind}">${kind === 'note' ? '새 노트 쓰기' : '손으로 적기'}</button></div>`;
-  modal(`<h2>${LIST_TITLE[kind]}</h2>${add}<div id="nb-listbox"></div>`, () => {
+  modal(`<h2>${LIST_TITLE[kind]}</h2>${add}<input type="search" class="nb-find" id="nb-find" placeholder="찾기 (예: 버스)" hidden><div id="nb-listbox"></div>`, () => {
     $('modal').classList.add('nb-listmodal');
     paintList();
+    $('nb-find').oninput = filterList;
     const x = $('modal-x'); if (x) x.onclick = () => { listOpen = null; closeModal(); };
   });
 }

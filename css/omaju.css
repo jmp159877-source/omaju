@@ -1977,3 +1977,20 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .nb-open::after { content: ' ›'; color: #A79E8C; }
 .nb-listmodal .modal-box { max-width: 560px; }
 .nb-listmodal .nb-add { margin: 0 0 14px; }
+
+/* ── 수첩 손보기 (운영자 2026-10-21 밤) ── */
+/* ① 고치기·지우기가 오른쪽에 작게 세로로 붙어 누르기 어려웠다 → 아래에 가로로 넓게 */
+.nb-item { grid-template-columns: minmax(0, 1fr) !important; }
+.nb-item .nb-acts { grid-column: 1 !important; grid-row: auto !important;
+  display: flex !important; flex-direction: row !important; align-items: stretch !important;
+  gap: 8px; margin-top: 10px; }
+.nb-item .nb-edit, .nb-item .nb-rm { flex: 1; text-align: center; border: 1px solid; border-radius: 4px;
+  padding: 10px 6px !important; font-size: min(0.92rem, 14px + 0.4vw) !important; }
+.nb-item .nb-edit { color: #8A6D2C; border-color: rgba(201,162,74,0.6); }
+.nb-item .nb-rm { color: #A4553F; border-color: rgba(164,85,63,0.45); }
+/* ② 목록 창 맨 위 찾기 한 줄 — 쌓이면 눈으로 훑기 어렵다 */
+.nb-find { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 12px 14px;
+  border: 1px solid var(--line, #E3DDCE); border-radius: 6px; background: #fff;
+  font-size: min(1rem, 15px + 0.5vw); }
+.nb-find:focus { outline: none; border-color: var(--dark-green, #1F5A43); }
+.nb-none { margin: 18px 0; text-align: center; color: #8a8173; font-size: min(0.95rem, 14px + 0.5vw); }
