@@ -42,4 +42,4 @@ jobs:
           if [ -d /tmp/oldtrip ]; then rm -rf /tmp/oldtrip/.git; cp -rn /tmp/oldtrip/. /tmp/trip-out/ 2>/dev/null || true; fi
           ls /tmp/trip-out/*.jpg >/dev/null 2>&1 || { echo "사진이 하나도 없어 올리지 않음"; exit 0; }
           cd /tmp/trip-out && git init -q -b trip-photos && git config user.name omaju-bot && git config user.email bot@omaju.kr
-          git add -A && git commit -qm "여행·산 사진 $(date -u +%F) [skip ci]" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trip-photos
+          printf '%s\n' '{ "git": { "deploymentEnabled": false } }' > vercel.json; git add -A && git commit -qm "여행·산 사진 $(date -u +%F) [skip ci]" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" trip-photos

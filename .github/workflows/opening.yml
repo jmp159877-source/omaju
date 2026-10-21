@@ -47,4 +47,4 @@ jobs:
           if [ -d /tmp/oldmedia ]; then rm -rf /tmp/oldmedia/.git; cp -rn /tmp/oldmedia/. media/ 2>/dev/null || true; fi
           cd media
           rm -rf .git 2>/dev/null; git init -q -b media; git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git add -A && git commit -qm "오프닝 $(date -u +%F) [skip ci]" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" media
+          printf '%s\n' '{ "git": { "deploymentEnabled": false } }' > vercel.json; git add -A && git commit -qm "오프닝 $(date -u +%F) [skip ci]" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" media

@@ -1,3 +1,10 @@
 {
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)tools' ':(exclude).github' ':(exclude)tests' ':(exclude)docs' ':(exclude)daily' ':(exclude)music' ':(exclude)CLAUDE.md' ':(exclude)README-올리기.txt'"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)tools' ':(exclude).github' ':(exclude)tests' ':(exclude)docs' ':(exclude)daily' ':(exclude)music' ':(exclude)CLAUDE.md' ':(exclude)README-올리기.txt'",
+  "git": {
+    "deploymentEnabled": {
+      "*": false,
+      "main": true
+    }
+  }
 }

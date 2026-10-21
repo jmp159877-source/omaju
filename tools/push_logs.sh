@@ -27,6 +27,8 @@ done
 [ $n -gt 0 ] || { rm -rf "$WORK"; exit 0; }
 
 cd "$WORK/old" || exit 0
+# Vercel 이 가지 푸시도 '배포 한 건'으로 센다 — 이 가지에서는 아예 배포하지 않게 못 박아 둔다.
+printf '%s\n' '{ "git": { "deploymentEnabled": false } }' > vercel.json
 git init -q -b logs
 git config user.name omaju-bot
 git config user.email bot@omaju.kr
