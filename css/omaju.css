@@ -2008,12 +2008,8 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
    그릴 때 이미 아는 것은 머리에서 class 로 정한다 — 나중에 숨기면 번쩍인다. */
 #join-box { display: none; }
 html.logged-out #join-box { display: block; }
-.join { position: relative; overflow: hidden; margin: 26px 0 8px; padding: 26px 22px; border-radius: 14px;
-  color: #F4F1EA; background: url('../img/join-bg.jpg') 78% 45% / cover no-repeat, #0D1322; }
-/* 글씨가 올라갈 왼쪽은 깊게, 열쇠가 있는 오른쪽은 걷어 사진이 살아 있게 */
-.join::before { content: ''; position: absolute; inset: 0;
-  background: linear-gradient(100deg, rgba(8,12,22,0.92) 0%, rgba(8,12,22,0.86) 52%, rgba(8,12,22,0.52) 100%); }
-.join > * { position: relative; }
+.join { margin: 26px 0 8px; padding: 24px 22px; border-radius: 14px;
+  background: linear-gradient(170deg, #1F5A43 0%, #16412F 100%); color: #F4F1EA; }
 .join h2 { margin: 0 0 14px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
   font-size: min(1.25rem, 19px + 0.6vw); color: #F4F1EA; letter-spacing: 0.02em; }
 .join ul { margin: 0 0 20px; padding: 0; list-style: none; }
