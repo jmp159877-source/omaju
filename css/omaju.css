@@ -1801,3 +1801,10 @@ body.rd-on { padding-bottom: 124px; }
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 4h5l4.2 6.4V4H19v16h-5l-4.2-6.4V20H5z'/%3E%3C/svg%3E"); }
 .btn.kakao:active, .btn.naver:active { filter: brightness(0.94); }
 @media (min-width: 560px) { .modal-actions.social { grid-template-columns: 1fr 1fr; } }
+
+/* ── 가입 화면에는 '무료'를 또렷하게 (운영자 2026-10-21) ──
+   돈을 받는 줄 알고 망설이다 그냥 나가는 일이 없게, 제목 옆과 바로 밑 한 줄에 못 박는다. */
+.modal-box h2 .free-tag { display: inline-block; vertical-align: 0.18em; margin-left: 8px;
+  background: var(--dark-green, #1F5A43); color: #FFF8E3; font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; }
+.modal-box .free-line { margin: 6px 0 14px; font-size: 1rem; color: var(--dark-green, #1F5A43); font-weight: 700; }
