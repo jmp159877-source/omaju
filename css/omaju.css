@@ -1920,3 +1920,23 @@ body.rd-on { padding-bottom: 124px; }
 .co-about { max-width: 34em; margin: 0 auto 16px; padding: 0 4px;
   font-size: min(0.84rem, 12.5px + 0.4vw); line-height: 1.85; color: #8e887c;
   word-break: keep-all; text-align: center; }
+
+/* 나의 수첩 — 달력 단추를 사진 띠로 (운영자 2026-10-21: 배너가 좀 커야 할 것 같다).
+   집안 공식 그대로: 고화질 사진 + 짙은 막 + 흰 명조. 따뜻한 월넛 사진이라 막도 암갈색. */
+.nb-calban { position: relative; display: block; width: 100%; min-height: 104px; padding: 22px 20px;
+  border: 0; border-radius: 14px; overflow: hidden; text-align: left; margin: 0 0 14px;
+  background: url('../img/nb-cal.jpg') center 58% / cover no-repeat, #1E1409; color: #F4F1EA; }
+.nb-calban::before { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(26,17,9,0.78) 0%, rgba(26,17,9,0.62) 48%, rgba(26,17,9,0.12) 100%); }
+.nb-calban .cb-in { position: relative; display: block; }
+.nb-calban b { display: block; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
+  font-size: min(1.28rem, 20px + 0.7vw); letter-spacing: 0.02em; text-shadow: 0 1px 10px rgba(0,0,0,0.5); }
+.nb-calban small { display: block; margin-top: 5px; font-size: min(0.86rem, 13px + 0.4vw);
+  color: rgba(244,241,234,0.78); text-shadow: 0 1px 8px rgba(0,0,0,0.5); }
+.nb-calban i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%) rotate(180deg);
+  font-style: normal; font-size: 1.1rem; color: rgba(244,241,234,0.8); transition: transform .2s; }
+.nb-calban[aria-expanded="false"] i { transform: translateY(-50%); }
+/* 메모가 쌓이면 목록이 길게 늘어져 지저분하다 → 최근 셋만, 나머지는 눌러서 */
+.nb-more { display: block; width: 100%; margin: 6px 0 0; padding: 11px; background: none;
+  border: 1px solid var(--line, #E3DDCE); border-radius: 6px; color: var(--dark-green, #1F5A43);
+  font-size: min(0.9rem, 14px + 0.4vw); }

@@ -119,7 +119,8 @@ function editor(kind, n = {}, id = null) {
       if (kind === 'event') { data.date = $('nb-date').value; data.time = $('nb-time').value || ''; if (!data.date) return msg('날짜를 넣어 주세요.'); }
       if (kind === 'anniv') { data.month = +$('nb-m').value; data.day = +$('nb-d').value; data.lunar = $('nb-lunar').checked; if (!(data.month >= 1 && data.month <= 12 && data.day >= 1 && data.day <= 31)) return msg('월과 일을 넣어 주세요.'); }
       if (!data.text) return msg('내용을 적어 주세요.');
-      try { if (isNew) await DB.addNote(data); else await DB.updateNote(id, data); closeModal(); toast(isNew ? '적어 두었습니다.' : '고쳤습니다.'); await refresh(); } catch (e) { msg(e.message); }
+      try { if (isNew) await DB.addNote(data); else await DB.updateNote(id, data); closeModal(); toast(isNew ? '적어 두었습니다.' : '고쳤습니다.'); await refresh();
+        openCal(kind === 'event' ? data.date : todayKey()); } catch (e) { msg(e.message); }
     };
     if (!isNew) $('nb-del').onclick = () => { const acts = $('nb-del').parentElement; acts.innerHTML = '<p class="nb-ask">정말 지울까요? 지우면 되돌릴 수 없습니다.</p><button type="button" class="btn line danger" id="nb-del-yes">지우기</button><button type="button" class="btn green" id="nb-del-no">그만두기</button>'; $('nb-del-no').onclick = () => { closeModal(); editor(kind, n, id); }; $('nb-del-yes').onclick = async () => { try { await DB.deleteNote(id); closeModal(); toast('지웠습니다.'); await refresh(); } catch (e) { msg(e.message); } }; };
     $('nb-text').focus();
@@ -129,6 +130,17 @@ function editor(kind, n = {}, id = null) {
 
 // ── 달력 보기: 메모(적은 날)·일정·기억할 날을 한 달 달력에 점으로, 날짜를 누르면 그날 것 ──
 let calY = new Date().getFullYear(), calM = new Date().getMonth(), calSel = todayKey();
+let memoAll = false;
+
+/** 적어 둔 뒤 그날 달력을 펼쳐 보여 준다 — 적자마자 그날 것만 눈에 들어오게. */
+function openCal(key) {
+  const [y, m] = key.split('-').map(Number);
+  calY = y; calM = m - 1; calSel = key;
+  const cb = $('nb-calbtn'); if (cb) { cb.setAttribute('aria-expanded', 'true'); cb.querySelector('b').textContent = '달력 닫기'; }
+  const w = $('nb-calwrap'); if (w) w.classList.add('open');
+  renderCal();
+  if (w) w.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
 function itemsOn(key) {
   const [y, m, d] = key.split('-').map(Number), out = [];
   notes.forEach(n => {
@@ -156,7 +168,8 @@ function renderCal() {
 }
 window.addEventListener('hashchange', () => { if (location.hash === '#g4' && DB.currentUser()) refresh(); });
 document.addEventListener('click', e => {
-  const cb = e.target.closest('#nb-calbtn'); if (cb) { const open = cb.getAttribute('aria-expanded') !== 'true'; cb.setAttribute('aria-expanded', open); $('nb-calwrap').classList.toggle('open', open); cb.querySelector('span').textContent = open ? '달력 닫기' : '달력 보기'; return; }
+  const cb = e.target.closest('#nb-calbtn'); if (cb) { const open = cb.getAttribute('aria-expanded') !== 'true'; cb.setAttribute('aria-expanded', open); $('nb-calwrap').classList.toggle('open', open); cb.querySelector('b').textContent = open ? '달력 닫기' : '달력으로 보기'; return; }
+  const mo = e.target.closest('#nb-memo-more'); if (mo) { memoAll = !memoAll; render(); return; }
   const d = e.target.closest('[data-cal]'); if (d) { calSel = d.dataset.cal; renderCal(); return; }
   const m = e.target.closest('[data-calm]'); if (m) { calM += +m.dataset.calm; if (calM < 0) { calM = 11; calY--; } if (calM > 11) { calM = 0; calY++; } renderCal(); }
 });
@@ -165,7 +178,10 @@ document.addEventListener('click', e => {
 function render() {
   renderCal();
   const by = k => notes.filter(n => n.kind === k);
-  const memo = by('memo'); $('nb-memo').innerHTML = memo.length ? memo.map(n => `<div class="nb-item" data-id="${n.id}"><span class="nb-when">${fmtDate(todayKey(new Date(n.createdAt || Date.now())))}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">아직 메모가 없습니다. 위의 "말로 적기"를 눌러 보세요.</p>';
+  const memo = by('memo'); const memoShow = memoAll ? memo : memo.slice(0, 3);
+  $('nb-memo').innerHTML = memo.length ? memoShow.map(n => `<div class="nb-item" data-id="${n.id}"><span class="nb-when">${fmtDate(todayKey(new Date(n.createdAt || Date.now())))}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">아직 메모가 없습니다. 위의 "말로 적기"를 눌러 보세요.</p>';
+  if (memo.length > 3) $('nb-memo').insertAdjacentHTML('beforeend',
+    `<button type="button" class="nb-more" id="nb-memo-more">${memoAll ? '접기' : `지난 메모 ${memo.length - 3}개 더 보기`}</button>`);
   const ev = by('event').filter(n => n.date >= todayKey()).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
   const past = by('event').filter(n => n.date < todayKey()).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
   $('nb-event').innerHTML = (ev.length ? ev.map(n => `<div class="nb-item ${n.date === todayKey() ? 'today' : ''}" data-id="${n.id}"><span class="nb-when">${n.date === todayKey() ? '오늘' : fmtDate(n.date)}${n.time ? ' · ' + fmtTime(n.time) : ''}</span><span class="nb-txt">${esc(n.text)}</span><span class="nb-acts"><span class="nb-edit">고치기</span><button type="button" class="nb-rm" data-rm="${n.id}">지우기</button></span></div>`).join('') : '<p class="nb-empty">다가오는 일정이 없습니다.</p>')
