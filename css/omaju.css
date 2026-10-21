@@ -1914,3 +1914,9 @@ body.rd-on { padding-bottom: 124px; }
   color: #fff; text-decoration: none; font-size: min(0.92rem, 14px + 0.4vw);
   text-shadow: 0 1px 6px rgba(0,0,0,0.6); }
 .chip-links a:not([hidden])::before { content: none; }
+
+/* 판권 위 소개 문단 — 사람이 읽어도 자연스럽게, 검색·AI 가 '오마주가 무엇인지' 를 글로 읽게.
+   화면은 JS 로 그려져 크롤러 눈에는 거의 빈 페이지였다 (2026-10-21). */
+.co-about { max-width: 34em; margin: 0 auto 16px; padding: 0 4px;
+  font-size: min(0.84rem, 12.5px + 0.4vw); line-height: 1.85; color: #8e887c;
+  word-break: keep-all; text-align: center; }
