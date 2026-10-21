@@ -1901,3 +1901,16 @@ body.rd-on { padding-bottom: 124px; }
   font-size: min(1.08rem, 16px + 0.5vw); }
 .wel-lux .field > label .lab-sub { font-family: 'Noto Sans KR', sans-serif; font-weight: 300;
   font-size: 0.78em; letter-spacing: 0; color: #8C8373; }
+
+/* 커버 사진 위의 '나의 정보 · 로그아웃' 이 밑줄만 그은 흰 글씨라 사진에 묻혀
+   눌리지 않는 글자처럼 보였다 (운영자 2026-10-21: "버튼이 활성이 안 되는데").
+   가는 흰 테두리와 옅은 검은 바탕을 둘러 눌러도 되는 것임을 알아보게 하고, 탭 자리도 넓힌다. */
+.chip-links { gap: 8px; }
+.chip-links > span { display: none; }          /* 가운데 점은 테두리가 생겨 필요 없다 */
+.chip-links button, .chip-links a:not([hidden]) {
+  padding: 8px 14px; min-height: 40px; display: inline-flex; align-items: center;
+  border: 1px solid rgba(255,255,255,0.55); border-radius: 3px;
+  background: rgba(20,24,20,0.3); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  color: #fff; text-decoration: none; font-size: min(0.92rem, 14px + 0.4vw);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6); }
+.chip-links a:not([hidden])::before { content: none; }
