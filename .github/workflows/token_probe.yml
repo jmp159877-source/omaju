@@ -1,0 +1,19 @@
+name: token_probe
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: token_probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: 맞춤 토큰으로 실제 로그인 해 보기
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node tools/token_probe.js
