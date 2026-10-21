@@ -1,0 +1,27 @@
+# 관리자 계정 살펴보기·세우기 (손으로만 돌린다)
+name: admin_tool
+on:
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: 'list | grant | drop'
+        default: 'list'
+      username:
+        description: '아이디 (grant/drop 일 때)'
+        default: ''
+permissions:
+  contents: read
+concurrency:
+  group: admin_tool
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q google-cloud-firestore
+      - env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: python3 -u tools/admin_tool.py "${{ inputs.cmd }}" "${{ inputs.username }}"
