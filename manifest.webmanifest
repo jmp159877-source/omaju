@@ -1,7 +1,7 @@
 {
-  "name": "오마주 - 매일 아침 5분, 마음은 주니어",
+  "name": "오마주 — 매일 아침 새로 나오는 라이프스타일 매거진",
   "short_name": "오마주",
-  "description": "매일 아침 5분, 운세와 인사말, 그해 오늘과 추억의 노래, 한 끼와 퀴즈.",
+  "description": "4070 세대의 여가와 라이프스타일을 큐레이션하는 매거진. 매일 아침 새로 나옵니다. 오늘의 운세와 한 끼, 그 시절 노래와 그해 오늘까지.",
   "start_url": "/?source=app",
   "scope": "/",
   "display": "standalone",
@@ -9,7 +9,17 @@
   "theme_color": "#2B2A26",
   "lang": "ko",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# 검색 AI 에게도 열어 둔다 — 오마주가 무엇인지 물었을 때 답에 쓰이도록
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Yeti
+Allow: /
+
+Sitemap: https://omaju.kr/sitemap.xml
