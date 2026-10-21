@@ -844,13 +844,12 @@ let afterLogin = null;
 function openGate(why) {
   afterLogin = null;
   modal(`<h2>오마주 회원이 되어 주세요 <span class="free-tag">무료</span></h2>
-  <p class="free-line">가입비도 이용료도 없습니다. 앞으로도 돈을 받지 않습니다.</p>
-  <p>${why ? why + ' 회원가입이 필요합니다. ' : ''}가입하면 한마디 나누기, 나의 수첩(메모·일정·기억할 날)을 쓸 수 있습니다. 쓰시던 카카오나 네이버로 바로 들어오실 수 있습니다.</p>
+  <p class="free-line">가입비도 이용료도 없습니다.</p>
+  <p>${why ? why + ' 회원가입이 필요합니다. ' : ''}가입하면 글쓰기와 나의 수첩(메모·일정)을 쓸 수 있습니다.</p>
   <div class="modal-actions social"><button type="button" class="btn kakao" id="g-kakao"><span>카카오로 시작하기</span></button><button type="button" class="btn naver" id="g-naver"><span>네이버로 시작하기</span></button></div>
-  <p class="note tip">가장 빠른 길입니다. 비밀번호를 따로 외우지 않으셔도 됩니다.</p>
   <div class="divider"></div>
   <div class="modal-actions"><button type="button" class="btn warm" id="g-signup">아이디로 가입하기 <span class="free">무료</span></button><button type="button" class="btn line" id="g-login">이미 가입했어요, 로그인</button></div>
-  <div class="divider"></div><p class="note">매일 아침 바로 열어 보시려면</p><div class="modal-actions"><button type="button" class="btn ivory" id="g-install">앱 아이콘 설치하기</button></div>`,
+  <div class="divider"></div><p class="note">바탕화면에 바로가기 앱 아이콘을 설치하세요.</p><div class="modal-actions"><button type="button" class="btn ivory" id="g-install">앱 아이콘 설치하기</button></div>`,
   () => { $('modal').classList.add('gate-modal'); $('g-signup').onclick = openSignup; $('g-login').onclick = openLogin;
     $('g-kakao').onclick = () => { location.href = '/api/kakao-start'; };
     $('g-naver').onclick = () => { location.href = '/api/naver-start'; }; $('g-install').onclick = () => { closeModal(); $('install-btn').click(); }; });
