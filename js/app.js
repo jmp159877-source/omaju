@@ -787,8 +787,8 @@ document.addEventListener('click', e => {
 });
 
 // ── 앱 설치 · 알리기 ──
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
+let deferredPrompt = window.__bip || null;   // 머리 부분에서 먼저 받아 둔 것
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; window.__bip = e; });
 window.addEventListener('appinstalled', () => { DB.track('installed'); $('install-btn').hidden = true; modal(`<h2>설치되었습니다</h2><p style="font-size:1.2rem">휴대폰 <b>바탕화면</b>에서 <b>오마주</b> 아이콘을 누르면 바로 열립니다.</p><p class="note">바탕화면에 안 보이면 화면을 위로 쓸어 올려 앱 목록에서 "오마주"를 찾으세요.</p><div class="modal-actions"><button type="button" class="btn green" onclick="document.getElementById('modal-root').innerHTML=''">알겠습니다</button></div>`); });
 const UA = navigator.userAgent, isIOS = /iPhone|iPad|iPod/.test(UA), inApp = /KAKAOTALK|NAVER|Instagram|FBAN|FBAV|Line\//i.test(UA), standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 if (standalone) $('install-btn').hidden = true;
