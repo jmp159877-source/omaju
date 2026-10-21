@@ -433,6 +433,11 @@ def build():
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)
     sign = {'say': f'사랑합니다. {signoff(HOST)}', 'cap': ['사랑합니다.', signoff(HOST)], 'tag': 'wave'}
+    # 사인오프 바로 앞 — 사연을 청합니다 (운영자 2026-10-21 밤).
+    # 사연 코너를 따로 두지 않고, 라디오처럼 끝에서 한 번 청해 '내 사연 보내기' 로 모은다.
+    ask = {'say': '여러분의 소소한 일상도, 기쁜 일도 속상한 일도 다 좋아요. '
+                  '아래 내 사연 보내기로 보내 주시면 제가 골라서 소개해 드릴게요.',
+           'cap': ['여러분의 이야기를 들려주세요', '내 사연 보내기'], 'tag': 'read'}
     imgs = {p: {t: shot(p, t) for t in set(TAGS) | {'wave', 'stand'}} for p in ('mor', 'eve')}
     res = {'date': DATE, 'host': HOST, 'outfit': OUTFIT, 'imgs': imgs,
            'title': s.get('title', ''), 'next_title': s['next_title'],
@@ -457,6 +462,7 @@ def build():
         if isinstance(c.get('cap'), str): c['cap'] = [c['cap']]
         c.setdefault('cap', [c['say']])
         where['c' + sl] = [len(allsegs)]; allsegs.append(c)
+    where['ask'] = [len(allsegs)]; allsegs.append(ask)
     where['sign'] = [len(allsegs)]; allsegs.append(sign)
 
     nm = NAME[HOST]
@@ -503,7 +509,7 @@ def build():
     edge = [st / tempo for st in starts] + [T / tempo]
 
     for sl in SLOTS:
-        pick = where['g' + sl] + where['s' + sl] + where['body'] + where['c' + sl] + where['sign']
+        pick = where['g' + sl] + where['s' + sl] + where['body'] + where['c' + sl] + where['ask'] + where['sign']
         spans = [(edge[a], edge[b + 1]) for a, b in merge(pick)]
         mp3 = f'{DATE}-{sl}.mp3'; dst = os.path.join(OUT, mp3)
         cut(whole, spans, dst)

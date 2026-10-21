@@ -69,7 +69,7 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
 
   <div id="panel" hidden>
     <div class="topbar"><a href="index.html">오마주로 돌아가기</a><button type="button" id="a-out">로그아웃</button></div>
-    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">회원</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button></div>
+    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">회원</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button></div>
 
     <section class="sec on" data-sec="dash">
       <div class="tiles" id="tiles"></div>
@@ -87,6 +87,12 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
       <div class="bar"><label>날짜</label><input type="date" id="c-date"><button type="button" class="btn line" id="c-load">불러오기</button><button type="button" class="btn line" id="c-default">기본 내용 가져오기</button><button type="button" class="btn green" id="c-save">저장</button><span class="note" id="c-msg"></span></div>
       <p class="note">아래는 그날 사이트에 나갈 내용입니다. 따옴표와 쉼표 모양을 그대로 두고 글만 고치세요. 저장하면 그 날짜에 바로 반영됩니다.</p>
       <textarea id="c-json" style="min-height:520px"></textarea>
+    </section>
+
+    <section class="sec" data-sec="stories">
+      <div class="bar"><button type="button" class="btn line" id="s-load">불러오기</button><span class="note" id="s-msg"></span></div>
+      <p class="note">보내 주신 사연입니다. <b>싣기</b>를 누른 것만 아침에 한 편씩 올라갑니다.</p>
+      <table id="stories"></table>
     </section>
 
     <section class="sec" data-sec="comments">

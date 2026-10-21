@@ -245,6 +245,16 @@ export async function sendStory(text) {
   if (BAD.some(w => text.includes(w))) throw new Error('고운 말로 다시 적어 주세요.');
   await addDoc(collection(db, 'stories'), { uid: me.uid, nick: profile.nick, text, ts: serverTimestamp(), status: 'new' });
 }
+/** 관리자: 보내 온 사연 보기. status — new(새 것) / ok(싣기로 한 것) / used(나간 것) / hold(보류) */
+export async function listStories(status = '') {
+  let q0 = collection(db, 'stories');
+  const s = await getDocs(status ? query(q0, where('status', '==', status)) : q0);
+  return s.docs.map(d => ({ id: d.id, ...d.data() }))
+    .sort((a, b) => (b.ts && b.ts.seconds || 0) - (a.ts && a.ts.seconds || 0));
+}
+export async function setStoryStatus(id, status) { await updateDoc(doc(db, 'stories', id), { status }); }
+export async function deleteStory(id) { await deleteDoc(doc(db, 'stories', id)); }
+
 export async function deleteMyComment(id) { await deleteDoc(doc(db, 'comments', id)); }
 const BAD = ['시발', '씨발', '개새', '병신', '좆', '니미', '썅'];
 

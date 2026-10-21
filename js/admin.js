@@ -20,7 +20,7 @@ DB.onUser((u, p) => {
   if (u && !ok) { $('err').textContent = '관리자 권한이 없는 계정입니다.'; DB.logout(); }
   if (ok) { $('who').textContent = p.nick; loadDash(); }
 });
-document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, notice: loadNotice, maint: loadMaint })[b.dataset.tab]?.(); };
+document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, notice: loadNotice, maint: loadMaint, stories: loadStories })[b.dataset.tab]?.(); };
 
 // ── 현황 ──
 async function loadDash() {
@@ -93,3 +93,36 @@ $('n-off').onclick = async () => { const old = await getDocs(query(collection(db
 async function loadMaint() { const s = await getDoc(doc(db, 'settings', 'maint')); const m = s.exists() ? s.data() : {}; $('mt-text').value = m.text || ''; $('mt-msg').textContent = m.on ? '지금 점검 모드가 켜져 있습니다.' : '꺼져 있습니다.'; }
 $('mt-on').onclick = async () => { await setDoc(doc(db, 'settings', 'maint'), { on: true, text: $('mt-text').value.trim(), ts: serverTimestamp() }); $('mt-msg').textContent = '켰습니다. 방문자에게 안내가 보입니다.'; };
 $('mt-off').onclick = async () => { await setDoc(doc(db, 'settings', 'maint'), { on: false, text: '', ts: serverTimestamp() }); $('mt-msg').textContent = '껐습니다.'; };
+
+// ── 사연 ──
+// 보내 온 사연은 여기서 한 번 보고 '싣기'를 누른 것만 아침에 올라간다.
+// 아무나 보낸 글이 그대로 방송돼 나가면 수습할 길이 없다.
+const S_LABEL = { new: '새 사연', ok: '싣기로 함', used: '나간 것', hold: '보류' };
+async function loadStories() {
+  $('s-msg').textContent = '불러오는 중…';
+  let list = [];
+  try { list = await DB.listStories(); } catch (e) { $('s-msg').textContent = e.message; return; }
+  const n = list.filter(x => x.status === 'new').length, ok = list.filter(x => x.status === 'ok').length;
+  $('s-msg').textContent = `새 사연 ${n}편 · 실을 것 ${ok}편`;
+  $('stories').innerHTML = '<tr><th>보낸 분</th><th>때</th><th>사연</th><th>상태</th><th></th></tr>' + (list.length ? list.map(x => `<tr>
+    <td>${esc(x.nick || '')}</td><td>${fmt(x.ts)}</td>
+    <td style="white-space:pre-wrap;max-width:520px">${esc(x.text || '')}</td>
+    <td>${S_LABEL[x.status] || esc(x.status || '')}${x.usedDate ? '<br><small>' + esc(x.usedDate) + '</small>' : ''}</td>
+    <td style="white-space:nowrap">
+      ${x.status === 'ok' ? '<button type="button" class="btn line" data-st="new" data-id="' + x.id + '">되돌리기</button>'
+                          : '<button type="button" class="btn green" data-st="ok" data-id="' + x.id + '">싣기</button>'}
+      <button type="button" class="btn line" data-st="hold" data-id="${x.id}">보류</button>
+      <button type="button" class="btn line" data-del="${x.id}">지우기</button>
+    </td></tr>`).join('') : '<tr><td colspan="5">아직 들어온 사연이 없습니다.</td></tr>');
+  labelize($('stories'));
+}
+$('s-load').onclick = loadStories;
+$('stories').onclick = async e => {
+  const b = e.target.closest('[data-st]'), d = e.target.closest('[data-del]');
+  try {
+    if (b) await DB.setStoryStatus(b.dataset.id, b.dataset.st);
+    else if (d) { if (!confirm('이 사연을 지울까요?')) return; await DB.deleteStory(d.dataset.del); }
+    else return;
+    loadStories();
+  } catch (err) { $('s-msg').textContent = err.message; }
+};
