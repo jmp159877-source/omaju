@@ -125,7 +125,17 @@ async function makeCard(i) {
   CT.load = Date.now() - t0;
   const cv = await cardsMod.drawCard(C.greetings[i], i, { dateText: CARD_DATE, variant: cardVar(i), season: CARD_SEASON });
   CT.draw = Date.now() - t0 - CT.load;
-  const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+  // toBlob 은 폰에 따라 터무니없이 느리다(13초). toDataURL 로 먼저 해 보고 안 되면 toBlob 으로.
+  let blob = null;
+  try {
+    const d = cv.toDataURL('image/jpeg', 0.88);
+    if (d && d.indexOf('data:image/jpeg') === 0) {
+      const bin = atob(d.slice(d.indexOf(',') + 1)), u8 = new Uint8Array(bin.length);
+      for (let k = 0; k < bin.length; k++) u8[k] = bin.charCodeAt(k);
+      blob = new Blob([u8], { type: 'image/jpeg' });
+    }
+  } catch (e) {}
+  if (!blob) blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
   CT.blob = Date.now() - t0 - CT.load - CT.draw;
   return blob;
 }

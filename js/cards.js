@@ -29,7 +29,10 @@ function roundRect(x, X, Y, w, h, rr) { x.beginPath(); x.moveTo(X + rr, Y); x.ar
 
 export async function drawCard(text, i, { dateText = '', variant = 'v1', season = 'autumn' } = {}) {
   const S = STYLE[variant] || STYLE.v1;
-  const W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  const W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  // willReadFrequently: 그림을 사진 파일로 바꿀 때 그림판을 CPU 쪽에 두게 한다.
+  // 안 주면 삼성 내장 브라우저에서 그 변환 한 단계가 13초 걸렸다 (운영자 2026-10-22, ?t=1 로 재 봄).
+  const x = cv.getContext('2d', { willReadFrequently: true });
   // 바탕
   if (S.bg === 'sky') { const g = x.createLinearGradient(W * 0.4, 0, W * 0.6, H); g.addColorStop(0, '#DCE7EE'); g.addColorStop(0.55, '#EEF1EE'); g.addColorStop(1, '#F7EFE3'); x.fillStyle = g; } else x.fillStyle = S.bg;
   x.fillRect(0, 0, W, H);
