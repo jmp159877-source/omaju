@@ -9,14 +9,14 @@ const key = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0
 const SCOPE = {
   g1: ['g1', 'play', 'malmoi', 'shisen', 'num50', 'sudoku', 'fortune', 'food', 'book', 'quiz', 'culture'],
   g2: ['g2', 'history', 'music', 'story', 'home'],
-  g5: ['g5', 'follow', 'outing', 'show', 'phrase'],
+  g5: ['g5', 'follow', 'outing', 'show', 'garden', 'phrase'],   // garden: 2026-10-22 빠져 있어서 정원에 들어가면 소리가 멎었다
   g3: ['g3', 'hike', 'move', 'mind', 'body'],
 };
 const inScope = (ch, h) => (SCOPE[ch] || []).includes(h) || /^cu-[a-z]+$/.test(h);
 const KO = { open: '여는 말', close: '닫는 말', weather: '오늘의 날씨', market: '오늘의 경제', cards: '오늘의 인사말 카드',
   play: '오늘 PLAY', fortune: '오늘의 운세', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '오늘의 시사 상식', culture: '오늘의 문화',
   history: '그해 오늘', music: '그 시절 노래', story: '그날의 사연', home: '그 동네 지금',
-  follow: '오늘의 따라하기', outing: '오늘의 나들이', show: '이번 주, 무엇을 볼까', phrase: '여행',
+  follow: '오늘의 따라하기', outing: '오늘의 나들이', show: '이번 주, 무엇을 볼까', garden: '오늘의 정원', phrase: '여행',
   hike: '오늘의 산', move: '오늘의 몸 풀기', mind: '오늘의 마음 한 줄', body: '오늘의 몸 한 가지' };
 const mmss = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s / 60)}분 ${String(s % 60).padStart(2, '0')}초`; };
 

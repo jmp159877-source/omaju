@@ -61,7 +61,7 @@ CH = {
                        ('story', '그날의 사연'), ('home', '그 동네 지금')]},
     'g5': {'host': 'eunchae', 'title': '앞으로 나아가기', 'need': ('follow', 'phrase'),
            'corners': [('follow', '오늘의 따라하기'), ('outing', '오늘의 나들이'),
-                       ('show', '이번 주, 무엇을 볼까'), ('phrase', '여행')]},
+                       ('show', '이번 주, 무엇을 볼까'), ('garden', '오늘의 정원'), ('phrase', '여행')]},
     'g3': {'host': 'eunchae', 'title': '나를 돌보기', 'need': ('mind', 'body', 'follow'),
            'corners': [('hike', '오늘의 산'), ('move', '오늘의 몸 풀기'),
                        ('mind', '오늘의 마음 한 줄'), ('body', '오늘의 몸 한 가지')]},
@@ -345,7 +345,7 @@ def material_g2(d):
 
 
 def material_g5(d):
-    """앞으로 나아가기 — 따라하기 · 나들이 · 무엇을 볼까 · 여행."""
+    """앞으로 나아가기 — 따라하기 · 나들이 · 무엇을 볼까 · 정원 · 여행."""
     out = []
     f = d.get('follow') or {}
     fo = [(k, f[k]) for k in ('sing', 'dance', 'golf', 'park') if isinstance(f.get(k), dict) and f[k].get('title')]
@@ -364,6 +364,13 @@ def material_g5(d):
         out.append('· 이번 주, 무엇을 볼까 (극장·무대·전시):\n'
                    + '\n'.join(f'   - {x.get("title","")} ({x.get("where","")}, {x.get("when","")}) — {x.get("why","")}'
                                 for x in sh['items'][:3] if isinstance(x, dict)))
+    # 오늘의 정원 (2026-10-22: 화면에 넣고 읽어 드려요에는 빠져 있었다). 화면 차례대로 '무엇을 볼까' 다음, '여행' 앞.
+    gd = d.get('garden') or {}
+    if gd.get('title'):
+        body = ' '.join(gd.get('body') or [])[:420]
+        out.append(f'· 오늘의 정원 ({gd.get("when","")}에 할 일 한 가지): {gd["title"]} — {body}'
+                   + (f' / 요령: {gd["tip"]}' if gd.get('tip') else '')
+                   + ' (베란다 화분 기르는 분도 할 수 있게 풀어서. 약제 이름·양은 말하지 말 것)')
     ph = d.get('phrase') or {}
     if ph.get('topic'):
         bits = [f'{nm} "{ph[k]}"' for k, nm in (('en', '영어'), ('ja', '일본어'), ('zh', '중국어')) if ph.get(k)]

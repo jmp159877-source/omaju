@@ -506,9 +506,10 @@ srv.listen(0, '127.0.0.1', async () => {
       });
       await step('읽어 드려요: 네 장 모두 · 코너 옮겨도 이어짐 · 장 나가면 멎음', async () => {
         // 장마다 띠가 있고, 눌러 들으면 아래 띠가 뜨고, 그 장 안 코너로 가도 이어지고, 장을 나가면 멎는다
-        const CH = [['g1', 'food'], ['g2', 'history'], ['g5', 'outing'], ['g3', 'mind']];
+        // 장 안의 코너를 하나만 들어가 보면 빠진 코너를 못 잡는다 (2026-10-22: 정원에 들어가면 멎었다) → 전부 들어가 본다
+        const CH = [['g1', ['food', 'book', 'quiz']], ['g2', ['history', 'story']], ['g5', ['follow', 'outing', 'show', 'garden', 'phrase']], ['g3', ['hike', 'move', 'mind', 'body']]];
         const bad = [];
-        for (const [ch, corner] of CH) {
+        for (const [ch, corners] of CH) {
           await E(x => window.omajuNav(x), ch); await W(900);
           const a = await E(c => { const b = document.getElementById('rd-' + c + '-face'); return b ? { sub: document.getElementById('rd-' + c + '-sub').textContent, go: document.getElementById('rd-' + c + '-go').textContent, off: document.getElementById('rd-' + c).classList.contains('rd-off') } : null; }, ch);
           if (!a) { bad.push(ch + ': 띠 없음'); continue; }
@@ -516,8 +517,12 @@ srv.listen(0, '127.0.0.1', async () => {
           if (!/분/.test(a.sub)) { bad.push(ch + ': 길이 안내 없음'); continue; }
           await E(c => document.getElementById('rd-' + c + '-face').click(), ch); await W(900);
           if (await E(() => document.getElementById('rd-bar').hidden)) { bad.push(ch + ': 아래 띠가 안 뜸'); continue; }
-          await E(x => window.omajuNav(x), corner); await W(700);
-          if (await E(() => document.getElementById('rd-bar').hidden)) { bad.push(ch + ': 코너로 들어가니 멎음'); continue; }
+          let stopped = '';
+          for (const corner of corners) {
+            await E(x => window.omajuNav(x), corner); await W(600);
+            if (await E(() => document.getElementById('rd-bar').hidden)) { stopped = corner; break; }
+          }
+          if (stopped) { bad.push(ch + ': ' + stopped + ' 에 들어가니 멎음'); continue; }
           await E(x => window.omajuNav(x), ch === 'g1' ? 'g2' : 'g1'); await W(700);
           if (!(await E(() => document.getElementById('rd-bar').hidden))) bad.push(ch + ': 장을 나갔는데 안 멎음');
           await E(() => { try { window.omajuRadio.stop(); } catch (e) {} }); await W(300);
