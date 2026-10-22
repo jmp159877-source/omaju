@@ -62,6 +62,7 @@ jobs:
             git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
             ok=0
             for i in 1 2 3 4 5; do
+              git checkout -q -- . 2>/dev/null   # 커밋하지 않은 찌꺼기(봇 기록 등)가 있으면 rebase 가 거부한다
               git pull --rebase -X theirs origin main && git push && { ok=1; break; }
               echo "[git] $i 번째 실패 (rc=$?)"; git rebase --abort 2>/dev/null; sleep 5
             done

@@ -36,5 +36,5 @@ jobs:
         run: |
           git config user.name omaju-bot; git config user.email bot@omaju.kr
           git add daily/*.json; git commit -qm "그날의 신문 [skip ci]" || exit 0
-          for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
+          for i in 1 2 3 4 5; do git checkout -q -- . 2>/dev/null; git pull -q --rebase -X theirs origin main && git push -q && break; git rebase --abort 2>/dev/null; sleep 5; done
           GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-era-news.log

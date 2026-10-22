@@ -33,7 +33,7 @@ jobs:
           git config user.name omaju-bot; git config user.email bot@omaju.kr
           git add -A music || true
           git diff --cached --quiet || git commit -m "오프닝 배경 음악 [skip ci]"
-          for i in 1 2 3; do git pull -q --rebase -X theirs origin main && git push && break; git rebase --abort 2>/dev/null; sleep 5; done
+          for i in 1 2 3; do git checkout -q -- . 2>/dev/null; git pull -q --rebase -X theirs origin main && git push && break; git rebase --abort 2>/dev/null; sleep 5; done
       - name: 들어 본 것 모두 가지에 올리기
         if: always()
         run: |

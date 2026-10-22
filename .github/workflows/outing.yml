@@ -33,5 +33,5 @@ jobs:
           git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
           git add -A data/ 2>/dev/null || true
           git diff --cached --quiet || git commit -m "이번 주말 나들이 [skip ci]"
-          ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
+          ok=0; for i in 1 2 3 4 5; do git checkout -q -- . 2>/dev/null; git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
           GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/last-outing.log
