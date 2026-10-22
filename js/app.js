@@ -189,18 +189,22 @@ async function kakaoSendIntro(text) {
   } catch (err) { return false; }
 }
 
-async function kakaoSendCard(file, title) {
+async function kakaoSendCard(file) {
   if (!await kakaoReady()) return false;
   try {
     const dt = new DataTransfer(); dt.items.add(file);
     const r = await window.Kakao.Share.uploadImage({ file: dt.files });
     const im = (r && (r.original || (r.infos && r.infos.original))) || {};
     if (!im.url) return false;
-    window.Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: { title, description: '매일 아침 새로 나오는 잡지, 오마주', imageUrl: im.url, imageWidth: im.width, imageHeight: im.height, link: OMAJU_LINK },
-      buttons: [{ title: '오마주 열어보기', link: OMAJU_LINK }],
-    });
+    // 카드 밑에 붙는 글을 최대한 없앤다 (운영자 2026-10-22: "오마주 열어보기만 딱 나오게").
+    // 제목을 비워 보고(그림 + 단추만), 카카오가 거부할 때만 짧은 한 줄을 넣어 다시 보낸다.
+    const pic = { imageUrl: im.url, imageWidth: im.width, imageHeight: im.height, link: OMAJU_LINK };
+    const btn = [{ title: '오마주 열어보기', link: OMAJU_LINK }];
+    try {
+      window.Kakao.Share.sendDefault({ objectType: 'feed', content: { title: '', ...pic }, buttons: btn });
+    } catch (e2) {
+      window.Kakao.Share.sendDefault({ objectType: 'feed', content: { title: '매일 아침 새로 나오는 잡지, 오마주', ...pic }, buttons: btn });
+    }
     return true;
   } catch (err) { return false; }
 }
@@ -229,7 +233,7 @@ cardsEl.onclick = async e => {
     const btn = $('card-share'); btn.disabled = true; btn.textContent = '보내는 중…';
     // 카드도 같다 — 그림을 바로 넘길 수 있는 폰은 원래대로, 안 되는 창에서만 카카오 공유.
     if (canFile) { try { await navigator.share({ files: [file], text }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
-    if (await kakaoSendCard(file, C.greetings[i].replace(/\n/g, ' '))) { closeModal(); return; }
+    if (await kakaoSendCard(file)) { closeModal(); return; }
     if (canShare) { try { await navigator.share({ text: text + '\nhttps://omaju.kr' }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
     save();
   };
