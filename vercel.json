@@ -62,5 +62,67 @@
       "*": false,
       "main": true
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/tick",
+      "schedule": "13 0-7 * * 1-5"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "13 21 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "13 9 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "13 12 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "10 20 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "40 2,7,11 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "5 15 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "0 18 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "0 21 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "40 7 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "40 15 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "10 19 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "20 16 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "30 20 * * *"
+    }
+  ]
 }
