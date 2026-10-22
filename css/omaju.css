@@ -1386,7 +1386,7 @@ html.big .dsec[data-k="history"] .row b { width: auto; }
 .gcard.paper .gp-brush { display: block; width: 84px; height: 12px; margin: 14px auto 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 20'%3E%3Cpath d='M4 12 C30 6 70 5 136 9 C100 13 50 15 6 15 Z' fill='%23221e19' opacity='.85'/%3E%3C/svg%3E") center/contain no-repeat; }
 .gcard.paper .gp-brand { position: absolute; bottom: 20px; left: 0; right: 0; z-index: 1; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; font-size: min(1rem, 4.4vw); letter-spacing: 0.06em; }
 /* 카드 아래 로고 (운영자 2026-10-22 — 보내는 그림과 화면 카드를 같게) */
-.gcard.paper .gp-logo { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 1; width: 94px; height: auto; }
+.gcard.paper .gp-logo { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 1; width: 22%; height: auto; }   /* 보내는 그림의 235/1080 과 같은 비율 */
 .gcard.paper .gp-seal { position: absolute; right: 24px; bottom: 17px; z-index: 1; width: 19px; padding: 5px 0; background: #B5322A; color: #F6E7D8; font: 800 10px/1.15 'Nanum Myeongjo', serif; writing-mode: vertical-rl; text-orientation: upright; border-radius: 2px; transform: rotate(-3deg); opacity: 0.9; display: flex; align-items: center; justify-content: center; }
 /* 1 아이보리 금테 */
 .gcard.paper.v1 { background-color: #FBF8F1; color: #2E2618; }
