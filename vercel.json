@@ -1,7 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)tools' ':(exclude).github' ':(exclude)tests' ':(exclude)docs' ':(exclude)daily' ':(exclude)music' ':(exclude)CLAUDE.md' ':(exclude)README-올리기.txt'",
-  "comment": "js/css 는 늘 서버에 물어보고 받는다 (운영자 2026-10-22). 카톡·네이버 앱 안 브라우저에는 서비스 워커가 없어서, ?v= 가 안 붙은 모듈(cards.js·db.js 등)이 옛 파일로 남아 고친 것이 반영되지 않았다.",
   "headers": [
     {
       "source": "/manifest.webmanifest",
