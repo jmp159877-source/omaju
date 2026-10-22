@@ -34,17 +34,19 @@ export async function drawCard(text, i, { dateText = '', variant = 'v1', season 
   if (S.bg === 'sky') { const g = x.createLinearGradient(W * 0.4, 0, W * 0.6, H); g.addColorStop(0, '#DCE7EE'); g.addColorStop(0.55, '#EEF1EE'); g.addColorStop(1, '#F7EFE3'); x.fillStyle = g; } else x.fillStyle = S.bg;
   x.fillRect(0, 0, W, H);
   grain(x, W, H, S.grain);
-  const [leaf, wc, logo] = await Promise.all([S.orn === 'leaf' ? load('leaf.png') : null, S.wc ? load(`img/wc/${season}.jpg`) : null, load('img/logo.png')]);
+  // 그림과 글꼴을 **같이** 기다리고 다 합쳐 2.5초에서 끊는다 (운영자 2026-10-22: 카톡 안 브라우저에서 10초).
+  // 차례로 기다리면 그림 4초 + 글꼴 3초가 더해져 느려진다. 늦게 오는 것은 없는 대로 그린다.
+  const cap = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise(r => setTimeout(() => r(null), ms))]);
+  const fontsP = (async () => { try { await Promise.all([document.fonts.load('800 80px "Nanum Myeongjo"', text + '오마주'), document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'), document.fonts.load('400 34px "Noto Sans KR"', dateText + '매일 아침 5분')]); } catch (e) {} })();
+  const [leaf, wc, logo] = await Promise.all([
+    cap(S.orn === 'leaf' ? load('leaf.png') : null, 2500),
+    cap(S.wc ? load(`img/wc/${season}.jpg`) : null, 2500),
+    cap(load('img/logo.png'), 2500),
+    cap(fontsP, 2500),
+  ]);
   if (wc) { const w = W * 0.74, h = w * wc.height / wc.width; x.drawImage(wc, W - w, 0, w, h); }
   if (S.border) { x.strokeStyle = S.border; x.lineWidth = 2.4; roundRect(x, 34, 34, W - 68, H - 68, 14); x.stroke(); }
   const lines = String(text).split('\n');
-  // 글꼴이 늦게 와도 3초 넘게 붙잡지 않는다 — 처음 누른 분이 멈춘 줄 알고 또 누른다 (운영자 2026-10-22)
-  try {
-    await Promise.race([
-      Promise.all([document.fonts.load('800 80px "Nanum Myeongjo"', text + '오마주'), document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'), document.fonts.load('400 34px "Noto Sans KR"', dateText + '매일 아침 5분')]),
-      new Promise(r => setTimeout(r, 3000)),
-    ]);
-  } catch (e) {}
   x.textAlign = 'center'; x.textBaseline = 'alphabetic';
   // 날짜 (수채 카드는 그림을 피해 왼쪽 위 두 줄)
   x.fillStyle = S.date; x.font = '400 34px "Noto Sans KR", sans-serif';
