@@ -161,6 +161,19 @@ function kakaoReady() {
   }).then(ok => { try { if (ok && !window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY); return !!(ok && window.Kakao.isInitialized()); } catch (err) { return false; } });
   return kakaoP;
 }
+// 커버의 '친구에게 보내기' — 그림은 이미 올라가 있는 공유 배너를 쓴다 (올릴 필요 없이 빠르다)
+async function kakaoSendIntro(text) {
+  if (!await kakaoReady()) return false;
+  try {
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: { title: '오마주 · 오늘도 마음은 주니어', description: text.replace(/\n/g, ' '), imageUrl: 'https://omaju.kr/og-v4.jpg', imageWidth: 1200, imageHeight: 630, link: OMAJU_LINK },
+      buttons: [{ title: '오마주 열어보기', link: OMAJU_LINK }],
+    });
+    return true;
+  } catch (err) { return false; }
+}
+
 async function kakaoSendCard(file, title) {
   if (!await kakaoReady()) return false;
   try {
@@ -909,8 +922,11 @@ if (/[?&]install=1/.test(location.search) && !standalone && !inApp) {
 $('share-btn').onclick = async () => {
   const text = '매일매일, 펼쳐 보는 즐거움.\n오늘 읽을 것, 할 것, 떠날 곳까지.\n이제는, 오마주와 함께.';
   DB.track('share');
-  if (navigator.share) { try { await navigator.share({ title: '오마주', text: text + '\n' + SITE }); } catch (e) {} }
-  else { try { await navigator.clipboard.writeText(text + '\n' + SITE); toast('소개 글을 복사했습니다. 카톡에 붙여 넣어 보내세요.'); } catch (e) {} }
+  // 카톡 안 브라우저에는 navigator.share 가 없어 '복사했습니다'로 빠졌다 (운영자 2026-10-22).
+  // 카카오 공유로 바로 보낸다 — 커버 사진과 '오마주 열어보기' 단추가 함께 간다.
+  if (await kakaoSendIntro(text)) return;
+  if (navigator.share) { try { await navigator.share({ title: '오마주', text: text + '\n' + SITE }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  try { await navigator.clipboard.writeText(text + '\n' + SITE); toast('소개 글을 복사했습니다. 카톡에 붙여 넣어 보내세요.'); } catch (e) {}
 };
 
 // ── 모달 ──
