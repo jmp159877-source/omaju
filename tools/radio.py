@@ -214,7 +214,11 @@ def estate_lines():
     NO = ('대통령', '국회', '여당', '야당', '의원', '장관', '검찰', '특검', '탄핵', '총선', '대선',
           '정부', '정권', '여야', '민주당', '국민의힘', '대통령실', '청와대', '이재명', '윤석열',
           '피눈물', '대란', '폭등', '폭락', '공포', '패닉', '비명', '아우성', '분노',
-          '살해', '숨진', '사망', '구속', '영장', '징역', '사기', '고소', '고발', '논란', '의혹')
+          '살해', '숨진', '사망', '구속', '영장', '징역', '사기', '고소', '고발', '논란', '의혹',
+          # 2026-10-23: '국정 신뢰도 추락' 과 '李 대표, 계양 방문' 이 걸렸다 — 한자 약칭·국정·당 대표도 거른다.
+          '국정', '국감', '지지율', '신뢰도', '대표', '외교', '국방', '李', '尹', '與', '野', '정치')
+    import email.utils as _eu, datetime as _dt
+    now = _dt.datetime.now(_dt.timezone.utc)
     try:
         u = 'https://news.google.com/rss/search?q=%EB%B6%80%EB%8F%99%EC%82%B0&hl=ko&gl=KR&ceid=KR:ko'
         req = urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0 (omaju.kr)'})
@@ -228,6 +232,10 @@ def estate_lines():
         src = (it.findtext('source') or '').strip()
         if ' - ' in t and t.endswith(' - ' + src): t = t[:-(len(src) + 3)]
         t = _h.unescape(t).strip()
+        try:   # 검색 RSS 는 몇 해 묵은 기사도 섞어 준다 — 이틀 안의 것만 ('어제오늘 소식' 이라고 말하므로)
+            if (now - _eu.parsedate_to_datetime(it.findtext('pubDate') or '')).total_seconds() > 2 * 86400: continue
+        except Exception:
+            continue
         k = re.sub(r'[^가-힣0-9]', '', t)[:14]
         if not t or k in seen or any(w in t for w in NO): continue
         seen.add(k); out.append(t)
