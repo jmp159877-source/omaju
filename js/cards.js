@@ -1,6 +1,7 @@
 // 오늘의 인사 카드 — 고급 문구점 편지지 6가지. 화면 카드와 같은 모양으로 보내기용 그림(1080×1350)을 그린다.
 // v1 아이보리 금테 · v2 리넨+금 고리 · v3 크라프트+낙관 · v4 한지+먹 · v5 새벽 하늘 · v6 계절 수채
-function load(src) { return new Promise(r => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = src; }); }
+// 그림이 늦게 와도 4초 넘게 붙잡지 않는다 — 없으면 없는 대로 그린다 (운영자 2026-10-22)
+function load(src) { return new Promise(r => { const im = new Image(); const done = v => r(v); im.onload = () => done(im); im.onerror = () => done(null); setTimeout(() => done(null), 4000); im.src = src; }); }
 
 const STYLE = {
   v1: { bg: '#FBF8F1', ink: '#2E2618', date: '#A88B55', brand: '#8A7A5A', rule: '#C9A24A', border: 'rgba(176,141,74,0.55)' },   // 잎 장식 뺌 — 아래 로고와 같은 가지 (운영자 2026-10-22)

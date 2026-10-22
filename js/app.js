@@ -168,15 +168,20 @@ async function kakaoSendCard(file, title) {
 
 cardsEl.onclick = async e => {
   const b = e.target.closest('[data-copy]'); if (!b) return; const i = +b.dataset.copy; DB.bumpClick('greeting');
-  toast('카드를 만드는 중입니다…');
+  // 누르면 창부터 띄우고 그림은 되는 대로 채운다 (운영자 2026-10-22: 카톡 안 브라우저에서 10~15초를
+  // 아무것도 없이 기다리다 멈춘 줄 알고 또 눌렀다). 무엇이 늦든 멈춘 것처럼 보이지 않게.
+  modal(`<h2 id="card-h">인사 카드를 만들고 있어요</h2><div id="card-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;font-size:1.02rem;opacity:0.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn green" id="card-share" disabled style="opacity:0.45">카톡으로 보내기</button><button type="button" class="btn line" id="card-save" disabled style="opacity:0.45">사진에 저장하기</button></div>`);
   const blob = await makeCard(i), file = new File([blob], 'omaju-card.jpg', { type: 'image/jpeg' });
+  if (!$('card-box')) return;   // 기다리는 사이에 닫았으면 그만둔다
   const text = C.greetings[i].replace(/\n/g, ' ') + '\n' + TAGLINE;
   // 보내기 단추는 navigator.share 가 있기만 하면 띄운다 (운영자 2026-10-22: 저장하기만 떴다).
   // canShare({files}) 만 보면 카톡·네이버 앱 안에서 열린 화면에서 단추가 통째로 사라진다 —
   // 그 경우에도 글이라도 넘길 수 있으므로, 안 되면 눌렀을 때 저장으로 넘긴다.
   const url = URL.createObjectURL(blob), canShare = !!navigator.share;
   const canFile = !!(navigator.canShare && navigator.canShare({ files: [file] }));
-  modal(`<h2>인사 카드가 준비되었습니다</h2><img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,0.25)"><div class="modal-actions"><button type="button" class="btn green" id="card-share">카톡으로 보내기</button><button type="button" class="btn line" id="card-save">사진에 저장하기</button></div>`);
+  $('card-h').textContent = '인사 카드가 준비되었습니다';
+  $('card-box').outerHTML = `<img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,0.25)">`;
+  ['card-share', 'card-save'].forEach(id => { const el = $(id); el.disabled = false; el.style.opacity = ''; });
   const save = () => { const a = document.createElement('a'); a.href = url; a.download = 'omaju-card.jpg'; a.click(); closeModal(); modal(`<h2>카드를 저장했습니다</h2><p style="font-size:1.1rem">휴대폰 <b>사진(갤러리)</b>에 저장되었습니다. 카톡에서 사진 보내기로 보내 주세요.</p>`); };
   $('card-save').onclick = save;
   // 보내는 차례: 카카오 공유(어느 창에서나 되고 '오마주 열어보기' 단추가 함께 간다)
