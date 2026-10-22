@@ -28,17 +28,32 @@ async function loadDash() {
   const today = users.filter(u => u.lastSeenDay === TODAY).length;
   const week = users.filter(u => u.lastSeenDay >= dayOffset(-6)).length;
   const sToday = (await getDoc(doc(db, 'stats', TODAY))).data() || {};
-  $('tiles').innerHTML = [['누적 가입자', users.length], ['오늘 방문(기기)', sToday.visits || 0], ['오늘 접속 회원', today], ['7일 접속 회원', week], ['오늘 가입', users.filter(u => u.createdAt && DB.todayKey(u.createdAt.toDate()) === TODAY).length], ['문자 수신 동의', users.filter(u => u.marketing).length]].map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
+  const joined = users.filter(u => u.createdAt && DB.todayKey(u.createdAt.toDate()) === TODAY).sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+  $('tiles').innerHTML = [['누적 가입자', users.length], ['오늘 방문(기기)', sToday.visits || 0], ['오늘 접속 회원', today], ['7일 접속 회원', week], ['오늘 가입', joined.length], ['문자 수신 동의', users.filter(u => u.marketing).length]].map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
+  // 오늘 가입한 사람 (운영자 2026-10-22 — 숫자만 보이니 누가 들어왔는지 회원 탭까지 가야 했다)
+  const hm = t => { const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+  $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>가입 시각</th><th>지역</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.region || '')}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
+  paintNoCount();
   const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
   const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
   const max = Math.max(1, ...stats.map(s => s.visits || 0));
   $('chart').innerHTML = stats.map((s, i) => `<div style="height:${(s.visits || 0) * 100 / max}%" data-v="${s.visits || 0}" title="${days[i]}"></div>`).join('');
   const clicks = Object.entries(sToday.clicks || {}).sort((a, b) => b[1] - a[1]);
-  const NAMES = { greeting: '인사말', fortune: '운세', food: '한 끼', quiz: '퀴즈', history: '그해 오늘', music: '그 시절 노래', story: '사연' };
+  const NAMES = { greeting: '인사말', fortune: '운세', dream: '꿈 해몽', luck: '운세 · 꿈 해몽', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: '오늘 PLAY', history: '그해 오늘', music: '그 시절 노래', story: '사연', follow: '따라하기', show: '무엇을 볼까', outing: '나들이', phrase: '여행', garden: '오늘의 정원', hike: '오늘의 산', move: '몸 풀기', mind: '마음 한 줄', body: '몸 한 가지', home: '그 동네 지금' };
   $('clicks').innerHTML = '<tr><th>코너</th><th>클릭</th></tr>' + (clicks.map(([k, v]) => `<tr><td>${NAMES[k] || k}</td><td>${v}</td></tr>`).join('') || '<tr><td colspan="2">아직 없음</td></tr>'); labelize($('clicks'));
   const reg = {}; users.forEach(u => { const r = (u.region || '미입력').split(' ')[0]; reg[r] = (reg[r] || 0) + 1; });
   $('regions').innerHTML = '<tr><th>지역</th><th>가입자</th></tr>' + Object.entries(reg).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join(''); labelize($('regions'));
 }
+
+// 이 기기는 방문 수에서 빼기 (운영자 2026-10-22 — 운영자 폰·PC 가 하루 방문 수에 섞였다)
+// 같은 주소(omaju.kr)라 index.html 의 bumpVisit 이 이 표시를 본다. 브라우저마다 따로라 폰·PC 각각 한 번 누른다.
+const NC = 'omaju.noCount';
+function paintNoCount() {
+  let on = false; try { on = localStorage.getItem(NC) === '1'; } catch (e) {}
+  $('nocount').textContent = on ? '이 기기는 방문 수에서 빠져 있음 · 다시 세기' : '이 기기는 방문 수에서 빼기';
+  $('nocount').setAttribute('aria-pressed', on);
+}
+$('nocount').onclick = () => { try { localStorage.getItem(NC) === '1' ? localStorage.removeItem(NC) : localStorage.setItem(NC, '1'); } catch (e) {} paintNoCount(); };
 
 // ── 회원 ──
 let allUsers = [];
