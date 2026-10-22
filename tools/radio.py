@@ -171,15 +171,24 @@ def daily():
         return {}
 
 
+WX_OK = True   # 오늘 날씨를 받아 왔는가 (못 받으면 g1 에서 날씨 꼭지를 뺀다)
+
+
 def weather_line():
     """오늘 서울(강남) 날씨 — 하루치 예보. 못 받아 오면 날씨 칸은 빼고 간다."""
     try:
         u = ('https://api.open-meteo.com/v1/forecast?latitude=37.4979&longitude=127.0276'
              '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code'
              '&timezone=Asia%2FSeoul&forecast_days=1')
-        import urllib.request
-        with urllib.request.urlopen(u, timeout=30) as r:
-            j = json.load(r)['daily']
+        import urllib.request, time as _t
+        j = None
+        for _k in range(3):   # 2026-10-22: 한 번 TLS 시간 초과로 날씨가 통째로 빠졌다
+            try:
+                with urllib.request.urlopen(u, timeout=30) as r:
+                    j = json.load(r)['daily']; break
+            except Exception:
+                if _k == 2: raise
+                _t.sleep(4)
         code = int(j['weather_code'][0])
         sky = ('맑음' if code == 0 else '대체로 맑음' if code in (1, 2) else '흐림' if code == 3
                else '안개' if code in (45, 48) else '비' if 51 <= code <= 67 or 80 <= code <= 82
@@ -200,7 +209,11 @@ def estate_lines():
     정치·사건사고 제목은 거른다(오늘의 이슈와 같은 기준).
     """
     import urllib.request, html as _h, xml.etree.ElementTree as ET
+    # 2026-10-22: '집값 못 잡는 이재명 정부… 서민들 피눈물' 이 그대로 방송에 나갔다. 정부·정권·정당·인물과
+    # 겁주는 말(피눈물·대란·폭등…)이 든 제목도 거른다. 아침에 듣는 잡지이지 시사 논평이 아니다.
     NO = ('대통령', '국회', '여당', '야당', '의원', '장관', '검찰', '특검', '탄핵', '총선', '대선',
+          '정부', '정권', '여야', '민주당', '국민의힘', '대통령실', '청와대', '이재명', '윤석열',
+          '피눈물', '대란', '폭등', '폭락', '공포', '패닉', '비명', '아우성', '분노',
           '살해', '숨진', '사망', '구속', '영장', '징역', '사기', '고소', '고발', '논란', '의혹')
     try:
         u = 'https://news.google.com/rss/search?q=%EB%B6%80%EB%8F%99%EC%82%B0&hl=ko&gl=KR&ceid=KR:ko'
@@ -230,7 +243,9 @@ def material_g1(d):
         out.append('· 오늘의 인사말 카드 글귀 (이 가운데 하나를 골라 그대로 읽어 주고, 참 예쁜 말이라고 한마디 덧붙인 뒤, '
                    '마음에 드는 카드를 눌러 카톡으로 보내면 그 마음이 그대로 간다고 안내해 주세요):\n'
                    + '\n'.join('   - ' + x for x in g0[:4]))
+    global WX_OK
     w = weather_line()
+    WX_OK = bool(w)
     if w: out.append(w)
     es = estate_lines()
     out.append('· 오늘의 경제 — **이 코너는 짧게 가세요** (운영자 2026-10-21: 너무 길다).\n'
@@ -425,6 +440,9 @@ def make_script(ch):
     mat = MATERIAL[ch](d)
     if not mat.strip():
         raise SystemExit('오늘 내용이 아직 없음')
+    if ch == 'g1' and not WX_OK:
+        # 날씨를 못 받아 왔으면 날씨 꼭지를 통째로 뺀다. 2026-10-22 에 '날씨 소식은 준비되어 있지 않지만…' 이 방송됐다.
+        keys = [k for k in keys if k != 'weather']
     for k in range(3):
         # 장마다 코너 수가 다르다(9개도 있고 4개도 있다). 전체 4분 30초~6분을 맞추려면
         # 코너가 적은 장은 코너마다 더 길게 이야기해야 한다 (운영자 규칙: 장당 4분 30초~6분).
