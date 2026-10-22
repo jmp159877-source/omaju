@@ -2059,3 +2059,31 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .dr-tag.c { background: #EAF0EC; color: #2F5A46; }
 .dr-none { margin: 4px 0 18px; font-size: 1rem; line-height: 1.7; color: #777; word-break: keep-all; }
 .dr-foot { margin-top: 18px; font-size: 0.88rem; color: #999; }
+
+/* ── 구독 환영 카드 (운영자 2026-10-22) ── 가입 마무리(.wel-lux)와 같은 '한 장' 꼴. 위는 사진, 아래는 크림색 지면.
+   사진(img/welcome-hi.jpg)이 오기 전에는 아침빛 그러데이션으로 자리를 잡는다 — 가입 화면 사진(welcome-bg)을 또 쓰지 않는다. */
+.modal.wel-hi { padding: 0; align-items: stretch; background: #E9E4D8; }
+.wel-hi .modal-box { max-width: 520px; width: 100%; max-height: none; min-height: 100%; margin: 0 auto; border-radius: 0; padding: 0; overflow: auto;
+  background: #F4F1EA url('../img/welcome-hi.jpg') center top / 100% auto no-repeat; }
+.wel-hi .modal-box::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: min(66vw, 300px); z-index: 0;
+  background: linear-gradient(160deg, rgba(222,203,160,0.55) 0%, rgba(244,241,234,0) 70%); pointer-events: none; }
+.wel-hi .x { position: absolute; left: auto; right: 12px; top: 8px; z-index: 3; color: #6A6253; }
+.hi-in { position: relative; z-index: 2; box-sizing: border-box; padding: 0 26px 32px;
+  background: linear-gradient(to bottom, rgba(244,241,234,0) 0, rgba(244,241,234,0.75) min(36vw, 160px), #F4F1EA min(50vw, 220px)); }
+.hi-in::before { content: ''; display: block; height: min(46vw, 200px); }
+.hi-eye { margin: 0 0 6px; font-family: 'Cormorant Garamond', 'Nanum Myeongjo', serif; font-size: min(0.95rem, 15px + 0.4vw);
+  letter-spacing: 0.16em; text-transform: uppercase; color: #9A7B3C; }
+.hi-in h2 { margin: 0 0 12px; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(1.75rem, 26px + 1vw);
+  line-height: 1.35; color: var(--dark-green, #1F5A43); word-break: keep-all; }
+.hi-lead { margin: 0; padding-bottom: 20px; border-bottom: 1px solid rgba(201,162,74,0.55);
+  font-family: 'Nanum Myeongjo', serif; font-size: min(1.05rem, 16px + 0.5vw); line-height: 1.8; color: #4A4335; word-break: keep-all; }
+.hi-sub { margin: 20px 0 4px; font-size: min(0.85rem, 13px + 0.4vw); letter-spacing: 0.12em; color: #9A8454; }
+.hi-list { list-style: none; margin: 0 0 24px; padding: 0; }
+.hi-list li { border-bottom: 1px solid rgba(201,162,74,0.28); }
+.hi-list button { width: 100%; min-width: 0; display: flex; align-items: center; gap: 14px; padding: 14px 2px; border: 0; background: none; text-align: left; color: inherit; }
+.hi-list button::after { content: '›'; margin-left: auto; padding-left: 8px; font-size: 1.3em; color: #B49A5E; }
+.hi-list i { flex: 0 0 auto; width: 1.6em; font-style: normal; font-family: 'Cormorant Garamond', 'Nanum Myeongjo', serif; font-size: min(1.25rem, 19px + 0.5vw); color: #B08D45; text-align: center; }
+.hi-list span { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.hi-list b { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: min(1.08rem, 16px + 0.55vw); color: #2A2520; word-break: keep-all; }
+.hi-list small { font-size: min(0.88rem, 13.5px + 0.4vw); color: #857B69; word-break: keep-all; }
+.wel-hi .hi-go { width: 100%; min-height: 56px; border-radius: 3px !important; font-family: 'Nanum Myeongjo', serif; font-size: min(1.12rem, 17px + 0.5vw); letter-spacing: 0.04em; }
