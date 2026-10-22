@@ -69,7 +69,7 @@ const fdOk = u => u.role !== 'admin' && !u.noFounder && (u.founderNo || (u.creat
 const fdCell = u => u.role === 'admin' ? '' : u.noFounder ? `<button type="button" data-fdback="${u.id}">다시 넣기</button>` : fdOk(u) ? `<input class="fd-in" data-fdno="${u.id}" inputmode="numeric" size="3" value="${u.founderNo || ''}" placeholder="—"><button type="button" data-fdx="${u.id}" title="창간 독자에서 빼기">×</button>` : '';
 async function fillFounders() {
   const all = (await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'asc')))).docs.map(d => ({ id: d.id, ...d.data() }));
-  let n = Math.max(0, ...all.map(u => u.founderNo || 0)), done = 0;
+  let n = Math.max(124, ...all.map(u => u.founderNo || 0)), done = 0;   // 새로 오는 분은 125번부터 (운영자 2026-10-23) — tools/founder.py 와 같은 규칙
   for (const u of all) if (fdOk(u) && !u.founderNo) { n++; await updateDoc(doc(db, 'users', u.id), { founderNo: n }); done++; }
   $('fd-msg').textContent = done ? `${done}명에게 번호를 매겼습니다 (마지막 ${n}번).` : '새로 매길 사람이 없습니다.';
   loadUsers();

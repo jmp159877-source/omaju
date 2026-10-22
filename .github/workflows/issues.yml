@@ -22,3 +22,8 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: python3 -u tools/issues.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+      - name: 창간 독자 번호
+        if: always()
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: python3 tools/founder.py || true
