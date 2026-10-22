@@ -95,7 +95,7 @@ export async function init(h) {
     const box = $('rd-' + ch); if (!box) continue;
     const d = await load(ch);
     const sub = $('rd-' + ch + '-sub'), go = $('rd-' + ch + '-go');
-    if (!d || !d.marks || !d.marks.length) { if (sub) sub.textContent = '오늘 안내는 잠시 뒤에 올라옵니다'; if (go) go.textContent = '준비 중'; box.classList.add('rd-off'); continue; }
+    if (!d || !d.marks || !d.marks.length) { if (sub) sub.textContent = new Date().getHours() < 5 ? '오늘자 안내는 새벽 2시쯤 올라옵니다' : '오늘 안내는 잠시 뒤에 올라옵니다'; /* 자정~2시엔 '준비 중'만 보면 고장인 줄 안다 (대표 2026-10-23) */ if (go) go.textContent = '준비 중'; box.classList.add('rd-off'); continue; }
     data[ch] = d;
     if (sub) sub.textContent = `${d.title}, 틀어 놓고 들으세요 · 약 ${Math.max(1, Math.round(d.end / 60))}분`;
     if (go) go.textContent = '눌러서 듣기';
