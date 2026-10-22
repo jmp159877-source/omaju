@@ -37,7 +37,13 @@ export async function drawCard(text, i, { dateText = '', variant = 'v1', season 
   if (wc) { const w = W * 0.74, h = w * wc.height / wc.width; x.drawImage(wc, W - w, 0, w, h); }
   if (S.border) { x.strokeStyle = S.border; x.lineWidth = 2.4; roundRect(x, 34, 34, W - 68, H - 68, 14); x.stroke(); }
   const lines = String(text).split('\n');
-  try { await Promise.all([document.fonts.load('800 80px "Nanum Myeongjo"', text + '오마주'), document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'), document.fonts.load('400 34px "Noto Sans KR"', dateText + '매일 아침 5분')]); } catch (e) {}
+  // 글꼴이 늦게 와도 3초 넘게 붙잡지 않는다 — 처음 누른 분이 멈춘 줄 알고 또 누른다 (운영자 2026-10-22)
+  try {
+    await Promise.race([
+      Promise.all([document.fonts.load('800 80px "Nanum Myeongjo"', text + '오마주'), document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'), document.fonts.load('400 34px "Noto Sans KR"', dateText + '매일 아침 5분')]),
+      new Promise(r => setTimeout(r, 3000)),
+    ]);
+  } catch (e) {}
   x.textAlign = 'center'; x.textBaseline = 'alphabetic';
   // 날짜 (수채 카드는 그림을 피해 왼쪽 위 두 줄)
   x.fillStyle = S.date; x.font = '400 34px "Noto Sans KR", sans-serif';

@@ -118,6 +118,17 @@ async function makeCard(i) {
   const cv = await drawCard(C.greetings[i], i, { dateText: CARD_DATE, variant: cardVar(i), season: CARD_SEASON });
   return new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
 }
+// 카드에 쓰는 글꼴(명조 800·Cormorant 기울임)과 로고는 화면 어디에도 안 쓰여서 누를 때 비로소 받아 온다.
+// 휴대폰 데이터로는 그게 몇 초라 "만드는 중입니다"에서 멈춘 듯 보였다 (운영자 2026-10-22).
+// 한가할 때 미리 받아 둔다 — 첫 터치부터 바로 뜨게.
+(function warmCard() {
+  const go = () => {
+    try { document.fonts.load('800 80px "Nanum Myeongjo"', '좋은 아침이에요'); document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'); } catch (e) {}
+    new Image().src = 'img/logo.png';
+  };
+  (window.requestIdleCallback || (f => setTimeout(f, 2000)))(go);
+})();
+
 // ── 카카오톡 공유 ──
 // 카톡으로 받은 링크를 눌러 들어온 창에서는 휴대폰 기본 보내기(navigator.share)가 아예 없다.
 // 처음 오는 분의 대부분이 그 길로 들어오므로(운영자 2026-10-22) 카카오 공유를 직접 붙인다.
