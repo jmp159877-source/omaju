@@ -14,7 +14,7 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if isMe(uid) || isAdmin();
       allow create: if isMe(uid) && request.resource.data.role == 'member';
-      allow update: if (isMe(uid) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'username', 'banned', 'phone'])) || isAdmin();
+      allow update: if (isMe(uid) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'username', 'banned', 'phone', 'founderNo', 'noFounder'])) || isAdmin();
       allow delete: if isAdmin();
     }
     // 아이디·별명 중복 확인: 누구나 있는지 볼 수 있고, 비어 있을 때만 본인이 만든다.

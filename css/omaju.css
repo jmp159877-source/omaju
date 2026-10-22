@@ -2094,3 +2094,16 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .hi-ft b { font-weight: 800; font-size: min(1.12rem, 17px + 0.5vw); word-break: keep-all; }
 .hi-ft small { font-size: min(0.88rem, 13.5px + 0.4vw); color: rgba(255,255,255,0.9); word-break: keep-all; }
 .hi-now { margin-top: 6px; padding: 7px 16px; border-radius: 10px; background: #F9E9A8; color: #3A2E00; font-weight: 800; font-size: min(0.95rem, 14.5px + 0.4vw); }
+
+/* ── 창간 독자 (운영자 2026-10-22) ── 본인에게만. 잡지 판권처럼 조용하게, 금빛 작은 글씨. */
+.fd-badge { display: inline-block; margin: 0 0 6px; padding: 2px 10px; border: 1px solid rgba(233,206,140,0.85); border-radius: 2px;
+  font-family: 'Nanum Myeongjo', serif; font-size: 0.82rem; letter-spacing: 0.14em; color: #F3DFA6; background: rgba(20,16,8,0.28); text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+.fd-badge[hidden] { display: none; }
+.fd-card { margin: 0 0 18px; padding: 16px 18px; border: 1px solid rgba(201,162,74,0.6); outline: 1px solid rgba(201,162,74,0.25); outline-offset: 3px;
+  background: linear-gradient(135deg, #FBF7EC 0%, #F4ECD8 100%); text-align: center; }
+.fd-card small { display: block; font-family: 'Cormorant Garamond', serif; letter-spacing: 0.3em; font-size: 0.8rem; color: #A88B55; }
+.fd-card b { display: block; margin: 4px 0 2px; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(1.35rem, 21px + 0.6vw); color: #1F5A43; }
+.fd-card b span { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: 0.06em; color: #9A7B3C; }
+.fd-card em { display: block; font-style: normal; font-size: min(0.88rem, 13.5px + 0.4vw); color: #7C7262; word-break: keep-all; }
+.hi-fd { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid #C9A24A; background: #FBF6E9; font-size: min(0.95rem, 14.5px + 0.4vw); line-height: 1.6; color: #5B4A22; word-break: keep-all; }
+.hi-fd b { color: #8A6A1E; }
