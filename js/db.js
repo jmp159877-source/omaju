@@ -262,6 +262,7 @@ const BAD = ['시발', '씨발', '개새', '병신', '좆', '니미', '썅'];
 export async function bumpVisit() {
   const k = 'omaju.visit.' + todayKey();
   try { if (localStorage.getItem('omaju.noCount') === '1') return; } catch (e) {}   // 운영자 기기 (관리자 화면에서 켬)
+  if (navigator.webdriver || /bot|crawl|spider|slurp|yeti|daum|lighthouse|headless|preview/i.test(navigator.userAgent)) return;   // 검색 로봇·미리보기는 세지 않는다 (운영자 2026-10-22)
   try { if (localStorage.getItem(k)) return; localStorage.setItem(k, '1'); } catch (e) {}
   try { await setDoc(doc(db, 'stats', todayKey()), { visits: increment(1) }, { merge: true }); } catch (e) {}
 }

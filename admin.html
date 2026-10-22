@@ -6,6 +6,7 @@
 <title>오마주 관리자</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="leaf.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
 <link rel="stylesheet" href="css/omaju.css">
 <style>
 body { background: var(--ivory2); }
@@ -54,6 +55,14 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
   #clicks td, #regions td { flex: 1; } #clicks td::before, #regions td::before { content: none; }
   #clicks tr:first-child, #regions tr:first-child { display: flex; background: var(--mint); } #clicks th, #regions th { flex: 1; }
 }
+.bk-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 14px 0 18px; }
+.bk-cards figure { margin: 0; background: #fff; border-radius: 8px; padding: 8px; text-align: center; }
+.bk-cards img { width: 100%; border-radius: 4px; display: block; }
+.bk-dl { display: inline-block; margin-top: 6px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--dark-green); text-decoration: none; font-size: 0.9rem; }
+.bk-box { background: #fff; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.bk-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.bk-h button { padding: 6px 14px; border: 1px solid var(--line); border-radius: 6px; background: #F9E9A8; color: #3A2E00; font-weight: 700; }
+.bk-box textarea { min-height: 0; font-family: inherit; font-size: 0.98rem; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -70,7 +79,7 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
 
   <div id="panel" hidden>
     <div class="topbar"><a href="index.html">오마주로 돌아가기</a><button type="button" id="a-out">로그아웃</button></div>
-    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button></div>
+    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button><button type="button" data-tab="blog">블로그</button></div>
 
     <section class="sec on" data-sec="dash">
       <div class="tiles" id="tiles"></div>
@@ -115,6 +124,16 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
       <div class="bar"><button type="button" class="btn green" id="mt-on">점검 모드 켜기</button><button type="button" class="btn line" id="mt-off">끄기</button><span class="note" id="mt-msg"></span></div>
     </section>
 
+
+    <section class="sec" data-sec="blog">
+      <p class="note">네이버 블로그 '오늘의 인사카드' 재료입니다. 카드는 하나씩 <b>내려받기</b>, 제목·본문·태그는 <b>복사</b>해서 붙여 넣으세요. 밤 12시 반 이후면 그날 카드가 나옵니다.</p>
+      <div class="bar"><input type="date" id="b-date"><button type="button" class="btn green" id="b-load">불러오기</button><span class="note" id="b-msg"></span></div>
+      <div class="bk-cards" id="b-cards"></div>
+      <div class="bk-box"><div class="bk-h"><b>제목</b><button type="button" data-copy="b-title">복사</button></div><textarea id="b-title" rows="2"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>본문</b><button type="button" data-copy="b-body">복사</button></div><textarea id="b-body" rows="14"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>태그</b><button type="button" data-copy="b-tags">복사</button></div><textarea id="b-tags" rows="2"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>맨 끝 그림</b><a class="bk-dl" href="img/blog-go.png" download="오마주로_가기.png">내려받기</a></div><img src="img/blog-go.png" alt="" style="max-width:320px;width:100%"><p class="note">이 그림을 누르고 링크에 https://omaju.kr 을 넣습니다.</p></div>
+    </section>
     <section class="sec" data-sec="notice">
       <div class="field"><label>첫 화면 맨 위에 보일 공지</label><input id="n-text" maxlength="120" placeholder="예: 오마주가 문을 열었습니다. 친구에게 알려 주세요."></div>
       <div class="bar"><button type="button" class="btn green" id="n-save">올리기</button><button type="button" class="btn line" id="n-off">내리기</button><span class="note" id="n-msg"></span></div>

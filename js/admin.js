@@ -21,7 +21,7 @@ DB.onUser((u, p) => {
   if (u && !ok) { $('err').textContent = '관리자 권한이 없는 계정입니다.'; DB.logout(); }
   if (ok) { $('who').textContent = p.nick; loadDash(); }
 });
-document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, notice: loadNotice, maint: loadMaint, stories: loadStories })[b.dataset.tab]?.(); };
+document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); }, notice: loadNotice, maint: loadMaint, stories: loadStories })[b.dataset.tab]?.(); };
 
 // ── 현황 ──
 async function loadDash() {
@@ -149,3 +149,31 @@ $('stories').onclick = async e => {
     loadStories();
   } catch (err) { $('s-msg').textContent = err.message; }
 };
+
+// ── 블로그 재료 (운영자 2026-10-22) ── 네이버 블로그 '오늘의 인사카드' 글을 밤 12시 반~1시에 올린다.
+// 카드는 사이트와 똑같이 이 브라우저에서 그린다(cards.js — 글꼴·로고 그대로). 제목·본문·태그는 날짜로 만든 틀.
+const DOWS = ['일', '월', '화', '수', '목', '금', '토'];
+async function loadBlog() {
+  const key = $('b-date').value || TODAY, [Y, M1, D] = key.split('-').map(Number), M = M1 - 1;
+  const dow = DOWS[new Date(Date.UTC(Y, M, D)).getUTCDay()];
+  $('b-msg').textContent = '불러오는 중…'; $('b-cards').innerHTML = '';
+  const x = await DB.loadDaily(key);
+  const G = x && x.greetings;
+  if (!G || !G.length) { $('b-msg').textContent = key + ' 인사 카드가 아직 없습니다. (밤 12시 5분에 만들어집니다)'; return; }
+  const cards = await import('./cards.js');
+  const dateText = `${M + 1}월 ${D}일 · ${dow}요일`, season = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
+  const vv = i => ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'][(Math.floor(Date.UTC(Y, M, D) / 864e5) * 4 + i) % 6];   // 사이트(app.js cardVar)와 같은 셈
+  for (let i = 0; i < G.length; i++) {
+    const cv = await cards.drawCard(G[i], i, { dateText, variant: vv(i), season });
+    const url = cv.toDataURL('image/jpeg', 0.92), name = `${M + 1}월${D}일_인사카드_${i + 1}.jpg`;
+    $('b-cards').insertAdjacentHTML('beforeend', `<figure><img src="${url}" alt="인사 카드 ${i + 1}"><a class="bk-dl" href="${url}" download="${name}">${i + 1}번 내려받기</a></figure>`);
+  }
+  $('b-title').value = `${M + 1}월 ${D}일 ${dow}요일 아침 인사 카드 · 좋은 아침 인사말 이미지`;
+  $('b-body').value = [`${M + 1}월 ${D}일 ${dow}요일, 좋은 아침입니다.`, '오늘의 오마주 인사 카드를 나눕니다.', '마음 가는 분께 아침 인사로 보내 보세요.', '',
+    ...G.map((_, i) => `(카드 ${i + 1})`), '',
+    '카드는 길게 눌러 저장하시면 됩니다.', '매일 아침 새 카드가 나오는 곳, 오마주 매거진.', '네이버에서 “오마주 매거진”을 찾으시거나, 아래 그림을 누르세요.', '', '(맨 끝 그림 — 링크 https://omaju.kr)'].join('\n');
+  $('b-tags').value = ['오마주매거진', '아침인사', '아침인사이미지', '좋은아침', `${M + 1}월인사말`, `${dow}요일인사`, '인사카드', '좋은글'].join(', ');
+  $('b-msg').textContent = key + ' 카드 ' + G.length + '장';
+}
+$('b-load').onclick = loadBlog;
+document.querySelector('[data-sec="blog"]').addEventListener('click', async e => { const b = e.target.closest('[data-copy]'); if (!b) return; const t = $(b.dataset.copy); try { await navigator.clipboard.writeText(t.value); } catch (err) { t.select(); document.execCommand('copy'); } const o = b.textContent; b.textContent = '복사됨'; setTimeout(() => b.textContent = o, 1200); });
