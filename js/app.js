@@ -381,6 +381,78 @@ function renderBody() {
 }
 
 // 오늘의 정원 — 운영자가 실제로 하는 일이라 아무도 못 베끼는 자리 (운영자 2026-10-21 밤)
+// ── 꿈 해몽 (운영자 2026-10-22) ──
+// 찾을 때마다 AI 에게 묻지 않는다 — 구독자가 늘수록 비용이 사람 수만큼 늘어난다.
+// 풀이 사전(data/dreams.json)을 한 벌 받아 두고 화면 안에서 바로 찾는다. 비용 0, 즉시, 인터넷이 약해도 된다.
+let DREAM = null, dreamCat = '동물';
+async function openDream() {
+  const box = $('dream-body'); if (!box) return;
+  // 머리 사진: 운세 사진을 같이 쓰면 '같은 사진 두 곳' 이 된다. 꿈 사진이 오기 전까지 새벽빛 그러데이션.
+  const bg = $('d-bg'); if (bg) bg.style.backgroundImage = 'linear-gradient(115deg, #24324A 0%, #3B4A63 55%, #8C7B5E 100%)';
+  if (!DREAM) {
+    box.innerHTML = '<p class="dr-none" style="margin-top:30px">꿈 풀이를 펼치는 중입니다…</p>';
+    try { DREAM = await (await fetch('data/dreams.json?v=' + (MODV || '').replace(/^\?v=/, ''), { cache: 'no-cache' })).json(); }
+    catch (e) { box.innerHTML = '<p class="dr-none" style="margin-top:30px">꿈 풀이를 불러오지 못했습니다. 잠시 뒤 다시 들러 주세요.</p>'; DREAM = null; return; }
+  }
+  if (box.dataset.ready) return;
+  box.dataset.ready = '1';
+  box.innerHTML = `<div class="dr-wrap">
+    <p class="dr-lead">간밤에 꾼 꿈의 낱말을 넣어 보세요. 예부터 전해 오는 풀이를 <span class="nw">찾아 드립니다.</span></p>
+    <form class="ht-form" id="dr-form" autocomplete="off">
+      <input type="text" id="dr-q" inputmode="text" placeholder="예: 돼지, 이빨, 돌아가신 분">
+      <button type="button" class="btn line ht-mic" id="dr-mic" aria-label="말로 찾기"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>말하기</span></button>
+      <button type="submit" class="btn green">찾기</button>
+    </form>
+    <div id="dr-res"></div>
+    <p class="dr-sub">많이 찾는 꿈</p>
+    <div class="dr-pop">${DREAM.pop.map(k => `<button type="button" data-drk="${esc(k)}">${esc(k)}</button>`).join('')}</div>
+    <p class="dr-sub">분류로 둘러보기</p>
+    <div class="dr-cats">${DREAM.cats.map(c => `<button type="button" data-drc="${esc(c)}" aria-pressed="${c === dreamCat}">${esc(c)}</button>`).join('')}</div>
+    <div class="dr-catlist" id="dr-catlist"></div>
+    <p class="dr-foot">꿈 풀이는 예부터 전해 오는 이야기입니다. 가볍게 재미로 읽어 주세요.</p></div>`;
+  paintDreamCat();
+}
+function paintDreamCat() {
+  const el = $('dr-catlist'); if (!el || !DREAM) return;
+  el.innerHTML = DREAM.items.filter(x => x.c === dreamCat).map(x => `<button type="button" data-drk="${esc(x.k)}">${esc(x.k)}</button>`).join('');
+  document.querySelectorAll('[data-drc]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.drc === dreamCat)));
+}
+function findDream(raw) {
+  const n = s => String(s || '').replace(/\s+/g, '');
+  let q = n(raw).replace(/(을|를|이|가)?(꾸었어요|꿨어요|꿨다|꾸었다|꾸는꿈|꿈을|꿈이|꿈)$/, '');
+  if (!q) return [];
+  const out = [];
+  for (const x of DREAM.items) {
+    const k = n(x.k), al = x.a.map(n);
+    let sc = k === q ? 100 : al.includes(q) ? 92 : (k.includes(q) || q.includes(k.replace(/\(.*\)/, ''))) ? 75 : al.some(a => a.includes(q) || (a.length >= 2 && q.includes(a))) ? 64 : 0;
+    const lines = x.l.map(l => ({ l, s: n(l.t).includes(q) ? 40 : n(l.d).includes(q) ? 12 : 0 }));
+    const best = Math.max(0, ...lines.map(v => v.s));
+    if (!sc && !best) continue;
+    // 낱말로 맞았으면 풀이를 다 보여 주고, 글 속에서만 맞았으면 맞은 줄만 보여 준다
+    const show = sc ? x.l : lines.filter(v => v.s).map(v => v.l);
+    out.push({ x, sc: sc || best, show });
+  }
+  return out.sort((a, b) => b.sc - a.sc).slice(0, 12);
+}
+function showDream(raw) {
+  const res = $('dr-res'); if (!res || !DREAM) return;
+  const q = String(raw || '').trim();
+  if (!q) { res.innerHTML = ''; return; }
+  const hits = findDream(q);
+  const tag = g => g === '좋은 꿈' ? '<span class="dr-tag g">좋은 꿈</span>' : g ? `<span class="dr-tag c">${esc(g)}</span>` : '';
+  res.innerHTML = hits.length
+    ? hits.map(h => `<div class="dr-card"><h3>${esc(h.x.k.replace(/\(.*\)/, ''))}</h3><ul>${h.show.map(l => `<li><b>${esc(l.t)}</b>${tag(l.g)}<p>${esc(l.d)}</p></li>`).join('')}</ul></div>`).join('')
+    : `<p class="dr-none">‘${esc(q)}’ 꿈 풀이는 아직 없습니다. 꿈에서 가장 또렷했던 것 하나만 넣어 보세요. (예: 물, 집, 돈)</p>`;
+  DB.track && DB.track('dream_find', { q: q.slice(0, 20), n: hits.length });
+  res.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+document.addEventListener('submit', e => { if (e.target.id !== 'dr-form') return; e.preventDefault(); showDream(($('dr-q') || {}).value); });
+document.addEventListener('click', e => {
+  const k = e.target.closest('[data-drk]'); if (k) { const i = $('dr-q'); if (i) i.value = k.dataset.drk; showDream(k.dataset.drk); return; }
+  const c = e.target.closest('[data-drc]'); if (c) { dreamCat = c.dataset.drc; paintDreamCat(); return; }
+  if (e.target.closest('#dr-mic')) NB.listen(txt => { closeModal(); const i = $('dr-q'); if (i) i.value = txt; showDream(txt); });
+});
+
 function renderGarden() {
   const g = C.garden;
   if (!g || !g.title) { $('garden-body').innerHTML = '<p class="note" style="margin-top:30px">오늘의 정원을 고르고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
@@ -798,7 +870,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '열두 띠 운세'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -832,7 +904,7 @@ const gameDone = {};
 // 같은 단계끼리 옮겨 다니면 쌓지 않고 바꿔 끼운다 → 몇 개를 열어 봐도 뒤로 가기는 한 단계씩 위로, 많아야 4번이면 나간다.
 const NAV_GAMES = new Set(['malmoi', 'shisen', 'num50', 'sudoku']);
 const CU_RE = /^cu-[a-z]+$/;   // 오늘의 문화 안쪽 (시·그림…) — 놀이와 같은 단계라 뒤로 가면 고르는 화면으로 온다
-const LV = k => !k ? 0 : /^g[1-5]$/.test(k) ? 1 : (NAV_GAMES.has(k) || CU_RE.test(k)) ? 3 : 2;
+const LV = k => !k ? 0 : /^g[1-5]$/.test(k) ? 1 : (NAV_GAMES.has(k) || CU_RE.test(k) || k === 'dream') ? 3 : 2;   // 꿈 해몽은 운세 안쪽 → 뒤로 가면 운세
 const NS = [location.hash.slice(1)]; let navOurs = false, navPending = null;
 function nav(h) {
   h = String(h || '').replace(/^#/, ''); const top = NS[NS.length - 1]; if (h === top) return;
@@ -851,6 +923,7 @@ function route() { const k = location.hash.slice(1);
   // 오늘의 문화: #culture 는 고르는 화면, #cu-poem 처럼 뒤가 붙으면 그 글을 보는 화면
   if (k === 'culture' || CU_RE.test(k)) { const t = CU_RE.test(k) ? k.slice(3) : null; if (t !== cuTab) { cuTab = CU_TABS.some(([x]) => x === t) ? t : null; renderCulture(); } }
   cur = CU_RE.test(k) ? 'culture' : (DET[k] ? k : null);
+  if (cur === 'dream') openDream();
   if (/^g[1-5]$/.test(k)) setChapter(k); else if (!cur) { const was = document.body.classList.contains('in-chapter'); setChapter(null); if (was) { route.y = null; const t = $('tabs3'); window.scrollTo(0, Math.max(0, t.getBoundingClientRect().top + window.scrollY - 80)); } }
   document.body.classList.toggle('game-mode', !!GAME[cur] || cur === 'play'); if (!GAME[cur]) PLAY.stopAll();
   if (cur === 'play') PLAY.hub($('play-root'));

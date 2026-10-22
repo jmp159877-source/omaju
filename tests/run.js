@@ -50,7 +50,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const bad = [...dup(cards).map(x => '카드 ' + x), ...dup(heroes).map(x => '표지 ' + x), ...missing.map(x => '없는 사진 ' + x)];
       ok('같은 사진을 두 곳에 쓰지 않음', !bad.length, bad.join(' / ')); }
     // 1) 화면 전부 × 보통·큰 글씨
-    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'fortune', 'history', 'music', 'outing', 'phrase', 'play', 'quiz', 'story'];
+    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'quiz', 'story'];
     for (const big of [false, true]) {
       const c = await ctx(big); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await p.goto(base + '/index.html'); await wait(p, 1500); const bad = [];
@@ -301,6 +301,29 @@ srv.listen(0, '127.0.0.1', async () => {
       await E(() => window.omajuNav('g1')); await W(700);
       await step('인사 카드 눌러 보내기 창', async () => { await E(() => document.querySelector('[data-copy="0"]').click()); await W(1800); const t = await modalText(); const img = await E(() => { const i = document.querySelector('#modal img'); return !!(i && i.naturalWidth > 0); }); await closeM(); return (/인사 카드가 준비/.test(t) && img) || ('창: ' + t.slice(0, 40)); });
       await step('시세 9가지 표시', async () => { const n = await E(() => document.querySelectorAll('#mk-grid > *').length); return n >= 9 || `${n}개`; });
+      await step('꿈 해몽: 운세 안 단추 → 찾기 · 말 바꿔 찾기 · 없는 말 · 분류 · 뒤로 가면 운세', async () => {
+        await E(() => window.omajuNav('fortune')); await W(600);
+        const ban = await E(() => !!document.querySelector('.dsec[data-k="fortune"] [data-open="dream"]'));
+        if (!ban) return '운세 안에 꿈 해몽 단추 없음';
+        await E(() => document.querySelector('.dsec[data-k="fortune"] [data-open="dream"]').click()); await W(900);
+        const ask = async q => { await p.fill('#dr-q', q); await E(() => document.querySelector('#dr-form [type=submit]').click()); await W(250); return E(() => ({ h: [...document.querySelectorAll('#dr-res .dr-card h3')].map(x => x.textContent), n: document.querySelectorAll('#dr-res li').length, none: !!document.querySelector('#dr-res .dr-none') })); };
+        const a = await ask('돼지'), b = await ask('치아'), c = await ask('돼지꿈 꿨어요'), d = await ask('스마트워치앱');
+        await E(() => document.querySelector('[data-drk="뱀"]').click()); await W(250);
+        const e = await E(() => (document.querySelector('#dr-res .dr-card h3') || {}).textContent);
+        await E(() => document.querySelector('[data-drc="탈것"]').click()); await W(200);
+        const f = await E(() => [...document.querySelectorAll('#dr-catlist [data-drk]')].map(x => x.dataset.drk));
+        await E(() => document.getElementById('back').click()); await W(700);
+        const back = await E(() => location.hash);
+        const bad = [];
+        if (a.h[0] !== '돼지' || a.n < 3) bad.push('돼지 ' + JSON.stringify(a));
+        if (b.h[0] !== '이빨') bad.push('치아→이빨 ' + JSON.stringify(b.h));
+        if (c.h[0] !== '돼지') bad.push('돼지꿈 꿨어요 ' + JSON.stringify(c.h));
+        if (!d.none) bad.push('없는 말인데 결과가 나옴');
+        if (e !== '뱀') bad.push('많이 찾는 꿈(뱀) ' + e);
+        if (!f.includes('비행기')) bad.push('분류(탈것) ' + f.join(','));
+        if (back !== '#fortune') bad.push('뒤로 가면 ' + back);
+        return !bad.length || bad.join(' / ');
+      });
       await step('운세: 띠 고르기', async () => { await E(() => window.omajuNav('fortune')); await W(600); await E(() => document.querySelector('#zodiac [data-z]').click()); await W(300); const t = await E(() => document.getElementById('fortune').textContent); return (t.length > 30 && !/띠를 고르면/.test(t)) || t.slice(0, 40); });
       await step('시사 상식: 정답 고르고 확인', async () => { await E(() => window.omajuNav('quiz')); await W(600); const ans = await E(() => { const o = document.querySelectorAll('#opts [data-o]'); return o.length; }); if (ans < 4) return '보기 ' + ans; await E(() => document.querySelector('#opts [data-o]').click()); await W(200); await E(() => document.getElementById('quiz-check').click()); await W(400); const r = await E(() => document.getElementById('quiz-result').textContent + document.getElementById('quiz-exp').textContent); return r.trim().length > 5 || '결과 없음'; });
       await step('오늘의 문화: 8칸 모두 열림', async () => { await E(() => window.omajuNav('culture')); await W(800); const tabs = await E(() => [...document.querySelectorAll('[data-cu]')].map(b => b.dataset.cu)); const bad = []; for (const t of tabs) { await E(t => document.querySelector(`[data-cu="${t}"]`).click(), t); await W(300); const len = await E(() => document.getElementById('culture-body').textContent.length); if (len < 60) bad.push(t); } return (tabs.length === 8 && !bad.length) || `칸 ${tabs.length}, 빈 칸 ${bad}`; });
@@ -531,7 +554,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('읽어 드려요: 네 장 모두 · 코너 옮겨도 이어짐 · 장 나가면 멎음', async () => {
         // 장마다 띠가 있고, 눌러 들으면 아래 띠가 뜨고, 그 장 안 코너로 가도 이어지고, 장을 나가면 멎는다
         // 장 안의 코너를 하나만 들어가 보면 빠진 코너를 못 잡는다 (2026-10-22: 정원에 들어가면 멎었다) → 전부 들어가 본다
-        const CH = [['g1', ['food', 'book', 'quiz']], ['g2', ['history', 'story']], ['g5', ['follow', 'outing', 'show', 'garden', 'phrase']], ['g3', ['hike', 'move', 'mind', 'body']]];
+        const CH = [['g1', ['food', 'book', 'quiz', 'fortune', 'dream']], ['g2', ['history', 'story']], ['g5', ['follow', 'outing', 'show', 'garden', 'phrase']], ['g3', ['hike', 'move', 'mind', 'body']]];
         const bad = [];
         for (const [ch, corners] of CH) {
           await E(x => window.omajuNav(x), ch); await W(900);

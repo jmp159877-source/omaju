@@ -2026,3 +2026,28 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 /* '로그인 · 무료 구독하기' 는 옆 단추보다 글자가 많아 휴대폰에서 두 줄로 꺾였다 (운영자 2026-10-22).
    이 단추만 글자 크기를 화면 폭에 맞춰 한 줄에 들어가게. 아주 좁은 화면에서는 '로그인 · / 무료 구독하기' 로만 꺾인다. */
 .hero-actions #login-btn { font-size: min(1em, 4.6vw); }
+
+/* ── 꿈 해몽 (운영자 2026-10-22) ── 운세 안의 사진 단추 + 찾기 화면.
+   사진(img/dream.jpg)이 오기 전에는 새벽빛 남색 그러데이션으로 자리를 잡아 둔다. */
+.dr-ban { margin-top: 26px; background-color: #1E2A3A; background-image: url('../img/dream.jpg'), linear-gradient(115deg, #24324A 0%, #3B4A63 55%, #8C7B5E 100%); background-size: cover; background-position: center; }
+.dr-wrap { padding-top: 26px; }
+#dr-res { scroll-margin-top: 96px; }   /* 찾은 결과가 위에 붙는 '뒤로 가기' 띠 밑에 가려지지 않게 */
+.dr-lead { margin: 0 0 14px; font-size: 1.04rem; line-height: 1.75; color: #555; word-break: keep-all; }
+.dr-pop, .dr-catlist { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 18px; }
+.dr-pop button, .dr-catlist button { min-width: 0; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--dark-green); font-size: 0.98rem; }
+.dr-sub { margin: 18px 0 8px; font-size: 0.92rem; letter-spacing: 0.04em; color: #9A8454; }
+.dr-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(4.6em, 1fr)); gap: 6px; margin-bottom: 10px; }
+.dr-cats button { min-width: 0; padding: 10px 4px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: 0.98rem; font-weight: 700; color: var(--dark-green); }
+.dr-cats button[aria-pressed="true"] { background: var(--dark-green); border-color: var(--dark-green); color: #fff; }
+.dr-card { margin: 0 0 16px; padding: 18px 18px 6px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+.dr-card h3 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(201,162,74,0.55); font-family: 'Nanum Myeongjo', serif; font-size: 1.28rem; color: #2E2618; }
+.dr-card ul { margin: 0; padding: 0; list-style: none; }
+.dr-card li { padding: 10px 0 12px; border-bottom: 1px dashed rgba(0,0,0,0.08); }
+.dr-card li:last-child { border-bottom: 0; }
+.dr-card li b { font-size: 1.06rem; color: #1F3B2E; word-break: keep-all; }
+.dr-card li p { margin: 6px 0 0; font-size: 1rem; line-height: 1.75; color: #444; word-break: keep-all; }
+.dr-tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 4px; font-size: 0.8rem; vertical-align: 2px; white-space: nowrap; }
+.dr-tag.g { background: #F6EFD9; color: #7A5F1E; }
+.dr-tag.c { background: #EAF0EC; color: #2F5A46; }
+.dr-none { margin: 4px 0 18px; font-size: 1rem; line-height: 1.7; color: #777; word-break: keep-all; }
+.dr-foot { margin-top: 18px; font-size: 0.88rem; color: #999; }

@@ -7,7 +7,7 @@ const key = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0
 
 // 장마다 그 장에 속한 화면들 — 여기 있는 동안에는 소리가 이어진다
 const SCOPE = {
-  g1: ['g1', 'play', 'malmoi', 'shisen', 'num50', 'sudoku', 'fortune', 'food', 'book', 'quiz', 'culture'],
+  g1: ['g1', 'play', 'malmoi', 'shisen', 'num50', 'sudoku', 'fortune', 'dream', 'food', 'book', 'quiz', 'culture'],
   g2: ['g2', 'history', 'music', 'story', 'home'],
   g5: ['g5', 'follow', 'outing', 'show', 'garden', 'phrase'],   // garden: 2026-10-22 빠져 있어서 정원에 들어가면 소리가 멎었다
   g3: ['g3', 'hike', 'move', 'mind', 'body'],
