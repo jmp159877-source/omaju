@@ -15,12 +15,14 @@ args = [a for a in sys.argv[1:] if not a.startswith('--')]
 FORCE = '--force' in sys.argv
 DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 D = datetime.date.fromisoformat(DATE)
-# 진행자 세 사람 × 옷 두 벌 = 엿새에 한 바퀴 (운영자 2026-10-20). 10/21(수)을 윤미소 1벌로 잡는다.
+# 진행자 두 사람 × 옷 두 벌 = 나흘에 한 바퀴 (운영자 2026-10-22): 미소1 → 은채1 → 미소2 → 은채2.
+# 서한결은 당분간 뺀다. 다시 넣을 때는 아래 ROUND 에 ('hangyeol', 1)·('hangyeol', 2) 를 끼우면 된다.
+# 10/21(수) = 미소1 을 그대로 기준으로 둔다 → 10/22 은채1(이미 나간 것과 같다), 10/23 미소2, 10/24 은채2.
 # 같은 사람이 나올 때마다 옷이 바뀌어 '녹화 한 번 떠 놓고 돌려 쓰는' 느낌이 나지 않게.
-ROUND = [('miso', 1), ('eunchae', 1), ('hangyeol', 1), ('miso', 2), ('eunchae', 2), ('hangyeol', 2)]
-ROTATE = ['miso', 'eunchae', 'hangyeol']
-HOST, OUTFIT = ROUND[(D - datetime.date(2026, 10, 21)).days % 6]
-OTHER = ROTATE[(ROTATE.index(HOST) + 1) % 3]
+ROUND = [('miso', 1), ('eunchae', 1), ('miso', 2), ('eunchae', 2)]
+_K = (D - datetime.date(2026, 10, 21)).days
+HOST, OUTFIT = ROUND[_K % len(ROUND)]
+OTHER = ROUND[(_K + 1) % len(ROUND)][0]   # 내일 나올 사람
 NAME = {'miso': '윤미소', 'hangyeol': '서한결', 'eunchae': '송은채'}
 WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
