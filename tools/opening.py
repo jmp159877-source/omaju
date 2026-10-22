@@ -270,21 +270,27 @@ def make_script():
     raise SystemExit('대본을 만들지 못함')
 
 # ── 2) 목소리 ──
+TTS_MODEL = ''
 def tts(text, who):
     text = text.replace('안녕하세요!', '안녕하세요,')   # 느낌표가 붙으면 음이 과하게 올라가 발음이 뭉갠다
     prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + PROFILE[who] + '\n' + DIRECT + '\n\n[읽을 대본 — 이 부분만 읽기]\n' + text
-    for m in pick('tts', ('gemini-3.1-flash-tts-preview', 'gemini-2.5-pro-preview-tts', 'gemini-2.5-flash-preview-tts'))[:3]:
-        for attempt in range(3):
-            try:
-                d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
-                         {'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseModalities': ['AUDIO'], 'speechConfig': {'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': VOICE[who]}}}}}, 300)
-                pcm = base64.b64decode(d['candidates'][0]['content']['parts'][0]['inlineData']['data'])
-            except Exception as e:
-                say('녹음 실패', m, attempt, str(e)[:80]); time.sleep(30 if '429' in str(e) else 5); continue
-            ok, heard, ratio = check(KEY, pcm, text)
-            say('녹음', m, round(len(pcm) / 48000, 1), '초 일치', ratio, '통과' if ok else '불일치 ' + heard[:40])
-            if ok: return pcm
-            time.sleep(10)
+    # 모델을 하나로 고정한다 — 같은 목소리 이름이어도 모델이 바뀌면 사람이 바뀐다.
+    # 예전엔 첫 모델이 세 번 실패하면 다른 모델로 넘어갔고, 10/23 미소2 가 10/21 미소1 과 다른 사람처럼 들렸다(대표 2026-10-23 08:06).
+    # 읽어 드려요(radio.py)와 같은 방식: 한 모델로만, 429 면 1분·2분·3분… 넉넉히 기다린다.
+    global TTS_MODEL
+    ms = pick('tts', ('gemini-3.1-flash-tts-preview', 'gemini-2.5-pro-preview-tts', 'gemini-2.5-flash-preview-tts'))
+    m = TTS_MODEL = 'gemini-3.1-flash-tts-preview' if 'gemini-3.1-flash-tts-preview' in ms or not ms else ms[0]
+    for attempt in range(6):
+        try:
+            d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
+                     {'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseModalities': ['AUDIO'], 'speechConfig': {'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': VOICE[who]}}}}}, 300)
+            pcm = base64.b64decode(d['candidates'][0]['content']['parts'][0]['inlineData']['data'])
+        except Exception as e:
+            say('녹음 실패', m, attempt, str(e)[:80]); time.sleep(60 * (attempt + 1) if '429' in str(e) else 8); continue
+        ok, heard, ratio = check(KEY, pcm, text)
+        say('녹음', m, round(len(pcm) / 48000, 1), '초 일치', ratio, '통과' if ok else '불일치 ' + heard[:40])
+        if ok: return pcm
+        time.sleep(10)
     return None
 
 def wav_write(path, pcm):
@@ -504,6 +510,7 @@ def build():
     whole = '/tmp/op_all.mp3'
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-af', ','.join(af),
                     '-ac', '1', '-b:a', '64k', whole], check=True)
+    res['model'] = TTS_MODEL; res['hz'] = pf and round(pf)   # 다음에 목소리가 달라 보이면 이걸 본다
     say('한 벌 녹음', round(T / tempo, 1), '초', '빠르기', round(rate * tempo, 2),
         '높이', pf and round(pf), '→', tgt and round(tgt))
 
