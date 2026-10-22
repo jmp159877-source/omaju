@@ -741,6 +741,21 @@ srv.listen(0, '127.0.0.1', async () => {
       const shown = await p.evaluate(() => !!document.getElementById('install-btn').offsetParent);
       ok('안 깔아 둔 사람에게는 설치 단추가 보임', shown, shown ? '' : '안 보임');
       await c.close(); }
+    // 카톡 안에서 '앱 아이콘 설치하기' → 크롬으로 넘기는 단추 (대표 2026-10-23: 넘어가면 로그인이 풀렸다)
+    { const c = await ctx(false); const p = await c.newPage();
+      await p.addInitScript(() => { Object.defineProperty(navigator, 'userAgent', { get: () => 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36 KAKAOTALK 10.8.0' }); });
+      await p.goto(base + '/index.html'); await wait(p, 2000);
+      await p.evaluate(() => document.getElementById('install-btn').click()); await wait(p, 600);
+      const h = await p.evaluate(() => { const a = document.getElementById('to-chrome'); return a ? a.getAttribute('href') : ''; });
+      ok('카톡 안에서 크롬으로 넘기는 단추', /^intent:\/\/.*install=1.*package=com\.android\.chrome/.test(h), h);
+      await c.close(); }
+    // 크롬에 도착하면 들고 온 로그인 표(ct)를 받아 쓰고 주소에서 지운다 (설치 안내가 먼저 지워 버리면 안 된다)
+    { const c = await ctx(false); const p = await c.newPage();
+      await p.addInitScript(() => { globalThis.__toasts = ''; new MutationObserver(() => { const t = document.getElementById('toast'); if (t && t.textContent) globalThis.__toasts += t.textContent + '|'; if (document.getElementById('f-nick')) globalThis.__inn = true; }).observe(document, { subtree: true, childList: true, characterData: true }); });
+      await p.goto(base + '/index.html?install=1&ct=bogus'); await wait(p, 4000);
+      const r = await p.evaluate(() => ({ q: location.search, inn: !!globalThis.__inn, m: (document.getElementById('modal-root') || {}).innerText, t: globalThis.__toasts }));
+      ok('크롬 도착 시 로그인 표를 받아 씀', r.q === '' && r.inn, JSON.stringify(r));
+      await c.close(); }
 
   } catch (e) { ok('시험 실행', false, e.message); }
   await b.close(); srv.close();

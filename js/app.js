@@ -1030,7 +1030,19 @@ const UA = navigator.userAgent, isIOS = /iPhone|iPad|iPod/.test(UA), inApp = /KA
 if (standalone) $('install-btn').hidden = true;
 $('install-btn').onclick = async () => {
   DB.track('install_click');
-  if (inApp) return modal(`<h2>크롬으로 열어 주세요</h2><p>지금은 카톡이나 네이버 앱 안에서 열려 있어서 앱 아이콘을 설치할 수 없습니다.</p>${isIOS ? '<p>오른쪽 아래(또는 위) <b>⋯</b> 또는 <b>공유</b> 버튼을 누르고 <b>"Safari로 열기"</b>를 고르세요.</p>' : `<div class="modal-actions"><a class="btn green" style="text-align:center;text-decoration:none" href="intent://${location.host}${location.pathname}?install=1#Intent;scheme=https;package=com.android.chrome;end">크롬으로 열기</a></div>`}`);
+  if (inApp) {
+    // 카톡 안 브라우저와 크롬은 로그인이 따로 저장된다. 로그인한 분이면 10분짜리 표를 주소에 실어
+    // 크롬(그리고 거기서 깐 바탕화면 앱)도 같은 분으로 열리게 한다 (대표 2026-10-23).
+    const go = ct => `intent://${location.host}${location.pathname}?install=1${ct ? '&ct=' + encodeURIComponent(ct) : ''}#Intent;scheme=https;package=com.android.chrome;end`;
+    modal(`<h2>크롬으로 열어 주세요</h2><p>지금은 카톡이나 네이버 앱 안에서 열려 있어서 앱 아이콘을 설치할 수 없습니다.</p>${isIOS ? '<p>오른쪽 아래(또는 위) <b>⋯</b> 또는 <b>공유</b> 버튼을 누르고 <b>"Safari로 열기"</b>를 고르세요.</p>' : `<div class="modal-actions"><a class="btn green" id="to-chrome" style="text-align:center;text-decoration:none" href="${go('')}">크롬으로 열기</a></div>`}`);
+    if (!isIOS && DB.currentUser()) {
+      const a = $('to-chrome'); a.style.opacity = '.55'; a.style.pointerEvents = 'none';
+      const on = () => { a.style.opacity = ''; a.style.pointerEvents = ''; };
+      setTimeout(on, 4000);   // 표가 늦어도 단추가 잠겨 있지 않게
+      DB.handoffToken().then(ct => { if (ct) a.href = go(ct); on(); });
+    }
+    return;
+  }
   if (deferredPrompt) {
     modal(`<h2>앱 아이콘 설치하기</h2><p style="font-size:1.2rem">화면 <b>위쪽(또는 아래쪽)</b>에 뜨는 <b>"설치"</b> 버튼을 눌러 주세요.</p><p class="note">안 보이면 이 창을 닫고 다시 눌러 주세요.</p>`);
     const p = deferredPrompt; deferredPrompt = null;
@@ -1043,7 +1055,9 @@ $('install-btn').onclick = async () => {
   modal(`<h2>앱 아이콘 설치하기</h2><p>크롬 오른쪽 위 <b>⋮</b> 메뉴를 누르고 <b>"홈 화면에 추가"</b> 또는 <b>"앱 설치"</b>를 누르세요.</p><p class="note">이미 설치되어 있으면 바탕화면에서 오마주 아이콘을 찾아 주세요.</p>`);
 };
 if (/[?&]install=1/.test(location.search) && !standalone && !inApp) {
-  history.replaceState(null, '', location.pathname);
+  // 카톡에서 들고 온 로그인 표(ct)는 남겨 둔다 — 아래 socialReturn 이 받아 로그인하고 지운다.
+  const ct = new URLSearchParams(location.search).get('ct');
+  history.replaceState(null, '', location.pathname + (ct ? '?ct=' + encodeURIComponent(ct) : ''));
   setTimeout(() => modal(`<h2>앱 아이콘 설치하기</h2><p style="font-size:1.2rem">크롬으로 잘 넘어왔습니다. 아래 단추를 한 번 더 누르면 설치 창이 뜹니다.</p><div class="modal-actions"><button type="button" class="btn green" onclick="document.getElementById('modal-root').innerHTML='';document.getElementById('install-btn').click()">설치하기</button></div>`), 600);
 }
 $('share-btn').onclick = async () => {
@@ -1102,10 +1116,32 @@ function openGate(why) {
   () => {
     $('modal').classList.add('gate-lux');
     $('g-signup').onclick = openSignup; $('g-login').onclick = openLogin;
-    $('g-kakao').onclick = () => { location.href = '/api/kakao-start'; };
+    prepKakao();
+    $('g-kakao').onclick = () => kakaoLogin();
     $('g-naver').onclick = () => { location.href = '/api/naver-start'; };
     $('g-install').onclick = () => { closeModal(); $('install-btn').click(); };
   });
+}
+// 크롬·바탕화면 앱에서 카카오를 누르면 아이디·비밀번호를 물었다 (대표 2026-10-23) — 크롬에는 카카오 로그인이 없어서다.
+// 휴대폰이면 카카오 공식 SDK 로 카카오톡 앱을 열어 '간편 로그인'을 받는다(카카오 문서: 모바일 웹에서 Kakao.Auth.authorize 는
+// 카카오톡을 실행한다). 돌아오는 곳은 지금과 같은 /api/kakao-callback 이라 뒤쪽은 하나도 안 바뀐다.
+// 카톡 안 브라우저는 이미 카카오에 로그인돼 있어 지금 길이 더 빠르므로 그대로 둔다. 준비가 안 됐으면 언제나 지금 길로.
+let kakaoPrep = null;
+function prepKakao() {
+  if (inApp || !/Android|iPhone|iPad|iPod/.test(UA) || location.hostname !== 'omaju.kr') return;
+  kakaoReady();
+  fetch('/api/kakao-start?prep=1', { credentials: 'same-origin', cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null).then(j => { kakaoPrep = j && j.state ? j : null; }).catch(() => {});
+}
+function kakaoLogin() {
+  const p = kakaoPrep; kakaoPrep = null;
+  try {
+    if (p && window.Kakao && window.Kakao.isInitialized() && window.Kakao.Auth) {
+      window.Kakao.Auth.authorize({ redirectUri: 'https://omaju.kr/api/kakao-callback', state: p.state, scope: 'profile_nickname' });
+      return;
+    }
+  } catch (e) {}
+  location.href = '/api/kakao-start';
 }
 // ── 카카오·네이버로 들어오기 ──
 // 서버가 ?ct= 로 토큰을 들려 보낸다. 받아서 로그인하고 주소는 바로 지운다(새로고침해도 다시 안 쓰이게).
@@ -1259,7 +1295,7 @@ async function openMy() {
     $('modal').classList.add('wel-my');
     $('m-size-big').onclick = () => { applySize(true); store.set('big', true); toast('글자를 크게 했습니다.'); };
     $('m-size-normal').onclick = () => { applySize(false); store.set('big', false); toast('글자를 보통으로 했습니다.'); };
-    $('m-nick-go').onclick = async () => { const m = $('m-nick-msg'); try { await DB.changeNick($('m-nick').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; $('user-nick').textContent = DB.currentProfile().nick; } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
+    $('m-nick-go').onclick = async () => { const m = $('m-nick-msg'); try { await DB.changeNick($('m-nick').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; const q = DB.currentProfile(), h = new Date().getHours(); $('user-nick').textContent = q.nick + ' 님, ' + (h < 12 ? '좋은 아침입니다.' : h < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); store.set('hello', { s: 'in', n: q.nick, f: isFounder(q) ? 1 : 0 }); /* 별명만 남고 인사가 빠지던 것 (대표 2026-10-23) */ } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
     if ($('m-pw-go')) $('m-pw-go').onclick = async () => { const m = $('m-pw-msg'); try { await DB.changePw($('m-pw').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.code === 'auth/requires-recent-login' ? '안전을 위해 나갔다가 다시 로그인한 뒤 바꿔 주세요.' : e.message; } };
     $('m-born-go').onclick = async () => { const m = $('m-born-msg'); const born = +$('m-born').value; if ($('m-born').value && (born < 1920 || born > 2010)) { m.className = 'msg err'; m.textContent = '태어난 해를 다시 확인해 주세요.'; return; } try { await DB.saveProfile({ born: $('m-born').value, sex: $('m-sex').value }); m.className = 'msg ok'; m.textContent = '저장했습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
   });

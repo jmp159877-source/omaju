@@ -24,13 +24,13 @@ function serviceAccount() {
 }
 
 /** 파이어베이스 맞춤 토큰 — 화면에서 signInWithCustomToken 으로 로그인한다. */
-function customToken(uid, claims = {}) {
+function customToken(uid, claims = {}, ttl = 3600) {
   const sa = serviceAccount();
   const now = Math.floor(Date.now() / 1000);
   const body = {
     iss: sa.client_email, sub: sa.client_email,
     aud: 'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit',
-    iat: now, exp: now + 3600, uid, claims,
+    iat: now, exp: now + Math.min(3600, ttl), uid, claims,
   };
   const head = b64({ alg: 'RS256', typ: 'JWT' });
   const payload = b64(body);

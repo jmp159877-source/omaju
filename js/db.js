@@ -97,6 +97,14 @@ export async function signup({ username, pw, nick, phone, region, marketing, gen
 // ── 카카오·네이버로 들어오기 ──
 // 서버(api/*-callback)가 만들어 준 맞춤 토큰으로 로그인한다. 우리 쪽 정보가 없으면 마무리 화면이 뜬다.
 export async function loginWithToken(t) { await signInWithCustomToken(auth, t); track('login'); }
+// 카톡 안 브라우저 → 크롬으로 넘어갈 때 들고 갈 10분짜리 로그인 표. 로그인 안 했거나 실패하면 빈 값.
+export async function handoffToken() {
+  try {
+    if (!me) return '';
+    const r = await fetch('/api/handoff', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idToken: await me.getIdToken() }) });
+    return r.ok ? ((await r.json()).ct || '') : '';
+  } catch (e) { return ''; }
+}
 export async function socialHint() {
   try { const r = await me.getIdTokenResult(); return { via: r.claims.via || '', nick: r.claims.nick || '' }; }
   catch (e) { return { via: '', nick: '' }; }

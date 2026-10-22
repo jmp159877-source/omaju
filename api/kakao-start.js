@@ -6,6 +6,12 @@ module.exports = async (req, res) => {
   if (!key) return fail(res, '카카오 설정이 아직입니다');
   const state = newState();
   setState(res, 'omaju_k', state);
+  // ?prep=1 — 화면이 카카오 SDK 로 카카오톡 앱 로그인을 할 때 쓸 표만 받아 간다(쿠키는 같이 심긴다).
+  if (/[?&]prep=1/.test(req.url || '')) {
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Content-Type', 'application/json');
+    return res.end(JSON.stringify({ state }));
+  }
   const redirect = `https://${siteHost(req)}/api/kakao-callback`;
   const u = 'https://kauth.kakao.com/oauth/authorize'
     + `?client_id=${encodeURIComponent(key)}`
