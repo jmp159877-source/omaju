@@ -32,7 +32,7 @@ async function loadDash() {
   $('tiles').innerHTML = [['누적 가입자', users.length], ['오늘 방문(기기)', sToday.visits || 0], ['오늘 접속 회원', today], ['7일 접속 회원', week], ['오늘 가입', joined.length], ['문자 수신 동의', users.filter(u => u.marketing).length]].map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
   // 오늘 가입한 사람 (운영자 2026-10-22 — 숫자만 보이니 누가 들어왔는지 회원 탭까지 가야 했다)
   const hm = t => { const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
-  $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>가입 시각</th><th>지역</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.region || '')}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
+  $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>가입 시각</th><th>성별</th><th>태어난 해</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear ? u.birthYear + '년생' : ''}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
   paintNoCount();
   const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
   const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
@@ -63,7 +63,7 @@ async function loadUsers() {
 }
 function renderUsers(list) {
   $('u-count').textContent = list.length + '명';
-  $('users').innerHTML = '<tr><th>별명</th><th>아이디</th><th>연락처</th><th>지역</th><th>가입</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.username)}</td><td>${esc(u.phone)}</td><td>${esc(u.region)}</td><td>${fmt(u.createdAt)}</td><td>${esc(u.lastSeenDay)}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button>`}</td></tr>`).join(''); labelize($('users'));
+  $('users').innerHTML = '<tr><th>별명</th><th>성별</th><th>태어난 해</th><th>아이디</th><th>연락처</th><th>지역</th><th>가입</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear ? u.birthYear + '년생' : ''}</td><td>${esc(u.username)}</td><td>${esc(u.phone)}</td><td>${esc(u.region)}</td><td>${fmt(u.createdAt)}</td><td>${esc(u.lastSeenDay)}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button>`}</td></tr>`).join(''); labelize($('users'));
 }
 $('u-find').onclick = () => { const q = $('u-q').value.trim().toLowerCase(); renderUsers(q ? allUsers.filter(u => [u.nick, u.username, u.phone].some(x => (x || '').toLowerCase().includes(q))) : allUsers); };
 $('users').onclick = async e => { const b = e.target.closest('[data-ban]'); if (!b) return; const u = allUsers.find(x => x.id === b.dataset.ban); if (!confirm((u.banned ? '정지를 풀까요? ' : '이 회원을 정지할까요? ') + u.nick)) return; await updateDoc(doc(db, 'users', u.id), { banned: !u.banned }); loadUsers(); };
