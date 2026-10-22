@@ -139,6 +139,19 @@ srv.listen(0, '127.0.0.1', async () => {
         if (nick && !nick.value) o.push('별명이 미리 안 채워짐');
         return o; });
       ok('가입 마무리 한 장 (카카오로 들어온 분)', !errs.length && !r.length, [...new Set(errs)].concat(r).join(' / '));
+      // 1-6) 시작하기 → 구독 환영 카드: 별명으로 인사, '홈 화면에 오마주 놓기'가 맨 먼저·가장 크게, '오마주 들어가기'로 닫힘
+      const w = [];
+      try {
+        await p.fill('#f-nick', '환영시험'); await p.click('#f-gender [data-g="여"]'); await p.selectOption('#f-birth', '1970'); await p.check('#f-terms');
+        await p.click('#f-go'); await wait(p, 1500);
+        const v = await p.evaluate(() => { const m = document.querySelector('.wel-hi'); if (!m) return null;
+          const f = m.querySelector('.hi-feat'), l = m.querySelector('.hi-list');
+          return { h2: m.querySelector('h2').textContent, feat: !!f, featFirst: f && l && (f.compareDocumentPosition(l) & 4) > 0, now: f && f.textContent.includes('지금 설치하기'), go: (document.getElementById('hi-go') || {}).textContent, ow: document.documentElement.scrollWidth > innerWidth }; });
+        if (!v) w.push('환영 카드가 안 뜸');
+        else { if (!v.h2.includes('환영시험')) w.push('별명이 인사에 없음: ' + v.h2); if (!v.feat || !v.featFirst) w.push('홈 화면 칸이 맨 먼저가 아님'); if (!v.now) w.push("'지금 설치하기' 없음"); if (v.go !== '오마주 들어가기') w.push('아래 단추 글: ' + v.go); if (v.ow) w.push('가로 넘침');
+          await p.click('#hi-go'); await wait(p, 700); if (await p.$('.wel-hi')) w.push('들어가기를 눌러도 안 닫힘'); }
+      } catch (e) { w.push(String(e.message || e).slice(0, 120)); }
+      ok('구독 환영 카드 (시작하기 뒤)', !errs.length && !w.length, [...new Set(errs)].concat(w).join(' / '));
       await c.close(); }
     // 2) 뒤로 가기: 여러 화면을 열고 몇 번 만에 나가는지 (단계: 놀이→장→첫화면→안내→나감)
     { const c = await ctx(false); const p = await c.newPage(); await p.goto(base + '/terms.html'); await p.goto(base + '/index.html'); await wait(p, 1500);
@@ -218,7 +231,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 1500);
       await p.click('#login-btn'); await wait(p, 300); await p.click('#g-signup'); await wait(p, 300);
       await p.fill('#s-id', 'test1960'); await p.click('#s-id-chk'); await wait(p, 200); await p.fill('#s-pw', '123456'); await p.fill('#s-nick', '시험'); await p.click('#s-nick-chk'); await wait(p, 200);
-      await p.fill('#s-phone', '01012345678'); await p.click('#s-gender [data-g="여"]'); await p.selectOption('#s-birth', '1962'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await wait(p, 800);
+      await p.fill('#s-phone', '01012345678'); await p.click('#s-gender [data-g="여"]'); await p.selectOption('#s-birth', '1962'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await wait(p, 800); await wait(p, 600); if (await p.$('#hi-go')) { await p.click('#hi-go'); await wait(p, 700); }   /* 구독 환영 카드 닫기 */
       await p.evaluate(() => { const m = document.getElementById('modal-root'); if (m) m.innerHTML = ''; }); await p.evaluate(() => window.omajuNav('g4')); await wait(p, 800);
       let stay = true; for (let k = 0; k < 2; k++) { await p.evaluate(() => document.querySelector('.nb-mic').click()); await wait(p, 900); await p.evaluate(() => document.getElementById('nb-done').click()); await wait(p, 700);
         await p.evaluate(() => { const s = document.getElementById('nb-save'); s && s.click(); }); await wait(p, 1200); stay = stay && (await p.evaluate(() => location.hash)) === '#g4'; }
@@ -268,7 +281,7 @@ srv.listen(0, '127.0.0.1', async () => {
     { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 1500);
       await p.click('#login-btn'); await wait(p, 300); await p.click('#g-signup'); await wait(p, 300);
       await p.fill('#s-id', 'play1960'); await p.click('#s-id-chk'); await wait(p, 200); await p.fill('#s-pw', '123456'); await p.fill('#s-nick', '놀이시험'); await p.click('#s-nick-chk'); await wait(p, 200);
-      await p.fill('#s-phone', '01012345679'); await p.click('#s-gender [data-g="남"]'); await p.selectOption('#s-birth', '1962'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await wait(p, 800);
+      await p.fill('#s-phone', '01012345679'); await p.click('#s-gender [data-g="남"]'); await p.selectOption('#s-birth', '1962'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await wait(p, 800); await wait(p, 600); if (await p.$('#hi-go')) { await p.click('#hi-go'); await wait(p, 700); }   /* 구독 환영 카드 닫기 */
       await p.evaluate(() => { const m = document.getElementById('modal-root'); if (m) m.innerHTML = ''; });
       await p.evaluate(() => window.omajuNav('g1')); await wait(p, 600); await p.evaluate(() => window.omajuNav('play')); await wait(p, 600); await p.evaluate(() => window.omajuNav('num50')); await wait(p, 4500);
       const playOnce = async () => { for (let n = 1; n <= 50; n++) { await p.evaluate(n => { const b = [...document.querySelectorAll('#n5-grid .n5')].find(x => x.textContent.trim() === String(n)); b && b.click(); }, n); } await wait(p, 2500);
@@ -292,7 +305,7 @@ srv.listen(0, '127.0.0.1', async () => {
       // 가입
       await p.click('#login-btn'); await W(300); await p.click('#g-signup'); await W(300);
       await p.fill('#s-id', 'use1960'); await p.click('#s-id-chk'); await W(200); await p.fill('#s-pw', '123456'); await p.fill('#s-nick', '써보기'); await p.click('#s-nick-chk'); await W(200);
-      await p.fill('#s-phone', '01012345671'); await p.click('#s-gender [data-g="남"]'); await p.selectOption('#s-birth', '1961'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await W(900);
+      await p.fill('#s-phone', '01012345671'); await p.click('#s-gender [data-g="남"]'); await p.selectOption('#s-birth', '1961'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await W(900); await W(600); if (await p.$('#hi-go')) { await p.click('#hi-go'); await W(700); }   /* 구독 환영 카드 닫기 */
       await step('회원가입 → 로그인 상태', async () => (await E(() => !document.getElementById('user-chip').hidden || !!document.getElementById('user-nick').textContent)) || 'user-chip 안 보임');
       await closeM();
       await step('장 다섯 개 · 차례와 표지 번호가 맞음', async () => { const want = [['g1', '오늘 즐기기', '1'], ['g2', '그때 돌아보기', '2'], ['g5', '앞으로 나아가기', '3'], ['g3', '나를 돌보기', '4'], ['g4', '나의 수첩', '5']]; const tabs = await E(() => [...document.querySelectorAll('#tabs3 button')].map(b => [b.dataset.tab || '', (b.querySelector('b') || {}).textContent || ''])); if (tabs.length !== 5) return `탭이 ${tabs.length}개`; for (let i = 0; i < 5; i++) if (tabs[i][0] !== want[i][0] || tabs[i][1] !== want[i][1]) return `${i + 1}번째가 ${JSON.stringify(tabs[i])}`; const bad = []; for (const [g, title, no] of want) { await E(x => window.omajuNav(x), g); await W(500); const r = await E(() => { const h = document.getElementById('ch-head'); return h ? { k: (h.querySelector('.ch-k') || {}).textContent, t: (h.querySelector('h2') || {}).textContent } : null; }); if (!r || r.t !== title || r.k !== 'CHAPTER ' + no) bad.push(`${g}:${JSON.stringify(r)}`); } await E(() => window.omajuNav('g1')); await W(300); return !bad.length || bad.join(' / '); });
@@ -626,7 +639,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await E(() => { const m = document.getElementById('modal-root'); if (m) m.innerHTML = ''; });
       await p.click('#login-btn').catch(() => {}); await wait(p, 300); await p.click('#g-signup').catch(() => {}); await wait(p, 300);
       await p.fill('#s-id', 'story1960'); await p.click('#s-id-chk'); await wait(p, 200); await p.fill('#s-pw', '123456'); await p.fill('#s-nick', '사연시험'); await p.click('#s-nick-chk'); await wait(p, 200);
-      await p.fill('#s-phone', '01012345672'); await p.click('#s-gender [data-g="여"]'); await p.selectOption('#s-birth', '1963'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await wait(p, 900);
+      await p.fill('#s-phone', '01012345672'); await p.click('#s-gender [data-g="여"]'); await p.selectOption('#s-birth', '1963'); await p.check('#s-terms'); await p.check('#s-agree'); await p.click('#s-go'); await wait(p, 900); await wait(p, 600); if (await p.$('#hi-go')) { await p.click('#hi-go'); await wait(p, 700); }   /* 구독 환영 카드 닫기 */
       await E(() => { const x = document.getElementById('modal-x'); x && x.click(); }); await wait(p, 400);
       await E(() => document.getElementById('opn-send').click()); await wait(p, 500); const form = await E(() => !!document.getElementById('opn-story'));
       await E(() => { document.getElementById('opn-story').value = '오십에 처음 혼자 떠난 여행에서 생긴 일입니다. 시험 사연.'; document.getElementById('opn-story-go').click(); }); await wait(p, 900);

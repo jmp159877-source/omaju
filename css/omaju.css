@@ -2059,3 +2059,38 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .dr-tag.c { background: #EAF0EC; color: #2F5A46; }
 .dr-none { margin: 4px 0 18px; font-size: 1rem; line-height: 1.7; color: #777; word-break: keep-all; }
 .dr-foot { margin-top: 18px; font-size: 0.88rem; color: #999; }
+
+/* ── 구독 환영 카드 (운영자 2026-10-22) ── 반가움이 먼저다. 잡지 지면의 크림·금빛(앤틱)이 아니라
+   환한 아침 사진 위로 흰 종이 한 장이 올라오는 꼴, 강조색은 소개 배너의 바다빛(청량함)으로.
+   사진 img/welcome-hi.jpg (열린 흰 창·흰 튤립·바다). 단추만은 집안 연노랑. */
+.modal.wel-hi { padding: 0; align-items: stretch; background: #DCEBF2; }
+.wel-hi .modal-box { position: relative; max-width: 520px; width: 100%; max-height: none; min-height: 100%; margin: 0 auto; border-radius: 0; padding: 0; overflow: auto;
+  background: #EEF5F8 url('../img/welcome-hi.jpg') center top / 100% auto no-repeat; }
+.wel-hi .x { position: absolute; left: auto; right: 12px; top: 8px; z-index: 3; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.75); color: #2B4A5A; }
+.hi-in { position: relative; z-index: 2; box-sizing: border-box; margin-top: min(46vw, 240px); padding: 22px 22px 24px;
+  background: #FFFFFF; border-radius: 22px 22px 0 0; box-shadow: 0 -10px 30px rgba(30,70,90,0.10); }
+.hi-eye { margin: 0 0 8px; font-family: 'Cormorant Garamond', 'Nanum Myeongjo', serif; font-weight: 600; font-size: min(1rem, 15px + 0.4vw);
+  letter-spacing: 0.18em; text-transform: uppercase; color: #3A86A8; }
+.hi-in h2 { margin: 0 0 8px; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(1.8rem, 27px + 1vw);
+  line-height: 1.32; color: #1D3E4E; word-break: keep-all; }
+.hi-lead { margin: 0; font-size: min(1.02rem, 15.5px + 0.5vw); line-height: 1.75; color: #4E6470; word-break: keep-all; }
+.hi-sub { margin: 14px 0 6px; font-size: min(0.82rem, 12.5px + 0.4vw); font-weight: 700; letter-spacing: 0.14em; color: #3A86A8; }
+.hi-list { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 8px; }
+.hi-list button { width: 100%; min-width: 0; display: flex; align-items: center; gap: 14px; padding: 11px 14px; border: 0; border-radius: 14px; background: #F1F7FA; text-align: left; color: inherit; }
+.hi-list button::after { content: '›'; margin-left: auto; padding-left: 8px; font-size: 1.35em; color: #7FAFC4; }
+.hi-list i { flex: 0 0 auto; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #FFFFFF; }
+.hi-list i svg { width: 22px; height: 22px; }
+.hi-list span { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.hi-list b { font-weight: 700; font-size: min(1.05rem, 16px + 0.5vw); color: #1D3E4E; word-break: keep-all; }
+.hi-list small { font-size: min(0.86rem, 13px + 0.4vw); color: #6B8290; word-break: keep-all; }
+.wel-hi .hi-go { width: 100%; min-height: 52px; border: 1px solid #CFE0E8; border-radius: 14px; background: #FFFFFF; color: #2B5A6E; font-weight: 700; font-size: min(1.05rem, 16px + 0.5vw); }
+/* 홈 화면에 놓기 — 맨 먼저, 가장 눈에 띄게 (운영자 2026-10-22: '무조건 설치부터'). 바다빛 칸 + 휴대폰 홈 화면의 앱 아이콘 모양 + 연노랑 '지금 놓기' */
+.hi-feat { width: 100%; min-width: 0; display: flex; align-items: center; gap: 16px; margin: 16px 0 2px; padding: 14px 16px; border: 0; border-radius: 18px; text-align: left; color: #fff;
+  background: linear-gradient(135deg, #2F7FA3 0%, #4FA3C4 100%); box-shadow: 0 8px 22px rgba(47,127,163,0.28); }
+.hi-app { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.hi-app img { width: 62px; height: 62px; border-radius: 15px; background: #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.18); }
+.hi-app em { font-style: normal; font-size: 12px; color: rgba(255,255,255,0.92); }
+.hi-ft { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.hi-ft b { font-weight: 800; font-size: min(1.12rem, 17px + 0.5vw); word-break: keep-all; }
+.hi-ft small { font-size: min(0.88rem, 13.5px + 0.4vw); color: rgba(255,255,255,0.9); word-break: keep-all; }
+.hi-now { margin-top: 6px; padding: 7px 16px; border-radius: 10px; background: #F9E9A8; color: #3A2E00; font-weight: 800; font-size: min(0.95rem, 14.5px + 0.4vw); }

@@ -1141,8 +1141,9 @@ DB.onNeedProfile(async () => {
       if (!$('f-terms').checked) { $('f-msg').textContent = '약관에 동의해 주세요.'; return; }
       $('f-go').disabled = true;
       try {
-        await DB.finishSocial({ nick: $('f-nick').value, gender: g, birthYear: +$('f-birth').value });
-        closeModal(); toast('오마주에 오신 것을 환영합니다.');
+        const nk = $('f-nick').value.trim();
+        await DB.finishSocial({ nick: nk, gender: g, birthYear: +$('f-birth').value });
+        closeModal(); setTimeout(() => welcomeHi(nk), 350);   // 닫기가 '뒤로'를 한 칸 쓰므로 그다음에 연다
       } catch (e) { $('f-msg').textContent = e.message; $('f-go').disabled = false; }
     };
     // 끝내지 않고 창을 닫으면 어중간하게 남으므로 로그인을 풀어 둔다
@@ -1179,12 +1180,45 @@ function openSignup() {
       $('s-go').disabled = true; $('s-go').textContent = '가입하는 중…';
       try {
         await DB.signup({ username: $('s-id').value, pw: $('s-pw').value, nick: $('s-nick').value, phone: $('s-phone').value, region: '', gender, birthYear: +$('s-birth').value, marketing: $('s-mkt').checked });
-        const wantPush = $('s-mkt').checked; closeModal(); toast('가입되었습니다. 환영합니다!'); if (afterLogin) afterLogin();
-        if (wantPush && window.openPushPicker) setTimeout(() => window.openPushPicker(true), 600);
+        // 하던 일(afterLogin — 예: 수첩 열기)은 환영 카드를 닫은 뒤에 이어 간다. 창 둘이 겹치면 뒤로 가기가 꼬인다.
+        const wantPush = $('s-mkt').checked, nk = $('s-nick').value.trim(); closeModal();
+        setTimeout(() => welcomeHi(nk, () => { if (afterLogin) afterLogin(); if (wantPush && window.openPushPicker) setTimeout(() => window.openPushPicker(true), 400); }), 350);
       } catch (e) { err.textContent = e.message; err.hidden = false; $('s-go').disabled = false; $('s-go').textContent = '가입하기'; }
     };
   });
 }
+// ── 구독 환영 카드 (운영자 2026-10-22) ── 구독이 끝난 바로 뒤 한 번만. 반갑게 인사하고, 처음 해 볼 세 가지를 권한다.
+// 첫 줄은 '홈 화면에 놓기'(운영자 2026-10-22 — 맨 먼저). 이미 앱으로 연 사람에게는 보이지 않는다.
+function welcomeHi(nick, after) {
+  const who = esc(nick || '구독자');
+  const canInstall = !(matchMedia('(display-mode: standalone)').matches || navigator.standalone);
+  modal(`<div class="hi-in">
+  <p class="hi-eye">Welcome</p>
+  <h2><span class="nw">${who}님,</span> <span class="nw">반갑습니다.</span></h2>
+  <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br><span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span></p>
+  ${canInstall ? `<button type="button" class="hi-feat" data-hi="install">
+    <span class="hi-app" aria-hidden="true"><img src="icon-192.png" alt=""><em>오마주</em></span>
+    <span class="hi-ft"><b>홈 화면에 오마주 놓기</b><small><span class="nw">아이콘 하나로</span> <span class="nw">매일 아침 바로 열려요</span></small><span class="hi-now">지금 설치하기</span></span>
+  </button>` : ''}
+  <p class="hi-sub">${canInstall ? '그리고' : '처음이시라면'}</p>
+  <ol class="hi-list">
+    <li><button type="button" data-hi="open"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/></svg></i><span><b>오늘의 오프닝 듣기</b><small>오늘 이야기를 들려드려요</small></span></button></li>
+    <li><button type="button" data-hi="card"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></i><span><b>인사 카드 한 장 보내기</b><small>마음 가는 분께 카톡으로</small></span></button></li>
+  </ol>
+  <button type="button" class="hi-go" id="hi-go">오마주 들어가기</button>
+</div>`, () => {
+    $('modal').classList.add('wel-hi');
+    const done = then => { closeModal(); setTimeout(() => { if (then) then(); else if (after) after(); }, 350); };
+    $('hi-go').onclick = () => done();
+    $('modal-root').querySelector('.hi-in').onclick = e => {
+      const b = e.target.closest('[data-hi]'); if (!b) return; DB.track('welcome_' + b.dataset.hi);
+      if (b.dataset.hi === 'open') done(() => { nav(''); setTimeout(() => $('opening')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200); });
+      if (b.dataset.hi === 'card') done(() => { nav('g1'); setTimeout(() => $('cards')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300); });
+      if (b.dataset.hi === 'install') done(() => $('install-btn').click());
+    };
+  });
+}
+window.welcomeHi = welcomeHi;   // 시안·시험용
 function openLogin() {
   modal(`<h2>로그인</h2>
   <div class="field"><label>아이디</label><input id="l-id" autocomplete="username" placeholder="아이디"></div>
