@@ -1197,7 +1197,7 @@ function welcomeHi(nick, after) {
   <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br><span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span></p>
   ${canInstall ? `<button type="button" class="hi-feat" data-hi="install">
     <span class="hi-app" aria-hidden="true"><img src="icon-192.png" alt=""><em>오마주</em></span>
-    <span class="hi-ft"><b>홈 화면에 오마주 놓기</b><small><span class="nw">아이콘 하나로</span> <span class="nw">매일 아침 바로 열려요</span></small><span class="hi-now">지금 놓기</span></span>
+    <span class="hi-ft"><b>홈 화면에 오마주 놓기</b><small><span class="nw">아이콘 하나로</span> <span class="nw">매일 아침 바로 열려요</span></small><span class="hi-now">지금 설치하기</span></span>
   </button>` : ''}
   <p class="hi-sub">${canInstall ? '그리고' : '처음이시라면'}</p>
   <ol class="hi-list">
