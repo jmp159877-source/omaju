@@ -177,11 +177,13 @@ function kakaoReady() {
 async function kakaoSendIntro(text) {
   if (!await kakaoReady()) return false;
   try {
+    // 그림(미리 보기)과 주소를 같이 보낸다 (운영자 2026-10-22).
+    // 카카오 공유로 보낸 메시지는 카톡이 미리 보기를 만들어 주지 않아 우리가 그림을 붙여야 하고,
+    // 주소가 글에 없으면 받는 분이 주소를 못 본다. 그래서 둘 다 넣는다.
     window.Kakao.Share.sendDefault({
-      objectType: 'text',
-      text: text + '\n' + SITE,
-      link: OMAJU_LINK,
-      buttonTitle: '오마주 열어보기',
+      objectType: 'feed',
+      content: { title: '오마주 · 오늘도 마음은 주니어', description: text.replace(/\n/g, ' ') + '\n' + SITE, imageUrl: 'https://omaju.kr/og-v4.jpg', imageWidth: 1200, imageHeight: 630, link: OMAJU_LINK },
+      buttons: [{ title: '오마주 열어보기', link: OMAJU_LINK }],
     });
     return true;
   } catch (err) { return false; }
