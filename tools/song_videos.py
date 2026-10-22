@@ -108,6 +108,7 @@ for t, a in todo[:400]:
         ti = it["snippet"]["title"].lower()
         return norm(t) in norm(ti) or norm(en(t)) in norm(ti)
     items = [x for x in items if title_hit(x)] or items
+    items = [x for x in items if not bad.search(x["snippet"]["title"])]   # 노래방·커버·모음은 공식 채널이어도 뺀다 (TJ노래방 공식이 걸렸다, 2026-10-22)
     for it in items[:6]:
         if score(it) < 3 or not title_hit(it): break
         sec = length(it["id"]["videoId"])
