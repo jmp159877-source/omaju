@@ -3,9 +3,9 @@
 function load(src) { return new Promise(r => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = src; }); }
 
 const STYLE = {
-  v1: { bg: '#FBF8F1', ink: '#2E2618', date: '#A88B55', brand: '#8A7A5A', rule: '#C9A24A', border: 'rgba(176,141,74,0.55)', orn: 'leaf' },
+  v1: { bg: '#FBF8F1', ink: '#2E2618', date: '#A88B55', brand: '#8A7A5A', rule: '#C9A24A', border: 'rgba(176,141,74,0.55)' },   // 잎 장식 뺌 — 아래 로고와 같은 가지 (운영자 2026-10-22)
   v2: { bg: '#EFEAE1', ink: '#3A3328', date: '#9A8A6E', brand: '#857559', rule: '#C9A24A', orn: 'foil', grain: 'linen' },
-  v3: { bg: '#D9C3A0', ink: '#3B2B18', date: '#7A5F3A', brand: '#6E5534', rule: '#7A5F3A', grain: 'kraft', seal: true },
+  v3: { bg: '#D9C3A0', ink: '#3B2B18', date: '#7A5F3A', brand: '#6E5534', rule: '#7A5F3A', grain: 'kraft' },   // 낙관 뺌 — 로고와 서명이 겹쳤다 (운영자 2026-10-22)
   v4: { bg: '#F7F3EA', ink: '#1E1B17', date: '#8C8070', brand: '#6E655A', grain: 'hanji', brush: true },
   v5: { bg: 'sky', ink: '#2A3440', date: '#6F8293', brand: '#6F8293', rule: '#9FB2C2', border: 'rgba(255,255,255,0.95)' },
   v6: { bg: '#FCFAF6', ink: '#3A2E2A', date: '#B08A7A', brand: '#9A7A6A', rule: '#D6A79A', wc: true },
@@ -48,7 +48,8 @@ export async function drawCard(text, i, { dateText = '', variant = 'v1', season 
   // 인사말 (가운데)
   let fs = 80; x.font = `800 ${fs}px "Nanum Myeongjo", serif`;
   while (fs > 52 && Math.max(...lines.map(l => x.measureText(l).width)) > W - 220) { fs -= 4; x.font = `800 ${fs}px "Nanum Myeongjo", serif`; }
-  const lh = fs * 1.72, top = H / 2 - (lh * lines.length) / 2 + fs * 0.75;
+  // 아래 로고가 자리를 꽤 차지하므로 글을 조금 올려 위아래 여백을 맞춘다 (운영자 2026-10-22)
+  const lh = fs * 1.72, top = H / 2 - (lh * lines.length) / 2 + fs * 0.75 - 56;
   const ornY = top - fs - 40;
   if (leaf) { const lw = 170, lhh = lw * leaf.height / leaf.width; x.globalAlpha = 0.92; x.drawImage(leaf, W / 2 - lw / 2, ornY - lhh, lw, lhh); x.globalAlpha = 1; }
   if (S.orn === 'foil') { x.strokeStyle = '#C2A05A'; x.lineWidth = 4; x.beginPath(); x.arc(W / 2, ornY - 36, 34, 0, Math.PI * 2); x.stroke(); x.strokeStyle = 'rgba(194,160,90,0.55)'; x.lineWidth = 2.5; x.beginPath(); x.arc(W / 2, ornY - 36, 46, 0, Math.PI * 2); x.stroke(); }

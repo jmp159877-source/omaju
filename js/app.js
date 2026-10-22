@@ -111,8 +111,9 @@ const CARD_DOW = ['일', '월', '화', '수', '목', '금', '토'][new Date().ge
 const CARD_DATE = `${M + 1}월 ${D}일 · ${CARD_DOW}요일`;
 const CARD_SEASON = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
 const cardVar = i => ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'][(Math.floor(Date.UTC(Y, M, D) / 864e5) * 4 + i) % 6];
-const CARD_ORN = { v1: '<img class="gp-leaf" src="leaf.png" alt="">', v2: '<span class="gp-foil"></span>' };
-cardsEl.innerHTML = GREET.map((c, i) => { const v = cardVar(i); return `<button type="button" class="gcard paper ${v}" data-copy="${i}" data-v="${v}" aria-label="인사 카드 보내기"${v === 'v6' ? ` style="background-image:url('img/wc/${CARD_SEASON}.jpg')"` : ''}><span class="gp-date">${v === 'v6' ? `${M + 1}월 ${D}일<br>${CARD_DOW}요일` : CARD_DATE}</span>${CARD_ORN[v] || ''}<q>${esc(c).replace(/\n/g, '<br>')}</q><span class="${v === 'v4' ? 'gp-brush' : 'gp-rule'}"></span>${v === 'v3' ? '<span class="gp-seal">오마주</span>' : ''}<img class="gp-logo" src="img/logo.png" alt="오마주" width="600" height="490"></button>`; }).join('');
+// v1 의 잎 장식은 뺐다 — 아래 로고 안의 나뭇가지와 같은 그림이라 두 번 나왔다 (운영자 2026-10-22)
+const CARD_ORN = { v2: '<span class="gp-foil"></span>' };
+cardsEl.innerHTML = GREET.map((c, i) => { const v = cardVar(i); return `<button type="button" class="gcard paper ${v}" data-copy="${i}" data-v="${v}" aria-label="인사 카드 보내기"${v === 'v6' ? ` style="background-image:url('img/wc/${CARD_SEASON}.jpg')"` : ''}><span class="gp-date">${v === 'v6' ? `${M + 1}월 ${D}일<br>${CARD_DOW}요일` : CARD_DATE}</span>${CARD_ORN[v] || ''}<q>${esc(c).replace(/\n/g, '<br>')}</q><span class="${v === 'v4' ? 'gp-brush' : 'gp-rule'}"></span><img class="gp-logo" src="img/logo.png" alt="오마주" width="600" height="490"></button>`; }).join('');
 async function makeCard(i) {
   const cv = await drawCard(C.greetings[i], i, { dateText: CARD_DATE, variant: cardVar(i), season: CARD_SEASON });
   return new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
