@@ -35,6 +35,11 @@ async function loadDash() {
   const hm = t => { const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
   $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>구독 시각</th><th>성별</th><th>태어난 해</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear ? u.birthYear + '년생' : ''}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
   paintNoCount();
+  // 누적 (창간 10/22 부터) — 날마다의 방문을 더한 것과, 처음 온 기기를 더한 것(10/23 부터 셈)
+  const all = (await getDocs(collection(db, 'stats'))).docs.filter(d => d.id >= '2026-10-22').map(d => ({ day: d.id, ...d.data() }));
+  const sum = (from, f) => all.filter(x => x.day >= from).reduce((t, x) => t + (x[f] || 0), 0);
+  $('cumul').innerHTML = '<tr><th>기간</th><th>방문(날마다 더함)</th><th>처음 온 기기</th></tr>' + [['창간 이후', '2026-10-22'], ['최근 30일', dayOffset(-29)], ['최근 10일', dayOffset(-9)], ['최근 7일', dayOffset(-6)]]
+    .map(([k, from]) => `<tr><td>${k}</td><td>${sum(from, 'visits').toLocaleString()}</td><td>${sum(from, 'newDevices').toLocaleString()}</td></tr>`).join(''); labelize($('cumul'));
   const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
   const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
   const max = Math.max(1, ...stats.map(s => s.visits || 0));
