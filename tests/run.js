@@ -315,6 +315,8 @@ srv.listen(0, '127.0.0.1', async () => {
         await E(() => document.querySelector('.dsec[data-k="luck"] [data-open="dream"]').click()); await W(900);
         const ask = async q => { await p.fill('#dr-q', q); await E(() => document.querySelector('#dr-form [type=submit]').click()); await W(250); return E(() => ({ h: [...document.querySelectorAll('#dr-res .dr-card h3')].map(x => x.textContent), n: document.querySelectorAll('#dr-res li').length, none: !!document.querySelector('#dr-res .dr-none') })); };
         const a = await ask('돼지'), b = await ask('치아'), c = await ask('돼지꿈 꿨어요'), d = await ask('스마트워치앱');
+        const s1 = await ask('죽는 사람을 보고 놀라서 잠에서 깸'), s1top = await E(() => (document.querySelector('#dr-res li b') || {}).textContent || '');
+        const s2 = await ask('엄마가 죽는 꿈'), s2top = await E(() => (document.querySelector('#dr-res li b') || {}).textContent || '');
         await E(() => document.querySelector('[data-drk="뱀"]').click()); await W(250);
         const e = await E(() => (document.querySelector('#dr-res .dr-card h3') || {}).textContent);
         await E(() => document.querySelector('[data-drc="탈것"]').click()); await W(200);
@@ -326,6 +328,8 @@ srv.listen(0, '127.0.0.1', async () => {
         if (b.h[0] !== '이빨') bad.push('치아→이빨 ' + JSON.stringify(b.h));
         if (c.h[0] !== '돼지') bad.push('돼지꿈 꿨어요 ' + JSON.stringify(c.h));
         if (!d.none) bad.push('없는 말인데 결과가 나옴');
+        if (s1.h[0] !== '죽는 꿈' || s1.n < 5 || !/놀라 깨는/.test(s1top)) bad.push('문장 찾기 ' + JSON.stringify({ h: s1.h, n: s1.n, top: s1top }));
+        if (!/가족이 죽는/.test(s2top)) bad.push('엄마가 죽는 꿈 → ' + s2top);
         if (e !== '뱀') bad.push('많이 찾는 꿈(뱀) ' + e);
         if (!f.includes('비행기')) bad.push('분류(탈것) ' + f.join(','));
         if (back !== '#luck') bad.push('뒤로 가면 ' + back);

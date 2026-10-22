@@ -405,7 +405,7 @@ async function openDream() {
     </form>
     <div id="dr-res"></div>
     <p class="dr-sub">많이 찾는 꿈</p>
-    <div class="dr-pop">${DREAM.pop.map(k => `<button type="button" data-drk="${esc(k)}">${esc(k)}</button>`).join('')}</div>
+    <div class="dr-pop">${DREAM.pop.map(k => `<button type="button" data-drk="${esc(k)}">${esc(drName(k))}</button>`).join('')}</div>
     <p class="dr-sub">분류로 둘러보기</p>
     <div class="dr-cats">${DREAM.cats.map(c => `<button type="button" data-drc="${esc(c)}" aria-pressed="${c === dreamCat}">${esc(c)}</button>`).join('')}</div>
     <div class="dr-catlist" id="dr-catlist"></div>
@@ -414,34 +414,67 @@ async function openDream() {
 }
 function paintDreamCat() {
   const el = $('dr-catlist'); if (!el || !DREAM) return;
-  el.innerHTML = DREAM.items.filter(x => x.c === dreamCat).map(x => `<button type="button" data-drk="${esc(x.k)}">${esc(x.k)}</button>`).join('');
+  el.innerHTML = DREAM.items.filter(x => x.c === dreamCat).map(x => `<button type="button" data-drk="${esc(x.k)}">${esc(drName(x.k))}</button>`).join('');
   document.querySelectorAll('[data-drc]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.drc === dreamCat)));
 }
+// 문장으로 쳐도 알아듣게 (운영자 2026-10-22: '죽는 사람을 보고 놀라서 잠에서 깸' → 두 줄만 나왔다).
+// 낱말로 쪼개 토씨·끝말을 덜어 내고, '놀라서·잠에서·깸' 같은 말은 낱말 찾기에서 뺀다(풀이 제목 맞추기에만 살짝 쓴다).
+const DR_STOP = new Set(['놀라서', '놀라', '놀란', '잠에서', '잠', '깸', '깼다', '깼어요', '깼는데', '깨어', '깨는', '꿈', '꿈을', '꿈에', '꿈에서', '꿨다', '꿨어요', '꿨는데', '꾸었다', '꾸었어요', '보고', '봤다', '봤어요', '봤는데', '보는', '봄', '하는', '했다', '했어요', '있는', '있었다', '갑자기', '너무', '정말', '어제', '간밤', '오늘', '밤', '새벽', '내가', '제가', '나는', '저는', '나', '저', '그', '그런', '이런', '어떤', '무슨', '뜻', '해몽', '좀', '같은', '계속', '자꾸', '많이', '엄청', '되게', '진짜']);
+// 너무 흔한 말은 낱말 찾기에서 빼고 풀이 제목 맞추기에만 (예: '사람' 때문에 '눈사람'이 걸렸다)
+const DR_GENERIC = new Set(['사람', '것', '거', '데', '때', '곳', '분']);
+// 식구를 부르는 말이 나오면 '가족'도 같이 찾는다 ('엄마가 죽는 꿈' → '가족이 죽는 꿈')
+const DR_FAMILY = new Set(['엄마', '어머니', '아빠', '아버지', '남편', '아내', '부인', '아들', '딸', '자식', '언니', '오빠', '누나', '형', '동생', '할머니', '할아버지', '가족', '식구']);
+const drStrip = w => w.replace(/꿈$/, '').replace(/(에서|에게|으로|이랑|하고|처럼|까지|부터|한테|은|는|이|가|을|를|에|의|도|만|와|과|랑|로)$/, '');
+const drVerb = w => w.replace(/(했던|했다|했어요|하다가|하는|하고|해서|었던|았던|었다|았다|었어요|았어요|어서|아서|면서|던|고|며)$/, '');
 function findDream(raw) {
   const n = s => String(s || '').replace(/\s+/g, '');
-  let q = n(raw).replace(/(을|를|이|가)?(꾸었어요|꿨어요|꿨다|꾸었다|꾸는꿈|꿈을|꿈이|꿈)$/, '');
-  if (!q) return [];
+  const words = String(raw || '').split(/[\s,.!?~·]+/).map(w => w.trim()).filter(Boolean);
+  const toks = [], soft = [];
+  for (const w of words) {
+    const c = [...new Set([w, drStrip(w), drVerb(drStrip(w))])].filter(Boolean);
+    if (c.some(x => DR_FAMILY.has(x))) soft.push('가족');
+    if (DR_STOP.has(w) || DR_GENERIC.has(drStrip(w)) || c.every(x => DR_STOP.has(x) || DR_GENERIC.has(x))) { soft.push(...c.filter(x => x.length >= 2 || DR_GENERIC.has(x))); continue; }
+    toks.push(c);
+  }
+  if (!toks.length && !soft.length) return [];
   const out = [];
   for (const x of DREAM.items) {
-    const k = n(x.k), al = x.a.map(n);
-    let sc = k === q ? 100 : al.includes(q) ? 92 : (k.includes(q) || q.includes(k.replace(/\(.*\)/, ''))) ? 75 : al.some(a => a.includes(q) || (a.length >= 2 && q.includes(a))) ? 64 : 0;
-    const lines = x.l.map(l => ({ l, s: n(l.t).includes(q) ? 40 : n(l.d).includes(q) ? 12 : 0 }));
-    const best = Math.max(0, ...lines.map(v => v.s));
-    if (!sc && !best) continue;
-    // 낱말로 맞았으면 풀이를 다 보여 주고, 글 속에서만 맞았으면 맞은 줄만 보여 준다
-    const show = sc ? x.l : lines.filter(v => v.s).map(v => v.l);
-    out.push({ x, sc: sc || best, show });
+    const k = n(x.k).replace(/\(.*\)/, ''), al = x.a.map(n);
+    let sc = 0, exact = false;
+    const lineSc = x.l.map(() => 0);
+    for (const cands of toks) {
+      let best = 0;
+      for (const c of cands) {
+        if (c === k || al.includes(c)) { best = Math.max(best, 60); exact = true; }
+        else if (c.length >= 2 && (k.includes(c) || (k.length >= 2 && c.includes(k)) || al.some(a => a.includes(c) || (a.length >= 2 && c.includes(a))))) best = Math.max(best, 35);
+        if (c.length >= 2) x.l.forEach((l, i) => { if (n(l.t).includes(c)) lineSc[i] += 20; else if (n(l.d).includes(c)) lineSc[i] += 3; });
+      }
+      sc += best;
+    }
+    for (const c of soft) x.l.forEach((l, i) => { if (n(l.t).includes(c)) lineSc[i] += c === '가족' ? 20 : 8; });
+    const lb = Math.max(0, ...lineSc);
+    if (!sc && lb < 20) continue;
+    // 맞은 풀이를 앞에. 낱말이 맞았으면 나머지 풀이도 뒤에 붙이고, 글 속에서만 맞았으면 맞은 줄만.
+    const order = x.l.map((l, i) => ({ l, s: lineSc[i] })).sort((a, b) => b.s - a.s);
+    const show = sc ? order.map(v => v.l).slice(0, exact && toks.length === 1 ? 12 : 6) : order.filter(v => v.s >= 20).map(v => v.l);
+    out.push({ x, sc: sc + lb, show });
   }
-  return out.sort((a, b) => b.sc - a.sc).slice(0, 12);
+  return out.sort((a, b) => b.sc - a.sc).slice(0, 8);
 }
+// 보이는 이름: '죽는' → '죽는 꿈', '눈(내리는)' → '눈'
+const drName = k => { k = k.replace(/\(.*\)/, ''); return /는$/.test(k) ? k + ' 꿈' : k; };
 function showDream(raw) {
   const res = $('dr-res'); if (!res || !DREAM) return;
   const q = String(raw || '').trim();
   if (!q) { res.innerHTML = ''; return; }
   const hits = findDream(q);
   const tag = g => g === '좋은 꿈' ? '<span class="dr-tag g">좋은 꿈</span>' : g ? `<span class="dr-tag c">${esc(g)}</span>` : '';
+  // 비슷한 꿈: 맨 위 풀이와 같은 분류에서 몇 개 — 하나 찾고 끝나지 않고 둘러보게
+  const seen = new Set(hits.map(h => h.x.k));
+  const near = hits.length ? DREAM.items.filter(x => x.c === hits[0].x.c && !seen.has(x.k)).slice(0, 6) : [];
   res.innerHTML = hits.length
-    ? hits.map(h => `<div class="dr-card"><h3>${esc(h.x.k.replace(/\(.*\)/, ''))}</h3><ul>${h.show.map(l => `<li><b>${esc(l.t)}</b>${tag(l.g)}<p>${esc(l.d)}</p></li>`).join('')}</ul></div>`).join('')
+    ? hits.map(h => `<div class="dr-card"><h3>${esc(drName(h.x.k))}</h3><ul>${h.show.map(l => `<li><b>${esc(l.t)}</b>${tag(l.g)}<p>${esc(l.d)}</p></li>`).join('')}</ul></div>`).join('')
+      + (near.length ? `<p class="dr-sub">비슷한 꿈</p><div class="dr-pop">${near.map(x => `<button type="button" data-drk="${esc(x.k)}">${esc(drName(x.k))}</button>`).join('')}</div>` : '')
     : `<p class="dr-none">‘${esc(q)}’ 꿈 풀이는 아직 없습니다. 꿈에서 가장 또렷했던 것 하나만 넣어 보세요. (예: 물, 집, 돈)</p>`;
   DB.track && DB.track('dream_find', { q: q.slice(0, 20), n: hits.length });
   res.scrollIntoView({ block: 'start', behavior: 'smooth' });
