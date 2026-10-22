@@ -2,7 +2,6 @@ import { DEFAULT_CONTENT } from './content.js';
 import * as DB from './db.js';
 import * as NB from './notebook.js';
 import * as RADIO from './radio.js';
-import { drawCard } from './cards.js';
 import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
@@ -114,9 +113,21 @@ const cardVar = i => ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'][(Math.floor(Date.UTC(Y
 // v1 의 잎 장식은 뺐다 — 아래 로고 안의 나뭇가지와 같은 그림이라 두 번 나왔다 (운영자 2026-10-22)
 const CARD_ORN = { v2: '<span class="gp-foil"></span>' };
 cardsEl.innerHTML = GREET.map((c, i) => { const v = cardVar(i); return `<button type="button" class="gcard paper ${v}" data-copy="${i}" data-v="${v}" aria-label="인사 카드 보내기"${v === 'v6' ? ` style="background-image:url('img/wc/${CARD_SEASON}.jpg')"` : ''}><span class="gp-date">${v === 'v6' ? `${M + 1}월 ${D}일<br>${CARD_DOW}요일` : CARD_DATE}</span>${CARD_ORN[v] || ''}<q>${esc(c).replace(/\n/g, '<br>')}</q><span class="${v === 'v4' ? 'gp-brush' : 'gp-rule'}"></span><img class="gp-logo" src="img/logo.png" alt="오마주" width="600" height="490"></button>`; }).join('');
+// cards.js 는 app.js 와 같은 ?v= 를 붙여 불러온다 (운영자 2026-10-22).
+// 주소가 그대로면 카톡·네이버 앱 안 브라우저(서비스 워커 없음)가 옛 파일을 계속 써서
+// 고친 것이 반영되지 않는다 — 고쳐도 12초가 그대로였던 까닭이다.
+const MODV = (() => { try { return new URL(import.meta.url).search || ''; } catch (e) { return ''; } })();
+let cardsMod;
+const CT = {};   // 어디서 걸리는지 재 둔다 (주소에 ?t=1 을 붙이면 보여 준다)
 async function makeCard(i) {
-  const cv = await drawCard(C.greetings[i], i, { dateText: CARD_DATE, variant: cardVar(i), season: CARD_SEASON });
-  return new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+  const t0 = Date.now();
+  cardsMod = cardsMod || await import('./cards.js' + MODV);
+  CT.load = Date.now() - t0;
+  const cv = await cardsMod.drawCard(C.greetings[i], i, { dateText: CARD_DATE, variant: cardVar(i), season: CARD_SEASON });
+  CT.draw = Date.now() - t0 - CT.load;
+  const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+  CT.blob = Date.now() - t0 - CT.load - CT.draw;
+  return blob;
 }
 // 카드에 쓰는 글꼴(명조 800·Cormorant 기울임)과 로고는 화면 어디에도 안 쓰여서 누를 때 비로소 받아 온다.
 // 휴대폰 데이터로는 그게 몇 초라 "만드는 중입니다"에서 멈춘 듯 보였다 (운영자 2026-10-22).
@@ -179,7 +190,7 @@ cardsEl.onclick = async e => {
   // 그 경우에도 글이라도 넘길 수 있으므로, 안 되면 눌렀을 때 저장으로 넘긴다.
   const url = URL.createObjectURL(blob), canShare = !!navigator.share;
   const canFile = !!(navigator.canShare && navigator.canShare({ files: [file] }));
-  $('card-h').textContent = '인사 카드가 준비되었습니다';
+  $('card-h').textContent = /[?&]t=1/.test(location.search) ? `불러오기 ${CT.load} · 그리기 ${CT.draw} · 파일 ${CT.blob} (ms)` : '인사 카드가 준비되었습니다';
   $('card-box').outerHTML = `<img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,0.25)">`;
   ['card-share', 'card-save'].forEach(id => { const el = $(id); el.disabled = false; el.style.opacity = ''; });
   const save = () => { const a = document.createElement('a'); a.href = url; a.download = 'omaju-card.jpg'; a.click(); closeModal(); modal(`<h2>카드를 저장했습니다</h2><p style="font-size:1.1rem">휴대폰 <b>사진(갤러리)</b>에 저장되었습니다. 카톡에서 사진 보내기로 보내 주세요.</p>`); };
