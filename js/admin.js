@@ -64,10 +64,17 @@ async function loadUsers() {
 }
 function renderUsers(list) {
   $('u-count').textContent = list.length + '명';
-  $('users').innerHTML = '<tr><th>별명</th><th>성별</th><th>출생</th><th>가입 경로</th><th>연락처</th><th>가입</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear || ''}</td><td>${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : esc(u.username || '')}</td><td>${esc(u.phone)}</td><td>${md(u.createdAt)}</td><td>${esc((u.lastSeenDay || '').slice(5).replace('-', '/'))}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button>`}</td></tr>`).join(''); labelize($('users'));
+  $('users').innerHTML = '<tr><th>별명</th><th>성별</th><th>출생</th><th>가입 경로</th><th>연락처</th><th>가입</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear || ''}</td><td>${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : esc(u.username || '')}</td><td>${esc(u.phone)}</td><td>${md(u.createdAt)}</td><td>${esc((u.lastSeenDay || '').slice(5).replace('-', '/'))}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button><button type="button" data-del="${u.id}" class="danger">삭제</button>`}</td></tr>`).join(''); labelize($('users'));
 }
 $('u-find').onclick = () => { const q = $('u-q').value.trim().toLowerCase(); renderUsers(q ? allUsers.filter(u => [u.nick, u.username, u.phone].some(x => (x || '').toLowerCase().includes(q))) : allUsers); };
-$('users').onclick = async e => { const b = e.target.closest('[data-ban]'); if (!b) return; const u = allUsers.find(x => x.id === b.dataset.ban); if (!confirm((u.banned ? '정지를 풀까요? ' : '이 회원을 정지할까요? ') + u.nick)) return; await updateDoc(doc(db, 'users', u.id), { banned: !u.banned }); loadUsers(); };
+// 회원 삭제 (운영자 2026-10-22 — 시험으로 만든 계정 정리). 회원 문서와 아이디·별명 자리를 지운다.
+// 카카오·네이버 로그인 자체는 남으므로 그 사람이 다시 들어오면 처음 온 사람처럼 가입 창이 뜬다.
+async function dropUser(u) {
+  const mine = async (col, key) => { if (!key) return; const r = doc(db, col, key), s = await getDoc(r); if (s.exists() && s.data().uid === u.id) await deleteDoc(r); };
+  await mine('nicknames', u.nickKey); await mine('usernames', u.username);
+  await deleteDoc(doc(db, 'users', u.id));
+}
+$('users').onclick = async e => { const d = e.target.closest('[data-del]'); if (d) { const u = allUsers.find(x => x.id === d.dataset.del); if (!u || !confirm(`'${u.nick}' 회원을 삭제할까요?\n되돌릴 수 없습니다.`)) return; d.disabled = true; try { await dropUser(u); } catch (err) { alert('삭제하지 못했습니다: ' + (err.code || err.message)); } loadUsers(); return; } const b = e.target.closest('[data-ban]'); if (!b) return; const u = allUsers.find(x => x.id === b.dataset.ban); if (!confirm((u.banned ? '정지를 풀까요? ' : '이 회원을 정지할까요? ') + u.nick)) return; await updateDoc(doc(db, 'users', u.id), { banned: !u.banned }); loadUsers(); };
 
 // ── 오늘 콘텐츠 ──
 async function loadContent() {
