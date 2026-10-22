@@ -123,11 +123,18 @@ cardsEl.onclick = async e => {
   toast('카드를 만드는 중입니다…');
   const blob = await makeCard(i), file = new File([blob], 'omaju-card.jpg', { type: 'image/jpeg' });
   const text = C.greetings[i].replace(/\n/g, ' ') + '\n' + TAGLINE;
-  const url = URL.createObjectURL(blob), canShare = !!(navigator.canShare && navigator.canShare({ files: [file] }));
+  // 보내기 단추는 navigator.share 가 있기만 하면 띄운다 (운영자 2026-10-22: 저장하기만 떴다).
+  // canShare({files}) 만 보면 카톡·네이버 앱 안에서 열린 화면에서 단추가 통째로 사라진다 —
+  // 그 경우에도 글이라도 넘길 수 있으므로, 안 되면 눌렀을 때 저장으로 넘긴다.
+  const url = URL.createObjectURL(blob), canShare = !!navigator.share;
+  const canFile = !!(navigator.canShare && navigator.canShare({ files: [file] }));
   modal(`<h2>인사 카드가 준비되었습니다</h2><img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,0.25)"><div class="modal-actions">${canShare ? '<button type="button" class="btn green" id="card-share">카톡으로 보내기</button>' : ''}<button type="button" class="btn line" id="card-save">사진에 저장하기</button></div>`);
   const save = () => { const a = document.createElement('a'); a.href = url; a.download = 'omaju-card.jpg'; a.click(); closeModal(); modal(`<h2>카드를 저장했습니다</h2><p style="font-size:1.1rem">휴대폰 <b>사진(갤러리)</b>에 저장되었습니다. 카톡에서 사진 보내기로 보내 주세요.</p>`); };
   $('card-save').onclick = save;
-  if (canShare) $('card-share').onclick = async () => { try { await navigator.share({ files: [file], text }); closeModal(); } catch (err) { if (err.name !== 'AbortError') save(); } };
+  if (canShare) $('card-share').onclick = async () => {
+    try { await navigator.share(canFile ? { files: [file], text } : { text: text + '\nhttps://omaju.kr' }); closeModal(); }
+    catch (err) { if (err.name === 'AbortError') return; try { await navigator.share({ text: text + '\nhttps://omaju.kr' }); closeModal(); } catch (e2) { if (e2.name !== 'AbortError') save(); } }
+  };
 };
 
 
