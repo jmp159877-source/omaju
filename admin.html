@@ -70,16 +70,16 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
 
   <div id="panel" hidden>
     <div class="topbar"><a href="index.html">오마주로 돌아가기</a><button type="button" id="a-out">로그아웃</button></div>
-    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">회원</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button></div>
+    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button></div>
 
     <section class="sec on" data-sec="dash">
       <div class="tiles" id="tiles"></div>
-      <p class="note">오늘 가입한 사람</p><table id="joined"></table>
+      <p class="note">오늘 구독한 사람</p><table id="joined"></table>
       <p style="margin:14px 0 4px"><button type="button" id="nocount">이 기기는 방문 수에서 빼기</button></p>
       <p class="note" style="margin-top:0">운영자 폰·PC 에서 한 번씩 눌러 두면 그 기기는 '오늘 방문'에 세지 않습니다.</p>
       <p class="note">최근 14일 방문자</p><div class="chart" id="chart"></div>
       <p class="note">오늘 코너별 클릭</p><table id="clicks"></table>
-      <p class="note" style="margin-top:20px">지역별 가입자</p><table id="regions"></table>
+      <p class="note" style="margin-top:20px">지역별 구독자</p><table id="regions"></table>
     </section>
 
     <section class="sec" data-sec="users">
@@ -105,7 +105,7 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
     </section>
 
     <section class="sec" data-sec="resets">
-      <p class="note">비밀번호를 잊은 회원의 요청입니다. 연락처가 회원 정보와 맞는지 확인한 뒤 전화로 안내하고, 처리 완료를 누르세요. (비밀번호 자동 초기화는 다음 단계에서 연결합니다.)</p>
+      <p class="note">비밀번호를 잊은 구독자의 요청입니다. 연락처가 구독자 정보와 맞는지 확인한 뒤 전화로 안내하고, 처리 완료를 누르세요. (비밀번호 자동 초기화는 다음 단계에서 연결합니다.)</p>
       <table id="resets"></table>
     </section>
 

@@ -30,10 +30,10 @@ async function loadDash() {
   const week = users.filter(u => u.lastSeenDay >= dayOffset(-6)).length;
   const sToday = (await getDoc(doc(db, 'stats', TODAY))).data() || {};
   const joined = users.filter(u => u.createdAt && DB.todayKey(u.createdAt.toDate()) === TODAY).sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
-  $('tiles').innerHTML = [['누적 가입자', users.length], ['오늘 방문(기기)', sToday.visits || 0], ['오늘 접속 회원', today], ['7일 접속 회원', week], ['오늘 가입', joined.length], ['문자 수신 동의', users.filter(u => u.marketing).length]].map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
+  $('tiles').innerHTML = [['누적 구독자', users.length], ['오늘 방문(기기)', sToday.visits || 0], ['오늘 접속 구독자', today], ['7일 접속 구독자', week], ['오늘 구독', joined.length], ['문자 수신 동의', users.filter(u => u.marketing).length]].map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
   // 오늘 가입한 사람 (운영자 2026-10-22 — 숫자만 보이니 누가 들어왔는지 회원 탭까지 가야 했다)
   const hm = t => { const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
-  $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>가입 시각</th><th>성별</th><th>태어난 해</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear ? u.birthYear + '년생' : ''}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
+  $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>구독 시각</th><th>성별</th><th>태어난 해</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear ? u.birthYear + '년생' : ''}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
   paintNoCount();
   const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
   const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
@@ -43,7 +43,7 @@ async function loadDash() {
   const NAMES = { greeting: '인사말', fortune: '운세', dream: '꿈 해몽', luck: '운세 · 꿈 해몽', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: '오늘 PLAY', history: '그해 오늘', music: '그 시절 노래', story: '사연', follow: '따라하기', show: '무엇을 볼까', outing: '나들이', phrase: '여행', garden: '오늘의 정원', hike: '오늘의 산', move: '몸 풀기', mind: '마음 한 줄', body: '몸 한 가지', home: '그 동네 지금' };
   $('clicks').innerHTML = '<tr><th>코너</th><th>클릭</th></tr>' + (clicks.map(([k, v]) => `<tr><td>${NAMES[k] || k}</td><td>${v}</td></tr>`).join('') || '<tr><td colspan="2">아직 없음</td></tr>'); labelize($('clicks'));
   const reg = {}; users.forEach(u => { const r = (u.region || '미입력').split(' ')[0]; reg[r] = (reg[r] || 0) + 1; });
-  $('regions').innerHTML = '<tr><th>지역</th><th>가입자</th></tr>' + Object.entries(reg).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join(''); labelize($('regions'));
+  $('regions').innerHTML = '<tr><th>지역</th><th>구독자</th></tr>' + Object.entries(reg).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join(''); labelize($('regions'));
 }
 
 // 이 기기는 방문 수에서 빼기 (운영자 2026-10-22 — 운영자 폰·PC 가 하루 방문 수에 섞였다)
@@ -64,7 +64,7 @@ async function loadUsers() {
 }
 function renderUsers(list) {
   $('u-count').textContent = list.length + '명';
-  $('users').innerHTML = '<tr><th>별명</th><th>성별</th><th>출생</th><th>가입 경로</th><th>연락처</th><th>가입</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear || ''}</td><td>${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : esc(u.username || '')}</td><td>${esc(u.phone)}</td><td>${md(u.createdAt)}</td><td>${esc((u.lastSeenDay || '').slice(5).replace('-', '/'))}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button><button type="button" data-del="${u.id}" class="danger">삭제</button>`}</td></tr>`).join(''); labelize($('users'));
+  $('users').innerHTML = '<tr><th>별명</th><th>성별</th><th>출생</th><th>구독 경로</th><th>연락처</th><th>구독</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear || ''}</td><td>${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : esc(u.username || '')}</td><td>${esc(u.phone)}</td><td>${md(u.createdAt)}</td><td>${esc((u.lastSeenDay || '').slice(5).replace('-', '/'))}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button><button type="button" data-del="${u.id}" class="danger">삭제</button>`}</td></tr>`).join(''); labelize($('users'));
 }
 $('u-find').onclick = () => { const q = $('u-q').value.trim().toLowerCase(); renderUsers(q ? allUsers.filter(u => [u.nick, u.username, u.phone].some(x => (x || '').toLowerCase().includes(q))) : allUsers); };
 // 회원 삭제 (운영자 2026-10-22 — 시험으로 만든 계정 정리). 회원 문서와 아이디·별명 자리를 지운다.
@@ -74,7 +74,7 @@ async function dropUser(u) {
   await mine('nicknames', u.nickKey); await mine('usernames', u.username);
   await deleteDoc(doc(db, 'users', u.id));
 }
-$('users').onclick = async e => { const d = e.target.closest('[data-del]'); if (d) { const u = allUsers.find(x => x.id === d.dataset.del); if (!u || !confirm(`'${u.nick}' 회원을 삭제할까요?\n되돌릴 수 없습니다.`)) return; d.disabled = true; try { await dropUser(u); } catch (err) { alert('삭제하지 못했습니다: ' + (err.code || err.message)); } loadUsers(); return; } const b = e.target.closest('[data-ban]'); if (!b) return; const u = allUsers.find(x => x.id === b.dataset.ban); if (!confirm((u.banned ? '정지를 풀까요? ' : '이 회원을 정지할까요? ') + u.nick)) return; await updateDoc(doc(db, 'users', u.id), { banned: !u.banned }); loadUsers(); };
+$('users').onclick = async e => { const d = e.target.closest('[data-del]'); if (d) { const u = allUsers.find(x => x.id === d.dataset.del); if (!u || !confirm(`'${u.nick}' 구독자를 삭제할까요?\n되돌릴 수 없습니다.`)) return; d.disabled = true; try { await dropUser(u); } catch (err) { alert('삭제하지 못했습니다: ' + (err.code || err.message)); } loadUsers(); return; } const b = e.target.closest('[data-ban]'); if (!b) return; const u = allUsers.find(x => x.id === b.dataset.ban); if (!confirm((u.banned ? '정지를 풀까요? ' : '이 구독자를 정지할까요? ') + u.nick)) return; await updateDoc(doc(db, 'users', u.id), { banned: !u.banned }); loadUsers(); };
 
 // ── 오늘 콘텐츠 ──
 async function loadContent() {
@@ -102,7 +102,7 @@ $('comments').onclick = async e => { const h = e.target.closest('[data-hide]'), 
 // ── 찾기 요청 ──
 async function loadResets() {
   const list = (await getDocs(query(collection(db, 'resets'), orderBy('ts', 'desc'), limit(100)))).docs.map(d => ({ id: d.id, ...d.data() }));
-  const rows = await Promise.all(list.map(async r => { let m = '아이디 없음'; if (r.username && r.username !== 'unknown') { const u = await getDoc(doc(db, 'usernames', r.username)); if (u.exists()) { const p = (await getDoc(doc(db, 'users', u.data().uid))).data(); m = p ? (p.phone === r.phone ? '연락처 일치 ✓ (' + esc(p.nick) + ')' : '연락처 불일치 ✗') : '회원 정보 없음'; } } return `<tr style="${r.done ? 'opacity:.5' : ''}"><td>${fmt(r.ts)}</td><td>${esc(r.username)}</td><td>${esc(r.phone)}</td><td>${m}</td><td>${r.done ? '완료' : `<button type="button" data-done="${r.id}">처리 완료</button>`}</td></tr>`; }));
+  const rows = await Promise.all(list.map(async r => { let m = '아이디 없음'; if (r.username && r.username !== 'unknown') { const u = await getDoc(doc(db, 'usernames', r.username)); if (u.exists()) { const p = (await getDoc(doc(db, 'users', u.data().uid))).data(); m = p ? (p.phone === r.phone ? '연락처 일치 ✓ (' + esc(p.nick) + ')' : '연락처 불일치 ✗') : '구독자 정보 없음'; } } return `<tr style="${r.done ? 'opacity:.5' : ''}"><td>${fmt(r.ts)}</td><td>${esc(r.username)}</td><td>${esc(r.phone)}</td><td>${m}</td><td>${r.done ? '완료' : `<button type="button" data-done="${r.id}">처리 완료</button>`}</td></tr>`; }));
   $('resets').innerHTML = '<tr><th>요청</th><th>아이디</th><th>연락처</th><th>확인</th><th></th></tr>' + (rows.join('') || '<tr><td colspan="5">없음</td></tr>'); labelize($('resets'));
 }
 $('resets').onclick = async e => { const b = e.target.closest('[data-done]'); if (!b) return; await updateDoc(doc(db, 'resets', b.dataset.done), { done: true }); loadResets(); };
