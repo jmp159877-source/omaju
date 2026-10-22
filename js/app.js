@@ -222,8 +222,9 @@ cardsEl.onclick = async e => {
   //            → 휴대폰 기본 보내기 → 그래도 안 되면 저장하기
   $('card-share').onclick = async () => {
     const btn = $('card-share'); btn.disabled = true; btn.textContent = '보내는 중…';
-    if (await kakaoSendCard(file, C.greetings[i].replace(/\n/g, ' '))) { closeModal(); return; }
+    // 카드도 같다 — 그림을 바로 넘길 수 있는 폰은 원래대로, 안 되는 창에서만 카카오 공유.
     if (canFile) { try { await navigator.share({ files: [file], text }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
+    if (await kakaoSendCard(file, C.greetings[i].replace(/\n/g, ' '))) { closeModal(); return; }
     if (canShare) { try { await navigator.share({ text: text + '\nhttps://omaju.kr' }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
     save();
   };
@@ -934,8 +935,11 @@ $('share-btn').onclick = async () => {
   DB.track('share');
   // 카톡 안 브라우저에는 navigator.share 가 없어 '복사했습니다'로 빠졌다 (운영자 2026-10-22).
   // 카카오 공유로 바로 보낸다 — 커버 사진과 '오마주 열어보기' 단추가 함께 간다.
-  if (await kakaoSendIntro(text)) return;
+  // 되던 것은 그대로 둔다 (운영자 2026-10-22). 휴대폰 기본 보내기가 있으면 그걸 먼저 —
+  // 주소가 글에 그대로 실려 가고, 받는 쪽에 카톡 자체 미리 보기가 뜬다.
+  // 카카오 공유는 그 기능이 아예 없는 창(카톡 안 브라우저)에서만 쓴다.
   if (navigator.share) { try { await navigator.share({ title: '오마주', text: text + '\n' + SITE }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  if (await kakaoSendIntro(text)) return;
   try { await navigator.clipboard.writeText(text + '\n' + SITE); toast('소개 글을 복사했습니다. 카톡에 붙여 넣어 보내세요.'); } catch (e) {}
 };
 
