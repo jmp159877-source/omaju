@@ -39,10 +39,23 @@ def length(vid):
     return _len[vid]
 
 
+# 공식 영상 먼저 (운영자 2026-10-22 — 저작권). 퍼가기 플레이어로 트는 것 자체는 괜찮지만,
+# 남이 무단으로 올린 음원에 영리·계속 링크를 거는 것은 대법원 2021. 9. 9. 2017도19025 이후 방조가 될 수 있다.
+# 공식 = 가수·음반사·방송사 채널, 유튜브 '- Topic' 음원, 그리고 연주자가 자기 연주를 올린 채널(OK_CH).
+OFF = re.compile(r"official|공식|vevo|- topic|\bkbs|mbc|sbs|\bebs|\btbs|mnet|1thek|원더케이|stone music|smtown|jyp|\byg\b|hybe|rhino|records|entertainment|kpop|크레디아|crediatv|arte|뮤직앤뉴|music&new|riak", re.I)
+OK_CH = {"PAUL McCARTNEY", "CelloDeck", "Nano Philharmonic Orchestra", "원지혜_FromCello"}
+def official(ch, a):
+    ch = ch or ""
+    return bool(OFF.search(ch)) or ch.strip() in OK_CH or bool(norm(a) and (norm(a) in norm(ch) or norm(ch) in norm(a)))
+
 songs = json.load(open(os.path.join(HERE, "songs.json"), encoding="utf-8"))
 have = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
 # --redo=제목|가수,제목|가수 … 로 특정 곡만 다시 고른다 (잘못 걸린 것 손보기)
+old = {}   # 다시 고르는 곡의 예전 영상 — 공식 영상을 못 찾으면 이것을 그대로 둔다 (없애지 않는다)
 for arg in sys.argv[1:]:
+    if arg == "--unofficial":   # 지금 걸린 영상 중 공식이 아닌 것만 다시
+        for k, v in list(have.items()):
+            if v and not official(v.get("c"), k.split("|", 1)[-1]): old[k] = have.pop(k)
     if arg.startswith("--redo="):
         for k in arg.split("=", 1)[1].split(","):
             have.pop(k.strip(), None)
@@ -65,7 +78,7 @@ def score(it):
     if norm(t) in norm(ti) or norm(en(t)) in norm(ti): s += 3
     if any(norm(x) in norm(ti) or norm(x) in norm(sn["channelTitle"]) for x in (a, en(a))): s += 3
     if bad.search(ti): s -= 5
-    if "official" in sn["channelTitle"].lower() or "공식" in sn["channelTitle"] or "kbs" in sn["channelTitle"].lower() or "mbc" in sn["channelTitle"].lower(): s += 1
+    if official(sn["channelTitle"], a): s += 4
     return s
 
 api_ok = True
@@ -88,7 +101,7 @@ for t, a in todo[:400]:
         except Exception: pass
     items.sort(key=score, reverse=True)
     # 길이가 맞는 것으로 — 노래 한 곡은 80초~10분이다. 모음집·전막·예능은 여기서 걸러진다.
-    got = None
+    got = None; spare = None
     # 제목이 맞는 것만 — 가수만 맞고 다른 노래가 걸리던 것을 막는다
     # (2026-10-20: '이젠 나만의 길' 자리에 '아름다운 아픔'이 들어와 있었다)
     def title_hit(it):
@@ -98,8 +111,13 @@ for t, a in todo[:400]:
     for it in items[:6]:
         if score(it) < 3 or not title_hit(it): break
         sec = length(it["id"]["videoId"])
-        if sec is None or 80 <= sec <= 600: got = it; break
+        if sec is None or 80 <= sec <= 600:
+            if official(it["snippet"]["channelTitle"], a): got = it; break
+            spare = spare or it; continue   # 공식이 아니면 일단 남겨 두고 더 찾아본다
         print("  길이로 거름", it["snippet"]["title"][:40], f"{sec // 60}분")
+    if not got and old.get(f"{t}|{a}"):
+        have[f"{t}|{a}"] = old[f"{t}|{a}"]; print("공식 영상 없음 → 예전 것 그대로", t, a); continue
+    got = got or spare
     if got:
         have[f"{t}|{a}"] = {"v": got["id"]["videoId"], "t": got["snippet"]["title"], "c": got["snippet"]["channelTitle"]}
         print("ok", t, "-", a, "→", got["snippet"]["title"][:50])
