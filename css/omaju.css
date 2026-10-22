@@ -2017,3 +2017,7 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 
 .gd-title { margin: 6px 0 14px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
   font-size: min(1.25rem, 19px + 0.6vw); color: var(--dark-green, #1F5A43); word-break: keep-all; }
+
+/* '로그인 · 무료 구독하기' 는 옆 단추보다 글자가 많아 휴대폰에서 두 줄로 꺾였다 (운영자 2026-10-22).
+   이 단추만 글자 크기를 화면 폭에 맞춰 한 줄에 들어가게. 아주 좁은 화면에서는 '로그인 · / 무료 구독하기' 로만 꺾인다. */
+.hero-actions #login-btn { font-size: min(1em, 4.6vw); }
