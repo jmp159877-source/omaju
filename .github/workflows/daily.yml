@@ -50,9 +50,23 @@ jobs:
         run: python tools/era_photos.py "${{ github.event.inputs.date || '' }}$( [ -z "${{ github.event.inputs.date }}" ] && TZ=Asia/Seoul date +%F )" || true
       - name: 만든 내용을 저장소에 기록
         if: always()
+        shell: bash          # -e 를 쓰지 않는다 (2026-10-22: 첫 git 명령에서 튕기면 아래가 통째로 안 돌았다)
         run: |
-          git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
-          git add daily/*.json || true
-          git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
-          ok=0; for i in 1 2 3 4 5; do git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
-          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/last-run.log
+          set +e
+          {
+            # 어떤 git 명령이 왜 튕겼는지 남긴다 — 액션 로그는 사막 안에서 못 읽는다 (2026-10-22)
+            git config --global --add safe.directory "$GITHUB_WORKSPACE"
+            git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
+            echo "[git] status"; git status --porcelain | head
+            git add daily/*.json
+            git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
+            ok=0
+            for i in 1 2 3 4 5; do
+              git pull --rebase -X theirs origin main && git push && { ok=1; break; }
+              echo "[git] $i 번째 실패 (rc=$?)"; git rebase --abort 2>/dev/null; sleep 5
+            done
+            echo "[git] ok=$ok"
+          } 2>&1 | tee /tmp/push.log
+          mkdir -p daily; tail -60 /tmp/push.log > daily/last-push.log
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/last-run.log daily/last-push.log daily/*.json
+          grep -q '\[git\] ok=1' /tmp/push.log || { echo '저장소에 올리지 못함'; exit 1; }
