@@ -327,11 +327,26 @@ def pick_songs(yr, d):
 
 def gen_meal(d):
     season = ["한겨울", "늦겨울", "초봄", "봄", "늦봄", "초여름", "한여름", "늦여름", "초가을", "가을", "늦가을", "초겨울"][d.month - 1]
+    recent = ", ".join(recent_titles(d, "meal")) or "없음"
     j = gemini(f"""{season}({d.month}월)에 어울리는, 혼자서도 15~20분이면 만드는 한 끼 요리 하나를 정해라. 재료 5가지 이내, 흔한 재료. 한식·간단 양식·면 요리 등 매일 다르게.
+요 며칠 낸 요리: {recent}. **이 요리들의 주재료(예: 표고버섯)는 다시 쓰지 말고**, 주재료·조리법이 다른 것으로 고른다.
 형식: {{"meal": {{"title":"요리 이름(12자 이내)", "sub":"1인분 · N분 · 재료 N가지", "lead":"요리를 권하는 두 문장(50~80자, 제철 이야기 포함)", "ingredients":["재료와 양", ...5개 이내], "steps":["한 문장", "한 문장", "한 문장"], "tip":"한 문장"}}}}""")
     m = j["meal"]
     assert m.get("title") and len(m.get("steps", [])) >= 2 and m.get("ingredients"), "한 끼 형식 오류"
     return m
+
+
+def recent_titles(d, key, days=14):
+    """요 며칠 낸 제목 — 같은 재료·같은 일이 연달아 나오지 않게 (2026-10-23: 여드레 중 이레가 표고버섯, 정원은 이틀 내리 알뿌리)"""
+    out = []
+    for k in range(1, days + 1):
+        p = os.path.join(HERE, "..", "daily", (d - datetime.timedelta(days=k)).isoformat() + ".json")
+        try:
+            t = (json.load(open(p, encoding="utf-8")).get(key) or {}).get("title")
+            if t and t not in out: out.append(t)
+        except Exception:
+            pass
+    return out
 
 
 def recent_quiz_terms(d, days=21):
@@ -582,8 +597,10 @@ def gen_garden(d):
     mm = d.month
     season = ("한겨울" if mm in (12, 1, 2) else "봄" if mm in (3, 4, 5)
               else "한여름" if mm in (6, 7, 8) else "가을")
+    recent = ", ".join(recent_titles(d, "garden")) or "없음"
     prompt = f"""오늘은 {d.year}년 {d.month}월 {d.day}일, 한국의 {season}이다.
 마당·화분·주말농장을 가꾸는 사람에게 **이 철에 지금 해야 할 일 한 가지**를 알려 주는 짧은 글을 쓴다.
+요 몇 주 다룬 글: {recent}. **같은 일(예: 알뿌리 심기)을 다시 쓰지 말고** 이 철의 다른 일을 고른다.
 읽는 사람은 40~70대, 베란다 화분부터 작은 마당까지 제각각이다.
 
 [쓰는 법]
