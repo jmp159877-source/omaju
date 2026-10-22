@@ -38,6 +38,7 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
 .gate { max-width: 400px; margin: 60px auto; background: #fff; padding: 26px; border-radius: 8px; }
 #err { color: #8a2a22; margin-top: 10px; }
 /* 휴대폰: 표 한 줄을 카드 한 장으로 */
+@media (min-width: 701px) { #users td, #joined td { white-space: nowrap; } #users td:first-child { white-space: normal; min-width: 7em; } }   /* PC: 날짜·연락처·출생이 두 줄로 깨지지 않게 (운영자 2026-10-22) */
 @media (max-width: 700px) {
   .tabs { grid-template-columns: repeat(3, 1fr); }
   table, tbody { display: block; }
