@@ -187,6 +187,30 @@ srv.listen(0, '127.0.0.1', async () => {
       const hid = await p.evaluate(() => (document.querySelector('.ht-cam iframe') || {}).src || '');
       ok('내 고향: 라이브캠이 코너를 떠나면 멎음', /youtube\.com/.test(on) && /about:blank/.test(away) && /youtube\.com/.test(back2) && /about:blank/.test(hid), JSON.stringify({ on: on.slice(-24), away, back2: back2.slice(-24), hid }));
       await c.close(); }
+    // 3-4) 그 동네 지금: 로드뷰 아래 큰 단추 — 돌기(±45°)·걷기(새 자리로 옮김) (운영자 2026-10-22: 카카오 화살표가 '동서남북' 글자와 겹쳐 안 눌렸다)
+    { const c = await ctx(false);
+      const FAKE = `window.__rv={ids:[],pans:[]};window.kakao={maps:{load:function(cb){cb()},
+        LatLng:function(a,b){this.getLat=function(){return a};this.getLng=function(){return b}},
+        Roadview:function(){var pan=0,id=0,pos=null;this.setPanoId=function(i,p){id=i;pos=p;window.__rv.ids.push(i)};this.getPanoId=function(){return id};this.getPosition=function(){return pos};this.getViewpoint=function(){return {pan:pan,tilt:0,zoom:0}};this.setViewpoint=function(v){pan=v.pan;window.__rv.pans.push(v.pan)};this.relayout=function(){}},
+        RoadviewClient:function(){var n=100;this.getNearestPanoId=function(p,r,cb){cb(++n)}},
+        services:{Status:{OK:'OK'},Geocoder:function(){this.addressSearch=function(q,cb){cb([{x:'126.98',y:'37.58'}],'OK')}},Places:function(){this.keywordSearch=function(q,cb){cb([],'ZERO')}}}}};`;
+      await c.route('https://dapi.kakao.com/**', r => r.fulfill({ contentType: 'application/javascript', body: FAKE }));
+      const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 1500);
+      await p.evaluate(() => window.omajuNav('home')); await wait(p, 900);
+      await p.evaluate(() => { const b = document.querySelector('[data-ht="road"]'); if (b) b.click(); }); await wait(p, 400);
+      const hiddenBefore = await p.evaluate(() => { const x = document.getElementById('ht-pad'); return !x || x.hidden; });
+      await p.fill('#ht-q', '서울 종로구 삼청동'); await p.evaluate(() => document.querySelector('#ht-form [type=submit]').click()); await wait(p, 900);
+      const shown = await p.evaluate(() => { const x = document.getElementById('ht-pad'); return !!x && !x.hidden && x.querySelectorAll('button').length === 4; });
+      await p.evaluate(() => document.querySelector('[data-htm="right"]').click()); await wait(p, 200);
+      await p.evaluate(() => document.querySelector('[data-htm="left"]').click()); await wait(p, 200);
+      await p.evaluate(() => document.querySelector('[data-htm="left"]').click()); await wait(p, 200);
+      const before = await p.evaluate(() => window.__rv.ids.length);
+      await p.evaluate(() => document.querySelector('[data-htm="go"]').click()); await wait(p, 600);
+      await p.evaluate(() => document.querySelector('[data-htm="back"]').click()); await wait(p, 600);
+      const r = await p.evaluate(() => ({ pans: window.__rv.pans.slice(0, 3), ids: window.__rv.ids.length }));
+      const good = hiddenBefore && shown && r.pans.join(',') === '45,0,315' && r.ids >= before + 2 && !errs.length;
+      ok('그 동네 지금: 로드뷰 아래 단추로 돌기·걷기', good, JSON.stringify({ hiddenBefore, shown, pans: r.pans, walked: r.ids - before, errs: errs.slice(0, 2) }));
+      await c.close(); }
     // 4) 수첩: 말로 메모 → 다 했어요 → 저장 → 수첩에 그대로 (두 번)
     for (const ua of ['Mozilla/5.0 (Linux; Android 14; SM-F731N) AppleWebKit/537.36 Chrome/129 Mobile Safari/537.36', undefined]) {
       const c = await ctx(false, ua);

@@ -78,7 +78,8 @@ function roadHtml() {
     <button type="submit" class="btn green">보기</button>
   </form>
   ${ready ? `<div class="ht-view" id="ht-view"><p class="ht-empty" id="ht-empty">주소를 넣으면 여기에 길이 펼쳐집니다.</p><div id="ht-road"></div></div>
-  <p class="ht-tip">화면을 손가락으로 끌면 둘러보고, 바닥의 화살표를 누르면 그 길로 걸어갑니다.</p>
+  <div class="ht-pad" id="ht-pad" hidden><button type="button" data-htm="left">◀ 왼쪽 보기</button><button type="button" data-htm="right">오른쪽 보기 ▶</button><button type="button" data-htm="go">▲ 앞으로 가기</button><button type="button" data-htm="back">▼ 뒤로 가기</button></div>
+  <p class="ht-tip">화면을 손가락으로 끌면 둘러보고, 아래 단추로 방향을 돌리거나 걸어갈 수 있습니다.</p>
   <p class="note ht-by">지도·로드뷰 제공: 카카오</p>`
   : `<div class="ht-soon"><p>로드뷰는 곧 열립니다.</p><p class="note">지도 서비스 연결을 준비하고 있습니다. 그동안 <b>지금 그곳</b>에서 고향의 지금 모습을 보실 수 있습니다.</p></div>`}`;
 }
@@ -143,7 +144,36 @@ function show(kakao, lat, lng) {
     }); return; }
     paint(id, pos);
   });
-  function paint(id, p) { if (empty) empty.hidden = true; box.classList.add('on'); rv.setPanoId(id, p); setTimeout(() => rv.relayout(), 60); H.DB.track('home_road'); }
+  function paint(id, p) { if (empty) empty.hidden = true; box.classList.add('on'); const pad = $('ht-pad'); if (pad) pad.hidden = false; rv.setPanoId(id, p); setTimeout(() => rv.relayout(), 60); H.DB.track('home_road'); }
+}
+
+// ── 큰 단추로 돌기·걷기 (운영자 2026-10-22) ──
+// 카카오 로드뷰 바닥의 흰 화살표와 '동서남북' 글자가 휴대폰에서 겹쳐 잘 안 눌렸다.
+// 그 화살표는 카카오가 그리는 것이라 모양을 못 바꾼다 → 로드뷰 '아래'에 우리 단추를 따로 둔다 (겹치지 않게).
+// 앞으로·뒤로: 지금 보는 방향으로 몇 걸음 앞 자리에서 가장 가까운 로드뷰 사진을 찾아 옮긴다.
+function step(kind) {
+  if (!rv || !rvClient || !window.kakao) return;
+  const kakao = window.kakao;
+  let vp; try { vp = rv.getViewpoint(); } catch (e) { return; }
+  if (kind === 'left' || kind === 'right') {
+    vp.pan = ((vp.pan || 0) + (kind === 'left' ? -45 : 45) + 360) % 360;
+    try { rv.setViewpoint(vp); } catch (e) {}
+    return;
+  }
+  const here = rv.getPosition(), now = rv.getPanoId(), pan = vp.pan || 0;
+  const deg = (pan + (kind === 'back' ? 180 : 0)) * Math.PI / 180;
+  const at = d => new kakao.maps.LatLng(here.getLat() + d * Math.cos(deg) / 111320,
+                                         here.getLng() + d * Math.sin(deg) / (111320 * Math.cos(here.getLat() * Math.PI / 180)));
+  const tries = [14, 24, 40];
+  (function next(i) {
+    if (i >= tries.length) { H.toast('이쪽으로는 더 갈 길이 없습니다. 방향을 돌려 보세요.'); return; }
+    const p = at(tries[i]);
+    rvClient.getNearestPanoId(p, 20, id => {
+      if (!id || id === now) return next(i + 1);
+      rv.setPanoId(id, p);
+      setTimeout(() => { try { const v2 = rv.getViewpoint(); v2.pan = pan; rv.setViewpoint(v2); } catch (e) {} }, 350);   // 걸은 뒤에도 보던 방향 그대로
+    });
+  })(0);
 }
 
 // ── 누르기 ──
@@ -151,6 +181,7 @@ document.addEventListener('click', e => {
   const t = e.target.closest('[data-ht]'); if (t) { tab = t.dataset.ht; H.store.set('homeTab', tab); render(); return; }
   const r = e.target.closest('[data-htr]'); if (r) { region = r.dataset.htr; cam = 0; H.store.set('homeRegion', region); render(); return; }
   const c = e.target.closest('[data-htc]'); if (c) { cam = +c.dataset.htc; render(); return; }
+  const m = e.target.closest('[data-htm]'); if (m) { step(m.dataset.htm); return; }
   if (e.target.closest('#ht-mic')) {
     // 수첩과 달리 여기는 확인 화면이 없다 → 말이 끝나면 창을 닫고 바로 찾아 준다
     NB.listen(txt => { H.closeModal(); const el = $('ht-q'); if (el) el.value = txt; go(txt); });
