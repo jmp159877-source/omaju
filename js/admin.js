@@ -192,9 +192,23 @@ async function loadBlog() {
     $('b-cards').insertAdjacentHTML('beforeend', `<figure><img src="${url}" alt="인사 카드 ${i + 1}"><a class="bk-dl" href="${url}" download="${name}">${i + 1}번 내려받기</a></figure>`);
   }
   $('b-title').value = `${M + 1}월 ${D}일 ${dow}요일 아침 인사 카드 · 좋은 아침 인사말 이미지`;
-  $('b-body').value = [`${M + 1}월 ${D}일 ${dow}요일, 좋은 아침입니다.`, '오늘의 오마주 인사 카드를 나눕니다.', '마음 가는 분께 아침 인사로 보내 보세요.', '',
+  // 날마다 같은 틀이면 네이버가 찍어 내는 글로 볼 수 있다 (대표 2026-10-23) — 첫 문단·끝인사를 그날 내용과 날짜로 바꾼다.
+  const n = Math.floor(Date.UTC(Y, M, D) / 864e5), pick = (a, k = 0) => a[(n + k) % a.length];
+  const one = s => String(s || '').replace(/\s*\n\s*/g, ' ').trim();
+  const q = one(G[n % G.length]);
+  const hi = pick([`${M + 1}월 ${D}일 ${dow}요일 아침입니다.`, `${dow}요일, ${M + 1}월 ${D}일의 아침이에요.`, `좋은 아침입니다. 오늘은 ${M + 1}월 ${D}일 ${dow}요일.`, `${M + 1}월 ${D}일, ${dow}요일 아침 인사 드립니다.`]);
+  const mood = x.mind && x.mind.line ? one(x.mind.line) : '';
+  const quote = pick([`오늘 카드 가운데 “${q}” 이 한 줄이 오래 남네요.`, `“${q}” — 오늘은 이 말로 하루를 열어 봅니다.`, `오늘 고른 글귀는 “${q}”.`, `누군가에게 “${q}” 하고 건네고 싶은 아침입니다.`], 1);
+  const send = pick(['마음 가는 분께 아침 인사로 한 장 보내 보세요.', '오래 연락 못 한 분께 한 장 건네 보셔도 좋겠습니다.', '단톡방에 한 장, 마음 가는 분께 한 장.', '말로 하기 쑥스러운 안부를 카드에 맡겨 보세요.'], 2);
+  const extra = [];
+  if (x.meal && x.meal.title) extra.push(`한 끼 ‘${one(x.meal.title)}’`);
+  if (x.book && x.book.title) extra.push(`한 권 『${one(x.book.title)}』`);
+  const today = extra.length ? pick([`오늘 오마주에 올라온 것 — ${extra.join(', ')}.`, `오늘의 오마주 — ${extra.join(' · ')}.`], 3) : '';
+  const end = pick(['매일 아침 새 카드가 나오는 곳, 오마주 매거진.', '카드는 매일 아침 오마주 매거진에서 새로 나옵니다.', '내일 아침에도 새 카드로 찾아오겠습니다. 오마주 매거진.'], 4);
+  $('b-body').value = [hi, mood, '', quote, send, '',
     ...G.map((_, i) => `(카드 ${i + 1})`), '',
-    '카드는 길게 눌러 저장하시면 됩니다.', '매일 아침 새 카드가 나오는 곳, 오마주 매거진.', '네이버에서 “오마주 매거진”을 찾으시거나, 아래 그림을 누르세요.', '', '(맨 끝 그림 — 링크 https://omaju.kr)'].join('\n');
+    '카드는 길게 눌러 저장하시면 됩니다.', today, end, '네이버에서 “오마주 매거진”을 찾으시거나, 아래 그림을 누르세요.', '', '(맨 끝 그림 — 링크 https://omaju.kr)'].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n');
+  $('b-title').value = pick([`${M + 1}월 ${D}일 ${dow}요일 아침 인사 카드 · 좋은 아침 인사말 이미지`, `${M + 1}월 ${D}일 아침 인사말 이미지 · ${dow}요일 좋은 아침 카드`, `${dow}요일 아침 인사 카드 (${M + 1}월 ${D}일) · 좋은 아침 인사 이미지`]);
   $('b-tags').value = ['오마주매거진', '아침인사', '아침인사이미지', '좋은아침', `${M + 1}월인사말`, `${dow}요일인사`, '인사카드', '좋은글'].join(', ');
   $('b-msg').textContent = key + ' 카드 ' + G.length + '장';
 }
