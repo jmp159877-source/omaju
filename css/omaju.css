@@ -2029,7 +2029,15 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 
 /* ── 꿈 해몽 (운영자 2026-10-22) ── 운세 안의 사진 단추 + 찾기 화면.
    사진(img/dream.jpg)이 오기 전에는 새벽빛 남색 그러데이션으로 자리를 잡아 둔다. */
-.dr-ban { margin-top: 26px; background-color: #1E2A3A; background-image: url('../img/dream.jpg'), linear-gradient(115deg, #24324A 0%, #3B4A63 55%, #8C7B5E 100%); background-size: cover; background-position: center; }
+.lk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 28px; }
+.lk-card { position: relative; min-width: 0; min-height: min(13.5rem, 60vw); display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 18px 14px; border: 0; border-radius: 12px; overflow: hidden; text-align: left; color: #fff; background-size: cover; background-position: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.lk-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,25,20,0.05) 30%, rgba(10,25,20,0.72) 100%); }
+.lk-card > span { position: relative; }
+.lk-t { font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(1.32rem, 5.6vw); text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
+.lk-s { font-size: min(0.92rem, 3.9vw); line-height: 1.5; opacity: 0.92; word-break: keep-all; }
+/* 오늘의 운세 칸 — 바깥 카드 사진(fortune.jpg)을 또 쓰면 '같은 사진 두 곳'. 제 사진(img/luck.jpg)이 오기 전까지 따뜻한 금빛 그러데이션 */
+.lk-fortune { background-color: #4A3A22; background-image: url('../img/luck.jpg'), linear-gradient(135deg, #6B5330 0%, #A07F45 55%, #D8C08A 100%); }
+.dr-ban { background-color: #1E2A3A; background-image: url('../img/dream.jpg'), linear-gradient(115deg, #24324A 0%, #3B4A63 55%, #8C7B5E 100%); background-size: cover; background-position: center; }
 .dr-wrap { padding-top: 26px; }
 #dr-res { scroll-margin-top: 96px; }   /* 찾은 결과가 위에 붙는 '뒤로 가기' 띠 밑에 가려지지 않게 */
 .dr-lead { margin: 0 0 14px; font-size: 1.04rem; line-height: 1.75; color: #555; word-break: keep-all; }

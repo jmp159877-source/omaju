@@ -50,7 +50,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const bad = [...dup(cards).map(x => '카드 ' + x), ...dup(heroes).map(x => '표지 ' + x), ...missing.map(x => '없는 사진 ' + x)];
       ok('같은 사진을 두 곳에 쓰지 않음', !bad.length, bad.join(' / ')); }
     // 1) 화면 전부 × 보통·큰 글씨
-    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'quiz', 'story'];
+    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'quiz', 'story'];
     for (const big of [false, true]) {
       const c = await ctx(big); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await p.goto(base + '/index.html'); await wait(p, 1500); const bad = [];
@@ -296,16 +296,23 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('회원가입 → 로그인 상태', async () => (await E(() => !document.getElementById('user-chip').hidden || !!document.getElementById('user-nick').textContent)) || 'user-chip 안 보임');
       await closeM();
       await step('장 다섯 개 · 차례와 표지 번호가 맞음', async () => { const want = [['g1', '오늘 즐기기', '1'], ['g2', '그때 돌아보기', '2'], ['g5', '앞으로 나아가기', '3'], ['g3', '나를 돌보기', '4'], ['g4', '나의 수첩', '5']]; const tabs = await E(() => [...document.querySelectorAll('#tabs3 button')].map(b => [b.dataset.tab || '', (b.querySelector('b') || {}).textContent || ''])); if (tabs.length !== 5) return `탭이 ${tabs.length}개`; for (let i = 0; i < 5; i++) if (tabs[i][0] !== want[i][0] || tabs[i][1] !== want[i][1]) return `${i + 1}번째가 ${JSON.stringify(tabs[i])}`; const bad = []; for (const [g, title, no] of want) { await E(x => window.omajuNav(x), g); await W(500); const r = await E(() => { const h = document.getElementById('ch-head'); return h ? { k: (h.querySelector('.ch-k') || {}).textContent, t: (h.querySelector('h2') || {}).textContent } : null; }); if (!r || r.t !== title || r.k !== 'CHAPTER ' + no) bad.push(`${g}:${JSON.stringify(r)}`); } await E(() => window.omajuNav('g1')); await W(300); return !bad.length || bad.join(' / '); });
-      await step('코너가 제 장에 들어 있음', async () => { const want = { g1: ['fortune', 'food', 'book', 'quiz', 'culture', 'play'], g2: ['history', 'music', 'story', 'home'], g5: ['follow', 'outing', 'show', 'garden', 'phrase'], g3: ['hike', 'move', 'mind', 'body'], g4: [] }; const got = await E(() => { const o = {}; for (const s of document.querySelectorAll('.tabsec')) o[s.dataset.g] = [...s.querySelectorAll('[data-open]')].map(b => b.dataset.open); return o; }); const bad = Object.keys(want).filter(g => (got[g] || []).join(',') !== want[g].join(',')); return !bad.length || bad.map(g => `${g}=${(got[g] || []).join(',')}`).join(' / '); });
+      await step('코너가 제 장에 들어 있음', async () => { const want = { g1: ['luck', 'food', 'book', 'quiz', 'culture', 'play'], g2: ['history', 'music', 'story', 'home'], g5: ['follow', 'outing', 'show', 'garden', 'phrase'], g3: ['hike', 'move', 'mind', 'body'], g4: [] }; const got = await E(() => { const o = {}; for (const s of document.querySelectorAll('.tabsec')) o[s.dataset.g] = [...s.querySelectorAll('[data-open]')].map(b => b.dataset.open); return o; }); const bad = Object.keys(want).filter(g => (got[g] || []).join(',') !== want[g].join(',')); return !bad.length || bad.map(g => `${g}=${(got[g] || []).join(',')}`).join(' / '); });
       await step('글자 크기 바꾸기', async () => { const a = await E(() => document.documentElement.classList.contains('big')); await E(() => document.getElementById('sizer').click()); const b = await E(() => document.documentElement.classList.contains('big')); await E(() => document.getElementById('sizer').click()); return a !== b || '안 바뀜'; });
       await E(() => window.omajuNav('g1')); await W(700);
       await step('인사 카드 눌러 보내기 창', async () => { await E(() => document.querySelector('[data-copy="0"]').click()); await W(1800); const t = await modalText(); const img = await E(() => { const i = document.querySelector('#modal img'); return !!(i && i.naturalWidth > 0); }); await closeM(); return (/인사 카드가 준비/.test(t) && img) || ('창: ' + t.slice(0, 40)); });
       await step('시세 9가지 표시', async () => { const n = await E(() => document.querySelectorAll('#mk-grid > *').length); return n >= 9 || `${n}개`; });
-      await step('꿈 해몽: 운세 안 단추 → 찾기 · 말 바꿔 찾기 · 없는 말 · 분류 · 뒤로 가면 운세', async () => {
-        await E(() => window.omajuNav('fortune')); await W(600);
-        const ban = await E(() => !!document.querySelector('.dsec[data-k="fortune"] [data-open="dream"]'));
-        if (!ban) return '운세 안에 꿈 해몽 단추 없음';
-        await E(() => document.querySelector('.dsec[data-k="fortune"] [data-open="dream"]').click()); await W(900);
+      await step('운세·꿈 해몽: 두 단추 화면 → 운세 · 꿈 찾기 · 말 바꿔 찾기 · 없는 말 · 분류 · 뒤로 가면 두 단추', async () => {
+        // 바깥 카드 → 두 단추 화면 → 오늘의 운세(띠 고르기) → 뒤로 → 꿈 해몽
+        await E(() => window.omajuNav('g1')); await W(600);
+        await E(() => document.querySelector('.tabsec[data-g="g1"] [data-open="luck"]').click()); await W(800);
+        const two = await E(() => [...document.querySelectorAll('.dsec[data-k="luck"] [data-open]')].map(b => b.dataset.open).join(','));
+        if (two !== 'fortune,dream') return '두 단추 화면: ' + two;
+        await E(() => document.querySelector('.dsec[data-k="luck"] [data-open="fortune"]').click()); await W(700);
+        const zod = await E(() => document.querySelectorAll('#zodiac [data-z]').length);
+        await E(() => document.getElementById('back').click()); await W(700);
+        const hub = await E(() => location.hash);
+        if (zod < 12 || hub !== '#luck') return '운세 들어갔다 뒤로: 띠 ' + zod + ', 돌아온 곳 ' + hub;
+        await E(() => document.querySelector('.dsec[data-k="luck"] [data-open="dream"]').click()); await W(900);
         const ask = async q => { await p.fill('#dr-q', q); await E(() => document.querySelector('#dr-form [type=submit]').click()); await W(250); return E(() => ({ h: [...document.querySelectorAll('#dr-res .dr-card h3')].map(x => x.textContent), n: document.querySelectorAll('#dr-res li').length, none: !!document.querySelector('#dr-res .dr-none') })); };
         const a = await ask('돼지'), b = await ask('치아'), c = await ask('돼지꿈 꿨어요'), d = await ask('스마트워치앱');
         await E(() => document.querySelector('[data-drk="뱀"]').click()); await W(250);
@@ -321,7 +328,7 @@ srv.listen(0, '127.0.0.1', async () => {
         if (!d.none) bad.push('없는 말인데 결과가 나옴');
         if (e !== '뱀') bad.push('많이 찾는 꿈(뱀) ' + e);
         if (!f.includes('비행기')) bad.push('분류(탈것) ' + f.join(','));
-        if (back !== '#fortune') bad.push('뒤로 가면 ' + back);
+        if (back !== '#luck') bad.push('뒤로 가면 ' + back);
         return !bad.length || bad.join(' / ');
       });
       await step('운세: 띠 고르기', async () => { await E(() => window.omajuNav('fortune')); await W(600); await E(() => document.querySelector('#zodiac [data-z]').click()); await W(300); const t = await E(() => document.getElementById('fortune').textContent); return (t.length > 30 && !/띠를 고르면/.test(t)) || t.slice(0, 40); });
@@ -554,7 +561,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('읽어 드려요: 네 장 모두 · 코너 옮겨도 이어짐 · 장 나가면 멎음', async () => {
         // 장마다 띠가 있고, 눌러 들으면 아래 띠가 뜨고, 그 장 안 코너로 가도 이어지고, 장을 나가면 멎는다
         // 장 안의 코너를 하나만 들어가 보면 빠진 코너를 못 잡는다 (2026-10-22: 정원에 들어가면 멎었다) → 전부 들어가 본다
-        const CH = [['g1', ['food', 'book', 'quiz', 'fortune', 'dream']], ['g2', ['history', 'story']], ['g5', ['follow', 'outing', 'show', 'garden', 'phrase']], ['g3', ['hike', 'move', 'mind', 'body']]];
+        const CH = [['g1', ['food', 'book', 'quiz', 'luck', 'fortune', 'dream']], ['g2', ['history', 'story']], ['g5', ['follow', 'outing', 'show', 'garden', 'phrase']], ['g3', ['hike', 'move', 'mind', 'body']]];
         const bad = [];
         for (const [ch, corners] of CH) {
           await E(x => window.omajuNav(x), ch); await W(900);
