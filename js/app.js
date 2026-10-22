@@ -171,14 +171,17 @@ function kakaoReady() {
   }).then(ok => { try { if (ok && !window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY); return !!(ok && window.Kakao.isInitialized()); } catch (err) { return false; } });
   return kakaoP;
 }
-// 커버의 '친구에게 보내기' — 그림은 이미 올라가 있는 공유 배너를 쓴다 (올릴 필요 없이 빠르다)
+// 커버의 '친구에게 보내기' — 휴대폰 기본 보내기가 없는 창에서만 쓴다.
+// 받는 분이 보는 모습이 달라지면 안 된다 (운영자 2026-10-22): 그림 카드가 아니라
+// 기본 보내기와 **똑같은 글 + 똑같은 주소**가 가게 한다. 주소는 눌러서 바로 들어갈 수 있다.
 async function kakaoSendIntro(text) {
   if (!await kakaoReady()) return false;
   try {
     window.Kakao.Share.sendDefault({
-      objectType: 'feed',
-      content: { title: '오마주 · 오늘도 마음은 주니어', description: text.replace(/\n/g, ' '), imageUrl: 'https://omaju.kr/og-v4.jpg', imageWidth: 1200, imageHeight: 630, link: OMAJU_LINK },
-      buttons: [{ title: '오마주 열어보기', link: OMAJU_LINK }],
+      objectType: 'text',
+      text: text + '\n' + SITE,
+      link: OMAJU_LINK,
+      buttonTitle: '오마주 열어보기',
     });
     return true;
   } catch (err) { return false; }
