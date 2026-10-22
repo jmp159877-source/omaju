@@ -11,12 +11,14 @@ module.exports = async (req, res) => {
     if (!state || state !== readState(req, 'omaju_k')) return fail(res, '로그인이 만료되었습니다. 다시 눌러 주세요');
 
     const redirect = `https://${siteHost(req)}/api/kakao-callback`;
-    const tok = await post('https://kauth.kakao.com/oauth/token', new URLSearchParams({
-      grant_type: 'authorization_code',
-      client_id: process.env.KAKAO_REST_KEY,
-      client_secret: process.env.KAKAO_CLIENT_SECRET || '',
-      redirect_uri: redirect, code,
+    const ask = (client_id, client_secret) => post('https://kauth.kakao.com/oauth/token', new URLSearchParams({
+      grant_type: 'authorization_code', client_id, client_secret, redirect_uri: redirect, code,
     }).toString());
+    // 화면이 카카오 SDK(JavaScript 키)로 카카오톡 앱 로그인을 하고 돌아온 경우
+    // REST 키로 바꿔 주지 않으면 JavaScript 키로 한 번 더 바꿔 본다. JavaScript 키는 원래 공개 값이다.
+    let tok;
+    try { tok = await ask(process.env.KAKAO_REST_KEY, process.env.KAKAO_CLIENT_SECRET || ''); }
+    catch (e1) { console.error('[카카오] REST 키로 못 바꿈, JavaScript 키로 다시', e1.message); tok = await ask('391521772a7d00aef5a0f7fe93497bc8', ''); }
 
     const me = await get('https://kapi.kakao.com/v2/user/me', { Authorization: 'Bearer ' + tok.access_token });
     if (!me.id) return fail(res, '카카오 회원 정보를 받지 못했습니다');
