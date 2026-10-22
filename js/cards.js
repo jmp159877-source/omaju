@@ -62,7 +62,7 @@ export async function drawCard(text, i, { dateText = '', variant = 'v1', season 
   if (S.seal) { x.save(); x.translate(W - 150, H - 230); x.rotate(-0.05); x.fillStyle = 'rgba(181,50,42,0.92)'; roundRect(x, 0, 0, 62, 170, 6); x.fill(); x.fillStyle = '#F6E7D8'; x.font = '800 40px "Nanum Myeongjo", serif'; x.textAlign = 'center'; ['오', '마', '주'].forEach((c, k) => x.fillText(c, 31, 50 + k * 48)); x.restore(); }
   // 아래: 로고 · omaju.kr  (운영자 2026-10-22 — 모든 카드에 같은 로고)
   x.textAlign = 'center';
-  if (logo) { const lw = 300, lh2 = lw * logo.height / logo.width; x.drawImage(logo, W / 2 - lw / 2, H - 112 - lh2, lw, lh2); }
+  if (logo) { const lw = 235, lh2 = lw * logo.height / logo.width; x.drawImage(logo, W / 2 - lw / 2, H - 112 - lh2, lw, lh2); }
   else { x.fillStyle = S.brand; x.font = 'italic 500 46px "Cormorant Garamond", serif'; x.fillText('Omaju', W / 2, H - 118); }
   x.fillStyle = S.brand; x.font = '400 26px "Noto Sans KR", sans-serif'; x.globalAlpha = 0.8; x.fillText('매일 아침 5분 · omaju.kr', W / 2, H - 76); x.globalAlpha = 1;
   return cv;
