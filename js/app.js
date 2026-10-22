@@ -1127,12 +1127,9 @@ function openGate(why) {
 // 카카오톡을 실행한다). 돌아오는 곳은 지금과 같은 /api/kakao-callback 이라 뒤쪽은 하나도 안 바뀐다.
 // 카톡 안 브라우저는 이미 카카오에 로그인돼 있어 지금 길이 더 빠르므로 그대로 둔다. 준비가 안 됐으면 언제나 지금 길로.
 let kakaoPrep = null;
-// 카카오 콘솔에서 JavaScript 키 쪽 리다이렉트 URI 를 아직 등록하지 않아 KOE006 이 났다 (대표 2026-10-23 01:23).
-// 등록하고 대표 폰에서 확인될 때까지는 시험하는 기기(주소 ?kt=1 로 한 번 연 기기)에서만 쓴다. ?kt=0 이면 끈다.
-try { const kt = new URLSearchParams(location.search).get('kt'); if (kt === '1') localStorage.setItem('omaju.kt', '1'); if (kt === '0') localStorage.removeItem('omaju.kt'); } catch (e) {}
-const KT_ON = (() => { try { return localStorage.getItem('omaju.kt') === '1'; } catch (e) { return false; } })();
+// JavaScript 키 쪽 리다이렉트 URI 를 등록하고 대표 폰(크롬)에서 바로 카카오톡이 열리는 것을 확인했다 (2026-10-23 01:54).
 function prepKakao() {
-  if (!KT_ON || inApp || !/Android|iPhone|iPad|iPod/.test(UA) || location.hostname !== 'omaju.kr') return;
+  if (inApp || !/Android|iPhone|iPad|iPod/.test(UA) || location.hostname !== 'omaju.kr') return;
   kakaoReady();
   fetch('/api/kakao-start?prep=1', { credentials: 'same-origin', cache: 'no-store' })
     .then(r => r.ok ? r.json() : null).then(j => { kakaoPrep = j && j.state ? j : null; }).catch(() => {});
