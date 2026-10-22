@@ -1196,6 +1196,7 @@ function welcomeHi(nick, after) {
   <p class="hi-eye">Welcome</p>
   <h2><span class="nw">${who}님,</span> <span class="nw">반갑습니다.</span></h2>
   <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br><span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span></p>
+  ${founderNow() ? `<p class="hi-fd"><span class="nw">창간 첫 달에 함께해 주신</span> <span class="nw"><b>창간 독자</b>이십니다.</span></p>` : ''}
   ${canInstall ? `<button type="button" class="hi-feat" data-hi="install">
     <span class="hi-app" aria-hidden="true"><img src="icon-192.png" alt=""><em>오마주</em></span>
     <span class="hi-ft"><b>홈 화면에 오마주 놓기</b><small><span class="nw">아이콘 하나로</span> <span class="nw">매일 아침 바로 열려요</span></small><span class="hi-now">지금 설치하기</span></span>
@@ -1233,6 +1234,12 @@ function openForgot() {
   <div class="modal-actions"><button type="button" class="btn green" id="f-go">찾기 요청</button></div><div class="err-box" id="f-err" hidden></div>`,
   () => { $('f-go').onclick = async () => { const err = $('f-err'); err.hidden = true; try { await DB.requestReset($('f-id').value || 'unknown', $('f-phone').value); closeModal(); toast('요청했습니다. 확인 뒤 연락드리겠습니다.'); } catch (e) { err.textContent = e.message; err.hidden = false; } }; });
 }
+// ── 창간 독자 (운영자 2026-10-22) ── 창간(10/22 18:00)부터 한 달(11/22 18:00) 안에 구독한 분. 본인에게만 보인다.
+// 번호(founderNo)는 관리자 '구독자' 탭에서 매긴다. 운영자(관리자)와 '창간 번호 빼기' 한 계정은 아니다.
+const FOUNDER_END = Date.UTC(2026, 10, 22, 9, 0);   // 2026-11-22 18:00 KST
+const isFounder = p => !!p && p.role !== 'admin' && !p.noFounder && (!!p.founderNo || (p.createdAt && p.createdAt.toMillis && p.createdAt.toMillis() < FOUNDER_END));
+const founderNow = () => Date.now() < FOUNDER_END;
+const fdNo = n => 'No. ' + String(n).padStart(3, '0');
 async function openMy() {
   const p = DB.currentProfile();
   if (!p) { toast('정보를 불러오지 못했습니다. 새로고침한 뒤 다시 눌러 주세요.'); return; }
@@ -1240,7 +1247,7 @@ async function openMy() {
   const first = new Date(Y, M, 1).getDay(), last = new Date(Y, M + 1, 0).getDate();
   let cal = WD.map(w => `<div class="h">${w}</div>`).join('') + '<div></div>'.repeat(first);
   for (let d = 1; d <= last; d++) cal += `<div class="${set.has(d) ? 'on' : ''}">${d}</div>`;
-  modal(`<h2>${esc(p.nick)}님의 정보</h2><p class="note">아이디 ${esc(p.username)} · 연속 ${p.streak || 0}일 · 총 ${p.checkinCount || 0}일 출석</p>
+  modal(`${isFounder(p) ? `<div class="fd-card"><small>OMAJU</small><b>창간 독자${p.founderNo ? ` <span>${fdNo(p.founderNo)}</span>` : ''}</b><em><span class="nw">2026년 10월 22일,</span> <span class="nw">오마주 창간호부터 함께</span></em></div>` : ''}<h2>${esc(p.nick)}님의 정보</h2><p class="note">아이디 ${esc(p.username)} · 연속 ${p.streak || 0}일 · 총 ${p.checkinCount || 0}일 출석</p>
   <p class="note" style="margin-top:14px">${M + 1}월 출석</p><div class="cal">${cal}</div>
   <div class="field" style="margin-top:22px"><label>글자 크기</label><div class="in"><button type="button" class="btn line" id="m-size-big">크게</button><button type="button" class="btn line" id="m-size-normal">보통</button></div></div>
   <div class="field"><label>별명 바꾸기</label><div class="in"><input id="m-nick" value="${esc(p.nick)}" maxlength="12"><button type="button" class="btn line" id="m-nick-go">바꾸기</button></div><div class="msg" id="m-nick-msg"></div></div>
@@ -1258,7 +1265,7 @@ $('login-btn').onclick = () => openGate('');
 $('logout').onclick = async () => {
   try { await DB.logout(); } catch (e) { toast('로그아웃에 실패했습니다 (' + (e && (e.code || e.message) || '알 수 없음') + ')'); return; }
   // 파이어베이스가 끝내 대답하지 않아도 화면은 나간 모습이 되게 — 적어 둔 인사말도 지운다
-  store.set('hello', { s: 'out' });
+  store.set('hello', { s: 'out' }); $('fd-badge').hidden = true;
   $('user-chip').hidden = true; $('login-btn').hidden = false;
   toast('나갔습니다. 내일 또 뵙겠습니다.');
 };
@@ -1278,7 +1285,8 @@ DB.onUser((u, p) => {
   if (p && p.role === 'admin') $('maint').hidden = true;
   if (u && p) { $('user-nick').textContent = p.nick + ' 님, ' + (new Date().getHours() < 12 ? '좋은 아침입니다.' : new Date().getHours() < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); if (p.zodiac && !myZ) { myZ = p.zodiac; renderZ(); } wxByRegion(p); if (p.region && !store.get('outRegion', null)) { outRegion = p.region.split(' ')[0]; renderOuting(); } }
   // 다음에 열 때 인사말을 그리기 전에 띄울 수 있게 적어 둔다 (늦게 띄우면 화면이 한 번 밀린다)
-  store.set('hello', u && p ? { s: 'in', n: p.nick } : { s: 'out' });
+  $('fd-badge').hidden = !isFounder(p);
+  store.set('hello', u && p ? { s: 'in', n: p.nick, f: isFounder(p) ? 1 : 0 } : { s: 'out' });
   renderStamp(p); renderCmts();
 });
 

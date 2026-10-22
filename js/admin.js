@@ -63,13 +63,25 @@ $('nocount').onclick = () => { try { localStorage.getItem(NC) === '1' ? localSto
 
 // ── 회원 ──
 let allUsers = [];
+// 창간 독자 번호 (운영자 2026-10-22) — 대표가 정한 사람부터 1번. 빈 칸 채우기는 구독 순서대로 이어 붙인다.
+const FOUNDER_END = Date.UTC(2026, 10, 22, 9, 0);
+const fdOk = u => u.role !== 'admin' && !u.noFounder && (u.founderNo || (u.createdAt && u.createdAt.toMillis() < FOUNDER_END));
+const fdCell = u => u.role === 'admin' ? '' : u.noFounder ? `<button type="button" data-fdback="${u.id}">다시 넣기</button>` : fdOk(u) ? `<input class="fd-in" data-fdno="${u.id}" inputmode="numeric" size="3" value="${u.founderNo || ''}" placeholder="—"><button type="button" data-fdx="${u.id}" title="창간 독자에서 빼기">×</button>` : '';
+async function fillFounders() {
+  const all = (await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'asc')))).docs.map(d => ({ id: d.id, ...d.data() }));
+  let n = Math.max(0, ...all.map(u => u.founderNo || 0)), done = 0;
+  for (const u of all) if (fdOk(u) && !u.founderNo) { n++; await updateDoc(doc(db, 'users', u.id), { founderNo: n }); done++; }
+  $('fd-msg').textContent = done ? `${done}명에게 번호를 매겼습니다 (마지막 ${n}번).` : '새로 매길 사람이 없습니다.';
+  loadUsers();
+}
+$('fd-fill').onclick = fillFounders;
 async function loadUsers() {
   allUsers = (await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'desc')))).docs.map(d => ({ id: d.id, ...d.data() }));
   renderUsers(allUsers);
 }
 function renderUsers(list) {
   $('u-count').textContent = list.length + '명';
-  $('users').innerHTML = '<tr><th>별명</th><th>성별</th><th>출생</th><th>구독 경로</th><th>연락처</th><th>구독</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear || ''}</td><td>${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : esc(u.username || '')}</td><td>${esc(u.phone)}</td><td>${md(u.createdAt)}</td><td>${esc((u.lastSeenDay || '').slice(5).replace('-', '/'))}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button><button type="button" data-del="${u.id}" class="danger">삭제</button>`}</td></tr>`).join(''); labelize($('users'));
+  $('users').innerHTML = '<tr><th>별명</th><th>창간</th><th>성별</th><th>출생</th><th>구독 경로</th><th>연락처</th><th>구독</th><th>마지막</th><th>출석</th><th></th></tr>' + list.slice(0, 300).map(u => `<tr><td>${esc(u.nick)}${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${u.banned ? ' <small style="color:#a93226">(정지)</small>' : ''}</td><td>${fdCell(u)}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear || ''}</td><td>${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : esc(u.username || '')}</td><td>${esc(u.phone)}</td><td>${md(u.createdAt)}</td><td>${esc((u.lastSeenDay || '').slice(5).replace('-', '/'))}</td><td>${u.checkinCount || 0}</td><td>${u.role === 'admin' ? '' : `<button type="button" data-ban="${u.id}" class="${u.banned ? '' : 'danger'}">${u.banned ? '정지 풀기' : '정지'}</button><button type="button" data-del="${u.id}" class="danger">삭제</button>`}</td></tr>`).join(''); labelize($('users'));
 }
 $('u-find').onclick = () => { const q = $('u-q').value.trim().toLowerCase(); renderUsers(q ? allUsers.filter(u => [u.nick, u.username, u.phone].some(x => (x || '').toLowerCase().includes(q))) : allUsers); };
 // 회원 삭제 (운영자 2026-10-22 — 시험으로 만든 계정 정리). 회원 문서와 아이디·별명 자리를 지운다.
@@ -79,6 +91,12 @@ async function dropUser(u) {
   await mine('nicknames', u.nickKey); await mine('usernames', u.username);
   await deleteDoc(doc(db, 'users', u.id));
 }
+$('users').addEventListener('change', async e => { const i = e.target.closest('[data-fdno]'); if (!i) return; const v = parseInt(i.value, 10); await updateDoc(doc(db, 'users', i.dataset.fdno), { founderNo: v > 0 ? v : null }); i.style.background = '#e5f4e4'; });
+$('users').addEventListener('click', async e => {
+  const x = e.target.closest('[data-fdx]'), back = e.target.closest('[data-fdback]');
+  if (x && confirm('이 분을 창간 독자에서 뺄까요? (번호도 지워집니다)')) { await updateDoc(doc(db, 'users', x.dataset.fdx), { noFounder: true, founderNo: null }); loadUsers(); }
+  if (back) { await updateDoc(doc(db, 'users', back.dataset.fdback), { noFounder: false }); loadUsers(); }
+});
 $('users').onclick = async e => { const d = e.target.closest('[data-del]'); if (d) { const u = allUsers.find(x => x.id === d.dataset.del); if (!u || !confirm(`'${u.nick}' 구독자를 삭제할까요?\n되돌릴 수 없습니다.`)) return; d.disabled = true; try { await dropUser(u); } catch (err) { alert('삭제하지 못했습니다: ' + (err.code || err.message)); } loadUsers(); return; } const b = e.target.closest('[data-ban]'); if (!b) return; const u = allUsers.find(x => x.id === b.dataset.ban); if (!confirm((u.banned ? '정지를 풀까요? ' : '이 구독자를 정지할까요? ') + u.nick)) return; await updateDoc(doc(db, 'users', u.id), { banned: !u.banned }); loadUsers(); };
 
 // ── 오늘 콘텐츠 ──
