@@ -40,7 +40,7 @@ export async function drawCard(text, i, { dateText = '', variant = 'v1', season 
   // 그림과 글꼴을 **같이** 기다리고 다 합쳐 2.5초에서 끊는다 (운영자 2026-10-22: 카톡 안 브라우저에서 10초).
   // 차례로 기다리면 그림 4초 + 글꼴 3초가 더해져 느려진다. 늦게 오는 것은 없는 대로 그린다.
   const cap = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise(r => setTimeout(() => r(null), ms))]);
-  const fontsP = (async () => { try { await Promise.all([document.fonts.load('800 80px "Nanum Myeongjo"', text + '오마주'), document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'), document.fonts.load('400 34px "Noto Sans KR"', dateText + '매일 아침 5분')]); } catch (e) {} })();
+  const fontsP = (async () => { try { await Promise.all([document.fonts.load('800 80px "Nanum Myeongjo"', text + '오마주'), document.fonts.load('italic 500 46px "Cormorant Garamond"', 'Omaju'), document.fonts.load('400 34px "Noto Sans KR"', dateText + '네이버에서 “오마주 매거진”')]); } catch (e) {} })();
   const [leaf, wc, logo] = await Promise.all([
     cap(S.orn === 'leaf' ? load('leaf.png') : null, 2500),
     cap(S.wc ? load(`img/wc/${season}.jpg`) : null, 2500),
@@ -72,10 +72,10 @@ export async function drawCard(text, i, { dateText = '', variant = 'v1', season 
   else if (S.rule) { x.fillStyle = S.rule; x.fillRect(W / 2 - 40, after, 80, 2.5); }
   // 낙관
   if (S.seal) { x.save(); x.translate(W - 150, H - 230); x.rotate(-0.05); x.fillStyle = 'rgba(181,50,42,0.92)'; roundRect(x, 0, 0, 62, 170, 6); x.fill(); x.fillStyle = '#F6E7D8'; x.font = '800 40px "Nanum Myeongjo", serif'; x.textAlign = 'center'; ['오', '마', '주'].forEach((c, k) => x.fillText(c, 31, 50 + k * 48)); x.restore(); }
-  // 아래: 로고 · omaju.kr  (운영자 2026-10-22 — 모든 카드에 같은 로고)
+  // 아래: 로고 · 네이버에서 “오마주 매거진”  (운영자 2026-10-22 — 모든 카드에 같은 로고)
   x.textAlign = 'center';
   if (logo) { const lw = 235, lh2 = lw * logo.height / logo.width; x.drawImage(logo, W / 2 - lw / 2, H - 112 - lh2, lw, lh2); }
   else { x.fillStyle = S.brand; x.font = 'italic 500 46px "Cormorant Garamond", serif'; x.fillText('Omaju', W / 2, H - 118); }
-  x.fillStyle = S.brand; x.font = '400 26px "Noto Sans KR", sans-serif'; x.globalAlpha = 0.8; x.fillText('매일 아침 5분 · omaju.kr', W / 2, H - 76); x.globalAlpha = 1;
+  x.fillStyle = S.brand; x.font = '400 26px "Noto Sans KR", sans-serif'; x.globalAlpha = 0.8; x.fillText('네이버에서 “오마주 매거진”', W / 2, H - 76);   // 사람들은 주소가 아니라 이름으로 찾는다 (운영자 2026-10-22) x.globalAlpha = 1;
   return cv;
 }
