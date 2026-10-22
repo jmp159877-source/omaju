@@ -118,6 +118,43 @@ async function makeCard(i) {
   const cv = await drawCard(C.greetings[i], i, { dateText: CARD_DATE, variant: cardVar(i), season: CARD_SEASON });
   return new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
 }
+// ── 카카오톡 공유 ──
+// 카톡으로 받은 링크를 눌러 들어온 창에서는 휴대폰 기본 보내기(navigator.share)가 아예 없다.
+// 처음 오는 분의 대부분이 그 길로 들어오므로(운영자 2026-10-22) 카카오 공유를 직접 붙인다.
+// 사진만 덜렁 가는 것보다 낫다 — 카드 그림에 '오마주 열어보기' 단추가 함께 간다.
+// JavaScript 키는 숨기는 종류가 아니다(화면 소스에 그대로 실린다). 카카오가 등록된 도메인만 받아 준다.
+const KAKAO_JS_KEY = '391521772a7d00aef5a0f7fe93497bc8';
+const OMAJU_LINK = { mobileWebUrl: 'https://omaju.kr', webUrl: 'https://omaju.kr' };
+let kakaoP;
+function kakaoReady() {
+  if (kakaoP) return kakaoP;
+  kakaoP = new Promise(res => {
+    if (window.Kakao) return res(true);
+    setTimeout(() => res(!!window.Kakao), 5000);   // 안 떨어지면 기다리지 말고 다음 길로 (단추가 '보내는 중…'에 멈추지 않게)
+    const s = document.createElement('script');
+    s.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.8.4/kakao.min.js';
+    s.integrity = 'sha384-BGX7Wb16GmRFagri4bLJV2DgipVZaU2AI812GZtHtHzzDQJnfHasDXN5houxv45w';
+    s.crossOrigin = 'anonymous'; s.onload = () => res(true); s.onerror = () => res(false);
+    document.head.appendChild(s);
+  }).then(ok => { try { if (ok && !window.Kakao.isInitialized()) window.Kakao.init(KAKAO_JS_KEY); return !!(ok && window.Kakao.isInitialized()); } catch (err) { return false; } });
+  return kakaoP;
+}
+async function kakaoSendCard(file, title) {
+  if (!await kakaoReady()) return false;
+  try {
+    const dt = new DataTransfer(); dt.items.add(file);
+    const r = await window.Kakao.Share.uploadImage({ file: dt.files });
+    const im = (r && (r.original || (r.infos && r.infos.original))) || {};
+    if (!im.url) return false;
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: { title, description: '매일 아침 새로 나오는 잡지, 오마주', imageUrl: im.url, imageWidth: im.width, imageHeight: im.height, link: OMAJU_LINK },
+      buttons: [{ title: '오마주 열어보기', link: OMAJU_LINK }],
+    });
+    return true;
+  } catch (err) { return false; }
+}
+
 cardsEl.onclick = async e => {
   const b = e.target.closest('[data-copy]'); if (!b) return; const i = +b.dataset.copy; DB.bumpClick('greeting');
   toast('카드를 만드는 중입니다…');
@@ -128,16 +165,17 @@ cardsEl.onclick = async e => {
   // 그 경우에도 글이라도 넘길 수 있으므로, 안 되면 눌렀을 때 저장으로 넘긴다.
   const url = URL.createObjectURL(blob), canShare = !!navigator.share;
   const canFile = !!(navigator.canShare && navigator.canShare({ files: [file] }));
-  // 카톡·네이버 앱 안에서 열린 화면은 그림을 다른 앱으로 넘기지 못한다 (운영자 2026-10-22: 카톡으로 받은 링크로 들어가니
-  // 보내기 단추가 없었다). 그 경우엔 저장하기가 정답이므로 그쪽을 앞세우고 한 줄 안내를 붙인다.
-  // 카톡 메뉴 이름은 자주 바뀌므로 적지 않는다 — 저장한 뒤 사진으로 보내는 길만 알려 준다.
-  const note = canShare ? '' : '<p style="font-size:1.02rem;line-height:1.6;margin:0 0 14px;opacity:0.85">지금 보고 계신 창에서는 바로 보내기가 막혀 있어요.<br>저장한 뒤 카톡에서 <b>사진 보내기</b>로 보내시면 됩니다.</p>';
-  modal(`<h2>인사 카드가 준비되었습니다</h2><img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,0.25)">${note}<div class="modal-actions">${canShare ? '<button type="button" class="btn green" id="card-share">카톡으로 보내기</button>' : ''}<button type="button" class="btn ${canShare ? 'line' : 'green'}" id="card-save">사진에 저장하기</button></div>`);
+  modal(`<h2>인사 카드가 준비되었습니다</h2><img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,0.25)"><div class="modal-actions"><button type="button" class="btn green" id="card-share">카톡으로 보내기</button><button type="button" class="btn line" id="card-save">사진에 저장하기</button></div>`);
   const save = () => { const a = document.createElement('a'); a.href = url; a.download = 'omaju-card.jpg'; a.click(); closeModal(); modal(`<h2>카드를 저장했습니다</h2><p style="font-size:1.1rem">휴대폰 <b>사진(갤러리)</b>에 저장되었습니다. 카톡에서 사진 보내기로 보내 주세요.</p>`); };
   $('card-save').onclick = save;
-  if (canShare) $('card-share').onclick = async () => {
-    try { await navigator.share(canFile ? { files: [file], text } : { text: text + '\nhttps://omaju.kr' }); closeModal(); }
-    catch (err) { if (err.name === 'AbortError') return; try { await navigator.share({ text: text + '\nhttps://omaju.kr' }); closeModal(); } catch (e2) { if (e2.name !== 'AbortError') save(); } }
+  // 보내는 차례: 카카오 공유(어느 창에서나 되고 '오마주 열어보기' 단추가 함께 간다)
+  //            → 휴대폰 기본 보내기 → 그래도 안 되면 저장하기
+  $('card-share').onclick = async () => {
+    const btn = $('card-share'); btn.disabled = true; btn.textContent = '보내는 중…';
+    if (await kakaoSendCard(file, C.greetings[i].replace(/\n/g, ' '))) { closeModal(); return; }
+    if (canFile) { try { await navigator.share({ files: [file], text }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
+    if (canShare) { try { await navigator.share({ text: text + '\nhttps://omaju.kr' }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
+    save();
   };
 };
 
