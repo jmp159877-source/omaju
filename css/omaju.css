@@ -2107,3 +2107,19 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .fd-card em { display: block; font-style: normal; font-size: min(0.88rem, 13.5px + 0.4vw); color: #7C7262; word-break: keep-all; }
 .hi-fd { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid #C9A24A; background: #FBF6E9; font-size: min(0.95rem, 14.5px + 0.4vw); line-height: 1.6; color: #5B4A22; word-break: keep-all; }
 .hi-fd b { color: #8A6A1E; }
+
+/* ── 나의 정보 (운영자 2026-10-23) ── 환영 카드와 같은 꼴: 위는 사진(img/my-bg.jpg — 창가 흰 리넨 위 가죽 수첩·열쇠·유칼립투스), 흰 종이가 올라온다 */
+.modal.wel-my { padding: 0; align-items: stretch; background: #EEF2EE; }
+.wel-my .modal-box { position: relative; max-width: 520px; width: 100%; max-height: none; min-height: 100%; margin: 0 auto; border-radius: 0; padding: 0; overflow: auto;
+  background: #F6F6F2 url('../img/my-bg.jpg') center top / 100% auto no-repeat; }
+.wel-my .x { position: absolute; left: auto; right: 12px; top: 8px; z-index: 3; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.8); color: #33443B; }
+.my-in { position: relative; z-index: 2; box-sizing: border-box; margin-top: min(44vw, 230px); padding: 24px 22px 30px; background: #FFFFFF; border-radius: 22px 22px 0 0; box-shadow: 0 -10px 30px rgba(40,60,50,0.10); }
+.my-in .fd-card { margin: 0 0 16px; }
+.my-in h2 { margin: 0 0 4px; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(1.6rem, 25px + 0.8vw); color: #1F3A30; }
+.my-line { margin: 0 0 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(201,162,74,0.45); font-size: min(0.95rem, 14.5px + 0.4vw); color: #6B7A72; line-height: 1.7; }
+.my-f { margin: 0 0 16px; }
+.my-f > label { display: block; margin-bottom: 6px; font-size: min(0.85rem, 13px + 0.35vw); font-weight: 700; letter-spacing: 0.08em; color: #5E7A6C; }
+.my-f .in { display: flex; gap: 8px; flex-wrap: wrap; }
+.my-f .in input, .my-f .in select { flex: 1 1 8em; min-width: 0; padding: 11px 12px; border: 1px solid #DDE3DE; border-radius: 10px; background: #FAFBF9; font-size: min(1.02rem, 16px + 0.4vw); }
+.my-f .in .btn { flex: 0 0 auto; min-height: 46px; padding: 0 16px; border-radius: 10px !important; }
+.my-f .in #m-size-big, .my-f .in #m-size-normal { flex: 1 1 0; }

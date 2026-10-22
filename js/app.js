@@ -1239,25 +1239,28 @@ function openForgot() {
 const FOUNDER_END = Date.UTC(2026, 10, 22, 9, 0);   // 2026-11-22 18:00 KST
 const isFounder = p => !!p && p.role !== 'admin' && !p.noFounder && (!!p.founderNo || (p.createdAt && p.createdAt.toMillis && p.createdAt.toMillis() < FOUNDER_END));
 const founderNow = () => Date.now() < FOUNDER_END;
-const fdNo = n => 'No. ' + String(n).padStart(3, '0');
+const fdNo = n => 'No. ' + String(n).padStart(5, '0');   // 만 단위 다섯 자리 (운영자 2026-10-23) — 넘으면 저절로 자리가 는다
 async function openMy() {
   const p = DB.currentProfile();
   if (!p) { toast('정보를 불러오지 못했습니다. 새로고침한 뒤 다시 눌러 주세요.'); return; }
-  const ym = TODAY.slice(0, 7), days = await DB.myCheckins(ym), set = new Set(days.map(d => +d.slice(8)));
-  const first = new Date(Y, M, 1).getDay(), last = new Date(Y, M + 1, 0).getDate();
-  let cal = WD.map(w => `<div class="h">${w}</div>`).join('') + '<div></div>'.repeat(first);
-  for (let d = 1; d <= last; d++) cal += `<div class="${set.has(d) ? 'on' : ''}">${d}</div>`;
-  modal(`${isFounder(p) ? `<div class="fd-card"><small>OMAJU</small><b>창간 독자${p.founderNo ? ` <span>${fdNo(p.founderNo)}</span>` : ''}</b><em><span class="nw">2026년 10월 22일,</span> <span class="nw">오마주 창간호부터 함께</span></em></div>` : ''}<h2>${esc(p.nick)}님의 정보</h2><p class="note">아이디 ${esc(p.username)} · 연속 ${p.streak || 0}일 · 총 ${p.checkinCount || 0}일 출석</p>
-  <p class="note" style="margin-top:14px">${M + 1}월 출석</p><div class="cal">${cal}</div>
-  <div class="field" style="margin-top:22px"><label>글자 크기</label><div class="in"><button type="button" class="btn line" id="m-size-big">크게</button><button type="button" class="btn line" id="m-size-normal">보통</button></div></div>
-  <div class="field"><label>별명 바꾸기</label><div class="in"><input id="m-nick" value="${esc(p.nick)}" maxlength="12"><button type="button" class="btn line" id="m-nick-go">바꾸기</button></div><div class="msg" id="m-nick-msg"></div></div>
-  <div class="field"><label>비밀번호 바꾸기</label><div class="in"><input id="m-pw" type="password" inputmode="numeric" maxlength="6" placeholder="새 숫자 6개"><button type="button" class="btn line" id="m-pw-go">바꾸기</button></div><div class="msg" id="m-pw-msg"></div></div>
-  <div class="field"><label>태어난 해 · 성별 (선택)</label><div class="in"><input id="m-born" inputmode="numeric" maxlength="4" placeholder="예: 1960" value="${p.born || ''}"><select id="m-sex"><option value="">성별</option><option ${p.sex === '남' ? 'selected' : ''}>남</option><option ${p.sex === '여' ? 'selected' : ''}>여</option></select><button type="button" class="btn line" id="m-born-go">저장</button></div><div class="msg" id="m-born-msg"></div></div>`,
+  // 나의 정보 (운영자 2026-10-23 — "촌스럽다, 출석 달력은 왜 있나") — 환영 카드와 같은 '사진 + 흰 종이' 꼴, 달력은 빼고 한 줄로.
+  const ym = TODAY.slice(0, 7), month = (await DB.myCheckins(ym)).length;
+  const since = p.createdAt && p.createdAt.toDate ? (d => `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일부터`)(p.createdAt.toDate()) : '';
+  modal(`<div class="my-in">
+  ${isFounder(p) ? `<div class="fd-card"><small>OMAJU</small><b>창간 독자${p.founderNo ? ` <span>${fdNo(p.founderNo)}</span>` : ''}</b><em><span class="nw">2026년 10월 22일,</span> <span class="nw">오마주 창간호부터 함께</span></em></div>` : ''}
+  <h2><span class="nw">${esc(p.nick)} 님</span></h2>
+  <p class="my-line">${[p.streak ? `<span class="nw">연속 ${p.streak}일째</span>` : '', month ? `<span class="nw">${M + 1}월 ${month}일 출석</span>` : '', since ? `<span class="nw">${since} 함께</span>` : ''].filter(Boolean).join(' · ') || '오늘도 반갑습니다.'}</p>
+  <div class="my-f"><label>글자 크기</label><div class="in"><button type="button" class="btn line" id="m-size-big">크게</button><button type="button" class="btn line" id="m-size-normal">보통</button></div></div>
+  <div class="my-f"><label>별명</label><div class="in"><input id="m-nick" value="${esc(p.nick)}" maxlength="12"><button type="button" class="btn line" id="m-nick-go">바꾸기</button></div><div class="msg" id="m-nick-msg"></div></div>
+  ${p.username ? `<div class="my-f"><label>비밀번호</label><div class="in"><input id="m-pw" type="password" inputmode="numeric" maxlength="6" placeholder="새 숫자 6개"><button type="button" class="btn line" id="m-pw-go">바꾸기</button></div><div class="msg" id="m-pw-msg"></div></div>` : ''}
+  <div class="my-f"><label>태어난 해 · 성별</label><div class="in"><input id="m-born" inputmode="numeric" maxlength="4" placeholder="예: 1960" value="${p.born || p.birthYear || ''}"><select id="m-sex"><option value="">성별</option><option ${(p.sex || p.gender) === '남' ? 'selected' : ''}>남</option><option ${(p.sex || p.gender) === '여' ? 'selected' : ''}>여</option></select><button type="button" class="btn line" id="m-born-go">저장</button></div><div class="msg" id="m-born-msg"></div></div>
+  </div>`,
   () => {
+    $('modal').classList.add('wel-my');
     $('m-size-big').onclick = () => { applySize(true); store.set('big', true); toast('글자를 크게 했습니다.'); };
     $('m-size-normal').onclick = () => { applySize(false); store.set('big', false); toast('글자를 보통으로 했습니다.'); };
     $('m-nick-go').onclick = async () => { const m = $('m-nick-msg'); try { await DB.changeNick($('m-nick').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; $('user-nick').textContent = DB.currentProfile().nick; } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
-    $('m-pw-go').onclick = async () => { const m = $('m-pw-msg'); try { await DB.changePw($('m-pw').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.code === 'auth/requires-recent-login' ? '안전을 위해 나갔다가 다시 로그인한 뒤 바꿔 주세요.' : e.message; } };
+    if ($('m-pw-go')) $('m-pw-go').onclick = async () => { const m = $('m-pw-msg'); try { await DB.changePw($('m-pw').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.code === 'auth/requires-recent-login' ? '안전을 위해 나갔다가 다시 로그인한 뒤 바꿔 주세요.' : e.message; } };
     $('m-born-go').onclick = async () => { const m = $('m-born-msg'); const born = +$('m-born').value; if ($('m-born').value && (born < 1920 || born > 2010)) { m.className = 'msg err'; m.textContent = '태어난 해를 다시 확인해 주세요.'; return; } try { await DB.saveProfile({ born: $('m-born').value, sex: $('m-sex').value }); m.className = 'msg ok'; m.textContent = '저장했습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
   });
 }
