@@ -1195,18 +1195,21 @@ function welcomeHi(nick, after) {
   <p class="hi-eye">Welcome</p>
   <h2><span class="nw">${who}님,</span> <span class="nw">반갑습니다.</span></h2>
   <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br><span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span></p>
-  <p class="hi-sub">처음이시라면</p>
+  ${canInstall ? `<button type="button" class="hi-feat" data-hi="install">
+    <span class="hi-app" aria-hidden="true"><img src="icon-192.png" alt=""><em>오마주</em></span>
+    <span class="hi-ft"><b>홈 화면에 오마주 놓기</b><small><span class="nw">아이콘 하나로</span> <span class="nw">매일 아침 바로 열려요</span></small><span class="hi-now">지금 놓기</span></span>
+  </button>` : ''}
+  <p class="hi-sub">${canInstall ? '그리고' : '처음이시라면'}</p>
   <ol class="hi-list">
-    ${canInstall ? `<li><button type="button" data-hi="install"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg></i><span><b>홈 화면에 오마주 놓기</b><small>아이콘 하나로 바로 열려요</small></span></button></li>` : ''}
     <li><button type="button" data-hi="open"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/></svg></i><span><b>오늘의 오프닝 듣기</b><small>오늘 이야기를 들려드려요</small></span></button></li>
     <li><button type="button" data-hi="card"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></i><span><b>인사 카드 한 장 보내기</b><small>마음 가는 분께 카톡으로</small></span></button></li>
   </ol>
-  <button type="button" class="btn warm hi-go" id="hi-go">오늘 호 펼치기</button>
+  <button type="button" class="hi-go" id="hi-go">오마주 들어가기</button>
 </div>`, () => {
     $('modal').classList.add('wel-hi');
     const done = then => { closeModal(); setTimeout(() => { if (then) then(); else if (after) after(); }, 350); };
     $('hi-go').onclick = () => done();
-    $('modal-root').querySelector('.hi-list').onclick = e => {
+    $('modal-root').querySelector('.hi-in').onclick = e => {
       const b = e.target.closest('[data-hi]'); if (!b) return; DB.track('welcome_' + b.dataset.hi);
       if (b.dataset.hi === 'open') done(() => { nav(''); setTimeout(() => $('opening')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200); });
       if (b.dataset.hi === 'card') done(() => { nav('g1'); setTimeout(() => $('cards')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300); });
