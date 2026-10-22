@@ -1187,7 +1187,7 @@ function openSignup() {
   });
 }
 // ── 구독 환영 카드 (운영자 2026-10-22) ── 구독이 끝난 바로 뒤 한 번만. 반갑게 인사하고, 처음 해 볼 세 가지를 권한다.
-// 셋째 줄(홈 화면에 놓기)은 '살짝' — 이미 앱으로 연 사람에게는 보이지 않는다.
+// 첫 줄은 '홈 화면에 놓기'(운영자 2026-10-22 — 맨 먼저). 이미 앱으로 연 사람에게는 보이지 않는다.
 function welcomeHi(nick, after) {
   const who = esc(nick || '구독자');
   const canInstall = !(matchMedia('(display-mode: standalone)').matches || navigator.standalone);
@@ -1197,9 +1197,9 @@ function welcomeHi(nick, after) {
   <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br><span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span></p>
   <p class="hi-sub">처음이시라면</p>
   <ol class="hi-list">
+    ${canInstall ? `<li><button type="button" data-hi="install"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg></i><span><b>홈 화면에 오마주 놓기</b><small>아이콘 하나로 바로 열려요</small></span></button></li>` : ''}
     <li><button type="button" data-hi="open"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/></svg></i><span><b>오늘의 오프닝 듣기</b><small>오늘 이야기를 들려드려요</small></span></button></li>
     <li><button type="button" data-hi="card"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></i><span><b>인사 카드 한 장 보내기</b><small>마음 가는 분께 카톡으로</small></span></button></li>
-    ${canInstall ? `<li><button type="button" data-hi="install"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg></i><span><b>홈 화면에 오마주 놓기</b><small>아이콘 하나로 바로 열려요</small></span></button></li>` : ''}
   </ol>
   <button type="button" class="btn warm hi-go" id="hi-go">오늘 호 펼치기</button>
 </div>`, () => {

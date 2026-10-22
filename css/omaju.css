@@ -2062,12 +2062,10 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 
 /* ── 구독 환영 카드 (운영자 2026-10-22) ── 반가움이 먼저다. 잡지 지면의 크림·금빛(앤틱)이 아니라
    환한 아침 사진 위로 흰 종이 한 장이 올라오는 꼴, 강조색은 소개 배너의 바다빛(청량함)으로.
-   사진(img/welcome-hi.jpg)이 오기 전에는 아침 하늘빛 그러데이션으로 자리를 잡는다. 단추만은 집안 연노랑. */
+   사진 img/welcome-hi.jpg (열린 흰 창·흰 튤립·바다). 단추만은 집안 연노랑. */
 .modal.wel-hi { padding: 0; align-items: stretch; background: #DCEBF2; }
 .wel-hi .modal-box { position: relative; max-width: 520px; width: 100%; max-height: none; min-height: 100%; margin: 0 auto; border-radius: 0; padding: 0; overflow: auto;
-  background: #FFFFFF url('../img/welcome-hi.jpg') center top / 100% auto no-repeat; }
-.wel-hi .modal-box::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: min(78vw, 400px); z-index: 0; pointer-events: none;
-  background: linear-gradient(180deg, #CFE6F1 0%, #E8F3F8 55%, #FFFFFF 100%); opacity: var(--hi-sky, 1); }
+  background: #EEF5F8 url('../img/welcome-hi.jpg') center top / 100% auto no-repeat; }
 .wel-hi .x { position: absolute; left: auto; right: 12px; top: 8px; z-index: 3; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.75); color: #2B4A5A; }
 .hi-in { position: relative; z-index: 2; box-sizing: border-box; margin-top: min(54vw, 270px); padding: 24px 24px 28px;
   background: #FFFFFF; border-radius: 22px 22px 0 0; box-shadow: 0 -10px 30px rgba(30,70,90,0.10); }
