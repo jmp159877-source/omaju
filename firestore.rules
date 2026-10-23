@@ -102,7 +102,7 @@ service cloud.firestore {
     // 집계: 숫자만 올릴 수 있고, 관리자만 본다.
     match /stats/{date} {
       allow read: if isAdmin();
-      allow create, update: if request.resource.data.keys().hasOnly(['visits', 'clicks', 'newDevices']);
+      allow create, update: if request.resource.data.keys().hasOnly(['visits', 'clicks', 'newDevices', 'blog']);
     }
   }
 }

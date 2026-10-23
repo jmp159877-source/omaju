@@ -38,8 +38,8 @@ async function loadDash() {
   // 누적 (창간 10/22 부터) — 날마다의 방문을 더한 것과, 처음 온 기기를 더한 것(10/23 부터 셈)
   const all = (await getDocs(collection(db, 'stats'))).docs.filter(d => d.id >= '2026-10-22').map(d => ({ day: d.id, ...d.data() }));
   const sum = (from, f) => all.filter(x => x.day >= from).reduce((t, x) => t + (x[f] || 0), 0);
-  $('cumul').innerHTML = '<tr><th>기간</th><th>방문(날마다 더함)</th><th>처음 온 기기</th></tr>' + [['창간 이후', '2026-10-22'], ['최근 30일', dayOffset(-29)], ['최근 10일', dayOffset(-9)], ['최근 7일', dayOffset(-6)]]
-    .map(([k, from]) => `<tr><td>${k}</td><td>${sum(from, 'visits').toLocaleString()}</td><td>${sum(from, 'newDevices').toLocaleString()}</td></tr>`).join(''); labelize($('cumul'));
+  $('cumul').innerHTML = '<tr><th>기간</th><th>방문(날마다 더함)</th><th>처음 온 기기</th><th>블로그에서 옴</th></tr>' + [['오늘', TODAY], ['창간 이후', '2026-10-22'], ['최근 30일', dayOffset(-29)], ['최근 10일', dayOffset(-9)], ['최근 7일', dayOffset(-6)]]
+    .map(([k, from]) => `<tr><td>${k}</td><td>${sum(from, 'visits').toLocaleString()}</td><td>${sum(from, 'newDevices').toLocaleString()}</td><td>${sum(from, 'blog').toLocaleString()}</td></tr>`).join(''); labelize($('cumul'));
   const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
   const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
   const max = Math.max(1, ...stats.map(s => s.visits || 0));
@@ -207,7 +207,7 @@ async function loadBlog() {
   const end = pick(['매일 아침 새 카드가 나오는 곳, 오마주 매거진.', '카드는 매일 아침 오마주 매거진에서 새로 나옵니다.', '내일 아침에도 새 카드로 찾아오겠습니다. 오마주 매거진.'], 4);
   $('b-body').value = [hi, mood, '', quote, send, '',
     ...G.map((_, i) => `(카드 ${i + 1})`), '',
-    '카드는 길게 눌러 저장하시면 됩니다.', today, end, '네이버에서 “오마주 매거진”을 찾으시거나, 아래 그림을 누르세요.', '', '(맨 끝 그림 — 링크 https://omaju.kr)'].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n');
+    '카드는 길게 눌러 저장하시면 됩니다.', today, end, '네이버에서 “오마주 매거진”을 찾으시거나, 아래 그림을 누르세요.', '', '(맨 끝 그림 — 링크 https://omaju.kr/?from=blog)'].filter((l, i, a) => l !== '' || a[i - 1] !== '').join('\n');
   $('b-title').value = pick([`${M + 1}월 ${D}일 ${dow}요일 아침 인사 카드 · 좋은 아침 인사말 이미지`, `${M + 1}월 ${D}일 아침 인사말 이미지 · ${dow}요일 좋은 아침 카드`, `${dow}요일 아침 인사 카드 (${M + 1}월 ${D}일) · 좋은 아침 인사 이미지`]);
   $('b-tags').value = ['오마주매거진', '아침인사', '아침인사이미지', '좋은아침', `${M + 1}월인사말`, `${dow}요일인사`, '인사카드', '좋은글'].join(', ');
   $('b-msg').textContent = key + ' 카드 ' + G.length + '장';

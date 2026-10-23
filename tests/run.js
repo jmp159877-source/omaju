@@ -749,6 +749,13 @@ srv.listen(0, '127.0.0.1', async () => {
       const h = await p.evaluate(() => { const a = document.getElementById('to-chrome'); return a ? a.getAttribute('href') : ''; });
       ok('카톡 안에서 크롬으로 넘기는 단추', /^intent:\/\/.*install=1.*package=com\.android\.chrome/.test(h), h);
       await c.close(); }
+    // 블로그에서 온 표시(?from=blog)는 세고 나서 주소에서 지운다 (대표 2026-10-23)
+    { const c = await ctx(false); const p = await c.newPage();
+      await p.addInitScript(() => { Object.defineProperty(navigator, 'webdriver', { get: () => false }); Object.defineProperty(navigator, 'userAgent', { get: () => 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/120 Mobile Safari/537.36' }); });   // 시험 브라우저는 로봇으로 보여 안 센다
+      await p.goto(base + '/index.html?from=blog'); await wait(p, 2500);
+      const q = await p.evaluate(() => ({ q: location.search, k: Object.keys(localStorage).some(x => x.startsWith('omaju.blog.')) }));
+      ok('블로그에서 온 방문을 세고 주소를 지움', q.q === '' && q.k, JSON.stringify(q));
+      await c.close(); }
     // 크롬에 도착하면 들고 온 로그인 표(ct)를 받아 쓰고 주소에서 지운다 (설치 안내가 먼저 지워 버리면 안 된다)
     { const c = await ctx(false); const p = await c.newPage();
       await p.addInitScript(() => { globalThis.__toasts = ''; new MutationObserver(() => { const t = document.getElementById('toast'); if (t && t.textContent) globalThis.__toasts += t.textContent + '|'; if (document.getElementById('f-nick')) globalThis.__inn = true; }).observe(document, { subtree: true, childList: true, characterData: true }); });
