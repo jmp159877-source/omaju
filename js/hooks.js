@@ -56,6 +56,10 @@ export function apply(H) {
       h3.replaceChildren(...lines(v.hook).map(t => { const e = document.createElement('span'); e.className = 'hl';
         if (t.includes('{Y}')) { const [a, z] = t.split('{Y}'); const y = document.createElement('b'); y.id = 'cat-year'; y.textContent = yr; e.append(a, y, z); } else e.textContent = t; return e; })); h3.classList.add('b-hook'); } if (p && v.sub) p.textContent = v.sub;
     const ban = b.closest('.banner'); ban.classList.add('thumb');
+    // 사진은 16:9 칸에 꽉 채운다 — 가로로 긴 사진(2:1·3:1)은 사진 아래 흰 틈이 생겼다 (대표 2026-10-24 05:23: 무엇을 볼까 제목이 사진보다 한참 밑)
+    if (!ban.querySelector('.b-pic')) { const pic = document.createElement('span'); pic.className = 'b-pic'; pic.setAttribute('aria-hidden', 'true');
+      pic.style.backgroundImage = ban.style.backgroundImage || getComputedStyle(ban).backgroundImage; pic.style.backgroundPosition = ban.style.backgroundPosition || 'center';
+      ban.prepend(pic); }
     const lab = ban.previousElementSibling; if (lab && lab.classList.contains('label')) lab.classList.add('thumb-lab');   // 머리말이 칸 안으로 들어갔으니 위 이름표는 감춘다
   }
 }
