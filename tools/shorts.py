@@ -118,10 +118,13 @@ def opening():
     cut = next((i for i, g in enumerate(segs) if i >= 2 and re.search(r'오늘의 (오마주|한 끼|한 권)|인사 카드', ' '.join(g['cap']))), len(segs) - 1)
     first = 2 if len(segs) > 3 else 0
     A0 = max(0.0, segs[first]['t'] - 0.25); A_end = segs[cut]['t'] - 0.15
-    B_start = segs[-1]['t'] - 0.35; B_end = s['end']
+    # 끝: 울림 한 줄(+시간대 인사) → 사인오프 (대표 2026-10-23: "쇼츠 끝에도 울림 한 줄"). 예전 대본(끝 앞이 사연 청하기)은 사인오프만.
+    tail = [len(segs) - 1]
+    if len(segs) >= 3 and cut < len(segs) - 2 and not re.search(r'사연|이야기를 들려', ' '.join(segs[-2]['cap'])): tail = [len(segs) - 2, len(segs) - 1]
+    B_start = segs[tail[0]]['t'] - 0.35; B_end = s['end']
     X = 0.4   # 이음새 겹침(초)
     LA = A_end - A0; total = LA + (B_end - B_start) - X
-    tl = [(g['t'] - A0, g) for g in segs[first:cut]] + [(LA - X + (segs[-1]['t'] - B_start), segs[-1])]
+    tl = [(g['t'] - A0, g) for g in segs[first:cut]] + [(LA - X + (segs[i]['t'] - B_start), segs[i]) for i in tail]
     tl[0] = (0.0, tl[0][1])
     story = ' '.join(' '.join(g['cap']) for g in segs[first:cut])
     l1, l2 = make_hook(story, j.get('title', ''))
