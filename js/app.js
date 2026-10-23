@@ -260,7 +260,7 @@ async function openCard(i) {
 // ── 앞으로 나아가기: 따라하기 · 회화 · 나들이 ──
 // 몸 푸는 것(나를 돌보기)과 취미로 배우는 것(앞으로 나아가기)을 나눈다
 const MOVE_ORDER = ['gym', 'meditate'];
-const FOLLOW_ORDER = ['sing', 'dance', 'golf', 'park'];
+const FOLLOW_ORDER = ['golf', 'park'];   // 노래 교실·댄스는 뺐다 (대표 2026-10-24: "너무 시니어 같다") — 새 항목은 고르는 중
 const cleanT = t => unent(t).replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\uFE0F\u200D▶►★☆♥❤|#]/gu, ' ').replace(/\((?:[^)]*(?:이벤트|구독|무료|광고)[^)]*)\)/g, '').replace(/\[ENG\]|\[ENG SUB\]/gi, '').replace(/\s{2,}/g, ' ').replace(/\s*[\/·-]\s*$/, '').trim();
 const unent = t => String(t || '').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 function renderFollow() {
