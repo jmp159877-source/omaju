@@ -37,7 +37,7 @@ jobs:
         run: |
           ARGS="${{ github.event.inputs.date }}"
           if [ "${{ github.event.inputs.force }}" = "yes" ]; then ARGS="$ARGS --force"; fi
-          ONLY="${{ github.event.inputs.only }}"; if [ -z "$ONLY" ]; then ONLY="greetings,fortune,era,mind,body,book,meal,quiz,story,follow,phrase,culture,garden,hooks"; fi
+          ONLY="${{ github.event.inputs.only }}"; if [ -z "$ONLY" ]; then ONLY="greetings,fortune,era,mind,body,book,meal,quiz,story,follow,phrase,culture,garden,pet,hooks"; fi
           set +e
           timeout 45m python -u tools/gen_daily.py $ARGS --only=$ONLY 2>&1 | tee /tmp/daily.log; rc=${PIPESTATUS[0]}
           mkdir -p daily; sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' /tmp/daily.log | tail -300 > daily/last-run.log
@@ -58,7 +58,7 @@ jobs:
             git config --global --add safe.directory "$GITHUB_WORKSPACE"
             git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
             echo "[git] status"; git status --porcelain | head
-            git add daily/*.json
+            git add daily/*.json data/pets.json
             git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
             ok=0
             for i in 1 2 3 4 5; do

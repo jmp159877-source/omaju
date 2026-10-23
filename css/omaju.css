@@ -1532,11 +1532,8 @@ body.in-chapter #opening { display: none !important; }
 .tabs3 button[data-tab="g5"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g5"]::before { background: linear-gradient(to top, rgba(91,143,217,0.92) 0%, rgba(91,143,217,0.45) 42%, rgba(20,20,20,0.06) 78%) !important; }
 .tabs-mini button[data-tab="g5"][aria-pressed="true"] { box-shadow: 0 0 0 2px var(--c-g5); }
 
-/* 장이 다섯이라 마지막 칸은 한 줄을 다 쓴다 (혼자 남지 않게) */
-.tabs3:not(.compact) button[data-tab="g4"] { grid-column: 1 / -1; aspect-ratio: 16 / 7; min-height: 0; }
-@media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 7.6; } }
+/* (장이 여섯이 되어 나의 수첩도 다른 칸과 같은 크기 — 2026-10-24) */
 /* PC 는 칸이 넓어서 16/7 이면 혼자 거대해진다 — 납작하게 (운영자 2026-10-20) */
-@media (min-width: 769px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 4.2; } }
 .tabs3 button[data-tab="g4"] { background-position: center 55% !important; }
 .tabs3 button[data-tab="g3"], .tabs3 button[data-tab="g3"][aria-pressed="true"] { background-image: url('../img/tab-health.jpg') !important; background-size: cover !important; background-position: center 40% !important; }
 .tabs-mini button[data-tab="g3"] { background-image: url('../img/tab-health.jpg'); background-position: center 40%; }
@@ -2399,3 +2396,25 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 #detail .cu-pick b { font-family: 'Noto Sans KR', sans-serif !important; font-weight: 800; color: var(--ink); }
 #detail .cu-pick { border-radius: 14px; }
 .opn-shot[data-up="1"] { background-size: cover; background-position: center top; }   /* 상반신으로 새로 받은 사진은 확대 없이 (2026-10-24) */
+
+/* ── 어쩌다 점점 집사 (대표 2026-10-24) ── */
+/* 장이 여섯이 되어 2×3 으로 반듯하게 — 나의 수첩도 다른 칸과 같은 크기로 */
+.tabs3 button[data-tab="g6"], .tabs3 button[data-tab="g6"][aria-pressed="true"] { background-image: url('../img/tab-pet.jpg') !important; background-size: cover !important; background-position: center 45% !important; }
+.tabs-mini button[data-tab="g6"] { background-image: url('../img/tab-pet.jpg'); background-position: center 45%; }
+.tabs3 button[data-tab="g6"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g6"]::before { background: linear-gradient(to top, rgba(196,124,62,0.92) 0%, rgba(196,124,62,0.45) 42%, rgba(20,20,20,0.06) 78%) !important; }
+:root { --c-g6: #C47C3E; } body[data-ch="g6"] { --acc: var(--c-g6); }
+/* 안쪽 — 코너 안쪽 판갈이 틀 그대로 */
+#detail .pet-meta { display: inline-block; font-weight: 700; font-size: .85rem; color: var(--g); background: var(--g-soft); padding: 5px 11px; border-radius: 6px; margin: 6px 0 0; }
+#detail .pet-hook { background: var(--g-soft); border-radius: 16px; padding: 20px; margin: 14px 0 0; font-size: 1.12rem; font-weight: 500; line-height: 1.7; color: #23412F; }
+#detail .pet-todo { list-style: none; counter-reset: pt; padding: 0; margin: 0; }
+#detail .pet-todo li { counter-increment: pt; position: relative; padding: 13px 0 13px 46px; border-bottom: 1px solid var(--hair); margin: 0; }
+#detail .pet-todo li:last-child { border-bottom: 0; }
+#detail .pet-todo li::before { content: counter(pt); position: absolute; left: 0; top: 13px; width: 30px; height: 30px; border-radius: 50%; background: var(--g); color: #fff; font-weight: 700; font-size: .95rem; display: grid; place-items: center; line-height: 1; }
+#detail .pet-vet { background: #FFF7DB; border-radius: 14px; padding: 18px; margin: 20px 0 0; color: #3A2E00; }
+#detail .pet-vet b { display: block; font-weight: 800; font-size: .85rem; color: #8A6A00; margin-bottom: 4px; }
+#detail .pet-foot { font-size: .9rem !important; color: var(--sub) !important; margin-top: 14px; }
+#detail .pet-past { margin: 36px -22px 0; padding: 4px 22px 0; border-top: 8px solid #F4F4F0; }
+#detail .pet-past button { display: flex; align-items: baseline; gap: 12px; width: 100%; padding: 15px 2px; background: none; border: 0; border-bottom: 1px solid var(--hair); text-align: left; min-width: 0; cursor: pointer; }
+#detail .pet-past button span { flex: 1; min-width: 0; font-size: 1.04rem; font-weight: 500; color: var(--ink); line-height: 1.5; word-break: keep-all; }
+#detail .pet-past button small { flex: none; font-size: .85rem; color: #999; }
+#detail .pet-past button[aria-current="true"] span { color: var(--g); font-weight: 800; }

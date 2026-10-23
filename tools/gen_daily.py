@@ -228,6 +228,59 @@ def gen_body(d):
     return out
 
 
+# 어쩌다 점점 집사 — 댕댕이·냥이 하루 한 편씩 (대표 2026-10-24). 주제를 돌려 쓰고, 지난 제목과 겹치지 않게.
+PET_TOPICS = {
+    "dog": ["산책 뒤 행동", "밥·간식", "나이 든 아이", "혼자 있는 시간", "목욕·털 관리", "발·발톱", "잠버릇", "짖음", "철 따라 챙길 것",
+            "놀이·장난감", "낯선 사람·손님", "차 타기·여행", "이빨·입 냄새", "물 마시기", "몸짓으로 하는 말", "새 식구 맞이"],
+    "cat": ["물 마시기", "화장실", "밥·간식", "털 뿜뿜·빗질", "밤에 우다다", "숨는 자리", "나이 든 아이", "발톱·스크래처", "철 따라 챙길 것",
+            "골골송·몸짓", "혼자 있는 시간", "창밖 구경", "사냥 놀이", "높은 곳", "새 식구 맞이", "병원 가는 날"],
+}
+PETS_FILE = os.path.join(HERE, "..", "data", "pets.json")
+
+
+def gen_pet(d):
+    """어쩌다 점점 집사 — 댕댕이·냥이 이야기 한 편씩. data/pets.json 맨 앞에 넣어 지난 이야기 목차가 쌓인다(같은 커밋으로 올라간다)."""
+    try:
+        with open(PETS_FILE, encoding="utf-8") as fp:
+            db = json.load(fp)
+    except Exception:
+        db = {"dog": [], "cat": []}
+    key, out = d.isoformat(), {}
+    for k, nm, real in (("dog", "댕댕이", "강아지"), ("cat", "냥이", "고양이")):
+        lst = db.setdefault(k, [])
+        have = next((x for x in lst if x.get("date") == key), None)
+        if have:
+            out[k] = have; continue
+        topic = PET_TOPICS[k][d.toordinal() % len(PET_TOPICS[k])]
+        past = "\n".join("- " + x.get("title", "") for x in lst[:40])
+        j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 잡지 '오마주'의 코너 '어쩌다 점점 집사'에 실을 {real}({nm}) 이야기 한 편을 쓴다. 오늘의 주제: '{topic}'.
+읽는 사람은 50~60대지만 생각과 생활은 40대다. 아이(반려동물)를 가족처럼 키우는 집사들. 고급 라이프스타일 매거진의 따뜻하고 재치 있는 한 꼭지처럼.
+지킬 것:
+- 겁주지 않는다. 병 이름을 늘어놓지 않는다. 진단·약·주사·사료 상표 이야기 금지. 널리 알려진 생활 요령만. 확실하지 않은 숫자는 쓰지 않는다.
+- 시니어·어르신·노후·은퇴 같은 말 금지. 집안 사연(아내·남편·손주) 금지.
+- 지난 제목과 겹치는 이야기 금지:
+{past or '- (없음)'}
+쓸 것(JSON만):
+- kind: 이야기 갈래 한두 낱말(예: 행동, 챙길 것, 나이 든 아이, 놀이)
+- title: 집사의 속마음으로 말을 거는 제목 한 문장(22~38자). '우리 {nm}' 같은 애칭을 자연스럽게. 낚시·과장 금지. 예: "산책만 다녀오면 발만 핥는 우리 {nm}, 괜찮은 걸까?"
+- hook: 집에서 실제로 보는 장면 두 문장(50~80자). 정보가 아니라 공감 가는 순간.
+- why: 왜 그런지 두세 문장(90~150자). 본문에는 '{real}'라는 말을 한 번 이상 쓴다.
+- todo: 오늘 해 볼 것 세 가지(각 25~50자, 돈 많이 들지 않고 집에서 바로).
+- vet: 이럴 땐 동물병원에 — 눈에 보이는 신호로 한 문장(30~60자).
+형식: {{"kind":"...","title":"...","hook":"...","why":"...","todo":["...","...","..."],"vet":"..."}}""", json_mode=True)
+        a = {"id": f"{k}-{key}", "date": key, "kind": str(j.get("kind", "")).strip(), "title": str(j.get("title", "")).strip(),
+             "hook": str(j.get("hook", "")).strip(), "why": str(j.get("why", "")).strip(),
+             "todo": [str(t).strip() for t in (j.get("todo") or []) if str(t).strip()][:3], "vet": str(j.get("vet", "")).strip()}
+        assert a["title"] and a["why"] and len(a["todo"]) >= 2 and a["vet"], f"{nm} 이야기 비어 있음"
+        bad = re.search(r"진단|처방|약을|주사|시니어|어르신|노후", a["why"] + " ".join(a["todo"]) + a["title"])
+        assert not bad, f"{nm} 금지어: {bad.group(0)}"
+        lst.insert(0, a); del lst[120:]
+        out[k] = a
+    with open(PETS_FILE, "w", encoding="utf-8") as fp:
+        json.dump(db, fp, ensure_ascii=False, indent=1)
+    return out
+
+
 def gen_book(d):
     """오늘의 한 권 — 실제로 나온 책 하나를 골라 잡지 책 소개면처럼.
     책 속 문장을 그대로 옮기지 않는다(저작권). 어떤 대목에서 멈추게 되는지를 내 말로 쓴다."""
@@ -747,7 +800,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"hooks": ("food", "book", "quiz"), "garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"pet": ("dog", "cat"), "hooks": ("food", "book", "quiz"), "garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -801,7 +854,7 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden), ("hooks", None)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden), ("pet", gen_pet), ("hooks", None)]:
         if only and name not in only:
             continue
         fresh = name == "hooks" and any(k in out for k in ("meal", "book", "quiz", "culture"))   # 내용이 새로 나왔으면 제목도 새로
