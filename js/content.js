@@ -69,10 +69,11 @@ export const DEFAULT_CONTENT = {
   follow: {
     gym: { name: '요가', query: '아침 요가 초보 15분', say: '일어나자마자 10분, 몸이 가벼워집니다.' },
     meditate: { name: '명상', query: '10분 아침 명상', say: '숨을 고르며 마음을 가만히 내려놓아 보세요.' },
-    sing: { name: '노래 교실', query: '노래교실 트로트 배우기', say: '오늘은 한 곡, 끝까지 불러 봅니다.' },
-    dance: { name: '댄스', query: '라인댄스 기초 배우기', say: '동작은 천천히, 박자는 즐겁게.' },
-    golf: { name: '골프 레슨', query: '골프 드라이버 기본 레슨', say: '스윙은 힘이 아니라 리듬입니다.' },
-    park: { name: '파크골프', query: '파크골프 기본 자세 배우기', say: '동네 파크골프장, 오늘 한번 가 볼까요.' }
+    run: { name: '러닝 입문', query: '러닝 입문 5km 처음 달리기', say: '오늘은 딱 10분만, 천천히 달려 볼까요.' },
+    pilates: { name: '필라테스·홈트', query: '필라테스 홈트 20분', say: '매트 하나면 충분해요, 땀 한번 내 봐요.' },
+    photo: { name: '폰 사진 잘 찍기', query: '핸드폰 사진 잘 찍는 법', say: '오늘 찍는 한 장이 인생샷이 될지도.' },
+    coffee: { name: '커피·와인 한 잔', query: '핸드드립 커피 내리는 법', say: '오늘은 내 손으로 내린 커피 한 잔.' },
+    camp: { name: '차박·캠핑 첫걸음', query: '차박 처음 준비물', say: '이번 주말, 트렁크 열고 떠나 볼까요.' }
   },
   phrase: { topic: '카페에서', en: { text: 'Could I get a warm latte, please?', reading: '쿠드 아이 겟 어 웜 라떼, 플리즈', meaning: '따뜻한 라떼 한 잔 주시겠어요?', tip: '"Could I"로 시작하면 정중합니다.' }, ja: { text: 'ホットラテをひとつお願いします。', reading: '홋토 라테오 히토츠 오네가이시마스', meaning: '따뜻한 라떼 하나 부탁합니다.', tip: '끝에 お願いします를 붙이면 부드럽습니다.' }, zh: { text: '请给我一杯热拿铁。', reading: '칭 게이 워 이 베이 르어 나티에', meaning: '따뜻한 라떼 한 잔 주세요.', tip: '请(칭)은 "부탁합니다"의 뜻.' } },
   outing: { '서울': [{ title: '서울숲 단풍길', where: '성동구 서울숲', when: '상시 · 해 질 무렵 추천', why: '은행나무길이 노랗게 물들 때라 걷기만 해도 좋습니다.', kind: '나들이' }] },
