@@ -2209,10 +2209,10 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .tabs3:not(.compact) button[data-tab="g4"] { grid-column: auto; aspect-ratio: auto; }   /* 높이는 옆 칸(g6)에 맞춰 늘어난다 */
 @media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: auto; } }
 @media (min-width: 769px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: auto; } }
-.tabs3 button[data-tab="g6"], .tabs3 button[data-tab="g6"][aria-pressed="true"] { background-image: url('../img/tab-pet.jpg'), linear-gradient(160deg, #C9B898, #8E7A5B) !important; background-size: cover !important; background-position: center 55% !important; }
+.tabs3 button[data-tab="g6"], .tabs3 button[data-tab="g6"][aria-pressed="true"] { background-image: url('../img/tab-pet.jpg'), linear-gradient(160deg, #C9B898, #8E7A5B) !important; background-size: cover !important; background-position: center 45% !important; }
 .tabs3 button[data-tab="g6"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g6"]::before { background: linear-gradient(to top, rgba(176,122,74,0.92) 0%, rgba(176,122,74,0.55) 32%, rgba(176,122,74,0) 62%); }
 :root { --c-g6: #B07A4A; } body[data-ch="g6"] { --acc: var(--c-g6); }
-.pet-ban { background-color: #A8936F; }
+.pet-ban { background-color: #A8936F; background-position: 88% center !important; }
 .pet { padding-top: 6px; }
 .pet-t { font-family: 'Nanum Myeongjo', serif; font-size: 1.7rem; line-height: 1.42; margin: 8px 0 4px; color: #141414; word-break: keep-all; }
 .pet-d { margin: 0 0 4px; font-size: 0.9rem; color: #8a6d2c; }
