@@ -13,7 +13,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
+      - run: mkdir -p daily
       - env: { YOUTUBE_API_KEY: "${{ secrets.YOUTUBE_API_KEY }}" }
-        run: python3 -u tools/song_requality.py ${{ inputs.only && format('--only={0}', inputs.only) || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+        run: python3 -u tools/song_requality.py "--only=${{ inputs.only }}" 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tee daily/song_requality.log
       - if: always()
-        run: GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/song_requality.md data/song_videos.new.json
+        run: GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/song_requality.md daily/song_requality.log data/song_videos.new.json
