@@ -101,6 +101,10 @@ if __name__ == '__main__':
     if not os.path.exists(jp): say('오늘 쇼츠가 없음', DATE); sys.exit(0)
     info = json.load(open(jp, encoding='utf-8')); done = info.get('yt', {})
     auth = {'Authorization': 'Bearer ' + token()}
+    # 다른 채널(조경노트)로 올라가는 사고를 막는다 — 열쇠가 오마주 매거진 채널 것이 아니면 아무것도 안 올린다 (2026-10-23 첫 열쇠가 조경노트 것이었다)
+    _, _, ch = req('GET', 'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', headers=auth)
+    names = [c['snippet']['title'] for c in ch.get('items', [])]
+    if not any('오마주' in n for n in names): say('열쇠가 오마주 채널 것이 아님 — 멈춤', names); sys.exit(1)
     for kind in ('cards', 'opening'):
         up = info.get(kind + '_up'); path = os.path.join(OUT, f'{DATE}-{kind}.mp4')
         if done.get(kind): say(kind, '이미 올림', done[kind]); continue
