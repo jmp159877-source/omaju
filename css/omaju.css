@@ -2208,5 +2208,14 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
    사진은 가로 폭에 맞춰 위에서부터 통째로 보이고, 아래는 사진 바닥색으로 이어지게 한다 */
 @media (max-width: 768px) { .hero { background: linear-gradient(to bottom, rgba(42,36,30,0) 0, rgba(42,36,30,0) calc(100vw * 1.5), #2a241e calc(100vw * 1.79)), url('../img/hero-mobile.jpg') center top / 100% auto no-repeat, #2a241e !important; } }
 /* 휴대폰 커버 높이를 사진 높이에 맞춘다 (대표 2026-10-24 02:27: 첫 화면에 날짜까지만 나오고 단추가 안 보였다 — 사진 아래 빈 갈색 띠가 길었다) */
-@media (max-width: 768px) { .hero { min-height: calc(100vw * 1.79 + 150px) !important; } }
+@media (max-width: 768px) { .hero { min-height: max(calc(100vw * 1.79 + 40px), 44rem) !important;   /* 큰 글씨면 rem 쪽이 커져 로그인 뒤 단추가 붙어도 밀리지 않는다 */ } }
 @media (max-width: 768px) { .hero-foot, .hero-foot * { text-shadow: 0 1px 6px rgba(0,0,0,0.75); } }
+/* 로그인하면 인사말 한 줄과 단추 세 개가 더 붙어 커버가 길어진다(대표 휴대폰에서 노란 단추가 잘림, 2026-10-24) — 위 빈자리를 줄여 끌어올린다 */
+@media (max-width: 768px) { .hero > div:last-child { padding-top: 2vh !important; } .hero .logo-wrap { margin-bottom: 14px; } }
+/* 휴대폰: 앱 설치·친구에게 보내기를 한 줄로 나란히 — 커버가 한 화면에 들어오게 (2026-10-24) */
+@media (max-width: 768px) {
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-actions .auth-slot { flex: 1 1 100%; }
+  .hero-actions > .ghost.go { flex: 1 1 0; min-width: 0; padding-left: 8px; padding-right: 8px; white-space: normal; word-break: keep-all; }
+}
+@media (max-width: 768px) { .hero-actions > .ghost.go { font-size: 0.95rem; padding-top: 12px; padding-bottom: 12px; line-height: 1.3; } }
