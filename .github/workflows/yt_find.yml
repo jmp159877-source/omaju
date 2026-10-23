@@ -1,0 +1,18 @@
+# 유튜브 영상 후보 보기 — 결과는 logs 가지 daily/yt_find.md
+name: 유튜브 영상 후보 보기
+on:
+  workflow_dispatch:
+    inputs:
+      q: { description: '검색어 (여러 개는 ; 로)', required: true }
+permissions: { contents: write }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - env: { YOUTUBE_API_KEY: "${{ secrets.YOUTUBE_API_KEY }}" }
+        run: python3 -u tools/yt_find.py "${{ inputs.q }}" 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+      - if: always()
+        run: GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/yt_find.md
