@@ -4,8 +4,9 @@ import * as NB from './notebook.js';
 import * as RADIO from './radio.js';
 import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
+import * as PET from './pet.js';
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
-const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '산 · 운동 · 마음 · 건강', 'tab-health', 4], g4: ['나의 수첩', '메모와 일정', 'tab-note', 5] };
+const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '산 · 운동 · 마음 · 건강', 'tab-health', 4], g6: ['어쩌다 점점 집사', '반려견 · 반려묘 이야기', 'tab-pet', 5], g4: ['나의 수첩', '메모와 일정', 'tab-note', 6] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;
 
 const $ = id => document.getElementById(id);
@@ -905,7 +906,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], psy: ['', '심리 테스트', () => ''], psa: ['', '프사 읽기', () => ''], 'pt-wall': ['', '휴대폰 배경화면', () => ''], 'pt-talk': ['', '카톡 답장 속도', () => ''], 'pt-trip': ['', '여행 짐 싸는 법', () => ''], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '띠를 고르면,<br>오늘의 한마디'], luck: ['', '오늘의 운세 · 꿈 해몽', () => '오늘의 운,<br>간밤의 꿈'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], psy: ['', '심리 테스트', () => ''], psa: ['', '프사 읽기', () => ''], 'pt-wall': ['', '휴대폰 배경화면', () => ''], 'pt-talk': ['', '카톡 답장 속도', () => ''], 'pt-trip': ['', '여행 짐 싸는 법', () => ''], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '띠를 고르면,<br>오늘의 한마디'], luck: ['', '오늘의 운세 · 꿈 해몽', () => '오늘의 운,<br>간밤의 꿈'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], dog: ['pet-dog-head', '어쩌다 점점 집사', () => '반려견,<br>오늘의 이야기'], cat: ['pet-cat-head', '어쩌다 점점 집사', () => '반려묘,<br>오늘의 이야기'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -939,7 +940,7 @@ const gameDone = {};
 // 같은 단계끼리 옮겨 다니면 쌓지 않고 바꿔 끼운다 → 몇 개를 열어 봐도 뒤로 가기는 한 단계씩 위로, 많아야 4번이면 나간다.
 const NAV_GAMES = new Set(['psy', 'malmoi', 'shisen', 'num50', 'sudoku']);
 const CU_RE = /^cu-[a-z]+$/;   // 오늘의 문화 안쪽 (시·그림…) — 놀이와 같은 단계라 뒤로 가면 고르는 화면으로 온다
-const LV = k => !k ? 0 : /^g[1-5]$/.test(k) ? 1 : (k === 'psa' || /^pt-/.test(k)) ? 4 : (NAV_GAMES.has(k) || CU_RE.test(k) || k === 'dream' || k === 'fortune') ? 3 : 2;   // 운세·꿈 해몽은 두 단추 화면(luck) 안쪽 → 뒤로 가면 두 단추로
+const LV = k => !k ? 0 : /^g[1-6]$/.test(k) ? 1 : (k === 'psa' || /^pt-/.test(k)) ? 4 : (NAV_GAMES.has(k) || CU_RE.test(k) || k === 'dream' || k === 'fortune') ? 3 : 2;   // 운세·꿈 해몽은 두 단추 화면(luck) 안쪽 → 뒤로 가면 두 단추로
 const NS = [location.hash.slice(1)]; let navOurs = false, navPending = null;
 function nav(h) {
   h = String(h || '').replace(/^#/, ''); const top = NS[NS.length - 1]; if (h === top) return;
@@ -960,14 +961,16 @@ function route() { const k = location.hash.slice(1);
   cur = CU_RE.test(k) ? 'culture' : (DET[k] ? k : null);
   if (cur === 'dream') openDream();
   if (cur === 'luck') { const bg = $('d-bg'); if (bg) bg.style.backgroundImage = "url('img/fortune.jpg')"; }   // 바깥 카드와 같은 사진으로 이어지게 (표지 목록에는 안 올린다)
-  if (/^g[1-5]$/.test(k)) setChapter(k); else if (!cur) { const was = document.body.classList.contains('in-chapter'); setChapter(null); if (was) { route.y = null; const t = $('tabs3'); window.scrollTo(0, Math.max(0, t.getBoundingClientRect().top + window.scrollY - 80)); } }
+  if (/^g[1-6]$/.test(k)) setChapter(k); else if (!cur) { const was = document.body.classList.contains('in-chapter'); setChapter(null); if (was) { route.y = null; const t = $('tabs3'); window.scrollTo(0, Math.max(0, t.getBoundingClientRect().top + window.scrollY - 80)); } }
   document.body.classList.toggle('game-mode', !!GAME[cur] || cur === 'play'); if (!GAME[cur]) PLAY.stopAll();
   if (cur === 'play') PLAY.hub($('play-root'));
+  if (cur === 'dog' || cur === 'cat') { const k = cur; PET.load().then(() => PET.render($('pet-' + k), k)); }
   if (GAME[cur] && (!gameDone[cur] || cur === 'psy' || /^pt-/.test(cur))) { gameDone[cur] = true; GAME[cur](); }   /* 심리 테스트 목록·테스트는 들어올 때마다 새로 (지난 결과 반영) */ document.body.classList.toggle('in-detail', !!cur); stopRead(); if (cur) { if (DET[cur][0]) $('d-bg').style.backgroundImage = `url('img/${DET[cur][0]}.jpg')`; $('d-tag').textContent = DET[cur][1]; setTitle(); document.querySelectorAll('.dsec').forEach(s => s.classList.toggle('on', s.dataset.k === cur)); window.scrollTo(0, 0); } else if (route.y != null) window.scrollTo(0, route.y); }
-$('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-5]$/.test(NS[0]) ? NS[0] : ''); };
+$('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-6]$/.test(NS[0]) ? NS[0] : ''); };
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
 renderEra(); renderMind(); renderGarden(); renderBody(); renderBook(); renderShow(); route();
+PET.load().then(() => { for (const k of ['dog', 'cat']) { const a = PET.latest(k); if (a && $(k + '-title')) { $(k + '-title').textContent = a.title; $(k + '-sub').textContent = '오늘의 ' + (k === 'dog' ? '반려견' : '반려묘') + ' 이야기'; } } });
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');

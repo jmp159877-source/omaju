@@ -2203,3 +2203,30 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .psa-cards { margin-top: 28px; }
 .psa-cards p { margin: 6px 0 14px; font-size: 0.95rem; color: #666; }
 .psa-cards .cards { margin: 0 -20px; padding: 0 20px 20px; gap: 14px; }
+
+/* ── 어쩌다 점점 집사 (대표 2026-10-23) ── */
+/* 장이 다섯 개가 되어 나의 수첩과 나란히 2×3 으로 반듯하게 — 여섯 번째 장이 오면 수첩을 다시 넓게 */
+.tabs3:not(.compact) button[data-tab="g4"] { grid-column: auto; aspect-ratio: auto; }   /* 높이는 옆 칸(g6)에 맞춰 늘어난다 */
+@media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: auto; } }
+@media (min-width: 769px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: auto; } }
+.tabs3 button[data-tab="g6"], .tabs3 button[data-tab="g6"][aria-pressed="true"] { background-image: url('../img/tab-pet.jpg'), linear-gradient(160deg, #C9B898, #8E7A5B) !important; background-size: cover !important; background-position: center 55% !important; }
+.tabs3 button[data-tab="g6"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g6"]::before { background: linear-gradient(to top, rgba(176,122,74,0.92) 0%, rgba(176,122,74,0.55) 32%, rgba(176,122,74,0) 62%); }
+:root { --c-g6: #B07A4A; } body[data-ch="g6"] { --acc: var(--c-g6); }
+.pet-ban { background-color: #A8936F; }
+.pet { padding-top: 6px; }
+.pet-t { font-family: 'Nanum Myeongjo', serif; font-size: 1.7rem; line-height: 1.42; margin: 8px 0 4px; color: #141414; word-break: keep-all; }
+.pet-d { margin: 0 0 4px; font-size: 0.9rem; color: #8a6d2c; }
+.pet-why { font-size: 1.1rem; line-height: 1.85; color: #222; margin: 6px 0 0; }
+.pet-todo { margin: 8px 0 0; padding-left: 1.3em; }
+.pet-todo li { font-size: 1.06rem; line-height: 1.75; color: #222; margin: 0 0 10px; padding-left: 4px; }
+.pet-todo li::marker { color: #B07A4A; font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+.pet-vet { margin: 22px 0 0; padding: 16px 18px; background: #F3ECDF; border-radius: 10px; font-size: 1rem; line-height: 1.7; color: #3d3222; }
+.pet-vet b { display: block; font-size: 0.85rem; letter-spacing: 0.08em; color: #8a5a2f; margin-bottom: 4px; }
+.pet-past { margin-top: 34px; border-top: 1px solid var(--line); }
+.pet-ph { margin: 18px 0 6px; font-size: 0.8rem; letter-spacing: 0.22em; color: #8a6d2c; }
+.pet-past button { display: flex; align-items: baseline; gap: 12px; width: 100%; padding: 15px 2px; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; min-width: 0; }
+.pet-past button span { flex: 1; min-width: 0; font-family: 'Nanum Myeongjo', serif; font-size: 1.08rem; color: #222; line-height: 1.5; word-break: keep-all; }
+.pet-past button small { flex: none; font-size: 0.85rem; color: #999; }
+.pet-past button[aria-current="true"] span { color: #B07A4A; font-weight: 700; }
+.tabs3:not(.compact) { align-items: stretch; }
+.m-br { display: block; height: 0; overflow: hidden; } @media (min-width: 769px) { .m-br { display: inline; height: auto; } }
