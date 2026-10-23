@@ -2225,8 +2225,6 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .tabs3 button::after { background: none !important; }
 .tabs3 button, .tabs3 button[aria-pressed] { filter: none !important; opacity: 1 !important; }
 /* 무엇을 볼까: 칸을 낮추고 사진을 넓게 (대표 2026-10-24 03:16 B안) */
-.banner.photo[data-corner="show"] .b-text { padding-top: 56px; }
-@media (max-width: 768px) { .banner.photo[data-corner="show"] .b-text { padding-top: 40px; } }
 /* 코너 칸 사진: 짙은 초록막을 걷고 사진 그대로 밝게 — 글씨 밑에만 옅은 그림자 (대표 2026-10-24 03:18) */
 .banner.photo::after { background: linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.36) 42%, rgba(0,0,0,0) 75%) !important; }
 .banner.photo .b-text h3, .banner.photo .b-text p, .banner.photo .b-text > span { text-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 0 14px rgba(0,0,0,0.35); }
@@ -2295,3 +2293,9 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 .brief-h b { display: block; margin-top: 10px; font-family: 'Noto Sans KR', sans-serif; font-size: min(1.5rem, 6vw); font-weight: 800; line-height: 1.38; color: #141414; letter-spacing: -0.01em; }
 .brief-h small { display: block; margin-top: 4px; font-size: 0.92rem; color: #777; }
 .tabsec[data-g="g1"] .label:not(.thumb-lab) { border: 0 !important; box-shadow: none !important; } .tabsec[data-g="g1"] .label:not(.thumb-lab)::before, .tabsec[data-g="g1"] .label:not(.thumb-lab)::after { display: none !important; }
+/* 썸네일 칸끼리 조금 더 띄워 구분 (대표 2026-10-24 05:12: 쭉 붙어 있어 정신없다) */
+.banner.photo.thumb { margin-top: 0; margin-bottom: 40px; }
+.label.thumb-lab + .banner.photo.thumb { margin-top: 0; }
+.banner.thumb .b-text h3 { color: #141414; font-family: 'Noto Sans KR', sans-serif; font-size: min(1.5rem, 6vw); font-weight: 800; line-height: 1.38; text-shadow: none; word-break: keep-all; }
+/* 오프닝 서서 인사하는 장면은 상반신까지만 (대표 2026-10-24 05:15: 높은 책상 뒤 전신이라 상체가 짧고 어색하다) */
+.opn-shot[data-tag="wave"], .opn-shot[data-tag="stand"] { background-size: 190% auto; background-position: 45% 10%; }

@@ -514,21 +514,34 @@ def build():
         for x in allsegs:
             x['say'] = x['say'].replace(nm + '예요', nm + '이에요')
             if isinstance(x.get('cap'), list): x['cap'] = [c.replace(nm + '예요', nm + '이에요') for c in x['cap']]
-    text = '\n'.join(x['say'] for x in allsegs)
-    tgt0 = PITCH[HOST]; best = None
-    # 끌어당길 수 있는 범위(내리기 5%·올리기 10%) 안이면 더 녹음하지 않는다 — 다시 읽히는 것이 AI 한도를 가장 많이 먹는다 (2026-10-20)
-    for take in range(3):
-        if take: time.sleep(20)
-        got = tts(text, HOST)
-        if got is None: continue
-        gf = f0(got)
-        off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0
-        fd = fade_db(got)   # 뒤로 갈수록 소리가 사그라드는 정도 — 속삭임으로 흐를 때 크게 나온다 (대표 2026-10-24)
-        say(f'{take + 1}번째 녹음 높이', gf and round(gf), '기준', tgt0, '벗어남', round(off * 100, 1), '%', '뒤로 갈수록', round(fd, 1), 'dB')
-        score = off + max(0.0, fd - 3.0) / 20
-        if best is None or score < best[1]: best = (got, score)
-        if (not (tgt0 and gf) or tgt0 * 0.905 <= gf <= tgt0 * 1.052) and fd < 4.0: break
-    pcm = deslide(best[0]) if best else None   # 길어진 대본에서 뒤로 갈수록 흐려지는 것 펴기
+    tgt0 = PITCH[HOST]
+    # ── 토막 녹음 (대표 2026-10-24: "뒤로 갈수록 속삭인다") ──
+    # 세 벌 전체(1,400자 안팎)를 한 번에 읽히면 1분쯤 지나서부터 목소리가 숨소리 섞인 속삭임으로 흘렀다.
+    # 연출 문구로는 안 잡혀서, 400자 안팎 토막으로 나눠 읽히고 0.35초 숨을 두고 잇는다(읽어 드려요와 같은 방식).
+    # 토막마다 높이가 기준에서 6% 넘게 벗어나거나 뒤로 갈수록 3dB 넘게 사그라들면 그 토막만 다시 읽힌다(최대 세 번).
+    texts = [x['say'] for x in allsegs]; total = sum(len(t) for t in texts)
+    n = max(1, -(-total // 420)); per = total / n; groups = [[]]; acc = 0
+    for t in texts:
+        groups[-1].append(t); acc += len(t)
+        if acc >= per * len(groups) and len(groups) < n: groups.append([])
+    groups = [g for g in groups if g]
+    say('토막', len(groups), [sum(len(t) for t in g) for g in groups])
+    pieces = []
+    for gi, g in enumerate(groups):
+        best = None
+        for take in range(3):
+            if take: time.sleep(15)
+            got = tts('\n'.join(g), HOST)
+            if got is None: continue
+            gf = f0(got); off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0; fd = fade_db(got)
+            say(f'토막 {gi + 1} · {take + 1}번째 높이', gf and round(gf), '벗어남', round(off * 100, 1), '%', '뒤로 갈수록', round(fd, 1), 'dB')
+            score = off + max(0.0, fd - 2.0) / 20
+            if best is None or score < best[1]: best = (got, score)
+            if off <= 0.06 and fd < 3.0: break
+        if best is None: raise SystemExit('녹음 실패')
+        pieces.append(deslide(best[0]))
+    gap = b'\x00\x00' * int(24000 * 0.35)
+    pcm = gap.join(pieces)
     if pcm is None: raise SystemExit('녹음 실패')
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in allsegs]

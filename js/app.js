@@ -622,7 +622,7 @@ function renderPhrase() {
   const today = !p ? '' : `<h3 class="subhead">오늘의 한마디</h3><p class="lead">${p.topic ? `오늘은 <b>${esc(p.topic)}</b>. ` : ''}듣고, 소리 내어 따라 말해 보세요.</p>` + Object.keys(LANG).filter(k => p[k]).map(k => { const x = p[k]; return `<div class="ph-card"><div class="ph-lang">${LANG[k][0]}</div><p class="ph-text">${esc(x.text)}</p><p class="ph-read" id="ph-read-${k}">${(ws => ws.length > 3 && ws.every(w => w.length === 1) ? ws.map(w => `<span>${esc(w)}</span>`).join('') : ws.map(w => `<span>${esc(w)}</span>`).join(' '))(String(x.reading || '').split(/\s+/).filter(Boolean))}</p><p class="ph-mean">${esc(x.meaning || '')}</p>${x.tip ? `<p class="ph-tip">${esc(x.tip)}</p>` : ''}<div class="ph-actions"><button type="button" class="btn green" data-say="${k}" data-rate="0.9">듣기</button><button type="button" class="btn line" data-say="${k}" data-rate="0.6">천천히 듣기</button></div></div>`; }).join('');
   const tabs = `<div class="sw-tabs t4" role="group" aria-label="여행">${TRV_TABS.map(([k, n]) => `<button type="button" data-trv="${k}" aria-pressed="${k === trvTab}">${n}</button>`).join('')}</div>`;
   $('phrase-body').innerHTML = tabs + (trvTab === 'talk' ? pbHtml() + today : trvHtml(trvTab));
-  $('phrase-title').textContent = '여행';
+  if (!$('phrase-title').classList.contains('b-hook')) $('phrase-title').textContent = '여행';   // 썸네일 제목이 붙었으면 덮지 않는다
 }
 document.addEventListener('click', e => {
   const zf = e.target.closest('[data-zoom]'); if (zf && CULT && CULT.painting) { const p = CULT.painting; modal(`<div class="lb-wrap"><img src="${esc(p.img)}" alt="${esc(p.title)}" referrerpolicy="no-referrer"></div><p class="lb-cap"><b>${esc(p.title)}</b> · ${esc(p.artist)}, ${esc(p.year)}</p><p class="lb-tip">두 손가락으로 벌리면 더 크게 볼 수 있습니다</p>`, () => $('modal').classList.add('lightbox')); return; }
@@ -669,7 +669,7 @@ function renderHike() {
     + (x.care ? `<p class="sw-tip">${esc(x.care)}</p>` : '')
     + `<a class="linkbtn" href="https://map.naver.com/p/search/${encodeURIComponent(x.where || x.title)}" target="_blank" rel="noopener">지도에서 보기</a>`
     + `</div>`).join('') + '</div><p class="note">산 사정은 날씨에 따라 달라집니다. 떠나시기 전에 입산 시간과 날씨를 한 번 더 확인해 주세요.</p>';
-  $('hike-title').textContent = '오늘의 산';
+  if (!$('hike-title').classList.contains('b-hook')) $('hike-title').textContent = '오늘의 산';   // 썸네일 제목이 붙었으면 덮지 않는다
 }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-hkr]'); if (!b) return;

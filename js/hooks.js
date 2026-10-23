@@ -21,6 +21,18 @@ export function build(C, n) {
   H.music = { kick: '그 시절 노래', hook: '그해 거리마다\n흘러나오던 노래', sub: '턴테이블에 바늘을 올리듯, 한 곡씩' };
   if (C && C.story && C.story.title) H.story = { kick: '그날의 사연', hook: C.story.title, sub: C.story.sub || '책장을 넘기듯 읽는 오늘의 이야기' };
   H.home = { kick: '그 동네 지금', hook: '살던 그 동네,\n지금은 어떻게 변했을까', sub: '주소를 말하면 길까지 보여 드립니다' };
+  // 앞으로 나아가기 · 나를 돌보기 (대표 2026-10-24 05:13 — 소제목 일관성). hook 이 없으면 칸 제목은 그대로(지역 따라 바뀌는 나들이),
+  // sub 이 없으면 밑줄은 그날 내용 그대로(마음 한 줄·몸 한 가지·정원은 오늘 글이 들어간다).
+  H.follow = { kick: '오늘의 따라하기', hook: '러닝부터 차박까지,\n오늘 하나 따라 해 볼까요' };
+  H.outing = { kick: '오늘의 나들이' };
+  H.show = { kick: '이번 주, 무엇을 볼까', hook: '이번 주엔 극장 갈까,\n전시 보러 갈까', sub: '영화 · 연극 · 콘서트 · 미술관, 예고편까지' };
+  H.garden = { kick: '정원 가꾸기', hook: '이 철, 정원에서\n꼭 해야 할 한 가지' };
+  H.phrase = { kick: '해외로 한 번', hook: '해외 골프부터 자유여행까지,\n떠나기 전에 한 번' };
+  H.hike = { kick: '오늘의 산', hook: '이번 주말엔\n어느 산길을 걸어 볼까' };
+  H.move = { kick: '오늘의 몸 풀기', hook: '아침 10분,\n몸을 깨우는 요가 한 편', sub: '요가 · 명상 영상 따라 하기' };
+  H.mind = { kick: '오늘의 마음 한 줄', hook: '오늘 마음에\n오래 남을 한 문장' };
+  const part = C && C.body && C.body.part;
+  H.body = { kick: '오늘의 몸 한 가지', hook: part ? `${part},\n오늘 챙길 한 가지` : '오늘 내 몸에\n챙겨 줄 한 가지' };
   const h = (C && C.hooks) || {};
   for (const [k, sel] of Object.entries(MAP)) if (h[k] && h[k].hook) H[sel] = h[k];
   return H;
@@ -40,9 +52,9 @@ export function apply(H) {
     const b = document.querySelector(`.tabsec [data-open="${k}"] .b-text > div`); if (!b || !v) continue;
     const h3 = b.querySelector('h3'), p = b.querySelector('p');
     let kk = b.querySelector('.b-kick'); if (!kk) { kk = document.createElement('span'); kk.className = 'b-kick'; b.prepend(kk); }
-    kk.textContent = v.kick; if (h3) { const yr = (document.getElementById('cat-year') || {}).textContent || '';
+    kk.textContent = v.kick; if (h3 && v.hook) { const yr = (document.getElementById('cat-year') || {}).textContent || '';
       h3.replaceChildren(...lines(v.hook).map(t => { const e = document.createElement('span'); e.className = 'hl';
-        if (t.includes('{Y}')) { const [a, z] = t.split('{Y}'); const y = document.createElement('b'); y.id = 'cat-year'; y.textContent = yr; e.append(a, y, z); } else e.textContent = t; return e; })); h3.classList.add('b-hook'); } if (p) p.textContent = v.sub;
+        if (t.includes('{Y}')) { const [a, z] = t.split('{Y}'); const y = document.createElement('b'); y.id = 'cat-year'; y.textContent = yr; e.append(a, y, z); } else e.textContent = t; return e; })); h3.classList.add('b-hook'); } if (p && v.sub) p.textContent = v.sub;
     const ban = b.closest('.banner'); ban.classList.add('thumb');
     const lab = ban.previousElementSibling; if (lab && lab.classList.contains('label')) lab.classList.add('thumb-lab');   // 머리말이 칸 안으로 들어갔으니 위 이름표는 감춘다
   }
