@@ -2189,3 +2189,14 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .psa-dex-head { padding-top: 8px; }
 .psa-dex-head h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 500; margin: 4px 0 4px; color: #141414; line-height: 1.1; }
 .psa-dex-head p { margin: 0; color: #666; font-size: 1rem; line-height: 1.7; }
+/* 심리 테스트 고르는 목록 */
+.pt-list { margin-top: 24px; border-top: 1px solid var(--line); }
+.pt-list button { display: flex; align-items: flex-start; gap: 14px; width: 100%; padding: 20px 2px; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; min-width: 0; }
+.pt-n { flex: none; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: #b49a5e; width: 1.6em; line-height: 1.5; }
+.pt-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.pt-t b { font-family: 'Nanum Myeongjo', serif; font-size: 1.25rem; color: #141414; font-weight: 700; line-height: 1.4; }
+.pt-t > span { font-size: 0.95rem; color: #666; line-height: 1.5; }
+.pt-t em { font-style: normal; font-size: 0.85rem; color: #8a6d2c; margin-top: 2px; }
+.pt-ar { flex: none; color: #c9bfa6; font-size: 1.3rem; line-height: 1.5; }
+.pt-head { margin-top: 12px; }
+.psa h2, .psa-q, .pt-t b, .pl-feature b, .psa-ask p { word-break: keep-all; }

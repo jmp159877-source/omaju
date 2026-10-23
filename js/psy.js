@@ -71,8 +71,7 @@ export function mount(el, h = {}) {
   function start() {
     const n = seen().length;
     el.innerHTML = `<div class="psa">
-      <div class="psa-photo" style="background-image:url('${PHOTO}')"></div>
-      <div class="psa-head"><span class="psa-kick">프사 읽기</span><h2>그 사람은 왜<br>프사를 <em>산</em>으로 바꿨을까</h2><p>카톡 프로필 사진으로 읽는 요즘 마음. 떠오르는 사람이 있을 때마다 <span class="psa-nowrap0">다시 해 보세요.</span></p></div>
+      <div class="psa-head pt-head"><span class="psa-kick">심리 테스트 · 프사 읽기</span><h2>그 사람은 왜<br>프사를 <em>산</em>으로 바꿨을까</h2><p>카톡 프로필 사진으로 읽는 요즘 마음. 떠오르는 사람이 있을 때마다 <span class="psa-nowrap0">다시 해 보세요.</span></p></div>
       <div class="psa-who" role="group" aria-label="누구의 프사인가요">
         <button type="button" data-who="other" aria-pressed="${who === 'other'}"><b>그 사람 프사</b><span>지인을 떠올리며</span></button>
         <button type="button" data-who="me" aria-pressed="${who === 'me'}"><b>내 프사</b><span>요즘 내 마음은</span></button>
@@ -144,5 +143,112 @@ export function mount(el, h = {}) {
     el.scrollIntoView({ block: 'start' });
   }
 
+  start();
+}
+
+// ── 심리 테스트 모음 (대표 2026-10-23: "오늘 PLAY 안에 '심리 테스트'가 있고, 들어가면 프사 읽기와 다른 테스트 두세 개") ──
+// 프사 읽기는 위의 따로 짠 읽기 도구. 나머지는 보기마다 유형 하나에 표를 주고 가장 많이 받은 유형이 결과(같으면 첫 질문에서 고른 것).
+export const TESTS = {
+  'pt-wall': {
+    kick: '휴대폰 배경화면', title: '휴대폰 첫 화면이\n말해 주는 요즘 나', lead: '매일 수십 번 여는 첫 화면. 거기에 무엇을 두었는지가 요즘 마음을 꽤 정직하게 보여 줘요.',
+    qs: [
+      ['지금 내 휴대폰 첫 화면\n배경은 무엇인가요?', [['가족이나 반려동물 사진', 'warm'], ['직접 찍은 풍경 사진', 'away'], ['처음 그대로, 기본 배경', 'calm'], ['좋아하는 그림이나 글귀', 'taste']]],
+      ['앱 아이콘은\n어떻게 놓여 있나요?', [['자주 쓰는 것만 손 닿는 곳에', 'warm'], ['쓰는 대로 이리저리', 'away'], ['폴더로 가지런히', 'calm'], ['첫 화면은 비워 두는 편', 'taste']]],
+      ['배경을 마지막으로\n바꾼 건 언제인가요?', [['좋은 사진이 생기면 바로', 'warm'], ['여행 다녀오고 나서', 'away'], ['기억이 안 날 만큼 오래전', 'calm'], ['계절이 바뀔 때쯤', 'taste']]],
+      ['휴대폰을 열면\n제일 먼저 여는 것은?', [['사진첩', 'warm'], ['날씨나 지도', 'away'], ['안 읽은 카톡 정리', 'calm'], ['음악이나 유튜브', 'taste']]],
+    ],
+    types: {
+      warm: { name: '곁을 챙기는 사람', read: '마음의 한가운데에 사람이 있어요. 하루에도 몇 번씩 들여다보는 얼굴이 있다는 건, 그만큼 돌보고 아끼는 이가 있다는 뜻이죠.', tip: '배경 속 그 사람에게 짧은 안부 한 줄 보내 보기' },
+      away: { name: '떠날 궁리 중인 사람', read: '몸은 여기 있어도 마음 한쪽은 늘 어딘가로 향해 있어요. 다녀온 곳을 곁에 두는 사람은, 다음 길도 이미 그리고 있는 경우가 많아요.', tip: '이번 달 달력에 아무 일정 없는 하루 비워 두기' },
+      calm: { name: '흔들리지 않는 사람', read: '익숙하고 정돈된 것에서 힘을 얻는 사람이에요. 겉으로는 무심해 보여도, 자기 생활의 질서를 아주 잘 아는 쪽이죠.', tip: '배경 하나만 바꿔 보기 — 작은 변화가 하루 기분을 바꿔요' },
+      taste: { name: '취향이 또렷한 사람', read: '남들이 다 쓰는 것보다 내 마음에 드는 것을 고르는 사람이에요. 첫 화면 하나에도 자기만의 기준이 있죠.', tip: '좋아하는 것 하나를 누군가에게 소개해 보기' },
+    },
+  },
+  'pt-talk': {
+    kick: '카톡 답장 속도', title: '카톡 답장 속도로 보는\n나의 관계 온도', lead: '바로 답하는 사람, 한참 뒤에 길게 답하는 사람. 답장에는 그 사람이 관계를 대하는 방식이 묻어나요.',
+    qs: [
+      ['단톡방에 안 읽은 글이\n99개 넘게 쌓여 있으면?', [['바로 들어가 처음부터 읽는다', 'quick'], ['내 이름 나온 곳만 찾아본다', 'kind'], ['다 읽고 나서 차분히 답한다', 'deep'], ['쭉 넘겨 마지막만 본다', 'cool']]],
+      ['반가운 사람의 메시지,\n답장은 언제 하나요?', [['보자마자 바로', 'quick'], ['이모티콘으로 먼저 반기고', 'kind'], ['제대로 쓰고 싶어 조금 뒤에', 'deep'], ['생각났을 때 몰아서', 'cool']]],
+      ['내 답장은\n보통 어떤 길이인가요?', [['짧고 빠르게', 'quick'], ['받은 만큼 비슷하게', 'kind'], ['길어지면 차라리 전화로', 'deep'], ['한두 마디면 충분', 'cool']]],
+      ['읽고 답 못 한 메시지가\n쌓이면 어떤가요?', [['한 번에 싹 정리한다', 'quick'], ['마음이 쓰여 계속 생각난다', 'kind'], ['미안해서 오히려 길게 쓴다', 'deep'], ['급한 건 아니니 괜찮다', 'cool']]],
+    ],
+    types: {
+      quick: { name: '바로 답하는 사람', read: '반응이 빠른 사람이에요. 단톡방이 조용히 굴러가는 건 대개 이런 분 덕분이죠. 상대를 기다리게 하지 않는 게 곧 배려라고 여기는 쪽이에요.', tip: '오늘 한 번은 한 템포 늦게, 생각 담은 한 줄로 답해 보기' },
+      kind: { name: '온도를 맞추는 사람', read: '상대의 온도에 맞춰 답하는 사람이에요. 길게 오면 길게, 짧게 오면 짧게. 대화가 편하다는 말을 자주 듣는 쪽이죠.', tip: '맞장구 말고 내 이야기를 한 줄 먼저 꺼내 보기' },
+      deep: { name: '꾹꾹 눌러 쓰는 사람', read: '대충 보내는 게 오히려 불편한 사람이에요. 답이 늦는 건 무심해서가 아니라 제대로 쓰고 싶어서죠. 받는 사람은 그 마음을 압니다.', tip: '짧은 답부터 보내 두고, 긴 이야기는 전화로 해 보기' },
+      cool: { name: '내 속도로 가는 사람', read: '알림에 휘둘리지 않는 사람이에요. 관계가 얕아서가 아니라, 연락의 빈도보다 만났을 때의 온도를 믿는 쪽이죠.', tip: '아끼는 한두 사람에게만은 오늘 먼저 연락해 보기' },
+    },
+  },
+  'pt-trip': {
+    kick: '여행 짐 싸는 법', title: '여행 가방을 싸는 법으로\n보는 나', lead: '가방을 언제, 무엇으로, 얼마나 채우는지. 짐 싸는 법에는 그 사람이 삶을 꾸리는 방식이 그대로 담겨요.',
+    qs: [
+      ['여행 가방은\n언제 싸나요?', [['일주일 전부터 조금씩', 'plan'], ['떠나기 전날 밤에 한 번에', 'free'], ['같이 가는 사람 것까지 챙기며', 'care'], ['가방 하나라 금방 끝', 'light']]],
+      ['가방에 꼭 넣는 것은?', [['일정표와 예약 확인서', 'plan'], ['읽을 책이나 아끼는 옷 한 벌', 'free'], ['상비약과 여벌 옷', 'care'], ['꼭 필요한 것만, 없으면 가서 산다', 'light']]],
+      ['짐 무게는\n보통 어떤가요?', [['정해 둔 만큼 딱 맞게', 'plan'], ['갈 때 가볍고 올 때 무겁다', 'free'], ['늘 넉넉해서 무겁다', 'care'], ['기내용 하나로 끝', 'light']]],
+      ['여행지에서의 하루는?', [['짜 둔 시간표대로', 'plan'], ['발길 닿는 대로', 'free'], ['같이 간 사람 컨디션에 맞춰', 'care'], ['한두 곳만 깊게', 'light']]],
+    ],
+    types: {
+      plan: { name: '지도를 먼저 펴는 사람', read: '준비가 곧 즐거움인 사람이에요. 가기 전에 이미 한 번 다녀온 셈이죠. 일행은 이런 분 덕분에 길을 헤매지 않아요.', tip: '이번 여행엔 반나절만 계획 없이 비워 두기' },
+      free: { name: '길에서 만나는 사람', read: '계획보다 우연을 믿는 사람이에요. 골목에서 만난 식당, 예정에 없던 풍경이 오래 남는 쪽이죠.', tip: '숙소 하나만은 미리 정해 두기 — 마음 놓고 헤매도록' },
+      care: { name: '모두의 가방을 챙기는 사람', read: '내 짐보다 우리 짐을 먼저 생각하는 사람이에요. 누가 아프거나 추울 때 꺼낼 것이 늘 이분 가방에서 나오죠.', tip: '이번엔 내 가방에 오로지 나를 위한 것 하나 넣기' },
+      light: { name: '가볍게 떠나는 사람', read: '많이 가져가지 않아야 많이 담아 온다고 믿는 사람이에요. 짐이 가벼우면 마음도 가벼워진다는 걸 아는 쪽이죠.', tip: '여행 끝에 엽서 한 장 사서 나에게 부치기' },
+    },
+  },
+};
+export const LIST = [['psa', '프사 읽기', '그 사람은 왜 프사를 산으로 바꿨을까'], ['pt-wall', '휴대폰 배경화면', '첫 화면이 말해 주는 요즘 나'], ['pt-talk', '카톡 답장 속도', '답장으로 보는 나의 관계 온도'], ['pt-trip', '여행 짐 싸는 법', '가방 싸는 법으로 보는 나']];
+
+export function scoreOf(test, picks) {
+  const n = {}; picks.forEach(t => { n[t] = (n[t] || 0) + 1; });
+  const max = Math.max(...Object.values(n));
+  return picks.find(t => n[t] === max);   // 같으면 앞 질문에서 고른 것
+}
+
+// 심리 테스트 고르는 화면
+export function mountList(el, h = {}) {
+  const done = ls.get('done', {});
+  let found = 0; try { found = (JSON.parse(localStorage.getItem(LS + 'seen') || '[]')).length; } catch (e) {}
+  el.innerHTML = `<div class="psa">
+    <div class="psa-head pt-head"><span class="psa-kick">오늘 PLAY · 심리 테스트</span><h2>가볍게 읽어 보는<br>요즘 마음</h2><p>정답은 없어요. 고르다 보면 나도, 그 사람도 조금 더 보입니다.</p></div>
+    <div class="pt-list">${LIST.map(([k, t, s], i) => `<button type="button" data-go="${k}"><span class="pt-n">${String(i + 1).padStart(2, '0')}</span><span class="pt-t"><b>${esc(t)}</b><span>${esc(s)}</span>${k === 'psa' ? `<em>프사 도감 ${found} / ${ORDER.length}</em>` : done[k] ? `<em>지난번 결과 · ${esc(TESTS[k].types[done[k]].name)}</em>` : ''}</span><span class="pt-ar" aria-hidden="true">›</span></button>`).join('')}</div>
+    <p class="psa-note">재미로 보는 테스트예요. 고른 답은 어디에도 저장하지 않아요.</p>
+  </div>`;
+  el.querySelectorAll('[data-go]').forEach(b => b.onclick = () => (h.nav || (k => { location.hash = k; }))(b.dataset.go));
+}
+
+// 보기 고르는 테스트 하나
+export function mountTest(el, id, h = {}) {
+  const T = TESTS[id]; let step = 0, picks = [];
+  function start() {
+    el.innerHTML = `<div class="psa">
+      <div class="psa-head pt-head"><span class="psa-kick">심리 테스트 · ${esc(T.kick)}</span><h2>${esc(T.title).replace(/\n/g, '<br>')}</h2><p>${esc(T.lead)}</p></div>
+      <button type="button" class="psa-go" data-go><span>시작하기 · 질문 ${T.qs.length}개</span><span aria-hidden="true">›</span></button>
+      <p class="psa-note">재미로 보는 테스트예요.</p></div>`;
+    el.querySelector('[data-go]').onclick = () => { step = 0; picks = []; ask(); };
+  }
+  function ask() {
+    const [q, opts] = T.qs[step];
+    el.innerHTML = `<div class="psa">
+      <div class="psa-prog" aria-hidden="true"><i style="width:${Math.round((step + 1) / T.qs.length * 100)}%"></i></div>
+      <p class="psa-step">${esc(T.kick)} · ${step + 1} / ${T.qs.length}</p>
+      <h2 class="psa-q">${esc(q).replace(/\n/g, '<br>')}</h2>
+      <div class="psa-opts">${opts.map(([t, v], i) => `<button type="button" data-v="${v}" data-n="${String(i + 1).padStart(2, '0')}">${esc(t)}</button>`).join('')}</div>
+      ${step ? '<button type="button" class="psa-prev" data-prev>‹ 앞 질문</button>' : ''}</div>`;
+    el.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { picks[step] = b.dataset.v; if (step + 1 < T.qs.length) { step++; ask(); } else result(); });
+    const p = el.querySelector('[data-prev]'); if (p) p.onclick = () => { step--; ask(); };
+    el.scrollIntoView({ block: 'start' });
+  }
+  function result() {
+    const k = scoreOf(T, picks.slice(0, T.qs.length)), r = T.types[k];
+    const done = ls.get('done', {}); done[id] = k; ls.set('done', done);
+    el.innerHTML = `<div class="psa"><div class="psa-res">
+        <span class="psa-kick">${esc(T.kick)} · 나의 결과</span><h2>${esc(r.name)}</h2><hr class="psa-rule">
+        <p class="psa-read">${esc(r.read)}</p></div>
+      <div class="psa-ask"><span>오늘 해 볼 것 하나</span><p>${esc(r.tip)}</p></div>
+      <div class="psa-row"><button type="button" data-again>다시 해 보기</button><button type="button" data-list>다른 테스트</button></div>
+      <p class="psa-note">재미로 보는 테스트예요. 사람 마음은 질문 몇 개보다 훨씬 넓답니다.</p></div>`;
+    el.querySelector('[data-again]').onclick = () => { step = 0; picks = []; ask(); };
+    el.querySelector('[data-list]').onclick = () => (h.nav || (x => { location.hash = x; }))('psy');
+    el.scrollIntoView({ block: 'start' });
+  }
   start();
 }
