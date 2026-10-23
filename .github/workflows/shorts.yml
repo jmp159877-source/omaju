@@ -1,0 +1,44 @@
+# 유튜브 쇼츠 (대표 2026-10-23): 그날 오프닝·인사 카드로 세로 영상 두 편 → media 가지 shorts/ (최근 5일)
+# 지금은 손으로 돌린다(시안). 매일 돌릴지는 대표가 정한 뒤 opening 다음 시각에 예약을 붙인다.
+name: 유튜브 쇼츠
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '날짜 (YYYY-MM-DD, 비우면 오늘)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+concurrency: { group: shorts, cancel-in-progress: false }
+jobs:
+  shorts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: media 가지 가져오기
+        run: |
+          if git fetch -q origin media 2>/dev/null; then git worktree add -q media origin/media 2>/dev/null || (mkdir -p media && git --work-tree=media checkout origin/media -- .); else mkdir -p media; fi
+      - name: 준비
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq install -y ffmpeg fonts-nanum fonts-nanum-extra >/dev/null
+          fc-cache -f >/dev/null; fc-list | grep -i nanummyeongjo | head -3
+          pip install -q pillow numpy
+          cd tools && npm init -y >/dev/null && npm i -s puppeteer-core@23
+      - name: 만들기
+        env:
+          MEDIA_DIR: media
+          CARDS: /tmp/cards
+        run: |
+          D="${{ inputs.date }}"; [ -z "$D" ] && D=$(TZ=Asia/Seoul date +%F)
+          node tools/shorts_cards.mjs "$D" /tmp/cards || echo '카드 그림 실패 — 오프닝만'
+          python3 -u tools/shorts.py "$D"
+          ls -la media/shorts
+      - name: media 가지에 올리기 (기록 없이 새로)
+        run: |
+          rm -rf /tmp/oldmedia && git clone -q --depth 1 --branch media "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /tmp/oldmedia 2>/dev/null || true
+          if [ -d /tmp/oldmedia ]; then rm -rf /tmp/oldmedia/.git; cp -rn /tmp/oldmedia/. media/ 2>/dev/null || true; fi
+          cd media
+          rm -rf .git 2>/dev/null; git init -q -b media; git config user.name omaju-bot; git config user.email bot@omaju.kr
+          printf '%s\n' '{ "git": { "deploymentEnabled": false } }' > vercel.json; git add -A && git commit -qm "쇼츠 $(date -u +%F) [skip ci]" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" media
