@@ -90,6 +90,9 @@ for y, l in songs.items():
     if y.startswith("_"): continue
     for t, a in l: pairs.append((t, a))
 pairs = list(dict.fromkeys(pairs))
+if '--pick' in sys.argv:   # 오늘의 추천 음악 목록만 (data/pick.json) — 아직 영상이 없는 곡을 공식·원곡으로 찾는다
+    pk = json.load(open(os.path.join(HERE, '..', 'data', 'pick.json'), encoding='utf-8'))
+    pairs = [tuple(x['k'].split('|', 1)) for x in pk['pool']]
 only = next((x.split("=", 1)[1] for x in sys.argv if x.startswith("--only=")), None)
 if only: pairs = [p for p in pairs if only in p[0]]
 print("살펴볼 곡", len(pairs))
