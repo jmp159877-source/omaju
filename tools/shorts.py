@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 KST = datetime.timezone(datetime.timedelta(hours=9))
-DATE = sys.argv[1] if len(sys.argv) > 1 else datetime.datetime.now(KST).strftime('%Y-%m-%d')
+DATE = next((a for a in sys.argv[1:] if not a.startswith('--')), None) or datetime.datetime.now(KST).strftime('%Y-%m-%d')
 MEDIA = os.environ.get('MEDIA_DIR', 'media'); CARDS = os.environ.get('CARDS', '/tmp/cards')
 OUT = os.path.join(MEDIA, 'shorts'); os.makedirs(OUT, exist_ok=True)
 W, H, FPS = 1080, 1920, 24
@@ -202,9 +202,14 @@ def cards():
     print('카드 쇼츠', round(total, 1), '초')
     return {'file': os.path.basename(out), 'sec': round(total, 1), 'n': len(cs)}
 
+# 이미 오늘치를 만들었고 그 뒤 오프닝이 다시 녹음되지 않았으면 그냥 둔다 (보강 시각에 또 돌 때)
+_prev = os.path.join(OUT, DATE + '.json'); _jp = os.path.join(MEDIA, 'opening', DATE + '.json')
+_built = json.load(open(_jp, encoding='utf-8')).get('built') if os.path.exists(_jp) else None
+if '--force' not in sys.argv and os.path.exists(_prev) and all(os.path.exists(os.path.join(OUT, f'{DATE}-{k}.mp4')) for k in ('opening', 'cards')):
+    if json.load(open(_prev, encoding='utf-8')).get('built') == _built: print('이미 있음', DATE); sys.exit(0)
 op = opening(); cd = cards()
 # 올릴 때 쓸 제목·설명·태그 — 대표가 복사해 붙인다
-info = {'date': DATE, 'opening': op, 'cards': cd, 'hook_log': HOOK_LOG}
+info = {'date': DATE, 'built': _built, 'opening': op, 'cards': cd, 'hook_log': HOOK_LOG}
 if op:
     info['opening_up'] = {
         'title': f'{op["hook"][0]}, {op["hook"][1]} #오마주매거진 #shorts',

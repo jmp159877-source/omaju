@@ -123,6 +123,14 @@
     {
       "path": "/api/tick",
       "schedule": "30 20 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "20 17 * * *"
+    },
+    {
+      "path": "/api/tick",
+      "schedule": "50 19 * * *"
     }
   ]
 }

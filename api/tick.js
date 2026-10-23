@@ -26,6 +26,7 @@ const BY_SCHEDULE = {
   '40 15 * * *': 'era_news',                                                                             // 00:40
   '0 16 * * *': 'opening', '10 19 * * *': 'opening',                                                     // 01:00 (내일치가 다 된 뒤), 보강 04:10
   '20 16 * * *': 'radio', '30 20 * * *': 'radio',                                                        // 01:20, 보강 05:30
+  '20 17 * * *': 'shorts', '50 19 * * *': 'shorts',                                                      // 02:20 (오프닝 다 된 뒤), 보강 04:50 — 유튜브 쇼츠 두 편
 };
 const ALLOW = new Set(Object.values(BY_SCHEDULE));
 
