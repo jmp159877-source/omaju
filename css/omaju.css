@@ -2219,3 +2219,8 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
   .hero-actions > .ghost.go { flex: 1 1 0; min-width: 0; padding-left: 8px; padding-right: 8px; white-space: normal; word-break: keep-all; }
 }
 @media (max-width: 768px) { .hero-actions > .ghost.go { font-size: 0.95rem; padding-top: 12px; padding-bottom: 12px; line-height: 1.3; } }
+/* CONTENTS 다섯 칸: 색막을 걷고 사진 그대로 선명하게 (대표 2026-10-24 02:52) — 글씨 자리에만 옅은 그림자 */
+.tabs3 button::before, body:not(.in-chapter) .tabs3:not(.compact) button::before,
+.tabs3 button[data-tab]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab]::before { background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.22) 38%, rgba(0,0,0,0) 62%) !important; }
+.tabs3 button::after { background: none !important; }
+.tabs3 button, .tabs3 button[aria-pressed] { filter: none !important; opacity: 1 !important; }
