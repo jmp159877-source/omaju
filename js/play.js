@@ -164,7 +164,7 @@ export function hub(el) {
   let found = 0; try { found = (JSON.parse(localStorage.getItem('omaju.psa.seen') || '[]')).length; } catch (e) {}
   el.innerHTML = `<div class="pl-hub-head"><span>TODAY PLAY</span><h2>오늘 PLAY</h2><p>가볍게 읽어 보고, 한 판 겨뤄&nbsp;보세요.</p></div>
     <p class="pl-sec">읽어 보기</p>
-    <button type="button" class="pl-feature" data-go="psa"><span class="pl-f-photo" style="background-image:url('img/psa.jpg')"></span><span class="pl-f-txt"><span class="pl-f-kick">프사 읽기</span><b>그 사람은 왜 프사를 산으로 바꿨을까</b><span class="pl-f-sub">카톡 프로필로 읽는 요즘 마음<br><i>프사 도감 ${found} / 12</i></span></span></button>
+    <button type="button" class="pl-feature" data-go="psa"><span class="pl-f-photo" style="background-image:url('img/psa.jpg'); background-position: center 30%"></span><span class="pl-f-txt"><span class="pl-f-kick">프사 읽기</span><b>그 사람은 왜 프사를 산으로 바꿨을까</b><span class="pl-f-sub">카톡 프로필로 읽는 요즘 마음<br><i>프사 도감 ${found} / 12</i></span></span></button>
     <p class="pl-sec">놀이 · 오늘의 순위</p><div class="pl-hub">${Object.entries(GAMES).map(([k, g]) => {
     const b = ls.get('best.' + k + '.' + DB.todayKey(), null);
     return `<button type="button" class="pl-card has-photo" data-go="${k}"><span class="pl-photo" style="background-image:url('img/play-${k}.jpg')"></span><span class="pl-txt"><b>${g.name}</b><span>${g.sub}</span><em>${b ? '오늘 기록 · ' + H.esc(b.label) : '오늘 아직 안 함'}</em></span></button>`;
