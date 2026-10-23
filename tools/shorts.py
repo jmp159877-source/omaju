@@ -36,11 +36,18 @@ def fit(txt, path, size, maxw):
     while size > 30 and d.textlength(txt, font=font(path, size)) > maxw: size -= 2
     return font(path, size)
 
-def grad(h, top, bottom):
-    """세로 그러데이션 막 (위 투명 → 아래 짙은 초록)"""
+def grad(h, top, bottom, k=1.4):
+    """세로 그러데이션 막 (위 → 아래, 짙은 초록). k 가 작을수록 빨리 짙어진다"""
     g = Image.new('RGBA', (W, h)); d = ImageDraw.Draw(g)
     for y in range(h):
-        a = int(top + (bottom - top) * (y / h) ** 1.4); d.line([(0, y), (W, y)], fill=(8, 30, 22, a))
+        a = int(top + (bottom - top) * (y / h) ** k); d.line([(0, y), (W, y)], fill=(8, 30, 22, a))
+    return g
+
+def soft_bottom(h, peak=225, rise=0.5):
+    """아래쪽 막 — 맨 위는 0 에서 부드럽게(경계선이 안 보이게) 올라가 rise 지점에서 peak 에 닿는다"""
+    g = Image.new('RGBA', (W, h)); d = ImageDraw.Draw(g)
+    for y in range(h):
+        u = min(1.0, (y / h) / rise); a = int(peak * u * u * (3 - 2 * u)); d.line([(0, y), (W, y)], fill=(8, 30, 22, a))
     return g
 
 def cover(im, w, h, zoom=1.0, fy=0.42):
@@ -83,12 +90,12 @@ def opening():
     # 사진은 상반신이 화면을 채우게 당겨 자른다(전신이 다 나오면 얼굴이 작아 쇼츠에서 안 보인다).
     # 얼굴이 위에 있으니 머리 위에는 아무것도 얹지 않고, 글은 모두 아래쪽 짙은 막 위에.
     ZOOM, FY = 1.45, 0.10
-    top = grad(260, 120, 0); bot = grad(1000, 0, 240)
+    top = grad(260, 120, 0); bot = soft_bottom(1150, 225, 0.42)
     capf = lambda t: fit(t, SERIF_B, 60, 860)
     over = {}
     def overlay(i):
         if i in over: return over[i]
-        o = Image.new('RGBA', (W, H), (0, 0, 0, 0)); o.alpha_composite(top, (0, 0)); o.alpha_composite(bot, (0, H - 1000))
+        o = Image.new('RGBA', (W, H), (0, 0, 0, 0)); o.alpha_composite(top, (0, 0)); o.alpha_composite(bot, (0, H - 1150))
         cx = W // 2 - 40   # 오른쪽엔 유튜브 단추가 얹힌다 — 글은 살짝 왼쪽으로
         shadow_text(o, (cx, 1060), f'오마주 매거진 · 오늘의 오프닝 · {DATE_TXT}', font(SERIF, 28), fill=(232, 210, 150, 255), blur=6)
         cap = tl[i][1]['cap']
@@ -127,8 +134,8 @@ def cards():
     cw, ch = 900, 1125; cy = 330
     bgs, fronts = [], []
     for c in cs:
-        b = cover(c, W, H).filter(ImageFilter.GaussianBlur(40)).convert('RGBA')
-        b.alpha_composite(Image.new('RGBA', (W, H), (8, 30, 22, 150)))
+        b = cover(c, W, H).filter(ImageFilter.GaussianBlur(70)).convert('RGBA')
+        b.alpha_composite(Image.new('RGBA', (W, H), (8, 30, 22, 175)))
         shadow_text(b, (W // 2, 170), '오늘의 인사 카드', font(SERIF_B, 54))
         shadow_text(b, (W // 2, 238), DATE_TXT, font(SERIF, 32), fill=(232, 220, 190, 255))
         shadow_text(b, (W // 2 - 40, cy + ch + 80), '마음 가는 분께 한 장 보내 보세요', font(SERIF_B, 40))
