@@ -53,6 +53,7 @@ OFF = re.compile(r"official|공식|엔터|entertainment|enm|film|필름|무비|m
                  r"warner|워너|sony|소니|universal|유니버설|paramount|파라마운트|넷플릭스|netflix|marvel|아트센터|예술의전당|세종문화회관|미술관|박물관|museum|"
                  r"문화재단|극장|씨어터|theater|theatre|컴퍼니|company|뮤지컬|musical|오케스트라|orchestra|필하모닉|philharmonic|아트|art|갤러리|gallery|국립|시립|"
                  r"엔진|배급|studio|스튜디오|mmca|리움|leeum|interpark|인터파크|티켓|ticket|yes24|멜론티켓", re.I)
+NOTOFF = re.compile(r"내가|나의|감성|참견|브이로그|vlog|dream|리뷰|산책|일상|여행자|탐방", re.I)   # '미술관' 같은 말이 들어가도 개인 채널(내가사랑한미술관)
 BAD = re.compile(r"리뷰|결말|해석|리액션|reaction|줄거리|요약|몰아보기|브이로그|vlog|후기|쿠키|해설|명장면|full|풀버전|shorts|#shorts|커버|cover|패러디|직캠", re.I)
 WANT = {"movie": re.compile(r"예고편|티저|trailer|teaser|하이라이트|스팟|spot", re.I),
         "stage": re.compile(r"티저|트레일러|trailer|teaser|하이라이트|highlight|스팟|spot|소개|프리뷰|preview|예고|하이라이트", re.I),
@@ -79,7 +80,7 @@ def trailer(title, kind):
     toks = [_n(w) for w in re.split(r"[\s:·,()\[\]《》<>'\"]+", title) if len(_n(w)) >= 2]
     def same(t):   # 제목 낱말이 모두 들어 있어야 같은 작품 (첫 글자만 보면 다른 공연이 걸렸다, 2026-10-24)
         nt = _n(t); return toks and all(w in nt for w in toks)
-    c = [it for it in items if same(it["snippet"]["title"]) and OFF.search(it["snippet"]["channelTitle"])   # 공식은 채널 이름으로만 본다
+    c = [it for it in items if same(it["snippet"]["title"]) and OFF.search(it["snippet"]["channelTitle"]) and not NOTOFF.search(it["snippet"]["channelTitle"])   # 공식은 채널 이름으로만 본다
          and not BAD.search(it["snippet"]["title"]) and WANT[kind].search(it["snippet"]["title"])]
     inf = _info([it["id"]["videoId"] for it in c])
     hi = 360 if kind == "movie" else 720

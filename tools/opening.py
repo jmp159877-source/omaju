@@ -521,9 +521,10 @@ def build():
     # 첫 토막 녹음(05:26)에서 조각 자르기가 어긋나 이름이 빠지고 말이 섞였다(대표 05:43) → 자르기도 토막 안에서만 하고,
     # 잘린 조각마다 받아쓰기로 대본과 맞는지 본다. 하나라도 어긋나면 그 토막을 다시 읽힌다(최대 세 번).
     order = [where['g' + sl] for sl in SLOTS] , [where['s' + sl] for sl in SLOTS]
-    groups = [sum(order[0], [])] + order[1] + [where['body'] + where['ask'], sum([where['c' + sl] for sl in SLOTS], []) + where['sign']]
+    # 사인오프는 맨 앞 인사 토막 끝에 붙여 읽힌다 — 마지막 토막에 두면 기운이 빠져 속삭임처럼 닫혔다(대표 05:47, 사그라듦 4~5dB)
+    groups = [sum(order[0], []) + where['sign']] + order[1] + [where['body'] + where['ask'], sum([where['c' + sl] for sl in SLOTS], [])]
     say('토막', len(groups), [sum(len(allsegs[i]['say']) for i in g) for g in groups])
-    pieces = []; starts = []; off = 0.0; GAP = 0.35
+    pieces = []; S = [0.0] * len(allsegs); E = [0.0] * len(allsegs); off = 0.0; GAP = 0.35
     for gi, g in enumerate(groups):
         texts = [allsegs[i]['say'] for i in g]; glens = [max(1, len(re.sub(r'[^가-힣]', '', t))) for t in texts]
         best = None
@@ -544,13 +545,12 @@ def build():
             if not bad and off_p <= 0.06 and fd < 3.0: break
         if best is None: raise SystemExit('녹음 실패')
         if best[0] >= 10: raise SystemExit(f'토막 {gi + 1} 조각이 대본과 맞지 않음 — 어제 것을 그대로 둠')
-        pieces.append(deslide(best[1])); starts += [off + x for x in best[2]]
-        off += len(best[1]) / 48000 + GAP
+        pieces.append(deslide(best[1])); Tg = len(best[1]) / 48000; st = best[2]
+        for k, i in enumerate(g): S[i] = off + st[k]; E[i] = off + (st[k + 1] if k + 1 < len(st) else Tg)
+        off += Tg + GAP
     gap = b'\x00\x00' * int(24000 * GAP)
     pcm = gap.join(pieces)
-    # allsegs 차례대로 시작 시각을 맞춘다 (토막은 allsegs 차례 그대로다)
-    flat = sum(groups, [])
-    assert flat == list(range(len(allsegs))), '토막 차례가 대본 차례와 다름'
+    assert sorted(sum(groups, [])) == list(range(len(allsegs))), '토막에 빠지거나 겹친 조각이 있음'
     if pcm is None: raise SystemExit('녹음 실패')
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in allsegs]
@@ -575,18 +575,18 @@ def build():
         '높이', pf and round(pf), '→', tgt and round(tgt))
 
     # 조각마다 (시작, 끝) — 고친 소리 기준
-    edge = [st / tempo for st in starts] + [T / tempo]
+    # 조각마다 (시작, 끝) — 토막 차례가 대본 차례와 달라(사인오프가 앞 토막에 있다) 조각별로 떼어 잇는다
 
     for sl in SLOTS:
         pick = where['g' + sl] + where['s' + sl] + where['body'] + where['ask'] + where['c' + sl] + where['sign']   # 끝은 울림 한 줄 → 사인오프
-        spans = [(edge[a], edge[b + 1]) for a, b in merge(pick)]
+        spans = [(S[i] / tempo, E[i] / tempo) for i in pick]
         mp3 = f'{DATE}-{sl}.mp3'; dst = os.path.join(OUT, mp3)
         cut(whole, spans, dst)
         # 이어 붙인 뒤의 시작 시각을 다시 센다
         t = 0.0; segs = []
         for i in pick:
             segs.append({'t': round(t, 2), 'tag': allsegs[i]['tag'], 'cap': allsegs[i]['cap']})
-            t += edge[i + 1] - edge[i]
+            t += (E[i] - S[i]) / tempo
         dur = t
         lead, tail = music(dst, sl, dur)
         for x in segs: x['t'] = round(x['t'] + lead, 2)

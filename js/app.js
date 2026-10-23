@@ -296,7 +296,7 @@ function renderShow() {
   let inner = '';
   if (showTab === 'movie') {
     const ms = SHOWS.movie || [];
-    inner = ms.length ? '<div class="rows">' + ms.map(m => `<div class="row sw-row">${swVid(m, '예고편 보기')}<b>${esc(m.title)}</b><p class="sw-meta">${esc([m.director ? m.director + ' 감독' : '', m.cast, m.rating].filter(Boolean).join(' · '))}${m.opened ? ` <span class="nw">· ${esc(m.opened)}</span>` : ''}</p><p>${esc(m.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent('영화 ' + m.title)}" target="_blank" rel="noopener">상영관 찾기</a></div>`).join('') + '</div>'
+    inner = ms.length ? '<div class="rows">' + ms.map(m => `<div class="row sw-row"><b>${esc(m.title)}</b><p class="sw-meta">${esc([m.director ? m.director + ' 감독' : '', m.cast, m.rating].filter(Boolean).join(' · '))}${m.opened ? ` <span class="nw">· ${esc(m.opened)}</span>` : ''}</p><p>${esc(m.why || '')}</p>${swVid(m, '예고편 보기')}<a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent('영화 ' + m.title)}" target="_blank" rel="noopener">상영관 찾기</a></div>`).join('') + '</div>'
       : '<p class="note" style="margin-top:24px">이번 주 극장 소식을 모으고 있습니다.</p>';
   } else {
     const rs = showRegions();
@@ -305,7 +305,7 @@ function renderShow() {
       if (!rs.includes(outRegion)) outRegion = rs[0];
       const list = (SHOWS.regions[outRegion] || {})[showTab] || [];
       inner = `<div class="sw-regions" role="group" aria-label="지역 고르기">${rs.map(r => `<button type="button" data-swr="${esc(r)}" aria-pressed="${r === outRegion}">${esc(r)}</button>`).join('')}</div>`
-        + (list.length ? '<div class="rows">' + list.map(x => `<div class="row sw-row">${swVid(x, showTab === 'exhibit' ? '소개 영상 보기' : '미리 보기')}<b>${esc(x.title)}</b><p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.price ? ` <span class="nw">· ${esc(x.price)}</span>` : ''}</p><p>${esc(x.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent(x.title + ' ' + (x.where || ''))}" target="_blank" rel="noopener">자세히 · 예매</a></div>`).join('') + '</div>'
+        + (list.length ? '<div class="rows">' + list.map(x => `<div class="row sw-row"><b>${esc(x.title)}</b><p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.price ? ` <span class="nw">· ${esc(x.price)}</span>` : ''}</p><p>${esc(x.why || '')}</p>${swVid(x, showTab === 'exhibit' ? '소개 영상 보기' : '미리 보기')}<a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent(x.title + ' ' + (x.where || ''))}" target="_blank" rel="noopener">자세히 · 예매</a></div>`).join('') + '</div>'
           : `<p class="note" style="margin-top:24px">${esc(outRegion)} 소식을 아직 모으는 중입니다. 다른 지역을 눌러 보세요.</p>`);
     }
   }

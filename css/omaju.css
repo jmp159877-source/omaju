@@ -2276,7 +2276,7 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 /* 오마주가 읽어 드려요 — 화면에서 뺌 (대표 2026-10-24 04:46, 나중에 다시 켤 수 있게 장치는 남김) */
 .rd, #rd-bar { display: none !important; }
 /* 무엇을 볼까 — 예고편·소개 영상 썸네일 (대표 2026-10-24) */
-.sw-vid { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; margin: 0 0 12px; border: 0; border-radius: 10px; overflow: hidden; background: #111; cursor: pointer; }
+.sw-vid { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; margin: 12px 0 4px; border: 0; border-radius: 10px; overflow: hidden; background: #111; cursor: pointer; }
 .sw-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .sw-vid .sw-play { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 10px; border-radius: 999px; background: rgba(0,0,0,0.62); color: #fff; font-size: 0.95rem; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; border: 0; white-space: nowrap; }
 .sw-vid .sw-play i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #F9E9A8; color: #3A2E00; font-size: 0.75rem; }
