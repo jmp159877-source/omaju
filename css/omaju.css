@@ -2398,3 +2398,4 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 #detail .bd .cu-kind { margin-top: 4px !important; }
 #detail .cu-pick b { font-family: 'Noto Sans KR', sans-serif !important; font-weight: 800; color: var(--ink); }
 #detail .cu-pick { border-radius: 14px; }
+.opn-shot[data-up="1"] { background-size: cover; background-position: center top; }   /* 상반신으로 새로 받은 사진은 확대 없이 (2026-10-24) */
