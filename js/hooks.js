@@ -16,6 +16,11 @@ const LUCK = [
 const MAP = { food: 'food', book: 'book', quiz: 'quiz', culture: 'culture' };
 export function build(C, n) {
   const H = { play: PLAY[n % PLAY.length], luck: LUCK[n % LUCK.length] };
+  // 그때 돌아보기 (대표 2026-10-24 04:21 — 소제목 아이콘·글씨가 마음에 안 든다) — 같은 썸네일 꼴로. {Y} 자리에는 고른 해가 들어가고 해를 바꾸면 따라 바뀐다.
+  H.history = { kick: '그해 오늘', hook: '{Y}년 오늘,\n무슨 일이 있었을까?', sub: '그때 그 시절의 소식과 나의 기억' };
+  H.music = { kick: '그 시절 노래', hook: '그해 거리마다\n흘러나오던 노래', sub: '턴테이블에 바늘을 올리듯, 한 곡씩' };
+  if (C && C.story && C.story.title) H.story = { kick: '그날의 사연', hook: C.story.title, sub: C.story.sub || '책장을 넘기듯 읽는 오늘의 이야기' };
+  H.home = { kick: '그 동네 지금', hook: '살던 그 동네,\n지금은 어떻게 변했을까', sub: '주소를 말하면 길까지 보여 드립니다' };
   const h = (C && C.hooks) || {};
   for (const [k, sel] of Object.entries(MAP)) if (h[k] && h[k].hook) H[sel] = h[k];
   return H;
@@ -32,10 +37,12 @@ export function lines(t) {
 }
 export function apply(H) {
   for (const [k, v] of Object.entries(H)) {
-    const b = document.querySelector(`.tabsec[data-g="g1"] [data-open="${k}"] .b-text > div`); if (!b || !v) continue;
+    const b = document.querySelector(`.tabsec [data-open="${k}"] .b-text > div`); if (!b || !v) continue;
     const h3 = b.querySelector('h3'), p = b.querySelector('p');
     let kk = b.querySelector('.b-kick'); if (!kk) { kk = document.createElement('span'); kk.className = 'b-kick'; b.prepend(kk); }
-    kk.textContent = v.kick; if (h3) { h3.replaceChildren(...lines(v.hook).map(t => { const e = document.createElement('span'); e.className = 'hl'; e.textContent = t; return e; })); h3.classList.add('b-hook'); } if (p) p.textContent = v.sub;
+    kk.textContent = v.kick; if (h3) { const yr = (document.getElementById('cat-year') || {}).textContent || '';
+      h3.replaceChildren(...lines(v.hook).map(t => { const e = document.createElement('span'); e.className = 'hl';
+        if (t.includes('{Y}')) { const [a, z] = t.split('{Y}'); const y = document.createElement('b'); y.id = 'cat-year'; y.textContent = yr; e.append(a, y, z); } else e.textContent = t; return e; })); h3.classList.add('b-hook'); } if (p) p.textContent = v.sub;
     const ban = b.closest('.banner'); ban.classList.add('thumb');
     const lab = ban.previousElementSibling; if (lab && lab.classList.contains('label')) lab.classList.add('thumb-lab');   // 머리말이 칸 안으로 들어갔으니 위 이름표는 감춘다
   }
