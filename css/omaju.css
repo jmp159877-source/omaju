@@ -2262,3 +2262,12 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .banner.thumb .b-text > span:not(.b-kick) { color: #B0662A; border-color: #E3B37A; }
 .banner.thumb::after, .banner.thumb::before { display: none !important; } .banner.thumb .b-text { min-height: 0; }
 .banner.thumb .b-text, .banner.thumb .b-text * { text-shadow: none !important; } .banner.photo.thumb { height: auto !important; }
+/* 말 거는 제목: 뜻이 끊기는 자리에서 줄을 내린다 — 줄마다 한 덩어리, 줄 안에서는 낱말을 쪼개지 않는다 (대표 2026-10-24 04:17) */
+.banner.thumb h3.b-hook .hl { display: block; word-break: keep-all; text-wrap: balance; }
+.banner.thumb h3.b-hook .hl { padding: 0; margin: 0; border: 0; font: inherit; color: inherit; white-space: normal; }
+.banner.thumb h3.b-hook { font-size: min(1.5rem, 6vw); }   /* 큰 글씨에서도 한 줄(13자 안팎)이 다시 쪼개지지 않게 화면 폭에 맞춘다 */
+/* 로그인한 사람: 인사말 줄 자리를 그리기 전에 잡아 둔다 — 문서를 읽는 도중 한 번 그려지면 빈 줄에서 커버 단추가 밀렸다 (2026-10-24) */
+html.hello-in #user-nick:empty { min-height: 1.3em; }
+/* 칸 안 머리말(심리 테스트 · 놀이 …)을 제목과 또렷이 가른다 — 갈색 글씨가 흰 칸에서 묻혔다 (대표 2026-10-24 04:20) */
+.banner.thumb .b-text span.b-kick { display: inline-block; background: #1F5A43; color: #fff; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 4px; margin-bottom: 10px; line-height: 1.4; text-shadow: none; }
+html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /* 감춰진 동안에도 보일 때와 같은 꼴로 자리를 잡는다 */
