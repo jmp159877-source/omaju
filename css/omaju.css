@@ -2298,7 +2298,7 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 .label.thumb-lab + .banner.photo.thumb { margin-top: 0; }
 .banner.thumb .b-text h3 { color: #141414; font-family: 'Noto Sans KR', sans-serif; font-size: min(1.5rem, 6vw); font-weight: 800; line-height: 1.38; text-shadow: none; word-break: keep-all; }
 /* 오프닝 서서 인사하는 장면은 상반신까지만 (대표 2026-10-24 05:15: 높은 책상 뒤 전신이라 상체가 짧고 어색하다) */
-.opn-shot[data-tag="wave"], .opn-shot[data-tag="stand"] { background-size: 190% auto; background-position: 45% 10%; }
+.opn-shot[data-tag="wave"], .opn-shot[data-tag="stand"] { background-size: 155% auto; background-position: 45% 8%; }   /* 대표 2026-10-24 05:35: 1.55배로 확정(얼굴 부담 줄이고 책상 언저리에서 끊음) */
 /* 썸네일 사진 칸: 16:9 에 꽉 채우기 (가로로 긴 사진도 흰 틈 없이) */
 .banner.photo.thumb { padding: 0 !important; background-image: none !important; }
 .banner.thumb .b-pic { display: block; width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-repeat: no-repeat; }
