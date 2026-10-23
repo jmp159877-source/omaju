@@ -34,7 +34,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10240655" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10240710" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -143,6 +143,9 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
     <button type="button" class="banner photo" data-open="culture" data-corner="culture" id="culture-banner" style="background-image:url('img/culture.jpg?v=2')"><div class="b-text"><div><h3 id="culture-title">시 · 그림 · 명언 · 에세이</h3><p id="culture-sub">성경 · 법문 · 음악 · 유머</p></div><span>감상하기</span></div></button>
 
     <!-- 판갈이 시안 (대표 2026-10-24): 날씨·경제·이슈는 "온 김에 보는 것" — 맨 밑 30초 브리핑으로 -->
+    <div class="label">오늘의 추천 음악</div>
+    <button type="button" class="banner photo" data-open="pick" data-corner="pick" style="background-image:url('img/pick.jpg'); background-position: center"><div class="b-text"><div><h3 id="pick-title">오늘, 이 한 곡</h3><p id="pick-sub">그 시절 주옥같은 노래, 하루 한 곡</p></div><span>들어 보기</span></div></button>
+
     <div class="brief-h"><span>온 김에</span><b>30초 브리핑</b><small>날씨 · 경제 · 오늘의 이슈</small></div>
     <div class="brief">
     <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5" stroke="#C9A24A"/><path d="M12 3v2M12 19v2M3 12h2M5.6 5.6 7 7M17 7l1.4-1.4" stroke="#C9A24A"/><path d="M11 26h13a4.5 4.5 0 0 0 .4-9 6 6 0 0 0-11.4 1.6A3.8 3.8 0 0 0 11 26z" fill="#fff"/></svg>오늘의 날씨</div>
@@ -335,6 +338,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
     <section class="dsec game" data-k="sudoku"><div id="sd-root"></div></section>
     <section class="dsec" data-k="quiz"><div id="issue-card"></div><p class="cu-kind" style="margin-top:26px">확인 문제</p><p class="quiz-q" id="quiz-q"></p><div class="opts" id="opts"></div><div class="quiz-foot"><button type="button" class="btn green" id="quiz-check" disabled>정답 확인</button><span id="quiz-result"></span></div><div class="quiz-exp" id="quiz-exp" hidden></div></section>
     <section class="dsec" data-k="culture"><div id="culture-body"></div></section>
+    <section class="dsec" data-k="pick"><div id="pick-body"></div></section>
     <section class="dsec" data-k="follow"><div id="follow-body"></div></section>
     <section class="dsec" data-k="move"><div id="move-body"></div></section>
     <section class="dsec" data-k="mind"><div id="mind-body"></div></section>
@@ -361,6 +365,6 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10240655"></script>
+<script type="module" src="js/app.js?v=10240710"></script>
 </body>
 </html>

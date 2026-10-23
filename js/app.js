@@ -917,7 +917,7 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], psy: ['', '심리 테스트', () => ''], psa: ['', '프사 읽기', () => ''], 'pt-wall': ['', '휴대폰 배경화면', () => ''], 'pt-talk': ['', '카톡 답장 속도', () => ''], 'pt-trip': ['', '여행 짐 싸는 법', () => ''], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '띠를 고르면,<br>오늘의 한마디'], luck: ['', '오늘의 운세 · 꿈 해몽', () => '오늘의 운,<br>간밤의 꿈'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], psy: ['', '심리 테스트', () => ''], psa: ['', '프사 읽기', () => ''], 'pt-wall': ['', '휴대폰 배경화면', () => ''], 'pt-talk': ['', '카톡 답장 속도', () => ''], 'pt-trip': ['', '여행 짐 싸는 법', () => ''], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '띠를 고르면,<br>오늘의 한마디'], luck: ['', '오늘의 운세 · 꿈 해몽', () => '오늘의 운,<br>간밤의 꿈'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => '하루에 한 권,<br>오늘은 이 책'], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], pick: ['detail_pick', '오늘의 추천 음악', () => '오늘, 이 한 곡'], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -980,6 +980,26 @@ $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null;
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
 renderEra(); renderMind(); renderGarden(); renderBody(); renderBook(); renderShow(); route();
+
+// ── 오늘의 추천 음악 (대표 2026-10-24): 그 시절 주옥같은 노래 하루 한 곡 — 공식·원곡 영상만, 누르면 오마주 안에서 바로 ──
+// 곡 목록은 data/pick.json(fixed: 날짜 지정 · pool: 날짜로 돌림), 영상은 data/song_videos.json (노래 재생기와 같은 것)
+let PICK = null;
+function pickToday() {
+  if (!PICK || !SONGV) return null;
+  const has = x => { const v = SONGV[x.k]; return v && v.v; };
+  const fx = PICK.fixed && PICK.fixed[TODAY]; let it = fx && PICK.pool.find(x => x.k === fx);
+  if (!it || !has(it)) { const ok = PICK.pool.filter(has); if (!ok.length) return null; it = ok[dayN() % ok.length]; }
+  const [t, a] = it.k.split('|'); return { t, a, y: it.y, note: it.note, v: SONGV[it.k].v };
+}
+function renderPick() {
+  const p = pickToday(); const body = $('pick-body');
+  if (!p) { if (body) body.innerHTML = '<p class="note" style="margin-top:30px">오늘의 한 곡을 고르는 중입니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
+  try { HOOKS.apply({ pick: { kick: '오늘의 추천 음악 · ' + p.a, hook: p.t, sub: p.note } }); } catch (e) {}
+  if (body) body.innerHTML = `<div class="pk-card"><p class="pk-meta">${esc(p.a)}${p.y ? ' · ' + p.y : ''}</p><h2 class="pk-title">${esc(p.t)}</h2><p class="pk-note">${esc(p.note || '')}</p>`
+    + `<button type="button" class="sw-vid pk-vid" data-swv="${esc(p.v)}" data-swt="${esc(p.t + ' · ' + p.a)}" aria-label="${esc(p.t)} 듣기"><img src="https://i.ytimg.com/vi/${encodeURIComponent(p.v)}/hqdefault.jpg" alt="" loading="lazy"><span class="sw-play"><i>▶</i>지금 듣기</span></button>`
+    + `<p class="note">음반사·가수 공식 영상으로 틉니다. 매일 아침 새 곡이 올라와요.</p></div>`;
+}
+fetch('data/pick.json', { cache: 'no-cache' }).then(r => r.json()).then(j => { PICK = j; const wait = () => SONGV ? renderPick() : setTimeout(wait, 300); wait(); }).catch(() => {});
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');

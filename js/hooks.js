@@ -33,6 +33,7 @@ export function build(C, n) {
   H.mind = { kick: '오늘의 마음 한 줄', hook: '오늘 마음에\n오래 남을 한 문장' };
   const part = C && C.body && C.body.part;
   H.body = { kick: '오늘의 몸 한 가지', hook: part ? `${part},\n오늘 챙길 한 가지` : '오늘 내 몸에\n챙겨 줄 한 가지' };
+  H.pick = { kick: '오늘의 추천 음악', hook: '오늘, 이 한 곡', sub: '그 시절 주옥같은 노래, 하루 한 곡' };   // 곡이 정해지면 app.js renderPick 이 바꾼다
   const h = (C && C.hooks) || {};
   for (const [k, sel] of Object.entries(MAP)) if (h[k] && h[k].hook) H[sel] = h[k];
   return H;

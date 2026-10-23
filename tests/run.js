@@ -50,7 +50,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const bad = [...dup(cards).map(x => '카드 ' + x), ...dup(heroes).map(x => '표지 ' + x), ...missing.map(x => '없는 사진 ' + x)];
       ok('같은 사진을 두 곳에 쓰지 않음', !bad.length, bad.join(' / ')); }
     // 1) 화면 전부 × 보통·큰 글씨
-    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'psy', 'psa', 'pt-wall', 'pt-talk', 'pt-trip', 'quiz', 'story'];
+    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'pick', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'psy', 'psa', 'pt-wall', 'pt-talk', 'pt-trip', 'quiz', 'story'];
     for (const big of [false, true]) {
       const c = await ctx(big); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await p.goto(base + '/index.html'); await wait(p, 1500); const bad = [];
@@ -309,7 +309,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await step('회원가입 → 로그인 상태', async () => (await E(() => !document.getElementById('user-chip').hidden || !!document.getElementById('user-nick').textContent)) || 'user-chip 안 보임');
       await closeM();
       await step('장 다섯 개 · 차례와 표지 번호가 맞음', async () => { const want = [['g1', '오늘 즐기기', '1'], ['g2', '그때 돌아보기', '2'], ['g5', '앞으로 나아가기', '3'], ['g3', '나를 돌보기', '4'], ['g4', '나의 수첩', '5']]; const tabs = await E(() => [...document.querySelectorAll('#tabs3 button')].map(b => [b.dataset.tab || '', (b.querySelector('b') || {}).textContent || ''])); if (tabs.length !== 5) return `탭이 ${tabs.length}개`; for (let i = 0; i < 5; i++) if (tabs[i][0] !== want[i][0] || tabs[i][1] !== want[i][1]) return `${i + 1}번째가 ${JSON.stringify(tabs[i])}`; const bad = []; for (const [g, title, no] of want) { await E(x => window.omajuNav(x), g); await W(500); const r = await E(() => { const h = document.getElementById('ch-head'); return h ? { k: (h.querySelector('.ch-k') || {}).textContent, t: (h.querySelector('h2') || {}).textContent } : null; }); if (!r || r.t !== title || r.k !== 'CHAPTER ' + no) bad.push(`${g}:${JSON.stringify(r)}`); } await E(() => window.omajuNav('g1')); await W(300); return !bad.length || bad.join(' / '); });
-      await step('코너가 제 장에 들어 있음', async () => { const want = { g1: ['play', 'luck', 'food', 'book', 'quiz', 'culture'], g2: ['history', 'music', 'story', 'home'], g5: ['follow', 'outing', 'show', 'garden', 'phrase'], g3: ['hike', 'move', 'mind', 'body'], g4: [] }; const got = await E(() => { const o = {}; for (const s of document.querySelectorAll('.tabsec')) o[s.dataset.g] = [...s.querySelectorAll('[data-open]')].map(b => b.dataset.open); return o; }); const bad = Object.keys(want).filter(g => (got[g] || []).join(',') !== want[g].join(',')); return !bad.length || bad.map(g => `${g}=${(got[g] || []).join(',')}`).join(' / '); });
+      await step('코너가 제 장에 들어 있음', async () => { const want = { g1: ['play', 'luck', 'food', 'book', 'quiz', 'culture', 'pick'], g2: ['history', 'music', 'story', 'home'], g5: ['follow', 'outing', 'show', 'garden', 'phrase'], g3: ['hike', 'move', 'mind', 'body'], g4: [] }; const got = await E(() => { const o = {}; for (const s of document.querySelectorAll('.tabsec')) o[s.dataset.g] = [...s.querySelectorAll('[data-open]')].map(b => b.dataset.open); return o; }); const bad = Object.keys(want).filter(g => (got[g] || []).join(',') !== want[g].join(',')); return !bad.length || bad.map(g => `${g}=${(got[g] || []).join(',')}`).join(' / '); });
       await step('글자 크기 바꾸기', async () => { const a = await E(() => document.documentElement.classList.contains('big')); await E(() => document.getElementById('sizer').click()); const b = await E(() => document.documentElement.classList.contains('big')); await E(() => document.getElementById('sizer').click()); return a !== b || '안 바뀜'; });
       await E(() => window.omajuNav('g1')); await W(700);
       await step('인사 카드 눌러 보내기 창', async () => { await E(() => document.querySelector('[data-copy="0"]').click()); await W(1800); const t = await modalText(); const img = await E(() => { const i = document.querySelector('#modal img'); return !!(i && i.naturalWidth > 0); }); await closeM(); return (/인사 카드가 준비/.test(t) && img) || ('창: ' + t.slice(0, 40)); });
@@ -388,6 +388,14 @@ srv.listen(0, '127.0.0.1', async () => {
         if (r.blurb < 60 || r.scene < 40) return `소개 ${r.blurb}자 · 대목 ${r.scene}자`;
         if (r.links.length < 3 || !r.links.some(u => /kyobobook/.test(u)) || !r.links.some(u => /aladin/.test(u))) return '서점 고리: ' + r.links.length;
         return (r.why && r.note) || JSON.stringify({ why: r.why, note: r.note }); });
+      await step('오늘의 추천 음악: 한 곡 · 눌러 듣기 · 닫으면 멎음', async () => { await E(() => window.omajuNav('pick')); await W(1200);
+        const r = await E(() => ({ t: (document.querySelector('.pk-title') || {}).textContent || '', v: !!document.querySelector('.pk-vid'), hook: (document.querySelector('[data-open="pick"] h3') || {}).textContent || '' }));
+        if (!r.t || !r.v) return JSON.stringify(r);
+        await E(() => document.querySelector('.pk-vid').click()); await W(600);
+        const on = await E(() => !!document.querySelector('#modal iframe')); await closeM(); await W(400);
+        const left = await E(() => !!document.querySelector('#modal iframe'));
+        return (on && !left && r.hook === r.t) || JSON.stringify({ ...r, on, left });
+      });
       await step('이번 주 무엇을 볼까: 예고편 눌러 보기 · 닫으면 멎음', async () => { await E(() => window.omajuNav('show')); await W(600);
         await E(() => { const b = document.createElement('button'); b.className = 'sw-vid'; b.dataset.swv = 'TESTvid0001'; b.dataset.swt = '시험 예고편'; b.id = 'sw-test'; document.getElementById('show-body').prepend(b); b.click(); }); await W(600);
         const on = await E(() => { const f = document.querySelector('#modal iframe'); return f ? f.src : ''; });
