@@ -121,6 +121,10 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
     <p class="note tip">마음에 드는 카드를 눌러 카톡으로 보내 보세요.</p>
     <button type="button" class="push-cta" id="push-cta" hidden></button>
 
+    <!-- 오늘 PLAY 는 인사말 바로 다음 (대표 2026-10-23 — 심리 테스트를 넣고 위로 올림) -->
+    <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="7" height="7" rx="1.2"/><rect x="12.5" y="9" width="7" height="7" rx="1.2" fill="#E8C766" stroke="#C9A24A"/><rect x="21" y="9" width="7" height="7" rx="1.2"/><rect x="4" y="18" width="7" height="7" rx="1.2" fill="#3E8A63" stroke="#3E8A63"/><rect x="12.5" y="18" width="7" height="7" rx="1.2"/><rect x="21" y="18" width="7" height="7" rx="1.2" fill="#3E8A63" stroke="#3E8A63"/></svg>오늘 PLAY</div>
+    <button type="button" class="banner photo" data-open="play" data-corner="play" id="play-banner" style="background-image:url('img/play.jpg'); background-position: center 35%"><div class="b-text"><div><h3>심리 테스트 · 놀이 네 가지</h3><p>가볍게 읽어 보는 요즘 마음, 그리고 오늘의 순위</p></div><span>놀러 가기</span></div></button>
+
     <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5" stroke="#C9A24A"/><path d="M12 3v2M12 19v2M3 12h2M5.6 5.6 7 7M17 7l1.4-1.4" stroke="#C9A24A"/><path d="M11 26h13a4.5 4.5 0 0 0 .4-9 6 6 0 0 0-11.4 1.6A3.8 3.8 0 0 0 11 26z" fill="#fff"/></svg>오늘의 날씨</div>
     <div class="wx-card" id="wx-card"><div class="wx-in">
       <span class="wx-temp" id="wx-temp"></span><span class="wx-desc" id="wx-desc">날씨를 불러오는 중입니다</span>
@@ -160,8 +164,8 @@ try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.
 
     
 
-    <div class="label"><svg class="lb-ic" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1F5A43" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="7" height="7" rx="1.2"/><rect x="12.5" y="9" width="7" height="7" rx="1.2" fill="#E8C766" stroke="#C9A24A"/><rect x="21" y="9" width="7" height="7" rx="1.2"/><rect x="4" y="18" width="7" height="7" rx="1.2" fill="#3E8A63" stroke="#3E8A63"/><rect x="12.5" y="18" width="7" height="7" rx="1.2"/><rect x="21" y="18" width="7" height="7" rx="1.2" fill="#3E8A63" stroke="#3E8A63"/></svg>오늘 PLAY</div>
-    <button type="button" class="banner photo" data-open="play" data-corner="play" id="play-banner" style="background-image:url('img/play.jpg'); background-position: center 35%"><div class="b-text"><div><h3>심리 테스트 · 놀이 네 가지</h3><p>가볍게 읽어 보는 요즘 마음, 그리고 오늘의 순위</p></div><span>놀러 가기</span></div></button></section>
+
+    </section>
     <section class="tabsec" data-g="g2">
     <div class="rd rd-off" id="rd-g2">
       <button type="button" class="rd-face" id="rd-g2-face">
