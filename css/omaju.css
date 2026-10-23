@@ -2226,3 +2226,12 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .banner.thumb::before { display: none; }
 .banner.photo.thumb { min-height: 360px; }
 .banner.thumb .b-text { padding-top: 70px; background: linear-gradient(to top, rgba(12,10,6,0.92) 0%, rgba(12,10,6,0.8) 55%, rgba(12,10,6,0) 100%); }
+/* 썸네일 2안 (대표 2026-10-24: "배경이 너무 어둡다, 선명해야 한다") — 유튜브처럼 사진은 막 없이 또렷하게, 제목은 사진 아래 */
+.banner.photo.thumb { display: block; height: auto; min-height: 0; padding: 56% 0 0; background-color: #fff; background-size: 100% auto !important; background-position: center top !important; background-repeat: no-repeat; border: 1px solid #ECE5D5; }
+.banner.thumb .b-text { position: static; background: #fff; color: #141414; padding: 16px 18px 18px; flex-direction: column; gap: 10px; }
+.banner.thumb .b-text .b-kick { color: #B0662A; text-shadow: none; }
+.banner.thumb h3.b-hook { color: #141414; text-shadow: none; font-size: 1.42rem; }
+.banner.thumb .b-text p { color: #666; opacity: 1; }
+.banner.thumb .b-text > span:not(.b-kick) { color: #B0662A; border-color: #E3B37A; }
+.banner.thumb::after, .banner.thumb::before { display: none !important; } .banner.thumb .b-text { min-height: 0; }
+.banner.thumb .b-text, .banner.thumb .b-text * { text-shadow: none !important; } .banner.photo.thumb { height: auto !important; }
