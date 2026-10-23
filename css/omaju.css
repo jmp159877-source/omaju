@@ -2235,3 +2235,5 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .banner.thumb .b-text > span:not(.b-kick) { color: #B0662A; border-color: #E3B37A; }
 .banner.thumb::after, .banner.thumb::before { display: none !important; } .banner.thumb .b-text { min-height: 0; }
 .banner.thumb .b-text, .banner.thumb .b-text * { text-shadow: none !important; } .banner.photo.thumb { height: auto !important; }
+@media (min-width: 769px) { .hero { background-image: url("../img/hero-mobile.jpg") !important; background-position: center 100% !important; } }
+@media (max-width: 768px) { .hero { background-position: 68% top !important; } }
