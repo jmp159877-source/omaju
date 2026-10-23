@@ -1,4 +1,5 @@
 import { DEFAULT_CONTENT } from './content.js';
+import * as HOOKS from './hooks.js';
 import * as DB from './db.js';
 import * as NB from './notebook.js';
 import * as RADIO from './radio.js';
@@ -968,11 +969,11 @@ $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null;
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
 renderEra(); renderMind(); renderGarden(); renderBody(); renderBook(); renderShow(); route();
-import('./hooks.js' + MODV).then(m => { const run = () => m.apply(); run(); setTimeout(run, 1500); setTimeout(run, 4000); }).catch(() => {});   // 판갈이 시안: 칸 제목을 썸네일처럼
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');
 if (C.quiz.meaning) $('quiz-sub').textContent = C.quiz.meaning;
+try { HOOKS.apply(HOOKS.build(C, dayN())); } catch (e) {}   // 판갈이: 오늘 즐기기 칸 제목을 썸네일처럼 (위 칸 글씨를 다 쓴 뒤에 한 번, 그릴 때 바로)
 $('issue-card').innerHTML = C.quiz.term ? `<div class="is-card"><p class="cu-kind">오늘의 시사 상식</p><h2 class="is-term">${esc(C.quiz.term)}</h2><p class="is-mean">${esc(C.quiz.meaning || '')}</p><p class="is-exp">${esc(C.quiz.explain || '')}</p>${C.quiz.why ? `<p class="is-sub">요즘 자주 들리는 까닭</p><p class="is-exp">${esc(C.quiz.why)}</p>` : ''}${C.quiz.example ? `<p class="is-sub">이렇게 씁니다</p><p class="is-ex">“${esc(C.quiz.example)}”</p>` : ''}</div>` : '';
 if (C.quiz.term) $('issue-card').innerHTML += svBar('quiz', 'quiz_' + TODAY, C.quiz.term);
 $('quiz-q').textContent = C.quiz.question;

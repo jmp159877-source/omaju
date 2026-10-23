@@ -697,6 +697,40 @@ def _culture_out(d, n, data, poem, quote, bible, dharma, paint, a, b):
 
 # ── 저장 ────────────────────────────────────────────────
 
+def gen_hooks(d, day):
+    """판갈이 (대표 2026-10-24): 오늘 즐기기 칸 제목을 유튜브 썸네일처럼 '말 거는 한 줄'로.
+    오늘 실제로 올라온 내용(day)만 보고 쓴다 — 내용에 없는 사실·숫자를 보태면 낚시가 된다."""
+    meal, book, quiz, cul = day.get("meal") or {}, day.get("book") or {}, day.get("quiz") or {}, day.get("culture") or {}
+    poem, humor = cul.get("poem") or {}, cul.get("humor") or {}
+    src = {
+        "food": {"제목": meal.get("title"), "소개": meal.get("lead"), "요령": meal.get("tip"), "분량": meal.get("sub")},
+        "book": {"제목": book.get("title"), "지은이": book.get("author"), "소개": book.get("blurb"), "한 장면": book.get("scene")},
+        "quiz": {"낱말": quiz.get("term"), "뜻": quiz.get("meaning"), "왜 화제": quiz.get("why")},
+        "culture": {"오늘의 시": f"{poem.get('title', '')} — {poem.get('author', '')}", "시 풀이": poem.get("note"), "유머 제목": humor.get("title")},
+    }
+    src = {k: v for k, v in src.items() if any(v.values())}
+    if not src: raise RuntimeError("오늘 내용이 아직 없음")
+    j = gemini(f"""오마주는 마음은 40대인 50~60대가 매일 아침 보는 라이프스타일 매거진이다.
+아래는 오늘 올라온 코너 내용이다. 코너마다 유튜브 썸네일처럼 '눌러 보고 싶게 말을 거는 제목' 한 줄과 밑줄 한 줄을 써라.
+{json.dumps(src, ensure_ascii=False)}
+
+[제목 hook] 18~26자. 질문이나 반전, 구체적인 장면으로 궁금하게. 예: "연근 하나로 파스타가 이렇게 된다고?", "값은 그대로인데 뭔가 달라졌다면, 그걸 부르는 말".
+[밑줄 sub] 30자 이내. 무엇이 들어 있는지 담백하게.
+[머리말 kick] '오늘의 한 끼 · 요리 이름'처럼 코너 이름 · 오늘 것 이름. 문화는 '오늘의 문화'만.
+지킬 것: 위 내용에 있는 사실만 쓴다. 없는 숫자·효과·사람·결과를 보태지 않는다. '충격' '경악' '무조건' '이것만' 같은 낚시 말,
+느낌표 남발, 나이·건강 걱정·시니어 같은 말 금지. 퀴즈는 정답(낱말 뜻)을 제목에서 미리 말하지 않는다.
+{QUALITY}
+형식: {{"hooks": {{"food": {{"kick":"...","hook":"...","sub":"..."}}, ...}}}} (위에 있는 코너만)""")
+    h = j.get("hooks") or {}
+    out = {}
+    for k in src:
+        v = h.get(k) or {}
+        if all(isinstance(v.get(x), str) and v[x].strip() for x in ("kick", "hook", "sub")) and len(v["hook"]) <= 34:
+            out[k] = {x: v[x].strip() for x in ("kick", "hook", "sub")}
+    assert out, "제목을 하나도 못 씀"
+    return out
+
+
 def firestore():
     from google.cloud import firestore as fs
     from google.oauth2 import service_account
@@ -709,7 +743,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"hooks": ("food", "book", "quiz"), "garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -763,10 +797,11 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden), ("hooks", None)]:
         if only and name not in only:
             continue
-        if not force and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
+        fresh = name == "hooks" and any(k in out for k in ("meal", "book", "quiz", "culture"))   # 내용이 새로 나왔으면 제목도 새로
+        if not force and not fresh and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
             print(f"[skip] {name} 이미 있음"); continue
         if name == "garden" and not force and d.weekday() not in (0, 2, 4):
             prev = recent_garden(d)        # 월·수·금에만 새로 쓴다 (운영자 2026-10-22: 주 2~3회)
@@ -774,7 +809,7 @@ def main():
                 out["garden"] = prev; ref.set({"garden": prev}, merge=True)
                 print("[keep] garden 지난 것 그대로"); continue
         try:
-            out[name] = fn(d)
+            out[name] = gen_hooks(d, {**have, **out}) if name == "hooks" else fn(d)
             if name == "outing":
                 ref.set({"outing": out[name]}, merge=True)  # 지역별 필드 병합 (다른 묶음 결과 보존)
             else:
