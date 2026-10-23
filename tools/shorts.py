@@ -51,11 +51,13 @@ def soft_bottom(h, peak=225, rise=0.5):
     return g
 
 def cover(im, w, h, zoom=1.0, fy=0.42):
-    """화면 가득 채우게 자르기. fy = 세로로 어디를 기준으로 자를지(얼굴이 위쪽이라 0.42)"""
+    """화면 가득 채우게 자르기. fy = 세로로 어디를 기준으로 자를지(얼굴이 위쪽이라 0.42)
+    잘라 낼 자리를 소수점까지 계산해 한 번에 옮긴다 — 정수로 반올림하면 천천히 당길 때
+    한 픽셀씩 왔다 갔다 해서 화면이 떨렸다 (대표 2026-10-23)."""
     s = max(w / im.width, h / im.height) * zoom
-    r = im.resize((int(im.width * s + 0.5), int(im.height * s + 0.5)), Image.LANCZOS)
-    x = (r.width - w) // 2; y = int((r.height - h) * fy)
-    return r.crop((x, y, x + w, y + h))
+    cw, ch = w / s, h / s                      # 원본에서 잘라 낼 크기(소수)
+    x0 = (im.width - cw) / 2; y0 = (im.height - ch) * fy
+    return im.transform((w, h), Image.EXTENT, (x0, y0, x0 + cw, y0 + ch), Image.BICUBIC)
 
 def ffmpeg_video(frames, n, audio_args, out):
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-'] + audio_args + \
@@ -177,20 +179,23 @@ def cards():
     cs = [Image.open(os.path.join(CARDS, f)).convert('RGB') for f in fs]
     per, fade = 3.6, 0.5; total = per * len(cs) + 0.6
     cw, ch = 820, 1025; cy = 560
-    bgs, fronts = [], []
+    bgs, fronts, srcs = [], [], []
     for c in cs:
         b = cover(c, W, H).filter(ImageFilter.GaussianBlur(70)).convert('RGBA')
         b.alpha_composite(Image.new('RGBA', (W, H), (8, 30, 22, 175)))
         top_band(b, f'{DATE_TXT} · 오늘의 인사 카드', '카톡으로 보내기 좋은', f'오늘 아침 인사 {len(cs)}장')
         shadow_text(b, (W // 2 - 40, cy + ch + 70), '화면을 캡처해서 보내 보세요', font(SERIF_B, 40))
         shadow_text(b, (W // 2 - 40, cy + ch + 128), '매일 아침 새 카드 · 오마주 매거진', font(SERIF, 30), fill=CREAM)
-        bgs.append(b); fronts.append(c.resize((cw, ch), Image.LANCZOS))
+        bgs.append(b); fronts.append(None); srcs.append(c.convert('RGBA'))
     sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle(((W - cw) // 2, cy + 18, (W + cw) // 2, cy + ch + 18), 18, fill=(0, 0, 0, 150))
     sh = sh.filter(ImageFilter.GaussianBlur(22))
     def one(i, p):
         im = bgs[i].copy(); im.alpha_composite(sh)
-        z = 1.0 + 0.03 * p; w2, h2 = int(cw * z), int(ch * z); c = fronts[i].resize((w2, h2), Image.BILINEAR)
-        im.paste(c, ((W - w2) // 2, cy + (ch - h2) // 2)); return im
+        # 카드가 좌우로 떨리던 것: 크기·자리를 정수로 반올림해서 1픽셀씩 흔들렸다 → 소수점 그대로 그린다
+        z = 1.0 + 0.03 * p; sc = cw * z / srcs[i].width
+        ox = W / 2 - cw * z / 2; oy = cy + ch / 2 - ch * z / 2
+        layer = srcs[i].transform((W, H), Image.AFFINE, (1 / sc, 0, -ox / sc, 0, 1 / sc, -oy / sc), Image.BICUBIC, fillcolor=(0, 0, 0, 0))
+        im.alpha_composite(layer); return im
     def frame(k):
         t = k / FPS; i = min(len(cs) - 1, int(t // per)); p = (t - i * per) / per
         im = one(i, p)

@@ -8,6 +8,10 @@ on:
         description: '날짜 (YYYY-MM-DD, 비우면 오늘)'
         required: false
         default: ''
+      force:
+        description: '1이면 있어도 다시 만들기'
+        required: false
+        default: ''
 permissions:
   contents: write
 concurrency: { group: shorts, cancel-in-progress: false }
@@ -43,7 +47,7 @@ jobs:
         run: |
           D="${{ inputs.date }}"; [ -z "$D" ] && D=$(TZ=Asia/Seoul date +%F)
           node tools/shorts_cards.mjs "$D" /tmp/cards || echo '카드 그림 실패 — 오프닝만'
-          python3 -u tools/shorts.py "$D"
+          python3 -u tools/shorts.py "$D" ${{ inputs.force == '1' && '--force' || '' }}
           ls -la media/shorts
       - name: media 가지에 올리기 (기록 없이 새로)
         run: |
