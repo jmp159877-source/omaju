@@ -2275,3 +2275,5 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 .opn-frame .opn-when { position: absolute; top: 16px; right: 18px; z-index: 3; margin: 0; align-items: flex-end; text-align: right; gap: 3px; color: #fff; text-shadow: 0 1px 6px rgba(20,14,4,0.75), 0 0 16px rgba(20,14,4,0.45); pointer-events: none; }
 .opn-frame .opn-when span { font-size: min(0.9rem, 3.8vw); letter-spacing: 0.04em; color: #fff; }
 .opn-frame .opn-when small { font-size: min(0.82rem, 3.5vw); letter-spacing: 0.14em; color: #F3D98B; font-weight: 700; }
+/* 오마주가 읽어 드려요 — 화면에서 뺌 (대표 2026-10-24 04:46, 나중에 다시 켤 수 있게 장치는 남김) */
+.rd, #rd-bar { display: none !important; }

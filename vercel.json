@@ -118,14 +118,6 @@
     },
     {
       "path": "/api/tick",
-      "schedule": "20 16 * * *"
-    },
-    {
-      "path": "/api/tick",
-      "schedule": "30 20 * * *"
-    },
-    {
-      "path": "/api/tick",
       "schedule": "20 17 * * *"
     },
     {

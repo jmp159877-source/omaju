@@ -1,9 +1,10 @@
 # 장 음성 안내 '읽어 드려요': 장마다 오늘 올라온 것을 읽어 주는 3~5분짜리 → media 가지 (최근 3일만)
 name: 읽어 드려요
 on:
-  schedule:
-    - cron: '50 15 * * *'   # 00:50 KST (daily 콘텐츠가 들어온 뒤)
-    - cron: '30 20 * * *'   # 05:30 KST (빠졌으면 다시)
+  # 예약은 멈춤 (대표 2026-10-24: 화면에서 뺌, 나중에 다시 들을 수 있게 장치는 남김)
+  # schedule:
+  #   - cron: '50 15 * * *'   # 00:50 KST
+  #   - cron: '30 20 * * *'   # 05:30 KST
   workflow_dispatch:
     inputs:
       date: { description: '날짜 (YYYY-MM-DD, 비우면 오늘)', required: false, default: '' }

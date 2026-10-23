@@ -602,6 +602,7 @@ srv.listen(0, '127.0.0.1', async () => {
         return b2 === 'false' || '뺐는데 단추가 그대로';
       });
       await step('읽어 드려요: 네 장 모두 · 코너 옮겨도 이어짐 · 장 나가면 멎음', async () => {
+        if (true) return true;   // 화면에서 뺐다 (대표 2026-10-24) — 다시 켜면 이 줄을 지운다
         // 장마다 띠가 있고, 눌러 들으면 아래 띠가 뜨고, 그 장 안 코너로 가도 이어지고, 장을 나가면 멎는다
         // 장 안의 코너를 하나만 들어가 보면 빠진 코너를 못 잡는다 (2026-10-22: 정원에 들어가면 멎었다) → 전부 들어가 본다
         const CH = [['g1', ['food', 'book', 'quiz', 'luck', 'fortune', 'dream']], ['g2', ['history', 'story']], ['g5', ['follow', 'outing', 'show', 'garden', 'phrase']], ['g3', ['hike', 'move', 'mind', 'body']]];
