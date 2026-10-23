@@ -23,8 +23,10 @@ jobs:
       - name: 준비 — 글꼴·ffmpeg
         timeout-minutes: 8
         run: |
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq install -y --no-install-recommends ffmpeg fonts-nanum >/dev/null
+          for k in 1 2 3; do
+            sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update && sudo DEBIAN_FRONTEND=noninteractive apt-get -qq install -y --no-install-recommends ffmpeg fonts-nanum >/dev/null && break
+            echo "apt 다시 ($k)"; sleep 20
+          done
           fc-cache -f >/dev/null; fc-list | grep -i nanummyeongjo | head -3 || true
       - name: 준비 — 파이썬·크롬 조종
         timeout-minutes: 5
