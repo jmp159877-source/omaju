@@ -684,7 +684,7 @@ fetch('data/outing.json', { cache: 'no-cache' }).then(r => r.json()).then(w => {
   C.outing = Object.assign({}, C.outing || {}, w.regions); renderOuting();
 }).catch(() => {});
 // 나들이 배너·상세 사진은 계절에 따라 (봄·여름·겨울 전용 사진이 오면 outing-spring.jpg 등으로 교체)
-(function seasonOuting() { const m = new Date().getMonth() + 1; const pic = m >= 9 && m <= 11 ? 'outing' : m >= 3 && m <= 5 ? 'spring' : m >= 6 && m <= 8 ? 'summer' : 'winter'; const b = document.querySelector('[data-open="outing"]'); if (b) b.style.backgroundImage = `url('img/${pic}.jpg')`; })();
+(function seasonOuting() { const pic = 'outing';   /* 대표 2026-10-24: 철마다 바꾸던 것을 숲길 산책 사진 한 장으로 */ const b = document.querySelector('[data-open="outing"]'); if (b) b.style.backgroundImage = `url('img/${pic}.jpg?v=2')`; })();
 
 
 
@@ -975,7 +975,7 @@ function route() { const k = location.hash.slice(1);
   if (/^g[1-5]$/.test(k)) setChapter(k); else if (!cur) { const was = document.body.classList.contains('in-chapter'); setChapter(null); if (was) { route.y = null; const t = $('tabs3'); window.scrollTo(0, Math.max(0, t.getBoundingClientRect().top + window.scrollY - 80)); } }
   document.body.classList.toggle('game-mode', !!GAME[cur] || cur === 'play'); if (!GAME[cur]) PLAY.stopAll();
   if (cur === 'play') PLAY.hub($('play-root'));
-  if (GAME[cur] && (!gameDone[cur] || cur === 'psy' || /^pt-/.test(cur))) { gameDone[cur] = true; GAME[cur](); }   /* 심리 테스트 목록·테스트는 들어올 때마다 새로 (지난 결과 반영) */ document.body.classList.toggle('in-detail', !!cur); stopRead(); if (cur) { if (DET[cur][0]) $('d-bg').style.backgroundImage = `url('img/${DET[cur][0]}.jpg?v=2')`; $('d-tag').textContent = DET[cur][1]; setTitle(); document.querySelectorAll('.dsec').forEach(s => s.classList.toggle('on', s.dataset.k === cur)); window.scrollTo(0, 0); } else if (route.y != null) window.scrollTo(0, route.y); }
+  if (GAME[cur] && (!gameDone[cur] || cur === 'psy' || /^pt-/.test(cur))) { gameDone[cur] = true; GAME[cur](); }   /* 심리 테스트 목록·테스트는 들어올 때마다 새로 (지난 결과 반영) */ document.body.classList.toggle('in-detail', !!cur); stopRead(); if (cur) { if (DET[cur][0]) $('d-bg').style.backgroundImage = `url('img/${DET[cur][0]}.jpg?v=2')`; $('d-bg').classList.toggle('d-wide', cur === 'food');   /* 사람 있는 가로 사진은 잘리지 않게 통째로 (대표 2026-10-24) */ $('d-tag').textContent = DET[cur][1]; setTitle(); document.querySelectorAll('.dsec').forEach(s => s.classList.toggle('on', s.dataset.k === cur)); window.scrollTo(0, 0); } else if (route.y != null) window.scrollTo(0, route.y); }
 $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-5]$/.test(NS[0]) ? NS[0] : ''); };
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });

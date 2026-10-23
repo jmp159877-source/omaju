@@ -2304,3 +2304,7 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 .banner.thumb .b-pic { display: block; width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-repeat: no-repeat; }
 .banner.photo.thumb { min-height: 0 !important; } .banner.thumb .b-text { padding-top: 16px !important; gap: 8px; } .banner.thumb .b-text > span:not(.b-kick) { margin-top: 4px; }
 .banner.thumb .b-text > div { flex: 0 0 auto !important; }   /* 세로로 놓이니 200px 바탕 높이가 빈칸이 됐다 */
+/* 코너 머리 사진을 통째로 (한 끼 — 사람 있는 가로 사진이 세로 칸에 꽉 차 얼굴만 크게 나왔다, 대표 2026-10-24) */
+.d-hero.d-wide { height: auto; padding-top: calc(56.25% + 4px); background-size: 100% auto; background-position: center top; background-repeat: no-repeat; background-color: var(--ivory); }
+.d-hero.d-wide::after { background: linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, transparent 30%, transparent 70%, var(--ivory) 100%); }
+.d-hero.d-wide .d-title { position: relative; bottom: auto; left: auto; right: auto; padding: 18px 20px 6px; }
