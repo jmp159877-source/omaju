@@ -2271,3 +2271,7 @@ html.hello-in #user-nick:empty { min-height: 1.3em; }
 /* 칸 안 머리말(심리 테스트 · 놀이 …)을 제목과 또렷이 가른다 — 갈색 글씨가 흰 칸에서 묻혔다 (대표 2026-10-24 04:20) */
 .banner.thumb .b-text span.b-kick { display: inline-block; background: #1F5A43; color: #fff; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 4px; margin-bottom: 10px; line-height: 1.4; text-shadow: none; }
 html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /* 감춰진 동안에도 보일 때와 같은 꼴로 자리를 잡는다 */
+/* 오프닝 날짜·때를 화면 안 오른쪽 위로 (대표 2026-10-24 04:36) — 왼쪽 위는 진행자 이름표 */
+.opn-frame .opn-when { position: absolute; top: 16px; right: 18px; z-index: 3; margin: 0; align-items: flex-end; text-align: right; gap: 3px; color: #fff; text-shadow: 0 1px 6px rgba(20,14,4,0.75), 0 0 16px rgba(20,14,4,0.45); pointer-events: none; }
+.opn-frame .opn-when span { font-size: min(0.9rem, 3.8vw); letter-spacing: 0.04em; color: #fff; }
+.opn-frame .opn-when small { font-size: min(0.82rem, 3.5vw); letter-spacing: 0.14em; color: #F3D98B; font-weight: 700; }

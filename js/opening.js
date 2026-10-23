@@ -3,7 +3,7 @@
 const RAW = 'https://raw.githubusercontent.com/jmp159877-source/omaju/media/opening/';
 const CDN = 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@media/opening/';
 const NAME = { miso: '윤미소', hangyeol: '서한결', eunchae: '송은채' };
-const SLOT_KO = { morning: '아침', noon: '낮', evening: '저녁' };
+const SLOT_KO = { morning: '아침', noon: '오후', evening: '저녁' };
 const WD = ['일', '월', '화', '수', '목', '금', '토'];
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -42,7 +42,7 @@ export async function init({ modal, closeModal, toast, DB }) {
   const tags = [...new Set(shots.map(s => s.tag))];
 
   $('opn-date').textContent = `${dd.getMonth() + 1}월 ${dd.getDate()}일 ${WD[dd.getDay()]}요일`;
-  $('opn-who').textContent = `${SLOT_KO[slot]} · ${NAME[host]}`;
+  $('opn-who').textContent = SLOT_KO[slot];   // 이름은 왼쪽 위 이름표가 맡는다 (대표 2026-10-24)
   $('opn-name').innerHTML = `<b>${NAME[host]}</b><i></i><small>오마주 진행</small>`;
   $('opn-next').textContent = data.next_title || '';
   $('opn-nextbox').hidden = !data.next_title;
