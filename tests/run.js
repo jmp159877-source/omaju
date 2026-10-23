@@ -388,6 +388,14 @@ srv.listen(0, '127.0.0.1', async () => {
         if (r.blurb < 60 || r.scene < 40) return `소개 ${r.blurb}자 · 대목 ${r.scene}자`;
         if (r.links.length < 3 || !r.links.some(u => /kyobobook/.test(u)) || !r.links.some(u => /aladin/.test(u))) return '서점 고리: ' + r.links.length;
         return (r.why && r.note) || JSON.stringify({ why: r.why, note: r.note }); });
+      await step('이번 주 무엇을 볼까: 예고편 눌러 보기 · 닫으면 멎음', async () => { await E(() => window.omajuNav('show')); await W(600);
+        await E(() => { const b = document.createElement('button'); b.className = 'sw-vid'; b.dataset.swv = 'TESTvid0001'; b.dataset.swt = '시험 예고편'; b.id = 'sw-test'; document.getElementById('show-body').prepend(b); b.click(); }); await W(600);
+        const on = await E(() => { const f = document.querySelector('#modal iframe'); return f ? f.src : ''; });
+        await closeM(); await W(400);
+        const left = await E(() => !!document.querySelector('#modal iframe[src*="TESTvid0001"]'));
+        await E(() => { const b = document.getElementById('sw-test'); b && b.remove(); });
+        return (/TESTvid0001/.test(on) && !left) || JSON.stringify({ on, left });
+      });
       await step('이번 주 무엇을 볼까: 세 칸 · 지역 바꾸기', async () => { await E(() => window.omajuNav('show')); await W(900);
         const tabs = await E(() => [...document.querySelectorAll('[data-sw]')].map(b => b.dataset.sw));
         if (tabs.join(',') !== 'movie,stage,exhibit') return '칸: ' + tabs.join(',');

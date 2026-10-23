@@ -278,6 +278,17 @@ function flList(id, order, f) {
 let SHOWS = null, showTab = store.get('showTab', 'movie');
 const SHOW_TABS = [['movie', '극장'], ['stage', '무대'], ['exhibit', '전시']];
 function showRegions() { return SHOWS && SHOWS.regions ? Object.keys(REGION_XY).filter(r => SHOWS.regions[r]) : []; }
+// 예고편·소개 영상 (대표 2026-10-24) — 공식 채널 영상만 tools/shows_week.py 가 달아 둔다. 눌러야 오마주 안에서 재생(노래·따라하기와 같은 창)
+function swVid(x, label) {
+  const v = x && x.video && x.video.videoId; if (!v) return '';
+  return `<button type="button" class="sw-vid" data-swv="${esc(v)}" data-swt="${esc(x.title)}" aria-label="${esc(x.title)} ${label}"><img src="https://i.ytimg.com/vi/${encodeURIComponent(v)}/hqdefault.jpg" alt="" loading="lazy"><span class="sw-play"><i>▶</i>${label}</span></button>`;
+}
+function playShow(v, t) {
+  if (window.omajuRadio) window.omajuRadio.pause();
+  modal(`<div class="pl-head"><h2>${esc(t)}</h2><p>공식 영상</p></div><div class="pl-video"><iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v)}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="${esc(t)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`, () => { $('modal').classList.add('pl-modal'); });
+  DB.track('show_video', { t });
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-swv]'); if (b) playShow(b.dataset.swv, b.dataset.swt); });
 function renderShow() {
   const body = $('show-body'); if (!body) return;
   if (!SHOWS) { body.innerHTML = '<p class="note" style="margin-top:30px">이번 주 볼거리를 모으고 있습니다. 잠시 뒤에 다시 들러 주세요.</p>'; return; }
@@ -285,7 +296,7 @@ function renderShow() {
   let inner = '';
   if (showTab === 'movie') {
     const ms = SHOWS.movie || [];
-    inner = ms.length ? '<div class="rows">' + ms.map(m => `<div class="row sw-row"><b>${esc(m.title)}</b><p class="sw-meta">${esc([m.director ? m.director + ' 감독' : '', m.cast, m.rating].filter(Boolean).join(' · '))}${m.opened ? ` <span class="nw">· ${esc(m.opened)}</span>` : ''}</p><p>${esc(m.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent('영화 ' + m.title)}" target="_blank" rel="noopener">상영관 찾기</a></div>`).join('') + '</div>'
+    inner = ms.length ? '<div class="rows">' + ms.map(m => `<div class="row sw-row">${swVid(m, '예고편 보기')}<b>${esc(m.title)}</b><p class="sw-meta">${esc([m.director ? m.director + ' 감독' : '', m.cast, m.rating].filter(Boolean).join(' · '))}${m.opened ? ` <span class="nw">· ${esc(m.opened)}</span>` : ''}</p><p>${esc(m.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent('영화 ' + m.title)}" target="_blank" rel="noopener">상영관 찾기</a></div>`).join('') + '</div>'
       : '<p class="note" style="margin-top:24px">이번 주 극장 소식을 모으고 있습니다.</p>';
   } else {
     const rs = showRegions();
@@ -294,7 +305,7 @@ function renderShow() {
       if (!rs.includes(outRegion)) outRegion = rs[0];
       const list = (SHOWS.regions[outRegion] || {})[showTab] || [];
       inner = `<div class="sw-regions" role="group" aria-label="지역 고르기">${rs.map(r => `<button type="button" data-swr="${esc(r)}" aria-pressed="${r === outRegion}">${esc(r)}</button>`).join('')}</div>`
-        + (list.length ? '<div class="rows">' + list.map(x => `<div class="row sw-row"><b>${esc(x.title)}</b><p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.price ? ` <span class="nw">· ${esc(x.price)}</span>` : ''}</p><p>${esc(x.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent(x.title + ' ' + (x.where || ''))}" target="_blank" rel="noopener">자세히 · 예매</a></div>`).join('') + '</div>'
+        + (list.length ? '<div class="rows">' + list.map(x => `<div class="row sw-row">${swVid(x, showTab === 'exhibit' ? '소개 영상 보기' : '미리 보기')}<b>${esc(x.title)}</b><p class="sw-meta">${esc(x.where || '')}${x.when ? ` <span class="nw">· ${esc(x.when)}</span>` : ''}${x.price ? ` <span class="nw">· ${esc(x.price)}</span>` : ''}</p><p>${esc(x.why || '')}</p><a class="linkbtn" href="https://search.naver.com/search.naver?query=${encodeURIComponent(x.title + ' ' + (x.where || ''))}" target="_blank" rel="noopener">자세히 · 예매</a></div>`).join('') + '</div>'
           : `<p class="note" style="margin-top:24px">${esc(outRegion)} 소식을 아직 모으는 중입니다. 다른 지역을 눌러 보세요.</p>`);
     }
   }

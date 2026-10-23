@@ -23,6 +23,7 @@ jobs:
       - name: 무엇을 볼까 채우기
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           LIMIT: ${{ github.event.inputs.limit || '9' }}
         run: |
           set +e

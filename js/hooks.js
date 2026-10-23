@@ -11,7 +11,7 @@ const PLAY = [
 const LUCK = [
   { kick: '오늘의 운세 · 꿈 해몽', hook: '띠마다 오늘 딱 하나 조심할 것,\n내 띠는?', sub: '간밤 꿈 풀이도 함께' },
   { kick: '오늘의 운세 · 꿈 해몽', hook: '오늘 내 띠에 들어온 귀인은\n누구일까', sub: '띠별 오늘 한마디 · 꿈 해몽' },
-  { kick: '오늘의 운세 · 꿈 해몽', hook: '간밤에 꾼 그 꿈,\n좋은 꿈이었을까?', sub: '꿈 해몽 · 띠별 오늘 한마디' },
+  { kick: '오늘의 운세 · 꿈 해몽', hook: '오늘 하루, 내 띠에는\n어떤 운이 들었을까?', sub: '띠별 오늘 한마디 · 꿈 해몽도 함께' },
 ];
 const MAP = { food: 'food', book: 'book', quiz: 'quiz', culture: 'culture' };
 export function build(C, n) {

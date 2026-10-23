@@ -2277,3 +2277,21 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 .opn-frame .opn-when small { font-size: min(0.82rem, 3.5vw); letter-spacing: 0.14em; color: #F3D98B; font-weight: 700; }
 /* 오마주가 읽어 드려요 — 화면에서 뺌 (대표 2026-10-24 04:46, 나중에 다시 켤 수 있게 장치는 남김) */
 .rd, #rd-bar { display: none !important; }
+/* 무엇을 볼까 — 예고편·소개 영상 썸네일 (대표 2026-10-24) */
+.sw-vid { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; margin: 0 0 12px; border: 0; border-radius: 10px; overflow: hidden; background: #111; cursor: pointer; }
+.sw-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sw-vid .sw-play { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 10px; border-radius: 999px; background: rgba(0,0,0,0.62); color: #fff; font-size: 0.95rem; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; border: 0; white-space: nowrap; }
+.sw-vid .sw-play i { font-style: normal; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #F9E9A8; color: #3A2E00; font-size: 0.75rem; }
+/* 오늘의 인사말 머리 — 아래 썸네일 칸들과 같은 말씨(초록 머리말 + 두 줄 제목) (대표 2026-10-24 04:49: 아이콘·글씨가 언밸런스) */
+.greet-h { margin: 6px 0 14px; }
+.greet-h .g-tag { display: inline-block; background: #1F5A43; color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 4px; line-height: 1.4; }
+.greet-h h3 { margin: 10px 0 0; font-family: 'Noto Sans KR', sans-serif; font-size: min(1.5rem, 6vw); font-weight: 800; line-height: 1.38; color: #141414; letter-spacing: -0.01em; word-break: keep-all; }
+/* 30초 브리핑·오늘의 질문 소제목도 인사말과 같은 말씨로 (대표 2026-10-24 05:00: 일관성) — 아이콘 빼고 초록 머리말 */
+.tabsec[data-g="g1"] .label:not(.thumb-lab) { display: inline-block; border: 0; margin: 28px 0 12px; padding: 4px 10px; background: #1F5A43; color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 0.78rem !important; font-weight: 700; letter-spacing: 0.06em; line-height: 1.4; border-radius: 4px; }
+.tabsec[data-g="g1"] .label:not(.thumb-lab) .lb-ic { display: none; }
+.tabsec[data-g="g1"] .label:not(.thumb-lab) .nw { color: inherit; }
+.brief-h { display: block; margin: 46px 0 6px; padding-top: 22px; border-top: 1px solid var(--line); }
+.brief-h span { display: inline-block; background: #1F5A43; color: #fff; font-family: 'Noto Sans KR', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 4px; line-height: 1.4; }
+.brief-h b { display: block; margin-top: 10px; font-family: 'Noto Sans KR', sans-serif; font-size: min(1.5rem, 6vw); font-weight: 800; line-height: 1.38; color: #141414; letter-spacing: -0.01em; }
+.brief-h small { display: block; margin-top: 4px; font-size: 0.92rem; color: #777; }
+.tabsec[data-g="g1"] .label:not(.thumb-lab) { border: 0 !important; box-shadow: none !important; } .tabsec[data-g="g1"] .label:not(.thumb-lab)::before, .tabsec[data-g="g1"] .label:not(.thumb-lab)::after { display: none !important; }
