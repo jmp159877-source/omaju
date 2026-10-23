@@ -6,7 +6,7 @@
 // · 발견한 유형은 이 휴대폰에만 '프사 도감'으로 남는다(우리 쪽에 저장하지 않는다).
 
 const LS = 'omaju.psa.';
-const PHOTO = 'img/psa.jpg';   // 대표가 받아 올 사진 (탁자 위 엎어 둔 휴대폰·찻잔). 오기 전 시안은 mind.jpg 로 본다
+// 사진: 오늘 PLAY 카드 img/psa.jpg · 목록 img/psy.jpg · 프사 읽기 img/psa-frames.jpg · 테스트마다 img/<id>.jpg (같은 사진을 두 곳에 쓰지 않는다)
 const ls = { get(k, d) { try { const v = localStorage.getItem(LS + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(LS + k, JSON.stringify(v)); } catch (e) {} } };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -71,7 +71,8 @@ export function mount(el, h = {}) {
   function start() {
     const n = seen().length;
     el.innerHTML = `<div class="psa">
-      <div class="psa-head pt-head"><span class="psa-kick">심리 테스트 · 프사 읽기</span><h2>그 사람은 왜<br>프사를 <em>산</em>으로 바꿨을까</h2><p>카톡 프로필 사진으로 읽는 요즘 마음. 떠오르는 사람이 있을 때마다 <span class="psa-nowrap0">다시 해 보세요.</span></p></div>
+      <div class="psa-photo" style="background-image:url('img/psa-frames.jpg')"></div>
+      <div class="psa-head"><span class="psa-kick">심리 테스트 · 프사 읽기</span><h2>그 사람은 왜<br>프사를 <em>산</em>으로 바꿨을까</h2><p>카톡 프로필 사진으로 읽는 요즘 마음. 떠오르는 사람이 있을 때마다 <span class="psa-nowrap0">다시 해 보세요.</span></p></div>
       <div class="psa-who" role="group" aria-label="누구의 프사인가요">
         <button type="button" data-who="other" aria-pressed="${who === 'other'}"><b>그 사람 프사</b><span>지인을 떠올리며</span></button>
         <button type="button" data-who="me" aria-pressed="${who === 'me'}"><b>내 프사</b><span>요즘 내 마음은</span></button>
@@ -165,7 +166,7 @@ export const TESTS = {
     },
   },
   'pt-talk': {
-    kick: '카톡 답장 속도', title: '카톡 답장 속도로 보는\n나의 관계 온도', lead: '바로 답하는 사람, 한참 뒤에 길게 답하는 사람. 답장에는 그 사람이 관계를 대하는 방식이 묻어나요.',
+    kick: '카톡 답장 속도', title: '답장 속도로 보는\n나의 관계 온도', lead: '바로 답하는 사람, 한참 뒤에 길게 답하는 사람. 답장에는 그 사람이 관계를 대하는 방식이 묻어나요.',
     qs: [
       ['단톡방에 안 읽은 글이\n99개 넘게 쌓여 있으면?', [['바로 들어가 처음부터 읽는다', 'quick'], ['내 이름 나온 곳만 찾아본다', 'kind'], ['다 읽고 나서 차분히 답한다', 'deep'], ['쭉 넘겨 마지막만 본다', 'cool']]],
       ['반가운 사람의 메시지,\n답장은 언제 하나요?', [['보자마자 바로', 'quick'], ['이모티콘으로 먼저 반기고', 'kind'], ['제대로 쓰고 싶어 조금 뒤에', 'deep'], ['생각났을 때 몰아서', 'cool']]],
@@ -180,7 +181,7 @@ export const TESTS = {
     },
   },
   'pt-trip': {
-    kick: '여행 짐 싸는 법', title: '여행 가방을 싸는 법으로\n보는 나', lead: '가방을 언제, 무엇으로, 얼마나 채우는지. 짐 싸는 법에는 그 사람이 삶을 꾸리는 방식이 그대로 담겨요.',
+    kick: '여행 짐 싸는 법', title: '가방 싸는 법으로\n보는 나', lead: '가방을 언제, 무엇으로, 얼마나 채우는지. 짐 싸는 법에는 그 사람이 삶을 꾸리는 방식이 그대로 담겨요.',
     qs: [
       ['여행 가방은\n언제 싸나요?', [['일주일 전부터 조금씩', 'plan'], ['떠나기 전날 밤에 한 번에', 'free'], ['같이 가는 사람 것까지 챙기며', 'care'], ['가방 하나라 금방 끝', 'light']]],
       ['가방에 꼭 넣는 것은?', [['일정표와 예약 확인서', 'plan'], ['읽을 책이나 아끼는 옷 한 벌', 'free'], ['상비약과 여벌 옷', 'care'], ['꼭 필요한 것만, 없으면 가서 산다', 'light']]],
@@ -208,7 +209,8 @@ export function mountList(el, h = {}) {
   const done = ls.get('done', {});
   let found = 0; try { found = (JSON.parse(localStorage.getItem(LS + 'seen') || '[]')).length; } catch (e) {}
   el.innerHTML = `<div class="psa">
-    <div class="psa-head pt-head"><span class="psa-kick">오늘 PLAY · 심리 테스트</span><h2>가볍게 읽어 보는<br>요즘 마음</h2><p>정답은 없어요. 고르다 보면 나도, 그 사람도 조금 더 보입니다.</p></div>
+    <div class="psa-photo" style="background-image:url('img/psy.jpg')"></div>
+    <div class="psa-head"><span class="psa-kick">오늘 PLAY · 심리 테스트</span><h2>가볍게 읽어 보는<br>요즘 마음</h2><p>정답은 없어요. 고르다 보면 나도, 그 사람도 조금 더 보입니다.</p></div>
     <div class="pt-list">${LIST.map(([k, t, s], i) => `<button type="button" data-go="${k}"><span class="pt-n">${String(i + 1).padStart(2, '0')}</span><span class="pt-t"><b>${esc(t)}</b><span>${esc(s)}</span>${k === 'psa' ? `<em>프사 도감 ${found} / ${ORDER.length}</em>` : done[k] ? `<em>지난번 결과 · ${esc(TESTS[k].types[done[k]].name)}</em>` : ''}</span><span class="pt-ar" aria-hidden="true">›</span></button>`).join('')}</div>
     <p class="psa-note">재미로 보는 테스트예요. 고른 답은 어디에도 저장하지 않아요.</p>
   </div>`;
@@ -220,7 +222,8 @@ export function mountTest(el, id, h = {}) {
   const T = TESTS[id]; let step = 0, picks = [];
   function start() {
     el.innerHTML = `<div class="psa">
-      <div class="psa-head pt-head"><span class="psa-kick">심리 테스트 · ${esc(T.kick)}</span><h2>${esc(T.title).replace(/\n/g, '<br>')}</h2><p>${esc(T.lead)}</p></div>
+      <div class="psa-photo" style="background-image:url('img/${id}.jpg')"></div>
+      <div class="psa-head"><span class="psa-kick">심리 테스트 · ${esc(T.kick)}</span><h2>${esc(T.title).replace(/\n/g, '<br>')}</h2><p>${esc(T.lead)}</p></div>
       <button type="button" class="psa-go" data-go><span>시작하기 · 질문 ${T.qs.length}개</span><span aria-hidden="true">›</span></button>
       <p class="psa-note">재미로 보는 테스트예요.</p></div>`;
     el.querySelector('[data-go]').onclick = () => { step = 0; picks = []; ask(); };
