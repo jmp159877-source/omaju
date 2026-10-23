@@ -46,16 +46,30 @@ BCAST = re.compile(r"\bkbs|mbc|sbs|\bebs|mnet|jtbc|tvn", re.I)
 MIX = re.compile(r"뉴스|tv ?앨범|하이라이트|highlight|모음|메들리|medley|playlist|플레이리스트|무대모음|교차편집|토크|인터뷰|비하인드|behind|teaser|티저|"
                  r"리액션|reaction|직캠|fancam|커버|cover|노래방|karaoke|반주|\bmr\b|\binst|lesson|강좌|교실|배우기|예능|방송분|라디오스타|인간극장|퀴즈|"
                  r"레전드|legend|full ?ep|ep\.\d|episode|\d+회|스페셜|special|드라마 ?ver|명장면|shorts|#shorts|\d+시간|1 ?hour|작업용|두뇌|실버|시니어", re.I)
+# 원곡이 아닌 판 — 라이브·리믹스·어쿠스틱·반주·외국어판·안무 연습 (1차에서 BLACKPINK Live·Ed Sheeran Acoustic·TWICE 일본어판이 걸렸다)
+VER = re.compile(r"\blive\b|라이브|remix|refix|\bmix\b|acoustic|어쿠스틱|\binst\b|inst\.|instrumental|demo|rework|stripped|piano ?ver|"
+                 r"japanese|english ver|spanish|chinese|일본어|영어 ?ver|dance practice|dance video|안무|world tour|\btour\b|film version|movie mix|"
+                 r"extended|live clip|번역|lyrics|가사|inkigayo|인기가요|음악중심|뮤직뱅크|music bank|엠카|countdown|가요무대|열린음악회|콘서트|concert|"
+                 r"\bstage\b|무대|직캠|\bver\.|version", re.I)
+OKVER = re.compile(r"single version|radio edit|remaster|original|album version", re.I)
+FAN = re.compile(r"lyrics|가사|모음집|모음|fan|팬|archive|번역|full album|노래방", re.I)
 MAXS, MINS = 450, 80
 
-def topic(n): return n["ch"].endswith("- Topic") or n["desc"].startswith("Provided to YouTube")
+def topic(n): return n["ch"].endswith("- Topic")
+def credit(n):  # 'Provided to YouTube by …' 다음의 '제목 · 가수' 줄
+    return next((l for l in n["desc"].split("\n") if " · " in l), "")
+def is_ver(n):
+    ti = re.sub(OKVER, "", n["title"])
+    return bool(VER.search(ti))
 def kind(n, a):
+    if FAN.search(n["ch"]): return "비공식"
     if topic(n): return "원곡"
     if OFF.search(n["ch"]) or (norm(a) and (norm(a) in norm(n["ch"]) or norm(n["ch"]) in norm(a))):
         return "방송" if BCAST.search(n["ch"]) else "공식"
     return "비공식"
 RANK = {"원곡": 3, "공식": 2, "방송": 1, "비공식": 0}
 
+def clean(x): return norm(re.sub(r"\(.*?\)|\[.*?\]|【.*?】|feat\..*", "", x))
 def hit(n, t):
     tt = norm(t); return tt and (tt in norm(n["title"]) or (topic(n) and tt[:6] in norm(n["title"])))
 
@@ -66,6 +80,7 @@ def good(n, t, a, ref=None):
     if n["sec"] > MAXS: return False, f"{n['sec']//60}분 {n['sec']%60}초 — 중간 광고가 붙을 수 있음"
     if n["sec"] < MINS: return False, f"{n['sec']}초 — 한 곡이 다 안 됨"
     if not topic(n) and MIX.search(n["title"]): return False, "방송 꼭지·모음·커버 같은 것"
+    if is_ver(n): return False, "원곡이 아닌 판(라이브·리믹스·외국어판·무대)"
     if ref and not topic(n) and n["sec"] > ref + 40: return False, f"원곡보다 {n['sec']-ref}초 김 — 앞뒤에 딴 것이 붙음"
     return True, ""
 
@@ -89,20 +104,23 @@ for t, a in pairs:
         time.sleep(0.6)
     cands = list(dict.fromkeys(cands))[:18]
     ns = dict(zip(cands, info(cands)))
-    ref = next((n["sec"] for n in ns.values() if n and topic(n) and hit(n, t)), None)
+    ref = next((n["sec"] for n in ns.values() if n and topic(n) and hit(n, t) and not is_ver(n) and norm(a)[:4] in norm(credit(n) + n["ch"])), None)
     ok = []
     for vid, n in ns.items():
         if not n or not hit(n, t): continue
-        if a and not (norm(a)[:4] in norm(n["title"] + n["ch"] + n["desc"])): continue
+        aa = norm(a)[:4]
+        if topic(n):
+            if aa not in norm(credit(n) + n["ch"]): continue      # 다른 가수가 부른 같은 제목(Meg Donnelly 의 Look What You Made Me Do)
+        elif aa not in norm(n["title"] + n["ch"]): continue
         g, _ = good(n, t, a, ref)
-        if g and kind(n, a) != "비공식": ok.append((RANK[kind(n, a)], -abs(n["sec"] - (ref or n["sec"])), vid, n))
+        if g and kind(n, a) != "비공식": ok.append((RANK[kind(n, a)], clean(n["title"]) == norm(t), -abs(n["sec"] - (ref or n["sec"])), vid, n))
     ok.sort(reverse=True)
     on = INFO.get(old.get("v")) if old else None
     og, why = good(on, t, a, ref) if on else (False, "영상 없음")
     ok_rank = RANK[kind(on, a)] if on else -1
     best = ok[0] if ok else None
     if best and (not og or best[0] > ok_rank):
-        vid, n = best[2], best[3]
+        vid, n = best[3], best[4]
         new[k] = {"v": vid, "t": n["title"], "c": n["ch"]}
         rep["바꿈"].append(f"- **{t}** · {a} — {kind(n, a)} `{n['title'][:60]}` ({n['sec']//60}:{n['sec']%60:02d}, {n['ch']})\n"
                           f"  - 전: {('`'+on['title'][:60]+'` ('+kind(on,a)+(', '+why if why else '')+')') if on else '없음'}")
