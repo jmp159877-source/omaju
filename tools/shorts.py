@@ -68,6 +68,7 @@ def ffmpeg_video(frames, n, audio_args, out):
 # ── 첫 1초에 붙잡는 한 줄 (대표 2026-10-23: "그냥 잔잔하게 나오면 뭐지 하고 넘긴다") ──
 # 쇼츠는 첫 화면에서 '이게 뭔지'와 '왜 봐야 하는지'가 동시에 보여야 한다. 실화의 반전(마흔에 시작 → 지금은 세계적)을
 # 두 줄로. 사실에 있는 것만 쓰고 이름은 아래 줄에서 감춘다(끝까지 보게). 따옴표 인용·과장 금지.
+HOOK_LOG = []
 def make_hook(story, title):
     env = os.environ.get('SHORTS_HOOK', '')
     if '|' in env: return tuple(env.split('|', 1))
@@ -86,9 +87,10 @@ def make_hook(story, title):
                     data=json.dumps({'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json'}}).encode(),
                     headers={'Content-Type': 'application/json'})
                 with urllib.request.urlopen(req, timeout=60) as r: t = json.load(r)['candidates'][0]['content']['parts'][0]['text']
-                h = json.loads(t)
-                if h.get('l1') and h.get('l2') and len(h['l1']) <= 18 and len(h['l2']) <= 16: return h['l1'].strip(), h['l2'].strip()
-        except Exception as e: print('[훅] 실패', str(e)[:80])
+                h = json.loads(t); h = h[0] if isinstance(h, list) else h
+                HOOK_LOG.append(f'{m}: {t[:120]}')
+                if h.get('l1') and h.get('l2') and len(h['l1']) <= 20 and len(h['l2']) <= 18: return h['l1'].strip(), h['l2'].strip()
+        except Exception as e: print('[훅] 실패', str(e)[:80]); HOOK_LOG.append('실패 ' + str(e)[:160])
     return (title or '오늘 아침의 이야기'), '매일 아침 무료 매거진'
 
 GOLD, CREAM, YEL, GREEN = (232, 210, 150, 255), (232, 220, 190, 255), (249, 233, 168, 255), (12, 36, 27)
@@ -200,7 +202,7 @@ def cards():
 
 op = opening(); cd = cards()
 # 올릴 때 쓸 제목·설명·태그 — 대표가 복사해 붙인다
-info = {'date': DATE, 'opening': op, 'cards': cd}
+info = {'date': DATE, 'opening': op, 'cards': cd, 'hook_log': HOOK_LOG}
 if op:
     info['opening_up'] = {
         'title': f'{op["hook"][0]}, {op["hook"][1]} #오마주매거진 #shorts',
