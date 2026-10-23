@@ -2230,3 +2230,4 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .pet-past button[aria-current="true"] span { color: #B07A4A; font-weight: 700; }
 .tabs3:not(.compact) { align-items: stretch; }
 .m-br { display: block; height: 0; overflow: hidden; } @media (min-width: 769px) { .m-br { display: inline; height: auto; } }
+.pet-hook { font-family: 'Nanum Myeongjo', serif; font-size: 1.12rem; line-height: 1.8; color: #5a4632; margin: 14px 0 6px; padding-left: 14px; border-left: 2px solid #D9B48A; }
