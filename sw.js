@@ -1,5 +1,5 @@
 // 오마주 서비스 워커: 앱 설치용. 화면과 코드는 늘 새로 받되, 못 받으면 지난번 것으로 화면을 세운다.
-const VER = 'omaju-v47';   // 진행자 사진을 바꾸면 이 숫자를 올려야 휴대폰이 새 사진을 받는다 (사진은 한 번 받으면 계속 쓰므로)
+const VER = 'omaju-v48';   // 진행자 사진을 바꾸면 이 숫자를 올려야 휴대폰이 새 사진을 받는다 (사진은 한 번 받으면 계속 쓰므로)
 self.addEventListener('install', e => { self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VER).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 
