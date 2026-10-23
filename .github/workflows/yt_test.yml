@@ -1,0 +1,28 @@
+# 유튜브 자동 올리기 열쇠 확인 (손으로 돌림): 채널 이름·재생목록을 읽고, 비공개로 하나 올렸다 바로 지운다.
+# 결과는 media 가지 shorts/yt_test.json
+name: 유튜브 열쇠 확인
+on: { workflow_dispatch: {} }
+permissions: { contents: write }
+concurrency: { group: shorts, cancel-in-progress: false }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: media 가지 가져오기
+        run: git fetch -q origin media && git worktree add -q media origin/media
+      - name: 확인
+        env:
+          MEDIA_DIR: media
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python3 -u tools/yt_upload.py --test
+      - name: 결과 올리기
+        run: |
+          cp media/shorts/yt_test.json /tmp/r.json
+          rm -rf /tmp/oldmedia && git clone -q --depth 1 --branch media "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /tmp/oldmedia
+          cp /tmp/r.json /tmp/oldmedia/shorts/yt_test.json
+          cd /tmp/oldmedia && rm -rf .git && git init -q -b media && git config user.name omaju-bot && git config user.email bot@omaju.kr
+          git add -A && git commit -qm "유튜브 열쇠 확인 [skip ci]" && git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" media

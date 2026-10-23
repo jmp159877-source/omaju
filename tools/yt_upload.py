@@ -67,7 +67,35 @@ def upload(auth, kind, path, up):
     else: say(kind, '재생목록을 못 찾음 —', PLAYLIST[kind])
     return vid
 
+def selftest():
+    """열쇠가 맞는지·어느 채널로 올라가는지 확인한다. 비공개로 하나 올렸다가 바로 지운다. 결과는 shorts/yt_test.json"""
+    res = {'at': datetime.datetime.now(KST).isoformat(timespec='seconds')}
+    try:
+        auth = {'Authorization': 'Bearer ' + token()}
+        _, _, ch = req('GET', 'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', headers=auth)
+        res['channels'] = [c['snippet']['title'] for c in ch.get('items', [])]
+        _, _, pl = req('GET', 'https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&maxResults=50', headers=auth)
+        res['playlists'] = [p['snippet']['title'] for p in pl.get('items', [])]
+        vids = sorted(f for f in os.listdir(OUT) if f.endswith('-cards.mp4'))
+        if vids:
+            path = os.path.join(OUT, vids[-1]); size = os.path.getsize(path)
+            meta = {'snippet': {'title': '[시험] 자동 올리기 확인 — 곧 지워집니다', 'description': '', 'categoryId': '22'},
+                    'status': {'privacyStatus': 'private', 'selfDeclaredMadeForKids': False}}
+            _, h, _ = req('POST', 'https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status', body=meta,
+                          headers={**auth, 'X-Upload-Content-Type': 'video/mp4', 'X-Upload-Content-Length': str(size)})
+            with open(path, 'rb') as f:
+                _, _, v = req('PUT', h.get('Location') or h.get('location'), raw=f.read(), headers={**auth, 'Content-Type': 'video/mp4'}, timeout=600)
+            res['uploaded'] = v['id']
+            req('DELETE', f'https://www.googleapis.com/youtube/v3/videos?id={v["id"]}', headers=auth)
+            res['deleted'] = True
+        res['ok'] = True
+    except SystemExit as e: res['error'] = str(e)[:400]
+    except Exception as e: res['error'] = repr(e)[:400]
+    json.dump(res, open(os.path.join(OUT, 'yt_test.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    say('시험', res)
+
 if __name__ == '__main__':
+    if '--test' in sys.argv: selftest(); sys.exit(0)
     if not (CID and CSEC and RTOK): say('열쇠가 없어 건너뜀 (YT_CLIENT_ID · YT_CLIENT_SECRET · YT_REFRESH_TOKEN)'); sys.exit(0)
     jp = os.path.join(OUT, DATE + '.json')
     if not os.path.exists(jp): say('오늘 쇼츠가 없음', DATE); sys.exit(0)
