@@ -2224,3 +2224,9 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .tabs3 button[data-tab]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab]::before { background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.22) 38%, rgba(0,0,0,0) 62%) !important; }
 .tabs3 button::after { background: none !important; }
 .tabs3 button, .tabs3 button[aria-pressed] { filter: none !important; opacity: 1 !important; }
+/* 무엇을 볼까: 칸을 낮추고 사진을 넓게 (대표 2026-10-24 03:16 B안) */
+.banner.photo[data-corner="show"] .b-text { padding-top: 56px; }
+@media (max-width: 768px) { .banner.photo[data-corner="show"] .b-text { padding-top: 40px; } }
+/* 코너 칸 사진: 짙은 초록막을 걷고 사진 그대로 밝게 — 글씨 밑에만 옅은 그림자 (대표 2026-10-24 03:18) */
+.banner.photo::after { background: linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.36) 42%, rgba(0,0,0,0) 75%) !important; }
+.banner.photo .b-text h3, .banner.photo .b-text p, .banner.photo .b-text > span { text-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 0 14px rgba(0,0,0,0.35); }
