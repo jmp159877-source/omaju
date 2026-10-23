@@ -271,12 +271,16 @@ export async function bumpVisit() {
   const k = 'omaju.visit.' + todayKey();
   // 네이버 블로그 끝 그림의 링크(omaju.kr/?from=blog)로 온 분 — 블로그가 독자를 데려오는지 보려고 (대표 2026-10-23).
   // 표시는 읽고 바로 주소에서 지운다(공유할 때 따라가지 않게).
-  let fromBlog = false;
-  try { const q = new URLSearchParams(location.search); if (q.get('from') === 'blog') { fromBlog = true; q.delete('from'); const r = q.toString(); history.replaceState(history.state, '', location.pathname + (r ? '?' + r : '') + location.hash); } } catch (e) {}
+  let fromBlog = false, fromYt = false;
+  try { const q = new URLSearchParams(location.search); const fr = q.get('from'); if (fr === 'blog' || fr === 'yt') { fromBlog = fr === 'blog'; fromYt = fr === 'yt'; q.delete('from'); const r = q.toString(); history.replaceState(history.state, '', location.pathname + (r ? '?' + r : '') + location.hash); } } catch (e) {}
   try { if (localStorage.getItem('omaju.noCount') === '1') return; } catch (e) {}   // 운영자 기기 (관리자 화면에서 켬)
   if (navigator.webdriver || /bot|crawl|spider|slurp|yeti|daum|lighthouse|headless|preview/i.test(navigator.userAgent)) return;   // 검색 로봇·미리보기는 세지 않는다 (운영자 2026-10-22)
-  if (fromBlog) { let once = true; try { const bk = 'omaju.blog.' + todayKey(); if (localStorage.getItem(bk)) once = false; else localStorage.setItem(bk, '1'); } catch (e) {}
-    if (once) try { await setDoc(doc(db, 'stats', todayKey()), { blog: increment(1) }, { merge: true }); } catch (e) {} }
+  // 유튜브 채널 링크(omaju.kr/?from=yt)도 같은 방식으로 센다 (대표 2026-10-23 유튜브 채널 개설)
+  for (const [on, f] of [[fromBlog, 'blog'], [fromYt, 'yt']]) {
+    if (!on) continue;
+    let once = true; try { const bk = 'omaju.' + f + '.' + todayKey(); if (localStorage.getItem(bk)) once = false; else localStorage.setItem(bk, '1'); } catch (e) {}
+    if (once) try { await setDoc(doc(db, 'stats', todayKey()), { [f]: increment(1) }, { merge: true }); } catch (e) {}
+  }
   try { if (localStorage.getItem(k)) return; localStorage.setItem(k, '1'); } catch (e) {}
   // 처음 온 기기 (운영자 2026-10-22 — 가입 안 해도 보는 곳이니 '지금까지 몇 명이 봤나'를 누적으로). 이 브라우저에서 처음이면 1.
   let first = false; try { if (!localStorage.getItem('omaju.seen')) { localStorage.setItem('omaju.seen', todayKey()); first = true; } } catch (e) {}
