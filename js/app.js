@@ -916,7 +916,7 @@ function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent), standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
   if (!ok && !isIOS) return;
   const get = () => store.get('push', null);
-  const draw = () => { const p = get(); btn.hidden = false; btn.innerHTML = p ? `<span class="pc-ic">☀</span><span><b>아침 ${p.hour}시 알림 받는 중</b><small>시간 바꾸기 · 그만 받기</small></span>` : `<span class="pc-ic">☀</span><span><b>아침 알림 받기</b><small>매일 아침 인사 카드와 오늘 PLAY를 알려 드려요</small></span>`; };
+  const draw = () => { const p = get(); btn.hidden = true;   /* 인사말 밑 칸은 뺐다 (대표 2026-10-24: 정신사납다) — 가입 때 고르는 창(openPushPicker)만 남김 */ btn.innerHTML = p ? `<span class="pc-ic">☀</span><span><b>아침 ${p.hour}시 알림 받는 중</b><small>시간 바꾸기 · 그만 받기</small></span>` : `<span class="pc-ic">☀</span><span><b>아침 알림 받기</b><small>매일 아침 인사 카드와 오늘 PLAY를 알려 드려요</small></span>`; };
   const open = () => {
     if (isIOS && !standalone) return modal(`<h2>아침 알림 받기</h2><p style="font-size:1.1rem;line-height:1.8">아이폰은 오마주를 <b>앱 아이콘으로 설치</b>한 뒤에 알림을 받을 수 있습니다.<br>화면 아래 <b>공유</b> 단추 → <b>홈 화면에 추가</b>를 누른 뒤, 아이콘으로 열어 다시 눌러 주세요.</p>`);
     const p = get();
