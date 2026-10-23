@@ -58,8 +58,9 @@ MAXS, MINS = 450, 80
 def topic(n): return n["ch"].endswith("- Topic")
 def credit(n):  # 'Provided to YouTube by …' 다음의 '제목 · 가수' 줄
     return next((l for l in n["desc"].split("\n") if " · " in l), "")
-def is_ver(n):
+def is_ver(n, t=""):
     ti = re.sub(OKVER, "", n["title"])
+    if t: ti = re.sub(re.escape(t), "", ti, flags=re.I)   # 노래 제목 자체에 든 낱말(Live to Tell·The Final Countdown)은 빼고 본다
     return bool(VER.search(ti))
 def kind(n, a):
     if FAN.search(n["ch"]): return "비공식"
@@ -80,7 +81,7 @@ def good(n, t, a, ref=None):
     if n["sec"] > MAXS: return False, f"{n['sec']//60}분 {n['sec']%60}초 — 중간 광고가 붙을 수 있음"
     if n["sec"] < MINS: return False, f"{n['sec']}초 — 한 곡이 다 안 됨"
     if not topic(n) and MIX.search(n["title"]): return False, "방송 꼭지·모음·커버 같은 것"
-    if is_ver(n): return False, "원곡이 아닌 판(라이브·리믹스·외국어판·무대)"
+    if is_ver(n, t): return False, "원곡이 아닌 판(라이브·리믹스·외국어판·무대)"
     if ref and not topic(n) and n["sec"] > ref + 40: return False, f"원곡보다 {n['sec']-ref}초 김 — 앞뒤에 딴 것이 붙음"
     return True, ""
 
