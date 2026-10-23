@@ -968,6 +968,7 @@ $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null;
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
 renderEra(); renderMind(); renderGarden(); renderBody(); renderBook(); renderShow(); route();
+import('./hooks.js' + MODV).then(m => { const run = () => m.apply(); run(); setTimeout(run, 1500); setTimeout(run, 4000); }).catch(() => {});   // 판갈이 시안: 칸 제목을 썸네일처럼
 
 // ── 퀴즈 ──
 $('quiz-kind').textContent = C.quiz.term ? C.quiz.term : '오늘의 ' + (C.quiz.kind || '퀴즈');
