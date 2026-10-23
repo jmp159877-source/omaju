@@ -516,36 +516,45 @@ def build():
             if isinstance(x.get('cap'), list): x['cap'] = [c.replace(nm + '예요', nm + '이에요') for c in x['cap']]
     tgt0 = PITCH[HOST]
     # ── 토막 녹음 (대표 2026-10-24: "뒤로 갈수록 속삭인다") ──
-    # 세 벌 전체(1,400자 안팎)를 한 번에 읽히면 1분쯤 지나서부터 목소리가 숨소리 섞인 속삭임으로 흘렀다.
-    # 연출 문구로는 안 잡혀서, 400자 안팎 토막으로 나눠 읽히고 0.35초 숨을 두고 잇는다(읽어 드려요와 같은 방식).
-    # 토막마다 높이가 기준에서 6% 넘게 벗어나거나 뒤로 갈수록 3dB 넘게 사그라들면 그 토막만 다시 읽힌다(최대 세 번).
-    texts = [x['say'] for x in allsegs]; total = sum(len(t) for t in texts)
-    n = max(1, -(-total // 420)); per = total / n; groups = [[]]; acc = 0
-    for t in texts:
-        groups[-1].append(t); acc += len(t)
-        if acc >= per * len(groups) and len(groups) < n: groups.append([])
-    groups = [g for g in groups if g]
-    say('토막', len(groups), [sum(len(t) for t in g) for g in groups])
-    pieces = []
+    # 세 벌 전체(1,400자 안팎)를 한 번에 읽히면 1분쯤 지나서부터 목소리가 숨소리 섞인 속삭임으로 흘렀다 → 뜻 덩어리로 나눠 읽힌다:
+    # 인사 셋 · 아침 이야기 · 낮 이야기 · 저녁 이야기 · 안내+사연 청하기 · 마무리 셋+사인오프.
+    # 첫 토막 녹음(05:26)에서 조각 자르기가 어긋나 이름이 빠지고 말이 섞였다(대표 05:43) → 자르기도 토막 안에서만 하고,
+    # 잘린 조각마다 받아쓰기로 대본과 맞는지 본다. 하나라도 어긋나면 그 토막을 다시 읽힌다(최대 세 번).
+    order = [where['g' + sl] for sl in SLOTS] , [where['s' + sl] for sl in SLOTS]
+    groups = [sum(order[0], [])] + order[1] + [where['body'] + where['ask'], sum([where['c' + sl] for sl in SLOTS], []) + where['sign']]
+    say('토막', len(groups), [sum(len(allsegs[i]['say']) for i in g) for g in groups])
+    pieces = []; starts = []; off = 0.0; GAP = 0.35
     for gi, g in enumerate(groups):
+        texts = [allsegs[i]['say'] for i in g]; glens = [max(1, len(re.sub(r'[^가-힣]', '', t))) for t in texts]
         best = None
         for take in range(3):
             if take: time.sleep(15)
-            got = tts('\n'.join(g), HOST)
+            got = tts('\n'.join(texts), HOST)
             if got is None: continue
-            gf = f0(got); off = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0; fd = fade_db(got)
-            say(f'토막 {gi + 1} · {take + 1}번째 높이', gf and round(gf), '벗어남', round(off * 100, 1), '%', '뒤로 갈수록', round(fd, 1), 'dB')
-            score = off + max(0.0, fd - 2.0) / 20
-            if best is None or score < best[1]: best = (got, score)
-            if off <= 0.06 and fd < 3.0: break
+            gf = f0(got); off_p = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0; fd = fade_db(got)
+            st, Tg = split(got, glens); sr = 24000
+            ed = [int(x * sr) * 2 for x in st] + [len(got) // 2 * 2]
+            bad = []
+            for k, t in enumerate(texts):
+                okk, heard, r = check(KEY, got[ed[k]:ed[k + 1]], t)
+                if r < 0.7 and not str(heard).startswith('(받아쓰기 실패'): bad.append(f'{k + 1}:{r} {str(heard)[:24]}')
+            say(f'토막 {gi + 1} · {take + 1}번째', '높이', gf and round(gf), '벗어남', round(off_p * 100, 1), '%', '사그라듦', round(fd, 1), 'dB', '어긋난 조각', bad or '없음')
+            score = len(bad) * 10 + off_p + max(0.0, fd - 2.0) / 20
+            if best is None or score < best[0]: best = (score, got, st)
+            if not bad and off_p <= 0.06 and fd < 3.0: break
         if best is None: raise SystemExit('녹음 실패')
-        pieces.append(deslide(best[0]))
-    gap = b'\x00\x00' * int(24000 * 0.35)
+        if best[0] >= 10: raise SystemExit(f'토막 {gi + 1} 조각이 대본과 맞지 않음 — 어제 것을 그대로 둠')
+        pieces.append(deslide(best[1])); starts += [off + x for x in best[2]]
+        off += len(best[1]) / 48000 + GAP
+    gap = b'\x00\x00' * int(24000 * GAP)
     pcm = gap.join(pieces)
+    # allsegs 차례대로 시작 시각을 맞춘다 (토막은 allsegs 차례 그대로다)
+    flat = sum(groups, [])
+    assert flat == list(range(len(allsegs))), '토막 차례가 대본 차례와 다름'
     if pcm is None: raise SystemExit('녹음 실패')
 
     lens = [len(re.sub(r'[^가-힣]', '', x['say'])) for x in allsegs]
-    starts, T = split(pcm, lens)
+    T = len(pcm) / 48000   # 시작 시각(starts)은 위에서 토막마다 잘라 맞췄다
     rate = sum(lens) / T; tempo = max(1.0, min(1.18, 4.8 / rate))
     pf = f0(pcm); tgt = tgt0
     # 끌어내리면 목청이 묵직해진다(5% 까지만), 끌어올리면 되레 맑아진다(10% 까지)
