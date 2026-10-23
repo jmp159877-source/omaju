@@ -82,14 +82,16 @@ def make_hook(story, title):
                       '- 2줄: 12자 이내, 궁금하게 만드는 뒷부분. 이름은 쓰지 말 것. 예) 지금은 세계가 아는 이름\n'
                       '- 자막에 있는 사실만. 숫자·나이는 자막 그대로. 따옴표·느낌표·이모지·물음표 남발 금지. 낚시성 과장 금지.\n'
                       '형식: {"l1":"...","l2":"..."}\n\n자막: ' + story)
-            for m in pick('flash')[:2]:
-                req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={key}',
-                    data=json.dumps({'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json'}}).encode(),
-                    headers={'Content-Type': 'application/json'})
-                with urllib.request.urlopen(req, timeout=60) as r: t = json.load(r)['candidates'][0]['content']['parts'][0]['text']
-                h = json.loads(t); h = h[0] if isinstance(h, list) else h
-                HOOK_LOG.append(f'{m}: {t[:120]}')
-                if h.get('l1') and h.get('l2') and len(h['l1']) <= 20 and len(h['l2']) <= 18: return h['l1'].strip(), h['l2'].strip()
+            for m in pick('flash')[:3]:
+                try:
+                    req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={key}',
+                        data=json.dumps({'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json'}}).encode(),
+                        headers={'Content-Type': 'application/json'})
+                    with urllib.request.urlopen(req, timeout=180) as r: t = json.load(r)['candidates'][0]['content']['parts'][0]['text']
+                    h = json.loads(t); h = h[0] if isinstance(h, list) else h
+                    HOOK_LOG.append(f'{m}: {t[:120]}')
+                    if h.get('l1') and h.get('l2') and len(h['l1']) <= 20 and len(h['l2']) <= 18: return h['l1'].strip(), h['l2'].strip()
+                except Exception as e: HOOK_LOG.append(f'{m} 실패 ' + str(e)[:120])
         except Exception as e: print('[훅] 실패', str(e)[:80]); HOOK_LOG.append('실패 ' + str(e)[:160])
     return (title or '오늘 아침의 이야기'), '매일 아침 무료 매거진'
 
