@@ -215,15 +215,20 @@ if '--force' not in sys.argv and os.path.exists(_prev) and all(os.path.exists(os
 op = opening(); cd = cards()
 # 올릴 때 쓸 제목·설명·태그 — 대표가 복사해 붙인다
 info = {'date': DATE, 'built': _built, 'opening': op, 'cards': cd, 'hook_log': HOOK_LOG}
+# 이미 유튜브에 올린 기록은 지킨다 — 다시 만들어도 두 번 올리지 않게 (yt_upload.py 가 본다)
+try: info['yt'] = json.load(open(_prev, encoding='utf-8')).get('yt', {})
+except Exception: pass
 if op:
     info['opening_up'] = {
         'title': f'{op["hook"][0]}, {op["hook"][1]} #오마주매거진 #shorts',
-        'desc': f'매일 아침 새로 나오는 무료 매거진, 오마주 매거진의 오늘의 오프닝입니다.\n진행 {op["host"]} (AI 진행자)\n\n오늘 호 펼쳐 보기 👉 https://omaju.kr\n네이버에서 "오마주 매거진"\n\n#오마주매거진 #오늘의오프닝 #아침인사 #늦게시작해도괜찮아',
+        'desc': f'매일 아침 새로 나오는 무료 매거진, 오마주 매거진의 오늘의 오프닝입니다.\n진행 {op["host"]} (AI 진행자)\n\n오늘 호 펼쳐 보기 👉 https://omaju.kr/?from=yt\n네이버에서 "오마주 매거진"\n\n#오마주매거진 #오늘의오프닝 #아침인사 #늦게시작해도괜찮아',
+        'tags': ['오늘의오프닝', '늦게시작해도괜찮아', '인생2막', '동기부여', '실화', '아침인사', '오마주매거진', '오마주'],
         'ai': '업로드 화면에서 "변경되거나 합성된 콘텐츠"(AI) 표시를 켤 것 — AI 진행자·AI 목소리'}
 if cd:
     info['cards_up'] = {
         'title': f'{D.month}월 {D.day}일 {DOW}요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진',
-        'desc': f'오늘 아침, 마음 가는 분께 보내기 좋은 인사 카드 {cd["n"]}장.\n화면을 캡처해서 보내셔도 좋아요.\n\n매일 아침 새 카드 👉 https://omaju.kr\n네이버에서 "오마주 매거진"\n\n#아침인사 #좋은아침 #인사카드 #아침인사이미지 #오마주매거진',
+        'desc': f'오늘 아침, 마음 가는 분께 보내기 좋은 인사 카드 {cd["n"]}장.\n화면을 캡처해서 보내셔도 좋아요.\n\n매일 아침 새 카드 👉 https://omaju.kr/?from=yt\n네이버에서 "오마주 매거진"\n\n#아침인사 #좋은아침 #인사카드 #아침인사이미지 #오마주매거진',
+        'tags': ['아침인사', '좋은아침', '아침인사이미지', '인사카드', '아침인사말', f'{DOW}요일아침인사', f'{D.month}월아침인사', '좋은글', '카톡인사', '오마주매거진', '오마주'],
         'ai': '사람이 나오지 않으니 AI 표시는 하지 않아도 됨'}
 json.dump(info, open(os.path.join(OUT, DATE + '.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 # 최근 5일만 남긴다
