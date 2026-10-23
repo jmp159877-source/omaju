@@ -76,8 +76,10 @@ def trailer(title, kind):
     q = {"movie": f"{title} 공식 예고편", "stage": f"{title} 공연 티저 하이라이트", "exhibit": f"{title} 전시 소개 영상"}[kind]
     try: items = scrape(q)
     except Exception as e: print("[영상] 검색 실패", title, str(e)[:60], file=sys.stderr); return None
-    nt = _n(title)[:6]
-    c = [it for it in items if nt and nt in _n(it["snippet"]["title"]) and OFF.search(it["snippet"]["channelTitle"] + " " + it["snippet"]["title"])
+    toks = [_n(w) for w in re.split(r"[\s:·,()\[\]《》<>'\"]+", title) if len(_n(w)) >= 2]
+    def same(t):   # 제목 낱말이 모두 들어 있어야 같은 작품 (첫 글자만 보면 다른 공연이 걸렸다, 2026-10-24)
+        nt = _n(t); return toks and all(w in nt for w in toks)
+    c = [it for it in items if same(it["snippet"]["title"]) and OFF.search(it["snippet"]["channelTitle"])   # 공식은 채널 이름으로만 본다
          and not BAD.search(it["snippet"]["title"]) and WANT[kind].search(it["snippet"]["title"])]
     inf = _info([it["id"]["videoId"] for it in c])
     hi = 360 if kind == "movie" else 720
@@ -89,9 +91,10 @@ def trailer(title, kind):
 n_new = 0
 for kind, lst in [("movie", cur["movie"])] + [(k, v.get(k, [])) for v in cur["regions"].values() for k in ("stage", "exhibit")]:
     for x in lst:
-        if "vchk" in x: continue
+        if x.get("vchk") == 2: continue
+        x.pop("video", None)
         if time.time() - t0 > 30 * 60: break
-        v = trailer(x["title"], kind); x["vchk"] = 1
+        v = trailer(x["title"], kind); x["vchk"] = 2
         if v: x["video"] = v; n_new += 1
         time.sleep(0.8)
 print("[영상] 새로 단 것", n_new)
