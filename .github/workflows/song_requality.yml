@@ -1,0 +1,19 @@
+# 그 시절 노래 영상 품질 다시 고르기 (대표 2026-10-23) — 결과는 logs 가지에만. 반영은 클국장이 보고 main 에.
+name: 노래 영상 다시 고르기
+on:
+  workflow_dispatch:
+    inputs:
+      only: { description: '제목 일부(비우면 전부)', required: false, default: '' }
+permissions: { contents: write }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - env: { YOUTUBE_API_KEY: "${{ secrets.YOUTUBE_API_KEY }}" }
+        run: python3 -u tools/song_requality.py ${{ inputs.only && format('--only={0}', inputs.only) || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+      - if: always()
+        run: GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/song_requality.md data/song_videos.new.json
