@@ -1357,7 +1357,7 @@ function setChapter(g) {
   if (g) {
     if (!head) { head = document.createElement('header'); head.id = 'ch-head'; head.className = 'ch-head'; document.querySelector('.tabsec').before(head); }
     const [t, sub, img, no] = CH[g];
-    head.style.backgroundImage = `url('img/${img}.jpg')`;
+    head.style.backgroundImage = `url('img/${img}.jpg?v=2')`;
     head.innerHTML = `<button type="button" class="ch-back" id="ch-back">← 처음으로</button><div class="ch-t"><span class="ch-k">CHAPTER ${no || g.slice(1)}</span><h2>${t}</h2><p>${sub}</p></div>`;
     $('ch-back').onclick = () => history.back();
   }

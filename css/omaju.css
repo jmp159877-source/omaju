@@ -427,7 +427,7 @@ body { word-break: keep-all; overflow-wrap: anywhere; }
 
 /* ── 탭: 사진 배경 ── */
 .tabs3 button { position: relative; overflow: hidden; background-size: cover; background-position: center; color: #fff; border: 0; min-height: 150px; padding: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5); }
-.tabs3 button[data-tab="g1"] { background-image: url('../img/tab-today.jpg'); }
+.tabs3 button[data-tab="g1"] { background-image: url('../img/tab-today.jpg?v=2'); }
 .tabs3 button[data-tab="g2"] { background-image: url('../img/tab-past.jpg'); }
 .tabs3 button[data-tab="g3"] { background-image: url('../img/tab-future2.jpg'); }
 .tabs3 button::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,20,20,0.75) 0%, rgba(20,20,20,0.45) 55%, rgba(20,20,20,0.35) 100%); transition: background .2s; }
@@ -440,7 +440,7 @@ body { word-break: keep-all; overflow-wrap: anywhere; }
 .tabs3 button b { display: flex; align-items: flex-end; justify-content: center; height: 100%; padding: 0 6px 44px; }
 .tabs3 button small { position: absolute; left: 0; right: 0; bottom: 14px; }
 @media (max-width: 768px) { .tabs3 button { min-height: 130px; } .tabs3 button b { font-size: 1.1rem; padding-bottom: 38px; } .tabs3 button small { font-size: 0.72rem; bottom: 12px; } }
-.tabs3 button[data-tab="g1"][aria-pressed="true"] { background-image: url('../img/tab-today.jpg') !important; }
+.tabs3 button[data-tab="g1"][aria-pressed="true"] { background-image: url('../img/tab-today.jpg?v=2') !important; }
 .tabs3 button[data-tab="g2"][aria-pressed="true"] { background-image: url('../img/tab-past.jpg') !important; }
 .tabs3 button[data-tab="g3"][aria-pressed="true"] { background-image: url('../img/tab-future2.jpg') !important; }
 .tabs3 button[aria-pressed="true"] { background-color: #333 !important; }
@@ -607,7 +607,7 @@ html, body { overscroll-behavior-y: none; }
 .tabs-mini button { position: relative; overflow: hidden; height: 56px; border: 0; border-radius: 8px; color: #fff; font-weight: 700; font-size: 0.86rem; line-height: 1.15; text-shadow: 0 1px 4px rgba(0,0,0,0.7); background-size: cover; background-position: center; opacity: 0.72; padding: 0 2px; }
 .tabs-mini button::before { content: ''; position: absolute; inset: 0; background: rgba(20,20,20,0.45); }
 .tabs-mini button span { position: relative; z-index: 1; }
-.tabs-mini button[data-tab="g1"] { background-image: url('../img/tab-today.jpg'); }
+.tabs-mini button[data-tab="g1"] { background-image: url('../img/tab-today.jpg?v=2'); }
 .tabs-mini button[data-tab="g2"] { background-image: url('../img/tab-past.jpg'); }
 .tabs-mini button[data-tab="g3"] { background-image: url('../img/tab-future2.jpg'); }
 .tabs-mini button[data-tab="g4"] { background-image: url('../img/tab-note.jpg'); background-position: center 60%; }
