@@ -2123,3 +2123,80 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .my-f .in input, .my-f .in select { flex: 1 1 8em; min-width: 0; padding: 11px 12px; border: 1px solid #DDE3DE; border-radius: 10px; background: #FAFBF9; font-size: min(1.02rem, 16px + 0.4vw); }
 .my-f .in .btn { flex: 0 0 auto; min-height: 46px; padding: 0 16px; border-radius: 10px !important; }
 .my-f .in #m-size-big, .my-f .in #m-size-normal { flex: 1 1 0; }
+
+/* ── 오늘 PLAY: 읽어 보기 + 프사 읽기 (대표 2026-10-23 — 1차 시안이 "80년대 책자 같다" → 사진 중심·여백·가는 선으로 다시) ── */
+.pl-sec { margin: 26px 0 12px; font-size: 0.8rem; letter-spacing: 0.24em; color: #8a6d2c; }
+.pl-hub-head + .pl-sec { margin-top: 6px; }
+.pl-feature { display: block; width: 100%; padding: 0; text-align: left; background: #fff; border: 1px solid #E8E0CC; border-radius: 14px; overflow: hidden; box-shadow: 0 3px 10px rgba(60,40,10,0.06); }
+.pl-f-photo { display: block; aspect-ratio: 16 / 9; background: #ddd center / cover no-repeat; }
+.pl-f-txt { display: block; padding: 18px 18px 18px; }
+.pl-f-kick { display: block; font-size: 0.8rem; letter-spacing: 0.2em; color: #8a6d2c; }
+.pl-feature b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.4rem; line-height: 1.42; font-weight: 700; color: #1f1f1f; margin: 6px 0 6px; }
+.pl-f-sub { display: block; font-size: 0.92rem; color: #666; line-height: 1.55; }
+.pl-f-sub i { font-style: normal; color: #8a6d2c; }
+
+.psa { padding: 0 0 34px; }
+.psa-photo { margin: 0 -20px; aspect-ratio: 4 / 3; background: #ddd center / cover no-repeat; position: relative; }
+.psa-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 70%, var(--ivory) 100%); }
+.psa-head { position: relative; margin-top: 4px; padding: 0 2px; }
+.psa-kick { display: block; font-size: 0.8rem; letter-spacing: 0.22em; color: #8a6d2c; }
+.psa-head h2 { font-family: 'Nanum Myeongjo', serif; font-size: 1.85rem; line-height: 1.4; margin: 8px 0 12px; font-weight: 700; color: #141414; }
+.psa-head h2 em { font-style: normal; color: var(--dark-green); border-bottom: 2px solid #E3B04B; }
+.psa-head p { margin: 0; font-size: 1.02rem; line-height: 1.75; color: #555; }
+.psa-who { display: flex; gap: 22px; margin: 26px 0 4px; border-bottom: 1px solid var(--line); }
+.psa-who button { background: none; border: 0; padding: 0 0 10px; margin-bottom: -1px; text-align: left; min-width: 0; border-bottom: 2px solid transparent; }
+.psa-who button b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; color: #999; font-weight: 700; }
+.psa-who button span { display: block; font-size: 0.85rem; color: #aaa; }
+.psa-who button[aria-pressed="true"] { border-bottom-color: var(--dark-green); }
+.psa-who button[aria-pressed="true"] b { color: var(--dark-green); }
+.psa-who button[aria-pressed="true"] span { color: #777; }
+.psa-go { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; padding: 16px 20px; margin-top: 22px; background: var(--warm); color: var(--warm-ink); border: 1px solid var(--warm-line); border-radius: 10px; font-weight: 800; font-size: 1.06rem; line-height: 1.45; text-align: left; }
+.psa-dex-link { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; margin-top: 4px; padding: 16px 2px; background: none; border: 0; border-bottom: 1px solid var(--line); color: #333; font-size: 1rem; text-align: left; }
+.psa-dex-link .psa-nowrap { white-space: nowrap; color: #8a6d2c; }
+.psa-nowrap0 { white-space: nowrap; }
+.psa-note { margin: 18px 0 0; font-size: 0.86rem; color: #999; line-height: 1.6; }
+.psa-prog { height: 2px; background: #E5DFD0; margin: 10px 0 22px; }
+.psa-prog i { display: block; height: 100%; background: var(--dark-green); transition: width .3s; }
+.psa-step { margin: 0; font-size: 0.85rem; color: #8a6d2c; letter-spacing: 0.08em; }
+.psa-q { font-family: 'Nanum Myeongjo', serif; font-size: 1.6rem; line-height: 1.45; margin: 10px 0 18px; color: #141414; font-weight: 700; }
+.psa-opts { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.psa-opts button { display: flex; align-items: baseline; gap: 14px; text-align: left; padding: 18px 2px; background: none; border: 0; border-bottom: 1px solid var(--line); font-size: 1.1rem; line-height: 1.5; color: #222; min-width: 0; }
+.psa-opts button::before { content: attr(data-n); flex: none; font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #b49a5e; width: 1.4em; }
+.psa-opts button::after { content: '›'; margin-left: auto; color: #c9bfa6; padding-left: 8px; }
+.psa-opts button:active, .psa-opts button[aria-pressed="true"] { color: var(--dark-green); font-weight: 700; }
+.psa-prev { margin-top: 18px; background: none; border: 0; color: #888; font-size: 0.98rem; padding: 6px 0; }
+.psa-res { padding: 8px 2px 0; }
+.psa-res h2 { font-family: 'Nanum Myeongjo', serif; font-size: 2.2rem; margin: 10px 0 0; color: #141414; font-weight: 700; line-height: 1.3; }
+.psa-new { margin: 10px 0 0; font-size: 0.86rem; color: #8a6d2c; }
+.psa-rule { width: 40px; height: 1px; background: #C9A24A; margin: 20px 0 18px; border: 0; }
+.psa-read { font-size: 1.12rem; line-height: 1.85; color: #222; margin: 0; }
+.psa-more { font-size: 1rem; line-height: 1.8; color: #666; margin: 12px 0 0; }
+.psa-ask { margin-top: 28px; padding: 22px 22px 20px; background: #EAEFE6; border-radius: 12px; }
+.psa-ask span { display: block; font-size: 0.8rem; letter-spacing: 0.16em; color: #4f6b56; }
+.psa-ask p { font-family: 'Nanum Myeongjo', serif; font-size: 1.22rem; line-height: 1.65; margin: 10px 0 14px; font-weight: 700; color: #1d3b2c; }
+.psa-copy { padding: 0; background: none; border: 0; border-bottom: 1px solid #4f6b56; color: #2d4a38; font-size: 0.95rem; font-weight: 700; }
+.psa-row { display: flex; margin-top: 6px; border-bottom: 1px solid var(--line); }
+.psa-row button { flex: 1; padding: 16px 4px; background: none; border: 0; color: #333; font-size: 1rem; min-width: 0; line-height: 1.45; }
+.psa-row button + button { border-left: 1px solid var(--line); }
+.psa-dex { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 18px; border-top: 1px solid var(--line); }
+.psa-cell { padding: 16px 12px 16px 2px; border-bottom: 1px solid var(--line); min-width: 0; }
+.psa-cell:nth-child(odd) { padding-right: 14px; border-right: 1px solid var(--line); }
+.psa-cell:nth-child(even) { padding-left: 14px; }
+.psa-cell b { display: block; font-family: 'Nanum Myeongjo', serif; font-size: 1.1rem; color: #c3bba8; line-height: 1.4; font-weight: 700; }
+.psa-cell span { display: block; margin-top: 4px; font-size: 0.82rem; color: #aaa; line-height: 1.5; }
+.psa-cell.on b { color: var(--dark-green); }
+.psa-cell.on span { color: #777; }
+.psa-dex-head { padding-top: 8px; }
+.psa-dex-head h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 500; margin: 4px 0 4px; color: #141414; line-height: 1.1; }
+.psa-dex-head p { margin: 0; color: #666; font-size: 1rem; line-height: 1.7; }
+/* 심리 테스트 고르는 목록 */
+.pt-list { margin-top: 24px; border-top: 1px solid var(--line); }
+.pt-list button { display: flex; align-items: flex-start; gap: 14px; width: 100%; padding: 20px 2px; background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; min-width: 0; }
+.pt-n { flex: none; font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: #b49a5e; width: 1.6em; line-height: 1.5; }
+.pt-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.pt-t b { font-family: 'Nanum Myeongjo', serif; font-size: 1.25rem; color: #141414; font-weight: 700; line-height: 1.4; }
+.pt-t > span { font-size: 0.95rem; color: #666; line-height: 1.5; }
+.pt-t em { font-style: normal; font-size: 0.85rem; color: #8a6d2c; margin-top: 2px; }
+.pt-ar { flex: none; color: #c9bfa6; font-size: 1.3rem; line-height: 1.5; }
+.pt-head { margin-top: 12px; }
+.psa h2, .psa-q, .pt-t b, .pl-feature b, .psa-ask p { word-break: keep-all; }
