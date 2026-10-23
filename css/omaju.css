@@ -2203,3 +2203,4 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .psa-cards { margin-top: 28px; }
 .psa-cards p { margin: 6px 0 14px; font-size: 0.95rem; color: #666; }
 .psa-cards .cards { margin: 0 -20px; padding: 0 20px 20px; gap: 14px; }
+@media (min-width: 769px) { .hero { background-image: url("../img/hero-mobile.jpg") !important; background-position: center 100% !important; } }
