@@ -2230,3 +2230,26 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 /* 코너 칸 사진: 짙은 초록막을 걷고 사진 그대로 밝게 — 글씨 밑에만 옅은 그림자 (대표 2026-10-24 03:18) */
 .banner.photo::after { background: linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.36) 42%, rgba(0,0,0,0) 75%) !important; }
 .banner.photo .b-text h3, .banner.photo .b-text p, .banner.photo .b-text > span { text-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 0 14px rgba(0,0,0,0.35); }
+
+/* ── 판갈이 시안 (대표 2026-10-24): 칸 = 썸네일 ── */
+.banner.thumb { min-height: 230px; }
+.banner.thumb::before { background: linear-gradient(to top, rgba(10,10,8,0.86) 0%, rgba(10,10,8,0.55) 40%, rgba(10,10,8,0.06) 75%) !important; }
+.banner.thumb .b-kick { display: block; font-size: 0.82rem; letter-spacing: 0.08em; color: #F3D98B; margin-bottom: 6px; font-weight: 700; }
+.banner.thumb h3.b-hook { font-size: 1.5rem; line-height: 1.38; font-weight: 800; word-break: keep-all; letter-spacing: -0.01em; text-shadow: 0 2px 12px rgba(0,0,0,0.55); }
+.banner.thumb .b-text p { font-size: 0.92rem; opacity: 0.88; margin-top: 6px; }
+.brief-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 46px 0 6px; padding-top: 18px; border-top: 1px solid var(--line); }
+.brief-h span { font-size: 0.8rem; letter-spacing: 0.2em; color: #8a6d2c; }
+.brief-h b { font-family: 'Nanum Myeongjo', serif; font-size: 1.3rem; color: #141414; }
+.brief-h small { width: 100%; font-size: 0.88rem; color: #888; }
+.label.thumb-lab { display: none; }
+.banner.photo.thumb { height: 300px; margin-top: 18px; }
+@media (max-width: 768px) { .banner.photo.thumb { height: 280px; } }
+.banner.photo.thumb { height: auto; min-height: 280px; display: flex; align-items: flex-end; }
+.banner.thumb .b-text { position: relative; left: auto; right: auto; bottom: auto; width: 100%; padding: 90px 22px 20px; flex-direction: column; align-items: stretch; gap: 12px; }
+.banner.thumb .b-text > div { min-width: 0; }
+.banner.thumb .b-text > span { align-self: flex-end; }
+.banner.thumb .b-text span.b-kick { font-family: 'Noto Sans KR', sans-serif; border: 0; padding: 0; white-space: normal; }
+.banner.thumb .b-text { background: linear-gradient(to top, rgba(12,10,6,0.92) 0%, rgba(12,10,6,0.78) 45%, rgba(12,10,6,0.35) 78%, rgba(12,10,6,0) 100%); border-radius: 0 0 inherit inherit; }
+.banner.thumb::before { display: none; }
+.banner.photo.thumb { min-height: 360px; }
+.banner.thumb .b-text { padding-top: 70px; background: linear-gradient(to top, rgba(12,10,6,0.92) 0%, rgba(12,10,6,0.8) 55%, rgba(12,10,6,0) 100%); }
