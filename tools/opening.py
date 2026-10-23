@@ -192,6 +192,30 @@ def gemini_json(prompt):
             say('대본 실패', m, str(e)[:120]); time.sleep(5)
     return None, None
 
+def fact_check(s):
+    """세 실화의 사실(인물·나이·연도·한 일)을 구글 검색으로 대조한다 (대표 2026-10-24: 새벽마다 내가 볼 수 없으니 오류 없게).
+    틀린 곳이 있으면 문제 목록을 돌려준다. 검색이 안 되면 막지 않고 기록만 남긴다."""
+    stories = {sl: ' '.join(x['say'] for x in s['story'][sl]) for sl in SLOTS}
+    prompt = ('아래는 라디오 오프닝에서 들려줄 실존 인물의 실화 세 편이다. 구글 검색으로 하나씩 확인해라.\n'
+              '인물이 누구인지 밝히고, 나이·연도·직업·한 일·결과가 사실과 맞는지 본다. 반올림한 나이(마흔·쉰 무렵)는 1~2년 차이까지 맞는 것으로 친다.\n'
+              '과장(\"세계를 뒤흔든\" 같은)이 사실을 바꿀 정도면 틀린 것으로 본다. 지어낸 인물이거나 확인되지 않으면 틀린 것이다.\n'
+              + '\n'.join(f'[{sl}] {t}' for sl, t in stories.items()) +
+              '\n형식(JSON만): {"morning":{"who":"인물","ok":true,"why":"틀렸으면 무엇이 왜"}, "noon":{...}, "evening":{...}}')
+    for m in pick('pro', ('gemini-2.5-pro', 'gemini-2.5-flash'))[:3]:
+        try:
+            d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
+                     {'contents': [{'parts': [{'text': prompt}]}], 'tools': [{'google_search': {}}], 'generationConfig': {'temperature': 0}}, 240)
+            t = ''.join(x.get('text', '') for x in d['candidates'][0]['content']['parts'])
+            j = json.loads(re.search(r'\{.*\}', t, re.S).group(0))
+            bad = [f"{sl} {j[sl].get('who', '')}: {j[sl].get('why', '')}" for sl in SLOTS if not (j.get(sl) or {}).get('ok', False)]
+            say('사실 확인', m, {sl: (j.get(sl) or {}).get('who') for sl in SLOTS}, '틀림:', bad or '없음')
+            return ['사실 틀림 ' + b[:80] for b in bad]
+        except Exception as e:
+            say('사실 확인 실패', m, str(e)[:100]); time.sleep(5)
+    say('주의: 사실 확인을 못 함 — 아침 점검에서 사람이 본다')
+    return []
+
+
 def problems(s):
     p = []
     try:
@@ -232,7 +256,11 @@ def problems(s):
         names = today_names()
         if names and not any(n in guide for n in names): p.append('오마주 안내에 오늘 들어온 것 이름 없음')
         if re.search(r'생활 ?팁|생활 ?요령|오늘의 ?팁', guide): p.append('오마주 안내에 없는 코너(생활 팁)')
-        if '사연' in (s.get('next_title') or ''): p.append('내일 예고가 사연 꼴')   # 60~70초로 줄인 뒤 기준도 내림 (2026-10-19)
+        if '사연' in (s.get('next_title') or ''): p.append('내일 예고가 사연 꼴')
+        # 실화 속 인물의 말을 따옴표로 옮기지 않는다 (확인 안 된 인용이 가장 위험하다)
+        story_say = ' '.join(x['say'] for sl in SLOTS for x in s['story'][sl])
+        if re.search(r'["“”「」『』]', story_say): p.append('실화에 따옴표 인용')
+        if re.search(r'안녕하세요\s*!', json.dumps(s['greet'], ensure_ascii=False)): p.append('첫인사 느낌표')   # 60~70초로 줄인 뒤 기준도 내림 (2026-10-19)
     except Exception as e:
         p.append('형식 ' + str(e)[:60])
     return p
@@ -287,6 +315,7 @@ def make_script():
         s, m = gemini_json(PROMPT.format(name=NAME[HOST], yeyo=yeyo(NAME[HOST]), desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()]))
         if not s: continue
         p = problems(s)
+        if not p: p = fact_check(s)   # 형식이 맞을 때만 검색 대조(비용 아끼기)
         say('대본', m, '문제:', p or '없음')
         if not p: return s
     raise SystemExit('대본을 만들지 못함')
@@ -482,6 +511,13 @@ def build():
                   '아래 내 사연 보내기로 보내 주시면 제가 골라서 소개해 드릴게요.',
            'cap': ['여러분의 이야기를 들려주세요', '내 사연 보내기'], 'tag': 'read'}
     imgs = {p: {t: shot(p, t) for t in set(TAGS) | {'wave', 'stand'}} for p in ('mor', 'eve')}
+    # 사진 점검: 파일이 실제로 있고, 그날 진행자·그날 옷 것만 섞였는지 (다른 사람·다른 옷이 끼면 화면이 튄다)
+    sfx = '' if OUTFIT == 1 else '2'
+    for per, d in imgs.items():
+        for t, f in d.items():
+            if not os.path.exists(os.path.join(ROOT, 'img', 'hosts', f)): raise SystemExit(f'사진 없음 {f} — 어제 것을 그대로 둠')
+            if not re.fullmatch(rf'{HOST}-(mor|eve){sfx}-[a-z]+\.jpg', f): raise SystemExit(f'다른 진행자·옷 사진이 섞임 {f}')
+    say('사진 점검 통과', HOST, OUTFIT)
     res = {'date': DATE, 'host': HOST, 'outfit': OUTFIT, 'imgs': imgs,
            'title': s.get('title', ''), 'next_title': s['next_title'],
            'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'slots': {}}
