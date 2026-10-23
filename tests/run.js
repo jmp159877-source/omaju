@@ -50,7 +50,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const bad = [...dup(cards).map(x => '카드 ' + x), ...dup(heroes).map(x => '표지 ' + x), ...missing.map(x => '없는 사진 ' + x)];
       ok('같은 사진을 두 곳에 쓰지 않음', !bad.length, bad.join(' / ')); }
     // 1) 화면 전부 × 보통·큰 글씨
-    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'quiz', 'story'];
+    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g4', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'psy', 'psa', 'pt-wall', 'pt-talk', 'pt-trip', 'quiz', 'story'];
     for (const big of [false, true]) {
       const c = await ctx(big); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await p.goto(base + '/index.html'); await wait(p, 1500); const bad = [];
@@ -467,8 +467,34 @@ srv.listen(0, '127.0.0.1', async () => {
         if (r.soon) return '아직 준비 중 — 지도 키가 안 들어감';
         return (r.view && r.q && r.mic && r.by) || JSON.stringify(r); });
       await step('나들이: 지역 바꾸기', async () => { await E(() => window.omajuNav('outing')); await W(700); const rs = await E(() => [...document.querySelectorAll('[data-region]')].map(b => b.dataset.region)); if (rs.length < 2) return `지역 ${rs.length}개`; await E(r => document.querySelector(`[data-region="${r}"]`).click(), rs[1]); await W(300); const t = await E(() => document.getElementById('outing-title').textContent); const items = await E(() => document.querySelectorAll('#outing-body .ot-row').length); return (t.includes(rs[1]) && items > 0) || `${t}, ${items}`; });
-      await step('놀이 차례 · 사천성→1 to 50→스도쿠→말모이', async () => { await E(() => window.omajuNav('play')); await W(700); const got = await E(() => [...document.querySelectorAll('#play-root [data-go]')].map(b => b.dataset.go)); const want = ['shisen', 'num50', 'sudoku', 'malmoi']; return got.join(',') === want.join(',') || got.join(','); });
+      await step('오늘 PLAY 차례 · 심리 테스트→사천성→1 to 50→스도쿠→말모이', async () => { await E(() => window.omajuNav('play')); await W(700); const got = await E(() => [...document.querySelectorAll('#play-root [data-go]')].map(b => b.dataset.go)); const want = ['psy', 'shisen', 'num50', 'sudoku', 'malmoi']; return got.join(',') === want.join(',') || got.join(','); });
       await step('운세: 수필이 아니라 운세 꼴', async () => { await E(() => window.omajuNav('fortune')); await W(700); await E(() => { const b = document.querySelector('#zodiac [data-z]'); if (b) b.click(); }); await W(500); const r = await E(() => { const f = document.getElementById('fortune'); const rows = [...f.querySelectorAll('.fo-row b')].map(b => b.textContent.trim()); return { total: (f.querySelector('.fo-total') || {}).textContent || '', rows, care: !!f.querySelector('.fo-care'), lucky: f.querySelectorAll('.fo-lucky span').length }; }); const need = ['하는 일', '사람', '지갑', '조심할 것', '해 보기']; const missing = need.filter(k => !r.rows.includes(k)); if (missing.length) return '빠진 칸: ' + missing.join(','); if (!/날입니다|좋습니다|낫습니다|필요한|합니다/.test(r.total)) return '총운이 판단 문장이 아님: ' + r.total.slice(0, 40); return (r.care && r.lucky >= 3) || JSON.stringify({ care: r.care, lucky: r.lucky }); });
+      // 심리 테스트 (대표 2026-10-23): 목록 → 프사 읽기(결과·도감·인사 카드 연결) → 보기 고르는 테스트 셋 → 뒤로 가기
+      await step('심리 테스트 · 목록에 네 가지', async () => { await E(() => window.omajuNav('g1')); await W(300); await E(() => window.omajuNav('play')); await W(400); await E(() => document.querySelector('#play-root [data-go="psy"]').click()); await W(1200); const got = await E(() => [...document.querySelectorAll('#psy-root [data-go]')].map(b => b.dataset.go).join(',')); return got === 'psa,pt-wall,pt-talk,pt-trip' || got; });
+      await step('심리 테스트 · 프사 읽기 결과·도감', async () => {
+        await E(() => { try { localStorage.removeItem('omaju.psa.seen'); } catch (e) {} document.querySelector('#psy-root [data-go="psa"]').click(); }); await W(1200);
+        await E(() => document.querySelector('#psa-root [data-go]').click()); await W(300);
+        for (const v of ['kin', 'still', 'empty']) { await E(v => document.querySelector(`#psa-root [data-v="${v}"]`).click(), v); await W(250); }
+        const r = await E(() => ({ name: (document.querySelector('#psa-root .psa-res h2') || {}).textContent, ask: !!document.querySelector('#psa-root [data-copy]'), card: !!document.querySelector('#psa-root [data-card]'), seen: JSON.parse(localStorage.getItem('omaju.psa.seen') || '[]') }));
+        if (r.name !== '든든한 울타리형' || !r.ask || !r.card || r.seen.join() !== 'kin-old') return JSON.stringify(r);
+        await E(() => document.querySelector('#psa-root .psa-row [data-dex]').click()); await W(300);
+        const on = await E(() => document.querySelectorAll('#psa-root .psa-cell.on').length + '/' + document.querySelectorAll('#psa-root .psa-cell').length);
+        return on === '1/12' || '도감 ' + on;
+      });
+      await step('심리 테스트 · 인사 카드로 이어짐', async () => { await E(() => document.querySelector('#psa-root [data-go]').click()); await W(300); for (const v of ['land', 'week', 'big', 'quote']) { await E(v => document.querySelector(`#psa-root [data-v="${v}"]`).click(), v); await W(250); } await E(() => document.querySelector('#psa-root [data-card]').click()); await W(1500); const h = await E(() => location.hash); return h === '#g1' || h; });
+      await step('심리 테스트 · 세 가지 끝까지·지난 결과', async () => {
+        const bad = [];
+        for (const [k, picks, want] of [['pt-wall', ['away', 'away', 'taste', 'away'], '떠날 궁리 중인 사람'], ['pt-talk', ['deep', 'quick', 'deep', 'cool'], '꾹꾹 눌러 쓰는 사람'], ['pt-trip', ['care', 'plan', 'free', 'light'], '모두의 가방을 챙기는 사람']]) {
+          await E(() => window.omajuNav('play')); await W(300); await E(() => window.omajuNav('psy')); await W(800); await E(k => document.querySelector(`#psy-root [data-go="${k}"]`).click(), k); await W(1000);
+          await E(k => document.querySelector(`#${k}-root [data-go]`).click(), k); await W(250);
+          for (const v of picks) { await E(([k, v]) => document.querySelector(`#${k}-root [data-v="${v}"]`).click(), [k, v]); await W(200); }
+          const got = await E(k => (document.querySelector(`#${k}-root .psa-res h2`) || {}).textContent, k); if (got !== want) bad.push(`${k}=${got}`);
+        }
+        await E(() => window.omajuNav('play')); await W(300); await E(() => window.omajuNav('psy')); await W(800);
+        const last = await E(() => document.querySelectorAll('#psy-root .pt-t em').length);
+        return (!bad.length && last === 4) || (bad.join(' ') + ' 지난결과 ' + last);
+      });
+      await step('심리 테스트 · 뒤로 가기 단계', async () => { await E(() => document.querySelector('#psy-root [data-go="pt-talk"]').click()); await W(800); await E(() => history.back()); await W(700); const a = await E(() => location.hash); await E(() => history.back()); await W(700); const b = await E(() => location.hash); return (a === '#psy' && b === '#play') || `${a} → ${b}`; });
       await step('놀이 4종 열림', async () => { const bad = []; for (const g of ['malmoi', 'shisen', 'num50', 'sudoku']) { await E(() => window.omajuNav('g1')); await W(300); await E(() => window.omajuNav('play')); await W(400); await E(g => window.omajuNav(g), g); await W(1500); const n = await E(g => (document.getElementById({ malmoi: 'mm-root', shisen: 'ss-root', num50: 'n5-root', sudoku: 'sd-root' }[g]) || {}).innerHTML.length || 0, g); if (n < 200) bad.push(g); } return !bad.length || '안 열림 ' + bad; });
       await step('놀이 순위 보기 창', async () => { await E(() => document.querySelector('[data-rank]').click()); await W(800); const t = await modalText(); await closeM(); return /순위/.test(t) || t.slice(0, 40); });
       // 달력은 접힌 채로 시작한다(운영자 2026-10-21 밤) — 눌러서 폈다 다시 접히는지까지 본다
