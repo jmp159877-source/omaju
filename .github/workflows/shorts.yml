@@ -35,6 +35,7 @@ jobs:
       - name: 만들기
         timeout-minutes: 12
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MEDIA_DIR: media
           CARDS: /tmp/cards
         run: |

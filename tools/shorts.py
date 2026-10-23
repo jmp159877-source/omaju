@@ -65,6 +65,41 @@ def ffmpeg_video(frames, n, audio_args, out):
     p.stdin.close(); p.wait()
     if p.returncode: raise SystemExit('ffmpeg 실패')
 
+# ── 첫 1초에 붙잡는 한 줄 (대표 2026-10-23: "그냥 잔잔하게 나오면 뭐지 하고 넘긴다") ──
+# 쇼츠는 첫 화면에서 '이게 뭔지'와 '왜 봐야 하는지'가 동시에 보여야 한다. 실화의 반전(마흔에 시작 → 지금은 세계적)을
+# 두 줄로. 사실에 있는 것만 쓰고 이름은 아래 줄에서 감춘다(끝까지 보게). 따옴표 인용·과장 금지.
+def make_hook(story, title):
+    env = os.environ.get('SHORTS_HOOK', '')
+    if '|' in env: return tuple(env.split('|', 1))
+    key = os.environ.get('GEMINI_API_KEY', '')
+    if key and story:
+        try:
+            sys.path.insert(0, HERE); from models import pick
+            import urllib.request
+            prompt = ('아래는 오늘 아침 방송의 실화 자막이다. 유튜브 쇼츠 첫 화면 위에 크게 얹을 두 줄 문구를 만들어라.\n'
+                      '- 1줄: 14자 이내, 반전의 앞부분(늦은 나이·평범한 처지)을 구체적으로. 예) 마흔에 처음 드레스를 그린 여자\n'
+                      '- 2줄: 12자 이내, 궁금하게 만드는 뒷부분. 이름은 쓰지 말 것. 예) 지금은 세계가 아는 이름\n'
+                      '- 자막에 있는 사실만. 숫자·나이는 자막 그대로. 따옴표·느낌표·이모지·물음표 남발 금지. 낚시성 과장 금지.\n'
+                      '형식: {"l1":"...","l2":"..."}\n\n자막: ' + story)
+            for m in pick('flash')[:2]:
+                req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={key}',
+                    data=json.dumps({'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json'}}).encode(),
+                    headers={'Content-Type': 'application/json'})
+                with urllib.request.urlopen(req, timeout=60) as r: t = json.load(r)['candidates'][0]['content']['parts'][0]['text']
+                h = json.loads(t)
+                if h.get('l1') and h.get('l2') and len(h['l1']) <= 18 and len(h['l2']) <= 16: return h['l1'].strip(), h['l2'].strip()
+        except Exception as e: print('[훅] 실패', str(e)[:80])
+    return (title or '오늘 아침의 이야기'), '매일 아침 무료 매거진'
+
+GOLD, CREAM, YEL, GREEN = (232, 210, 150, 255), (232, 220, 190, 255), (249, 233, 168, 255), (12, 36, 27)
+
+def top_band(o, small, l1, l2, y0=230):
+    """맨 위 짙은 초록 띠에 작은 금빛 한 줄 + 큰 두 줄(둘째 줄은 연노랑)"""
+    cx = W // 2
+    ImageDraw.Draw(o).text((cx, y0), small, font=font(SERIF, 32), fill=GOLD, anchor='mm')
+    shadow_text(o, (cx, y0 + 92), l1, fit(l1, SERIF_B, 80, 980), blur=6, alpha=160)
+    shadow_text(o, (cx, y0 + 192), l2, fit(l2, SERIF_B, 80, 980), fill=YEL, blur=6, alpha=160)
+
 # ── ① 오프닝 ──
 def opening():
     jp = os.path.join(MEDIA, 'opening', DATE + '.json')
@@ -72,58 +107,64 @@ def opening():
     j = json.load(open(jp, encoding='utf-8')); s = j['slots']['morning']; segs = s['segs']
     mp3 = os.path.join(MEDIA, 'opening', s['audio'].split('?')[0])
     host = NAME.get(j.get('host'), '')
-    # 인사(0~1) + 실화(story 태그가 이어지는 구간) + 사인오프(마지막)만 쓴다.
+    # 첫 인사는 뺀다 — 쇼츠에서 "안녕하세요"로 시작하면 넘긴다. 실화로 바로 들어가고 사인오프로 끝낸다.
     # 실화가 끝나는 곳 = '오늘의 오마주 인사 카드'·'오늘의 한 끼' 같은 안내가 처음 나오는 자리
     cut = next((i for i, g in enumerate(segs) if i >= 2 and re.search(r'오늘의 (오마주|한 끼|한 권)|인사 카드', ' '.join(g['cap']))), len(segs) - 1)
-    A_end = segs[cut]['t'] - 0.15
+    first = 2 if len(segs) > 3 else 0
+    A0 = max(0.0, segs[first]['t'] - 0.25); A_end = segs[cut]['t'] - 0.15
     B_start = segs[-1]['t'] - 0.35; B_end = s['end']
     X = 0.4   # 이음새 겹침(초)
-    LA = A_end; total = LA + (B_end - B_start) - X
-    tl = [(g['t'], g) for g in segs[:cut]] + [(LA - X + (segs[-1]['t'] - B_start), segs[-1])]
-    tl[0] = (0.0, tl[0][1])   # 첫 장면은 처음부터
+    LA = A_end - A0; total = LA + (B_end - B_start) - X
+    tl = [(g['t'] - A0, g) for g in segs[first:cut]] + [(LA - X + (segs[-1]['t'] - B_start), segs[-1])]
+    tl[0] = (0.0, tl[0][1])
+    story = ' '.join(' '.join(g['cap']) for g in segs[first:cut])
+    l1, l2 = make_hook(story, j.get('title', ''))
+    print('훅:', l1, '/', l2)
     imgs = j['imgs']['mor']
     cache = {}
     def photo(tag):
         f = imgs.get(tag) or imgs.get('talk')
         if f not in cache: cache[f] = Image.open(os.path.join(ROOT, 'img', 'hosts', f)).convert('RGB')
         return cache[f]
-    # 사진은 상반신이 화면을 채우게 당겨 자른다(전신이 다 나오면 얼굴이 작아 쇼츠에서 안 보인다).
-    # 얼굴이 위에 있으니 머리 위에는 아무것도 얹지 않고, 글은 모두 아래쪽 짙은 막 위에.
-    ZOOM, FY = 1.45, 0.10
-    top = grad(260, 120, 0); bot = soft_bottom(1150, 225, 0.42)
+    # 위 520px 은 짙은 초록 띠(붙잡는 문구), 그 아래에 진행자 상반신. 띠와 사진 경계는 부드럽게 번지게.
+    PY, PH, ZOOM, FY = 470, H - 470, 1.3, 0.06
+    fadeband = Image.new('RGBA', (W, 320)); d0 = ImageDraw.Draw(fadeband)
+    for y in range(320): u = 1 - y / 320; d0.line([(0, y), (W, y)], fill=GREEN + (int(255 * u * u * (3 - 2 * u)),))
+    bot = soft_bottom(900, 230, 0.45)
     capf = lambda t: fit(t, SERIF_B, 60, 860)
     over = {}
     def overlay(i):
         if i in over: return over[i]
-        o = Image.new('RGBA', (W, H), (0, 0, 0, 0)); o.alpha_composite(top, (0, 0)); o.alpha_composite(bot, (0, H - 1150))
+        o = Image.new('RGBA', (W, H), (0, 0, 0, 0))
+        o.alpha_composite(fadeband, (0, PY)); o.alpha_composite(bot, (0, H - 900))
+        top_band(o, '매일 아침 새로 나오는 무료 매거진', l1, l2)
         cx = W // 2 - 40   # 오른쪽엔 유튜브 단추가 얹힌다 — 글은 살짝 왼쪽으로
-        shadow_text(o, (cx, 1060), f'오마주 매거진 · 오늘의 오프닝 · {DATE_TXT}', font(SERIF, 28), fill=(232, 210, 150, 255), blur=6)
         cap = tl[i][1]['cap']
         for k, line in enumerate(cap[:2]):
-            shadow_text(o, (cx, 1150 + k * 86), line, capf(line), blur=10, alpha=230)
-        d = ImageDraw.Draw(o); d.line([(cx - 60, 1330), (cx + 60, 1330)], fill=(201, 169, 97, 255), width=2)
-        shadow_text(o, (cx, 1378), '매일 아침, 무료 매거진 · omaju.kr', font(SERIF, 30), fill=(232, 220, 190, 255), blur=6)
-        shadow_text(o, (W - 36, 210), f'AI 진행자 {host}', font(SERIF, 24), fill=(255, 255, 255, 210), anchor='rm', blur=5)
+            shadow_text(o, (cx, 1200 + k * 86), line, capf(line), blur=10, alpha=230)
+        d = ImageDraw.Draw(o); d.line([(cx - 60, 1380), (cx + 60, 1380)], fill=(201, 169, 97, 255), width=2)
+        shadow_text(o, (cx, 1425), f'오마주 매거진 · AI 진행자 {host} · omaju.kr', font(SERIF, 28), fill=CREAM, blur=6)
         over[i] = o; return o
     starts = [t for t, _ in tl] + [total]
+    canvas = Image.new('RGBA', (W, H), GREEN + (255,))
     def frame(k):
         t = k / FPS
         i = max(n for n in range(len(tl)) if starts[n] <= t)
         p = (t - starts[i]) / max(0.5, starts[i + 1] - starts[i])
-        base = cover(photo(tl[i][1]['tag']), W, H, zoom=ZOOM * (1.0 + 0.04 * p), fy=FY).convert('RGBA')
+        ph = cover(photo(tl[i][1]['tag']), W, PH, zoom=ZOOM * (1.0 + 0.04 * p), fy=FY).convert('RGBA')
         fade = 0.3
         if i > 0 and t - starts[i] < fade:   # 장면이 바뀔 때 짧게 겹친다
-            prev = cover(photo(tl[i - 1][1]['tag']), W, H, zoom=ZOOM * 1.04, fy=FY).convert('RGBA')
-            base = Image.blend(prev, base, (t - starts[i]) / fade)
-        base.alpha_composite(overlay(i))
-        return base.convert('RGB')
+            prev = cover(photo(tl[i - 1][1]['tag']), W, PH, zoom=ZOOM * 1.04, fy=FY).convert('RGBA')
+            ph = Image.blend(prev, ph, (t - starts[i]) / fade)
+        im = canvas.copy(); im.alpha_composite(ph, (0, PY)); im.alpha_composite(overlay(i))
+        return im.convert('RGB')
     out = os.path.join(OUT, DATE + '-opening.mp4')
-    af = (f'[1:a]atrim=0:{A_end:.2f},asetpts=PTS-STARTPTS[a1];[1:a]atrim={B_start:.2f}:{B_end:.2f},asetpts=PTS-STARTPTS[a2];'
+    af = (f'[1:a]atrim={A0:.2f}:{A_end:.2f},asetpts=PTS-STARTPTS,afade=t=in:d=0.25[a1];[1:a]atrim={B_start:.2f}:{B_end:.2f},asetpts=PTS-STARTPTS[a2];'
           f'[a1][a2]acrossfade=d={X}[a]')
     ffmpeg_video(frame, int(total * FPS), ['-i', mp3, '-filter_complex', af, '-map', '0:v', '-map', '[a]'], out)
     print('오프닝 쇼츠', round(total, 1), '초')
     return {'file': os.path.basename(out), 'sec': round(total, 1), 'title': j.get('title', ''), 'host': host,
-            'story': ' '.join(' '.join(g['cap']) for g in segs[2:cut])}
+            'hook': [l1, l2], 'story': story}
 
 # ── ② 인사 카드 ──
 def cards():
@@ -131,15 +172,14 @@ def cards():
     if not fs: print('카드 그림 없음'); return None
     cs = [Image.open(os.path.join(CARDS, f)).convert('RGB') for f in fs]
     per, fade = 3.6, 0.5; total = per * len(cs) + 0.6
-    cw, ch = 900, 1125; cy = 330
+    cw, ch = 820, 1025; cy = 560
     bgs, fronts = [], []
     for c in cs:
         b = cover(c, W, H).filter(ImageFilter.GaussianBlur(70)).convert('RGBA')
         b.alpha_composite(Image.new('RGBA', (W, H), (8, 30, 22, 175)))
-        shadow_text(b, (W // 2, 170), '오늘의 인사 카드', font(SERIF_B, 54))
-        shadow_text(b, (W // 2, 238), DATE_TXT, font(SERIF, 32), fill=(232, 220, 190, 255))
-        shadow_text(b, (W // 2 - 40, cy + ch + 80), '마음 가는 분께 한 장 보내 보세요', font(SERIF_B, 40))
-        shadow_text(b, (W // 2 - 40, cy + ch + 140), '매일 아침, 무료 매거진 · omaju.kr', font(SERIF, 30), fill=(232, 220, 190, 255))
+        top_band(b, f'{DATE_TXT} · 오늘의 인사 카드', '카톡으로 보내기 좋은', f'오늘 아침 인사 {len(cs)}장')
+        shadow_text(b, (W // 2 - 40, cy + ch + 70), '화면을 캡처해서 보내 보세요', font(SERIF_B, 40))
+        shadow_text(b, (W // 2 - 40, cy + ch + 128), '매일 아침 새 카드 · 오마주 매거진', font(SERIF, 30), fill=CREAM)
         bgs.append(b); fronts.append(c.resize((cw, ch), Image.LANCZOS))
     sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle(((W - cw) // 2, cy + 18, (W + cw) // 2, cy + ch + 18), 18, fill=(0, 0, 0, 150))
     sh = sh.filter(ImageFilter.GaussianBlur(22))
@@ -163,7 +203,7 @@ op = opening(); cd = cards()
 info = {'date': DATE, 'opening': op, 'cards': cd}
 if op:
     info['opening_up'] = {
-        'title': f'{op["title"]} | 오늘의 오프닝 {D.month}/{D.day} #오마주매거진',
+        'title': f'{op["hook"][0]}, {op["hook"][1]} #오마주매거진 #shorts',
         'desc': f'매일 아침 새로 나오는 무료 매거진, 오마주 매거진의 오늘의 오프닝입니다.\n진행 {op["host"]} (AI 진행자)\n\n오늘 호 펼쳐 보기 👉 https://omaju.kr\n네이버에서 "오마주 매거진"\n\n#오마주매거진 #오늘의오프닝 #아침인사 #늦게시작해도괜찮아',
         'ai': '업로드 화면에서 "변경되거나 합성된 콘텐츠"(AI) 표시를 켤 것 — AI 진행자·AI 목소리'}
 if cd:
