@@ -6,6 +6,7 @@
 // · 발견한 유형은 이 휴대폰에만 '프사 도감'으로 남는다(우리 쪽에 저장하지 않는다).
 
 const LS = 'omaju.psa.';
+const PHOTO = 'img/psa.jpg';   // 대표가 받아 올 사진 (탁자 위 엎어 둔 휴대폰·찻잔). 오기 전 시안은 mind.jpg 로 본다
 const ls = { get(k, d) { try { const v = localStorage.getItem(LS + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(LS + k, JSON.stringify(v)); } catch (e) {} } };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -70,13 +71,14 @@ export function mount(el, h = {}) {
   function start() {
     const n = seen().length;
     el.innerHTML = `<div class="psa">
-      <div class="psa-cover"><span class="psa-kick">오늘 PLAY · 읽어 보기</span><h2>그 사람은 왜<br>프사를 <em>산</em>으로 바꿨을까</h2><p>카톡 프로필 사진으로 읽는 요즘 마음. 떠오르는 사람이 있을 때마다 다시 해 보세요.</p></div>
+      <div class="psa-photo" style="background-image:url('${PHOTO}')"></div>
+      <div class="psa-head"><span class="psa-kick">프사 읽기</span><h2>그 사람은 왜<br>프사를 <em>산</em>으로 바꿨을까</h2><p>카톡 프로필 사진으로 읽는 요즘 마음. 떠오르는 사람이 있을 때마다 <span class="psa-nowrap0">다시 해 보세요.</span></p></div>
       <div class="psa-who" role="group" aria-label="누구의 프사인가요">
-        <button type="button" data-who="other" aria-pressed="${who === 'other'}"><b>그 사람 프사</b><span>지인 프사를 떠올리며</span></button>
+        <button type="button" data-who="other" aria-pressed="${who === 'other'}"><b>그 사람 프사</b><span>지인을 떠올리며</span></button>
         <button type="button" data-who="me" aria-pressed="${who === 'me'}"><b>내 프사</b><span>요즘 내 마음은</span></button>
       </div>
-      <button type="button" class="psa-go" data-go>읽어 보기 <span aria-hidden="true">›</span></button>
-      <button type="button" class="psa-dex-link" data-dex>프사 도감 <span class="psa-nowrap">${n} / ${ORDER.length} 발견</span> <span aria-hidden="true">›</span></button>
+      <button type="button" class="psa-go" data-go><span>읽어 보기</span><span aria-hidden="true">›</span></button>
+      <button type="button" class="psa-dex-link" data-dex><span>프사 도감</span><span class="psa-nowrap">${n} / ${ORDER.length} 발견 ›</span></button>
       <p class="psa-note">사진은 올리지 않아요. 보기만 고르면 됩니다. 재미로 보는 읽기예요.</p>
     </div>`;
     el.querySelectorAll('[data-who]').forEach(b => b.onclick = () => { who = b.dataset.who; start(); });
@@ -90,7 +92,7 @@ export function mount(el, h = {}) {
       <div class="psa-prog" aria-hidden="true"><i style="width:${Math.round((step + 1) / list.length * 100)}%"></i></div>
       <p class="psa-step">${who === 'other' ? '그 사람 프사' : '내 프사'} · ${step + 1} / ${list.length}</p>
       <h2 class="psa-q">${esc(q.q).replace(/\n/g, '<br>')}</h2>
-      <div class="psa-opts">${q.opts.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${ans[q.k] === v}">${esc(t)}</button>`).join('')}</div>
+      <div class="psa-opts">${q.opts.map(([v, t], i) => `<button type="button" data-v="${v}" data-n="${String(i + 1).padStart(2, '0')}" aria-pressed="${ans[q.k] === v}">${esc(t)}</button>`).join('')}</div>
       ${step ? '<button type="button" class="psa-prev" data-prev>‹ 앞 질문</button>' : ''}
     </div>`;
     el.querySelectorAll('[data-v]').forEach(b => b.onclick = () => {
@@ -110,6 +112,7 @@ export function mount(el, h = {}) {
         <span class="psa-kick">${who === 'other' ? '그 사람의 요즘 마음' : '요즘 내 마음'}</span>
         <h2>${esc(t.name)}</h2>
         ${fresh ? `<p class="psa-new">새로 발견한 유형 · 도감 ${n} / ${ORDER.length}</p>` : ''}
+        <hr class="psa-rule">
         <p class="psa-read">${esc(t.read)}</p>
         ${lines(ans).map(l => `<p class="psa-more">${esc(l)}</p>`).join('')}
       </div>
@@ -132,10 +135,10 @@ export function mount(el, h = {}) {
   function dex() {
     const s = seen();
     el.innerHTML = `<div class="psa">
-      <div class="psa-cover small"><span class="psa-kick">프사 도감</span><h2>${s.length} / ${ORDER.length}</h2><p>지금까지 읽어 본 유형이 모입니다. 이 휴대폰에만 남아요.</p></div>
+      <div class="psa-dex-head"><span class="psa-kick">프사 도감</span><h2>${s.length} / ${ORDER.length}</h2><p>지금까지 읽어 본 유형이 모입니다.<br>이 휴대폰에만 남아요.</p></div>
       <div class="psa-dex">${ORDER.map(id => { const on = s.includes(id), sub = SUBJ.find(x => x[0] === id.split('-')[0])[2];
         return `<div class="psa-cell${on ? ' on' : ''}"><b>${on ? esc(TYPES[id].name) : '?'}</b><span>${esc(sub)}<br>${id.endsWith('new') ? '최근에 바뀜' : '오래 그대로'}</span></div>`; }).join('')}</div>
-      <button type="button" class="psa-go" data-go>${s.length ? '다른 사람 프사 읽기' : '첫 프사 읽어 보기'} <span aria-hidden="true">›</span></button>
+      <button type="button" class="psa-go" data-go><span>${s.length ? '다른 사람 프사 읽기' : '첫 프사 읽어 보기'}</span><span aria-hidden="true">›</span></button>
     </div>`;
     el.querySelector('[data-go]').onclick = () => { ans = {}; step = 0; ask(); };
     el.scrollIntoView({ block: 'start' });
