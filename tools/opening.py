@@ -87,12 +87,21 @@ def prev_next_title():
     try: return json.load(open(os.path.join(OUT, y + '.json'))).get('next_title')
     except Exception: return None
 
+def recent_people():
+    """요 며칠 실화에 나온 인물 (같은 사람이 이틀 연달아 나오던 것 — 2026-10-24 시험에서 박완서·줄리아 차일드가 이틀째)"""
+    ppl = []
+    for f in sorted(glob.glob(os.path.join(OUT, '*.json')))[-10:]:
+        if os.path.basename(f).startswith(DATE): continue
+        try: ppl += [w for w in (json.load(open(f)).get('who') or {}).values() if w]
+        except Exception: pass
+    return ppl
+
 def recent_titles():
     t = []
     for f in sorted(glob.glob(os.path.join(OUT, '*.json')))[-10:]:
         try: t.append(json.load(open(f)).get('title', ''))
         except Exception: pass
-    return t
+    return t + recent_people()
 
 PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주니어)의 아침 라디오 작가입니다. 오늘 진행자는 {name}({desc})입니다.
 이건 뉴스가 아니라 **아침 라디오**입니다. 혼자 듣고 있는 한 사람에게 말을 거는 대본을 씁니다.
@@ -209,6 +218,10 @@ def fact_check(s):
             t = ''.join(x.get('text', '') for x in d['candidates'][0]['content']['parts'])
             j = json.loads(re.search(r'\{.*\}', t, re.S).group(0))
             bad = [f"{sl} {j[sl].get('who', '')}: {j[sl].get('why', '')}" for sl in SLOTS if not (j.get(sl) or {}).get('ok', False)]
+            s['_who'] = {sl: (j.get(sl) or {}).get('who', '') for sl in SLOTS}
+            rp = recent_people()
+            bad += [f"{sl} {w}: 요 며칠 이미 나온 인물" for sl, w in s['_who'].items() if w and any(w in r or r in w for r in rp)]
+            if len({w for w in s['_who'].values() if w}) < 3: bad.append('세 실화 가운데 같은 인물')
             say('사실 확인', m, {sl: (j.get(sl) or {}).get('who') for sl in SLOTS}, '틀림:', bad or '없음')
             return ['사실 틀림 ' + b[:80] for b in bad]
         except Exception as e:
@@ -520,7 +533,7 @@ def build():
             if not os.path.exists(os.path.join(ROOT, 'img', 'hosts', f)): raise SystemExit(f'사진 없음 {f} — 어제 것을 그대로 둠')
             if not re.fullmatch(rf'{HOST}-(mor|eve){sfx}-[a-z]+\.jpg', f): raise SystemExit(f'다른 진행자·옷 사진이 섞임 {f}')
     say('사진 점검 통과', HOST, OUTFIT)
-    res = {'date': DATE, 'host': HOST, 'outfit': OUTFIT, 'imgs': imgs,
+    res = {'date': DATE, 'host': HOST, 'outfit': OUTFIT, 'imgs': imgs, 'who': s.get('_who', {}),
            'title': s.get('title', ''), 'next_title': s['next_title'],
            'built': datetime.datetime.now(KST).strftime('%m%d%H%M'), 'slots': {}}
     # ── 세 벌을 '한 번에' 녹음하고 잘라 쓴다 (운영자 2026-10-19) ──
