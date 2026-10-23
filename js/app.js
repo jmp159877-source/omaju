@@ -209,8 +209,10 @@ async function kakaoSendCard(file) {
   } catch (err) { return false; }
 }
 
-cardsEl.onclick = async e => {
-  const b = e.target.closest('[data-copy]'); if (!b) return; const i = +b.dataset.copy; DB.bumpClick('greeting');
+// 카드 한 장 열기 — 인사말 칸과 심리 테스트 결과(그분께 보낼 카드)에서 함께 쓴다 (대표 2026-10-23: 테스트에서 밖으로 튕겨 나가지 않게)
+cardsEl.onclick = e => { const b = e.target.closest('[data-copy]'); if (b) openCard(+b.dataset.copy); };
+async function openCard(i) {
+  DB.bumpClick('greeting');
   // 누르면 창부터 띄우고 그림은 되는 대로 채운다 (운영자 2026-10-22: 카톡 안 브라우저에서 10~15초를
   // 아무것도 없이 기다리다 멈춘 줄 알고 또 눌렀다). 무엇이 늦든 멈춘 것처럼 보이지 않게.
   modal(`<h2 id="card-h">인사 카드를 만들고 있어요</h2><div id="card-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;font-size:1.02rem;opacity:0.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn green" id="card-share" disabled style="opacity:0.45">카톡으로 보내기</button><button type="button" class="btn line" id="card-save" disabled style="opacity:0.45">사진에 저장하기</button></div>`);
@@ -930,7 +932,7 @@ function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
   draw();
 })();
 
-const GAME = { psy: async () => (await import('./psy.js' + MODV)).mountList($('psy-root'), { nav }), 'pt-wall': async () => (await import('./psy.js' + MODV)).mountTest($('pt-wall-root'), 'pt-wall', { nav }), 'pt-talk': async () => (await import('./psy.js' + MODV)).mountTest($('pt-talk-root'), 'pt-talk', { nav }), 'pt-trip': async () => (await import('./psy.js' + MODV)).mountTest($('pt-trip-root'), 'pt-trip', { nav }), psa: async () => (await import('./psy.js' + MODV)).mount($('psa-root'), { toast, toCards: () => { nav('g1'); setTimeout(() => $('cards')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 450); } }), malmoi: () => MM.mount($('mm-root'), { toast, esc }), shisen: async () => (await import('./games/shisen.js')).mount($('ss-root')), num50: async () => (await import('./games/num50.js')).mount($('n5-root')), sudoku: async () => (await import('./games/sudoku.js')).mount($('sd-root')) };
+const GAME = { psy: async () => (await import('./psy.js' + MODV)).mountList($('psy-root'), { nav }), 'pt-wall': async () => (await import('./psy.js' + MODV)).mountTest($('pt-wall-root'), 'pt-wall', { nav }), 'pt-talk': async () => (await import('./psy.js' + MODV)).mountTest($('pt-talk-root'), 'pt-talk', { nav }), 'pt-trip': async () => (await import('./psy.js' + MODV)).mountTest($('pt-trip-root'), 'pt-trip', { nav }), psa: async () => (await import('./psy.js' + MODV)).mount($('psa-root'), { toast, cards: () => cardsEl.innerHTML, openCard }), malmoi: () => MM.mount($('mm-root'), { toast, esc }), shisen: async () => (await import('./games/shisen.js')).mount($('ss-root')), num50: async () => (await import('./games/num50.js')).mount($('n5-root')), sudoku: async () => (await import('./games/sudoku.js')).mount($('sd-root')) };
 const gameDone = {};
 
 // ── 화면 이동: 잡지 넘기듯 '단계'로 쌓는다 (첫 화면 0 → 장 1 → 코너 2 → 놀이 3).

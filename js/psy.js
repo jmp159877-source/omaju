@@ -116,17 +116,18 @@ export function mount(el, h = {}) {
         <p class="psa-read">${esc(t.read)}</p>
         ${lines(ans).map(l => `<p class="psa-more">${esc(l)}</p>`).join('')}
       </div>
-      ${who === 'other' ? `<div class="psa-ask"><span>이렇게 안부를 건네 보세요</span><p>“${esc(t.ask)}”</p><button type="button" class="psa-copy" data-copy>이 말 복사하기</button></div>` : ''}
-      <button type="button" class="psa-go" data-card><span>${who === 'other' ? '이분께 보낼 <span class="psa-nowrap0">오늘의 인사 카드</span>' : '<span class="psa-nowrap0">오늘의 인사 카드</span> 보러 가기'}</span> <span aria-hidden="true">›</span></button>
+      ${who === 'other' ? `<div class="psa-ask"><span>이렇게 안부를 건네 보세요</span><p>“${esc(t.ask)}”</p><button type="button" class="psa-copy" data-copyask>이 말 복사하기</button></div>` : ''}
+      <div class="psa-cards"><span class="psa-kick">${who === 'other' ? '이분께 보낼 오늘의 인사 카드' : '오늘의 인사 카드'}</span><p>카드를 누르면 크게 보고 바로 <span class="psa-nowrap0">보낼 수 있어요.</span> 옆으로 넘기면 더 있어요.</p><div class="cards" data-cg>${H.cards ? H.cards() : ''}</div></div>
       <div class="psa-row">
         <button type="button" data-again>다른 사람 <span class="psa-nowrap0">프사도</span></button>
         <button type="button" data-dex>프사 도감</button>
       </div>
       <p class="psa-note">재미로 보는 읽기예요. 사람 마음은 사진 한 장보다 훨씬 넓답니다.</p>
     </div>`;
-    const c = el.querySelector('[data-copy]');
+    const c = el.querySelector('[data-copyask]');
     if (c) c.onclick = async () => { try { await navigator.clipboard.writeText(t.ask); H.toast && H.toast('복사했어요. 카톡 대화창에 붙여 넣으세요.'); } catch (e) { H.toast && H.toast('길게 눌러 복사해 주세요.'); } };
-    el.querySelector('[data-card]').onclick = () => { if (H.toCards) H.toCards(); };
+    // 카드를 누르면 이 자리에서 바로 크게 띄운다 — 밖으로 튕겨 나가지 않게 (대표 2026-10-23)
+    el.querySelector('[data-cg]').onclick = e => { const b = e.target.closest('[data-copy]'); if (b && H.openCard) H.openCard(+b.dataset.copy); };
     el.querySelector('[data-again]').onclick = () => { ans = {}; step = 0; who = 'other'; ask(); };
     el.querySelector('[data-dex]').onclick = dex;
     el.scrollIntoView({ block: 'start' });

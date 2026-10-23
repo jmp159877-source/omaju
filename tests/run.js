@@ -475,13 +475,13 @@ srv.listen(0, '127.0.0.1', async () => {
         await E(() => { try { localStorage.removeItem('omaju.psa.seen'); } catch (e) {} document.querySelector('#psy-root [data-go="psa"]').click(); }); await W(1200);
         await E(() => document.querySelector('#psa-root [data-go]').click()); await W(300);
         for (const v of ['kin', 'still', 'empty']) { await E(v => document.querySelector(`#psa-root [data-v="${v}"]`).click(), v); await W(250); }
-        const r = await E(() => ({ name: (document.querySelector('#psa-root .psa-res h2') || {}).textContent, ask: !!document.querySelector('#psa-root [data-copy]'), card: !!document.querySelector('#psa-root [data-card]'), seen: JSON.parse(localStorage.getItem('omaju.psa.seen') || '[]') }));
+        const r = await E(() => ({ name: (document.querySelector('#psa-root .psa-res h2') || {}).textContent, ask: !!document.querySelector('#psa-root [data-copyask]'), card: !!document.querySelector('#psa-root [data-cg] [data-copy]'), seen: JSON.parse(localStorage.getItem('omaju.psa.seen') || '[]') }));
         if (r.name !== '든든한 울타리형' || !r.ask || !r.card || r.seen.join() !== 'kin-old') return JSON.stringify(r);
         await E(() => document.querySelector('#psa-root .psa-row [data-dex]').click()); await W(300);
         const on = await E(() => document.querySelectorAll('#psa-root .psa-cell.on').length + '/' + document.querySelectorAll('#psa-root .psa-cell').length);
         return on === '1/12' || '도감 ' + on;
       });
-      await step('심리 테스트 · 인사 카드로 이어짐', async () => { await E(() => document.querySelector('#psa-root [data-go]').click()); await W(300); for (const v of ['land', 'week', 'big', 'quote']) { await E(v => document.querySelector(`#psa-root [data-v="${v}"]`).click(), v); await W(250); } await E(() => document.querySelector('#psa-root [data-card]').click()); await W(1500); const h = await E(() => location.hash); return h === '#g1' || h; });
+      await step('심리 테스트 · 그분께 보낼 카드가 그 자리에서 열림', async () => { await E(() => document.querySelector('#psa-root [data-go]').click()); await W(300); for (const v of ['land', 'week', 'big', 'quote']) { await E(v => document.querySelector(`#psa-root [data-v="${v}"]`).click(), v); await W(250); } const n = await E(() => document.querySelectorAll('#psa-root [data-cg] [data-copy]').length); await E(() => document.querySelector('#psa-root [data-cg] [data-copy]').click()); await W(2500); const r = await E(() => ({ h: location.hash, m: !!document.querySelector('#card-share, #card-box, #card-h') })); return (n === 4 && r.h === '#psa' && r.m) || JSON.stringify({ n, ...r }); });
       await step('심리 테스트 · 세 가지 끝까지·지난 결과', async () => {
         const bad = [];
         for (const [k, picks, want] of [['pt-wall', ['away', 'away', 'taste', 'away'], '떠날 궁리 중인 사람'], ['pt-talk', ['deep', 'quick', 'deep', 'cool'], '꾹꾹 눌러 쓰는 사람'], ['pt-trip', ['care', 'plan', 'free', 'light'], '모두의 가방을 챙기는 사람']]) {
