@@ -53,9 +53,10 @@ HOSTS = {
 CH = {
     # 차례는 화면과 똑같이 (대표 2026-10-23): 인사말 → 오늘 PLAY → 날씨 → 경제 → 운세 → 한 끼 → 한 권 → 시사 상식 → 문화
     'g1': {'host': 'eunchae', 'title': '오늘 즐기기', 'need': ('fortune', 'meal', 'book', 'quiz', 'culture'),
-           'corners': [('cards', '오늘의 인사말 카드'), ('play', '오늘 PLAY'), ('weather', '오늘의 날씨'), ('market', '오늘의 경제'),
+           'corners': [('cards', '오늘의 인사말 카드'), ('play', '오늘 PLAY'),
                        ('fortune', '오늘의 운세'), ('food', '오늘의 한 끼'), ('book', '오늘의 한 권'),
-                       ('quiz', '오늘의 시사 상식'), ('culture', '오늘의 문화')]},
+                       ('quiz', '오늘의 시사 상식'), ('culture', '오늘의 문화'),
+                       ('weather', '오늘의 날씨'), ('market', '오늘의 경제')]},   # 판갈이(2026-10-24): 날씨·경제는 맨 밑 30초 브리핑
     'g2': {'host': 'hangyeol', 'title': '그때 돌아보기', 'need': ('era', 'story'),
            'corners': [('history', '그해 오늘'), ('music', '그 시절 노래'),
                        ('story', '그날의 사연'), ('home', '그 동네 지금')]},
