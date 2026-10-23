@@ -13,6 +13,7 @@ os.makedirs(OUT, exist_ok=True)
 KST = datetime.timezone(datetime.timedelta(hours=9))
 args = [a for a in sys.argv[1:] if not a.startswith('--')]
 FORCE = '--force' in sys.argv
+DRY = '--dry' in sys.argv   # 대본·사실 확인까지만 (녹음 안 함) — 고친 뒤 시험용
 DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 D = datetime.date.fromisoformat(DATE)
 # 진행자 두 사람 × 옷 두 벌 = 나흘에 한 바퀴 (운영자 2026-10-22): 미소1 → 은채1 → 미소2 → 은채2.
@@ -499,8 +500,9 @@ def merge(idxs):
 
 def build():
     path = os.path.join(OUT, DATE + '.json')
-    if os.path.exists(path) and not FORCE: say('이미 있음', DATE); return
+    if os.path.exists(path) and not FORCE and not DRY: say('이미 있음', DATE); return
     s = make_script()
+    if DRY: say('시험: 대본·사실 확인까지만', json.dumps({sl: [x['say'] for x in s['story'][sl]] for sl in SLOTS}, ensure_ascii=False)[:600]); return
     # 내일 예고는 말로 하지 않는다 (운영자 2026-10-19: "이 내용은 그냥 없어도 될 것 같은데").
     # 화면의 '내일 예고' 칸은 그대로 두고 next_title 만 쓴다.
     # 마지막 사인오프 — 늘 같은 한 줄로 끝맺는다 (운영자 2026-10-18)

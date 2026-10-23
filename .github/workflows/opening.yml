@@ -36,7 +36,7 @@ jobs:
         run: |
           set +o pipefail
           mkdir -p media/opening
-          python3 -u tools/opening.py ${{ inputs.date }} ${{ inputs.force == '1' && '--force' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -150 | tee media/opening/last.log
+          python3 -u tools/opening.py ${{ inputs.date }} ${{ inputs.force == '1' && '--force' || '' }} ${{ inputs.force == 'dry' && '--dry' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -150 | tee media/opening/last.log
           exit ${PIPESTATUS[0]}
       - name: media 가지에 올리기 (기록 없이 새로)
         if: always()
