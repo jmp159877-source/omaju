@@ -30,7 +30,7 @@ WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
 # 사진이 실제로 있는 장면만 쓴다. 사연을 없앤 뒤 surprise·moved·secret 은 쓰지 않는다 (2026-10-19).
 TAGS = ['read', 'smile', 'laugh', 'talk', 'curious', 'delight', 'thumb']
-VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon', 'eunchae': 'Callirrhoe', 'seungwoo': 'Puck'}   # 승우 목소리는 대표가 견본 듣고 고른다(2026-10-25)
+VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon', 'eunchae': 'Callirrhoe', 'seungwoo': 'Sadachbia'}   # 대표 2026-10-25: 견본 다섯 중 '이미지와 딱 맞다, 톤도 속도도 딱 좋다'
 PITCH = {'miso': 195, 'hangyeol': None, 'eunchae': 196, 'seungwoo': None}   # 미소는 밝게 195 · 은채는 차분하게 196 (높이는 비슷해도 읽는 결로 가른다, 2026-10-20)
 PROFILE = {
  'miso': '[목소리 설정] 45세 한국 여성 방송 진행자. **맑고 경쾌하고, 무엇보다 반갑다.** 문을 열고 들어온 사람을 보고 \"어서 오세요!\" 하는 그 밝은 기운이 첫마디부터 묻어난다. 목소리에 미소가 걸려 있고, 톤이 살짝 올라가며 생기가 있다. 지적이지만 하나도 어렵지 않고 친구처럼 가깝다. **금지: 뉴스 앵커의 보도 말투, 심야 라디오의 낮고 차분한 톤, 명상 안내 같은 느린 말투, 애교·콧소리.**',
