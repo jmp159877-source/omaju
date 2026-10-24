@@ -24,6 +24,10 @@ D = datetime.date.fromisoformat(DATE)
 ROUND = [('miso', 1), ('eunchae', 1), ('seungwoo', 1), ('miso', 2)]
 _K = (D - datetime.date(2026, 10, 21)).days
 HOST, OUTFIT = ROUND[_K % len(ROUND)]
+# 미리보기 (대표 2026-10-25: 새 진행자를 첫 방송 전에 직접 보고 듣기): PREVIEW_HOST=seungwoo 면 그 사람으로 오늘 내용을 녹음해 opening/preview.json 에 둔다.
+# 날마다 나가는 방송(날짜.json)은 건드리지 않는다. 화면은 omaju.kr/?opn=preview 로 열 때만 이것을 튼다.
+PV = os.environ.get('PREVIEW_HOST', '').strip()
+if PV: HOST, OUTFIT = PV, 1
 OTHER = ROUND[(_K + 1) % len(ROUND)][0]   # 내일 나올 사람
 NAME = {'miso': '윤미소', 'hangyeol': '서한결', 'eunchae': '송은채', 'seungwoo': '차승우'}
 WD = '월화수목금토일'[D.weekday()]
@@ -530,7 +534,7 @@ def merge(idxs):
 
 
 def build():
-    path = os.path.join(OUT, DATE + '.json')
+    path = os.path.join(OUT, ('preview' if PV else DATE) + '.json')
     if os.path.exists(path) and not FORCE and not DRY: say('이미 있음', DATE); return
     s = make_script()
     if DRY: say('시험: 대본·사실 확인까지만', json.dumps({sl: [x['say'] for x in s['story'][sl]] for sl in SLOTS}, ensure_ascii=False)[:600]); return
@@ -655,7 +659,7 @@ def build():
     for sl in SLOTS:
         pick = where['g' + sl] + where['s' + sl] + where['body'] + where['ask'] + where['c' + sl] + where['sign']   # 끝은 울림 한 줄 → 사인오프
         spans = [(S[i] / tempo, E[i] / tempo) for i in pick]
-        mp3 = f'{DATE}-{sl}.mp3'; dst = os.path.join(OUT, mp3)
+        mp3 = f"{'preview' if PV else DATE}-{sl}.mp3"; dst = os.path.join(OUT, mp3)
         cut(whole, spans, dst)
         # 이어 붙인 뒤의 시작 시각을 다시 센다
         t = 0.0; segs = []
@@ -672,7 +676,7 @@ def build():
     # 최근 5일만 남김
     keep = {(D - datetime.timedelta(days=k)).isoformat() for k in range(5)} | {(D + datetime.timedelta(days=1)).isoformat()}
     for f in os.listdir(OUT):
-        if f[:10] not in keep: os.remove(os.path.join(OUT, f))
+        if f[:10] not in keep and not f.startswith('preview') and f != 'last.log': os.remove(os.path.join(OUT, f))
     say('완료', DATE, HOST)
 
 # 다른 도구(tools/radio.py)가 녹음·자르기 함수를 그대로 가져다 쓰므로, 직접 실행할 때만 만든다

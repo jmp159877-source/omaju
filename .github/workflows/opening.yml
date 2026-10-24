@@ -10,6 +10,10 @@ on:
         description: '날짜 (YYYY-MM-DD, 비우면 오늘)'
         required: false
         default: ''
+      preview:
+        description: '미리보기 진행자 (예: seungwoo) — 오늘 내용으로 녹음해 preview.json 에만 둔다'
+        required: false
+        default: ''
       force:
         description: '1이면 있어도 다시 만들기'
         required: false
@@ -33,6 +37,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MEDIA_DIR: media
+          PREVIEW_HOST: ${{ inputs.preview }}
         run: |
           set +o pipefail
           mkdir -p media/opening

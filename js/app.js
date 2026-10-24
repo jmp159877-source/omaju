@@ -1424,4 +1424,4 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catc
 
 // ── 오늘의 오프닝 (미소·한결) ──
 import('./hometown.js?v=10221640').then(m => { m.init({ toast, modal, closeModal, esc, store, DB }); m.load(); }).catch(e => console.warn('hometown', e));
-import('./opening.js?v=10241345').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));
+import('./opening.js?v=10250140').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));

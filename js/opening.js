@@ -20,6 +20,8 @@ export async function init({ modal, closeModal, toast, DB }) {
   // 하루는 새벽 5시에 바뀐다: 자정~5시는 아직 '어제 저녁'이므로 어제 날짜의 저녁 인사를 튼다.
   const now = new Date(); const h = now.getHours(); const base = new Date(now); if (h < 5) base.setDate(base.getDate() - 1);
   let data = null;
+  // 미리보기 (대표 2026-10-25): omaju.kr/?opn=preview 로 열면 새 진행자 미리보기 방송을 튼다. 평소에는 쓰지 않는다.
+  if (/[?&]opn=preview\b/.test(location.search)) data = await loadDay('preview');
   for (let back = 0; back < 3 && !data; back++) { const d = new Date(base); d.setDate(d.getDate() - back); data = await loadDay(key(d)); }
   if (!data || !data.slots) return;
   // 저녁은 여섯 시부터 (운영자 2026-10-19: 다섯 시는 아직 낮이다)
