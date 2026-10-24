@@ -2417,3 +2417,40 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 #detail .pet-past button span { flex: 1; min-width: 0; font-size: 1.04rem; font-weight: 500; color: var(--ink); line-height: 1.5; word-break: keep-all; }
 #detail .pet-past button small { flex: none; font-size: .85rem; color: #999; }
 #detail .pet-past button[aria-current="true"] span { color: var(--g); font-weight: 800; }
+
+/* ── 심리 테스트 판갈이 (대표 2026-10-24: 과정은 짧고 결과는 넉넉하게) ── */
+.psa .pt-nick { font-family: 'Noto Sans KR', sans-serif; font-size: 1.12rem; font-weight: 700; color: #1F5A3E; margin: 6px 0 0; }
+.psa .psa-res .is-sub { display: inline-block; font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: .85rem; color: #1F5A3E; background: #EEF5F0; padding: 5px 11px; border-radius: 6px; margin: 4px 0 10px; }
+.psa .psa-read { font-family: 'Noto Sans KR', sans-serif; font-size: 1.08rem; line-height: 1.8; color: #1A1A1A; }
+.pt-two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
+@media (max-width: 420px) { .pt-two { grid-template-columns: 1fr; } }
+.pt-box { border-radius: 14px; padding: 16px; min-width: 0; }
+.pt-box b { display: block; font-size: .85rem; font-weight: 800; margin-bottom: 4px; }
+.pt-box p { margin: 0; font-size: 1rem; line-height: 1.6; }
+.pt-shine { background: #EEF5F0; color: #23412F; } .pt-shine b { color: #1F5A3E; }
+.pt-care { background: #FFF7DB; color: #3A2E00; } .pt-care b { color: #8A6A00; }
+.pt-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.pt-pair > div { border: 1.5px solid #E6E6E0; border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.pt-pair span { display: block; font-size: .8rem; font-weight: 700; color: #5F6360; }
+.pt-pair b { display: block; font-size: 1.05rem; font-weight: 800; color: #1A1A1A; margin-top: 2px; word-break: keep-all; }
+.pt-pair small { display: block; font-size: .85rem; color: #5F6360; margin-top: 2px; }
+.psa .psa-ask p { font-family: 'Noto Sans KR', sans-serif; font-size: 1.08rem; }
+.pt-share { margin-top: 22px; background: #F9E9A8 !important; color: #3A2E00 !important; }
+.pt-share-note { text-align: center; font-size: .9rem; color: #5F6360; margin: 8px 0 0; }
+.pt-all { margin-top: 22px; border-top: 1px solid #E6E6E0; }
+.pt-all summary { cursor: pointer; padding: 14px 0; font-weight: 700; color: #1F5A3E; font-size: 1rem; }
+.pt-all-row { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #F0F0EA; }
+.pt-all-row b { font-size: 1rem; } .pt-all-row span { font-size: .9rem; color: #5F6360; }
+.pt-all-row.on b { color: #1F5A3E; }
+.pt-t em.pt-new { color: #fff !important; background: #1F5A3E; padding: 2px 8px; border-radius: 6px; font-style: normal; display: inline-block; width: fit-content; }
+.pt-next { margin-top: 12px; border: 1.5px dashed #C9D6CC; border-radius: 14px; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
+.pt-next span { width: 100%; font-size: .8rem; font-weight: 700; color: #5F6360; }
+.pt-next b { font-size: 1.05rem; color: #1A1A1A; } .pt-next small { color: #1F5A3E; font-weight: 700; }
+.pt-map { margin-top: 26px; background: #EEF5F0; border-radius: 16px; padding: 20px; }
+.pt-map h3 { font-family: 'Noto Sans KR', sans-serif; font-size: 1.6rem; font-weight: 800; color: #1F5A3E; margin: 6px 0 8px; }
+.pt-map ul { list-style: none; padding: 0; margin: 0; }
+.pt-map li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; padding: 10px 0; border-top: 1px solid rgba(31,90,62,.12); }
+.pt-map li span { color: #5F6360; font-size: .95rem; } .pt-map li b { color: #1A1A1A; font-size: 1rem; }
+.pt-map p { margin: 0; color: #23412F; } .pt-map .pt-map-note { margin-top: 10px; font-size: .85rem; color: #5F6360; }
+.psa-photo.psa-type { background: linear-gradient(135deg, #1F5A3E, #2E7A55); display: flex; align-items: center; justify-content: center; }
+.psa-photo.psa-type span { color: #F9E9A8; font-family: 'Noto Sans KR', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: .02em; }

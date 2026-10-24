@@ -191,7 +191,7 @@ async function kakaoSendIntro(text) {
   } catch (err) { return false; }
 }
 
-async function kakaoSendCard(file) {
+async function kakaoSendCard(file, url) {
   if (!await kakaoReady()) return false;
   try {
     const dt = new DataTransfer(); dt.items.add(file);
@@ -200,8 +200,9 @@ async function kakaoSendCard(file) {
     if (!im.url) return false;
     // 카드 밑에 붙는 글을 최대한 없앤다 (운영자 2026-10-22: "오마주 열어보기만 딱 나오게").
     // 제목을 비워 보고(그림 + 단추만), 카카오가 거부할 때만 짧은 한 줄을 넣어 다시 보낸다.
-    const pic = { imageUrl: im.url, imageWidth: im.width, imageHeight: im.height, link: OMAJU_LINK };
-    const btn = [{ title: '오마주 열어보기', link: OMAJU_LINK }];
+    const LK = url ? { mobileWebUrl: url, webUrl: url } : OMAJU_LINK;
+    const pic = { imageUrl: im.url, imageWidth: im.width, imageHeight: im.height, link: LK };
+    const btn = [{ title: url ? '나도 해 보기' : '오마주 열어보기', link: LK }];
     try {
       window.Kakao.Share.sendDefault({ objectType: 'feed', content: { title: '', ...pic }, buttons: btn });
     } catch (e2) {
@@ -211,6 +212,12 @@ async function kakaoSendCard(file) {
   } catch (err) { return false; }
 }
 
+// 심리 테스트 결과 카드 보내기 (대표 2026-10-24) — 카카오로 그림 + '나도 해 보기' 단추, 안 되면 휴대폰 기본 보내기, 그것도 안 되면 저장
+async function sharePsy(file, url, text) {
+  if (await kakaoSendCard(file, url)) return;
+  try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text: text + '\n' + url }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = file.name; a.click(); toast('카드를 저장했어요. 카톡에서 사진으로 보내 주세요.');
+}
 // 카드 한 장 열기 — 인사말 칸과 심리 테스트 결과(그분께 보낼 카드)에서 함께 쓴다 (대표 2026-10-23: 테스트에서 밖으로 튕겨 나가지 않게)
 cardsEl.onclick = e => { const b = e.target.closest('[data-copy]'); if (b) openCard(+b.dataset.copy); };
 async function openCard(i) {
@@ -918,7 +925,9 @@ $('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
-const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], psy: ['', '심리 테스트', () => ''], psa: ['', '프사 읽기', () => ''], 'pt-wall': ['', '휴대폰 배경화면', () => ''], 'pt-talk': ['', '카톡 답장 속도', () => ''], 'pt-trip': ['', '여행 짐 싸는 법', () => ''], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '띠를 고르면,<br>오늘의 한마디'], luck: ['', '오늘의 운세 · 꿈 해몽', () => '오늘의 운,<br>간밤의 꿈'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => esc((C.book && C.book.title) || '오늘의 한 권')], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], pick: ['detail_pick', '오늘의 추천 음악', () => '오늘, 이 한 곡'], dog: ['pet-dog-head', '어쩌다 점점 집사 · 댕댕이', () => esc((PET.current('dog') || {}).title || '오늘의 댕댕이 이야기')], cat: ['pet-cat-head', '어쩌다 점점 집사 · 냥이', () => esc((PET.current('cat') || {}).title || '오늘의 냥이 이야기')], quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
+const PT_IDS = ['pt-talk', 'pt-wall', 'pt-trip', 'pt-karaoke', 'pt-morning', 'pt-wallet', 'pt-drive', 'pt-closet', 'pt-alone', 'pt-party', 'pt-coffee'];   // js/psy_tests.js ORDER_T 와 같게
+function ptRoot(id) { let r = $(id + '-root'); if (!r) { const sec = document.createElement('section'); sec.className = 'dsec game'; sec.dataset.k = id; sec.innerHTML = `<div id="${id}-root"></div>`; document.querySelector('.d-body').appendChild(sec); r = $(id + '-root'); } return r; }
+const DET = { play: ['detail_malmoi', '오늘 PLAY', () => '한 판 더,<br>오늘의 순위'], psy: ['', '심리 테스트', () => ''], psa: ['', '프사 읽기', () => ''], malmoi: ['', '말모이', () => ''], shisen: ['', '사천성', () => ''], num50: ['', '1 to 50', () => ''], sudoku: ['', '스도쿠', () => ''], history: ['detail_history', '그해 오늘', () => `${Y - ago}년,<br>그해 오늘`], music: ['detail_music', '그 시절 노래', () => `${Y - ago}년,<br>그해의 노래`], food: ['detail_food', '오늘의 한 끼', () => esc(C.meal.title)], story: ['detail_story', '그날의 사연', () => esc(C.story.title)], fortune: ['fortune', '오늘의 운세', () => '띠를 고르면,<br>오늘의 한마디'], luck: ['', '오늘의 운세 · 꿈 해몽', () => '오늘의 운,<br>간밤의 꿈'], culture: ['culture_detail', '오늘의 문화', () => '시 한 편,<br>그림 한 점'], follow: ['detail_follow', '오늘의 따라하기', () => '배우는 재미,<br>오늘 한 가지'], move: ['detail_move', '오늘의 몸 풀기', () => '오늘, 몸을 깨우는 시간'], mind: ['detail_culture', '오늘의 마음 한 줄', () => '숨 한 번,<br>마음 한 줄'], body: ['detail_body', '오늘의 몸 한 가지', () => esc((C.body && C.body.part) || '몸') + ',<br>오늘 한 가지'], hike: ['detail_hike', '오늘의 산', () => '이번 주,<br>걷기 좋은 산길'], book: ['detail_book', '오늘의 한 권', () => esc((C.book && C.book.title) || '오늘의 한 권')], home: ['detail_home', '그 동네 지금', () => '그 길에 서서,<br>지금 이 시간'], phrase: ['detail_phrase', '여행', () => '해외 골프 · 관광,<br>자유여행 · 회화'], outing: ['detail_outing', '오늘의 나들이', () => '이번 주말, 어디로 갈까'], garden: ['detail_garden', '오늘의 정원', () => '이 철에,<br>해야 할 일 하나'], dream: ['', '꿈 해몽', () => '간밤의 꿈,<br>무슨 뜻일까'], show: ['detail_show', '이번 주, 무엇을 볼까', () => '극장 · 무대 · 전시'], pick: ['detail_pick', '오늘의 추천 음악', () => '오늘, 이 한 곡'], dog: ['pet-dog-head', '어쩌다 점점 집사 · 댕댕이', () => esc((PET.current('dog') || {}).title || '오늘의 댕댕이 이야기')], cat: ['pet-cat-head', '어쩌다 점점 집사 · 냥이', () => esc((PET.current('cat') || {}).title || '오늘의 냥이 이야기')], ...Object.fromEntries(PT_IDS.map(id => [id, ['', '심리 테스트', () => '']])), quiz: ['issue_detail', '오늘의 시사 상식', () => esc(C.quiz.term || '오늘의 시사 상식')] };
 let cur = null;
 function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
 // ── 아침 알림 받기 (원하는 사람만, 시간은 직접 고르기) ──
@@ -945,11 +954,14 @@ function setTitle() { $('d-title').innerHTML = DET[cur][2](); }
   draw();
 })();
 
-const GAME = { psy: async () => (await import('./psy.js' + MODV)).mountList($('psy-root'), { nav }), 'pt-wall': async () => (await import('./psy.js' + MODV)).mountTest($('pt-wall-root'), 'pt-wall', { nav }), 'pt-talk': async () => (await import('./psy.js' + MODV)).mountTest($('pt-talk-root'), 'pt-talk', { nav }), 'pt-trip': async () => (await import('./psy.js' + MODV)).mountTest($('pt-trip-root'), 'pt-trip', { nav }), psa: async () => (await import('./psy.js' + MODV)).mount($('psa-root'), { toast, cards: () => cardsEl.innerHTML, openCard }), malmoi: () => MM.mount($('mm-root'), { toast, esc }), shisen: async () => (await import('./games/shisen.js')).mount($('ss-root')), num50: async () => (await import('./games/num50.js')).mount($('n5-root')), sudoku: async () => (await import('./games/sudoku.js')).mount($('sd-root')) };
+const GAME = { psy: async () => (await import('./psy.js' + MODV)).mountList($('psy-root'), { nav }), psa: async () => (await import('./psy.js' + MODV)).mount($('psa-root'), { toast, cards: () => cardsEl.innerHTML, openCard }), malmoi: () => MM.mount($('mm-root'), { toast, esc }), shisen: async () => (await import('./games/shisen.js')).mount($('ss-root')), num50: async () => (await import('./games/num50.js')).mount($('n5-root')), sudoku: async () => (await import('./games/sudoku.js')).mount($('sd-root')) };
 const gameDone = {};
 
 // ── 화면 이동: 잡지 넘기듯 '단계'로 쌓는다 (첫 화면 0 → 장 1 → 코너 2 → 놀이 3).
 // 같은 단계끼리 옮겨 다니면 쌓지 않고 바꿔 끼운다 → 몇 개를 열어 봐도 뒤로 가기는 한 단계씩 위로, 많아야 4번이면 나간다.
+// 심리 테스트 — 아이디가 늘어나도 여기서 한꺼번에 (대표 2026-10-24: 매주 월요일 새 테스트)
+PT_IDS.forEach(ptRoot);   // 칸을 미리 만들어 두어야 들어갈 때 바로 보인다
+PT_IDS.forEach(id => { GAME[id] = async () => (await import('./psy.js' + MODV)).mountTest(ptRoot(id), id, { nav, toast, share: sharePsy }); });
 const NAV_GAMES = new Set(['psy', 'malmoi', 'shisen', 'num50', 'sudoku']);
 const CU_RE = /^cu-[a-z]+$/;   // 오늘의 문화 안쪽 (시·그림…) — 놀이와 같은 단계라 뒤로 가면 고르는 화면으로 온다
 const LV = k => !k ? 0 : /^g[1-6]$/.test(k) ? 1 : (k === 'psa' || /^pt-/.test(k)) ? 4 : (NAV_GAMES.has(k) || CU_RE.test(k) || k === 'dream' || k === 'fortune') ? 3 : 2;   // 운세·꿈 해몽은 두 단추 화면(luck) 안쪽 → 뒤로 가면 두 단추로
