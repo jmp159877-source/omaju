@@ -891,6 +891,7 @@ function eraNewsHtml(yr, e) {
   return h;
 }
 function renderEra() {
+  if (!C.era || ![50, 40, 30, 20, 10].some(n => C.era[n])) return;   /* 2026-10-25 0시: 그날 치 era 가 비어 들어와 여기서 멈추며 오프닝·기획 연재까지 안 떴다 */
   if (!C.era[ago]) ago = [40, 30, 20, 10, 50].find(n => C.era[n]) || ago;
   const tabs = [50, 40, 30, 20, 10].filter(n => C.era[n]).map(n => `<button type="button" data-ago="${n}" aria-pressed="${ago === n}">${n}년 전</button>`).join('');
   $('tabs').innerHTML = tabs; $('tabs2').innerHTML = tabs;
@@ -999,7 +1000,8 @@ function route() { const k = location.hash.slice(1);
 $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-7]$/.test(NS[0]) ? NS[0] : ''); };
 window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => document.body.classList.toggle('nav-solid', document.body.classList.contains('in-detail') && window.scrollY > 160), { passive: true });
-renderEra(); renderMind(); renderGarden(); renderBody(); renderBook(); renderShow(); route();
+/* 한 칸이 비어 들어와 터져도 나머지 화면(오프닝·기획 연재·장)은 그려지게 — 하나씩 따로 (2026-10-25) */
+[renderEra, renderMind, renderGarden, renderBody, renderBook, renderShow, route].forEach(f => { try { f(); } catch (e) { console.error(e); } });
 
 // ── 오늘의 추천 음악 (대표 2026-10-24): 그 시절 주옥같은 노래 하루 한 곡 — 공식·원곡 영상만, 누르면 오마주 안에서 바로 ──
 // 곡 목록은 data/pick.json(fixed: 날짜 지정 · pool: 날짜로 돌림), 영상은 data/song_videos.json (노래 재생기와 같은 것)
