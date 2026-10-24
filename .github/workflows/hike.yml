@@ -2,9 +2,8 @@
 name: hike
 on:
   schedule:
-    - cron: '30 9 * * 1'      # 월 18:30 KST
-    - cron: '30 12 * * 1'     # 월 21:30 KST
-    - cron: '40 16 * * 1,2'   # 화·수 01:40 KST (남은 지역 이어 채움)
+    # 본 예약은 Vercel 정시(api/tick.js): 일 21:20 · 22:40 KST — 다음 주치를 미리 (대표 2026-10-24)
+    - cron: '40 16 * * 0,1'   # 월·화 01:40 KST (남은 지역 이어 채움, 보강)
   workflow_dispatch:
     inputs:
       limit: { description: '한 번에 만들 지역 수 (기본 9)', required: false }

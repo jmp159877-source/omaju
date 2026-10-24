@@ -2,7 +2,8 @@
 name: 여행·산 사진
 on:
   schedule:
-    - cron: '0 11 * * 1'   # 월 20:00 KST (travel.yml·hike.yml 이 돈 뒤)
+    # 본 예약은 Vercel 정시(api/tick.js): 일 23:40 KST (여행·산이 돈 뒤, 대표 2026-10-24)
+    - cron: '30 17 * * 0'   # 월 02:30 KST (보강)
   workflow_dispatch:
     inputs:
       what: { description: 'travel | hike | all', required: false, default: 'all' }

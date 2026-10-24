@@ -2,9 +2,8 @@
 name: shows
 on:
   schedule:
-    - cron: '45 8 * * 1'    # 월 17:45 KST
-    - cron: '45 11 * * 1'   # 월 20:45 KST
-    - cron: '20 16 * * 1,2'   # 화·수 01:20 KST (남은 지역 이어 채움)
+    # 본 예약은 Vercel 정시(api/tick.js): 일 21:00 · 22:30 KST — 다음 주치를 미리 (대표 2026-10-24)
+    - cron: '20 16 * * 0,1'   # 월·화 01:20 KST (남은 지역 이어 채움, 보강)
   workflow_dispatch:
     inputs:
       limit:

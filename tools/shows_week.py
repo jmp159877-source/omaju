@@ -7,6 +7,8 @@ import gen_daily as g
 
 KST = datetime.timezone(datetime.timedelta(hours=9))
 today = datetime.datetime.now(KST).date()
+if today.weekday() == 6:   # 일요일 밤에 돌면 다음 주치를 미리 만든다 — 월요일 아침에 새 주가 펼쳐져 있게 (대표 2026-10-24)
+    today += datetime.timedelta(days=1)
 mon = today - datetime.timedelta(days=today.weekday())  # 이번 주 월요일을 주 이름으로
 P = os.path.join(os.path.dirname(__file__), "..", "data", "shows.json")
 cur = json.load(open(P, encoding="utf-8")) if os.path.exists(P) else {}

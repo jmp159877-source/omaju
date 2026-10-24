@@ -2,8 +2,8 @@
 name: travel
 on:
   schedule:
-    - cron: '10 9 * * 1'      # 월 18:10 KST
-    - cron: '10 16 * * 1,2'   # 화·수 01:10 KST (못 채운 칸 이어 채움)
+    # 본 예약은 Vercel 정시(api/tick.js): 일 21:10 KST — 다음 주치를 미리 (대표 2026-10-24)
+    - cron: '10 16 * * 0,1'   # 월·화 01:10 KST (못 채운 칸 이어 채움, 보강)
   workflow_dispatch:
 permissions:
   contents: write
