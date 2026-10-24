@@ -281,6 +281,95 @@ def gen_pet(d):
     return out
 
 
+# 혼자라서 좋은 날 — 혼자일 때 더 좋은 하루 (대표 2026-10-24). 여섯 칸, 하루에 세 칸씩 번갈아 새 글(이틀에 한 바퀴).
+#  장소가 나오는 칸은 구글 검색으로 고르고, 한 번 더 검색해 '지금 실제로 있는 곳'만 남긴다(지어낸 곳은 신뢰를 바로 깬다).
+#  '혼자일 때 무엇이 좋은가(solo)'를 항목마다 꼭 쓴다 — 산·나들이·여행 코너와 다른 이 칸의 값.
+SOLO = {
+    "day":   ("혼자 떠나는 하루 코스", True,  "아침부터 저녁까지 혼자 돌기 좋은 동선 하나(걷는 길·혼밥집·카페·서점·전망 같은 4~5곳을 시간 순서로). name 에 들를 곳, where 에 동네, note 에 그곳에서 할 일, time 에 시각(예: 오전 10시)."),
+    "eat":   ("혼밥 맛집", True,  "1인석·바 좌석이 있거나 1인분을 파는, 혼자 가도 편한 식당 3~4곳. 노포·국밥·면·백반·초밥 바 등 결이 있는 집. name 식당 이름, where 동네·역, note 대표 메뉴와 맛."),
+    "hobby": ("혼자 즐기는 취미 자리", True,  "오늘의 갈래: {topic}. 혼자 조용히 즐길 수 있는 실제 장소 3~4곳. name 장소 이름, where 시군구, note 무엇을 어떻게 즐기는지."),
+    "see":   ("혼자 보기 좋은 것", True,  "오늘의 갈래: {topic}. 혼자 가기 좋은 실제 장소나 지금 하는 전시·공연 3~4개. name 이름, where 장소, note 무엇을 보는지·언제 가면 좋은지."),
+    "home":  ("혼자 사는 살림", False, "오늘의 주제: {topic}. 혼자 사는 집에서 바로 써먹는 생활 요령 3~4가지. name 요령 한 줄 제목, where 는 빈칸, note 어떻게 하는지 두 문장. 겁주지 않고, 병·약 이야기 없이."),
+    "trip":  ("혼자 떠나는 여행", True,  "혼자 1박 2일로 다녀오기 좋은 국내 여행지 한 곳({region} 쪽)과 그곳에서 들를 곳 3~4곳. name 들를 곳, where 시군구, note 할 일, time 은 '첫날 오후' 같은 때."),
+}
+SOLO_TOPIC = {"hobby": ["혼자 가는 조용한 낚시터", "혼자 치기 좋은 골프 연습장·파3", "1인 캠핑·차박 자리", "혼자 걷기 좋은 둘레길", "혼자 가는 사진 산책 명소", "혼자 다니는 자전거 길"],
+              "see": ["혼영하기 좋은 극장", "평일 조용한 미술관", "혼자 가기 좋은 공연·클래식", "혼자 머물기 좋은 큰 서점·도서관"],
+              "home": ["1인분 장보기", "혼자 먹는 저녁 한 그릇", "작은 집 정리", "혼자 아플 때 미리 챙겨 둘 것", "혼자 사는 집 안전", "주말 아침 나를 위한 루틴", "혼자 사는 집 냉장고 관리", "혼자 쓰는 돈 관리"]}
+SOLO_REG = ["서울", "경기", "부산", "강원", "서울", "인천", "대구", "제주", "서울", "대전", "광주", "경북", "전남", "충남", "경남"]
+SOLO_FILE = os.path.join(HERE, "..", "data", "solo.json")
+
+
+def _solo_verify(items, region):
+    """장소마다 지금 실제로 있는 곳인지 검색으로 한 번 더 본다 — 확인 못 한 곳은 뺀다"""
+    q = "\n".join(f"{i}. {x.get('name')} ({x.get('where')})" for i, x in enumerate(items))
+    try:
+        j = gemini(f"""아래는 한국 {region} 쪽 장소 목록이다. 구글 검색으로 하나씩 확인해서, 지금 실제로 있고(폐업·종료 아님) 이름과 위치가 맞는지 판정하라.
+확실히 확인된 것만 ok=true. 조금이라도 의심스러우면 false.
+{q}
+형식(JSON만): {{"ok":[true,false,...]}}""", json_mode=True, search=True)
+        ok = j.get("ok") or []
+        return [x for i, x in enumerate(items) if i < len(ok) and ok[i] is True]
+    except Exception as e:
+        print(f"[solo] 확인 실패 — 이번엔 싣지 않음: {str(e)[:100]}", file=sys.stderr)
+        return []
+
+
+def gen_solo(d, keys=None):
+    """혼자라서 좋은 날 — 오늘 차례인 칸에 새 글 한 편씩. data/solo.json 맨 앞에 쌓는다(같은 커밋으로 올라간다)."""
+    try:
+        with open(SOLO_FILE, encoding="utf-8") as fp:
+            db = json.load(fp)
+    except Exception:
+        db = {}
+    key, n = d.isoformat(), d.toordinal()
+    keys = keys or (["day", "eat", "home"] if n % 2 == 0 else ["hobby", "see", "trip"])
+    out = {}
+    for k in keys:
+        name, places, guide = SOLO[k]
+        lst = db.setdefault(k, [])
+        have = next((x for x in lst if x.get("date") == key), None)
+        if have: out[k] = have; continue
+        region = SOLO_REG[(n // 2 + list(SOLO).index(k)) % len(SOLO_REG)]
+        topics = SOLO_TOPIC.get(k) or [""]
+        topic = topics[(n // 2) % len(topics)]
+        past = "\n".join("- " + x.get("title", "") for x in lst[:30])
+        g = guide.format(topic=topic, region=region)
+        prompt = f"""오늘은 {d.year}년 {d.month}월 {d.day}일. 잡지 '오마주 매거진'의 코너 '혼자라서 좋은 날 · {name}' 한 편을 쓴다.
+읽는 사람은 40~60대. 혼자가 쓸쓸한 처지가 아니라 '고른 시간'인 사람들 — 돌싱도, 각자의 삶을 사는 부부도, 혼자가 편한 사람도. 외로움·돌싱·이혼·사별 같은 말은 쓰지 않는다. 밝고 담백하게.
+{('지역: ' + region + '. 실제로 있는 곳만 구글 검색으로 확인해서 고른다. 지어내지 않는다. 폐업했거나 확인 안 되는 곳은 넣지 않는다. 너무 유명한 관광지보다 혼자 가기 편한 곳.') if places else ''}
+쓸 것: {g}
+항목마다 solo: '혼자라서 좋은 점'을 한 문장(25~45자) — 1인석·눈치 안 보이는 분위기·혼자 걷기 좋은 길·조용한 시간대처럼 구체적으로.
+- title: 말을 거는 제목 한 문장(20~36자). 예) "혼자 가도 눈치 안 보이는 서촌 국숫집 세 곳"
+- hook: 공감 가는 장면 두 문장(50~80자).
+- tips: 혼자 갈 때 알아 두면 좋은 요령 두 가지(각 25~50자).
+지난 제목과 겹치지 않게:
+{past or '- (없음)'}
+형식(JSON만): {{"title":"...","hook":"...","items":[{{"name":"...","where":"...","time":"","note":"...","solo":"..."}}],"tips":["...","..."]}}"""
+        a = None
+        for tries in range(2):
+            try:
+                j = gemini(prompt, json_mode=True, search=places)
+            except Exception as e:
+                print(f"[solo] {k} 실패: {str(e)[:100]}", file=sys.stderr); continue
+            items = [x for x in (j.get("items") or []) if x.get("name") and x.get("note")][:5]
+            if places: items = _solo_verify(items, region)
+            if len(items) < 2 or not j.get("title"): continue
+            bad = re.search(r"돌싱|이혼|사별|외로|쓸쓸|시니어|어르신|노후", j.get("title", "") + j.get("hook", "") + json.dumps(items, ensure_ascii=False))
+            if bad: print(f"[solo] {k} 금지어 {bad.group(0)} — 다시", file=sys.stderr); continue
+            a = {"id": f"{k}-{key}", "date": key, "corner": k, "region": region if places else "", "topic": topic,
+                 "title": str(j["title"]).strip(), "hook": str(j.get("hook", "")).strip(),
+                 "items": [{f: str(x.get(f, "")).strip() for f in ("name", "where", "time", "note", "solo")} for x in items],
+                 "tips": [str(t).strip() for t in (j.get("tips") or []) if str(t).strip()][:3]}
+            break
+        if not a: print(f"[solo] {k} 오늘은 못 만듦 — 지난 글이 그대로 보인다", file=sys.stderr); continue
+        lst.insert(0, a); del lst[90:]
+        out[k] = a
+    with open(SOLO_FILE, "w", encoding="utf-8") as fp:
+        json.dump(db, fp, ensure_ascii=False, indent=1)
+    assert out, "혼자라서 좋은 날 — 한 칸도 못 만듦"
+    return out
+
+
 def gen_book(d):
     """오늘의 한 권 — 실제로 나온 책 하나를 골라 잡지 책 소개면처럼.
     책 속 문장을 그대로 옮기지 않는다(저작권). 어떤 대목에서 멈추게 되는지를 내 말로 쓴다."""
@@ -800,7 +889,7 @@ def firestore():
 
 
 # 코너마다 꼭 있어야 하는 부분 — 하나라도 없으면 '덜 됨'으로 보고 다시 만든다
-NEED = {"pet": ("dog", "cat"), "hooks": ("food", "book", "quiz"), "garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
+NEED = {"pet": ("dog", "cat"), "solo": (), "hooks": ("food", "book", "quiz"), "garden": ("title", "when", "body", "tip"), "culture": ("essay", "humor", "bible", "dharma", "poem"), "mind": ("line", "note"), "body": ("line", "note", "todo"), "book": ("title", "author", "blurb", "scene", "why"), "fortune": ("total",), "follow": tuple(k for k, _, _ in FOLLOW)}
 def complete(name, v):
     if not v: return False
     # era: 그날의 신문(era_news)이 먼저 넣은 해는 노래 목록이 없어도 된다 — 앱이 data/songs.json 에서 같은 규칙으로 고른다
@@ -854,7 +943,7 @@ def main():
 
     out, errors = {}, []
     ref.set({"source": "auto", "startedAt": datetime.datetime.now(KST).isoformat()}, merge=True)
-    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden), ("pet", gen_pet), ("hooks", None)]:
+    for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden), ("pet", gen_pet), ("solo", gen_solo), ("hooks", None)]:
         if only and name not in only:
             continue
         fresh = name == "hooks" and any(k in out for k in ("meal", "book", "quiz", "culture"))   # 내용이 새로 나왔으면 제목도 새로

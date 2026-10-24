@@ -1,0 +1,23 @@
+# 혼자라서 좋은 날 — 첫 글 채우기·한 칸 다시 쓰기. 돌린 가지(ref)에 data/solo.json 을 올린다.
+name: 혼자라서 좋은 날 글 만들기
+on:
+  workflow_dispatch:
+    inputs:
+      date: { description: '날짜 (비우면 오늘)', required: false }
+      keys: { description: '칸 (day,eat,hobby,see,home,trip — 비우면 여섯 칸 모두)', required: false }
+permissions: { contents: write }
+concurrency: { group: solo, cancel-in-progress: false }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q google-cloud-firestore 2>/dev/null || true
+      - env: { GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}" }
+        run: python -u tools/solo_seed.py ${{ inputs.date }} ${{ inputs.keys }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tee /tmp/solo.log
+      - run: |
+          git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
+          git add data/solo.json && git commit -qm "혼자라서 좋은 날 글 [skip ci]" && git push -q origin HEAD:${{ github.ref_name }} || echo '바뀐 것 없음'
