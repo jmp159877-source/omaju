@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>오마주 매거진 하루 시간표</title>
+<style>
+@page { size: A4; margin: 11mm 12mm 10mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Noto Sans CJK KR', sans-serif; color: #1f2a24; font-size: 8.4pt; line-height: 1.38; margin: 0; }
+.head { border-bottom: 1.2px solid #b89a55; padding-bottom: 5px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-end; }
+h1 { font-family: 'Noto Serif CJK KR', serif; font-size: 17pt; margin: 0; color: #0f3d2c; letter-spacing: -0.5px; }
+.sub { color: #6b6b5e; font-size: 8pt; margin-top: 1px; }
+.date { font-size: 7.6pt; color: #8a7a4f; text-align: right; }
+.legend { font-size: 7.6pt; color: #555; margin: 0 0 5px; }
+.legend .tag { margin-right: 2px; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #0f3d2c; color: #fff; font-weight: 500; font-size: 7.8pt; text-align: left; padding: 3px 6px; }
+td { border-bottom: 0.5px solid #e6dfcf; padding: 2.6px 6px; vertical-align: top; }
+td.t { width: 12%; font-weight: 700; color: #0f3d2c; white-space: nowrap; }
+td.k { width: 9%; }
+td.w { width: 49%; }
+td.b { width: 30%; color: #666; font-size: 7.6pt; }
+tr.band td { background: #f3efe2; font-weight: 700; color: #6b5a2a; font-size: 7.8pt; padding: 2px 6px; }
+tr.me td { background: #eaf1f8; }
+tr.pub td { background: #fdf8e3; }
+.tag { display: inline-block; font-size: 7.2pt; font-weight: 700; padding: 0 6px; border-radius: 8px; white-space: nowrap; }
+.mk { background: #e3f0e7; color: #1d5a3c; }
+.pb { background: #F9E9A8; color: #3A2E00; }
+.ck { background: #d9e6f3; color: #24476b; }
+.bk { background: #eee; color: #666; }
+.sc { background: #fff; color: #0f3d2c; border: 0.6px solid #9bb8a7; }
+.cols { display: flex; gap: 8px; margin-top: 6px; }
+.box { flex: 1; background: #faf6ea; border: 0.6px solid #e3d6ae; border-radius: 5px; padding: 5px 8px; font-size: 7.6pt; }
+.box b.h { display: block; color: #0f3d2c; font-size: 8pt; margin-bottom: 2px; }
+.box ul { margin: 0; padding-left: 13px; }
+.foot { margin-top: 5px; font-size: 7pt; color: #999; text-align: center; }
+</style></head><body>
+
+<div class="head">
+  <div><h1>하루 시간표 · 만들고, 올리고, 점검하고</h1><div class="sub">오마주 매거진 자동 발행 예약 전부 · 시각은 한국 시각</div></div>
+  <div class="date">2026년 10월 24일 기준 (주 단위 일요일 밤으로 바꿈)<br>편집국장 클국장</div>
+</div>
+
+<div class="legend">
+<span class="tag mk">만듦</span> 콘텐츠·녹음을 만들어 둠 &nbsp;
+<span class="tag pb">공개</span> 독자·유튜브에 보임 &nbsp;
+<span class="tag ck">점검</span> 클국장이 확인·보고 &nbsp;
+<span class="tag bk">보강</span> 빠진 것만 다시 채움 &nbsp;|&nbsp;
+깨우는 곳: <b>정시</b> = 사이트 서버 예약(분 단위로 정확) · <b>깃허브</b> = 깃허브 예약(몇 시간 밀릴 수 있음)
+</div>
+
+<table>
+<tr><th>시각</th><th>구분</th><th>무엇이 일어나나</th><th>깨우는 곳 · 메모</th></tr>
+
+<tr class="band"><td colspan="4">한밤 — 오늘 호를 만드는 시간</td></tr>
+<tr class="pub"><td class="t">00:00</td><td class="k"><span class="tag pb">공개</span></td><td class="w">날짜가 바뀌며 미리 만든 집사·혼자 글, 추천 음악, (월) 새 심리 테스트가 열림</td><td class="b">화면이 날짜로 판단 · 오프닝은 5시까지 어제 저녁 방송</td></tr>
+<tr><td class="t">00:05</td><td class="k"><span class="tag mk">만듦</span><span class="tag pb">공개</span></td><td class="w"><b>오늘 콘텐츠 전부</b>: 인사말·운세·그해 오늘·마음·몸·한 권·한 끼·시사 상식·사연·따라하기·회화·문화·나들이·정원(월수금)·집사·혼자(금: 코스·여행)·말 거는 제목 → 사이트 반영, 검색용 쪽·사이트맵</td><td class="b">정시 (깃허브도 같은 시각 겹쳐 둠) · 사이트에 뜨기까지 20~30분</td></tr>
+<tr><td class="t">00:10</td><td class="k"><span class="tag bk">보강</span></td><td class="w">오프닝 녹음 (깃허브 예약분)</td><td class="b">깃허브 · 정시 01:00 이 본 녹음</td></tr>
+<tr><td class="t">00:40</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">그해 오늘 · 그날의 신문</td><td class="b">정시</td></tr>
+<tr><td class="t">01:00</td><td class="k"><span class="tag mk">만듦</span></td><td class="w"><b>오늘의 오프닝 녹음</b> 세 벌: 대본 → 형식·실화 사실 확인 → 여섯 토막 녹음 → 받아쓰기 대조 · 높이 · 사진 점검</td><td class="b">정시 · 하나라도 끝내 안 되면 어제 것이 나감 · 콘텐츠 보강(깃허브)도 이때</td></tr>
+<tr><td class="t">01:10</td><td class="k"><span class="tag bk">보강</span></td><td class="w">나들이 남은 지역 · (월·화) 여행·무엇을 볼까·산 못 채운 칸</td><td class="b">깃허브</td></tr>
+<tr class="me"><td class="t">02:07</td><td class="k"><span class="tag ck">점검</span></td><td class="w"><b>클국장 오프닝 새벽 점검</b>: 사실·목소리·대본·길이·사진. 틀리면 한 번 다시 녹음</td><td class="b">예약 작업 · 이상 있을 때 대표님 휴대폰 알림</td></tr>
+<tr><td class="t">02:20</td><td class="k"><span class="tag mk">만듦</span></td><td class="w"><b>유튜브 쇼츠 세 편</b> 만들고 공개 시각 예약 (인사 카드 · 한 끼 · 오프닝 실화)</td><td class="b">정시</td></tr>
+<tr><td class="t">03:00</td><td class="k"><span class="tag bk">보강</span></td><td class="w">오늘 콘텐츠 중 빠진 코너</td><td class="b">정시</td></tr>
+<tr><td class="t">04:10</td><td class="k"><span class="tag bk">보강</span></td><td class="w">오프닝 (안 만들어졌을 때만)</td><td class="b">정시</td></tr>
+<tr><td class="t">04:50</td><td class="k"><span class="tag bk">보강</span></td><td class="w">쇼츠 (빠졌을 때만)</td><td class="b">정시</td></tr>
+
+<tr class="band"><td colspan="4">아침 — 독자를 맞는 시간</td></tr>
+<tr class="pub"><td class="t">05:00</td><td class="k"><span class="tag pb">공개</span></td><td class="w">오프닝 <b>아침 방송</b>으로 바뀜 (5~12시)</td><td class="b">화면이 시각으로 판단</td></tr>
+<tr><td class="t">05:10</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">오늘의 이슈 다섯 줄 (정치·사건사고 뺌)</td><td class="b">정시 · 사이트 배포 수를 쓰지 않음</td></tr>
+<tr><td class="t">06:00</td><td class="k"><span class="tag bk">보강</span></td><td class="w">오늘 콘텐츠 중 빠진 코너</td><td class="b">정시</td></tr>
+<tr><td class="t">06:13</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">경제 시세</td><td class="b">정시</td></tr>
+<tr class="pub"><td class="t">06:30</td><td class="k"><span class="tag pb">공개</span></td><td class="w">유튜브 <b>인사 카드 쇼츠</b></td><td class="b">유튜브 예약 공개</td></tr>
+<tr class="me"><td class="t">06:41</td><td class="k"><span class="tag ck">점검</span></td><td class="w"><b>클국장 아침 점검·보고</b>: 콘텐츠·오프닝·썸네일 칸·쇼츠·이슈·시세 (월: 법·권리 점검, 이번 주 제안)</td><td class="b">예약 작업 · 매일 대표님 휴대폰으로 보고</td></tr>
+<tr><td class="t">06:50~08:50</td><td class="k"><span class="tag pb">공개</span></td><td class="w">아침 알림 발송 (7시 · 8시 · 9시 고른 분께)</td><td class="b">깃허브</td></tr>
+<tr><td class="t">09:13~16:13</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">경제 시세 — 평일 장중 매시</td><td class="b">정시</td></tr>
+<tr class="pub"><td class="t">10:00</td><td class="k"><span class="tag pb">공개</span></td><td class="w">유튜브 <b>오늘의 한 끼 쇼츠</b> (10/25 첫 편)</td><td class="b">유튜브 예약 공개</td></tr>
+<tr><td class="t">11:40</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">이슈 새로</td><td class="b">정시</td></tr>
+
+<tr class="band"><td colspan="4">낮 · 저녁</td></tr>
+<tr class="pub"><td class="t">12:00</td><td class="k"><span class="tag pb">공개</span></td><td class="w">오프닝 <b>오후 방송</b>으로 (12~18시)</td><td class="b">화면</td></tr>
+<tr class="me"><td class="t">12:41</td><td class="k"><span class="tag ck">점검</span></td><td class="w"><b>클국장 낮 점검</b>: 시세를 실제 값과 대조 · 새 실패 · 쇼츠 예약 유지 · 전체 자동 시험</td><td class="b">예약 작업 · 문제 있을 때만 보고</td></tr>
+<tr><td class="t">16:40</td><td class="k"><span class="tag mk">만듦</span><span class="tag bk">보강</span></td><td class="w">이슈 새로 · AI 하루 한도가 풀린 뒤 빠진 코너 채움</td><td class="b">정시</td></tr>
+<tr><td class="t">17:20</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">그 시절 노래 영상 찾기</td><td class="b">깃허브 · 유튜브 하루 한도가 새로 찬 뒤</td></tr>
+<tr><td class="t">17:30 · 20:30</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">나들이 '이번 주말 어디로'</td><td class="b">깃허브</td></tr>
+<tr class="pub"><td class="t">18:00</td><td class="k"><span class="tag pb">공개</span></td><td class="w">오프닝 <b>저녁 방송</b>으로 (18시~)</td><td class="b">화면</td></tr>
+<tr><td class="t">18:13 · 21:13</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">경제 시세</td><td class="b">정시</td></tr>
+<tr class="pub"><td class="t">19:00</td><td class="k"><span class="tag pb">공개</span></td><td class="w">유튜브 <b>오프닝 실화 쇼츠</b> (AI 표시)</td><td class="b">유튜브 예약 공개</td></tr>
+<tr><td class="t">20:40</td><td class="k"><span class="tag mk">만듦</span></td><td class="w">이슈 새로 (하루 마지막)</td><td class="b">정시</td></tr>
+</table>
+
+<div class="cols">
+  <div class="box"><b class="h">일요일 밤 — 다음 주치를 미리 (정시)</b>
+  <ul>
+  <li>21:00 · 22:30 무엇을 볼까</li>
+  <li>21:10 여행(골프·관광·자유여행)</li>
+  <li>21:20 · 22:40 오늘의 산</li>
+  <li>23:40 여행·산 사진</li>
+  <li>월·화 01시대 못 채운 칸 이어 채움 (깃허브 보강)</li>
+  </ul>
+  <div style="margin-top:3px;color:#1d5a3c">→ 월요일 아침이면 새 주가 펼쳐져 있습니다. 월요일 0시에는 새 심리 테스트도 열립니다.</div></div>
+  <div class="box"><b class="h">한 번만 울리는 예약 알림</b>
+  <ul>
+  <li>2026-11-20 09:31 창간 독자 마감 여쭙기</li>
+  <li>2027-09-22 09:31 깃허브 열쇠 만료 한 달 전</li>
+  </ul>
+  <b class="h" style="margin-top:4px">멈춰 둔 것</b>
+  <ul><li>읽어 드려요 (00:50 · 05:30 녹음) — 다시 켤 수 있음</li></ul></div>
+  <div class="box"><b class="h">필요할 때 손으로 돌리는 것</b>
+  <ul>
+  <li>하루 내용 일부 고치기 · 특정 코너만 다시</li>
+  <li>노래 영상 다시 고르기 · 전체 점검</li>
+  <li>회원·관리자 관리 · 유튜브 열쇠 확인</li>
+  <li>혼자라서 좋은 날 첫 글 채우기</li>
+  </ul></div>
+</div>
+
+<div class="foot">오마주 매거진 · omaju.kr · 네이버·구글에서 "오마주 매거진" 검색</div>
+</body></html>
