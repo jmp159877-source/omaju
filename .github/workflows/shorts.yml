@@ -39,7 +39,7 @@ jobs:
           cd tools && npm init -y >/dev/null && npm i --no-audit --no-fund puppeteer-core@23
           which google-chrome || ls /usr/bin | grep -i chrom
       - name: 만들기
-        timeout-minutes: 12
+        timeout-minutes: 25   # 한 끼 쇼츠가 붙어 5분쯤 더 걸린다
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MEDIA_DIR: media
