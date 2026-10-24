@@ -2401,7 +2401,6 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 /* 장이 여섯이 되어 2×3 으로 반듯하게 — 나의 수첩도 다른 칸과 같은 크기로 */
 .tabs3 button[data-tab="g6"], .tabs3 button[data-tab="g6"][aria-pressed="true"] { background-image: url('../img/tab-pet.jpg') !important; background-size: cover !important; background-position: center 45% !important; }
 .tabs-mini button[data-tab="g6"] { background-image: url('../img/tab-pet.jpg'); background-position: center 45%; }
-.tabs3 button[data-tab="g6"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g6"]::before { background: linear-gradient(to top, rgba(196,124,62,0.92) 0%, rgba(196,124,62,0.45) 42%, rgba(20,20,20,0.06) 78%) !important; }
 :root { --c-g6: #C47C3E; } body[data-ch="g6"] { --acc: var(--c-g6); }
 /* 안쪽 — 코너 안쪽 판갈이 틀 그대로 */
 #detail .pet-meta { display: inline-block; font-weight: 700; font-size: .85rem; color: var(--g); background: var(--g-soft); padding: 5px 11px; border-radius: 6px; margin: 6px 0 0; }
