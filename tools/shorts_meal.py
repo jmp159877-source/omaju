@@ -1,5 +1,5 @@
 # 오마주 유튜브 쇼츠 ③ 오늘의 한 끼 — '받아 적는 레시피 카드' 20초 남짓 (대표 2026-10-24)
-#  사진은 음식이 아니라 우리 부엌·식탁 사진(음식 모양을 지어내지 않는다). 재료 → 만드는 법 → 요령이 한 장씩, 끝에 '레시피 전체는 오마주에서'.
+#  사진은 음식이 아니라 우리 부엌·식탁 사진(음식 모양을 지어내지 않는다). 재료 → 만드는 법 → 요령이 한 장씩, 끝에 '레시피 전체는 오마주 매거진에서'. 밖에 내보내는 이름은 언제나 '오마주 매거진'(대표 2026-10-24, 상표 출원).
 #  목소리 없이 낮 음악만 → AI 표시 필요 없음. 게시는 11:30(점심 메뉴 고를 때) — yt_upload.py WHEN['meal'].
 # 쓰는 법: python3 tools/shorts_meal.py YYYY-MM-DD   (MEDIA_DIR=media)  → media/shorts/<날짜>-meal.mp4, <날짜>.json 의 meal·meal_up
 import os, sys, json, subprocess, datetime
@@ -100,7 +100,7 @@ def build():
     # 배경은 세로 사진 서너 장(img/shorts-meal-*.jpg)을 날마다 돌린다 — 없으면 사이트 한 끼 칸 사진
     import glob
     bgs = sorted(glob.glob(os.path.join(ROOT, 'img', 'shorts-meal-*.jpg'))) or [os.path.join(ROOT, 'img', 'food.jpg')]
-    bg_src = Image.open(bgs[D.toordinal() % len(bgs)]).convert('RGB')
+    bg_src = Image.open(bgs[int(os.environ.get('SHORTS_BG', D.toordinal())) % len(bgs)]).convert('RGB')
     no = (D - datetime.date(2026, 10, 22)).days + 1          # 연재 번호 — 창간일(10/22)이 1호
     facts = ' · '.join(x for x in meal.get('sub', '').split(' · ') if '인분' not in x)
     l1 = (hook.get('hook') or meal.get('lead', '')[:18]).replace('\n', ' ').strip(); l2 = meal['title']
@@ -163,8 +163,11 @@ def build():
             if p < 1: layer.putalpha(layer.getchannel('A').point(lambda a: int(a * p)))
             o.alpha_composite(layer)
             if name == 'tip':
-                shadow_text(o, (W // 2, H - 330), '레시피 전체는 오마주에서', font(BOLD, 52))
-                shadow_text(o, (W // 2, H - 255), '매일 아침 새로 나오는 무료 매거진 · omaju.kr', font(REG, 36), fill=(232, 220, 190, 255))
+                lb = Image.new('RGBA', (W, 520)); ld = ImageDraw.Draw(lb)
+                for yy in range(520): ld.line([(0, yy), (W, yy)], fill=(8, 30, 22, int(215 * min(1, yy / 300) ** 1.6)))
+                o.alpha_composite(lb, (0, H - 520))
+                shadow_text(o, (W // 2, H - 330), '레시피 전체는 오마주 매거진에서', font(BOLD, 52))
+                shadow_text(o, (W // 2, H - 255), '네이버·구글에서 "오마주 매거진" 검색', font(REG, 36), fill=(232, 220, 190, 255))
         return o.convert('RGB')
     out = os.path.join(OUT, DATE + '-meal.mp4')
     if os.path.exists(out) and '--force' not in sys.argv and '--stills' not in sys.argv:
