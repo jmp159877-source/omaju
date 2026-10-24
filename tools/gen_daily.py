@@ -338,7 +338,7 @@ def gen_solo(d, keys=None):
 읽는 사람은 40~60대. 혼자가 쓸쓸한 처지가 아니라 '고른 시간'인 사람들 — 돌싱도, 각자의 삶을 사는 부부도, 혼자가 편한 사람도. 외로움·돌싱·이혼·사별 같은 말은 쓰지 않는다. 밝고 담백하게.
 {('지역: ' + region + '. 실제로 있는 곳만 구글 검색으로 확인해서 고른다. 지어내지 않는다. 폐업했거나 확인 안 되는 곳은 넣지 않는다. 너무 유명한 관광지보다 혼자 가기 편한 곳.') if places else ''}
 쓸 것: {g}
-항목마다 solo: '혼자라서 좋은 점'을 한 문장(25~45자) — 1인석·눈치 안 보이는 분위기·혼자 걷기 좋은 길·조용한 시간대처럼 구체적으로.
+항목마다 solo(살림 칸은 빈칸): '혼자라서 좋은 점'을 한 문장(25~45자) — 1인석·눈치 안 보이는 분위기·혼자 걷기 좋은 길·조용한 시간대처럼 구체적으로.
 - title: 말을 거는 제목 한 문장(20~36자). 예) "혼자 가도 눈치 안 보이는 서촌 국숫집 세 곳"
 - hook: 공감 가는 장면 두 문장(50~80자).
 - tips: 혼자 갈 때 알아 두면 좋은 요령 두 가지(각 25~50자).
@@ -358,7 +358,7 @@ def gen_solo(d, keys=None):
             if bad: print(f"[solo] {k} 금지어 {bad.group(0)} — 다시", file=sys.stderr); continue
             a = {"id": f"{k}-{key}", "date": key, "corner": k, "region": region if places else "", "topic": topic,
                  "title": str(j["title"]).strip(), "hook": str(j.get("hook", "")).strip(),
-                 "items": [{f: str(x.get(f, "")).strip() for f in ("name", "where", "time", "note", "solo")} for x in items],
+                 "items": [{f: ("" if (f == "time" and k not in ("day", "trip")) or (f == "solo" and k == "home") else str(x.get(f, "")).strip()) for f in ("name", "where", "time", "note", "solo")} for x in items],   # 영업시간은 자주 바뀌어 싣지 않는다
                  "tips": [str(t).strip() for t in (j.get("tips") or []) if str(t).strip()][:3]}
             break
         if not a: print(f"[solo] {k} 오늘은 못 만듦 — 지난 글이 그대로 보인다", file=sys.stderr); continue
