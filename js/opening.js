@@ -2,7 +2,7 @@
 // 소리는 '소리 켜고 듣기'를 눌러야만 나고, 칸이 화면에서 벗어나거나 다른 코너·앱으로 가면 저절로 멈춘다.
 const RAW = 'https://raw.githubusercontent.com/jmp159877-source/omaju/media/opening/';
 const CDN = 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@media/opening/';
-const NAME = { miso: '윤미소', hangyeol: '서한결', eunchae: '송은채' };
+const NAME = { miso: '윤미소', hangyeol: '서한결', eunchae: '송은채', seungwoo: '차승우' };
 const SLOT_KO = { morning: '아침', noon: '오후', evening: '저녁' };
 const WD = ['일', '월', '화', '수', '목', '금', '토'];
 const $ = id => document.getElementById(id);
@@ -47,7 +47,7 @@ export async function init({ modal, closeModal, toast, DB }) {
   $('opn-next').textContent = data.next_title || '';
   $('opn-nextbox').hidden = !data.next_title;
   // 처음부터 상반신으로 새로 받은 사진은 확대하지 않는다 (대표 2026-10-24 — 은채2 인사 사진부터). 새로 받으면 여기에 이름을 더한다.
-  const UPPER = ['eunchae-mor2-wave', 'eunchae-mor2-stand'];
+  const UPPER = ['eunchae-mor2-wave', 'eunchae-mor2-stand', 'seungwoo-mor-wave', 'seungwoo-mor-stand'];
   $('opn-stage').innerHTML = tags.map(t => `<i class="opn-shot" data-tag="${t}"${UPPER.some(u => img(t).includes(u)) ? ' data-up="1"' : ''} style="background-image:url('${img(t)}')"></i>`).join('');
   const au = $('opn-audio');
   let shotI = -1, capI = -1, started = false;

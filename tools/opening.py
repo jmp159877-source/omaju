@@ -20,20 +20,22 @@ D = datetime.date.fromisoformat(DATE)
 # 서한결은 당분간 뺀다. 다시 넣을 때는 아래 ROUND 에 ('hangyeol', 1)·('hangyeol', 2) 를 끼우면 된다.
 # 10/21(수) = 미소1 을 그대로 기준으로 둔다 → 10/22 은채1(이미 나간 것과 같다), 10/23 미소2, 10/24 은채2.
 # 같은 사람이 나올 때마다 옷이 바뀌어 '녹화 한 번 떠 놓고 돌려 쓰는' 느낌이 나지 않게.
-ROUND = [('miso', 1), ('eunchae', 1), ('miso', 2), ('eunchae', 2)]
+# 대표 2026-10-25: 은채2 를 빼고 새 진행자 차승우(30대 중반 남자, 밝고 경쾌)를 넣는다. 10/21 기준 그대로라 10/25 미소1 · 10/26 은채1 · 10/27 승우 첫 방송.
+ROUND = [('miso', 1), ('eunchae', 1), ('seungwoo', 1), ('miso', 2)]
 _K = (D - datetime.date(2026, 10, 21)).days
 HOST, OUTFIT = ROUND[_K % len(ROUND)]
 OTHER = ROUND[(_K + 1) % len(ROUND)][0]   # 내일 나올 사람
-NAME = {'miso': '윤미소', 'hangyeol': '서한결', 'eunchae': '송은채'}
+NAME = {'miso': '윤미소', 'hangyeol': '서한결', 'eunchae': '송은채', 'seungwoo': '차승우'}
 WD = '월화수목금토일'[D.weekday()]
 SLOTS = ['morning', 'noon', 'evening']
 # 사진이 실제로 있는 장면만 쓴다. 사연을 없앤 뒤 surprise·moved·secret 은 쓰지 않는다 (2026-10-19).
 TAGS = ['read', 'smile', 'laugh', 'talk', 'curious', 'delight', 'thumb']
-VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon', 'eunchae': 'Callirrhoe'}
-PITCH = {'miso': 195, 'hangyeol': None, 'eunchae': 196}   # 미소는 밝게 195 · 은채는 차분하게 196 (높이는 비슷해도 읽는 결로 가른다, 2026-10-20)
+VOICE = {'miso': 'Callirrhoe', 'hangyeol': 'Charon', 'eunchae': 'Callirrhoe', 'seungwoo': 'Puck'}   # 승우 목소리는 대표가 견본 듣고 고른다(2026-10-25)
+PITCH = {'miso': 195, 'hangyeol': None, 'eunchae': 196, 'seungwoo': None}   # 미소는 밝게 195 · 은채는 차분하게 196 (높이는 비슷해도 읽는 결로 가른다, 2026-10-20)
 PROFILE = {
  'miso': '[목소리 설정] 45세 한국 여성 방송 진행자. **맑고 경쾌하고, 무엇보다 반갑다.** 문을 열고 들어온 사람을 보고 \"어서 오세요!\" 하는 그 밝은 기운이 첫마디부터 묻어난다. 목소리에 미소가 걸려 있고, 톤이 살짝 올라가며 생기가 있다. 지적이지만 하나도 어렵지 않고 친구처럼 가깝다. **금지: 뉴스 앵커의 보도 말투, 심야 라디오의 낮고 차분한 톤, 명상 안내 같은 느린 말투, 애교·콧소리.**',
  'eunchae': '[목소리 설정] 44세 한국 여성 방송 진행자. **차분하고 따뜻하지만 밝고 또렷하다.** 미소보다 덜 들뜨고 안정감 있는 목소리일 뿐, 가라앉거나 작아지지 않는다. 서두르지 않되 라디오 진행자답게 힘 있게, 웃음기를 머금고 이야기한다. 말끝이 처지지 않되 음을 높이 치켜올리지 않는다. **금지: 속삭임, 숨소리 섞인 소리, 조곤조곤 낮추는 말투.** **금지: 들뜬 톤, 음을 치켜올리는 말끝, 애교·콧소리, 뉴스 앵커의 보도 말투, 느린 낭독조.**',
+ 'seungwoo': '[목소리 설정] 35세 한국 남성 방송 진행자. **밝고 경쾌하고 반갑다.** 맑고 가벼운 중음, 목소리에 웃음이 걸려 있고 말에 생기와 탄력이 있다. 친한 동생처럼 다정하고 편하다. 처음부터 끝까지 같은 크기·같은 힘으로. **금지: 무거운 저음, 아저씨 말투, 속삭임, 뉴스 앵커의 보도 말투, 느린 낭독조, 까부는 톤·호들갑.**',
  'hangyeol': '[목소리 설정] 46세 한국 남성 방송 진행자. **밝고 반갑고 경쾌하다.** 반가운 사람을 만난 듯 첫마디부터 환하다. 따뜻한 중저음이지만 처지지 않고 생기가 있으며, 듣는 사람을 챙기는 다정함이 있다. **금지: 뉴스 앵커의 보도 말투, 심야 라디오의 낮고 차분한 톤, 느린 낭독조, 까부는 톤.**',
 }
 DIRECT = ('[연출] 아침을 여는 생방송 오프닝. **첫마디 "안녕하세요"는 반갑게, 그러나 음을 끝까지 올리지 않는다.** '
@@ -324,7 +326,9 @@ def make_script():
              '이 제목을 오마주 안내에 넣거나 "생활 팁" 같은 코너가 있는 것처럼 말하지 마세요.') if topic else ''
     theme = WD_THEME[D.weekday()]
     today_in = today_corners()
-    desc = '45세 여성 라디오 진행자, 지적이면서 다정하고 친근한' if HOST == 'miso' else '46세 남성 라디오 진행자, 포근하고 다정다감한'
+    # 2026-10-25: 미소가 아니면 모두 '46세 남성'으로 빠져 은채 대본도 남자 진행자로 쓰이고 있었다 — 사람마다 따로
+    desc = {'miso': '45세 여성 라디오 진행자, 지적이면서 다정하고 친근한', 'eunchae': '44세 여성 라디오 진행자, 차분하고 따뜻하지만 밝은',
+            'seungwoo': '35세 남성 라디오 진행자, 밝고 경쾌하며 친한 동생처럼 다정한', 'hangyeol': '46세 남성 라디오 진행자, 포근하고 다정다감한'}[HOST]
     for k in range(3):
         s, m = gemini_json(PROMPT.format(name=NAME[HOST], yeyo=yeyo(NAME[HOST]), desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()]))
         if not s: continue

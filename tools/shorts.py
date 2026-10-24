@@ -14,7 +14,7 @@ OUT = os.path.join(MEDIA, 'shorts'); os.makedirs(OUT, exist_ok=True)
 W, H, FPS = 1080, 1920, 24
 D = datetime.date.fromisoformat(DATE); DOW = '월화수목금토일'[D.weekday()]
 DATE_TXT = f'{D.month}월 {D.day}일 {DOW}요일'
-NAME = {'miso': '윤미소', 'eunchae': '송은채', 'hangyeol': '서한결'}
+NAME = {'miso': '윤미소', 'eunchae': '송은채', 'hangyeol': '서한결', 'seungwoo': '차승우'}
 
 def fc(pattern):
     try: return subprocess.run(['fc-match', '-f', '%{file}', pattern], capture_output=True, text=True).stdout.strip()
