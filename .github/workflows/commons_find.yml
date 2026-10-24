@@ -1,0 +1,15 @@
+name: 자유 이용 사진 후보 받기 (위키미디어 공용)
+on:
+  workflow_dispatch:
+    inputs:
+      q: { description: '검색어 (; 로 여럿)', required: true }
+      n: { description: '검색어마다 장수', required: false, default: '6' }
+permissions: { contents: read }
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -u tools/commons_find.py "${{ inputs.q }}" "${{ inputs.n }}"
+      - uses: actions/upload-artifact@v4
+        with: { name: commons, path: /tmp/commons, retention-days: 3 }
