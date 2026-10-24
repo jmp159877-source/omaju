@@ -4,12 +4,15 @@ on:
     inputs:
       q: { description: '검색어 (; 로 여럿)', required: true }
       n: { description: '검색어마다 장수', required: false, default: '6' }
-permissions: { contents: read }
+permissions: { contents: write }
 jobs:
   find:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: python3 -u tools/commons_find.py "${{ inputs.q }}" "${{ inputs.n }}"
-      - uses: actions/upload-artifact@v4
-        with: { name: commons, path: /tmp/commons, retention-days: 3 }
+      - name: 후보를 cand 가지에 (사이트 배포와 무관, 작업 공간에서 git 으로 받아 본다)
+        run: |
+          cd /tmp/commons && git init -q -b cand && git add -A
+          git -c user.name=omaju-bot -c user.email=bot@omaju.kr commit -qm "사진 후보"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" cand
