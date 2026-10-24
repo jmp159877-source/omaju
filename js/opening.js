@@ -23,7 +23,7 @@ export async function init({ modal, closeModal, toast, DB }) {
   for (let back = 0; back < 3 && !data; back++) { const d = new Date(base); d.setDate(d.getDate() - back); data = await loadDay(key(d)); }
   if (!data || !data.slots) return;
   // 저녁은 여섯 시부터 (운영자 2026-10-19: 다섯 시는 아직 낮이다)
-  const slot = h >= 5 && h < 11 ? 'morning' : h >= 11 && h < 18 ? 'noon' : 'evening';
+  const slot = h >= 5 && h < 12 ? 'morning' : h >= 12 && h < 18 ? 'noon' : 'evening';   // 대표 2026-10-24: 11시 20분에 '오후'가 나왔다 — 정오부터 오후
   const S = data.slots[slot] || data.slots.morning; if (!S || !S.segs || !S.segs.length) return;
   // 어떤 사진을 쓸지는 만드는 쪽(tools/opening.py)이 정해서 imgs 에 담아 준다 —
   // 옷이 두 벌이고 빠진 장면도 있어서, 같은 옷 안에서 메운 결과를 그대로 받아 쓴다.
