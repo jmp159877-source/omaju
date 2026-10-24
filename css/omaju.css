@@ -2491,10 +2491,13 @@ body.in-chapter .cols-wrap { display: none; }
 .cols-head { font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 1.08rem; color: #2a2a2a; margin: 0 0 14px; letter-spacing: .04em; }
 .cols-head small { display: block; font-family: 'Noto Sans KR', sans-serif; font-weight: 400; font-size: .82rem; color: #8a6d2c; letter-spacing: .08em; margin-top: 2px; }
 .cols-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.col-tile { position: relative; aspect-ratio: 1 / 1; border: 0; border-radius: 14px; overflow: hidden; background: #ddd center / cover no-repeat; text-align: left; padding: 0; cursor: pointer; box-shadow: 0 6px 18px rgba(60,40,10,0.16); min-width: 0; }
-.col-tile:only-child { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
-.col-tile::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,12,8,.86) 0%, rgba(14,12,8,.55) 32%, rgba(14,12,8,0) 62%); }
-.col-tile .ct-in { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 13px 13px; color: #fff; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.col-tile { position: relative; border: 0; border-radius: 14px; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, auto); background: #ddd center / cover no-repeat; text-align: left; padding: 0; cursor: pointer; box-shadow: 0 6px 18px rgba(60,40,10,0.16); min-width: 0; }
+.col-tile[hidden] { display: none; }
+.cols-row.one .col-tile { grid-column: 1 / -1; }
+.col-tile::after { content: ""; grid-area: 1 / 1; aspect-ratio: 1 / 1; }   /* 적어도 정사각, 글이 길면 늘어난다 — 두 칸 높이는 같은 줄이라 맞춰진다 */
+.cols-row.one .col-tile::after { aspect-ratio: 16 / 9; }
+.col-tile::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(to top, rgba(14,12,8,.88) 0%, rgba(14,12,8,.6) 45%, rgba(14,12,8,0) 82%); }
+.col-tile .ct-in { grid-area: 1 / 1; align-self: end; position: relative; padding: 40px 13px 13px; color: #fff; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .col-tile small { font-size: .74rem; font-weight: 700; letter-spacing: .08em; color: #F3D98B; }
 .col-tile b { font-size: 1.08rem; font-weight: 700; line-height: 1.32; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
 .col-tile em { font-style: normal; font-size: .8rem; opacity: .9; line-height: 1.4; word-break: keep-all; }
@@ -2532,7 +2535,7 @@ body.in-chapter .cols-wrap { display: none; }
 #detail .ev-photo figcaption { font-size: .9rem; color: #444; line-height: 1.55; margin-top: 8px; word-break: keep-all; }
 #detail .ev-photo figcaption small { display: block; font-size: .74rem; color: #aaa; margin-top: 2px; }
 #detail .ev-box { background: var(--g-soft, #EEF5F0); border-radius: 14px; padding: 18px; margin: 24px 0 0; font-size: 1.04rem; line-height: 1.7; color: #23412F; font-weight: 500; word-break: keep-all; }
-#detail .ev-box b { display: block; font-size: .85rem; font-weight: 800; color: #1F5A3E; margin-bottom: 4px; }
+#detail .ev-box > b:first-child { display: block; font-size: .85rem; font-weight: 800; color: #1F5A3E; margin-bottom: 4px; }
 #detail .ev-cons { margin: 4px 0 0; padding-left: 1.1em; }
 #detail .ev-cons li { margin: 6px 0; line-height: 1.65; word-break: keep-all; }
 #detail .ev-next { margin: 24px 0 0; padding: 16px 18px; border: 1px dashed #C9D8CE; border-radius: 14px; font-weight: 700; color: #1F3A2B; word-break: keep-all; }
@@ -2545,3 +2548,4 @@ body.in-chapter .cols-wrap { display: none; }
 #detail .ev .ev-sources li { font-size: .8rem; line-height: 1.55; margin: 3px 0; }
 #detail .ev .ev-p b, #detail .ev .ev-cons b, #detail .ev .ev-box b:not(:first-child), #detail .ev .pet-hook b { font-weight: 800; color: #111; }
 #detail .ev .ev-box b:first-child { font-weight: 800; }
+#detail .ev .ev-cons b, #detail .ev .ev-box b:not(:first-child) { display: inline; font-size: inherit; color: #111; margin: 0; font-weight: 800; }

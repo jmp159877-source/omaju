@@ -5,15 +5,20 @@
 // 도표는 우리가 그린다(SVG) — 남의 그래프 그림을 가져오지 않는다. 사진은 저작권이 분명한 것만(위키미디어 공용 CC·보도용) 출처를 붙여.
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const G = '#1F5A3E', GOLD = '#C9A24A', MUTE = '#C9D8CE';
-let DATA = null, loading = null, shown = null;
-export function load() {
-  if (DATA) return Promise.resolve(DATA);
-  return loading || (loading = fetch('data/ev.json', { cache: 'no-cache' }).then(r => r.json()).catch(() => ({ items: [] })).then(d => (DATA = d || { items: [] })));
+// 기획 칼럼 둘이 같은 틀을 쓴다 (대표 2026-10-24): 전기차 시대 · AI 시대에 살 준비가 되었는가
+export const SERIES = {
+  ev: { file: 'data/ev.json', name: '전기차 시대', foot: '오마주 편집실은 특정 브랜드의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 차를 사시라거나 사지 마시라는 권유가 아니라, 고르실 때 쓸 자료입니다.' },
+  ai: { file: 'data/ai.json', name: 'AI 시대에 살 준비가 되었는가', foot: '오마주 편집실은 특정 회사의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 어떤 서비스를 쓰시라는 권유가 아니라, 직접 해 보실 때 쓸 안내입니다.' },
+};
+const DATA = {}, loading = {}, shown = {};
+export function load(k = 'ev') {
+  if (DATA[k]) return Promise.resolve(DATA[k]);
+  return loading[k] || (loading[k] = fetch(SERIES[k].file, { cache: 'no-cache' }).then(r => r.json()).catch(() => ({ items: [] })).then(d => (DATA[k] = d || { items: [] })));
 }
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-const list = () => ((DATA && DATA.items) || []).filter(x => x.date <= today()).sort((a, b) => b.no - a.no);
-export function latest() { return list()[0] || null; }
-export function current() { return shown || latest(); }
+const list = k => ((DATA[k] && DATA[k].items) || []).filter(x => x.date <= today()).sort((a, b) => b.no - a.no);
+export function latest(k = 'ev') { return list(k)[0] || null; }
+export function current(k = 'ev') { return shown[k] || latest(k); }
 const fmt = n => Number(n).toLocaleString('ko-KR');
 
 // ── 도표 (모두 SVG, 글자는 화면 글자 크기를 따르도록 viewBox 안 em 대신 고정 비율) ──
@@ -23,7 +28,7 @@ function bar(c) {   // 세로 막대: 몇 해·몇 기간의 변화
   return `<svg viewBox="0 0 ${W} ${H + 34}" role="img" aria-label="${esc(c.title)}">${c.items.map(([l, v, hi], i) => {
     const h = (v / max) * H, x = gap + i * (bw + gap), y = H - h + 6;
     return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" fill="${hi ? G : MUTE}"/>
-      <text x="${x + bw / 2}" y="${y - 8}" text-anchor="middle" class="ev-v${hi ? ' hi' : ''}">${esc(v)}${esc(c.unit || '')}</text>
+      <text x="${x + bw / 2}" y="${y - 8}" text-anchor="middle" class="ev-v${hi ? ' hi' : ''}">${esc(v >= 1000 ? fmt(v) : v)}${esc(c.unit || '')}</text>
       <text x="${x + bw / 2}" y="${H + 28}" text-anchor="middle" class="ev-l">${esc(l)}</text>`;
   }).join('')}<line x1="8" x2="${W - 8}" y1="${H + 6}" y2="${H + 6}" stroke="#bbb" stroke-width="1"/></svg>`;
 }
@@ -73,12 +78,12 @@ function block(b) {
   if (b.box) return `<div class="ev-box"><b>${esc(b.box.title)}</b>${rich(b.box.text)}</div>`;
   return '';
 }
-export function render(el, id) {
+export function render(el, id, k = 'ev') {
   if (!el) return;
-  const items = list();
+  const items = list(k);
   if (!items.length) { el.innerHTML = '<p class="note" style="margin-top:30px">첫 편을 준비하고 있어요.</p>'; return; }
   const a = items.find(x => x.id === id) || items[0];
-  shown = a;
+  shown[k] = a;
   const t = document.getElementById('d-title'); if (t && document.body.classList.contains('in-detail')) t.textContent = a.title;
   const d = a.date.slice(5).replace('-', '월 ').replace(/^0/, '') + '일';
   el.innerHTML = `<article class="ev">
@@ -90,13 +95,15 @@ export function render(el, id) {
       ${a.next ? `<p class="ev-next"><small>다음 편</small>${esc(a.next)}</p>` : ''}
       <div class="ev-sources"><b>출처</b><ol>${(a.sources || []).map(s => `<li>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</li>`).join('')}</ol>
       ${a.photos ? `<p>사진: ${esc(a.photos)}</p>` : ''}
-      <p>오마주 편집실은 특정 브랜드의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 차를 사시라거나 사지 마시라는 권유가 아니라, 고르실 때 쓸 자료입니다.</p></div>
+      <p>${esc(SERIES[k].foot)}</p></div>
     </article>
     <div class="pet-past"><p class="is-sub">연재 목록</p>${items.map(x => `<button type="button" data-ev="${esc(x.id)}" aria-current="${x === a}"><span>${x.no}. ${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
-  el.querySelectorAll('[data-ev]').forEach(b => b.onclick = () => { render(el, b.dataset.ev); window.scrollTo({ top: 0 }); });
+  el.querySelectorAll('[data-ev]').forEach(b => b.onclick = () => { render(el, b.dataset.ev, k); window.scrollTo({ top: 0 }); });
 }
 // 첫 화면 띠: 오늘 편 제목
-export function band() {
-  const a = latest(), el = document.getElementById('ev-band-title');
+// 칼럼 단추: 오늘 편 제목. 1편이 아직 안 열린 칼럼은 단추를 숨긴다(빈 칸을 세우지 않는다)
+export function band(k = 'ev') {
+  const a = latest(k), el = document.getElementById(k + '-band-title'), tile = document.querySelector(`.col-tile[data-open="${k}"]`);
+  if (tile) { tile.hidden = !a; const row = tile.parentElement; row.classList.toggle('one', row.querySelectorAll('.col-tile:not([hidden])').length < 2); }
   if (a && el) el.textContent = `${a.no}편 · ${a.title}`;
 }
