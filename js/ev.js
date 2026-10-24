@@ -66,7 +66,7 @@ function paras(text) {
   return out;
 }
 // 대표 2026-10-24: 주요 낱말·숫자는 살짝 굵게(색은 넣지 않는다). 낱말은 글에 **이렇게** 표시하고, 숫자+단위는 저절로.
-const NUM = /((?:\d[\d,.]*\s?만\s?)?\d[\d,.]*만?(?:~\d[\d,.]*만?)?\s?(?:%|대|원|위|배))/g;
+const NUM = /((?:\d[\d,.]*\s?만\s?)?\d[\d,.]*만?(?:~\d[\d,.]*만?)?\s?(?:%|대|원|위|배|명))/g;
 function rich(t) {
   return String(t).split(/(\*\*[^*]+\*\*)/).map(x => /^\*\*[^*]+\*\*$/.test(x) ? `<b>${esc(x.slice(2, -2))}</b>` : esc(x).replace(NUM, '<b>$1</b>')).join('');
 }
