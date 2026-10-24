@@ -1,0 +1,313 @@
+{
+ "date": "2026-10-20",
+ "host": "hangyeol",
+ "outfit": 2,
+ "imgs": {
+  "mor": {
+   "curious": "hangyeol-mor2-curious.jpg",
+   "delight": "hangyeol-mor2-smile.jpg",
+   "stand": "hangyeol-mor2-stand.jpg",
+   "read": "hangyeol-mor2-read.jpg",
+   "smile": "hangyeol-mor2-smile.jpg",
+   "laugh": "hangyeol-mor2-laugh.jpg",
+   "wave": "hangyeol-mor2-wave.jpg",
+   "thumb": "hangyeol-mor2-thumb.jpg",
+   "talk": "hangyeol-mor2-talk.jpg"
+  },
+  "eve": {
+   "curious": "hangyeol-eve2-curious.jpg",
+   "delight": "hangyeol-eve2-delight.jpg",
+   "stand": "hangyeol-eve2-stand.jpg",
+   "read": "hangyeol-eve2-read.jpg",
+   "smile": "hangyeol-eve2-smile.jpg",
+   "laugh": "hangyeol-eve2-laugh.jpg",
+   "wave": "hangyeol-eve2-wave.jpg",
+   "thumb": "hangyeol-eve2-thumb.jpg",
+   "talk": "hangyeol-eve2-read.jpg"
+  }
+ },
+ "title": "1994년 가을, 그 음반 가게",
+ "next_title": "건조해진 방 안, 수건 한 장",
+ "built": "10200535",
+ "slots": {
+  "morning": {
+   "audio": "2026-10-20-morning.mp3",
+   "end": 64.02,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요",
+      "좋은 아침입니다"
+     ]
+    },
+    {
+     "t": 5.83,
+     "tag": "stand",
+     "cap": [
+      "상쾌한 화요일 아침",
+      "기지개 한 번 켜 볼까요"
+     ]
+    },
+    {
+     "t": 10.93,
+     "tag": "curious",
+     "cap": [
+      "1994년 가을",
+      "동네마다 있던 곳"
+     ]
+    },
+    {
+     "t": 17.21,
+     "tag": "read",
+     "cap": [
+      "유리창을 채웠던",
+      "커다란 신보 포스터"
+     ]
+    },
+    {
+     "t": 23.76,
+     "tag": "smile",
+     "cap": [
+      "카세트테이프 사이",
+      "특유의 종이 냄새"
+     ]
+    },
+    {
+     "t": 29.94,
+     "tag": "laugh",
+     "cap": [
+      "명반이 쏟아지던",
+      "1994년 그 시절"
+     ]
+    },
+    {
+     "t": 36.16,
+     "tag": "read",
+     "cap": [
+      "오늘 인사 카드",
+      "가을을 담은 글귀"
+     ]
+    },
+    {
+     "t": 43.95,
+     "tag": "talk",
+     "cap": [
+      "마음 가는 분께",
+      "카드 한 장 어떠세요"
+     ]
+    },
+    {
+     "t": 48.94,
+     "tag": "read",
+     "cap": [
+      "마음속에 틀어 둔",
+      "그 시절 노래 한 곡"
+     ]
+    },
+    {
+     "t": 54.68,
+     "tag": "smile",
+     "cap": [
+      "기분 좋은 하루 보내세요"
+     ]
+    },
+    {
+     "t": 57.19,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 서한결이었습니다."
+     ]
+    }
+   ]
+  },
+  "noon": {
+   "audio": "2026-10-20-noon.mp3",
+   "end": 66.98,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요",
+      "점심은 맛있게 드셨어요?"
+     ]
+    },
+    {
+     "t": 7.47,
+     "tag": "stand",
+     "cap": [
+      "나른한 화요일 오후",
+      "쉬어 가는 시간"
+     ]
+    },
+    {
+     "t": 13.3,
+     "tag": "curious",
+     "cap": [
+      "1994년 가을",
+      "동네마다 있던 곳"
+     ]
+    },
+    {
+     "t": 19.59,
+     "tag": "read",
+     "cap": [
+      "유리창을 채웠던",
+      "커다란 신보 포스터"
+     ]
+    },
+    {
+     "t": 26.13,
+     "tag": "smile",
+     "cap": [
+      "카세트테이프 사이",
+      "특유의 종이 냄새"
+     ]
+    },
+    {
+     "t": 32.32,
+     "tag": "laugh",
+     "cap": [
+      "명반이 쏟아지던",
+      "1994년 그 시절"
+     ]
+    },
+    {
+     "t": 38.54,
+     "tag": "read",
+     "cap": [
+      "오늘 인사 카드",
+      "가을을 담은 글귀"
+     ]
+    },
+    {
+     "t": 46.32,
+     "tag": "talk",
+     "cap": [
+      "마음 가는 분께",
+      "카드 한 장 어떠세요"
+     ]
+    },
+    {
+     "t": 51.32,
+     "tag": "read",
+     "cap": [
+      "마음속에 틀어 둔",
+      "그 시절 노래 한 곡"
+     ]
+    },
+    {
+     "t": 57.05,
+     "tag": "smile",
+     "cap": [
+      "남은 오후도 활기차게"
+     ]
+    },
+    {
+     "t": 60.15,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 서한결이었습니다."
+     ]
+    }
+   ]
+  },
+  "evening": {
+   "audio": "2026-10-20-evening.mp3",
+   "end": 69.42,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요",
+      "오늘 하루도 수고 많으셨어요"
+     ]
+    },
+    {
+     "t": 8.41,
+     "tag": "stand",
+     "cap": [
+      "바쁘게 흘러간 화요일",
+      "하루를 닫아 볼까요"
+     ]
+    },
+    {
+     "t": 15.11,
+     "tag": "curious",
+     "cap": [
+      "1994년 가을",
+      "동네마다 있던 곳"
+     ]
+    },
+    {
+     "t": 21.4,
+     "tag": "read",
+     "cap": [
+      "유리창을 채웠던",
+      "커다란 신보 포스터"
+     ]
+    },
+    {
+     "t": 27.94,
+     "tag": "smile",
+     "cap": [
+      "카세트테이프 사이",
+      "특유의 종이 냄새"
+     ]
+    },
+    {
+     "t": 34.13,
+     "tag": "delight",
+     "cap": [
+      "명반이 쏟아지던",
+      "1994년 그 시절"
+     ]
+    },
+    {
+     "t": 40.35,
+     "tag": "read",
+     "cap": [
+      "오늘 인사 카드",
+      "가을을 담은 글귀"
+     ]
+    },
+    {
+     "t": 48.14,
+     "tag": "smile",
+     "cap": [
+      "마음 가는 분께",
+      "카드 한 장 어떠세요"
+     ]
+    },
+    {
+     "t": 53.13,
+     "tag": "talk",
+     "cap": [
+      "마음속에 틀어 둔",
+      "그 시절 노래 한 곡"
+     ]
+    },
+    {
+     "t": 58.87,
+     "tag": "smile",
+     "cap": [
+      "포근한 저녁 보내세요"
+     ]
+    },
+    {
+     "t": 62.59,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 서한결이었습니다."
+     ]
+    }
+   ]
+  }
+ }
+}
