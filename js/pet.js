@@ -9,17 +9,20 @@ export function load() {
   if (DATA) return Promise.resolve(DATA);
   return loading || (loading = fetch('data/pets.json', { cache: 'no-cache' }).then(r => r.json()).catch(() => ({ dog: [], cat: [] })).then(d => (DATA = d)));
 }
-export function latest(k) { return ((DATA && DATA[k]) || [])[0] || null; }
+// 내일치를 미리 만들어 둘 수 있으니, 오늘(한국 시각)까지의 글만 보여 준다
+const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+const list = k => ((DATA && DATA[k]) || []).filter(x => !x.date || x.date <= today());
+export function latest(k) { return list(k)[0] || null; }
 export function current(k) { return shown[k] || latest(k); }
 export function render(el, k, id) {
   if (!el) return;
-  const list = (DATA && DATA[k]) || [];
-  if (!list.length) { el.innerHTML = '<p class="note" style="margin-top:30px">오늘의 이야기를 준비하고 있어요.</p>'; return; }
-  const a = list.find(x => x.id === id) || list[0], today = a === list[0];
+  const items = list(k);
+  if (!items.length) { el.innerHTML = '<p class="note" style="margin-top:30px">오늘의 이야기를 준비하고 있어요.</p>'; return; }
+  const a = items.find(x => x.id === id) || items[0], isToday = a === items[0];
   shown[k] = a;
   const t = document.getElementById('d-title'); if (t && document.body.classList.contains('in-detail')) t.textContent = a.title;
   el.innerHTML = `<article class="pet">
-      <p class="pet-meta">${esc(a.kind || NAME[k])}${today ? '' : ' · ' + esc(a.date.slice(5).replace('-', '월 ').replace(/^0/, '') + '일')}</p>
+      <p class="pet-meta">${esc(a.kind || NAME[k])}${isToday ? '' : ' · ' + esc(a.date.slice(5).replace('-', '월 ').replace(/^0/, '') + '일')}</p>
       ${a.hook ? `<p class="pet-hook">${esc(a.hook)}</p>` : ''}
       <p class="is-sub">왜 그럴까요</p>
       <p class="pet-why">${esc(a.why)}</p>
@@ -28,6 +31,6 @@ export function render(el, k, id) {
       <p class="pet-vet"><b>이럴 땐 동물병원에</b>${esc(a.vet)}</p>
       <p class="note pet-foot">집에서 해 볼 수 있는 생활 요령이에요. 아이마다 다르니 걱정되면 수의사와 먼저 상의해 주세요.</p>
     </article>
-    <div class="pet-past"><p class="is-sub">지난 이야기</p>${list.slice(0, 30).map(x => `<button type="button" data-pet="${esc(x.id)}" aria-current="${x === a}"><span>${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
+    <div class="pet-past"><p class="is-sub">지난 이야기</p>${items.slice(0, 30).map(x => `<button type="button" data-pet="${esc(x.id)}" aria-current="${x === a}"><span>${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
   el.querySelectorAll('[data-pet]').forEach(b => b.onclick = () => { render(el, k, b.dataset.pet); window.scrollTo({ top: 0 }); });
 }
