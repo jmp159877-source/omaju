@@ -2496,10 +2496,10 @@ body.in-chapter .cols-wrap { display: none; }
 .cols-row.one .col-tile { grid-column: 1 / -1; }
 .col-tile::after { content: ""; grid-area: 1 / 1; aspect-ratio: 1 / 1; }   /* 적어도 정사각, 글이 길면 늘어난다 — 두 칸 높이는 같은 줄이라 맞춰진다 */
 .cols-row.one .col-tile::after { aspect-ratio: 16 / 9; }
-.col-tile::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(to top, rgba(14,12,8,.88) 0%, rgba(14,12,8,.6) 45%, rgba(14,12,8,0) 82%); }
-.col-tile .ct-in { grid-area: 1 / 1; align-self: end; position: relative; padding: 40px 13px 13px; color: #fff; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.col-tile::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(ellipse at center, rgba(14,12,8,.55) 0%, rgba(14,12,8,.32) 60%, rgba(14,12,8,.18) 100%); }
+.col-tile .ct-in { grid-area: 1 / 1; align-self: center; text-align: center; align-items: center; position: relative; padding: 18px 14px; color: #fff; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .col-tile small { align-self: flex-start; font-size: .74rem; font-weight: 700; letter-spacing: .04em; color: #fff; background: #1F5A3E; padding: 3px 9px; border-radius: 6px; margin-bottom: 4px; }
-.col-tile b { font-size: 1.08rem; font-weight: 700; line-height: 1.32; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+.col-tile b { font-size: 1.15rem; font-weight: 700; line-height: 1.38; word-break: keep-all; text-shadow: 0 1px 3px rgba(0,0,0,.55), 0 2px 14px rgba(0,0,0,.45); }
 .col-tile em { font-style: normal; font-size: .8rem; opacity: .9; line-height: 1.4; word-break: keep-all; }
 #detail .ev .ev-by { font-size: .85rem !important; color: #888 !important; margin: 10px 0 0 !important; line-height: 1.5 !important; }
 #detail .ev .ev-p { font-size: 1.06rem; line-height: 1.8; color: var(--ink, #1a1a1a); margin: 20px 0 0 !important; word-break: keep-all; }
