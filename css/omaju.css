@@ -1750,7 +1750,7 @@ body.rd-on { padding-bottom: 124px; }
   font-weight: 600; font-size: min(0.78rem, 3.4vw); letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
   color: rgba(255,255,255,0.88); text-shadow: 0 1px 6px rgba(0,30,60,0.5); }
 /* 좌우 여백은 CONTENTS 칸과 똑같이 — 휴대폰도 PC 도 같은 자리에서 시작한다 (운영자 2026-10-20) */
-@media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 60px; } }
+@media (max-width: 768px) { .intro { margin: 12px 0 0; padding: 40px 22px 60px; } }   /* 대표 2026-10-25: 커버→배너 = 배너→OPENING (둘 다 36px) */
 @media (max-width: 420px) { .intro-lede { font-size: min(1.42rem, 6.1vw); } }
 /* 대표 2026-10-24: 두 줄 모두 한 줄씩 떨어지게 — 휴대폰은 화면 폭에 맞춰 글자 크기를 정한다(큰 글씨에서도) */
 
