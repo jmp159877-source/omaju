@@ -142,19 +142,26 @@ def opening():
     bot = soft_bottom(900, 230, 0.45)
     capf = lambda t: fit(t, SERIF_B, 60, 860)
     over = {}
-    def overlay(i):
-        if i in over: return over[i]
+    # 자막 한 조각이 두 줄('\n')로 오는 새 대본(2026-10-25~)은 사이트처럼 조각을 하나씩 차례로 보인다 — 글자 수 비례로 시간을 나눈다.
+    starts = [t for t, _ in tl] + [total]
+    subs = []
+    for i, (_, g) in enumerate(tl):
+        cap = g['cap'] or ['']
+        if not any('\n' in c for c in cap): subs.append([(starts[i], cap[:2])]); continue
+        L = [len(re.sub(r'\s', '', c)) or 1 for c in cap]; a, b = starts[i], starts[i + 1]; t, sl = a, []
+        for c, n in zip(cap, L): sl.append((t, c.split('\n')[:2])); t += (b - a) * n / sum(L)
+        subs.append(sl)
+    def overlay(i, j=0):
+        if (i, j) in over: return over[(i, j)]
         o = Image.new('RGBA', (W, H), (0, 0, 0, 0))
         o.alpha_composite(fadeband, (0, PY)); o.alpha_composite(bot, (0, H - 900))
         top_band(o, '매일 아침 새로 나오는 무료 매거진', l1, l2)
         cx = W // 2 - 40   # 오른쪽엔 유튜브 단추가 얹힌다 — 글은 살짝 왼쪽으로
-        cap = tl[i][1]['cap']
-        for k, line in enumerate(cap[:2]):
+        for k, line in enumerate(subs[i][j][1]):
             shadow_text(o, (cx, 1200 + k * 86), line, capf(line), blur=10, alpha=230)
         d = ImageDraw.Draw(o); d.line([(cx - 60, 1380), (cx + 60, 1380)], fill=(201, 169, 97, 255), width=2)
         shadow_text(o, (cx, 1425), f'오마주 매거진 · AI 진행자 {host} · omaju.kr', font(SERIF, 28), fill=CREAM, blur=6)
-        over[i] = o; return o
-    starts = [t for t, _ in tl] + [total]
+        over[(i, j)] = o; return o
     canvas = Image.new('RGBA', (W, H), GREEN + (255,))
     def frame(k):
         t = k / FPS
@@ -165,7 +172,7 @@ def opening():
         if i > 0 and t - starts[i] < fade:   # 장면이 바뀔 때 짧게 겹친다
             prev = cover(photo(tl[i - 1][1]['tag']), W, PH, zoom=ZOOM * 1.04, fy=FY).convert('RGBA')
             ph = Image.blend(prev, ph, (t - starts[i]) / fade)
-        im = canvas.copy(); im.alpha_composite(ph, (0, PY)); im.alpha_composite(overlay(i))
+        im = canvas.copy(); im.alpha_composite(ph, (0, PY)); im.alpha_composite(overlay(i, max(n for n in range(len(subs[i])) if subs[i][n][0] <= t)))
         return im.convert('RGB')
     out = os.path.join(OUT, DATE + '-opening.mp4')
     af = (f'[1:a]atrim={A0:.2f}:{A_end:.2f},asetpts=PTS-STARTPTS,afade=t=in:d=0.25[a1];[1:a]atrim={B_start:.2f}:{B_end:.2f},asetpts=PTS-STARTPTS[a2];'
