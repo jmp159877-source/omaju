@@ -184,7 +184,7 @@ async function kakaoSendIntro(text) {
     // 주소가 글에 없으면 받는 분이 주소를 못 본다. 그래서 둘 다 넣는다.
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
-      content: { title: '오마주 · 오늘도 마음은 주니어', description: text.replace(/\n/g, ' ') + '\n' + SITE, imageUrl: 'https://omaju.kr/og-v4.jpg', imageWidth: 1200, imageHeight: 630, link: OMAJU_LINK },
+      content: { title: '오마주 · 오늘도 마음은 주니어', description: text.replace(/\n/g, ' ') + '\n' + SITE, imageUrl: 'https://omaju.kr/og-v5.jpg', imageWidth: 1200, imageHeight: 630, link: OMAJU_LINK },
       buttons: [{ title: '오마주 열어보기', link: OMAJU_LINK }],
     });
     return true;

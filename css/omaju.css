@@ -17,7 +17,7 @@ a { color: var(--dark-green); text-underline-offset: 4px; }
 
 /* ── 레이아웃 ── */
 .layout { display: flex; min-height: 100vh; }
-.hero { width: 45%; position: sticky; top: 0; height: 100vh; background: var(--dark-green) url('../img/hero.jpg') 50% center/cover; display: flex; flex-direction: column; justify-content: space-between; padding: 60px; }
+.hero { width: 45%; position: sticky; top: 0; height: 100vh; background: var(--dark-green) url('../img/hero.jpg?v=2') 50% center/cover; display: flex; flex-direction: column; justify-content: space-between; padding: 60px; }
 .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,74,53,0.9) 0%, rgba(15,74,53,0.3) 55%, rgba(0,0,0,0.35) 100%); }
 .hero > * { position: relative; z-index: 1; color: var(--ivory); }
 .hero-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
@@ -459,7 +459,7 @@ body { word-break: keep-all; overflow-wrap: anywhere; }
 
 /* ── 휴대폰용 세로 메인 사진 ── */
 @media (max-width: 768px) {
-  .hero { background-image: url('../img/hero-mobile.jpg'); background-position: center top; min-height: 100vh; justify-content: flex-end; }
+  .hero { background-image: url('../img/hero-mobile.jpg?v=2'); background-position: center top; min-height: 100vh; justify-content: flex-end; }
   .hero::after { background: linear-gradient(to top, rgba(20,20,20,0.85) 0%, rgba(20,20,20,0.55) 40%, rgba(20,20,20,0.15) 65%, rgba(20,20,20,0.3) 100%); }
 }
 @media (max-width: 768px) {
@@ -2200,10 +2200,10 @@ button.nb-band { display: block; border: 0; padding: 0; cursor: pointer; }
 .psa-cards { margin-top: 28px; }
 .psa-cards p { margin: 6px 0 14px; font-size: 0.95rem; color: #666; }
 .psa-cards .cards { margin: 0 -20px; padding: 0 20px 20px; gap: 14px; }
-@media (min-width: 769px) { .hero { background-image: url("../img/hero-mobile.jpg") !important; background-position: center 100% !important; } }
+@media (min-width: 769px) { .hero { background-image: url("../img/hero-mobile.jpg?v=2") !important; background-position: center 100% !important; } }
 /* 휴대폰 커버 (대표 2026-10-24: "사람만 크게 나온다, 원본 그대로 보이게") — 칸이 사진보다 길어(390×1080) 꽉 채우면 양옆이 35% 잘렸다.
    사진은 가로 폭에 맞춰 위에서부터 통째로 보이고, 아래는 사진 바닥색으로 이어지게 한다 */
-@media (max-width: 768px) { .hero { background: linear-gradient(to bottom, rgba(42,36,30,0) 0, rgba(42,36,30,0) calc(100vw * 1.5), #2a241e calc(100vw * 1.79)), url('../img/hero-mobile.jpg') center top / 100% auto no-repeat, #2a241e !important; } }
+@media (max-width: 768px) { .hero { background: linear-gradient(to bottom, rgba(42,36,30,0) 0, rgba(42,36,30,0) calc(100vw * 1.5), #2a241e calc(100vw * 1.79)), url('../img/hero-mobile.jpg?v=2') center top / 100% auto no-repeat, #2a241e !important; } }
 /* 휴대폰 커버 높이를 사진 높이에 맞춘다 (대표 2026-10-24 02:27: 첫 화면에 날짜까지만 나오고 단추가 안 보였다 — 사진 아래 빈 갈색 띠가 길었다) */
 @media (max-width: 768px) { .hero { min-height: max(calc(100vw * 1.79 + 40px), 44rem) !important;   /* 큰 글씨면 rem 쪽이 커져 로그인 뒤 단추가 붙어도 밀리지 않는다 */ } }
 @media (max-width: 768px) { .hero-foot, .hero-foot * { text-shadow: 0 1px 6px rgba(0,0,0,0.75); } }
