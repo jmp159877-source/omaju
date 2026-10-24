@@ -1740,15 +1740,19 @@ body.rd-on { padding-bottom: 124px; }
 .intro > * { position: relative; }
 .intro-lede { margin: 0 0 14px; font-family: 'Nanum Myeongjo', serif; font-weight: 700;
   font-size: 1.56rem; line-height: 1.45; color: #fff; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,0.45); }
-.intro-sub { margin: 0; font-size: 1.05rem; line-height: 1.85; color: rgba(255,255,255,0.93); word-break: keep-all;
-  text-shadow: 0 2px 9px rgba(0,30,60,0.55); }
+/* 둘째 줄은 손글씨(나눔손글씨 펜) — 대표 2026-10-24 시안. 펜 글씨는 몸이 작아 크게 잡는다 */
+.intro-sub { margin: 0; font-family: 'Nanum Pen Script', 'Nanum Myeongjo', serif; font-size: min(2.1rem, 8.4vw); line-height: 1.32;
+  color: #fff; word-break: keep-all; text-shadow: 0 2px 10px rgba(0,30,60,0.6); }
 /* 오른쪽 아래 영문 한 줄 — 잡지 판권처럼. 그림과 흰 글씨만 있으면 허전하다 (운영자 2026-10-20) */
-.intro-mast { margin: 26px 0 0; text-align: right; font-family: 'Cormorant Garamond', serif;
-  font-weight: 600; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(255,255,255,0.82); text-shadow: 0 1px 6px rgba(0,30,60,0.5); }
+/* 대표 2026-10-24: 영문은 배너 맨 아래 오른쪽에 딱 붙여 — 판권처럼 */
+.intro { padding-bottom: 64px; }
+.intro-mast { position: absolute !important; right: 20px; bottom: 14px; margin: 0; text-align: right; font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; font-size: min(0.78rem, 3.4vw); letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+  color: rgba(255,255,255,0.88); text-shadow: 0 1px 6px rgba(0,30,60,0.5); }
 /* 좌우 여백은 CONTENTS 칸과 똑같이 — 휴대폰도 PC 도 같은 자리에서 시작한다 (운영자 2026-10-20) */
-@media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 42px; } }
-@media (max-width: 420px) { .intro-lede { font-size: 1.42rem; } }
+@media (max-width: 768px) { .intro { margin: 30px 0 0; padding: 40px 22px 60px; } }
+@media (max-width: 420px) { .intro-lede { font-size: min(1.42rem, 6.1vw); } }
+/* 대표 2026-10-24: 두 줄 모두 한 줄씩 떨어지게 — 휴대폰은 화면 폭에 맞춰 글자 크기를 정한다(큰 글씨에서도) */
 
 /* ── 경제·이슈 칸 바탕 (운영자 2026-10-20) ──
    집안 방식 그대로 — 오늘 PLAY·운세·한 끼처럼 사진 위에 짙은 초록 막, 글씨는 흰색.
