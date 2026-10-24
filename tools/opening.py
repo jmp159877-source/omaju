@@ -118,7 +118,7 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
 
  - 아침 = **시작하는 힘**. 늦게 시작해서 해낸 사람. 듣고 나서 "오늘 뭐라도 해 볼까" 싶게.
  - 낮  = **이어 가는 힘**. 좋아하는 일을 꾸준히 이어 가 결국 즐거운 결실을 본 사람. 오후에 기운을 다시 끌어올리듯 경쾌하게(지친·버틴·고단한 같은 무거운 말 대신 신나는 쪽으로).
- - 저녁 = **돌아보는 힘**. 아무 일 없어 보이던 시간이 나중에 값이 된 사람. 오늘 하루를 인정해 주는 결로.
+ - 저녁 = **돌아보는 힘**. 아무 일 없어 보이던 시간이 나중에 값이 된 사람. 오늘 하루를 인정해 주는 결로 — 다만 가라앉은 회고가 아니라 **밝고 따뜻한 마무리**로(대표 2026-10-24: 저녁 중간이 묵직했다). 무거운 말·슬픈 장면·병·이별 이야기는 고르지 않는다.
 
 [밝기 — 대표 2026-10-24: "오프닝이 더 밝았으면 좋겠다. 내용이 긍정적이고 되게 밝게"]
  - 세 벌 모두 **밝고 긍정적으로**, 듣는 사람이 입꼬리가 올라가게. 저녁도 무겁거나 쓸쓸하지 않게, 기분 좋게 하루를 닫는 결로.
@@ -162,7 +162,7 @@ PROMPT = '''당신은 라이프스타일 앱 '오마주'(오늘도 마음은 주
    (남의 말을 그대로 따오면 저작권 문제이고, 확인 안 된 인용은 오마주가 가장 피하는 것입니다).
  - 상투어 금지: "오늘이 선물입니다", "당신은 소중합니다", "힘내세요", "행복하세요", "할 수 있어요". 설교·명령형 금지.
  - 그날의 한 조각(실화)과 결이 이어지면 좋지만 같은 말을 되풀이하지 않습니다. 한 문장, 50자 안팎, 소리 내어 읽었을 때 숨이 한 번에 이어지게.
- - 세 벌이 서로 달라야 합니다: 아침은 오늘을 시작하는 마음, 낮은 오후에 다시 기운이 나게 하는 마음, 저녁은 오늘을 살아 낸 나를 안아 주는 마음.
+ - 세 벌이 서로 달라야 합니다: 아침은 오늘을 시작하는 마음, 낮은 오후에 다시 기운이 나게 하는 마음, 저녁은 오늘 하루를 잘 건너온 나에게 건네는 **환한 칭찬**(위로·회한·쓸쓸함 말고, 미소 띤 마무리).
  - 보기(결만 참고, 그대로 쓰지 말 것): "오늘 아침 창으로 든 햇빛은, 오늘을 사는 사람에게만 닿는 빛이에요." /
    "아무 일 없이 지나간 오후도, 지나고 보면 가장 그리운 시간이 되더라고요." / "오늘 하루를 건너온 당신의 걸음, 그걸로 충분히 눈부셨어요."
 
@@ -401,6 +401,20 @@ def f0(pcm):
         if c[k] > 0.4 * c[0]: out.append(sr / k)
     return float(np.median(out)) if out else None
 
+def f0_win(pcm, sec=6):
+    """토막을 몇 초씩 잘라 구간마다 높이(중앙값)와 억양 폭(10~90% 차)을 잰다 — 한 토막 안에서 가라앉는 곳을 찾으려고 (대표 2026-10-24)"""
+    import numpy as np
+    x = np.frombuffer(pcm, np.int16).astype(float); sr = 24000; fr = 1024; W = sec * sr; out = []
+    for a in range(0, max(1, len(x) - W // 2), W):
+        seg = x[a:a + W]; vals = []
+        for i in range(0, len(seg) - fr, fr * 2):
+            t = seg[i:i + fr]
+            if np.sqrt((t ** 2).mean()) < 800: continue
+            t = t - t.mean(); c = np.correlate(t, t, 'full')[fr - 1:]; lo, hi = sr // 400, sr // 70; k = lo + int(np.argmax(c[lo:hi]))
+            if c[k] > 0.4 * c[0]: vals.append(sr / k)
+        if len(vals) >= 12: out.append((float(np.median(vals)), float(np.percentile(vals, 90) - np.percentile(vals, 10))))
+    return out
+
 def split(pcm, lens):
     """문장 길이(음절 비례)에 맞는 쉼 자리를 순서대로 골라 각 조각의 시작 초를 돌려준다"""
     import numpy as np
@@ -575,6 +589,7 @@ def build():
     # 사인오프는 맨 앞 인사 토막 끝에 붙여 읽힌다 — 마지막 토막에 두면 기운이 빠져 속삭임처럼 닫혔다(대표 05:47, 사그라듦 4~5dB)
     groups = [sum(order[0], []) + where['sign']] + order[1] + [where['body'] + where['ask'], sum([where['c' + sl] for sl in SLOTS], [])]
     say('토막', len(groups), [sum(len(allsegs[i]['say']) for i in g) for g in groups])
+    REF_SPREAD = [0]
     pieces = []; S = [0.0] * len(allsegs); E = [0.0] * len(allsegs); off = 0.0; GAP = 0.35
     for gi, g in enumerate(groups):
         texts = [allsegs[i]['say'] for i in g]; glens = [max(1, len(re.sub(r'[^가-힣]', '', t))) for t in texts]
@@ -590,10 +605,15 @@ def build():
             for k, t in enumerate(texts):
                 okk, heard, r = check(KEY, got[ed[k]:ed[k + 1]], t)
                 if r < 0.7 and not str(heard).startswith('(받아쓰기 실패'): bad.append(f'{k + 1}:{r} {str(heard)[:24]}')
-            say(f'토막 {gi + 1} · {take + 1}번째', '높이', gf and round(gf), '벗어남', round(off_p * 100, 1), '%', '사그라듦', round(fd, 1), 'dB', '어긋난 조각', bad or '없음')
-            score = len(bad) * 10 + off_p + max(0.0, fd - 2.0) / 20
+            # 가라앉음: 구간 하나라도 기준보다 8% 넘게 낮거나, 억양 폭이 첫 토막의 80% 아래로 납작해지면 (대표 2026-10-24 저녁 48~72초 173Hz·폭 170)
+            wins = f0_win(got); low = [round(m) for m, sp in wins if tgt0 and m < tgt0 * 0.92]
+            spread = sorted(sp for m, sp in wins)[len(wins) // 2] if wins else 0
+            if gi == 0 and take == 0 and spread: REF_SPREAD[0] = spread
+            flat = bool(REF_SPREAD[0] and spread and spread < REF_SPREAD[0] * 0.8)
+            say(f'토막 {gi + 1} · {take + 1}번째', '높이', gf and round(gf), '벗어남', round(off_p * 100, 1), '%', '사그라듦', round(fd, 1), 'dB', '어긋난 조각', bad or '없음', '가라앉은 구간', low or '없음', '억양 폭', round(spread), '납작' if flat else '')
+            score = len(bad) * 10 + off_p + max(0.0, fd - 2.0) / 20 + len(low) * 0.05 + (0.08 if flat else 0)
             if best is None or score < best[0]: best = (score, got, st)
-            if not bad and off_p <= 0.06 and fd < 3.0: break
+            if not bad and off_p <= 0.06 and fd < 3.0 and not low and not flat: break
         if best is None: raise SystemExit('녹음 실패')
         if best[0] >= 10: raise SystemExit(f'토막 {gi + 1} 조각이 대본과 맞지 않음 — 어제 것을 그대로 둠')
         pieces.append(deslide(best[1])); Tg = len(best[1]) / 48000; st = best[2]
