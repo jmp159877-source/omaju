@@ -2418,3 +2418,27 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 #detail .pet-past button span { flex: 1; min-width: 0; font-size: 1.04rem; font-weight: 500; color: var(--ink); line-height: 1.5; word-break: keep-all; }
 #detail .pet-past button small { flex: none; font-size: .85rem; color: #999; }
 #detail .pet-past button[aria-current="true"] span { color: var(--g); font-weight: 800; }
+
+/* ── 혼자라서 좋은 날 (대표 2026-10-24) ── 장이 일곱: 여섯 칸은 2×3, 나의 수첩은 맨 아래 넓게 */
+.tabs3:not(.compact) button[data-tab="g4"] { grid-column: 1 / -1; aspect-ratio: 16 / 7; min-height: 0; }
+@media (max-width: 420px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 7.6; } }
+@media (min-width: 769px) { .tabs3:not(.compact) button[data-tab="g4"] { aspect-ratio: 16 / 4.2; } }
+.tabs3 button[data-tab="g7"], .tabs3 button[data-tab="g7"][aria-pressed="true"] { background-image: url('../img/tab-solo.jpg') !important; background-size: cover !important; background-position: center 45% !important; }
+.tabs-mini button[data-tab="g7"] { background-image: url('../img/tab-solo.jpg'); background-position: center 45%; }
+.tabs3 button[data-tab="g7"]::before, body:not(.in-chapter) .tabs3:not(.compact) button[data-tab="g7"]::before { background: linear-gradient(to top, rgba(42,120,150,0.92) 0%, rgba(42,120,150,0.45) 42%, rgba(20,20,20,0.06) 78%) !important; }
+:root { --c-g7: #2A7896; } body[data-ch="g7"] { --acc: var(--c-g7); }
+#detail .so-list { list-style: none; counter-reset: so; padding: 0; margin: 0; }
+#detail .so-list li { counter-increment: so; position: relative; padding: 18px 0 18px 46px; border-bottom: 1px solid var(--hair); margin: 0; min-width: 0; }
+#detail .so-list li:last-child { border-bottom: 0; }
+#detail .so-list li::before { content: counter(so); position: absolute; left: 0; top: 18px; width: 30px; height: 30px; border-radius: 50%; background: var(--g); color: #fff; font-weight: 700; font-size: .95rem; display: grid; place-items: center; line-height: 1; }
+#detail .so-route li::after { content: ''; position: absolute; left: 14px; top: 52px; bottom: -18px; width: 2px; background: var(--g-soft); }
+#detail .so-route li:last-child::after { display: none; }
+#detail .so-time { display: block; font-size: .85rem; font-weight: 700; color: var(--g); margin-bottom: 2px; }
+#detail .so-name { display: inline; font-size: 1.15rem; font-weight: 800; color: var(--ink); word-break: keep-all; }
+#detail .so-where { display: inline-block; margin-left: 8px; font-size: .9rem; color: var(--sub); }
+#detail .so-note { margin: 6px 0 0 !important; }
+#detail .so-solo { background: var(--g-soft); border-radius: 12px; padding: 12px 14px; margin: 10px 0 0 !important; color: #23412F !important; font-size: 1rem !important; }
+#detail .so-solo i { display: block; font-style: normal; font-weight: 800; font-size: .8rem; color: var(--g); margin-bottom: 2px; }
+#detail .so-map { display: inline-block; margin-top: 10px; font-size: .92rem; font-weight: 700; color: var(--g); text-decoration: none; border-bottom: 1.5px solid currentColor; }
+#detail .so-tip { display: block; margin-top: 6px; }
+#detail .so-tip::before { content: '· '; }
