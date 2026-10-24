@@ -226,7 +226,7 @@ async function refresh() { try { notes = await DB.listNotes(); } catch (e) { not
 // ── 담아 둔 것 ──
 // 코너에서 담아 둔 글을 그대로 보관한다. 누르면 그 자리에서 펼쳐 읽는다.
 let saves = [], svOpen = null;
-const SV_LABEL = { mind: '마음 한 줄', body: '몸 한 가지', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '시사 상식', culture: '오늘의 문화' };
+const SV_LABEL = { dog: '댕댕이', cat: '냥이', 'solo-day': '혼자 떠나는 하루 코스', 'solo-eat': '혼밥 맛집', 'solo-hobby': '혼자 즐기는 취미 자리', 'solo-see': '혼자 보기 좋은 것', 'solo-home': '혼자 사는 살림', 'solo-trip': '혼자 떠나는 여행', mind: '마음 한 줄', body: '몸 한 가지', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '시사 상식', culture: '오늘의 문화' };
 const CU_LABEL = { poem: '시', painting: '그림', essay: '에세이', quote: '명언', humor: '유머', bible: '성경', dharma: '법문' };
 // 코너마다 펼쳐서 보여 줄 차례 — [작은 제목, 열쇠]. 작은 제목이 빈 칸이면 제목 없이 글만.
 const SV_FIELDS = {
@@ -250,6 +250,15 @@ function svBody(it) {
     if (d.ingredients && d.ingredients.length) out.push(`<p class="is-sub">재료</p><ul class="ing">${d.ingredients.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`);
     if (d.steps && d.steps.length) out.push(`<p class="is-sub">만드는 법</p><ol class="steps">${d.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`);
     if (d.tip) out.push(`<p class="sv-p">${esc(d.tip)}</p>`);
+  } else if (it.corner === 'dog' || it.corner === 'cat') {
+    if (d.hook) out.push(`<p class="sv-p">${esc(d.hook)}</p>`);
+    if (d.why) out.push(`<p class="is-sub">왜 그럴까요</p><p class="sv-p">${esc(d.why)}</p>`);
+    if (d.todo && d.todo.length) out.push(`<p class="is-sub">이렇게 해 보세요</p><ol class="steps">${d.todo.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`);
+    if (d.vet) out.push(`<p class="is-sub">이럴 땐 동물병원에</p><p class="sv-p">${esc(d.vet)}</p>`);
+  } else if (/^solo-/.test(it.corner)) {
+    if (d.hook) out.push(`<p class="sv-p">${esc(d.hook)}</p>`);
+    (d.items || []).forEach((x, i) => out.push(`<p class="is-sub">${i + 1}. ${esc(x.name)}${x.where ? ' · ' + esc(x.where) : ''}</p><p class="sv-p">${esc(x.note)}</p>${x.solo ? `<p class="sv-p">${esc(x.solo)}</p>` : ''}${x.where ? `<p class="sv-p"><a href="https://map.naver.com/p/search/${encodeURIComponent(x.where + ' ' + x.name)}" target="_blank" rel="noopener">지도에서 보기</a></p>` : ''}`));
+    if (d.tips && d.tips.length) out.push(`<p class="is-sub">알아 두면 좋아요</p>${d.tips.map(x => `<p class="sv-p">${esc(x)}</p>`).join('')}`);
   } else {
     if (it.corner === 'painting' || (it.corner === 'culture' && it.kind === 'painting')) {
       if (d.img) out.push(`<figure class="sv-fig"><img src="${esc(d.img)}" alt="${esc(d.title || '')}" referrerpolicy="no-referrer" loading="lazy"></figure>`);

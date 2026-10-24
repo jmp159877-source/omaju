@@ -81,6 +81,23 @@ def main():
                   'inLanguage': 'ko', 'about': real, 'image': f'{SITE}/{img}',
                   'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
             urls.append((page(f'pet/{a["id"]}.html', a['title'], desc, f'어쩌다 점점 집사 · {nm}', body, f'{SITE}/?from=search#{k}', ld, img), a['date']))
+    # 혼자라서 좋은 날 (대표 2026-10-24: "목록이 쌓이니 검색되게")
+    NM = {'day': '혼자 떠나는 하루 코스', 'eat': '혼밥 맛집', 'hobby': '혼자 즐기는 취미 자리', 'see': '혼자 보기 좋은 것', 'home': '혼자 사는 살림', 'trip': '혼자 떠나는 여행'}
+    try: solo = json.load(open(os.path.join(ROOT, 'data', 'solo.json'), encoding='utf-8'))
+    except Exception: solo = {}
+    for k, nm in NM.items():
+        img = f'img/solo-{k}.jpg'
+        for a in solo.get(k, []):
+            if not a.get('id') or (a.get('date') or '') > TODAY: continue
+            body = (f'<h1>{e(a["title"])}</h1><p class="date">혼자라서 좋은 날 · {nm}' + (f' · {e(a.get("region"))}' if a.get('region') else '') + f' · {kdate(a["date"])}</p>'
+                    + (f'<div class="box green">{e(a.get("hook"))}</div>' if a.get('hook') else '')
+                    + '<ol>' + ''.join(f'<li><b>{e(x.get("name"))}</b>' + (f' · {e(x.get("where"))}' if x.get('where') else '') + (f' <small>{e(x.get("time"))}</small>' if x.get('time') else '') + f'<br>{e(x.get("note"))}' + (f'<br><i>혼자라서 좋은 점 — {e(x.get("solo"))}</i>' if x.get('solo') else '') + '</li>' for x in a.get('items', [])) + '</ol>'
+                    + (('<div class="box yellow"><b>혼자 갈 때 알아 두면 좋아요</b>' + '<br>'.join(e(t) for t in a.get('tips', [])) + '</div>') if a.get('tips') else '')
+                    + ('<p class="note">가시기 전에 영업 시간과 휴무일을 한 번 더 확인해 주세요.</p>' if k != 'home' else ''))
+            desc = (a.get('hook', '') + ' ' + ', '.join(x.get('name', '') for x in a.get('items', [])))[:150]
+            ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
+                  'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
+            urls.append((page(f'solo/{a["id"]}.html', a['title'], desc, f'혼자라서 좋은 날 · {nm}', body, f'{SITE}/?from=search#solo-{k}', ld, img), a['date']))
     # 오늘의 한 끼
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
         d = os.path.basename(f)[:10]

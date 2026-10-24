@@ -354,8 +354,8 @@ function renderBook() {
 
 // ── 담아 두기 ──
 // 마음에 든 글을 통째로 수첩에 베껴 둔다. 담을 수 있는 코너만 단추가 붙는다(운세·그해 오늘처럼 다시 볼 값이 없는 것은 뺐다).
-const SV_NAME = { mind: '마음 한 줄', body: '몸 한 가지', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '시사 상식', culture: '오늘의 문화' };
-const SV_DATA = { mind: () => C.mind, body: () => C.body, food: () => C.meal, book: () => C.book, quiz: () => C.quiz, culture: () => (C.culture || {})[cuTab] };
+const SV_NAME = { dog: '댕댕이', cat: '냥이', 'solo-day': '혼자 떠나는 하루 코스', 'solo-eat': '혼밥 맛집', 'solo-hobby': '혼자 즐기는 취미 자리', 'solo-see': '혼자 보기 좋은 것', 'solo-home': '혼자 사는 살림', 'solo-trip': '혼자 떠나는 여행', mind: '마음 한 줄', body: '몸 한 가지', food: '오늘의 한 끼', book: '오늘의 한 권', quiz: '시사 상식', culture: '오늘의 문화' };
+const SV_DATA = { dog: () => PET.current('dog'), cat: () => PET.current('cat'), 'solo-day': () => SOLO.current('day'), 'solo-eat': () => SOLO.current('eat'), 'solo-hobby': () => SOLO.current('hobby'), 'solo-see': () => SOLO.current('see'), 'solo-home': () => SOLO.current('home'), 'solo-trip': () => SOLO.current('trip'), mind: () => C.mind, body: () => C.body, food: () => C.meal, book: () => C.book, quiz: () => C.quiz, culture: () => (C.culture || {})[cuTab] };
 let SAVED = new Set();
 function svBar(corner, key, title, kind = '') {
   return `<div class="sv"><button type="button" class="sv-btn" data-save="${esc(corner)}" data-sk="${esc(key)}" data-st="${esc(title || '')}" data-sv="${esc(kind)}" aria-pressed="false"><span class="sv-ic" aria-hidden="true">+</span><span class="sv-tx">담아 두기</span></button></div>`;
@@ -369,6 +369,7 @@ function svSync() {
   });
 }
 window.omajuSvSync = svSync;
+window.omajuSvBar = svBar;   // 집사·혼자라서 좋은 날(따로 그리는 모듈)도 같은 단추를 쓴다
 document.addEventListener('click', async e => {
   const b = e.target.closest('[data-save]'); if (!b) return;
   const corner = b.dataset.save, key = b.dataset.sk;

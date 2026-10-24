@@ -31,6 +31,8 @@ export function render(el, k, id) {
       <p class="pet-vet"><b>이럴 땐 동물병원에</b>${esc(a.vet)}</p>
       <p class="note pet-foot">집에서 해 볼 수 있는 생활 요령이에요. 아이마다 다르니 걱정되면 수의사와 먼저 상의해 주세요.</p>
     </article>
+    ${window.omajuSvBar ? window.omajuSvBar(k, 'pet_' + a.id, a.title) : ''}
     <div class="pet-past"><p class="is-sub">지난 이야기</p>${items.slice(0, 30).map(x => `<button type="button" data-pet="${esc(x.id)}" aria-current="${x === a}"><span>${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
+  window.omajuSvSync && window.omajuSvSync();
   el.querySelectorAll('[data-pet]').forEach(b => b.onclick = () => { render(el, k, b.dataset.pet); window.scrollTo({ top: 0 }); });
 }

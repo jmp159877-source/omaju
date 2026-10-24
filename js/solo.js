@@ -38,6 +38,8 @@ export function render(el, k, id) {
       ${a.tips && a.tips.length ? `<div class="pet-vet"><b>혼자 갈 때 알아 두면 좋아요</b>${a.tips.map(x => `<span class="so-tip">${esc(x)}</span>`).join('')}</div>` : ''}
       ${k !== 'home' ? '<p class="note pet-foot">가시기 전에 영업 시간과 휴무일을 한 번 더 확인해 주세요.</p>' : ''}
     </article>
+    ${window.omajuSvBar ? window.omajuSvBar('solo-' + k, 'solo_' + a.id, a.title) : ''}
     <div class="pet-past"><p class="is-sub">지난 이야기</p>${items.slice(0, 30).map(x => `<button type="button" data-solo="${esc(x.id)}" aria-current="${x === a}"><span>${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
+  window.omajuSvSync && window.omajuSvSync();
   el.querySelectorAll('[data-solo]').forEach(b => b.onclick = () => { render(el, k, b.dataset.solo); window.scrollTo({ top: 0 }); });
 }

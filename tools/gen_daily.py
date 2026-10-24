@@ -281,7 +281,7 @@ def gen_pet(d):
     return out
 
 
-# 혼자라서 좋은 날 — 혼자일 때 더 좋은 하루 (대표 2026-10-24). 여섯 칸, 하루에 세 칸씩 번갈아 새 글(이틀에 한 바퀴).
+# 혼자라서 좋은 날 — 혼자일 때 더 좋은 하루 (대표 2026-10-24). 혼밥·살림 / 취미·혼자 보기를 하루씩 번갈아, 하루 코스·여행은 매주 금요일.
 #  장소가 나오는 칸은 구글 검색으로 고르고, 한 번 더 검색해 '지금 실제로 있는 곳'만 남긴다(지어낸 곳은 신뢰를 바로 깬다).
 #  '혼자일 때 무엇이 좋은가(solo)'를 항목마다 꼭 쓴다 — 산·나들이·여행 코너와 다른 이 칸의 값.
 SOLO = {
@@ -322,7 +322,7 @@ def gen_solo(d, keys=None):
     except Exception:
         db = {}
     key, n = d.isoformat(), d.toordinal()
-    keys = keys or (["day", "eat", "home"] if n % 2 == 0 else ["hobby", "see", "trip"])
+    keys = keys or ((["eat", "home"] if n % 2 == 0 else ["hobby", "see"]) + (["day", "trip"] if d.weekday() == 4 else []))   # 하루 코스·여행은 금요일(주말 계획용), 나머지 넷은 이틀에 한 번 (대표 2026-10-24)
     out = {}
     for k in keys:
         name, places, guide = SOLO[k]
