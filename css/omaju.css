@@ -2478,3 +2478,56 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 #detail .so-map { display: inline-block; margin-top: 10px; font-size: .92rem; font-weight: 700; color: var(--g); text-decoration: none; border-bottom: 1.5px solid currentColor; }
 #detail .so-tip { display: block; margin-top: 6px; }
 #detail .so-tip::before { content: '· '; }
+
+/* ── 기획 연재 '전기차 시대' (대표 2026-10-24) — 첫 화면 띠 + 안쪽 글(도표·사진) ── */
+body.in-chapter .ev-wrap { display: none; }
+.ev-wrap { margin: 6px 0 4px; }
+.ev-toc { margin-top: 18px; }
+.ev-ban { width: 100%; margin-top: 8px !important; }
+#detail .ev .ev-by { font-size: .85rem !important; color: #888 !important; margin: 10px 0 0 !important; line-height: 1.5 !important; }
+#detail .ev .ev-p { font-size: 1.06rem; line-height: 1.8; color: var(--ink, #1a1a1a); margin: 20px 0 0 !important; word-break: keep-all; }
+#detail .ev .is-sub + .ev-p { margin-top: 6px !important; }
+#detail .ev-chart { margin: 22px 0 6px; padding: 18px 16px 14px; background: #F7F8F5; border: 1px solid #E5EAE3; border-radius: 16px; }
+#detail .ev-chart figcaption { font-weight: 800; font-size: 1.02rem; color: #1F3A2B; line-height: 1.45; word-break: keep-all; margin-bottom: 10px; }
+#detail .ev-chart figcaption small { display: block; font-weight: 500; font-size: .8rem; color: #888; margin-top: 2px; }
+#detail .ev-chart svg { display: block; width: 100%; height: auto; max-width: 420px; margin: 0 auto; }
+#detail .ev-chart .ev-v { font: 700 15px 'Noto Sans KR', sans-serif; fill: #7a8a80; }
+#detail .ev-chart .ev-v.hi { fill: #1F5A3E; font-size: 18px; }
+#detail .ev-chart .ev-l { font: 600 13px 'Noto Sans KR', sans-serif; fill: #555; }
+#detail .ev-chart .ev-big { font: 800 34px 'Noto Sans KR', sans-serif; fill: #1F5A3E; }
+#detail .ev-donut { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 18px; }
+#detail .ev-donut svg { width: min(200px, 55vw); }
+#detail .ev-key { list-style: none; margin: 0; padding: 0; font-size: .9rem; color: #333; min-width: 0; }
+#detail .ev-key li { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; line-height: 1.45; word-break: keep-all; }
+#detail .ev-key i { flex: none; width: 12px; height: 12px; border-radius: 3px; margin-top: .3em; }
+#detail .ev-rank { list-style: none; margin: 0; padding: 0; }
+#detail .ev-rank li { display: grid; grid-template-columns: 1.4em minmax(0, 1fr) auto; grid-template-areas: "rk nm v" "rk tr tr"; column-gap: 8px; row-gap: 4px; align-items: center; padding: 7px 0; border-bottom: 1px solid #ECEFEA; }
+#detail .ev-rank li:last-child { border-bottom: 0; }
+#detail .ev-rk { grid-area: rk; font-weight: 800; color: #999; font-size: .9rem; align-self: start; }
+#detail .ev-nm { grid-area: nm; font-size: .95rem; color: #333; min-width: 0; word-break: keep-all; }
+#detail .ev-nm em { font-style: normal; font-size: .72rem; font-weight: 700; color: #fff; background: #1F5A3E; padding: 1px 6px; border-radius: 4px; margin-left: 4px; white-space: nowrap; }
+#detail .ev-rank b { grid-area: v; font-size: .92rem; color: #333; white-space: nowrap; }
+#detail .ev-track { grid-area: tr; height: 10px; background: #E8ECE6; border-radius: 5px; overflow: hidden; }
+#detail .ev-track span { display: block; height: 100%; background: #C9D8CE; border-radius: 5px; }
+#detail .ev-rank li.hi .ev-track span { background: #1F5A3E; }
+#detail .ev-rank li.hi .ev-rk, #detail .ev-rank li.hi b { color: #1F5A3E; }
+#detail .ev .ev-legend { font-size: .88rem !important; line-height: 1.5 !important; color: #1F5A3E; font-weight: 600; margin: 10px 0 0; word-break: keep-all; }
+#detail .ev .ev-src { font-size: .76rem !important; color: #999 !important; margin: 8px 0 0 !important; line-height: 1.45 !important; text-align: right; word-break: keep-all; }
+#detail .ev-photo { margin: 22px 0 6px; }
+#detail .ev-photo img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px; background: #eee; }
+#detail .ev-photo figcaption { font-size: .9rem; color: #444; line-height: 1.55; margin-top: 8px; word-break: keep-all; }
+#detail .ev-photo figcaption small { display: block; font-size: .74rem; color: #aaa; margin-top: 2px; }
+#detail .ev-box { background: var(--g-soft, #EEF5F0); border-radius: 14px; padding: 18px; margin: 24px 0 0; font-size: 1.04rem; line-height: 1.7; color: #23412F; font-weight: 500; word-break: keep-all; }
+#detail .ev-box b { display: block; font-size: .85rem; font-weight: 800; color: #1F5A3E; margin-bottom: 4px; }
+#detail .ev-cons { margin: 4px 0 0; padding-left: 1.1em; }
+#detail .ev-cons li { margin: 6px 0; line-height: 1.65; word-break: keep-all; }
+#detail .ev-next { margin: 24px 0 0; padding: 16px 18px; border: 1px dashed #C9D8CE; border-radius: 14px; font-weight: 700; color: #1F3A2B; word-break: keep-all; }
+#detail .ev-next small { display: block; font-size: .78rem; font-weight: 700; color: #8a7a4a; margin-bottom: 4px; }
+#detail .ev-sources { margin: 26px 0 0; font-size: .82rem; color: #777; line-height: 1.6; }
+#detail .ev-sources b { color: #555; }
+#detail .ev-sources ol { margin: 4px 0 8px; padding-left: 1.3em; }
+#detail .ev-sources a { color: #557; word-break: keep-all; overflow-wrap: anywhere; }
+#detail .ev .ev-sources p { font-size: .8rem !important; color: #888 !important; line-height: 1.6 !important; margin: 6px 0 0 !important; word-break: keep-all; }
+#detail .ev .ev-sources li { font-size: .8rem; line-height: 1.55; margin: 3px 0; }
+#detail .ev .ev-p b, #detail .ev .ev-cons b, #detail .ev .ev-box b:not(:first-child), #detail .ev .pet-hook b { font-weight: 800; color: #111; }
+#detail .ev .ev-box b:first-child { font-weight: 800; }

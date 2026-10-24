@@ -34,7 +34,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10241700" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10241800" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -109,6 +109,11 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
       <button type="button" data-tab="g7"><b>혼자라서 좋은 날</b><small>코스 · 혼밥 · 여행</small></button>
       <button type="button" data-tab="g4"><b>나의 수첩</b><small>메모와 일정</small></button>
     </nav>
+    <!-- 기획 연재 '전기차 시대' (대표 2026-10-24) — 첫 화면 CONTENTS 밑 띠 하나. 장을 세우지 않는다. 제목은 js/ev.js band() 가 오늘 편으로 -->
+    <div class="ev-wrap">
+      <div class="toc toc-c ev-toc"><img class="tc-leaf" src="leaf.png" alt=""><em>Series</em><img class="tc-leaf r" src="leaf.png" alt=""></div>
+      <button type="button" class="banner photo thumb ev-ban" data-open="ev" data-corner="ev" style="background-image:url('img/ev-band.jpg'); background-position: center"><span class="b-pic" aria-hidden="true" style="background-image:url('img/ev-band.jpg')"></span><div class="b-text"><div><span class="b-kick">기획 연재 · 전기차 시대 · 오마주 편집실</span><h3 class="b-hook" id="ev-band-title">전기차 시대가 왔다</h3><p id="ev-band-sub">매일 한 편, 알고 고르는 전기차</p></div><span>읽어 보기</span></div></button>
+    </div>
     <section class="tabsec on" data-g="g1">
 
     <div class="rd rd-off" id="rd-g1">
@@ -374,6 +379,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
     <section class="dsec" data-k="solo-home"><div id="solo-home"></div></section>
     <section class="dsec" data-k="solo-trip"><div id="solo-trip"></div></section>
     <section class="dsec" data-k="dog"><div id="pet-dog"></div></section>
+    <section class="dsec" data-k="ev"><div id="ev-body"></div></section>
     <section class="dsec" data-k="cat"><div id="pet-cat"></div></section>
     <section class="dsec" data-k="book"><div id="book-body"></div></section>
     <section class="dsec" data-k="show"><div id="show-body"></div></section>
@@ -397,6 +403,6 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10241700"></script>
+<script type="module" src="js/app.js?v=10241800"></script>
 </body>
 </html>
