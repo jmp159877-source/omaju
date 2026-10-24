@@ -48,6 +48,8 @@ jobs:
           D="${{ inputs.date }}"; [ -z "$D" ] && D=$(TZ=Asia/Seoul date +%F)
           node tools/shorts_cards.mjs "$D" /tmp/cards || echo '카드 그림 실패 — 오프닝만'
           python3 -u tools/shorts.py "$D" ${{ inputs.force == '1' && '--force' || '' }}
+          # ③ 오늘의 한 끼 (대표 2026-10-24) — 실패해도 카드·오프닝은 그대로 올라가게
+          python3 -u tools/shorts_meal.py "$D" ${{ inputs.force == '1' && '--force' || '' }} || echo '한 끼 쇼츠 실패'
           ls -la media/shorts
       - name: 유튜브에 예약 게시 (열쇠가 있을 때만)
         timeout-minutes: 15

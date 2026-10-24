@@ -97,19 +97,34 @@ def panel_tip(meal):
 def build():
     meal, hook = load_meal()
     if not meal: print('오늘 한 끼 없음', DATE); return None
-    bg_src = Image.open(os.path.join(ROOT, 'img', 'food.jpg')).convert('RGB')
+    # 배경은 세로 사진 서너 장(img/shorts-meal-*.jpg)을 날마다 돌린다 — 없으면 사이트 한 끼 칸 사진
+    import glob
+    bgs = sorted(glob.glob(os.path.join(ROOT, 'img', 'shorts-meal-*.jpg'))) or [os.path.join(ROOT, 'img', 'food.jpg')]
+    bg_src = Image.open(bgs[D.toordinal() % len(bgs)]).convert('RGB')
+    no = (D - datetime.date(2026, 10, 22)).days + 1          # 연재 번호 — 창간일(10/22)이 1호
+    facts = ' · '.join(x for x in meal.get('sub', '').split(' · ') if '인분' not in x)
     l1 = (hook.get('hook') or meal.get('lead', '')[:18]).replace('\n', ' ').strip(); l2 = meal['title']
-    scenes = [(4.2, 'title'), (5.0, 'ing'), (2.6, 's1'), (2.6, 's2'), (3.0, 's3'), (4.6, 'tip')]
+    scenes = [(2.4, 'cover'), (5.0, 'ing'), (2.8, 's1'), (2.8, 's2'), (3.2, 's3'), (4.6, 'tip')]
     total = sum(s for s, _ in scenes)
     # 미리 그려 두는 판 (장면마다 한 번)
     P = {'ing': panel_ing(meal), 's1': panel_steps(meal, 1), 's2': panel_steps(meal, 2), 's3': panel_steps(meal, 3), 'tip': panel_tip(meal)}
-    band = Image.new('RGBA', (W, 560)); bd = ImageDraw.Draw(band)
-    for yy in range(560): bd.line([(0, yy), (W, yy)], fill=(8, 30, 22, int(235 * (1 - (yy / 560) ** 2.2))))
+    band = Image.new('RGBA', (W, 600)); bd = ImageDraw.Draw(band)
+    for yy in range(600): bd.line([(0, yy), (W, yy)], fill=(8, 30, 22, int(240 * (1 - (yy / 600) ** 2.4))))
+    def series(o, cx, cy, size):
+        """'오늘의 한 끼' + 노란 No.n 딱지를 한 줄 가운데에"""
+        f = font(BOLD, size); fn = font(BOLD, int(size * 0.62)); d = ImageDraw.Draw(o)
+        a = d.textlength('오늘의 한 끼', font=f); nt = f'No.{no}'; b = d.textlength(nt, font=fn) + size * 0.5
+        x0 = cx - (a + 24 + b) / 2
+        shadow_text(o, (x0, cy), '오늘의 한 끼', f, anchor='lm')
+        bx = x0 + a + 24; bh = fn.size * 1.45
+        d.rounded_rectangle((bx, cy - bh / 2, bx + b, cy + bh / 2), bh / 2, fill=(249, 233, 168, 255))
+        d.text((bx + b / 2, cy + 2), nt, font=fn, fill=(58, 46, 0, 255), anchor='mm')
     def top(o):
         o.alpha_composite(band)
-        ImageDraw.Draw(o).text((W // 2, 200), f'{D.month}월 {D.day}일 {DOW}요일 · 오늘의 한 끼', font=font(REG, 34), fill=GOLD, anchor='mm')
-        shadow_text(o, (W // 2, 290), l1, fit(l1, BOLD, 70, 980))
-        shadow_text(o, (W // 2, 385), l2, fit(l2, BOLD, 76, 980), fill=(249, 233, 168, 255))
+        ImageDraw.Draw(o).text((W // 2, 170), f'{D.month}월 {D.day}일 {DOW}요일 · 매일 연재', font=font(REG, 34), fill=GOLD, anchor='mm')
+        series(o, W // 2, 262, 84)
+        shadow_text(o, (W // 2, 370), l2, fit(l2, BOLD, 76, 980), fill=(249, 233, 168, 255))
+        shadow_text(o, (W // 2, 450), l1, fit(l1, REG, 40, 960), fill=(232, 220, 190, 255))
     def frame(k):
         t = k / FPS; z = 1.0 + 0.06 * (t / total)
         o = cover(bg_src, W, H, zoom=z, fy=0.5).convert('RGBA')
@@ -119,14 +134,25 @@ def build():
             if t < acc + dur or i == len(scenes) - 1: break
             acc += dur
         p = min(1.0, (t - acc) / 0.45)            # 판이 나타나는 정도
+        if name == 'cover':
+            # 첫 화면이 곧 썸네일 — 쇼츠는 따로 만든 표지를 못 올리고 영상 속 장면이 표지가 된다
+            o.alpha_composite(Image.new('RGBA', (W, H), (8, 30, 22, 120)))
+            d = ImageDraw.Draw(o); cy = H * 0.40
+            f0 = font(REG, 40); t0 = '매일 아침 새 레시피 · 오마주 매거진'; w0 = d.textlength(t0, font=f0)
+            d.rounded_rectangle((W / 2 - w0 / 2 - 30, cy - 250, W / 2 + w0 / 2 + 30, cy - 180), 35, outline=GOLD, width=3)
+            d.text((W / 2, cy - 214), t0, font=f0, fill=GOLD, anchor='mm')
+            series(o, W // 2, cy - 60, 130)
+            shadow_text(o, (W // 2, cy + 110), l2, fit(l2, BOLD, 120, 1000), fill=(249, 233, 168, 255), blur=10, alpha=200)
+            if facts: shadow_text(o, (W // 2, cy + 240), facts, font(BOLD, 54))
+            shadow_text(o, (W // 2, cy + 330), l1, fit(l1, REG, 44, 960), fill=(232, 220, 190, 255))
+            return o.convert('RGB')
         top(o)
-        if name == 'title':
-            shadow_text(o, (W // 2, H - 330), '받아 적기 좋은 오늘의 레시피', font(BOLD, 50))
-            shadow_text(o, (W // 2, H - 255), '화면을 멈추고 천천히 보세요', font(REG, 38), fill=(232, 220, 190, 255))
+        if False:
+            pass
         else:
             im, ph = P[name]; pw = im.width
             if name.startswith('s') and name != 's1': p = 1.0       # 단계는 판은 그대로, 줄만 하나씩 늘어난다
-            y0 = 610 + (1 - p) * 40
+            y0 = 640 + (1 - p) * 40
             card = Image.new('RGBA', (W, H), (0, 0, 0, 0)); cd = ImageDraw.Draw(card)
             x0 = (W - pw) / 2
             sh = Image.new('RGBA', (W, H), (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle((x0, y0 + 16, x0 + pw, y0 + ph + 16), 36, fill=(0, 0, 0, int(110 * p)))
@@ -141,6 +167,15 @@ def build():
                 shadow_text(o, (W // 2, H - 255), '매일 아침 새로 나오는 무료 매거진 · omaju.kr', font(REG, 36), fill=(232, 220, 190, 255))
         return o.convert('RGB')
     out = os.path.join(OUT, DATE + '-meal.mp4')
+    if os.path.exists(out) and '--force' not in sys.argv and '--stills' not in sys.argv:
+        print('한 끼 쇼츠 이미 있음 — 설명만 다시 붙임')     # shorts.py 가 다시 돌면 json 을 새로 쓰므로 meal_up 은 매번 붙인다
+        return {'file': os.path.basename(out), 'sec': round(total, 1), 'title': meal['title'], 'hook': l1, 'no': no, 'facts': facts}, meal
+    if '--stills' in sys.argv:
+        acc = 0
+        for dur, name in scenes:
+            frame(int((acc + dur * 0.8) * FPS)).save(os.path.join(OUT, f'{DATE}-meal-{name}.png')); acc += dur
+        sys.exit(0)
+    out = os.path.join(OUT, DATE + '-meal.mp4')
     music = os.path.join(ROOT, 'music', 'noon.mp3')
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-', '-i', music,
            '-filter_complex', f'[1:a]atrim=0:{total:.2f},afade=t=in:d=0.8,afade=t=out:st={total - 1.6:.2f}:d=1.6[a]', '-map', '0:v', '-map', '[a]',
@@ -150,7 +185,7 @@ def build():
     pr.stdin.close(); pr.wait()
     if pr.returncode: raise SystemExit('ffmpeg 실패')
     print('한 끼 쇼츠', round(total, 1), '초')
-    return {'file': os.path.basename(out), 'sec': round(total, 1), 'title': meal['title'], 'hook': l1}, meal
+    return {'file': os.path.basename(out), 'sec': round(total, 1), 'title': meal['title'], 'hook': l1, 'no': no, 'facts': facts}, meal
 
 if __name__ == '__main__':
     r = build()
@@ -161,7 +196,7 @@ if __name__ == '__main__':
     except Exception: info = {'date': DATE}
     info['meal'] = info_m
     info['meal_up'] = {
-        'title': f'{meal["title"]} · {info_m["hook"]} #오늘의한끼 #오마주매거진'[:95],
+        'title': (f'오늘의 한 끼 No.{info_m["no"]} · {meal["title"]}' + (f' | {info_m["facts"].split(" · ")[0]} 집밥 레시피' if info_m.get('facts') else ' | 집밥 레시피') + ' #shorts')[:95],
         'desc': f'{meal.get("lead", "")}\n\n재료: {", ".join(meal["ingredients"])}\n\n' + '\n'.join(f'{i + 1}. {s}' for i, s in enumerate(meal['steps'])) +
                 f'\n\n요령: {meal.get("tip", "")}\n\n매일 아침 새로 나오는 무료 매거진, 오마주 매거진 👉 https://omaju.kr/?from=yt\n네이버에서 "오마주 매거진"\n\n#오늘의한끼 #레시피 #집밥 #오늘뭐먹지 #오마주매거진',
         'tags': ['오늘의한끼', '레시피', '집밥', '오늘뭐먹지', '간단요리', '점심메뉴', meal['title'].replace(' ', ''), '오마주매거진', '오마주'],

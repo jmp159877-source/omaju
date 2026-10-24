@@ -1,6 +1,6 @@
 # 유튜브 쇼츠 자동 올리기 (대표 2026-10-23: "이거 좀 자동으로 올리게 해라")
 # shorts.py 가 만든 두 편을 오마주 매거진 채널에 '예약 게시'로 올린다.
-#   인사 카드 → 그날 06:30 공개 · 오프닝 → 그날 19:00 공개 (그 시각이 지났으면 바로 공개)
+#   인사 카드 → 그날 06:30 공개 · 한 끼 → 10:00 · 오프닝 → 그날 19:00 공개 (그 시각이 지났으면 바로 공개)
 #   제목·설명·태그는 shorts/<날짜>.json 의 cards_up · opening_up 을 그대로 쓴다.
 #   오프닝은 AI 진행자라 '변경되거나 합성된 콘텐츠'(containsSyntheticMedia) 를 켠다. 카드는 끈다.
 #   재생목록: '오늘의 인사 카드…' / '오늘의 오프닝…' 으로 시작하는 목록을 찾아 넣는다.
@@ -13,8 +13,8 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 DATE = next((a for a in sys.argv[1:] if not a.startswith('--')), None) or datetime.datetime.now(KST).strftime('%Y-%m-%d')
 MEDIA = os.environ.get('MEDIA_DIR', 'media'); OUT = os.path.join(MEDIA, 'shorts')
 CID, CSEC, RTOK = (os.environ.get(k, '').strip() for k in ('YT_CLIENT_ID', 'YT_CLIENT_SECRET', 'YT_REFRESH_TOKEN'))
-WHEN = {'cards': (6, 30), 'opening': (19, 0)}
-PLAYLIST = {'cards': '오늘의 인사 카드', 'opening': '오늘의 오프닝'}
+WHEN = {'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0)}   # 한 끼는 오전 10시 (대표 2026-10-24)
+PLAYLIST = {'cards': '오늘의 인사 카드', 'meal': '오늘의 한 끼', 'opening': '오늘의 오프닝'}
 
 def say(*a): print('[유튜브]', *a, flush=True)
 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     _, _, ch = req('GET', 'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', headers=auth)
     names = [c['snippet']['title'] for c in ch.get('items', [])]
     if not any('오마주' in n for n in names): say('열쇠가 오마주 채널 것이 아님 — 멈춤', names); sys.exit(1)
-    for kind in ('cards', 'opening'):
+    for kind in ('cards', 'meal', 'opening'):
         up = info.get(kind + '_up'); path = os.path.join(OUT, f'{DATE}-{kind}.mp4')
         if done.get(kind): say(kind, '이미 올림', done[kind]); continue
         if not up or not os.path.exists(path): say(kind, '영상 없음'); continue
