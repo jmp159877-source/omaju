@@ -65,9 +65,11 @@ def panel_ing(meal):
     fT, fC = font(BOLD, 40), font(BOLD, 46)
     y = tag(dr, 50, 50, '재료', fT) + 34; x = 50
     for it in meal['ingredients']:
-        w = dr.textlength(it, font=fC) + 64
+        # 한 칩이 판보다 길면(양념 묶음 등) 그 칩만 글씨를 줄여 판 안에 넣는다 (10/25 '조림 양념(…)'이 오른쪽으로 잘렸다)
+        fc_ = fC if dr.textlength(it, font=fC) + 64 <= pw - 100 else fit(it, BOLD, 46, pw - 100 - 64)
+        w = dr.textlength(it, font=fc_) + 64
         if x + w > pw - 50: x = 50; y += 110
-        dr.rounded_rectangle((x, y, x + w, y + 92), 46, fill=(244, 244, 239, 255)); dr.text((x + 32, y + 46), it, font=fC, fill=INK, anchor='lm'); x += w + 16
+        dr.rounded_rectangle((x, y, x + w, y + 92), 46, fill=(244, 244, 239, 255)); dr.text((x + 32, y + 46), it, font=fc_, fill=INK, anchor='lm'); x += w + 16
     sub = meal.get('sub', '')
     if sub: y += 140; dr.text((50, y), sub, font=font(REG, 38), fill=SUB, anchor='lm'); y += 30
     return im, y + 60
