@@ -2480,10 +2480,24 @@ html.hello-in .auth-slot > #user-chip[hidden] { display: block !important; }   /
 #detail .so-tip::before { content: '· '; }
 
 /* ── 기획 연재 '전기차 시대' (대표 2026-10-24) — 첫 화면 띠 + 안쪽 글(도표·사진) ── */
-body.in-chapter .ev-wrap { display: none; }
-.ev-wrap { margin: 6px 0 4px; }
-.ev-toc { margin-top: 18px; }
-.ev-ban { width: 100%; margin-top: 8px !important; }
+/* 기획 칼럼 단추 — 나의 수첩 밑, 금빛 줄 사이 (대표 2026-10-24) */
+body.in-chapter .cols-wrap { display: none; }
+.cols-wrap { margin: 34px 0 0; text-align: center; }
+.cols-wrap + .foot.colophon { margin-top: 34px; }
+.cols-orn { display: flex; align-items: center; gap: 12px; color: #C9A24A; font-size: .8rem; margin: 0 0 18px; }
+.cols-orn i { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #C9A24A 40%, #C9A24A); }
+.cols-orn i:last-child { background: linear-gradient(90deg, #C9A24A, #C9A24A 60%, transparent); }
+.cols-orn b { font-weight: 400; }
+.cols-head { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 1.12rem; color: #2a2a2a; margin: 0 0 14px; letter-spacing: .04em; }
+.cols-head small { display: block; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-style: italic; font-size: .85rem; color: #8a6d2c; letter-spacing: .08em; margin-top: 2px; }
+.cols-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.col-tile { position: relative; aspect-ratio: 1 / 1; border: 0; border-radius: 14px; overflow: hidden; background: #ddd center / cover no-repeat; text-align: left; padding: 0; cursor: pointer; box-shadow: 0 6px 18px rgba(60,40,10,0.16); min-width: 0; }
+.col-tile:only-child { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+.col-tile::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,12,8,.86) 0%, rgba(14,12,8,.55) 32%, rgba(14,12,8,0) 62%); }
+.col-tile .ct-in { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 13px 13px; color: #fff; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.col-tile small { font-size: .74rem; font-weight: 700; letter-spacing: .08em; color: #F3D98B; }
+.col-tile b { font-size: 1.08rem; font-weight: 800; line-height: 1.32; word-break: keep-all; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+.col-tile em { font-style: normal; font-size: .8rem; opacity: .9; line-height: 1.4; word-break: keep-all; }
 #detail .ev .ev-by { font-size: .85rem !important; color: #888 !important; margin: 10px 0 0 !important; line-height: 1.5 !important; }
 #detail .ev .ev-p { font-size: 1.06rem; line-height: 1.8; color: var(--ink, #1a1a1a); margin: 20px 0 0 !important; word-break: keep-all; }
 #detail .ev .is-sub + .ev-p { margin-top: 6px !important; }

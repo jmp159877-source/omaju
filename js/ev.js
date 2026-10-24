@@ -98,5 +98,5 @@ export function render(el, id) {
 // 첫 화면 띠: 오늘 편 제목
 export function band() {
   const a = latest(), el = document.getElementById('ev-band-title');
-  if (a && el) { el.textContent = `${a.no}편 · ${a.title}`; const s = document.getElementById('ev-band-sub'); if (s && a.dek) s.textContent = a.dek; }
+  if (a && el) el.textContent = `${a.no}편 · ${a.title}`;
 }

@@ -34,7 +34,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10241800" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10241830" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -109,11 +109,6 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
       <button type="button" data-tab="g7"><b>혼자라서 좋은 날</b><small>코스 · 혼밥 · 여행</small></button>
       <button type="button" data-tab="g4"><b>나의 수첩</b><small>메모와 일정</small></button>
     </nav>
-    <!-- 기획 연재 '전기차 시대' (대표 2026-10-24) — 첫 화면 CONTENTS 밑 띠 하나. 장을 세우지 않는다. 제목은 js/ev.js band() 가 오늘 편으로 -->
-    <div class="ev-wrap">
-      <div class="toc toc-c ev-toc"><img class="tc-leaf" src="leaf.png" alt=""><em>Series</em><img class="tc-leaf r" src="leaf.png" alt=""></div>
-      <button type="button" class="banner photo thumb ev-ban" data-open="ev" data-corner="ev" style="background-image:url('img/ev-band.jpg'); background-position: center"><span class="b-pic" aria-hidden="true" style="background-image:url('img/ev-band.jpg')"></span><div class="b-text"><div><span class="b-kick">기획 연재 · 전기차 시대 · 오마주 편집실</span><h3 class="b-hook" id="ev-band-title">전기차 시대가 왔다</h3><p id="ev-band-sub">매일 한 편, 알고 고르는 전기차</p></div><span>읽어 보기</span></div></button>
-    </div>
     <section class="tabsec on" data-g="g1">
 
     <div class="rd rd-off" id="rd-g1">
@@ -327,6 +322,15 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
     </div>
 
     </section>
+    <!-- 기획 칼럼 (대표 2026-10-24) — 나의 수첩 밑, 금빛 줄 사이에 단추 둘: 전기차 시대 · AI 시대에 살 준비가 되었는가.
+         AI 칼럼은 1편이 준비되면 단추를 더한다. 단추가 하나뿐이면 한 줄을 다 쓴다(css .cols-row:only-child). -->
+    <section class="cols-wrap" aria-label="기획 칼럼">
+      <div class="cols-orn" aria-hidden="true"><i></i><b>✦</b><i></i></div>
+      <p class="cols-head">기획 칼럼 <small>오마주 편집실</small></p>
+      <div class="cols-row">
+        <button type="button" class="col-tile" data-open="ev" data-corner="ev" data-bg="img/ev-tile.jpg?v=2" style="background-position: center 40%"><span class="ct-in"><small>기획 칼럼</small><b>전기차 시대</b><em id="ev-band-title">1편 · 전기차 시대가 왔다</em></span></button>
+      </div>
+    </section>
     <footer class="foot colophon">
       <div class="co-orn" aria-hidden="true"><i></i><b>✦</b><i></i></div>
       <img class="co-logo" src="logo.png" alt="오마주 · 오늘도 마음은 주니어">
@@ -403,6 +407,6 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10241800"></script>
+<script type="module" src="js/app.js?v=10241830"></script>
 </body>
 </html>
