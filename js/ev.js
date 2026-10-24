@@ -97,7 +97,7 @@ export function render(el, id, k = 'ev') {
       ${a.photos ? `<p>사진: ${esc(a.photos)}</p>` : ''}
       <p>${esc(SERIES[k].foot)}</p></div>
     </article>
-    <div class="pet-past"><p class="is-sub">연재 목록</p>${items.map(x => `<button type="button" data-ev="${esc(x.id)}" aria-current="${x === a}"><span>${x.no}. ${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
+    <div class="pet-past"><p class="is-sub">연재 목록</p>${items.slice().reverse().map(x => `<button type="button" data-ev="${esc(x.id)}" aria-current="${x === a}"><span>${x.no}. ${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
   el.querySelectorAll('[data-ev]').forEach(b => b.onclick = () => { render(el, b.dataset.ev, k); window.scrollTo({ top: 0 }); });
 }
 // 첫 화면 띠: 오늘 편 제목

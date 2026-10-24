@@ -119,7 +119,7 @@ def main():
                     c = b['chart']
                     rows = [(c.get('on'), f'{c["value"]}%')] if c.get('kind') == 'donut' else [(i[0], f'{i[1]:,}{c.get("unit", "")}' if isinstance(i[1], int) else f'{i[1]}{c.get("unit", "")}') for i in c.get('items', [])]
                     parts.append(f'<table><caption>{e(c["title"])}</caption>' + ''.join(f'<tr><th>{e(l)}</th><td>{e(v)}</td></tr>' for l, v in rows) + f'</table><p class="note">자료: {e(c.get("source"))}</p>')
-            body = (f'<h1>{e(a["title"])}</h1><p class="date">기획 칼럼 {SNAME} {a["no"]}편 · 오마주 편집실 · {kdate(a["date"])}</p>'
+            body = (f'<h1>{e(a["title"])}</h1><p class="date">기획 연재 {SNAME} {a["no"]}편 · 오마주 편집실 · {kdate(a["date"])}</p>'
                     + (f'<div class="box green">{e(a.get("hook"))}</div>' if a.get('hook') else '') + ''.join(parts)
                     + (('<div class="box yellow"><b>생각해 볼 점</b>' + '<br>'.join(rich(t) for t in a.get('cons', [])) + '</div>') if a.get('cons') else '')
                     + '<p class="note">출처: ' + ' · '.join(e(x.get('name')) for x in a.get('sources', [])) + '</p>')
@@ -127,7 +127,7 @@ def main():
             img = next((b['photo']['src'] for b in a.get('blocks', []) if b.get('photo')), f'img/detail_{SK}.jpg')
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
                   'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 편집실'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-            urls.append((page(f'{SK}/{a["id"]}.html', f'{a["title"]} — {SNAME} {a["no"]}편', desc, f'기획 칼럼 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
+            urls.append((page(f'{SK}/{a["id"]}.html', f'{a["title"]} — {SNAME} {a["no"]}편', desc, f'기획 연재 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
     # 오늘의 한 끼
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
         d = os.path.basename(f)[:10]
