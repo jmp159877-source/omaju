@@ -110,6 +110,15 @@ srv.listen(0, '127.0.0.1', async () => {
       ok(`오늘의 이슈 칸 (${big ? '큰' : '보통'} 글씨)`, !r.length, r.join(' / '));
       await c.close();
     }
+    // 1-3b) 그날 치 한 칸이 비어 들어와도 첫 화면은 다 뜬다 (2026-10-25 0시: '그해 오늘'이 비어 들어와 오프닝·기획 연재가 통째로 안 떴다)
+    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
+      await c.route('https://www.gstatic.com/**', r => { const u = r.request().url(); const n = u.includes('firebase-app') ? 'app' : u.includes('firebase-auth') ? 'auth' : u.includes('firestore') ? 'firestore' : 'analytics'; r.fulfill({ contentType: 'application/javascript', body: n === 'firestore' ? fsStub.replace('{"era":{', '{"era":{},"era_off":{') : fs.readFileSync(path.join(STUB, n + '.js'), 'utf8') }); });
+      await p.goto(base + '/index.html'); await wait(p, 3200);
+      const r = await p.evaluate(() => { const o = []; const op = document.getElementById('opening'); if (!op || op.hidden || op.offsetHeight < 100) o.push('오프닝 안 뜸');
+        const t = [...document.querySelectorAll('.col-tile')]; if (!t.length || t.some(x => !x.hidden && !x.style.backgroundImage)) o.push('기획 연재 사진이 안 깔림');
+        if (!document.querySelectorAll('#tabs3 button').length) o.push('CONTENTS 없음'); return o; });
+      ok('한 칸이 비어 들어와도 오프닝·기획 연재가 뜸', !r.length, r.concat([...new Set(errs)].filter(e => !/process is not defined/.test(e))).join(' / '));
+      await c.close(); }
     // 1-4) 카카오·네이버로 시작하기: 단추가 보이고, 두 회사 색이고, 누르면 우리 서버 다리로 간다
     { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await p.goto(base + '/index.html'); await wait(p, 1600);
