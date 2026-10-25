@@ -144,7 +144,15 @@
      "url": "https://www.callnews.co.kr/news/articleView.html?idxno=56112"
     }
    ],
-   "photos": "머리 사진·본문 사진 Jernej Furman (CC BY 2.0 · 위키미디어 공용)"
+   "photos": "머리 사진·본문 사진 Jernej Furman (CC BY 2.0 · 위키미디어 공용)",
+   "corrections": [
+    {
+     "date": "2026-10-26",
+     "items": [
+      "챗GPT 연령별 증가율에 '모바일인덱스 집계, 한 매체 보도'라고 출처를 밝히고, '20대의 두 배가 넘는다'는 60대 이상에만 해당한다고 고쳤습니다."
+     ]
+    }
+   ]
   },
   {
    "id": "ai-02",
@@ -272,6 +280,14 @@
     {
      "name": "바이라인네트워크, 「2026년 9월 생성형 AI 모바일 앱 MAU」 (2026.10.13, 와이즈앱·리테일 자료)",
      "url": "https://byline.network/?p=9004111222623015"
+    }
+   ],
+   "corrections": [
+    {
+     "date": "2026-10-26",
+     "items": [
+      "AI 앱 이용자 수에 '와이즈앱·리테일 집계'라고 출처를 밝히고, 집계사마다 숫자가 다르다는 점을 덧붙였습니다."
+     ]
     }
    ]
   },
@@ -434,7 +450,15 @@
      "url": "https://tech.co/news/chatgpt-uses-non-work-related-openai-study"
     }
    ],
-   "photos": "본문 사진 Shixart1985 (CC BY 2.0 · 위키미디어 공용)"
+   "photos": "본문 사진 Shixart1985 (CC BY 2.0 · 위키미디어 공용)",
+   "corrections": [
+    {
+     "date": "2026-10-26",
+     "items": [
+      "'아이폰은 애플 계정으로 가입'을 고쳤습니다. 제미나이는 아이폰에서도 구글 계정으로 가입합니다."
+     ]
+    }
+   ]
   }
  ]
 }

@@ -2700,3 +2700,8 @@ body.mz-on { padding-bottom: 76px; }
 #detail .ev-gal-it p { font-size: .88rem; color: #444; line-height: 1.5; margin: 8px 2px 0; word-break: keep-all; }
 #detail .ev-gal-it p small { display: block; font-size: .72rem; color: #aaa; margin-top: 2px; }
 @media (min-width: 769px) { #detail .ev-gal { margin-left: 0; margin-right: 0; } #detail .ev-gal-row, #detail .ev-gal-t { padding-left: 0; padding-right: 0; } #detail .ev-gal-it { flex-basis: 62%; } }
+/* 기획 연재 — 바로잡습니다 · AI 주석 (대표 2026-10-26) */
+#detail .ev-fix { margin: 22px 0 0; padding: 12px 14px; background: #FFF8E1; border-radius: 10px; font-size: .86rem; color: #5a4a1a; line-height: 1.6; word-break: keep-all; }
+#detail .ev-fix b { display: block; margin-bottom: 4px; color: #3A2E00; }
+#detail .ev-fix ul { margin: 0; padding-left: 1.2em; }
+#detail .ev-sources .ev-ai { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e6e1d6; color: #888; font-size: .78rem; word-break: keep-all; }

@@ -162,7 +162,19 @@
      "url": "https://ajunews.com/view/20260903143150203"
     }
    ],
-   "photos": "머리 사진 BYD 씨라이언 7: Alexander Migl · 칼럼 단추 BYD 아토 3: Alexander Migl (모두 CC BY-SA 4.0 · 위키미디어 공용)"
+   "photos": "머리 사진 BYD 씨라이언 7: Alexander Migl · 칼럼 단추 BYD 아토 3: Alexander Migl (모두 CC BY-SA 4.0 · 위키미디어 공용)",
+   "corrections": [
+    {
+     "date": "2026-10-26",
+     "items": [
+      "수입차 중 중국산 비중 변화를 '거의 두 배'에서 '1.7배'로 고쳤습니다.",
+      "BYD 판매를 확인되지 않은 '지난해 같은 기간의 여섯 배'에서 '지난해 한 해 판매의 세 배'로 고쳤습니다.",
+      "지커 7X 사전 계약을 한 매체 보도의 '1,800대가량'에서 여러 매체가 전한 '1,500대 넘게'로 고쳤습니다.",
+      "'샤오펑과 체리도 한국 법인을 세웠다'를 '체리는 KG모빌리티에 투자하며 한국 진출을 저울질'로 고쳤습니다. 체리는 한국 법인을 세우지 않았습니다.",
+      "모델별 판매 순위 도표의 출처를 한국수입자동차협회 집계로 밝혔습니다."
+     ]
+    }
+   ]
   },
   {
    "id": "ev-02",
@@ -375,7 +387,17 @@
      "url": "https://www.fnnews.com/news/202610210715202965"
     }
    ],
-   "photos": "본사 iMoD Official (CC BY 3.0) · 매장 Matti Blume (CC BY-SA 4.0) · 머리 사진 BYD 씨라이언 7 Alexander Migl (CC BY-SA 4.0) · 모두 위키미디어 공용 · 차 사진 띠 Alexander Migl · Matti Blume · Alexander-93 (CC BY-SA 4.0 · 위키미디어 공용)"
+   "photos": "본사 iMoD Official (CC BY 3.0) · 매장 Matti Blume (CC BY-SA 4.0) · 머리 사진 BYD 씨라이언 7 Alexander Migl (CC BY-SA 4.0) · 모두 위키미디어 공용 · 차 사진 띠 Alexander Migl · Matti Blume · Alexander-93 (CC BY-SA 4.0 · 위키미디어 공용)",
+   "corrections": [
+    {
+     "date": "2026-10-26",
+     "items": [
+      "'올해 목표 1만 대의 두 배'를 고쳤습니다. 1만 대는 BYD코리아가 밝힌 목표가 아니라 업계 전망이었습니다.",
+      "세계 전기차 판매 도표를 각 회사 공식 발표(BYD 181만·지리 110만·테슬라 84만 대, 전기차+플러그인 하이브리드)로 바꾸고, 'BYD 한 회사가 2·3위를 합친 것보다 많다'는 설명을 지웠습니다.",
+      "BYD 전시장 수를 최신 숫자(38곳)로 고쳤습니다."
+     ]
+    }
+   ]
   },
   {
    "id": "ev-03",
@@ -633,7 +655,16 @@
      "url": "https://news.mtn.co.kr/news-detail/2026100816363258031"
     }
    ],
-   "photos": "상하이 공장·검사 라인 China News Service (CC BY 3.0 · 위키미디어 공용) · 차 사진 띠 Alexander Migl · Chanokchon · Damian B Oh · Dllu · Nikolai Bulykin · OWS Photography (CC BY-SA 4.0 · CC BY 4.0 · 위키미디어 공용)"
+   "photos": "상하이 공장·검사 라인 China News Service (CC BY 3.0 · 위키미디어 공용) · 차 사진 띠 Alexander Migl · Chanokchon · Damian B Oh · Dllu · Nikolai Bulykin · OWS Photography (CC BY-SA 4.0 · CC BY 4.0 · 위키미디어 공용)",
+   "corrections": [
+    {
+     "date": "2026-10-26",
+     "items": [
+      "'보조금을 다 받을 수 있는 5천만 원 아래'를 '처음으로 4천만 원대'로 고쳤습니다. 올해 보조금 전액 기준은 5,300만 원 미만입니다.",
+      "9월 테슬라 판매가 2위 BMW의 '두 배 가까이'에서 '두 배 넘게'로 고쳤습니다(12,372대 대 6,066대)."
+     ]
+    }
+   ]
   }
  ]
 }

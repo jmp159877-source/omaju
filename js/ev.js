@@ -10,6 +10,8 @@ export const SERIES = {
   ev: { file: 'data/ev.json', name: '전기차 시대', foot: '오마주 편집실은 특정 브랜드의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 차를 사시라거나 사지 마시라는 권유가 아니라, 고르실 때 쓸 자료입니다.' },
   ai: { file: 'data/ai.json', name: 'AI 시대에 살 준비가 되었는가', foot: '오마주 편집실은 특정 회사의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 어떤 서비스를 쓰시라는 권유가 아니라, 직접 해 보실 때 쓸 안내입니다.' },
 };
+// 맨 끝 주석 (대표 2026-10-26: AI 가 모아 정리한 글임을 밝히고, 오류가 있을 수 있음을 알린다)
+export const AI_NOTE = '이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 편집실이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.';
 const DATA = {}, loading = {}, shown = {};
 export function load(k = 'ev') {
   if (DATA[k]) return Promise.resolve(DATA[k]);
@@ -102,9 +104,11 @@ export function render(el, id, k = 'ev') {
       ${(a.blocks || []).map(block).join('')}
       ${a.cons && a.cons.length ? `<div class="pet-vet"><b>생각해 볼 점</b><ul class="ev-cons">${a.cons.map(x => `<li>${rich(x)}</li>`).join('')}</ul></div>` : ''}
       ${a.next ? `<p class="ev-next"><small>다음 편</small>${esc(a.next)}</p>` : ''}
+      ${(a.corrections || []).map(c => `<div class="ev-fix"><b>바로잡습니다 (${esc(c.date.slice(5).replace('-', '.'))})</b><ul>${(c.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')}
       <div class="ev-sources"><b>출처</b><ol>${(a.sources || []).map(s => `<li>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</li>`).join('')}</ol>
       ${a.photos ? `<p>사진: ${esc(a.photos)}</p>` : ''}
-      <p>${esc(SERIES[k].foot)}</p></div>
+      <p>${esc(SERIES[k].foot)}</p>
+      <p class="ev-ai">※ ${esc(AI_NOTE)}</p></div>
     </article>
     <div class="pet-past"><p class="is-sub">연재 목록</p>${items.slice().reverse().map(x => `<button type="button" data-ev="${esc(x.id)}" aria-current="${x === a}"><span>${x.no}. ${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
   el.querySelectorAll('[data-ev]').forEach(b => b.onclick = () => { render(el, b.dataset.ev, k); window.scrollTo({ top: 0 }); });
