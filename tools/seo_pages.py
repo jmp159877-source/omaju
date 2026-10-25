@@ -121,6 +121,8 @@ def main():
                 elif b.get('p'): parts.append(f'<p>{rich(b["p"])}</p>')
                 elif b.get('box'): parts.append(f'<div class="box green"><b>{e(b["box"]["title"])}</b>{rich(b["box"]["text"])}</div>')
                 elif b.get('photo'): ph = b['photo']; parts.append(f'<figure><img src="/{e(ph["src"])}" alt="{e(ph.get("caption"))}" style="width:100%;border-radius:12px"><figcaption>{e(ph.get("caption"))} <small>사진: {e(ph.get("credit"))}</small></figcaption></figure>')
+                elif b.get('gallery'):   # 차 사진 띠 — 검색용 쪽에서는 한 장씩 차례로 (이미지 검색에도 걸리게)
+                    for ph in b['gallery'].get('items', []): parts.append(f'<figure><img src="/{e(ph["src"])}" alt="{e(ph.get("caption"))}" loading="lazy" style="width:100%;border-radius:12px"><figcaption>{e(ph.get("caption"))} <small>사진: {e(ph.get("credit"))}</small></figcaption></figure>')
                 elif b.get('chart'):
                     c = b['chart']
                     rows = [(c.get('on'), f'{c["value"]}%')] if c.get('kind') == 'donut' else [(i[0], f'{i[1]:,}{c.get("unit", "")}' if isinstance(i[1], int) else f'{i[1]}{c.get("unit", "")}') for i in c.get('items', [])]

@@ -56,6 +56,14 @@ function photo(b) {
   return `<figure class="ev-photo"><img src="${esc(b.src)}" alt="${esc(b.alt || b.caption || '')}" loading="lazy">
     <figcaption>${esc(b.caption || '')}<small>사진: ${esc(b.credit)}</small></figcaption></figure>`;
 }
+// 사진 여러 장을 옆으로 넘겨 보는 띠 (대표 2026-10-25: "글보다 눈으로 보는 게 강하다 — 차 사진을 다양한 각도·배경으로 많이")
+// 글 길이는 그대로 두고 볼거리만 늘린다. 장마다 설명·찍은 사람·라이선스.
+function gallery(g) {
+  const n = g.items.length;
+  return `<figure class="ev-gal">${g.title ? `<figcaption class="ev-gal-t">${esc(g.title)}<small>옆으로 넘겨 보세요 · ${n}장</small></figcaption>` : ''}
+    <div class="ev-gal-row">${g.items.map((b, i) => `<div class="ev-gal-it"><img src="${esc(b.src)}" alt="${esc(b.alt || b.caption || '')}" loading="lazy"><span class="ev-gal-no">${i + 1} / ${n}</span>
+      <p>${esc(b.caption || '')}<small>사진: ${esc(b.credit)}</small></p></div>`).join('')}</div></figure>`;
+}
 // 대표 2026-10-24: 문장이 줄줄이 이어지면 읽기 힘들다 — 한 단락은 한두 문장으로 끊고 단락 사이를 띄운다.
 // 문장이 짧으면(둘 합쳐 70자 아래) 두 문장을 한 단락에, 길면 한 문장씩.
 function paras(text) {
@@ -75,6 +83,7 @@ function block(b) {
   if (b.p) return paras(b.p).map(t => `<p class="ev-p">${rich(t)}</p>`).join('');
   if (b.chart) return chart(b.chart);
   if (b.photo) return photo(b.photo);
+  if (b.gallery) return gallery(b.gallery);
   if (b.box) return `<div class="ev-box"><b>${esc(b.box.title)}</b>${rich(b.box.text)}</div>`;
   return '';
 }
