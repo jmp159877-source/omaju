@@ -346,7 +346,13 @@ def make_script():
 TTS_MODEL = ''
 def tts(text, who):
     text = text.replace('안녕하세요!', '안녕하세요,')   # 느낌표가 붙으면 음이 과하게 올라가 발음이 뭉갠다
-    prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + PROFILE[who] + '\n' + DIRECT + '\n\n[읽을 대본 — 이 부분만 읽기]\n' + text
+    # 사인오프가 없는 토막에 '사랑합니다' 연출을 주면 읽는 쪽이 끝에 '사랑합니다'를 덧붙인다 —
+    # 10/25 저녁 방송 끝에 '사랑합니다'가 두 번 나왔다(대표 18:21). 그 토막엔 사인오프 연출을 빼고, 대본에 없는 말을 붙이지 말라고 못 박는다.
+    direct = DIRECT
+    if '사랑합니다' not in text:
+        direct = re.sub(r"\*\*맨 끝 \"사랑합니다\".*?같은 크기로 밝게 닫는다\. ", '', DIRECT, flags=re.S)
+    direct += ' **대본에 없는 말(인사·"사랑합니다"·이름 등)을 앞뒤에 덧붙이지 말 것. 대본 마지막 문장을 읽으면 바로 끝낸다.**'
+    prompt = '[아래 설정과 연출은 소리 내어 읽지 말 것]\n' + PROFILE[who] + '\n' + direct + '\n\n[읽을 대본 — 이 부분만 읽기]\n' + text
     # 모델을 하나로 고정한다 — 같은 목소리 이름이어도 모델이 바뀌면 사람이 바뀐다.
     # 예전엔 첫 모델이 세 번 실패하면 다른 모델로 넘어갔고, 10/23 미소2 가 10/21 미소1 과 다른 사람처럼 들렸다(대표 2026-10-23 08:06).
     # 읽어 드려요(radio.py)와 같은 방식: 한 모델로만, 429 면 1분·2분·3분… 넉넉히 기다린다.
@@ -613,6 +619,7 @@ def build():
             for k, t in enumerate(texts):
                 okk, heard, r = check(KEY, got[ed[k]:ed[k + 1]], t)
                 if r < 0.7 and not str(heard).startswith('(받아쓰기 실패'): bad.append(f'{k + 1}:{r} {str(heard)[:24]}')
+                elif '사랑합니다' in str(heard).replace(' ', '') and '사랑합니다' not in t: bad.append(f'{k + 1}:대본에 없는 사랑합니다')   # 10/25 저녁
             # 가라앉음: 구간 하나라도 기준보다 8% 넘게 낮거나, 억양 폭이 첫 토막의 80% 아래로 납작해지면 (대표 2026-10-24 저녁 48~72초 173Hz·폭 170)
             wins = f0_win(got); low = [round(m) for m, sp in wins if tgt0 and m < tgt0 * 0.92]
             spread = sorted(sp for m, sp in wins)[len(wins) // 2] if wins else 0
