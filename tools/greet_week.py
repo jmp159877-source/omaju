@@ -21,6 +21,7 @@ def main():
     except Exception: data = {}
     today = datetime.datetime.now(KST).date()
     data = {k: v for k, v in data.items() if k >= (today - datetime.timedelta(days=14)).isoformat()}   # 두 주 넘은 것은 비운다
+    G.gemini.models = G.list_models()   # gen_daily 의 main 이 하던 준비 (빠뜨려 첫 실행이 빈 파일로 끝났다)
     m = monday(); made = 0
     for i in range(7):
         d = m + datetime.timedelta(days=i); k = d.isoformat()
@@ -29,6 +30,8 @@ def main():
             try:
                 data[k] = G.gen_greetings(d, fresh=True); made += 1; print('[ok]', k, data[k]); break
             except Exception as e: print('[다시]', k, str(e)[:120])
+    if not made and not any(len(data.get((m + datetime.timedelta(days=i)).isoformat()) or []) == 4 for i in range(7)):
+        raise SystemExit('한 날도 만들지 못함 — 파일을 건드리지 않음')
     json.dump(dict(sorted(data.items())), open(PATH, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('만든 날', made, '· 주', m.isoformat())
 
