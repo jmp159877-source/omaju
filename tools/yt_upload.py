@@ -13,8 +13,8 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 DATE = next((a for a in sys.argv[1:] if not a.startswith('--')), None) or datetime.datetime.now(KST).strftime('%Y-%m-%d')
 MEDIA = os.environ.get('MEDIA_DIR', 'media'); OUT = os.path.join(MEDIA, 'shorts')
 CID, CSEC, RTOK = (os.environ.get(k, '').strip() for k in ('YT_CLIENT_ID', 'YT_CLIENT_SECRET', 'YT_REFRESH_TOKEN'))
-WHEN = {'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0)}   # 한 끼는 오전 10시 (대표 2026-10-24)
-PLAYLIST = {'cards': '오늘의 인사 카드', 'meal': '오늘의 한 끼', 'opening': '오늘의 오프닝'}
+WHEN = {'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0), 'kid': (21, 0)}   # 자녀 편은 밤 9시 — 자녀 세대가 하루를 마치고 휴대폰을 볼 때 (홍보국 2026-10-25)   # 한 끼는 오전 10시 (대표 2026-10-24)
+PLAYLIST = {'cards': '오늘의 인사 카드', 'meal': '오늘의 한 끼', 'opening': '오늘의 오프닝', 'kid': '부모님께 보내 드리는 아침 잡지'}
 
 def say(*a): print('[유튜브]', *a, flush=True)
 
@@ -39,12 +39,19 @@ def playlist_id(auth, prefix):
     _, _, j = req('GET', 'https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&maxResults=50', headers=auth)
     for it in j.get('items', []):
         if it['snippet']['title'].startswith(prefix): return it['id']
-    return None
+    # 없으면 만든다 (자녀 편 목록 — 홍보국 2026-10-25). 권한이 없으면 그냥 넘어간다.
+    try:
+        _, _, n = req('POST', 'https://www.googleapis.com/youtube/v3/playlists?part=snippet,status', headers=auth,
+                      body={'snippet': {'title': prefix, 'description': '매일 아침 새로 나오는 무료 매거진, 오마주 매거진을 부모님께 소개해 드리세요. 하루 한 코너씩.', 'defaultLanguage': 'ko'},
+                            'status': {'privacyStatus': 'public'}})
+        say('재생목록 새로 만듦', prefix); return n.get('id')
+    except SystemExit as e:
+        say('재생목록 만들기 실패', str(e)[:120]); return None
 
 def upload(auth, kind, path, up):
     d = datetime.date.fromisoformat(DATE); hh, mm = WHEN[kind]
     at = datetime.datetime(d.year, d.month, d.day, hh, mm, tzinfo=KST)
-    status = {'selfDeclaredMadeForKids': False, 'containsSyntheticMedia': kind == 'opening', 'embeddable': True}
+    status = {'selfDeclaredMadeForKids': False, 'containsSyntheticMedia': kind in ('opening', 'kid'), 'embeddable': True}
     if at > datetime.datetime.now(KST) + datetime.timedelta(minutes=15):
         status.update(privacyStatus='private', publishAt=at.astimezone(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
     else:
@@ -102,6 +109,11 @@ def comment_text(kind, info):
         return '\n'.join([f'🎙 {md} 오마주 오프닝', hook, '',
                           f'AI 진행자 {host + ("이" if host and (ord(host[-1]) - 0xAC00) % 28 else "가") if host else "가"} 아침·오후·저녁마다 힘이 되는 이야기 한 편씩 들려드려요.',
                           '여러분은 늦게 시작해서 더 좋았던 일이 있으신가요? 댓글로 들려주세요.', '', f'오늘 방송 전체 듣기 👉 {TAIL}'])
+    if kind == 'kid':   # 자녀 편 (홍보국 2026-10-25) — 첫날부터 단다
+        return '\n'.join(['👉 엄마·아빠에게 바로 보내기: https://omaju.kr/?from=kid', '',
+                          '매일 아침 새로 나오는 무료 매거진이에요. 가입 없이 링크만 누르면 바로 열려요.',
+                          '운세·한 끼·그 시절 노래·인사 카드·여행·산길까지 — 부모님 휴대폰 홈 화면에 하나 놓아 드려 보세요.', '',
+                          '목소리는 오마주 AI 진행자 차승우예요.', '네이버·구글에서 "오마주 매거진"'])
     return ''
 
 def post_comment(auth, vid, text):
@@ -151,17 +163,17 @@ if __name__ == '__main__':
     _, _, ch = req('GET', 'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', headers=auth)
     names = [c['snippet']['title'] for c in ch.get('items', [])]
     if not any('오마주' in n for n in names): say('열쇠가 오마주 채널 것이 아님 — 멈춤', names); sys.exit(1)
-    for kind in ('cards', 'meal', 'opening'):
+    for kind in ('cards', 'meal', 'opening', 'kid'):
         up = info.get(kind + '_up'); path = os.path.join(OUT, f'{DATE}-{kind}.mp4')
         if done.get(kind): say(kind, '이미 올림', done[kind]); continue
         if not up or not os.path.exists(path): say(kind, '영상 없음'); continue
         done[kind] = upload(auth, kind, path, up)
         info['yt'] = done; json.dump(info, open(jp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     # 댓글: 올라간 영상마다 한 번씩. 실패해도 영상은 그대로 두고 다음 차례에 다시.
-    if DATE >= COMMENT_FROM:
+    if True:
         cm = info.get('yt_comment', {})
         for kind, vid in done.items():
-            if cm.get(kind): continue
+            if cm.get(kind) or (DATE < COMMENT_FROM and kind != 'kid'): continue
             text = comment_text(kind, info)
             if not text: continue
             try: cm[kind] = post_comment(auth, vid, text); say(kind, '댓글 달음', cm[kind])

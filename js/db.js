@@ -296,7 +296,8 @@ export async function bumpVisit() {
   // 네이버 블로그 끝 그림의 링크(omaju.kr/?from=blog)로 온 분 — 블로그가 독자를 데려오는지 보려고 (대표 2026-10-23).
   // 표시는 읽고 바로 주소에서 지운다(공유할 때 따라가지 않게).
   // 홍보국 2026-10-25: 검색(search)·카톡으로 받은 인사 카드(card)·심리 테스트 결과(psy)로 온 분도 센다 — 어디서 낯선 분이 들어오는지 보려고
-  const FROMS = ['blog', 'yt', 'search', 'card', 'psy'];
+  // 홍보국 2026-10-25: 쇼츠 '부모님께 보내 드리는 아침 잡지'(자녀 편) 댓글 링크로 온 분(kid)
+  const FROMS = ['blog', 'yt', 'search', 'card', 'psy', 'kid'];
   let from = '';
   try { const q = new URLSearchParams(location.search); const fr = q.get('from'); if (FROMS.includes(fr)) { from = fr; q.delete('from'); const r = q.toString(); history.replaceState(history.state, '', location.pathname + (r ? '?' + r : '') + location.hash); } } catch (e) {}
   try { if (localStorage.getItem('omaju.noCount') === '1') return; } catch (e) {}   // 운영자 기기 (관리자 화면에서 켬)
