@@ -2564,10 +2564,10 @@ body.in-chapter .cols-wrap { display: none; }
   background: #F9F8F6; border: 1px solid #E8E6E1; box-shadow: 0 15px 40px rgba(0,0,0,0.08); padding: 20px 22px 16px; }
 .tk-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
 .tk-k { font: 600 .84rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .02em; color: #2C4B3B; min-width: 0; white-space: nowrap; }
-.tk-live { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; background: #EEF3FB; border: 1px solid #D3E0F3; border-radius: 999px; padding: 3px 10px;
-  font: 600 .66rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .12em; color: #1F4E8C; }   /* LIVE 는 고급스러운 블루로 (대표 2026-10-25) */
-.tk-live i { width: 6px; height: 6px; border-radius: 50%; background: #2F6BC4; animation: tkPulse 2s infinite; }
-@keyframes tkPulse { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,107,196,.6); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(47,107,196,0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,107,196,0); } }
+.tk-live { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; background: #FFF3EC; border: 1px solid #F3C9B1; border-radius: 999px; padding: 3px 10px;
+  font: 700 .66rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .12em; color: #B4461C; }   /* LIVE 는 따뜻한 주황 — 머리가 하늘빛 말풍선이 되면서 블루가 묻혔다 (대표 2026-10-25) */
+.tk-live i { width: 6px; height: 6px; border-radius: 50%; background: #E8622F; animation: tkPulse 2s infinite; }
+@keyframes tkPulse { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(232,98,47,.6); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(232,98,47,0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(232,98,47,0); } }
 .tk-q { margin: 10px 0 0; padding-bottom: 14px; border-bottom: 1px solid #E8E6E1; font: 700 min(1.2rem, 5.4vw)/1.4 'Noto Serif KR', 'Nanum Myeongjo', serif; color: #222; word-break: keep-all; }
 .tk-q small { display: block; margin-top: 5px; font: 400 .84rem/1.5 Pretendard, 'Noto Sans KR', sans-serif; color: rgba(34,34,34,0.65); }
 .tk-win { position: relative; height: 10em; overflow: hidden; margin-top: 6px;
@@ -2625,5 +2625,5 @@ body.in-chapter .cols-wrap { display: none; }
 .tk-hd .tk-q { border-bottom: 0; padding-bottom: 0; color: #13283F; text-shadow: 0 1px 10px rgba(255,255,255,0.85); }
 .tk-hd .tk-k { color: #1C3B2C; text-shadow: 0 1px 8px rgba(255,255,255,0.9); }
 .tk-hd .tk-n { color: #2a3a48; text-shadow: 0 1px 8px rgba(255,255,255,0.9); }
-.tk-hd .tk-live { background: rgba(255,255,255,0.88); }
+.tk-hd .tk-live { background: #FFF3EC; box-shadow: 0 1px 4px rgba(180,70,28,0.12); }
 .tk-hd + .tk-win { margin-top: 12px; }
