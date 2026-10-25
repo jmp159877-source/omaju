@@ -10,7 +10,7 @@ import * as SOLO from './solo.js';
 let EV = null;   // 기획 칼럼은 첫 화면 맨 아래라 늦게 불러온다 — 처음에 같이 부르면 커버 단추가 밀렸다(큰 글씨 시험)
 const evMod = () => EV ? Promise.resolve(EV) : import('./ev.js').then(m => (EV = m));
 // 오마주 사랑방 (대표 2026-10-25) — 기획 연재 밑 창, 첫 화면을 다 그린 뒤에 불러온다
-let TALK = null; const talkMod = () => TALK ? Promise.resolve(TALK) : import('./talk.js?v=10251500').then(m => { TALK = m; m.init({ DB, toast, openGate, esc, TODAY, nav, listen: NB.listen, closeModal }); return m; });
+let TALK = null; const talkMod = () => TALK ? Promise.resolve(TALK) : import('./talk.js?v=10251510').then(m => { TALK = m; m.init({ DB, toast, openGate, esc, TODAY, nav, listen: NB.listen, closeModal }); return m; });
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
 const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '산 · 운동 · 마음 · 건강', 'tab-health', 4], g6: ['어쩌다 점점 집사', '댕댕이 · 냥이와 사는 이야기', 'tab-pet', 5], g7: ['혼자라서 좋은 날', '혼자일 때 더 좋은 하루', 'tab-solo', 6], g4: ['나의 수첩', '메모와 일정', 'tab-note', 7] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;
@@ -1011,7 +1011,7 @@ function route() { const k = location.hash.slice(1);
   document.body.classList.toggle('game-mode', !!GAME[cur] || cur === 'play'); if (!GAME[cur]) PLAY.stopAll();
   if (cur === 'play') PLAY.hub($('play-root'));
   if (cur && cur.startsWith('solo-')) { const sk = cur.slice(5), sc = cur; SOLO.load().then(() => { SOLO.render($('solo-' + sk), sk); if (cur === sc) setTitle(); }); }
-  if (cur === 'talk') { if (!('__tkAsk' in window)) window.__tkAsk = null; talkMod().then(m => m.renderDetail()); }
+  if (cur === 'talk') { talkMod().then(m => m.renderDetail()); } else if (TALK) TALK.clearAsk();   // 사랑방을 나가면 물음도 지운다
   if (cur === 'ev' || cur === 'ai') { const ck = cur; evMod().then(m => m.load(ck)).then(() => { EV.render($(ck + '-body'), null, ck); if (cur === ck) setTitle(); }); }
   if (cur === 'dog' || cur === 'cat') { const pk = cur; PET.load().then(() => { PET.render($('pet-' + pk), pk); if (cur === pk) setTitle(); }); }
   if (GAME[cur] && (!gameDone[cur] || cur === 'psy' || /^pt-/.test(cur))) { gameDone[cur] = true; GAME[cur](); }   /* 심리 테스트 목록·테스트는 들어올 때마다 새로 (지난 결과 반영) */ document.body.classList.toggle('in-detail', !!cur); stopRead(); if (cur) { if (DET[cur][0]) $('d-bg').style.backgroundImage = `url('img/${DET[cur][0]}.jpg?v=2')`; $('d-bg').classList.toggle('d-wide', cur === 'food');   /* 사람 있는 가로 사진은 잘리지 않게 통째로 (대표 2026-10-24) */ $('d-tag').textContent = DET[cur][1]; setTitle(); document.querySelectorAll('.dsec').forEach(s => s.classList.toggle('on', s.dataset.k === cur)); window.scrollTo(0, 0); } else if (route.y != null) window.scrollTo(0, route.y); }

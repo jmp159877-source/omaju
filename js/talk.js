@@ -96,11 +96,12 @@ async function tidy(raw) {
   } catch (e) {}
   return raw.replace(/\s+/g, ' ').trim().slice(0, 120);
 }
+export function clearAsk() { ASK = null; }
 export async function renderDetail() {
   const el = document.getElementById('talk-body'); if (!el) return;
   if (!TOPIC) TOPIC = await topic();
   if (!ALL.length) await load();
-  if ('__tkAsk' in window) { ASK = window.__tkAsk || null; delete window.__tkAsk; }   // 들어올 때마다 새로: 한 끼·한 권 물음에서 왔으면 그 물음, 아니면 없음
+  if (window.__tkAsk) { ASK = window.__tkAsk; window.__tkAsk = null; }   // 한 끼·한 권 물음에서 들어옴 (나가면 clearAsk)
   const keep = (el.querySelector('#tk-in') || {}).value || '';   // 다시 그려도 쓰던 글은 그대로
   el.innerHTML = `<div class="tk-head"><span class="tk-k">오늘의 주제</span><h3>${nw(TOPIC.q)}</h3><p>${esc(TOPIC.sub || '')}</p></div>
     ${ASK ? `<div class="tk-ask"><small>${esc(ASK.from)}에서 온 물음</small><p>${esc(ASK.q)}</p><button type="button" id="tk-ask-x" aria-label="물음 닫기">×</button></div>` : ''}
