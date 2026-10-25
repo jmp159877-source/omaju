@@ -23,7 +23,7 @@ const shown = () => { const now = Date.now(); return ALL.filter(x => (x.show_at 
 // 제목 끝 두 낱말은 붙여서 — 한 글자만 다음 줄로 떨어지지 않게
 const nw = q => esc(q).replace(/(\S+\s+\S+)$/, '<span style="white-space:nowrap">$1</span>');
 // 말풍선 (대표 2026-10-25: "생동감") — 별명 첫 글자 얼굴 + 사람마다 다른 색 + '방금·5분 전'
-const PAL = ['#F28B66', '#5BAE8C', '#6C9BD2', '#E3A33B', '#B07CC6', '#E07A9A', '#4FA3A5', '#8C9C4A', '#D9785B', '#5E8FB8'];
+const PAL = ['#C9A27E', '#8FAE9B', '#9AAFC8', '#C7A96B', '#B49AB8', '#C99A9A', '#8DB3B0', '#A7AE84', '#C4927A', '#97A9B8'];   // 바랜 색 — 원색은 촌스럽다(대표 2026-10-25)
 const col = n => PAL[[...String(n)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PAL.length];
 const ago = t => { const m = Math.max(0, Math.round((Date.now() - (t || 0)) / 60000)); return m < 1 ? '방금' : m < 60 ? m + '분 전' : Math.floor(m / 60) + '시간 전'; };
 const item = x => `<li class="tk-it${x.host ? ' tk-host' : ''}"><span class="tk-av" style="background:${x.host ? '#1F5A3E' : col(x.nick)}">${esc([...String(x.nick)][0] || '·')}</span><div class="tk-bb"><b>${esc(x.nick)}${x.host ? '<em>진행</em>' : ''}<i>${ago(x.show_at)}</i></b><p>${esc(x.text)}</p></div></li>`;
