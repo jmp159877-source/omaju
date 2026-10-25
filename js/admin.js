@@ -3,6 +3,7 @@
 function labelize(t) { const hs = [...t.querySelectorAll('th')].map(h => h.textContent); t.querySelectorAll('tr').forEach(tr => [...tr.children].forEach((td, i) => { if (td.tagName === 'TD' && hs[i]) td.dataset.l = hs[i]; })); }
 import * as DB from './db.js';
 import { DEFAULT_CONTENT } from './content.js';
+import { renderDash } from './admin_dash.js?v=10251610';
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, where, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js';
 
 const $ = id => document.getElementById(id);
@@ -30,7 +31,7 @@ async function loadDash() {
   const week = users.filter(u => u.lastSeenDay >= dayOffset(-6)).length;
   const sToday = (await getDoc(doc(db, 'stats', TODAY))).data() || {};
   const joined = users.filter(u => u.createdAt && DB.todayKey(u.createdAt.toDate()) === TODAY).sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
-  $('tiles').innerHTML = [['누적 구독자', users.length], ['오늘 방문(기기)', sToday.visits || 0], ['오늘 접속 구독자', today], ['7일 접속 구독자', week], ['오늘 구독', joined.length], ['문자 수신 동의', users.filter(u => u.marketing).length]].map(([k, v]) => `<div class="tile"><b>${v}</b><span>${k}</span></div>`).join('');
+  // 위 숫자 칸·그래프는 admin_dash.js 가 그린다 (대표 2026-10-25 "세련되게, 그래픽 차트로")
   // 오늘 가입한 사람 (운영자 2026-10-22 — 숫자만 보이니 누가 들어왔는지 회원 탭까지 가야 했다)
   const hm = t => { const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
   $('joined').innerHTML = joined.length ? '<tr><th>별명</th><th>구독 시각</th><th>성별</th><th>태어난 해</th></tr>' + joined.map(u => `<tr><td>${esc(u.nick)}</td><td>${hm(u.createdAt)}</td><td>${esc(u.gender || '')}</td><td>${u.birthYear ? u.birthYear + '년생' : ''}</td></tr>`).join('') : '<tr><td>오늘은 아직 없음</td></tr>'; labelize($('joined'));
@@ -40,15 +41,12 @@ async function loadDash() {
   const sum = (from, f) => all.filter(x => x.day >= from).reduce((t, x) => t + (x[f] || 0), 0);
   $('cumul').innerHTML = '<tr><th>기간</th><th>방문(날마다 더함)</th><th>처음 온 기기</th><th>블로그에서 옴</th><th>유튜브에서 옴</th><th>검색에서 옴</th><th>카드 받고 옴</th><th>테스트 받고 옴</th></tr>' + [['오늘', TODAY], ['창간 이후', '2026-10-22'], ['최근 30일', dayOffset(-29)], ['최근 10일', dayOffset(-9)], ['최근 7일', dayOffset(-6)]]
     .map(([k, from]) => `<tr><td>${k}</td><td>${sum(from, 'visits').toLocaleString()}</td><td>${sum(from, 'newDevices').toLocaleString()}</td><td>${sum(from, 'blog').toLocaleString()}</td><td>${sum(from, 'yt').toLocaleString()}</td><td>${sum(from, 'search').toLocaleString()}</td><td>${sum(from, 'card').toLocaleString()}</td><td>${sum(from, 'psy').toLocaleString()}</td></tr>`).join(''); labelize($('cumul'));
-  const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
-  const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
-  const max = Math.max(1, ...stats.map(s => s.visits || 0));
-  $('chart').innerHTML = stats.map((s, i) => `<div style="height:${(s.visits || 0) * 100 / max}%" data-v="${s.visits || 0}" title="${days[i]}"></div>`).join('');
-  const clicks = Object.entries(sToday.clicks || {}).sort((a, b) => b[1] - a[1]);
-  const NAMES = { greeting: '인사말', fortune: '운세', dream: '꿈 해몽', luck: '운세 · 꿈 해몽', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: '오늘 PLAY', history: '그해 오늘', music: '그 시절 노래', story: '사연', follow: '따라하기', show: '무엇을 볼까', outing: '나들이', phrase: '여행', garden: '오늘의 정원', hike: '오늘의 산', move: '몸 풀기', mind: '마음 한 줄', body: '몸 한 가지', home: '그 동네 지금' };
-  $('clicks').innerHTML = '<tr><th>코너</th><th>클릭</th></tr>' + (clicks.map(([k, v]) => `<tr><td>${NAMES[k] || k}</td><td>${v}</td></tr>`).join('') || '<tr><td colspan="2">아직 없음</td></tr>'); labelize($('clicks'));
-  const reg = {}; users.forEach(u => { const r = (u.region || '미입력').split(' ')[0]; reg[r] = (reg[r] || 0) + 1; });
-  $('regions').innerHTML = '<tr><th>지역</th><th>구독자</th></tr>' + Object.entries(reg).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join(''); labelize($('regions'));
+  const NAMES = { greeting: '인사말', fortune: '운세', dream: '꿈 해몽', luck: '운세 · 꿈 해몽', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: '오늘 PLAY', history: '그해 오늘', music: '그 시절 노래', talk: '사랑방', ev: '전기차 시대', ai: 'AI 시대', dog: '댕댕이', cat: '냥이', pick: '추천 음악', psy: '심리 테스트', mind: '마음 한 줄', body: '몸 한 가지', hike: '오늘의 산', move: '몸 풀기', show: '무엇을 볼까', outing: '나들이', phrase: '여행', follow: '따라하기', story: '사연' };
+  const start = dayOffset(-29) > '2026-10-22' ? dayOffset(-29) : '2026-10-22';
+  const days30 = []; for (let d = new Date(start + 'T12:00:00'); DB.todayKey(d) <= TODAY; d.setDate(d.getDate() + 1)) days30.push(DB.todayKey(d));
+  const stats = {}; all.forEach(x => { stats[x.day] = x; });
+  const U = users.map(u => ({ joined: u.createdAt && u.createdAt.toDate ? DB.todayKey(u.createdAt.toDate()) : '', gender: u.gender, birthYear: u.birthYear, region: u.region, lastSeenDay: u.lastSeenDay }));
+  try { renderDash($('dash-board'), { users: U, stats, today: TODAY, days30, joinedToday: joined, clicks: sToday.clicks || {}, names: NAMES }); } catch (e) { console.error(e); $('dash-board').innerHTML = '<p class="note">현황 그림을 그리지 못했어요: ' + esc(e.message) + '</p>'; }
 }
 
 // 이 기기는 방문 수에서 빼기 (운영자 2026-10-22 — 운영자 폰·PC 가 하루 방문 수에 섞였다)
