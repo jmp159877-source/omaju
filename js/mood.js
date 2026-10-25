@@ -2,7 +2,8 @@
 //  · 음악은 tools/mood_music.py 가 구글 Lyria 로 만든 것 — 저작권·광고 걱정 없음. 파일은 mood 가지(jsDelivr).
 //  · 이 칸만은 화면을 꺼도·다른 앱으로 가도 계속 나온다(대표: "잠가도 계속"). 잠금 화면에 곡 이름·멈춤·앞뒤·끄기.
 //  · 소리는 언제나 하나만: 오프닝·유튜브 등 다른 소리가 나면 멎고, 이걸 틀면 다른 소리가 멎는다.
-const BASES = ['https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@mood/', 'https://raw.githubusercontent.com/jmp159877-source/omaju/mood/'];
+// 깃허브 원본을 먼저(audio/mpeg 로 주는 것 확인), jsDelivr 는 예비 — 곡이 많아 jsDelivr 크기 한도에 걸릴 수 있다
+const BASES = ['https://raw.githubusercontent.com/jmp159877-source/omaju/mood/', 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@mood/'];
 export const MOODS = [
   ['walk', '산책', '기분 좋은 어쿠스틱'], ['hike', '등산', '발걸음 가벼운'], ['exercise', '운동', '신나는 리듬'], ['drive', '운전', '감미로운 그루브'],
   ['rest', '휴식', '잔잔한 피아노'], ['work', '업무', '집중을 돕는'], ['travel', '여행', '창밖 보며 듣는'],
