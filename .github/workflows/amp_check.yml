@@ -10,7 +10,7 @@ jobs:
       - name: AMP 검사
         run: |
           set +e
-          ls stories/*.html | tail -4 > /tmp/list
+          ls stories/greet-*.html | tail -2 > /tmp/list; ls stories/fortune-*.html | tail -2 >> /tmp/list
           npx -y amphtml-validator $(cat /tmp/list) > tools/last-amp.log 2>&1
           echo "exit $?" >> tools/last-amp.log; cat tools/last-amp.log
       - name: 기록

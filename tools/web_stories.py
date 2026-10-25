@@ -32,6 +32,8 @@ CSS = ('amp-story{font-family:"Nanum Myeongjo",serif;color:#fff}'
        '.zt{font-size:19px;line-height:1.65;margin:18px 0 0;font-weight:700}'
        '.zd{font-size:15px;line-height:1.6;margin:18px 0 0;color:#F9E9A8}'
        '.zl{font-size:13px;opacity:.8;margin:16px 0 0}'
+       '.cv{width:58%;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.35);transform:rotate(-3deg)}'
+       '.shade{background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(10,40,28,.85) 100%)}'
        '.logo{width:120px;margin:0 auto;background:#fff;border-radius:16px;padding:10px}')
 
 
@@ -100,9 +102,9 @@ def build(root, today, days=30):
             url = f'{SITE}/stories/greet-{d}.html'
             title = f'{md} {wd} 좋은 아침 인사 이미지 {len(G)}장'
             desc = f'카톡으로 보내기 좋은 {md} {wd} 아침 인사 카드. ' + ' / '.join(g.replace(chr(10), ' ') for g in G)[:100]
-            pages = ['<amp-story-page id="cover"><amp-story-grid-layer template="fill">'
-                     f'<amp-img src="{SITE}/{poster}" width="720" height="960" layout="responsive" alt="{e(title)}"></amp-img></amp-story-grid-layer>'
-                     '<amp-story-grid-layer template="vertical" class="cap"><div>'
+            pages = ['<amp-story-page id="cover"><amp-story-grid-layer template="fill" class="bg"></amp-story-grid-layer>'
+                     '<amp-story-grid-layer template="vertical" class="mid"><div>'
+                     f'<div class="cv"><amp-img src="{SITE}/{files[0]}" width="1200" height="1500" layout="responsive" alt="{e(title)}"></amp-img></div>'
                      f'<p class="date">{e(md)} {e(wd)}</p><p class="h1">좋은 아침<br>인사 이미지 {len(G)}장</p><p class="p">카톡으로 바로 보내기 좋은 오늘의 카드</p></div></amp-story-grid-layer></amp-story-page>']
             for i, (x, g) in enumerate(zip(files, G)):
                 pages.append(f'<amp-story-page id="c{i + 1}"><amp-story-grid-layer template="fill" class="bg"></amp-story-grid-layer>'
@@ -122,6 +124,7 @@ def build(root, today, days=30):
             poster = 'stories/img/fortune-poster.jpg'
             pages = ['<amp-story-page id="cover"><amp-story-grid-layer template="fill">'
                      f'<amp-img src="{SITE}/{poster}" width="720" height="960" layout="responsive" alt="{e(title)}"></amp-img></amp-story-grid-layer>'
+                     '<amp-story-grid-layer template="fill" class="shade"></amp-story-grid-layer>'
                      '<amp-story-grid-layer template="vertical" class="cap"><div>'
                      f'<p class="date">{e(md)} {e(wd)}</p><p class="h1">띠별<br>오늘의 운세</p><p class="p">쥐띠부터 돼지띠까지, 넘겨 보세요</p></div></amp-story-grid-layer></amp-story-page>']
             for i, z in enumerate(ORDER):
