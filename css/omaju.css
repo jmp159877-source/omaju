@@ -2685,3 +2685,6 @@ body.mz-on { padding-bottom: 76px; }
 .tk-live, .tk-hd .tk-live { background: #EEF4FF; border-color: #BFD3F5; color: #1D4FA0; box-shadow: 0 1px 4px rgba(29,79,160,0.12); }
 .tk-live i { background: #2F6FE0; animation-name: tkPulseB; }
 @keyframes tkPulseB { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,111,224,.6); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(47,111,224,0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,111,224,0); } }
+/* 사랑방 머리 글씨를 또렷하게 (대표 2026-10-25 22:40) — 이름은 '전기차 시대' 칸 제목과 같은 크기·굵은 고딕, 이름·주제 모두 진한 검정 */
+.tk-hd .tk-k { font-family: 'Noto Sans KR', sans-serif; font-size: 1.15rem; font-weight: 700; line-height: 1.38; color: #111; text-shadow: none; padding: 4px 11px; }
+.tk-hd .tk-q { color: #111; font-weight: 800; text-shadow: 0 0 12px rgba(255,255,255,.95), 0 0 3px rgba(255,255,255,.9); }
