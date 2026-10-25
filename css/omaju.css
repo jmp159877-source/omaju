@@ -2645,8 +2645,8 @@ body.in-chapter .cols-wrap { display: none; }
 .mz-lead { margin: 0 0 14px; color: #5B655F; font-size: .92rem; line-height: 1.55; word-break: keep-all; }
 .mz-lead b { color: #1F5A43; }
 .mz-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.mz-c { position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; text-align: left; background: #fff; border: 1px solid #E7E1D3; border-radius: 14px; padding: 14px 44px 12px 14px; min-width: 0; color: #1F2A24; font: inherit; cursor: pointer; word-break: keep-all; }
-.mz-c b { display: block; font: 700 1.12rem 'Noto Serif KR', 'Nanum Myeongjo', serif; }
+.mz-c { position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; text-align: left; background: #fff; border: 1px solid #E7E1D3; border-radius: 14px; padding: 14px 40px 12px 14px; min-width: 0; color: #1F2A24; font: inherit; cursor: pointer; word-break: keep-all; }
+.mz-c b { display: block; font: 700 1.02rem/1.35 'Noto Serif KR', 'Nanum Myeongjo', serif; }
 .mz-c small { display: block; color: #6B756F; font-size: .82rem; margin-top: 4px; line-height: 1.45; }
 .mz-c i { position: absolute; right: 12px; top: 12px; width: 30px; height: 30px; border-radius: 50%; background: #F9E9A8; color: #3A2E00; font-style: normal; display: flex; align-items: center; justify-content: center; }
 .mz-c em { display: block; font-style: normal; color: #1F5A43; font-size: .78rem; margin-top: 6px; }

@@ -429,13 +429,13 @@ srv.listen(0, '127.0.0.1', async () => {
         if (r.blurb < 60 || r.scene < 40) return `소개 ${r.blurb}자 · 대목 ${r.scene}자`;
         if (r.links.length < 3 || !r.links.some(u => /kyobobook/.test(u)) || !r.links.some(u => /aladin/.test(u))) return '서점 고리: ' + r.links.length;
         return (r.why && r.note) || JSON.stringify({ why: r.why, note: r.note }); });
-      await step('오늘의 추천 음악: 한 곡 · 눌러 듣기 · 닫으면 멎음', async () => { await E(() => window.omajuNav('pick')); await W(1200);
+      await step('오늘의 음악과 함께: 추천 한 곡 · 눌러 듣기 · 닫으면 멎음 · 칸 제목은 곡 이름 아님', async () => { await E(() => window.omajuNav('pick')); await W(1200);
         const r = await E(() => ({ t: (document.querySelector('.pk-title') || {}).textContent || '', v: !!document.querySelector('.pk-vid'), hook: (document.querySelector('[data-open="pick"] h3') || {}).textContent || '' }));
         if (!r.t || !r.v) return JSON.stringify(r);
         await E(() => document.querySelector('.pk-vid').click()); await W(600);
         const on = await E(() => !!document.querySelector('#modal iframe')); await closeM(); await W(400);
         const left = await E(() => !!document.querySelector('#modal iframe'));
-        return (on && !left && r.hook === r.t) || JSON.stringify({ ...r, on, left });
+        return (on && !left && /틀어 두세요/.test(r.hook)) || JSON.stringify({ ...r, on, left });
       });
       await step('이번 주 무엇을 볼까: 예고편 눌러 보기 · 닫으면 멎음', async () => { await E(() => window.omajuNav('show')); await W(600);
         await E(() => { const b = document.createElement('button'); b.className = 'sw-vid'; b.dataset.swv = 'TESTvid0001'; b.dataset.swt = '시험 예고편'; b.id = 'sw-test'; document.getElementById('show-body').prepend(b); b.click(); }); await W(600);

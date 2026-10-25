@@ -1036,7 +1036,7 @@ function pickToday() {
 function renderPick() {
   const p = pickToday(); const body = $('pick-body');
   if (!p) { if (body) body.innerHTML = '<p class="note" style="margin-top:30px">오늘의 한 곡을 고르는 중입니다. 잠시 뒤에 다시 들러 주세요.</p>' + MOOD.html(); try { MOOD.paint(); } catch (e) {} return; }
-  try { HOOKS.apply({ pick: { kick: '오늘의 음악과 함께 · ' + p.a, hook: p.t, sub: p.note } }); } catch (e) {}
+  try { HOOKS.apply({ pick: { kick: '오늘의 음악과 함께', hook: '이어폰 꽂고, 그냥 틀어 두세요', sub: '오늘의 추천 곡 한 곡 · 분위기별 연주곡을 끊김 없이' } }); } catch (e) {}   // 칸에는 곡 이름을 내세우지 않는다 (대표 2026-10-25)
   if (body) body.innerHTML = `<div class="pk-card"><span class="pk-sec">오늘의 추천 음악</span><p class="pk-meta">${esc(p.a)}${p.y ? ' · ' + p.y : ''}</p><h2 class="pk-title">${esc(p.t)}</h2><p class="pk-note">${esc(p.note || '')}</p>`
     + `<button type="button" class="sw-vid pk-vid" data-swv="${esc(p.v)}" data-swt="${esc(p.t + ' · ' + p.a)}" aria-label="${esc(p.t)} 듣기"><img src="https://i.ytimg.com/vi/${encodeURIComponent(p.v)}/hqdefault.jpg" alt="" loading="lazy"><span class="sw-play"><i>▶</i>지금 듣기</span></button>`
     + `<p class="note">음반사·가수 공식 영상으로 틉니다. 매일 아침 새 곡이 올라와요.</p></div>`
