@@ -6,7 +6,14 @@ let DB, toast, openGate, esc, TODAY, nav;
 let TOPIC = null, ALL = [], timer = null, poll = null, idx = 0;
 const STEP = 3600;   // 한 칸 머무는 시간(ms)
 
-export function init(o) { ({ DB, toast, openGate, esc, TODAY, nav } = o); load().then(() => { mount(); start(); }); }
+// 글꼴은 사랑방이 뜰 때만 (대표 2026-10-25 시안: 제목 Noto Serif KR · 본문 Pretendard) — 첫 화면 속도에 영향 없게
+function fonts() {
+  if (document.getElementById('tk-fonts')) return;
+  const a = document.createElement('link'); a.id = 'tk-fonts'; a.rel = 'stylesheet'; a.href = 'https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&display=swap';
+  const b = document.createElement('link'); b.rel = 'stylesheet'; b.href = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-subset.css';
+  document.head.append(a, b);
+}
+export function init(o) { ({ DB, toast, openGate, esc, TODAY, nav } = o); fonts(); load().then(() => { mount(); start(); }); }
 
 async function topic() {
   try {
@@ -26,7 +33,7 @@ const nw = q => esc(q).replace(/(\S+\s+\S+)$/, '<span style="white-space:nowrap"
 const PAL = ['#C9A27E', '#8FAE9B', '#9AAFC8', '#C7A96B', '#B49AB8', '#C99A9A', '#8DB3B0', '#A7AE84', '#C4927A', '#97A9B8'];   // 바랜 색 — 원색은 촌스럽다(대표 2026-10-25)
 const col = n => PAL[[...String(n)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PAL.length];
 const ago = t => { const m = Math.max(0, Math.round((Date.now() - (t || 0)) / 60000)); return m < 1 ? '방금' : m < 60 ? m + '분 전' : Math.floor(m / 60) + '시간 전'; };
-const item = x => `<li class="tk-it${x.host ? ' tk-host' : ''}"><span class="tk-av" style="background:${x.host ? '#1F5A3E' : col(x.nick)}">${esc([...String(x.nick)][0] || '·')}</span><div class="tk-bb"><b>${esc(x.nick)}${x.host ? '<em>진행</em>' : ''}<i>${ago(x.show_at)}</i></b><p>${esc(x.text)}</p></div></li>`;
+const item = x => `<li class="tk-it${x.host ? ' tk-host' : ''}"><div class="tk-bb"><b><span>${esc(x.nick)}</span>${x.host ? '<em>진행</em>' : ''}<i>${ago(x.show_at)}</i></b><p>${esc(x.text)}</p></div></li>`;
 
 function mount() {
   const box = document.getElementById('talk-box'); if (!box) return;
@@ -44,10 +51,10 @@ function reel() {
 function paint(reset) {
   const ul = document.querySelector('#talk-box .tk-reel'); if (!ul) return;
   const r = reel(), n = document.querySelector('#talk-box .tk-n');
-  if (n) { const c = shown().length; n.textContent = c ? `오늘 ${c}개의 이야기` : '첫 이야기를 남겨 주세요'; }
+  if (n) { const c = shown().length; n.innerHTML = c ? `오늘 <b>${c}개</b>의 이야기` : '첫 이야기를 남겨 주세요'; }
   if (!r.length) { ul.innerHTML = '<li class="tk-it tk-empty"><p>아직 조용해요. 첫 이야기를 남겨 주세요.</p></li>'; return; }
   // 끝없이 도는 띠: 두 벌 이어 붙이고 한 칸씩 올린다
-  ul.innerHTML = [...r, ...r].map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : x.typing ? '<li class="tk-it tk-typing"><span class="tk-dots"><i></i><i></i><i></i></span><small>누군가 쓰고 있어요</small></li>' : item(x)).join('');
+  ul.innerHTML = [...r, ...r].map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : x.typing ? '<li class="tk-it tk-typing"><small>누군가 이야기를 쓰고 있어요</small><span class="tk-dots"><i></i><i></i><i></i></span></li>' : item(x)).join('');
   if (reset) { idx = 0; ul.style.transition = 'none'; ul.style.transform = 'translateY(0)'; }
   ul.dataset.len = r.length;
 }
