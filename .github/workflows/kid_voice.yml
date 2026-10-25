@@ -1,0 +1,25 @@
+name: 쇼츠 자녀 편 목소리
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: '대본(비우면 기본)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 목소리 만들기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          KID_SCRIPT: ${{ inputs.script }}
+        run: python3 -u tools/kid_voice.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'; test -f out_kid/kid.wav
+      - name: kid-voice 가지에 올리기
+        run: |
+          mkdir -p /tmp/k && cp out_kid/* /tmp/k/
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git checkout --orphan kid-voice && git rm -rqf . && cp /tmp/k/* . && git add -A && git commit -qm "자녀 편 목소리 [skip ci]" && git push -f origin kid-voice
