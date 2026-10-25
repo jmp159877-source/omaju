@@ -1,0 +1,23 @@
+# 홍보국 주간 숫자 — 읽기만 (2026-10-26). 결과는 logs 가지 tools/last-pr-stats.json
+name: pr_stats
+on: { workflow_dispatch: {} }
+permissions: { contents: write }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q google-cloud-firestore
+      - env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python3 -u tools/pr_stats.py
+      - if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-pr-stats.json
