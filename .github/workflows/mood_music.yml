@@ -2,14 +2,15 @@ name: 오늘의 음악과 함께 견본
 on:
   workflow_dispatch:
     inputs:
-      only: { description: 'walk,drive,rest,work,exercise', required: false, default: 'walk' }
-      takes: { description: '만들어 볼 횟수', required: false, default: '3' }
+      only: { description: 'walk,hike,exercise,drive,rest,work,travel (비우면 전부)', required: false, default: '' }
+      takes: { description: '상황마다 만들어 볼 횟수', required: false, default: '11' }
+      keep: { description: '상황마다 남길 곡', required: false, default: '8' }
 permissions:
   contents: write
 jobs:
   make:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
@@ -18,11 +19,14 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ONLY: ${{ inputs.only }}
           TAKES: ${{ inputs.takes }}
-        run: python3 -u tools/mood_music.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -60
-      - name: mood-try 가지에 올리기
+          KEEP: ${{ inputs.keep }}
+        run: python3 -u tools/mood_music.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -150
+      - name: mood 가지에 올리기 (사이트는 jsDelivr 로 여기서 받는다)
         if: always()
         run: |
-          mkdir -p /tmp/m && cp out_mood/* /tmp/m/ 2>/dev/null; rm -f /tmp/m/_c.mp3
+          rm -f out_mood/_raw.mp3 out_mood/_c.mp3
+          mkdir -p /tmp/m && cp -r out_mood/. /tmp/m/
           git config user.name omaju-bot; git config user.email bot@omaju.kr
-          git checkout --orphan mood-try -f && git rm -rqf .
-          cp /tmp/m/* . 2>/dev/null; git add -A && git commit -qm "음악 견본 [skip ci]" && git push -f origin mood-try
+          git checkout --orphan mood -f && git rm -rqf .
+          cp -r /tmp/m/. . && printf '%s\n' '{ "git": { "deploymentEnabled": false } }' > vercel.json
+          git add -A && git commit -qm "오늘의 음악과 함께 [skip ci]" && git push -f origin mood
