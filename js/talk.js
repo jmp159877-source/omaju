@@ -22,6 +22,8 @@ async function topic() {
     return t.topics[((i % t.topics.length) + t.topics.length) % t.topics.length];
   } catch (e) { return { q: '오늘의 이야기', sub: '한 줄이면 충분해요' }; }
 }
+let lastRead = Date.now(), lastAct = Date.now();
+['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(e => addEventListener(e, () => { lastAct = Date.now(); }, { passive: true }));
 async function load() {
   if (!TOPIC) TOPIC = await topic();
   ALL = await DB.listTalk(TODAY);
@@ -70,9 +72,17 @@ function start() {
   stop();
   const ul = document.querySelector('#talk-box .tk-reel'); if (ul) [...ul.children].forEach((li, i) => li.classList.toggle('in', i < 2));
   timer = setInterval(() => { if (document.hidden) return; tick(); }, STEP);
-  // 새 글 확인: 30초마다(화면이 보일 때만), 채움 글이 시간 되어 떠오르는 것도 이때 반영
+  // 30초마다: 채움 글이 시간 되어 떠오르는 것은 이미 받아 둔 목록으로 반영(읽기 없음).
+  // 서버에서 새 글을 다시 읽는 것은 3분에 한 번, 사랑방이 화면에 보일 때만, 30분 넘게 손대지 않으면 멈춤.
+  // (2026-10-26: 30초마다 오늘 글 전부를 다시 읽어 Firestore 하루 읽기 한도를 넘겼다 — 화면을 켜 둔 한 사람이 한 시간에 수천 번)
   let last = shown().length;
-  poll = setInterval(async () => { if (document.hidden) return; await load(); const c = shown().length; if (c !== last) { last = c; paint(true); } if (location.hash === '#talk') renderList(); }, 30000);
+  poll = setInterval(async () => {
+    if (document.hidden) return;
+    const box = document.getElementById('talk-box'), r = box && box.getBoundingClientRect();
+    const seen = location.hash === '#talk' || (r && r.bottom > 0 && r.top < innerHeight);
+    if (seen && Date.now() - lastRead > 180000 && Date.now() - lastAct < 1800000) { await load(); lastRead = Date.now(); }
+    const c = shown().length; if (c !== last) { last = c; paint(true); } if (location.hash === '#talk') renderList();
+  }, 30000);
 }
 function stop() { clearInterval(timer); clearInterval(poll); }
 
