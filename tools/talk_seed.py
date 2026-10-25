@@ -1,6 +1,6 @@
 # 오마주 사랑방 — 그날 주제로 첫 글을 채워 둔다 (대표 2026-10-25: "손님 없는 식당엔 안 들어간다. 처음엔 채워 두고, 진짜 글이 많아지면 한꺼번에 지운다")
 # Firestore talk/{id}: {date, nick, text, ts, show_at(ms), seed:true, host:bool, reports:0, hidden:false, uid:'seed'}
-#   · 한꺼번에 뜨지 않게 show_at 을 06:00~23:00, 한 시간에 세 개쯤씩 흩어 놓는다 — 화면은 show_at 이 지난 것만 보여 준다.
+#   · 한꺼번에 뜨지 않게 show_at 을 흩어 놓는다 — 00~06시 매시 하나, 06:00 진행자, 06~24시 매시 세 개 — 화면은 show_at 이 지난 것만 보여 준다.
 #   · seed:true 로 표시해 두어 관리자 화면에서 진짜 독자 글과 가르고, 나중에 한 번에 지운다(--purge).
 #   · 채움 글은 그날 주제에 대한 사람 사는 이야기만. 오마주 칭찬·광고 같은 글은 쓰지 않는다.
 # 쓰는 법: python3 tools/talk_seed.py [YYYY-MM-DD] [--n 10] [--purge 날짜|all] [--dry]
@@ -12,7 +12,7 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 args = [a for a in sys.argv[1:] if not a.startswith('--')]
 DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
-N = int(sys.argv[sys.argv.index('--n') + 1]) if '--n' in sys.argv else 51   # 하루 50여 개 (대표 2026-10-25)
+N = int(sys.argv[sys.argv.index('--n') + 1]) if '--n' in sys.argv else 60   # 새벽 6개 + 06~23시 매시 3개 (대표 2026-10-25)
 
 # 50~60대가 실제로 쓸 법한 별명들 — 날마다 이 가운데서 고른다(단골처럼 다시 보이는 이름도 생긴다)
 NICKS = ['들꽃향기', '부산갈매기63', '은행나무길', '바람의언덕', '커피한잔', '해피맘', '소나무', '청솔', '하늘바다', '산사랑',
@@ -99,12 +99,16 @@ def make(d, db=None):
     return tp, posts
 
 def stagger(d, n):
-    # 대표 2026-10-25: 아침 6시부터 한 시간에 세 개쯤씩 — 06:00 진행자 첫 글, 그다음 06~22시 매시 세 개(분은 흩어서)
-    rnd = random.Random(d + 'time'); base = datetime.datetime.fromisoformat(d + 'T06:00:00+09:00')
-    slots = [0]
-    for h in range(17):
-        for m in sorted(rnd.sample(range(2, 58), 3)): slots.append(h * 60 + m)
-    slots = sorted(slots)[:n]
+    # 대표 2026-10-25: 밤 12시~아침 6시는 한 시간에 하나, 06:00 진행자 첫 글, 그다음 06~23시 매시 세 개(분은 흩어서)
+    # 첫 글은 00:20 에 채우므로 0시대 글은 25분 뒤로
+    rnd = random.Random(d + 'time'); base = datetime.datetime.fromisoformat(d + 'T00:00:00+09:00')
+    night = [h * 60 + rnd.randint(25 if h == 0 else 5, 55) for h in range(6)]
+    day = []
+    for h in range(6, 24):
+        day += [h * 60 + m for m in sorted(rnd.sample(range(2, 58), 3))]
+    # posts[0] 은 진행자 글 → 06:00. 나머지는 새벽 → 낮 순서로
+    slots = [6 * 60] + night + day
+    slots = slots[:n]
     while len(slots) < n: slots.append(slots[-1] + rnd.randint(3, 12))
     return [int((base + datetime.timedelta(minutes=m)).timestamp() * 1000) for m in slots]
 
