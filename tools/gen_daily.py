@@ -14,23 +14,18 @@ GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 MODELS = ["gemini-3-flash-preview", "gemini-2.5-flash", "gemini-2.0-flash"]  # 목록 조회가 안 될 때의 예비
 
 def list_models():
-    """구글에서 지금 쓸 수 있는 Flash 모델을 최신순으로 고른다 (이름이 바뀌어도 코드를 안 고치게)."""
+    """글쓰기 모델 — models.WRITE 로 못 박는다 (2026-10-26 비용: '가장 새 Flash'로 저절로 올라타 3.8 이 되고,
+    3.8 이 시간 초과로 실패하면 3.7·3.6 으로 같은 글을 다시 써서 돈이 두세 배 나갔다). 살아 있는 것만, 순서 그대로."""
+    from models import WRITE
     try:
         with urllib.request.urlopen(f"https://generativelanguage.googleapis.com/v1beta/models?key={GEMINI_KEY}&pageSize=200", timeout=30) as r:
-            ms = json.load(r).get("models", [])
-        names = [m["name"].split("/")[-1] for m in ms if "generateContent" in m.get("supportedGenerationMethods", [])]
-        flash = [n for n in names if "flash" in n and "lite" not in n and "image" not in n and "tts" not in n and "live" not in n and "audio" not in n]
-        def ver(n):
-            m = re.search(r"gemini-(\d+)(?:\.(\d+))?", n); return (int(m.group(1)), int(m.group(2) or 0), 0 if "preview" in n or "exp" in n else 1) if m else (0, 0, 0)
-        flash.sort(key=ver, reverse=True)
-        picked = flash[:3]
-        if not picked:
-            picked = MODELS
-        print("[models]", picked[:4])
-        return picked
+            names = {m["name"].split("/")[-1] for m in json.load(r).get("models", [])}
+        picked = [m for m in WRITE if m in names] or list(WRITE)
     except Exception as e:
-        print("[models] 목록 조회 실패, 예비 목록 사용:", e, file=sys.stderr)
-        return MODELS
+        print("[models] 목록 조회 실패, 못 박은 이름 그대로:", e, file=sys.stderr)
+        picked = list(WRITE)
+    print("[models]", picked)
+    return picked
 
 ZODIAC = ["쥐", "소", "호랑이", "토끼", "용", "뱀", "말", "양", "원숭이", "닭", "개", "돼지"]
 QUIZ_KINDS = ["사자성어", "속담", "우리말", "상식", "역사"]
@@ -73,10 +68,13 @@ QUALITY = """
 평론·서평에서나 쓰는 어려운 낱말(톺아보다·천착하다·반추하다·조응하다·궁구하다 같은)은 쓰지 않는다. 소리 내어 읽었을 때 바로 알아듣는 말로 (대표 2026-10-23: '톺아봅니다'를 오타로 읽음).
 '시니어·어르신·노인·치매·두뇌·은퇴' 같은 말은 쓰지 않는다."""
 
+sys.path.insert(0, HERE)
+from models import lean, LEAN
+
 def gemini(prompt, json_mode=True, search=False, max_retry=None, timeout=None):
     """Gemini REST 호출. json_mode면 JSON 객체를 파싱해 돌려준다."""
     if max_retry is None:
-        max_retry = 1 if search else 4
+        max_retry = 1 if search else 2   # 4 → 2 (2026-10-26 비용: 시간 초과로 끊겨도 요금은 나간다)
     if not GEMINI_KEY:
         raise RuntimeError("GEMINI_API_KEY 없음")
     prompt = prompt + "\n" + QUALITY
@@ -94,6 +92,7 @@ def gemini(prompt, json_mode=True, search=False, max_retry=None, timeout=None):
                 body["generationConfig"]["responseMimeType"] = "application/json"
             if search:
                 body["tools"] = [{"google_search": {}}]
+            lean(body, model)   # 생각 양 '낮음' (2026-10-26 비용)
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_KEY}"
             req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
             _pace()
@@ -114,6 +113,8 @@ def gemini(prompt, json_mode=True, search=False, max_retry=None, timeout=None):
                         gemini.models.remove(model)  # 없어진 모델은 이후 건너뜀
                     break
                 if e.code == 400:
+                    if "thinking" in detail.lower() and LEAN[0]:
+                        LEAN[0] = False; print("[gemini] 생각 양 설정을 받지 않음 — 끄고 다시", file=sys.stderr); continue
                     break
                 if e.code == 429:
                     time.sleep(_retry_delay(detail)); continue

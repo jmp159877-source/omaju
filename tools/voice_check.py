@@ -10,11 +10,10 @@ def transcribe(key, pcm):
     body = {'contents': [{'parts': [{'inline_data': {'mime_type': 'audio/wav', 'data': base64.b64encode(buf.getvalue()).decode()}},
              {'text': '이 한국어 음성을 들리는 그대로 받아써 주세요. 숫자도 들리는 소리 그대로 한글로 적고(예: 천이백삼), 반복되면 반복된 대로 적으세요. 받아쓴 글만 답하세요.'}]}],
             'generationConfig': {'temperature': 0}}
-    from models import pick
-    for m in pick('flash', ('gemini-2.5-flash', 'gemini-3-flash-preview'))[:3]:
+    from models import pick, call
+    for m in pick('flash')[:2]:   # 값싼 모델로 못 박음 (2026-10-26 비용)
         try:
-            req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={key}', data=json.dumps(body).encode(), headers={'Content-Type': 'application/json'})
-            with urllib.request.urlopen(req, timeout=120) as r: return json.load(r)['candidates'][0]['content']['parts'][0]['text'].strip()
+            return call(m, json.loads(json.dumps(body)), key, 120)['candidates'][0]['content']['parts'][0]['text'].strip()
         except Exception: continue
     return None
 def check(key, pcm, script):

@@ -4,7 +4,8 @@
 import os, sys, json, re, time, wave, base64, subprocess, urllib.request, datetime, glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from voice_check import check
-from models import pick
+from models import pick, lean, LEAN
+import urllib.error
 
 KEY = os.environ['GEMINI_API_KEY']
 MEDIA = os.environ.get('MEDIA_DIR', 'media')
@@ -84,8 +85,16 @@ LOG = []
 def say(*a): s = ' '.join(map(str, a)); print(s); LOG.append(s)
 
 def post(url, body, timeout=180):
+    m = re.search(r'models/([^:]+):', url); m = m.group(1) if m else ''
+    lean(body, m)   # 생각 양 '낮음' (2026-10-26 비용 — 목소리 모델에는 붙지 않는다)
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={'Content-Type': 'application/json'})
-    with urllib.request.urlopen(req, timeout=timeout) as r: return json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r: return json.load(r)
+    except urllib.error.HTTPError as e:
+        if e.code == 400 and LEAN[0] and 'thinkingConfig' in (body.get('generationConfig') or {}):
+            LEAN[0] = False; body['generationConfig'].pop('thinkingConfig', None); say('생각 양 설정을 받지 않음 — 끄고 다시')
+            return post(url, body, timeout)
+        raise
 
 # ── 1) 대본 ──
 def prev_next_title():
@@ -197,8 +206,11 @@ WD_THEME = {0: '한 주를 여는 문장', 1: '그해 오늘', 2: '오늘 쓸 �
             4: '이번 주말에 볼 만한 것', 5: '주말 아침의 가벼운 이야기', 6: '한 주를 닫는 차분한 이야기'}
 
 
+SCRIPT_MODELS = ('gemini-3.1-pro-preview', 'gemini-3.8-flash')
+CHECK_MODELS = ('gemini-3-flash-preview', 'gemini-3.8-flash')
+
 def gemini_json(prompt):
-    for m in pick('pro', ('gemini-3-pro-preview', 'gemini-2.5-pro', 'gemini-2.5-flash'))[:4]:
+    for m in SCRIPT_MODELS:   # 대본은 3.1 Pro (생각 '낮음'), 안 되면 3.8 Flash 하나만 — 저절로 바뀌지 않게 못 박음 (2026-10-26 비용)
         try:
             d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
                      {'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json', 'temperature': 0.9}}, 240)
@@ -217,7 +229,7 @@ def fact_check(s):
               '과장(\"세계를 뒤흔든\" 같은)이 사실을 바꿀 정도면 틀린 것으로 본다. 지어낸 인물이거나 확인되지 않으면 틀린 것이다.\n'
               + '\n'.join(f'[{sl}] {t}' for sl, t in stories.items()) +
               '\n형식(JSON만): {"morning":{"who":"인물","ok":true,"why":"틀렸으면 무엇이 왜"}, "noon":{...}, "evening":{...}}')
-    for m in pick('pro', ('gemini-2.5-pro', 'gemini-2.5-flash'))[:3]:
+    for m in CHECK_MODELS:   # 사실 확인은 검색이 일을 하므로 값싼 3 Flash 로 (예전엔 3.1 Pro — 2026-10-26 비용)
         try:
             d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
                      {'contents': [{'parts': [{'text': prompt}]}], 'tools': [{'google_search': {}}], 'generationConfig': {'temperature': 0}}, 240)

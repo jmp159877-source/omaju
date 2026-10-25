@@ -86,10 +86,8 @@ def make_hook(story, title):
                       '형식: {"l1":"...","l2":"..."}\n\n자막: ' + story)
             for m in pick('flash')[:3]:
                 try:
-                    req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={key}',
-                        data=json.dumps({'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json'}}).encode(),
-                        headers={'Content-Type': 'application/json'})
-                    with urllib.request.urlopen(req, timeout=180) as r: t = json.load(r)['candidates'][0]['content']['parts'][0]['text']
+                    from models import call   # 생각 양 '낮음' (2026-10-26 비용)
+                    t = call(m, {'contents': [{'parts': [{'text': prompt}]}], 'generationConfig': {'responseMimeType': 'application/json'}}, key, 180)['candidates'][0]['content']['parts'][0]['text']
                     h = json.loads(t); h = h[0] if isinstance(h, list) else h
                     HOOK_LOG.append(f'{m}: {t[:120]}')
                     if h.get('l1') and h.get('l2') and len(h['l1']) <= 20 and len(h['l2']) <= 18: return h['l1'].strip(), h['l2'].strip()
