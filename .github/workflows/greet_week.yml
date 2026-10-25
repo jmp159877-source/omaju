@@ -5,6 +5,8 @@ on:
     # 본 예약은 Vercel 정시(api/tick.js): 일 21:30 KST — 다음 월~일 치
     - cron: '30 16 * * 0'   # 월 01:30 KST (못 채운 날 보강)
   workflow_dispatch:
+    inputs:
+      redo: { description: '1이면 그 주를 처음부터 다시', required: false, default: '' }
 permissions:
   contents: write
 jobs:
@@ -20,7 +22,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set +e
-          timeout 15m python -u tools/greet_week.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -80 | tee daily/last-greet.log
+          timeout 15m python -u tools/greet_week.py ${{ inputs.redo == '1' && '--redo' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -80 | tee daily/last-greet.log
       - name: 기록
         if: always()
         run: |
