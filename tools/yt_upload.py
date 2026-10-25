@@ -107,13 +107,13 @@ def comment_text(kind, info):
         except Exception: pass
         hook = (info.get('opening_up') or {}).get('title', '').split('#')[0].strip()
         return '\n'.join([f'🎙 {md} 오마주 오프닝', hook, '',
-                          f'AI 진행자 {host + ("이" if host and (ord(host[-1]) - 0xAC00) % 28 else "가") if host else "가"} 아침·오후·저녁마다 힘이 되는 이야기 한 편씩 들려드려요.',
+                          f'진행자 {host + ("이" if host and (ord(host[-1]) - 0xAC00) % 28 else "가") if host else "가"} 아침·오후·저녁마다 힘이 되는 이야기 한 편씩 들려드려요.',
                           '여러분은 늦게 시작해서 더 좋았던 일이 있으신가요? 댓글로 들려주세요.', '', f'오늘 방송 전체 듣기 👉 {TAIL}'])
     if kind == 'kid':   # 자녀 편 (홍보국 2026-10-25) — 첫날부터 단다
         return '\n'.join(['👉 엄마·아빠에게 바로 보내기: https://omaju.kr/?from=kid', '',
                           '매일 아침 새로 나오는 무료 매거진이에요. 가입 없이 링크만 누르면 바로 열려요.',
                           '운세·한 끼·그 시절 노래·인사 카드·여행·산길까지 — 부모님 휴대폰 홈 화면에 하나 놓아 드려 보세요.', '',
-                          '목소리는 오마주 AI 진행자 차승우예요.', '네이버·구글에서 "오마주 매거진"'])
+                          '네이버·구글에서 "오마주 매거진"'])   # AI 표시는 영상 속·설명란에 있으니 댓글에는 넣지 않는다 (대표 2026-10-25)
     return ''
 
 def post_comment(auth, vid, text):
