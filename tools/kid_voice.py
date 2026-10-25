@@ -39,5 +39,24 @@ for attempt in range(5):
     time.sleep(10)
 if not best: raise SystemExit('목소리를 만들지 못함')
 with wave.open('out_kid/kid.wav', 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(best)
-json.dump({'model': M, 'voice': 'Sadachbia', 'script': SCRIPT, 'sec': round(len(best) / 48000, 2)}, open('out_kid/kid.json', 'w'), ensure_ascii=False)
+# 문장마다 언제 시작·끝나는지(자막·화면 맞추기용) — 받아쓰기 모델에게 묻는다
+cues = []
+try:
+    sents = [x.strip() for x in __import__('re').split(r'(?<=[.?!])\s+', SCRIPT) if x.strip()]
+    from models import pick
+    fm = pick('flash')[0]
+    q = ('이 녹음은 아래 문장들을 차례로 읽은 것이다. 문장마다 말이 시작한 시각과 끝난 시각을 초 단위(소수 둘째 자리)로 JSON 배열로만 답하라. '
+         '형식: [{"i":0,"start":0.31,"end":2.90}, ...]\n' + '\n'.join(f'{i}: {t}' for i, t in enumerate(sents)))
+    import io
+    buf = io.BytesIO()
+    with wave.open(buf, 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(best)
+    d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{fm}:generateContent?key={KEY}',
+             {'contents': [{'parts': [{'inlineData': {'mimeType': 'audio/wav', 'data': base64.b64encode(buf.getvalue()).decode()}}, {'text': q}]}],
+              'generationConfig': {'responseMimeType': 'application/json', 'temperature': 0}}, 120)
+    cues = json.loads(d['candidates'][0]['content']['parts'][0]['text'])
+    for c in cues: c['text'] = sents[c['i']]
+    print('시각', cues)
+except Exception as e:
+    print('시각 받기 실패', str(e)[:100])
+json.dump({'cues': cues, 'model': M, 'voice': 'Sadachbia', 'script': SCRIPT, 'sec': round(len(best) / 48000, 2)}, open('out_kid/kid.json', 'w'), ensure_ascii=False)
 print('끝')
