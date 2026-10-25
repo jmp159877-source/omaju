@@ -5,3 +5,4 @@ daily/last-*.log
 
 tools/node_modules/
 tools/package*.json
+daily/pre/*.queue.json

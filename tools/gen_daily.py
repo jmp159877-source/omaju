@@ -71,13 +71,50 @@ QUALITY = """
 sys.path.insert(0, HERE)
 from models import lean, LEAN
 
+# ── 답 묶음 (대표 2026-10-26: 글은 클국장이 쓰고 구글 비용을 줄인다) ──
+# 밤 11시 반에 클국장(예약 작업)이 이 파일을 --bank 로 돌린다 → AI 에게 물을 글감(물음)이 daily/pre/<날짜>.queue.json 에 쌓이고,
+# 클국장이 직접 답을 써서 daily/pre/<날짜>.bank.json 에 넣는다(물음마다 같은 꼴의 JSON). 0시 5분 실제 발행은 묶음에 답이 있으면
+# 구글을 부르지 않고 그 답을 쓴다. 답이 없거나 그 답으로 코너가 안 되면 예전처럼 구글이 쓴다(예비 길).
+import hashlib
+BANK, BANK_ON = {}, [True]
+BANK_MODE = "--bank" in sys.argv
+PRE = os.path.join(HERE, "..", "daily", "pre")
+class BankWait(BaseException):
+    """클국장 답을 기다리는 물음 — 코너 안의 except Exception 에 걸리지 않고 곧장 코너를 멈추게(다른 물음으로 새지 않게)"""
+
+def _bkey(prompt, json_mode, search):
+    return hashlib.sha1(f"{int(bool(json_mode))}{int(bool(search))}\n{prompt}".encode()).hexdigest()[:16]
+def load_bank(key):
+    BANK.clear(); load_bank.key = key
+    try:
+        BANK.update(json.load(open(os.path.join(PRE, key + ".bank.json"), encoding="utf-8")))
+        print(f"[bank] 클국장 답 {len(BANK)}개")
+    except Exception:
+        pass
+load_bank.key = None
+def _queue(k, prompt, json_mode, search):
+    os.makedirs(PRE, exist_ok=True)
+    f = os.path.join(PRE, f"{load_bank.key}.queue.json")
+    try: q = json.load(open(f, encoding="utf-8"))
+    except Exception: q = {}
+    q[k] = {"json": bool(json_mode), "search": bool(search), "system": STYLE, "prompt": prompt}
+    json.dump(q, open(f, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
 def gemini(prompt, json_mode=True, search=False, max_retry=None, timeout=None):
     """Gemini REST 호출. json_mode면 JSON 객체를 파싱해 돌려준다."""
     if max_retry is None:
         max_retry = 1 if search else 2   # 4 → 2 (2026-10-26 비용: 시간 초과로 끊겨도 요금은 나간다)
+    prompt = prompt + "\n" + QUALITY
+    k = _bkey(prompt, json_mode, search)
+    if BANK_ON[0] and k in BANK:   # 클국장이 미리 써 둔 답
+        text = BANK[k] if isinstance(BANK[k], str) else json.dumps(BANK[k], ensure_ascii=False)
+        print(f"[bank] {k} 클국장 답 사용")
+        return text if not json_mode else parse_json(text)
+    if BANK_MODE:
+        _queue(k, prompt, json_mode, search)
+        raise BankWait(k)
     if not GEMINI_KEY:
         raise RuntimeError("GEMINI_API_KEY 없음")
-    prompt = prompt + "\n" + QUALITY
     if search and getattr(gemini, "search_ok", True) is False:
         raise RuntimeError("검색 기능 사용 불가(앞서 확인됨)")
     errs = []
@@ -944,8 +981,20 @@ def main():
         if re.fullmatch(r"\d{4}-\d{2}-\d{2}", a):
             d = datetime.date.fromisoformat(a)
     key = d.isoformat()
-    db = firestore()
-    ref = db.collection("daily").document(key)
+    load_bank(key)
+    if BANK_MODE:   # 클국장 밤 작업: 서버에 쓰지 않고 물음만 모은다 (돌 때마다 물음 목록을 새로 — 앞 답에 따라 뒤 물음이 바뀐다)
+        try: os.remove(os.path.join(PRE, key + ".queue.json"))
+        except FileNotFoundError: pass
+        class _Doc:
+            exists = False
+            def to_dict(self): return {}
+        class _Ref:
+            def get(self): return _Doc()
+            def set(self, *a, **k): pass
+        ref = _Ref()
+    else:
+        db = firestore()
+        ref = db.collection("daily").document(key)
     cur = ref.get()
     have = cur.to_dict() if cur.exists else {}
     if have.get("source") == "admin" and not force:
@@ -956,6 +1005,8 @@ def main():
     for name, fn in [("greetings", gen_greetings), ("fortune", gen_fortune), ("era", gen_era), ("mind", gen_mind), ("body", gen_body), ("book", gen_book), ("meal", gen_meal), ("quiz", gen_quiz), ("story", gen_story), ("follow", gen_follow), ("phrase", gen_phrase), ("culture", gen_culture), ("outing", gen_outing), ("garden", gen_garden), ("pet", gen_pet), ("solo", gen_solo), ("hooks", None)]:
         if only and name not in only:
             continue
+        if BANK_MODE and name == "outing":   # 지역 열일곱 곳 — 주간 나들이(outing_week)가 따로 쓴다
+            continue
         fresh = name == "hooks" and any(k in out for k in ("meal", "book", "quiz", "culture"))   # 내용이 새로 나왔으면 제목도 새로
         if not force and not fresh and complete(name, have.get(name)):  # 다 갖춘 코너는 다시 만들지 않음 (AI 한도 아끼기). 빠지거나 덜 된 코너만 다음 실행에서 채움
             print(f"[skip] {name} 이미 있음"); continue
@@ -965,16 +1016,32 @@ def main():
                 out["garden"] = prev; ref.set({"garden": prev}, merge=True)
                 print("[keep] garden 지난 것 그대로"); continue
         try:
-            out[name] = gen_hooks(d, {**have, **out}) if name == "hooks" else fn(d)
+            try:
+                out[name] = gen_hooks(d, {**have, **out}) if name == "hooks" else fn(d)
+            except Exception as e1:
+                if BANK_MODE or not BANK: raise
+                # 클국장 답으로 코너가 안 되면 그 코너만 구글로 다시 (예비 길)
+                print(f"[bank] {name} 클국장 답으로 안 됨 → 구글로: {str(e1)[:100]}", file=sys.stderr)
+                BANK_ON[0] = False
+                try: out[name] = gen_hooks(d, {**have, **out}) if name == "hooks" else fn(d)
+                finally: BANK_ON[0] = True
             if name == "outing":
                 ref.set({"outing": out[name]}, merge=True)  # 지역별 필드 병합 (다른 묶음 결과 보존)
             else:
                 ref.set({name: out[name]}, merge=True)
             print(f"[ok] {name}")
+        except BankWait as e:
+            errors.append(f"{name}: 답 기다림 {e}"); print(f"[bank] {name} 답 기다림 {e}"); continue
         except Exception as e:
             out.pop(name, None)  # 저장에 실패한 코너는 마지막 한꺼번에 저장에서 빼서 다른 코너까지 날리지 않게
             errors.append(f"{name}: {e}")
             print(f"[fail] {name}: {e}", file=sys.stderr)
+    if BANK_MODE:
+        qf = os.path.join(PRE, key + ".queue.json")
+        n = len(json.load(open(qf, encoding="utf-8"))) if os.path.exists(qf) else 0
+        print(f"[bank] {key} 다 된 코너 {sorted(out)} · 답을 기다리는 물음 {n}개 ({qf})")
+        print("[bank] 실패:", errors)
+        return
     if not out:
         missing = [n for n in (only or []) if not have.get(n)]
         if missing or errors:
