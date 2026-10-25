@@ -2556,39 +2556,46 @@ body.in-chapter .cols-wrap { display: none; }
 #detail .ev .ev-box b:first-child { font-weight: 800; }
 #detail .ev .ev-cons b, #detail .ev .ev-box b:not(:first-child) { display: inline; font-size: inherit; color: #111; margin: 0; font-weight: 800; }
 
-/* ── 오마주 사랑방 (대표 2026-10-25): 기획 연재 밑 창 — 짙은 막 위 흰 글씨, 글이 천천히 떠올라 위로 올라간다 ── */
-.talk { position: relative; margin: 22px 0 0; border-radius: 16px; padding: 20px 18px 16px; overflow: hidden; cursor: pointer; text-align: left; color: #fff;
-  background:
-    radial-gradient(120% 70% at 85% 0%, rgba(201,162,74,0.28), rgba(201,162,74,0) 60%),
-    radial-gradient(90% 60% at 0% 100%, rgba(120,170,130,0.22), rgba(0,0,0,0) 60%),
-    linear-gradient(160deg, #1d4a35 0%, #133426 55%, #0d261b 100%);
-  box-shadow: 0 10px 28px rgba(13,38,27,0.28); }
-.talk[data-photo] { background: linear-gradient(180deg, rgba(12,34,24,0.34) 0%, rgba(12,34,24,0.52) 38%, rgba(10,28,20,0.80) 100%), url('../img/talk-bg.jpg?v=1') 82% 40%/cover no-repeat; }   /* 사진: 대표 제공(창가 편지지·만년필·찻잔) */
-.talk::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 16px; box-shadow: inset 0 0 0 1px rgba(201,162,74,0.35); }
+/* ── 오마주 사랑방 (대표 2026-10-25): 카톡 단체방처럼 — 밝은 햇살 바탕, 말풍선이 톡 튀어 오르고, '쓰는 중…' 이 지나간다 ── */
+.talk { position: relative; margin: 22px 0 0; border-radius: 18px; overflow: hidden; cursor: pointer; text-align: left;
+  background: linear-gradient(180deg, #FFF6DE 0%, #FFF1D2 55%, #FDE9C4 100%); box-shadow: 0 10px 26px rgba(150,110,40,0.18); }
+.talk::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 18px; box-shadow: inset 0 0 0 1px rgba(201,162,74,0.35); }
+.tk-band { position: relative; padding: 16px 18px 14px; color: #fff;
+  background: linear-gradient(180deg, rgba(20,48,34,0.18), rgba(20,48,34,0.62)), url('../img/talk-bg.jpg?v=1') 80% 38%/cover no-repeat; }
 .tk-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.tk-k { font: 700 .8rem 'Noto Sans KR', sans-serif; color: #1d1d1b; background: #F9E9A8; border-radius: 6px; padding: 3px 9px; letter-spacing: .04em; }
-.tk-live { font: 500 .76rem 'Noto Sans KR', sans-serif; color: rgba(255,255,255,0.86); display: inline-flex; align-items: center; gap: 6px; }
-.tk-live i { width: 7px; height: 7px; border-radius: 50%; background: #6fe09a; animation: tkPulse 1.8s infinite; }
-@keyframes tkPulse { 0% { box-shadow: 0 0 0 0 rgba(111,224,154,.55); } 70% { box-shadow: 0 0 0 8px rgba(111,224,154,0); } 100% { box-shadow: 0 0 0 0 rgba(111,224,154,0); } }
-.tk-q { margin: 10px 0 12px; font: 800 1.2rem/1.4 'Noto Sans KR', sans-serif; color: #fff; word-break: keep-all; text-shadow: 0 1px 10px rgba(0,0,0,0.6); }
-.tk-q small { display: block; margin-top: 3px; font: 500 .82rem/1.5 'Noto Sans KR', sans-serif; color: rgba(255,255,255,0.86); }
-.tk-win { position: relative; height: calc(3 * 5.6em); overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 82%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 82%, transparent 100%); }
+.tk-k { font: 800 .82rem 'Noto Sans KR', sans-serif; color: #3A2E00; background: #FFD84D; border-radius: 999px; padding: 4px 11px; letter-spacing: .02em; box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
+.tk-live { font: 700 .76rem 'Noto Sans KR', sans-serif; color: #fff; display: inline-flex; align-items: center; gap: 6px; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+.tk-live i { width: 8px; height: 8px; border-radius: 50%; background: #FF5A4E; animation: tkPulse 1.6s infinite; }
+@keyframes tkPulse { 0% { box-shadow: 0 0 0 0 rgba(255,90,78,.6); } 70% { box-shadow: 0 0 0 9px rgba(255,90,78,0); } 100% { box-shadow: 0 0 0 0 rgba(255,90,78,0); } }
+.tk-q { margin: 10px 0 0; font: 900 1.24rem/1.38 'Noto Sans KR', sans-serif; color: #fff; word-break: keep-all; text-shadow: 0 2px 10px rgba(0,0,0,0.55); }
+.tk-q small { display: block; margin-top: 4px; font: 600 .82rem/1.5 'Noto Sans KR', sans-serif; color: #FFE9A6; }
+.tk-win { position: relative; height: calc(3 * 5.4em); overflow: hidden; margin: 10px 14px 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 86%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 86%, transparent 100%); }
 .tk-reel { list-style: none; margin: 0; padding: 0; will-change: transform; }
-.tk-it { height: 5.6em; box-sizing: border-box; padding: .5em 0; display: flex; flex-direction: column; justify-content: center; min-width: 0;
-  border-bottom: 1px solid rgba(255,255,255,0.10); opacity: .35; transform: translateY(10px); transition: opacity 1s ease, transform 1.1s ease; }
+.tk-it { height: 5.4em; box-sizing: border-box; padding: .35em 0; display: flex; align-items: center; gap: 9px; min-width: 0;
+  opacity: .25; transform: translateY(14px) scale(.96); transition: opacity .7s ease, transform .9s cubic-bezier(.34,1.56,.64,1); }
 .tk-it.in { opacity: 1; transform: none; }
-.tk-it b { font: 700 .82rem 'Noto Sans KR', sans-serif; color: #F3D98A; text-shadow: 0 1px 5px rgba(0,0,0,0.6); }
-.tk-it b em { font-style: normal; font-weight: 600; font-size: .68rem; color: #1d1d1b; background: #C9A24A; border-radius: 4px; padding: 0 5px; margin-left: 6px; }
-.tk-it p { margin: 3px 0 0; font: 500 .96rem/1.45 'Noto Sans KR', sans-serif; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.55); word-break: keep-all;
+.tk-av { flex: 0 0 auto; width: 2.1em; height: 2.1em; border-radius: 50%; color: #fff; display: grid; place-items: center; font: 800 .9rem 'Noto Sans KR', sans-serif; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.tk-bb { position: relative; flex: 1 1 auto; min-width: 0; background: #fff; border-radius: 4px 16px 16px 16px; padding: .45em .75em .5em; box-shadow: 0 3px 10px rgba(150,110,40,0.12); }
+.tk-host .tk-bb { background: #FFFBEA; box-shadow: 0 0 0 1.5px #E3B341, 0 3px 10px rgba(150,110,40,0.14); }
+.tk-bb b { display: flex; align-items: baseline; gap: 6px; font: 800 .8rem 'Noto Sans KR', sans-serif; color: #2b2b28; min-width: 0; }
+.tk-bb b em { font-style: normal; font-weight: 700; font-size: .66rem; color: #fff; background: #1F5A3E; border-radius: 4px; padding: 0 5px; }
+.tk-bb b i { font-style: normal; font-weight: 500; font-size: .7rem; color: #a3957a; margin-left: auto; white-space: nowrap; }
+.tk-bb p { margin: 2px 0 0; font: 500 .94rem/1.42 'Noto Sans KR', sans-serif; color: #1f1f1d; word-break: keep-all;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.tk-topic { align-items: flex-start; }
-.tk-topic span { font: 700 .72rem 'Noto Sans KR', sans-serif; color: #C9A24A; letter-spacing: .08em; }
-.tk-topic p { font-weight: 800; font-size: 1.04rem; color: #F9E9A8; }
-.tk-empty p { color: rgba(255,255,255,0.8); }
-.tk-go { display: block; width: 100%; margin-top: 14px; padding: 13px; border: 0; border-radius: 10px; background: #F9E9A8; color: #3A2E00; font: 700 1rem 'Noto Sans KR', sans-serif; cursor: pointer; }
-.tk-n { display: block; text-align: center; margin-top: 8px; font: 500 .78rem 'Noto Sans KR', sans-serif; color: rgba(255,255,255,0.7); }
-@media (prefers-reduced-motion: reduce) { .tk-reel { transition: none !important; } .tk-it { transition: none; } }
+.tk-topic { flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; padding-left: 4px; }
+.tk-topic span { font: 800 .72rem 'Noto Sans KR', sans-serif; color: #C9852A; letter-spacing: .06em; }
+.tk-topic p { margin: 0; font: 900 1.06rem/1.35 'Noto Sans KR', sans-serif; color: #1F5A3E; word-break: keep-all; }
+.tk-typing { gap: 8px; padding-left: 2.6em; }
+.tk-typing small { font: 600 .8rem 'Noto Sans KR', sans-serif; color: #a3957a; white-space: nowrap; }
+.tk-dots { display: inline-flex; gap: 4px; background: #fff; border-radius: 14px; padding: .55em .7em; box-shadow: 0 3px 10px rgba(150,110,40,0.12); }
+.tk-dots i { width: 6px; height: 6px; border-radius: 50%; background: #C9A24A; animation: tkDot 1.2s infinite ease-in-out; }
+.tk-dots i:nth-child(2) { animation-delay: .15s; } .tk-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes tkDot { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+.tk-empty { padding-left: 4px; } .tk-empty p { color: #6b6b63; }
+.tk-go { display: block; width: calc(100% - 28px); margin: 12px 14px 0; padding: 13px; border: 0; border-radius: 12px; background: #1F5A3E; color: #fff; font: 800 1rem 'Noto Sans KR', sans-serif; cursor: pointer; box-shadow: 0 4px 12px rgba(31,90,62,0.25); }
+.tk-n { display: block; text-align: center; margin: 8px 0 14px; font: 600 .78rem 'Noto Sans KR', sans-serif; color: #9a8558; }
+@media (prefers-reduced-motion: reduce) { .tk-reel { transition: none !important; } .tk-it { transition: none; } .tk-dots i, .tk-live i { animation: none; } }
 /* #talk 안쪽: 오늘 글 전부 + 쓰기 */
 #talk-body .tk-head { margin: 26px 0 14px; }
 #talk-body .tk-head .tk-k { display: inline-block; background: #1F5A3E; color: #fff; }

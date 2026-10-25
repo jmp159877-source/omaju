@@ -22,7 +22,11 @@ async function load() {
 const shown = () => { const now = Date.now(); return ALL.filter(x => (x.show_at || 0) <= now).sort((a, b) => (b.show_at || 0) - (a.show_at || 0)); };
 // 제목 끝 두 낱말은 붙여서 — 한 글자만 다음 줄로 떨어지지 않게
 const nw = q => esc(q).replace(/(\S+\s+\S+)$/, '<span style="white-space:nowrap">$1</span>');
-const item = x => `<li class="tk-it"><b>${esc(x.nick)}${x.host ? '<em>진행</em>' : ''}</b><p>${esc(x.text)}</p></li>`;
+// 말풍선 (대표 2026-10-25: "생동감") — 별명 첫 글자 얼굴 + 사람마다 다른 색 + '방금·5분 전'
+const PAL = ['#F28B66', '#5BAE8C', '#6C9BD2', '#E3A33B', '#B07CC6', '#E07A9A', '#4FA3A5', '#8C9C4A', '#D9785B', '#5E8FB8'];
+const col = n => PAL[[...String(n)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PAL.length];
+const ago = t => { const m = Math.max(0, Math.round((Date.now() - (t || 0)) / 60000)); return m < 1 ? '방금' : m < 60 ? m + '분 전' : Math.floor(m / 60) + '시간 전'; };
+const item = x => `<li class="tk-it${x.host ? ' tk-host' : ''}"><span class="tk-av" style="background:${x.host ? '#1F5A3E' : col(x.nick)}">${esc([...String(x.nick)][0] || '·')}</span><div class="tk-bb"><b>${esc(x.nick)}${x.host ? '<em>진행</em>' : ''}<i>${ago(x.show_at)}</i></b><p>${esc(x.text)}</p></div></li>`;
 
 function mount() {
   const box = document.getElementById('talk-box'); if (!box) return;
@@ -34,7 +38,7 @@ function mount() {
 // 띠에 걸 글 차례: 최근 것부터 열두 개, 네 칸마다 주제 카드를 한 번 끼운다
 function reel() {
   const xs = shown().slice(0, 12), out = [];
-  xs.forEach((x, i) => { if (i && i % 4 === 0) out.push({ topic: 1 }); out.push(x); });
+  xs.forEach((x, i) => { if (i && i % 6 === 0) out.push({ topic: 1 }); else if (i && i % 3 === 0) out.push({ typing: 1 }); out.push(x); });
   return out;
 }
 function paint(reset) {
@@ -43,7 +47,7 @@ function paint(reset) {
   if (n) { const c = shown().length; n.textContent = c ? `오늘 ${c}개의 이야기` : '첫 이야기를 남겨 주세요'; }
   if (!r.length) { ul.innerHTML = '<li class="tk-it tk-empty"><p>아직 조용해요. 첫 이야기를 남겨 주세요.</p></li>'; return; }
   // 끝없이 도는 띠: 두 벌 이어 붙이고 한 칸씩 올린다
-  ul.innerHTML = [...r, ...r].map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : item(x)).join('');
+  ul.innerHTML = [...r, ...r].map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : x.typing ? '<li class="tk-it tk-typing"><span class="tk-dots"><i></i><i></i><i></i></span><small>누군가 쓰고 있어요</small></li>' : item(x)).join('');
   if (reset) { idx = 0; ul.style.transition = 'none'; ul.style.transform = 'translateY(0)'; }
   ul.dataset.len = r.length;
 }
