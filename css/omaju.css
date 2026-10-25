@@ -2680,3 +2680,8 @@ body.mz-on { padding-bottom: 76px; }
   font-size: min(1.3rem, 5.6vw); color: #1E2A33; text-shadow: 0 0 14px rgba(255,255,255,.95), 0 0 4px rgba(255,255,255,.9); }
 .tk-hd .tk-q small { color: rgba(30,42,51,.72); }
 .tk-hd .tk-n { background: rgba(255,255,255,.82); padding: 2px 8px; border-radius: 6px; text-shadow: none; }
+
+/* LIVE 는 다시 파란색 (대표 2026-10-25 밤 — 머리가 따뜻한 그림 배너로 바뀌어 블루가 산다) */
+.tk-live, .tk-hd .tk-live { background: #EEF4FF; border-color: #BFD3F5; color: #1D4FA0; box-shadow: 0 1px 4px rgba(29,79,160,0.12); }
+.tk-live i { background: #2F6FE0; animation-name: tkPulseB; }
+@keyframes tkPulseB { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,111,224,.6); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(47,111,224,0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,111,224,0); } }
