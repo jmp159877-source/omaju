@@ -8,7 +8,7 @@ let MODELS = null;
 function plain(t) {
   let s = String(t || '').replace(/\s+/g, ' ').trim();
   s = s.replace(/(^|\s)(어+|음+|으음|아+|그+|저기|그러니까|뭐냐|막)(?=\s)/g, ' ').replace(/\s+/g, ' ').trim();
-  if (s && !/[.!?…~]$/.test(s)) s += '.';
+  if (s && !/[.!?…~ㅋㅎㅠㅜ^)]$/.test(s) && !/\p{Extended_Pictographic}$/u.test(s)) s += '.';
   return s.slice(0, 120);
 }
 
