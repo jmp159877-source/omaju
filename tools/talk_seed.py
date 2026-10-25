@@ -49,7 +49,7 @@ def personas(d, n):
         out.append({'gender': g, 'age': age, 'job': rnd.choice(JOBS[g]), 'region': rnd.choice(REGIONS), 'temper': rnd.choice(TEMPER)})
     return out
 
-def batch(tp, ps, used):
+def batch(tp, ps, used, real=()):
     lines = '\n'.join(f"{i + 1}. {p['region']} {p['age']} {'여성' if p['gender'] == '여' else '남성'}, {p['job']}, 성격: {p['temper']}" for i, p in enumerate(ps))
     j = G.gemini(f"""웹 매거진 '오마주'의 독자 게시판 '사랑방'. 오늘의 주제: "{tp['q']}" ({tp['sub']})
 아래 사람들이 휴대폰으로 한 줄씩 남긴다. 사람마다 별명을 짓고(그 나이·성별·성격에 실제로 있을 법한 인터넷 별명, 한글·숫자 섞어도 됨) 그 사람 말투로 글을 써라.
@@ -61,17 +61,32 @@ def batch(tp, ps, used):
 - 구체적인 장면(물건·장소·연도 느낌). 뻔한 교훈·설교 금지. 웃긴 것·뭉클한 것·담백한 것을 섞는다.
 - 이 게시판·사이트·잡지를 언급하거나 칭찬하지 말 것. 광고 말투·실존 유명인·정치·종교·질병 금지. 시니어·어르신·노인·은퇴 같은 말 금지.
 - 이미 쓴 별명은 피한다: {', '.join(used) or '없음'}
+- 아래는 실제 독자들이 남긴 글이다. 이 사람들처럼 **짧고 꾸밈없이, 휴대폰으로 툭 적은 듯한 솔직한 말투**로 써라(문장을 베끼지는 말 것):
+{chr(10).join('  · ' + r for r in real) or '  · 장군이 꿈이었는데 지금은 음식점을 하고 있네요. 그래도 만족합니다. 하하'}
 형식(JSON만): {{"posts": [{{"nick": "별명", "text": "글"}}]}} — 위 순서대로 {len(ps)}개""")
     return [p for p in j.get('posts', []) if p.get('nick') and p.get('text')]
 
-def make(d):
+def real_posts(db, n=8):
+    # 진짜 독자 글(seed 아님)을 말투 견본으로 — 대표 2026-10-25: "내가 쓴 것처럼, 다음 글 쓸 때도 반영"
+    if not db: return []
+    try:
+        xs = [s.to_dict() for s in db.collection('talk').where('seed', '==', False).limit(60).stream()]
+        xs = [x for x in xs if not x.get('hidden') and (x.get('reports') or 0) < 3 and 8 <= len(x.get('text', '')) <= 120]
+        xs.sort(key=lambda x: x.get('show_at') or 0, reverse=True)
+        return [x['text'].replace('\n', ' ') for x in xs[:n]]
+    except Exception as e:
+        print('[견본 못 읽음]', str(e)[:120]); return []
+
+def make(d, db=None):
     tp = topic(d)
+    real = real_posts(db)
+    print('말투 견본', len(real), '개')
     G.gemini.models = G.list_models()
     ps = personas(d, N); posts, used = [], []
     for k in range(0, N, 10):
         for t in range(3):
             try:
-                got = batch(tp, ps[k:k + 10], used)
+                got = batch(tp, ps[k:k + 10], used, real)
                 for p in got:
                     if p['nick'] in used: continue
                     used.append(p['nick']); posts.append(p)
@@ -105,7 +120,7 @@ def main():
     if db:
         have = list(db.collection('talk').where('date', '==', DATE).where('seed', '==', True).limit(1).stream())
         if have: print('이미 채워 둠', DATE); return
-    tp, posts = make(DATE)
+    tp, posts = make(DATE, db)
     times = stagger(DATE, len(posts))
     print('주제', tp['q'], '·', len(posts), '개')
     for p, t in zip(posts, times):
