@@ -25,10 +25,12 @@ PROMPT = {
     'rest':  ('Music for resting on a quiet afternoon. Soft felt piano, warm string pad, slow, around 66 BPM, gentle and soothing, '
               'peaceful but not sad. ' + COMMON),
     'work':  ('Music for focusing at work. Minimal soft piano and warm pads with a light steady beat, around 84 BPM, unobtrusive and clear. ' + COMMON),
+    'classic': ('Original classical chamber music in the romantic and classical era style: solo grand piano, or a string quartet with piano, '
+                'lyrical and elegant, gentle tempo, like a quiet concert hall recording. Not a famous existing piece; an original composition. ' + COMMON),
     'travel': ('Music for looking out of a train window on a trip. Gentle acoustic guitar, soft strings, light percussion, '
                'around 92 BPM, hopeful and dreamy, a sense of journey and new places. ' + COMMON),
 }
-KO = {'walk': '산책 — 기분 좋은', 'hike': '등산 — 발걸음 가벼운', 'exercise': '운동 — 신나는', 'drive': '운전 — 감미로운', 'rest': '휴식 — 잔잔한', 'work': '업무 — 집중', 'travel': '여행 — 설레는'}
+KO = {'walk': '산책 — 기분 좋은', 'hike': '등산 — 발걸음 가벼운', 'exercise': '운동 — 신나는', 'drive': '운전 — 감미로운', 'rest': '휴식 — 잔잔한', 'work': '업무 — 집중', 'travel': '여행 — 설레는', 'classic': '클래식 — 피아노·현악 실내악'}
 
 def judge(path, ko):
     import base64

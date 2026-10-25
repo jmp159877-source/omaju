@@ -2,7 +2,7 @@ name: 오늘의 음악과 함께 견본
 on:
   workflow_dispatch:
     inputs:
-      only: { description: 'walk,hike,exercise,drive,rest,work,travel (비우면 전부)', required: false, default: '' }
+      only: { description: 'walk,hike,exercise,drive,rest,work,travel,classic (비우면 전부)', required: false, default: '' }
       takes: { description: '상황마다 만들어 볼 횟수', required: false, default: '11' }
       keep: { description: '상황마다 남길 곡', required: false, default: '8' }
 permissions:
@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: 이미 만든 곡 가져오기 (새로 만든 상황만 더한다)
+        run: mkdir -p out_mood && (git fetch -q origin mood && git --work-tree=out_mood checkout origin/mood -- . && git reset -q) || true; rm -f out_mood/vercel.json; ls out_mood
       - name: 만들기
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
