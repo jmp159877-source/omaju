@@ -199,6 +199,55 @@ def main():
         body = '<h1>오늘의 인사 카드 모음</h1><p class="date">오마주 매거진 · 매일 아침 새 카드</p><div class="box green">카톡으로 보내기 좋은 아침 인사 이미지를 날마다 모아 둡니다.</div><ol>' + ''.join(f'<li><a href="/greet/{d}.html"><b>{e(t)}</b></a></li>' for d, t in reversed(greet_list)) + '</ol>'
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 인사 카드 모음 — 아침 인사 이미지', 'inLanguage': 'ko'}
         urls.append((page('greet/index.html', '아침 인사 이미지 모음 — 날마다 새 인사 카드', '카톡으로 보내기 좋은 좋은 아침 인사 이미지와 글귀를 날마다 모아 둡니다.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f'greet/img/{greet_list[-1][0]}-1.jpg', (), greet_list[-1][0]), greet_list[-1][0]))
+    # 오늘의 한 권 · 요즘 말(시사 상식) · 몸 한 가지 · 그해 오늘 — 콘텐츠마다 검색어가 걸리게 (홍보국 2026-10-25: "소제목부터 내용까지 다 노출되게")
+    ORG = {'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
+    def art(title, desc, d, img): return {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc, 'datePublished': d, 'inLanguage': 'ko', 'image': f'{SITE}/{img}', **ORG}
+    for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
+        d = os.path.basename(f)[:10]
+        if d > TODAY: continue
+        try: day = json.load(open(f, encoding='utf-8'))
+        except Exception: continue
+        dt = datetime.date.fromisoformat(d)
+        b = day.get('book') or {}
+        if b.get('title') and b.get('blurb'):
+            title = f'{b["title"]} — {b.get("author", "")} | 책 소개·줄거리·읽을 만한 대목'
+            body = (f'<h1>{e(b["title"])}</h1><p class="date">오늘의 한 권 · {e(b.get("author"))}' + (f' · {e(b.get("publisher"))}' if b.get('publisher') else '') + (f' · {e(b.get("year"))}' if b.get('year') else '') + f' · {kdate(d)}</p>'
+                    + f'<div class="box green">{e(b["blurb"])}</div>' + (f'<span class="sub">멈추게 되는 대목</span><p>{e(b.get("scene"))}</p>' if b.get('scene') else '')
+                    + (f'<span class="sub">왜 지금 이 책인가</span><p>{e(b.get("why"))}</p>' if b.get('why') else '') + '<p class="note">책 속 문장을 그대로 옮기지 않고, 읽은 느낌을 우리 말로 적었습니다.</p>')
+            desc = f'{b["title"]}({b.get("author", "")}) 책 소개. ' + b['blurb'][:120]
+            urls.append((page(f'book/{d}.html', title, desc, '오늘의 한 권', body, f'{SITE}/?from=search#book', art(title, desc, d, 'img/book.jpg'), 'img/book.jpg', (), d), d))
+        q = day.get('quiz') or {}
+        if q.get('term') and q.get('meaning'):
+            title = f'{q["term"]} 뜻 — {q["meaning"]} | 요즘 말 상식'
+            body = (f'<h1>‘{e(q["term"])}’ 무슨 뜻일까요?</h1><p class="date">오늘의 시사 상식 · {e(q.get("kind") or "")} · {kdate(d)}</p>'
+                    + f'<div class="box green"><b>뜻</b>{e(q["meaning"])}</div>' + (f'<p>{e(q.get("explain"))}</p>' if q.get('explain') else '')
+                    + (f'<span class="sub">왜 화제일까</span><p>{e(q.get("why"))}</p>' if q.get('why') else '') + (f'<div class="box yellow"><b>이렇게 써요</b>{e(q.get("example"))}</div>' if q.get('example') else ''))
+            desc = f'{q["term"]} 뜻: {q["meaning"]}. ' + (q.get('explain') or '')[:110]
+            urls.append((page(f'word/{d}.html', title, desc, '오늘의 시사 상식', body, f'{SITE}/?from=search#quiz', art(title, desc, d, 'img/issue.jpg' if os.path.exists(os.path.join(ROOT, 'img/issue.jpg')) else 'img/hero.jpg'), 'img/issue.jpg' if os.path.exists(os.path.join(ROOT, 'img/issue.jpg')) else 'img/hero.jpg', (), d), d))
+        y = day.get('body') or {}
+        if y.get('part') and y.get('line'):
+            title = f'{y["part"]} — {y["line"]} | 오늘의 몸 한 가지'
+            body = (f'<h1>{e(y["line"])}</h1><p class="date">오늘의 몸 한 가지 · {e(y["part"])} · {kdate(d)}</p>' + (f'<p>{e(y.get("note"))}</p>' if y.get('note') else '')
+                    + (f'<div class="box green"><b>오늘 해 볼 것</b>{e(y.get("todo"))}</div>' if y.get('todo') else '') + (f'<div class="box yellow"><b>요령</b>{e(y.get("tip"))}</div>' if y.get('tip') else '')
+                    + '<p class="note">생활 속 요령이에요. 통증이나 불편이 오래가면 전문의와 먼저 상의해 주세요.</p>')
+            desc = f'{y["part"]}: {y["line"]}. ' + (y.get('note') or '')[:110]
+            img = 'img/body.jpg' if os.path.exists(os.path.join(ROOT, 'img/body.jpg')) else 'img/hero.jpg'
+            urls.append((page(f'body/{d}.html', title, desc, '오늘의 몸 한 가지', body, f'{SITE}/?from=search#body', art(title, desc, d, img), img, (), d), d))
+        era = day.get('era') or {}
+        for ago, x in sorted(era.items(), key=lambda kv: -int(kv[0]) if str(kv[0]).isdigit() else 0):
+            if not str(ago).isdigit() or not isinstance(x, dict): continue
+            yr = dt.year - int(ago)
+            facts = [f for f in (x.get('facts') or []) if isinstance(f, (list, tuple)) and len(f) >= 2]
+            songs = [s_ for s_ in (x.get('songs') or []) if isinstance(s_, (list, tuple)) and len(s_) >= 2]
+            if not facts and not songs: continue
+            title = f'{yr}년 {dt.month}월 {dt.day}일, 그해 오늘 — 그때 뉴스·인기 가요'
+            body = (f'<h1>{yr}년 {dt.month}월 {dt.day}일, 그해 오늘</h1><p class="date">그때 돌아보기 · {ago}년 전 오늘 · 오마주 매거진</p>'
+                    + (f'<div class="box green">{e(x.get("mood"))}</div>' if x.get('mood') else '')
+                    + ''.join(f'<span class="sub">{e(t)}</span><p>{e(c)}</p>' for t, c, *_ in facts)
+                    + (('<span class="sub">' + str(yr) + '년 그 시절 노래</span><ol>' + ''.join(f'<li>{e(a)} — {e(b_)}</li>' for a, b_, *_ in songs[:10]) + '</ol>') if songs else ''))
+            desc = f'{yr}년 {dt.month}월 {dt.day}일 그해 오늘. ' + ' · '.join(t for t, *_ in facts[:3]) + (' · 인기 가요 ' + ', '.join(a for a, *_ in songs[:3]) if songs else '')
+            img = 'img/detail_history.jpg' if os.path.exists(os.path.join(ROOT, 'img/detail_history.jpg')) else 'img/hero.jpg'
+            urls.append((page(f'then/{d}-{ago}.html', title, desc[:150], '그해 오늘', body, f'{SITE}/?from=search#history', art(title, desc[:150], d, img), img, (), d), d))
     # 오늘의 운세 — 띠별 (대표 2026-10-25: "뭐라도 걸려서 들어오게")
     ORDER = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양', '원숭이', '닭', '개', '돼지']
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
