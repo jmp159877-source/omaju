@@ -296,6 +296,13 @@ def main():
         ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc, 'datePublished': d, 'inLanguage': 'ko', 'image': f'{SITE}/img/fortune.jpg',
               'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
         urls.append((page(f'fortune/{d}.html', title, desc, '오늘의 운세', body, f'{SITE}/?from=search#fortune', ld, 'img/fortune.jpg', (), d), d))
+    # 구글 웹 스토리 (홍보국 2026-10-25) — 인사 카드·띠별 운세를 넘겨 보는 세로 화면
+    try:
+        import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from web_stories import build as stories
+        for u, d, t, ds, poster in stories(ROOT, TODAY):
+            urls.append((u, d)); IMGS[u] = [(f'{SITE}/{poster}', t)]; META[u] = (t, ds, d)
+    except Exception as ex: print('웹 스토리 실패', str(ex)[:120])
     # 사이트맵 — 첫 화면 · 약관 + 글마다, 그림까지 (이미지 검색)
     x = lambda t: html.escape(str(t or ''), quote=False)
     def imgtags(u): return ''.join(f'<image:image><image:loc>{x(i)}</image:loc><image:title>{x(t)}</image:title></image:image>' for i, t in IMGS.get(u, []))

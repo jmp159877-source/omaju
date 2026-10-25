@@ -1,0 +1,20 @@
+name: 웹 스토리 검사
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: AMP 검사
+        run: |
+          set +e
+          ls stories/*.html | tail -4 > /tmp/list
+          npx -y amphtml-validator $(cat /tmp/list) > tools/last-amp.log 2>&1
+          echo "exit $?" >> tools/last-amp.log; cat tools/last-amp.log
+      - name: 기록
+        if: always()
+        run: |
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-amp.log

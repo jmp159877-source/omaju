@@ -64,7 +64,7 @@ jobs:
             git config --global --add safe.directory "$GITHUB_WORKSPACE"
             git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
             echo "[git] status"; git status --porcelain | head
-            git add daily/*.json data/pets.json data/solo.json pet meal solo ev ai greet fortune book word body then test sitemap.xml rss.xml
+            git add daily/*.json data/pets.json data/solo.json pet meal solo ev ai greet fortune stories book word body then test sitemap.xml rss.xml
             git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
             ok=0
             for i in 1 2 3 4 5; do
