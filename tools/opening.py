@@ -7,7 +7,7 @@ from voice_check import check
 from models import pick, lean, LEAN
 import urllib.error
 
-KEY = os.environ['GEMINI_API_KEY']
+KEY = os.environ.get('GEMINI_API_KEY', '')   # --prompt (클국장 밤 작업)은 열쇠 없이 돈다
 MEDIA = os.environ.get('MEDIA_DIR', 'media')
 OUT = os.path.join(MEDIA, 'opening')
 os.makedirs(OUT, exist_ok=True)
@@ -345,8 +345,29 @@ def make_script():
     # 2026-10-25: 미소가 아니면 모두 '46세 남성'으로 빠져 은채 대본도 남자 진행자로 쓰이고 있었다 — 사람마다 따로
     desc = {'miso': '45세 여성 라디오 진행자, 지적이면서 다정하고 친근한', 'eunchae': '44세 여성 라디오 진행자, 차분하고 따뜻하지만 밝은',
             'seungwoo': '35세 남성 라디오 진행자, 밝고 경쾌하며 친한 동생처럼 다정한', 'hangyeol': '46세 남성 라디오 진행자, 포근하고 다정다감한'}[HOST]
+    prompt = PROMPT.format(name=NAME[HOST], yeyo=yeyo(NAME[HOST]), desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()])
+    if '--prompt' in sys.argv:   # 클국장 밤 작업용: 대본 주문서만 보여 주고 끝
+        print(prompt); print('\n[요 며칠 나온 인물 — 다시 쓰지 말 것]', ', '.join(recent_people()) or '없음'); sys.exit(0)
+    # 클국장이 써 둔 대본 (2026-10-26 비용: 3.1 Pro 대본·사실 확인이 이번 달 가장 큰 몫이었다)
+    pre = os.path.join(ROOT, 'daily', 'pre', DATE + '.opening.json')
+    if os.path.exists(pre):
+        try:
+            s = json.load(open(pre, encoding='utf-8'))
+            p = problems(s)
+            if not p:
+                who = s.get('_who') or {}
+                if all(who.get(sl) for sl in SLOTS):   # 클국장이 검색으로 확인하고 인물을 적어 둔 대본
+                    rp = recent_people()
+                    p = [f"{sl} {w}: 요 며칠 이미 나온 인물" for sl, w in who.items() if w and any(w in r or r in w for r in rp)]
+                    if len({w for w in who.values() if w}) < 3: p.append('세 실화 가운데 같은 인물')
+                else:
+                    p = fact_check(s)
+            say('클국장 대본', '문제:', p or '없음')
+            if not p: return s
+        except Exception as e:
+            say('클국장 대본 읽기 실패', str(e)[:120])
     for k in range(3):
-        s, m = gemini_json(PROMPT.format(name=NAME[HOST], yeyo=yeyo(NAME[HOST]), desc=desc, date=DATE, wd=WD, topic=topic, recent=', '.join(recent_titles()) or '없음', theme=theme, today_in=today_in, other=NAME[OTHER], wd_next='월화수목금토일'[(D + datetime.timedelta(days=1)).weekday()]))
+        s, m = gemini_json(prompt)
         if not s: continue
         p = problems(s)
         if not p: p = fact_check(s)   # 형식이 맞을 때만 검색 대조(비용 아끼기)
