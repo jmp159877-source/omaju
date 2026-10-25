@@ -2612,3 +2612,9 @@ body.in-chapter .cols-wrap { display: none; }
 #talk-body .tk-list b em { font-style: normal; font-size: .7rem; color: #fff; background: #C9A24A; border-radius: 4px; padding: 0 5px; margin-left: 6px; }
 #talk-body .tk-list p { margin: 4px 0 0; font: 500 1rem/1.55 Pretendard, 'Noto Sans KR', sans-serif; color: #2b2b28; word-break: keep-all; }
 #talk-body .tk-list button { position: absolute; top: 10px; right: 10px; border: 0; background: none; color: #a3a399; font-size: .78rem; cursor: pointer; }
+
+/* 사랑방 말로 쓰기 단추 (대표 2026-10-25) — 남기기 옆, 큰 글씨에선 줄바꿈 */
+#talk-body .tk-fb { flex-wrap: wrap; gap: 10px; }
+#talk-body .tk-btns { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-left: auto; min-width: 0; }
+#talk-body .tk-mic { background: #fff; border: 1px solid #C9D6E8; color: #1F4E8C; font-weight: 600; white-space: nowrap; }
+#talk-body .tk-mic:disabled { opacity: .7; }
