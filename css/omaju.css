@@ -2558,6 +2558,8 @@ body.in-chapter .cols-wrap { display: none; }
 
 /* ── 오마주 사랑방 (대표 2026-10-25): 재미나이 시안의 결(미색 종이·명조 주제·말풍선 없는 글) + 가로 칸(나의 수첩만 한 크기)
    — 세로로 길면 오히려 촌스럽다. 글은 한 번에 하나씩, 아래에서 떠올라 위로 올라간다. ── */
+.cols-orn.tk-orn { margin: 30px 0 22px; }
+.tk-orn + .talk { margin-top: 0; }
 .talk { position: relative; margin: 22px 0 0; border-radius: 16px; overflow: hidden; cursor: pointer; text-align: left;
   background: #F9F8F6; border: 1px solid #E8E6E1; box-shadow: 0 15px 40px rgba(0,0,0,0.08); padding: 20px 22px 16px; }
 .tk-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
