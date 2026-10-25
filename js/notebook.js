@@ -103,6 +103,15 @@ export function listen(onText) {
   start();
 }
 
+// 말로 적은 것을 AI 로 다듬기 (api/tidy.js). 9초 안에 못 받거나 AI 가 안 돌면 null → 규칙 정리로
+async function tidyNote(text, kind) {
+  try {
+    const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 9000);
+    const r = await fetch('/api/tidy', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctl.signal, body: JSON.stringify({ text, mode: kind, today: todayKey() }) });
+    clearTimeout(tm); const j = await r.json(); return j && j.ai && j.text ? j : null;
+  } catch (e) { return null; }
+}
+
 // ── 적기·고치기 창 ──
 function editor(kind, n = {}, id = null) {
   const isNew = !id;
@@ -336,10 +345,19 @@ function shutCal() {
 function bind() {
   addEventListener('hashchange', () => { if (location.hash === '#g4') shutCal(); });
   document.addEventListener('click', e => {
-    const mic = e.target.closest('.nb-mic'); if (mic) { const kind = mic.dataset.kind; listen(t => {
+    const mic = e.target.closest('.nb-mic'); if (mic) { const kind = mic.dataset.kind; listen(async t => {
       const p = kind === 'note' ? { text: t } : parseSpeech(t, kind);
       // 노트는 제목이 있어야 찾는다 — 말한 첫머리를 제목으로 미리 넣어 두고 고칠 수 있게 한다
       if (kind === 'note') p.title = (t.split(/[.\n]/)[0] || t).trim().slice(0, 20);
+      // AI 정리 (대표 2026-10-25: "말로 메모·일정 등록이 깔끔하게 안 된다") — 군말 빼고 다듬고, 일정은 날짜·시간까지. 안 되면 위의 규칙 정리 그대로
+      const live = $('nb-live'); if (live) live.innerHTML = '<span class="ph">깔끔하게 정리하는 중…</span>';
+      const a = await tidyNote(t, kind);
+      if (a) {
+        p.text = a.text || p.text;
+        if (kind === 'note' && a.title) p.title = a.title;
+        if (kind === 'event') { if (a.date) p.date = a.date; if (a.time) p.time = a.time; }
+        if (kind === 'anniv') { if (a.month) p.month = a.month; if (a.day) p.day = a.day; if (a.lunar) p.lunar = true; }
+      }
       editor(kind, p); }); return; }
     const hand = e.target.closest('.nb-hand'); if (hand) { editor(hand.dataset.kind); return; }
     const op = e.target.closest('[data-nbopen]'); if (op) { openList(op.dataset.nbopen); return; }
