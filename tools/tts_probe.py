@@ -6,6 +6,14 @@ KEY = os.environ['GEMINI_API_KEY']
 m = (pick('tts', ('gemini-3.1-flash-tts-preview',)) or ['gemini-3.1-flash-tts-preview'])[0]
 N = int(os.environ.get('LEN', '1'))   # LEN=긴 글자수 (읽어 드려요 대본만 한 길이로 찔러 보려면 1300 쯤)
 text = '안녕하세요.' if N <= 1 else ('오늘도 좋은 하루 보내세요. ' * (N // 14 + 1))[:N]
+
+# 모델 목록도 함께 남긴다 (2026-10-26 비용 점검 — 어떤 모델이 살아 있는지)
+try:
+    with urllib.request.urlopen(f'https://generativelanguage.googleapis.com/v1beta/models?key={KEY}&pageSize=200', timeout=30) as r:
+        for x in json.load(r).get('models', []):
+            print('[모델]', x['name'].split('/')[-1], '|', ','.join(x.get('supportedGenerationMethods', [])), '|', (x.get('description') or '')[:60])
+except Exception as e:
+    print('[모델 목록 실패]', e)
 print(f'[보냄] {len(text)}자')
 body = {'contents': [{'parts': [{'text': text}]}],
         'generationConfig': {'responseModalities': ['AUDIO'],
