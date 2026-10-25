@@ -13,7 +13,7 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 DATE = next((a for a in sys.argv[1:] if not a.startswith('--')), None) or datetime.datetime.now(KST).strftime('%Y-%m-%d')
 MEDIA = os.environ.get('MEDIA_DIR', 'media'); OUT = os.path.join(MEDIA, 'shorts')
 CID, CSEC, RTOK = (os.environ.get(k, '').strip() for k in ('YT_CLIENT_ID', 'YT_CLIENT_SECRET', 'YT_REFRESH_TOKEN'))
-WHEN = {'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0), 'kid': (21, 0)}   # 자녀 편은 밤 9시 — 자녀 세대가 하루를 마치고 휴대폰을 볼 때 (홍보국 2026-10-25)   # 한 끼는 오전 10시 (대표 2026-10-24)
+WHEN = {'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0), 'kid': (6, 0)}   # 자녀 편은 아침 6시 (대표 2026-10-25 17:41)   # 한 끼는 오전 10시 (대표 2026-10-24)
 PLAYLIST = {'cards': '오늘의 인사 카드', 'meal': '오늘의 한 끼', 'opening': '오늘의 오프닝', 'kid': '부모님께 보내 드리는 아침 잡지'}
 
 def say(*a): print('[유튜브]', *a, flush=True)
@@ -153,6 +153,23 @@ if __name__ == '__main__':
     if '--preview-comments' in sys.argv:   # 댓글 글만 찍어 보기 (올리지 않음)
         _i = json.load(open(os.path.join(OUT, DATE + '.json'), encoding='utf-8'))
         for _k in ('cards', 'meal', 'opening'): print(f'--- {_k}\n' + comment_text(_k, _i))
+        sys.exit(0)
+    # 예약된 영상을 바로 공개 (대표 2026-10-25: "1편 바로 올려"): python3 tools/yt_upload.py 날짜 --publish=kid
+    _pub = next((a.split('=', 1)[1] for a in sys.argv if a.startswith('--publish=')), '')
+    if _pub and CID and CSEC and RTOK:
+        jp = os.path.join(OUT, DATE + '.json'); info = json.load(open(jp, encoding='utf-8'))
+        vid = info.get('yt', {}).get(_pub)
+        if not vid: say(_pub, '올린 영상이 없음'); sys.exit(1)
+        auth = {'Authorization': 'Bearer ' + token()}
+        req('PUT', 'https://www.googleapis.com/youtube/v3/videos?part=status', headers=auth,
+            body={'id': vid, 'status': {'privacyStatus': 'public', 'selfDeclaredMadeForKids': False, 'embeddable': True, 'containsSyntheticMedia': _pub in ('opening', 'kid')}})
+        say(_pub, '바로 공개함', vid)
+        cm = info.get('yt_comment', {})
+        if not cm.get(_pub):
+            text = comment_text(_pub, info)
+            try: cm[_pub] = post_comment(auth, vid, text); say(_pub, '댓글 달음', cm[_pub])
+            except SystemExit as e: say(_pub, '댓글 못 담:', str(e)[:200])
+        info['yt_comment'] = cm; json.dump(info, open(jp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         sys.exit(0)
     if not (CID and CSEC and RTOK): say('열쇠가 없어 건너뜀 (YT_CLIENT_ID · YT_CLIENT_SECRET · YT_REFRESH_TOKEN)'); sys.exit(0)
     jp = os.path.join(OUT, DATE + '.json')

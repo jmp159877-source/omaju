@@ -1,0 +1,29 @@
+name: 유튜브 바로 공개
+on:
+  workflow_dispatch:
+    inputs:
+      date: { description: '날짜', required: true }
+      kind: { description: 'kid · cards · meal · opening', required: true, default: 'kid' }
+permissions:
+  contents: write
+jobs:
+  pub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: media 가져오기
+        run: git fetch -q origin media && git worktree add -q media origin/media
+      - name: 공개
+        env:
+          MEDIA_DIR: media
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python3 -u tools/yt_upload.py "${{ inputs.date }}" --publish=${{ inputs.kind }} 2>&1 | tee /tmp/pub.log
+      - name: 기록
+        if: always()
+        run: |
+          mkdir -p tools && cp /tmp/pub.log tools/last-yt-publish.log || true
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh tools/last-yt-publish.log
+          cd media && git add shorts/*.json && git commit -qm "공개 기록 [skip ci]" && git push -q origin HEAD:media || true
