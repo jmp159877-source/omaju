@@ -1,0 +1,28 @@
+name: 오늘의 음악과 함께 견본
+on:
+  workflow_dispatch:
+    inputs:
+      only: { description: 'walk,drive,rest,work,exercise', required: false, default: 'walk' }
+      takes: { description: '만들어 볼 횟수', required: false, default: '3' }
+permissions:
+  contents: write
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: 만들기
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ONLY: ${{ inputs.only }}
+          TAKES: ${{ inputs.takes }}
+        run: python3 -u tools/mood_music.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -60
+      - name: mood-try 가지에 올리기
+        if: always()
+        run: |
+          mkdir -p /tmp/m && cp out_mood/* /tmp/m/ 2>/dev/null; rm -f /tmp/m/_c.mp3
+          git config user.name omaju-bot; git config user.email bot@omaju.kr
+          git checkout --orphan mood-try -f && git rm -rqf .
+          cp /tmp/m/* . 2>/dev/null; git add -A && git commit -qm "음악 견본 [skip ci]" && git push -f origin mood-try
