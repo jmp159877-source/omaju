@@ -9,6 +9,7 @@ on:
     inputs:
       date: { description: '날짜 (비우면 오늘)', required: false, default: '' }
       purge: { description: "채움 글 지우기: 날짜 또는 all (비우면 채우기)", required: false, default: '' }
+      fix: { description: '별명에서 지역 이름 걷어 내기: 날짜', required: false, default: '' }
 permissions:
   contents: read
 jobs:
@@ -24,4 +25,5 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
+          if [ -n "${{ inputs.fix }}" ]; then python3 -u tools/talk_seed.py --fixnicks "${{ inputs.fix }}"; exit 0; fi
           if [ -n "${{ inputs.purge }}" ]; then python3 -u tools/talk_seed.py --purge "${{ inputs.purge }}"; else python3 -u tools/talk_seed.py ${{ inputs.date }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'; fi

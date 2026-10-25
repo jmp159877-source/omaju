@@ -4,7 +4,7 @@
 #   · seed:true 로 표시해 두어 관리자 화면에서 진짜 독자 글과 가르고, 나중에 한 번에 지운다(--purge).
 #   · 채움 글은 그날 주제에 대한 사람 사는 이야기만. 오마주 칭찬·광고 같은 글은 쓰지 않는다.
 # 쓰는 법: python3 tools/talk_seed.py [YYYY-MM-DD] [--n 10] [--purge 날짜|all] [--dry]
-import os, sys, json, random, datetime
+import re, os, sys, json, random, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_daily as G
 
@@ -15,11 +15,22 @@ DATE = args[0] if args else datetime.datetime.now(KST).strftime('%Y-%m-%d')
 N = int(sys.argv[sys.argv.index('--n') + 1]) if '--n' in sys.argv else 60   # 새벽 6개 + 06~23시 매시 3개 (대표 2026-10-25)
 
 # 50~60대가 실제로 쓸 법한 별명들 — 날마다 이 가운데서 고른다(단골처럼 다시 보이는 이름도 생긴다)
-NICKS = ['들꽃향기', '부산갈매기63', '은행나무길', '바람의언덕', '커피한잔', '해피맘', '소나무', '청솔', '하늘바다', '산사랑',
-         '대구사과', '달빛소나타', '미소천사', '행복한하루', '느티나무', '제주바람', '골프사랑', '여행가방', '봄날은간다', '광주무등산',
-         '라일락', '꽃중년', '인생은60부터', '맑은샘', '푸른솔', '옥수수', '강변산책', '은빛물결', '유자차', '감나무집',
-         '동네형', '서울촌놈', '오늘도걷는다', '해바라기', '노을지기', '진달래', '수원갈비', '등대지기', '책읽는여자', '낚시왕',
-         '연필깎이', '보리밥', '청주아재', '구름정원', '단풍길', '포도나무', '모과향', '빨간우체통', '설악산', '아침이슬']
+NICKS = ['들꽃향기', '은행나무길', '바람의언덕', '커피한잔', '해피맘', '소나무', '청솔', '하늘바다', '산사랑', '달빛소나타',
+         '미소천사', '행복한하루', '느티나무', '골프사랑', '여행가방', '봄날', '라일락', '꽃중년', '맑은샘', '푸른솔', '옥수수',
+         '강변산책', '은빛물결', '유자차', '감나무집', '동네형', '오늘도걷는다', '해바라기', '노을', '진달래', '등대지기',
+         '책읽는여자', '낚시왕', '연필', '보리밥', '구름정원', '단풍길', '포도나무', '모과향', '빨간우체통', '아침이슬']
+# 별명에 지역 이름을 넣지 않는다 (대표 2026-10-25: "실제로 사람들이 자기 지역 넣고 이름 줄줄이 길게 안 한다. 별명은 한두 낱말")
+PLACES = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '수원', '청주', '전주', '창원', '제주', '강릉', '포항', '춘천',
+          '일산', '분당', '천안', '김해', '여수', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '충청', '전라', '경상',
+          '마산', '목포', '순천', '군산', '원주', '구미', '안동', '경주', '평택', '용인', '성남', '안양', '부천', '의정부', '해운대',
+          '강남', '동래', '거제', '통영', '속초', '무등산', '한라산', '지리산', '설악', '대관령', '남해', '서귀포', '여의도', '광안리']
+
+def clean_nick(n):
+    n = (n or '').strip()
+    for w in sorted(PLACES, key=len, reverse=True): n = n.replace(w, '')
+    n = re.sub(r'\d{2,4}$', '', n).strip(' _-.·')
+    return n if 2 <= len(n) <= 8 else None
+
 HOSTS = {'miso': '윤미소', 'eunchae': '송은채', 'seungwoo': '차승우'}
 
 def topic(d):
@@ -52,7 +63,7 @@ def personas(d, n):
 def batch(tp, ps, used, real=()):
     lines = '\n'.join(f"{i + 1}. {p['region']} {p['age']} {'여성' if p['gender'] == '여' else '남성'}, {p['job']}, 성격: {p['temper']}" for i, p in enumerate(ps))
     j = G.gemini(f"""웹 매거진 '오마주'의 독자 게시판 '사랑방'. 오늘의 주제: "{tp['q']}" ({tp['sub']})
-아래 사람들이 휴대폰으로 한 줄씩 남긴다. 사람마다 별명을 짓고(그 나이·성별·성격에 실제로 있을 법한 인터넷 별명, 한글·숫자 섞어도 됨) 그 사람 말투로 글을 써라.
+아래 사람들이 휴대폰으로 한 줄씩 남긴다. 사람마다 별명을 짓고 그 사람 말투로 글을 써라.\n별명 규칙: 실제 사람들이 쓰는 짧은 인터넷 별명 — 한두 낱말, 2~6글자(예: 들꽃, 커피한잔, 소나무, 해피맘, 봄날, 동네형). **지역 이름·나이·태어난 해 숫자·직업을 별명에 넣지 말 것.**
 {lines}
 말투 규칙:
 - 나이대 말버릇을 살린다: 30대는 가볍고 ㅋㅋ·~요 많이, 40대는 담백하고 현실적, 50대는 정 많고 '~네요·~더라구요', 60대는 점잖거나 구수한 옛말·'허허'.
@@ -88,7 +99,8 @@ def make(d, db=None):
             try:
                 got = batch(tp, ps[k:k + 10], used, real)
                 for p in got:
-                    if p['nick'] in used: continue
+                    p['nick'] = clean_nick(p['nick'])
+                    if not p['nick'] or p['nick'] in used: continue
                     used.append(p['nick']); posts.append(p)
                 break
             except Exception as e: print('[다시]', str(e)[:120])
@@ -113,6 +125,19 @@ def stagger(d, n):
     return [int((base + datetime.timedelta(minutes=m)).timestamp() * 1000) for m in slots]
 
 def main():
+    if '--fixnicks' in sys.argv:   # 이미 올라간 채움 글의 별명에서 지역 이름을 걷어 낸다 (대표 2026-10-25)
+        d = sys.argv[sys.argv.index('--fixnicks') + 1]; db = G.firestore(); rnd = random.Random(d + 'fix')
+        docs = list(db.collection('talk').where('date', '==', d).where('seed', '==', True).stream())
+        used = {(x.to_dict().get('nick') or '') for x in docs}; n = 0
+        for x in docs:
+            v = x.to_dict()
+            if v.get('host'): continue
+            new = clean_nick(v.get('nick'))
+            if new == v.get('nick'): continue
+            if not new or new in used: new = rnd.choice([k for k in NICKS if k not in used] or NICKS)
+            used.add(new); x.reference.update({'nick': new}); n += 1
+            print(v.get('nick'), '→', new)
+        print('별명 고침', n); return
     if '--purge' in sys.argv:
         what = sys.argv[sys.argv.index('--purge') + 1]
         db = G.firestore(); q = db.collection('talk').where('seed', '==', True)
