@@ -2666,3 +2666,7 @@ body.mz-on { padding-bottom: 76px; }
 
 .pk-sec { display: inline-block; margin: 0 0 12px; padding: 4px 10px; border-radius: 6px; background: #E6F1EA; color: #1F5A43; font-weight: 700; font-size: .9rem; }
 .mz-c b { overflow-wrap: anywhere; }
+
+/* 단추마다 그 분위기 사진(대표 제공 2026-10-25) — 왼쪽은 흰 막으로 글씨 자리, 사진은 오른쪽에 */
+.mz-c { min-height: 118px; background-color: #fff; background-size: cover; background-position: right center; background-repeat: no-repeat; }
+.mz-c b, .mz-c small { text-shadow: 0 0 8px rgba(255,255,255,.9); }

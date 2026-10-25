@@ -82,7 +82,7 @@ export function stop() {
 export function html() {
   return `<section class="mz" id="mz"><span class="pk-sec">오늘의 음악과 함께</span><h3 class="mz-h">이어폰 꽂고, <span class="nw">그냥 틀어 두세요</span></h3>`
     + `<p class="mz-lead">산책 · 등산 · 운동 · 운전 · 휴식 · 업무 · 여행, 어디서든 듣고 싶은 분위기를 고르면 끊김 없이 이어져요. <b>광고 없이</b>, 화면을 꺼도 <span class="nw">계속 들려요.</span></p>`
-    + `<div class="mz-grid">` + MOODS.map(([k, n, s]) => `<button type="button" class="mz-c" data-mz="${k}" aria-pressed="false"><i aria-hidden="true">${IC.play}</i><b>${esc(n)}</b><small>${esc(s)}</small></button>`).join('') + `</div>`
+    + `<div class="mz-grid">` + MOODS.map(([k, n]) => `<button type="button" class="mz-c" data-mz="${k}" aria-pressed="false" style="background-image:linear-gradient(90deg,rgba(255,255,255,.93) 0%,rgba(255,255,255,.62) 42%,rgba(255,255,255,0) 78%),url('img/mz-${k}.jpg?v=1')"><i aria-hidden="true">${IC.play}</i><b>${esc(n)}</b></button>`).join('') + `</div>`
     + `<p class="mz-note">오마주 매거진이 직접 만든 연주곡이에요. 노랫말 없이 잔잔하게 이어집니다.</p></section>`;
 }
 export { paint };
