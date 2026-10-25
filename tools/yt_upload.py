@@ -125,7 +125,9 @@ def selftest():
     """열쇠가 맞는지·어느 채널로 올라가는지 확인한다. 비공개로 하나 올렸다가 바로 지운다. 결과는 shorts/yt_test.json"""
     res = {'at': datetime.datetime.now(KST).isoformat(timespec='seconds')}
     try:
-        auth = {'Authorization': 'Bearer ' + token()}
+        at = token(); auth = {'Authorization': 'Bearer ' + at}
+        try: res['scope'] = req('GET', 'https://oauth2.googleapis.com/tokeninfo?access_token=' + at)[2].get('scope', '')   # 댓글 권한(youtube.force-ssl)이 있는지
+        except SystemExit as e: res['scope'] = str(e)[:100]
         _, _, ch = req('GET', 'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', headers=auth)
         res['channels'] = [c['snippet']['title'] for c in ch.get('items', [])]
         _, _, pl = req('GET', 'https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&maxResults=50', headers=auth)
