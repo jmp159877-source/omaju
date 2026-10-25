@@ -127,17 +127,17 @@ def main():
                     c = b['chart']
                     rows = [(c.get('on'), f'{c["value"]}%')] if c.get('kind') == 'donut' else [(i[0], f'{i[1]:,}{c.get("unit", "")}' if isinstance(i[1], int) else f'{i[1]}{c.get("unit", "")}') for i in c.get('items', [])]
                     parts.append(f'<table><caption>{e(c["title"])}</caption>' + ''.join(f'<tr><th>{e(l)}</th><td>{e(v)}</td></tr>' for l, v in rows) + f'</table><p class="note">자료: {e(c.get("source"))}</p>')
-            body = (f'<h1>{e(a["title"])}</h1><p class="date">시대 공유 {SNAME} {a["no"]}편 · 오마주 편집실 · {kdate(a["date"])}</p>'
+            body = (f'<h1>{e(a["title"])}</h1><p class="date">시대 공유 {SNAME} {a["no"]}편 · 오마주 매거진 · {kdate(a["date"])}</p>'
                     + (f'<div class="box green">{e(a.get("hook"))}</div>' if a.get('hook') else '') + ''.join(parts)
                     + (('<div class="box yellow"><b>생각해 볼 점</b>' + '<br>'.join(rich(t) for t in a.get('cons', [])) + '</div>') if a.get('cons') else '')
                     + ''.join('<div class="box yellow"><b>바로잡습니다 (' + e(c.get('date', '')[5:].replace('-', '.')) + ')</b>' + '<br>'.join(e(t) for t in c.get('items', [])) + '</div>' for c in a.get('corrections', []))
                     + '<p class="note">출처: ' + ' · '.join(e(x.get('name')) for x in a.get('sources', [])) + '</p>'
-                    + '<p class="note">※ 이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 편집실이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.</p>'
+                    + '<p class="note">※ 이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 매거진이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.</p>'
                 + f'<p><a href="/{SK}/index.html"><b>{e(SNAME)} 연재 전체 보기 ›</b></a></p>')
             desc = (a.get('dek', '') + ' ' + a.get('hook', ''))[:150]
             img = next((b['photo']['src'] for b in a.get('blocks', []) if b.get('photo')), f'img/detail_{SK}.jpg')
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
-                  'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 편집실'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
+                  'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
             urls.append((page(f'{SK}/{a["id"]}.html', f'{a["title"]} — {SNAME} {a["no"]}편', desc, f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
     # 기획 연재 목차 쪽 (대표 2026-10-24: "기획 연재 두 개도 검색되게") — 연재 전체를 한 쪽에 모아 검색이 묶음으로 알아보게
     for SK, SNAME, SDESC in (('ev', '전기차 시대', '중국 전기차가 이미 우리 곁에 왔습니다. 브랜드 해부부터 충전·보험·중고값까지, 50~60대의 눈으로 객관적으로 짚는 오마주 매거진 시대 공유.'),
@@ -146,12 +146,12 @@ def main():
         except Exception: lst = []
         if not lst: continue
         lst.sort(key=lambda a: a['no'])
-        body = (f'<h1>{e(SNAME)}</h1><p class="date">오마주 매거진 시대 공유 · 오마주 편집실 · 지금까지 {len(lst)}편</p><div class="box green">{e(SDESC)}</div>'
+        body = (f'<h1>{e(SNAME)}</h1><p class="date">오마주 매거진 시대 공유 · 지금까지 {len(lst)}편</p><div class="box green">{e(SDESC)}</div>'
                 + '<ol>' + ''.join(f'<li><a href="/{SK}/{a["id"]}.html"><b>{a["no"]}편. {e(a["title"])}</b></a><br><small>{e(a.get("dek", ""))} · {kdate(a["date"])}</small></li>' for a in lst) + '</ol>')
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': f'{SNAME} — 오마주 매거진 시대 공유', 'description': SDESC, 'inLanguage': 'ko',
               'hasPart': [{'@type': 'Article', 'headline': a['title'], 'url': f'{SITE}/{SK}/{a["id"]}.html', 'datePublished': a['date']} for a in lst],
               'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-        urls.append((page(f'{SK}/index.html', f'{SNAME} — 시대 공유', SDESC, '시대 공유 · 오마주 편집실', body, f'{SITE}/?from=search#{SK}', ld, f'img/detail_{SK}.jpg'), lst[-1]['date']))
+        urls.append((page(f'{SK}/index.html', f'{SNAME} — 시대 공유', SDESC, '시대 공유 · 오마주 매거진', body, f'{SITE}/?from=search#{SK}', ld, f'img/detail_{SK}.jpg'), lst[-1]['date']))
     # 오늘의 한 끼
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
         d = os.path.basename(f)[:10]

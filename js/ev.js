@@ -7,11 +7,11 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&a
 const G = '#1F5A3E', GOLD = '#C9A24A', MUTE = '#C9D8CE';
 // 기획 칼럼 둘이 같은 틀을 쓴다 (대표 2026-10-24): 전기차 시대 · AI 시대에 살 준비가 되었는가
 export const SERIES = {
-  ev: { file: 'data/ev.json', name: '전기차 시대', foot: '오마주 편집실은 특정 브랜드의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 차를 사시라거나 사지 마시라는 권유가 아니라, 고르실 때 쓸 자료입니다.' },
-  ai: { file: 'data/ai.json', name: 'AI 시대에 살 준비가 되었는가', foot: '오마주 편집실은 특정 회사의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 어떤 서비스를 쓰시라는 권유가 아니라, 직접 해 보실 때 쓸 안내입니다.' },
+  ev: { file: 'data/ev.json', name: '전기차 시대', foot: '오마주 매거진은 특정 브랜드의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 차를 사시라거나 사지 마시라는 권유가 아니라, 고르실 때 쓸 자료입니다.' },
+  ai: { file: 'data/ai.json', name: 'AI 시대에 살 준비가 되었는가', foot: '오마주 매거진은 특정 회사의 광고·협찬 없이 씁니다. 협찬을 받으면 글 첫머리에 밝힙니다. 어떤 서비스를 쓰시라는 권유가 아니라, 직접 해 보실 때 쓸 안내입니다.' },
 };
 // 맨 끝 주석 (대표 2026-10-26: AI 가 모아 정리한 글임을 밝히고, 오류가 있을 수 있음을 알린다)
-export const AI_NOTE = '이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 편집실이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.';
+export const AI_NOTE = '이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 매거진이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.';
 const DATA = {}, loading = {}, shown = {};
 export function load(k = 'ev') {
   if (DATA[k]) return Promise.resolve(DATA[k]);
@@ -99,7 +99,7 @@ export function render(el, id, k = 'ev') {
   const d = a.date.slice(5).replace('-', '월 ').replace(/^0/, '') + '일';
   el.innerHTML = `<article class="ev">
       <p class="pet-meta">${a.no}편 · ${esc(a.part || '')}</p>
-      <p class="ev-by">오마주 편집실 · ${esc(a.date.slice(0, 4))}년 ${esc(d)}</p>
+      <p class="ev-by">오마주 매거진 · ${esc(a.date.slice(0, 4))}년 ${esc(d)}</p>
       ${a.hook ? `<p class="pet-hook">${rich(a.hook)}</p>` : ''}
       ${(a.blocks || []).map(block).join('')}
       ${a.cons && a.cons.length ? `<div class="pet-vet"><b>생각해 볼 점</b><ul class="ev-cons">${a.cons.map(x => `<li>${rich(x)}</li>`).join('')}</ul></div>` : ''}
