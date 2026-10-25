@@ -2670,3 +2670,13 @@ body.mz-on { padding-bottom: 76px; }
 /* 단추마다 그 분위기 사진(대표 제공 2026-10-25) — 왼쪽은 흰 막으로 글씨 자리, 사진은 오른쪽에 */
 .mz-c { min-height: 118px; background-color: #fff; background-size: cover; background-position: right center; background-repeat: no-repeat; }
 .mz-c b, .mz-c small { text-shadow: 0 0 8px rgba(255,255,255,.9); }
+
+/* 사랑방 머리 판갈이 (대표 2026-10-25 밤: 그림 배너로, 조금 크게) — 가운데 빈 벽에 주제, 양옆은 창가·라디오 그림 */
+.tk-hd { min-height: clamp(190px, 52vw, 300px); padding: 16px 22px 18px; display: flex; flex-direction: column;
+  background: radial-gradient(ellipse 46% 60% at 50% 56%, rgba(255,255,255,.78) 0%, rgba(255,255,255,.45) 55%, rgba(255,255,255,0) 100%), url('../img/talk-head2.jpg?v=1') center 40% / cover no-repeat, #F3EFE6; }
+.tk-hd .tk-top { position: relative; }
+.tk-hd .tk-k { background: rgba(255,255,255,.82); padding: 3px 9px; border-radius: 6px; }
+.tk-hd .tk-q { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; margin: 8px auto 0; max-width: 64%;
+  font-size: min(1.3rem, 5.6vw); color: #1E2A33; text-shadow: 0 0 14px rgba(255,255,255,.95), 0 0 4px rgba(255,255,255,.9); }
+.tk-hd .tk-q small { color: rgba(30,42,51,.72); }
+.tk-hd .tk-n { background: rgba(255,255,255,.82); padding: 2px 8px; border-radius: 6px; text-shadow: none; }
