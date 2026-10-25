@@ -55,6 +55,14 @@ service cloud.firestore {
       allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
     }
 
+    // 오마주 사랑방 (2026-10-25): 숨겨지지 않은 것은 누구나 읽고, 회원만 쓰고(채움 글 표시는 못 단다), 본인 것만 지운다.
+    match /talk/{id} {
+      allow read: if resource.data.hidden == false || isAdmin();
+      allow create: if signedIn() && notBanned() && request.resource.data.uid == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() <= 120 && request.resource.data.hidden == false && request.resource.data.reports == 0 && request.resource.data.seed == false && request.resource.data.host == false;
+      allow update: if (signedIn() && onlyIncrement('reports')) || isAdmin();
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+
     // 오프닝 사연: 회원이 보내고, 관리자만 읽고 고친다.
     match /stories/{id} {
       allow create: if signedIn() && notBanned() && request.resource.data.uid == request.auth.uid && request.resource.data.text is string && request.resource.data.text.size() >= 10 && request.resource.data.text.size() <= 1000 && request.resource.data.status == 'new';

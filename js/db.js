@@ -264,6 +264,30 @@ export async function setStoryStatus(id, status) { await updateDoc(doc(db, 'stor
 export async function deleteStory(id) { await deleteDoc(doc(db, 'stories', id)); }
 
 export async function deleteMyComment(id) { await deleteDoc(doc(db, 'comments', id)); }
+// ── 오마주 사랑방 (대표 2026-10-25): 매일 주제 하나, 구독자가 한 줄씩. 채움 글(seed)은 새벽에 tools/talk_seed.py 가 넣는다 ──
+export async function addTalk(date, text) {
+  if (!me || !profile) throw new Error('로그인이 필요합니다.');
+  text = String(text || '').trim(); if (!text) return;
+  if (text.length > 120) throw new Error('120자 안으로 적어 주세요.');
+  if (BAD.some(w => text.includes(w))) throw new Error('고운 말로 다시 적어 주세요.');
+  const now = Date.now();
+  await addDoc(collection(db, 'talk'), { uid: me.uid, nick: profile.nick, date, text, ts: serverTimestamp(), show_at: now, seed: false, host: false, reports: 0, hidden: false });
+}
+export async function listTalk(date) {
+  try {
+    const q = query(collection(db, 'talk'), where('date', '==', date), where('hidden', '==', false));
+    return (await getDocs(q)).docs.map(d => ({ id: d.id, ...d.data() })).filter(x => (x.reports || 0) < 3);
+  } catch (e) { return []; }
+}
+export async function reportTalk(id) {
+  if (!me) throw new Error('로그인이 필요합니다.');
+  const r = doc(db, 'reports', 'talk_' + id + '_' + me.uid);
+  if ((await getDoc(r)).exists()) return;
+  await setDoc(r, { uid: me.uid, comment: 'talk/' + id, ts: serverTimestamp() });
+  await updateDoc(doc(db, 'talk', id), { reports: increment(1) });
+}
+export async function deleteMyTalk(id) { await deleteDoc(doc(db, 'talk', id)); }
+export const myUid = () => (me ? me.uid : null);
 const BAD = ['시발', '씨발', '개새', '병신', '좆', '니미', '썅'];
 
 // ── 집계 ──

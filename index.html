@@ -331,6 +331,15 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
         <button type="button" class="col-tile" data-open="ev" data-corner="ev" data-bg="img/ev-tile.jpg?v=3" style="background-position: center"><span class="ct-in"><b>전기차 시대</b></span></button>
         <button type="button" class="col-tile" data-open="ai" data-corner="ai" data-bg="img/ai-tile.jpg" style="background-position: center 30%" hidden><span class="ct-in"><b>AI 시대에 살 준비가 되었는가</b></span></button>
       </div>
+    
+      <!-- 오마주 사랑방 (대표 2026-10-25): 매일 주제 하나, 구독자가 한 줄씩 — 글이 천천히 떠올라 위로 올라간다. js/talk.js -->
+      <div class="talk" id="talk-box" role="button" tabindex="0" aria-label="오마주 사랑방 — 오늘의 이야기 모두 보기" hidden>
+        <div class="tk-top"><span class="tk-k">오마주 사랑방</span><span class="tk-live"><i></i>지금 올라오는 이야기</span></div>
+        <h3 class="tk-q"></h3>
+        <div class="tk-win"><ul class="tk-reel"></ul></div>
+        <button type="button" class="tk-go">모두 보기 · 나도 한 줄 쓰기</button>
+        <span class="tk-n"></span>
+      </div>
     </section>
     <footer class="foot colophon">
       <div class="co-orn" aria-hidden="true"><i></i><b>✦</b><i></i></div>
@@ -384,6 +393,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
     <section class="dsec" data-k="solo-home"><div id="solo-home"></div></section>
     <section class="dsec" data-k="solo-trip"><div id="solo-trip"></div></section>
     <section class="dsec" data-k="dog"><div id="pet-dog"></div></section>
+    <section class="dsec" data-k="talk"><div id="talk-body"></div></section>
     <section class="dsec" data-k="ev"><div id="ev-body"></div></section>
     <section class="dsec" data-k="ai"><div id="ai-body"></div></section>
     <section class="dsec" data-k="cat"><div id="pet-cat"></div></section>

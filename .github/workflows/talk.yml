@@ -1,0 +1,27 @@
+# 오마주 사랑방: 그날 주제로 첫 글을 채워 둔다 (Firestore talk, 커밋 없음 — 배포 수를 먹지 않는다)
+# purge: 날짜 또는 all → 채움 글(seed)만 지운다 (대표 2026-10-25: 진짜 글이 많아지면 한꺼번에 지운다)
+name: talk
+on:
+  schedule:
+    # 본 예약은 Vercel 정시(api/tick.js): 매일 00:20 KST
+    - cron: '50 16 * * *'   # 01:50 KST 보강
+  workflow_dispatch:
+    inputs:
+      date: { description: '날짜 (비우면 오늘)', required: false, default: '' }
+      purge: { description: "채움 글 지우기: 날짜 또는 all (비우면 채우기)", required: false, default: '' }
+permissions:
+  contents: read
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q google-cloud-firestore
+      - env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          if [ -n "${{ inputs.purge }}" ]; then python3 -u tools/talk_seed.py --purge "${{ inputs.purge }}"; else python3 -u tools/talk_seed.py ${{ inputs.date }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'; fi
