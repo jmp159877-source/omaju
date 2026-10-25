@@ -133,6 +133,7 @@ def selftest():
         _, _, pl = req('GET', 'https://www.googleapis.com/youtube/v3/playlists?part=snippet&mine=true&maxResults=50', headers=auth)
         res['playlists'] = [p['snippet']['title'] for p in pl.get('items', [])]
         vids = sorted(f for f in os.listdir(OUT) if f.endswith('-cards.mp4'))
+        if not any('오마주' in c for c in res['channels']): vids = []; res['warn'] = '오마주 채널 열쇠가 아님 — 시험 올리기 건너뜀'   # 10/25 조경노트 열쇠로 받아져 시험 영상이 거기 올라갔다(바로 지움)
         if vids:
             path = os.path.join(OUT, vids[-1]); size = os.path.getsize(path)
             meta = {'snippet': {'title': '[시험] 자동 올리기 확인 — 곧 지워집니다', 'description': '', 'categoryId': '22'},
