@@ -20,7 +20,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 const store = { get(k, d) { try { const v = localStorage.getItem('omaju.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('omaju.' + k, JSON.stringify(v)); } catch (e) {} } };
 let toastT, readingBtn = null; function toast(m) { const t = $('toast'); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2800); }
 const SITE = 'https://omaju.kr/';   // 앱을 vercel 주소에서 열었어도 남에게 보낼 땐 늘 omaju.kr
-const TAGLINE = '— 오마주, 매일매일 펼쳐 보는 즐거움\n' + SITE;
+const TAGLINE = '— 오마주, 매일매일 펼쳐 보는 즐거움\n' + SITE + '/?from=card';
 
 // ── 날짜 ──
 const now = new Date(), M = now.getMonth(), D = now.getDate(), Y = now.getFullYear(), WD = ['일', '월', '화', '수', '목', '금', '토'];
@@ -163,7 +163,7 @@ async function makeCard(i) {
 // 사진만 덜렁 가는 것보다 낫다 — 카드 그림에 '오마주 열어보기' 단추가 함께 간다.
 // JavaScript 키는 숨기는 종류가 아니다(화면 소스에 그대로 실린다). 카카오가 등록된 도메인만 받아 준다.
 const KAKAO_JS_KEY = '391521772a7d00aef5a0f7fe93497bc8';
-const OMAJU_LINK = { mobileWebUrl: 'https://omaju.kr', webUrl: 'https://omaju.kr' };
+const OMAJU_LINK = { mobileWebUrl: 'https://omaju.kr/?from=card', webUrl: 'https://omaju.kr/?from=card' };   // 카톡으로 받은 카드에서 온 분을 센다 (홍보국 2026-10-25)
 let kakaoP;
 function kakaoReady() {
   if (kakaoP) return kakaoP;
@@ -250,7 +250,7 @@ async function openCard(i) {
     // 카드도 같다 — 그림을 바로 넘길 수 있는 폰은 원래대로, 안 되는 창에서만 카카오 공유.
     if (canFile) { try { await navigator.share({ files: [file], text }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
     if (await kakaoSendCard(file)) { closeModal(); return; }
-    if (canShare) { try { await navigator.share({ text: text + '\nhttps://omaju.kr' }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
+    if (canShare) { try { await navigator.share({ text: text + '\nhttps://omaju.kr/?from=card' }); closeModal(); return; } catch (err) { if (err.name === 'AbortError') { btn.disabled = false; btn.textContent = '카톡으로 보내기'; return; } } }
     save();
   };
 };

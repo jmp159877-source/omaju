@@ -244,7 +244,7 @@ export function mountTest(el, id, h = {}) {
     el.querySelector('[data-share]').onclick = async e => {
       const b = e.currentTarget; b.disabled = true; const sp = b.querySelector('span'); const old = sp.textContent; sp.textContent = '카드 만드는 중…';
       try { const blob = await resultCard(T, r); const file = new File([blob], `omaju-${id}.png`, { type: 'image/png' });
-        if (h.share) await h.share(file, 'https://omaju.kr/#' + id, `나는 ${r.name}, 당신은? — 오마주 매거진 ${T.kick} 테스트`); }
+        if (h.share) await h.share(file, 'https://omaju.kr/?from=psy#' + id, `나는 ${r.name}, 당신은? — 오마주 매거진 ${T.kick} 테스트`); }
       catch (err) { h.toast && h.toast('보내기가 잘 안 됐어요. 다시 한번 눌러 주세요.'); }
       b.disabled = false; sp.textContent = old;
     };

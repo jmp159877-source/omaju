@@ -38,8 +38,8 @@ async function loadDash() {
   // 누적 (창간 10/22 부터) — 날마다의 방문을 더한 것과, 처음 온 기기를 더한 것(10/23 부터 셈)
   const all = (await getDocs(collection(db, 'stats'))).docs.filter(d => d.id >= '2026-10-22').map(d => ({ day: d.id, ...d.data() }));
   const sum = (from, f) => all.filter(x => x.day >= from).reduce((t, x) => t + (x[f] || 0), 0);
-  $('cumul').innerHTML = '<tr><th>기간</th><th>방문(날마다 더함)</th><th>처음 온 기기</th><th>블로그에서 옴</th><th>유튜브에서 옴</th></tr>' + [['오늘', TODAY], ['창간 이후', '2026-10-22'], ['최근 30일', dayOffset(-29)], ['최근 10일', dayOffset(-9)], ['최근 7일', dayOffset(-6)]]
-    .map(([k, from]) => `<tr><td>${k}</td><td>${sum(from, 'visits').toLocaleString()}</td><td>${sum(from, 'newDevices').toLocaleString()}</td><td>${sum(from, 'blog').toLocaleString()}</td><td>${sum(from, 'yt').toLocaleString()}</td></tr>`).join(''); labelize($('cumul'));
+  $('cumul').innerHTML = '<tr><th>기간</th><th>방문(날마다 더함)</th><th>처음 온 기기</th><th>블로그에서 옴</th><th>유튜브에서 옴</th><th>검색에서 옴</th><th>카드 받고 옴</th><th>테스트 받고 옴</th></tr>' + [['오늘', TODAY], ['창간 이후', '2026-10-22'], ['최근 30일', dayOffset(-29)], ['최근 10일', dayOffset(-9)], ['최근 7일', dayOffset(-6)]]
+    .map(([k, from]) => `<tr><td>${k}</td><td>${sum(from, 'visits').toLocaleString()}</td><td>${sum(from, 'newDevices').toLocaleString()}</td><td>${sum(from, 'blog').toLocaleString()}</td><td>${sum(from, 'yt').toLocaleString()}</td><td>${sum(from, 'search').toLocaleString()}</td><td>${sum(from, 'card').toLocaleString()}</td><td>${sum(from, 'psy').toLocaleString()}</td></tr>`).join(''); labelize($('cumul'));
   const days = Array.from({ length: 14 }, (_, i) => dayOffset(i - 13));
   const stats = await Promise.all(days.map(d => getDoc(doc(db, 'stats', d)).then(s => s.data() || {})));
   const max = Math.max(1, ...stats.map(s => s.visits || 0));

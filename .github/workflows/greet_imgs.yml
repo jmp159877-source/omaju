@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       days: { description: '며칠 거슬러 채울지', required: false, default: '7' }
+      force: { description: '이미 있어도 다시 그리기 (1)', required: false, default: '' }
 concurrency: { group: daily, cancel-in-progress: false }
 permissions: { contents: write }
 jobs:
@@ -15,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - name: 인사 카드 그림
-        run: bash tools/greet_imgs.sh "${{ github.event.inputs.days || '7' }}"
+        run: FORCE="${{ github.event.inputs.force }}" bash tools/greet_imgs.sh "${{ github.event.inputs.days || '7' }}"
       - name: 검색용 쪽·사이트맵
         run: python tools/seo_pages.py
       - name: 기록
@@ -23,7 +24,7 @@ jobs:
         run: |
           set +e
           git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
-          git add greet fortune book word body then pet meal solo ev ai sitemap.xml rss.xml
+          git add greet fortune book word body then test pet meal solo ev ai sitemap.xml rss.xml
           git diff --cached --quiet && exit 0
           git commit -m "인사 카드 그림·검색용 쪽 [skip ci]"
           for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done

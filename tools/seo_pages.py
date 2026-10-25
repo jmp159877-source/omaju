@@ -25,6 +25,7 @@ def page(path, title, desc, kicker, body, back, ld, image, imgs=(), date=''):
 <title>{e(title)} | 오마주 매거진</title>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{url}">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <meta property="og:type" content="article"><meta property="og:site_name" content="오마주 매거진">
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{url}"><meta property="og:image" content="{SITE}/{image}">
@@ -248,6 +249,30 @@ def main():
             desc = f'{yr}년 {dt.month}월 {dt.day}일 그해 오늘. ' + ' · '.join(t for t, *_ in facts[:3]) + (' · 인기 가요 ' + ', '.join(a for a, *_ in songs[:3]) if songs else '')
             img = 'img/detail_history.jpg' if os.path.exists(os.path.join(ROOT, 'img/detail_history.jpg')) else 'img/hero.jpg'
             urls.append((page(f'then/{d}-{ago}.html', title, desc[:150], '그해 오늘', body, f'{SITE}/?from=search#history', art(title, desc[:150], d, img), img, (), d), d))
+    # 심리 테스트 — "성격 테스트·심리 테스트 무료"로 찾는 낯선 분들이 걸리게 (홍보국 2026-10-25). 유형 소개까지 쪽에 싣고, 해 보기는 오마주로.
+    try:
+        import subprocess
+        T = json.loads(subprocess.run(['node', '--input-type=module', '-e', "import {TESTS} from './js/psy_tests.js'; console.log(JSON.stringify(TESTS))"], cwd=ROOT, capture_output=True, text=True, timeout=30).stdout or '{}')
+    except Exception as ex:
+        print('[심리 테스트 못 읽음]', ex); T = {}
+    open_tests = []
+    for tid, t in T.items():
+        if (t.get('open') or '9999') > TODAY: continue
+        types = t.get('types') or {}
+        kick = t.get('kick', ''); ttl = (t.get('title') or '').replace(chr(10), ' ')
+        title = f'{kick} 심리 테스트 — {ttl} | 무료 성격 테스트'
+        img = f'img/{tid}.jpg' if t.get('photo') and os.path.exists(os.path.join(ROOT, f'img/{tid}.jpg')) else 'img/psy.jpg'
+        body = (f'<h1>{e(ttl)}</h1><p class="date">오마주 매거진 · 심리 테스트 · 질문 {len(t.get("qs") or [])}개 · 1분</p><div class="box green">{e(t.get("lead"))}</div>'
+                + f'<p><a class="go" href="{SITE}/?from=search#{tid}">지금 테스트 해 보기 ›</a></p>'
+                + f'<span class="sub">나올 수 있는 유형 {len(types)}가지</span>'
+                + ''.join(f'<p><b>{e(v.get("name"))}</b> — {e(v.get("nick"))}<br><small>{e((v.get("read") or "")[:80])}…</small></p>' for v in types.values())
+                + '<p class="note">내 유형과 잘 맞는 짝·부딪히는 짝, 오늘 해 볼 것까지 결과에서 볼 수 있어요. 결과 카드는 카톡으로 보내 친구와 비교해 보세요.</p>')
+        desc = f'{kick} 심리 테스트. {t.get("lead", "")}'[:150]
+        ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc, 'datePublished': t.get('open'), 'inLanguage': 'ko', 'image': f'{SITE}/{img}', **ORG}
+        urls.append((page(f'test/{tid}.html', title, desc, '심리 테스트', body, f'{SITE}/?from=search#{tid}', ld, img, (), t.get('open')), t.get('open'))); open_tests.append((tid, title, t.get('open')))
+    if open_tests:
+        body = '<h1>오마주 심리 테스트 모음</h1><p class="date">질문 넷, 1분이면 끝 · 결과는 넉넉하게</p><ol>' + ''.join(f'<li><a href="/test/{i}.html"><b>{e(tt)}</b></a></li>' for i, tt, _ in sorted(open_tests, key=lambda x: x[2], reverse=True)) + '</ol>'
+        urls.append((page('test/index.html', '무료 심리 테스트 모음 — 성격·관계·취향 테스트', '1분이면 끝나는 오마주 매거진 심리 테스트 모음. 카톡 답장 속도, 여행 스타일 등.', '심리 테스트', body, f'{SITE}/?from=search', {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '심리 테스트 모음', 'inLanguage': 'ko'}, 'img/psy.jpg', (), TODAY), TODAY))
     # 오늘의 운세 — 띠별 (대표 2026-10-25: "뭐라도 걸려서 들어오게")
     ORDER = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양', '원숭이', '닭', '개', '돼지']
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):

@@ -295,13 +295,15 @@ export async function bumpVisit() {
   const k = 'omaju.visit.' + todayKey();
   // 네이버 블로그 끝 그림의 링크(omaju.kr/?from=blog)로 온 분 — 블로그가 독자를 데려오는지 보려고 (대표 2026-10-23).
   // 표시는 읽고 바로 주소에서 지운다(공유할 때 따라가지 않게).
-  let fromBlog = false, fromYt = false;
-  try { const q = new URLSearchParams(location.search); const fr = q.get('from'); if (fr === 'blog' || fr === 'yt') { fromBlog = fr === 'blog'; fromYt = fr === 'yt'; q.delete('from'); const r = q.toString(); history.replaceState(history.state, '', location.pathname + (r ? '?' + r : '') + location.hash); } } catch (e) {}
+  // 홍보국 2026-10-25: 검색(search)·카톡으로 받은 인사 카드(card)·심리 테스트 결과(psy)로 온 분도 센다 — 어디서 낯선 분이 들어오는지 보려고
+  const FROMS = ['blog', 'yt', 'search', 'card', 'psy'];
+  let from = '';
+  try { const q = new URLSearchParams(location.search); const fr = q.get('from'); if (FROMS.includes(fr)) { from = fr; q.delete('from'); const r = q.toString(); history.replaceState(history.state, '', location.pathname + (r ? '?' + r : '') + location.hash); } } catch (e) {}
   try { if (localStorage.getItem('omaju.noCount') === '1') return; } catch (e) {}   // 운영자 기기 (관리자 화면에서 켬)
   if (navigator.webdriver || /bot|crawl|spider|slurp|yeti|daum|lighthouse|headless|preview/i.test(navigator.userAgent)) return;   // 검색 로봇·미리보기는 세지 않는다 (운영자 2026-10-22)
   // 유튜브 채널 링크(omaju.kr/?from=yt)도 같은 방식으로 센다 (대표 2026-10-23 유튜브 채널 개설)
-  for (const [on, f] of [[fromBlog, 'blog'], [fromYt, 'yt']]) {
-    if (!on) continue;
+  for (const f of FROMS) {
+    if (f !== from) continue;
     let once = true; try { const bk = 'omaju.' + f + '.' + todayKey(); if (localStorage.getItem(bk)) once = false; else localStorage.setItem(bk, '1'); } catch (e) {}
     if (once) try { await setDoc(doc(db, 'stats', todayKey()), { [f]: increment(1) }, { merge: true }); } catch (e) {}
   }
