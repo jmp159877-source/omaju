@@ -2627,3 +2627,14 @@ body.in-chapter .cols-wrap { display: none; }
 .tk-hd .tk-n { color: #2a3a48; text-shadow: 0 1px 8px rgba(255,255,255,0.9); }
 .tk-hd .tk-live { background: #FFF3EC; box-shadow: 0 1px 4px rgba(180,70,28,0.12); }
 .tk-hd + .tk-win { margin-top: 12px; }
+
+/* 글 끝 물음 → 사랑방 (대표 2026-10-25 "일방향이 되면 안 된다") — 하늘빛 한 줄, 조르지 않게 작게 */
+.ask { margin: 26px 0 6px; padding: 16px 18px; border-radius: 14px; background: #EEF5FC; border: 1px solid #D6E4F3; }
+.ask-q { margin: 0; font: 600 1.02rem/1.55 'Noto Serif KR', 'Nanum Myeongjo', serif; color: #1E3550; word-break: keep-all; }
+.ask-go { margin-top: 10px; padding: 0; border: 0; background: none; font: 600 .9rem 'Noto Sans KR', sans-serif; color: #2C4B3B; cursor: pointer; white-space: nowrap; }
+.ask-go span { margin-left: 2px; }
+#talk-body .tk-ask { position: relative; margin: 0 0 12px; padding: 12px 40px 12px 14px; border-radius: 12px; background: #EEF5FC; border: 1px solid #D6E4F3; }
+#talk-body .tk-ask small { display: block; color: #4A6A8A; font-size: .8rem; }
+#talk-body .tk-ask p { margin: 4px 0 0; font-weight: 600; color: #1E3550; word-break: keep-all; }
+#talk-body .tk-ask button { position: absolute; top: 6px; right: 8px; border: 0; background: none; font-size: 1.3rem; color: #6A7F94; cursor: pointer; }
+#talk-body .tk-from { margin-left: 6px; font-weight: 400; font-size: .76rem; color: #4A6A8A; background: #EEF5FC; border-radius: 6px; padding: 1px 6px; }

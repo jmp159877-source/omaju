@@ -10,7 +10,7 @@ import * as SOLO from './solo.js';
 let EV = null;   // 기획 칼럼은 첫 화면 맨 아래라 늦게 불러온다 — 처음에 같이 부르면 커버 단추가 밀렸다(큰 글씨 시험)
 const evMod = () => EV ? Promise.resolve(EV) : import('./ev.js').then(m => (EV = m));
 // 오마주 사랑방 (대표 2026-10-25) — 기획 연재 밑 창, 첫 화면을 다 그린 뒤에 불러온다
-let TALK = null; const talkMod = () => TALK ? Promise.resolve(TALK) : import('./talk.js?v=10251345').then(m => { TALK = m; m.init({ DB, toast, openGate, esc, TODAY, nav, listen: NB.listen, closeModal }); return m; });
+let TALK = null; const talkMod = () => TALK ? Promise.resolve(TALK) : import('./talk.js?v=10251500').then(m => { TALK = m; m.init({ DB, toast, openGate, esc, TODAY, nav, listen: NB.listen, closeModal }); return m; });
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
 const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '산 · 운동 · 마음 · 건강', 'tab-health', 4], g6: ['어쩌다 점점 집사', '댕댕이 · 냥이와 사는 이야기', 'tab-pet', 5], g7: ['혼자라서 좋은 날', '혼자일 때 더 좋은 하루', 'tab-solo', 6], g4: ['나의 수첩', '메모와 일정', 'tab-note', 7] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;
@@ -352,9 +352,24 @@ function renderBook() {
     <p class="is-sub">어디서 볼 수 있나</p>
     <div class="bk-go"><a class="btn line" href="https://search.kyobobook.co.kr/search?keyword=${q}" target="_blank" rel="noopener">교보문고</a><a class="btn line" href="https://www.aladin.co.kr/search/wsearchresult.aspx?SearchWord=${q}" target="_blank" rel="noopener">알라딘</a><a class="btn line" href="https://www.nl.go.kr/NL/contents/search.do?kwd=${q}" target="_blank" rel="noopener">도서관에서 찾기</a></div>
     <p class="note bk-note">책 속 문장을 그대로 옮기지 않고, 읽은 느낌을 우리 말로 적었습니다.</p>
-  </article>` + svBar('book', 'book_' + TODAY, b.title);
+  </article>` + askBar('book') + svBar('book', 'book_' + TODAY, b.title);
   svSync();
 }
+
+// ── 글 끝 물음 → 사랑방 (대표 2026-10-25: "일방향이 되면 안 된다", "적절하게 한두 개씩 툭툭") ──
+// 한 끼·한 권 글 끝에 독자 자신의 이야기를 묻는 한 줄. 새벽 gen_hooks 가 그날 내용으로 쓴 ask 가 있으면 그것, 없으면 아래 돌림.
+const ASK_POOL = {
+  food: ['이 음식 하면 떠오르는 사람이나 장면이 있나요?', '요즘 당신 집 식탁에 제일 자주 오르는 한 그릇은요?', '입맛 없을 때 꼭 찾게 되는 당신만의 음식은?', '어머니 손맛 중에 아직도 못 따라 하는 게 있나요?', '혼자 먹을 때와 같이 먹을 때, 차리는 게 달라지나요?'],
+  book: ['요즘 머리맡에 두고 읽는 책이 있나요?', '오래전에 읽었는데 아직 한 장면이 남아 있는 책은요?', '누군가에게 선물하고 싶은 책 한 권을 꼽는다면?', '책 읽는 시간, 당신은 주로 언제인가요?'],
+};
+const ASK_NAME = { food: '오늘의 한 끼', book: '오늘의 한 권' };
+function askBar(k) {
+  const h = (C.hooks || {})[k] || {}, pool = ASK_POOL[k] || [];
+  const q = (h.ask || '').trim() || pool[(new Date(TODAY).getDate()) % pool.length];
+  if (!q) return '';
+  return `<div class="ask"><p class="ask-q">${esc(q)}</p><button type="button" class="ask-go" data-ask="${esc(k)}" data-q="${esc(q)}">사랑방에 한 줄 남기기 <span aria-hidden="true">›</span></button></div>`;
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-ask]'); if (!b) return; window.__tkAsk = { from: ASK_NAME[b.dataset.ask] || '', q: b.dataset.q }; nav('talk'); });
 
 // ── 담아 두기 ──
 // 마음에 든 글을 통째로 수첩에 베껴 둔다. 담을 수 있는 코너만 단추가 붙는다(운세·그해 오늘처럼 다시 볼 값이 없는 것은 뺐다).
@@ -928,7 +943,7 @@ document.addEventListener('submit', e => { if (e.target.id !== 'memo') return; e
 
 // ── 한 끼 · 사연 ──
 $('meal-title').textContent = C.meal.title; $('meal-sub').textContent = C.meal.sub;
-$('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${C.meal.ingredients.map(i => `<li>${esc(i)}</li>`).join('')}</ul><ol class="steps">${C.meal.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol><p class="note">${esc(C.meal.tip || '')}</p>` + svBar('food', 'food_' + TODAY, C.meal.title);
+$('meal').innerHTML = `<p class="lead">${esc(C.meal.lead)}</p><ul class="ing">${C.meal.ingredients.map(i => `<li>${esc(i)}</li>`).join('')}</ul><ol class="steps">${C.meal.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol><p class="note">${esc(C.meal.tip || '')}</p>` + askBar('food') + svBar('food', 'food_' + TODAY, C.meal.title);
 $('story-title').textContent = C.story.title; $('story-sub').textContent = C.story.sub;
 $('story-body').innerHTML = C.story.paras.map(p => `<p class="lead">${esc(p)}</p>`).join('') + `<p class="note">— ${esc(C.story.by || '오마주 편집실')}</p>`;
 
@@ -996,7 +1011,7 @@ function route() { const k = location.hash.slice(1);
   document.body.classList.toggle('game-mode', !!GAME[cur] || cur === 'play'); if (!GAME[cur]) PLAY.stopAll();
   if (cur === 'play') PLAY.hub($('play-root'));
   if (cur && cur.startsWith('solo-')) { const sk = cur.slice(5), sc = cur; SOLO.load().then(() => { SOLO.render($('solo-' + sk), sk); if (cur === sc) setTitle(); }); }
-  if (cur === 'talk') { talkMod().then(m => m.renderDetail()); }
+  if (cur === 'talk') { if (!('__tkAsk' in window)) window.__tkAsk = null; talkMod().then(m => m.renderDetail()); }
   if (cur === 'ev' || cur === 'ai') { const ck = cur; evMod().then(m => m.load(ck)).then(() => { EV.render($(ck + '-body'), null, ck); if (cur === ck) setTitle(); }); }
   if (cur === 'dog' || cur === 'cat') { const pk = cur; PET.load().then(() => { PET.render($('pet-' + pk), pk); if (cur === pk) setTitle(); }); }
   if (GAME[cur] && (!gameDone[cur] || cur === 'psy' || /^pt-/.test(cur))) { gameDone[cur] = true; GAME[cur](); }   /* 심리 테스트 목록·테스트는 들어올 때마다 새로 (지난 결과 반영) */ document.body.classList.toggle('in-detail', !!cur); stopRead(); if (cur) { if (DET[cur][0]) $('d-bg').style.backgroundImage = `url('img/${DET[cur][0]}.jpg?v=2')`; $('d-bg').classList.toggle('d-wide', cur === 'food');   /* 사람 있는 가로 사진은 잘리지 않게 통째로 (대표 2026-10-24) */ $('d-tag').textContent = DET[cur][1]; setTitle(); document.querySelectorAll('.dsec').forEach(s => s.classList.toggle('on', s.dataset.k === cur)); window.scrollTo(0, 0); } else if (route.y != null) window.scrollTo(0, route.y); }

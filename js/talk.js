@@ -3,7 +3,7 @@
 // 새 글은 30초마다 확인(화면이 보일 때만). 채움 글(seed)은 show_at 이 지난 것만 보인다 — 하루 동안 시간차로 하나씩 떠오른다.
 // 누르면 #talk 에서 오늘 글 전부 + 한 줄 쓰기. 쓰기는 회원만, 지우기는 본인 것, 그 밖엔 신고(3번이면 내려감).
 let DB, toast, openGate, esc, TODAY, nav, listen, closeModal;
-let TOPIC = null, ALL = [], timer = null, poll = null, idx = 0;
+let TOPIC = null, ALL = [], timer = null, poll = null, idx = 0, ASK = null;
 const STEP = 3600;   // 한 칸 머무는 시간(ms)
 
 // 글꼴은 사랑방이 뜰 때만 (대표 2026-10-25 시안: 제목 Noto Serif KR · 본문 Pretendard) — 첫 화면 속도에 영향 없게
@@ -80,7 +80,7 @@ function stop() { clearInterval(timer); clearInterval(poll); }
 // 목록만 새로 그린다 — 30초마다 다시 읽을 때 쓰던 글·자판이 날아가지 않게 (대표 2026-10-25: "쓰다가 밖으로 튀어나온다")
 function listHTML() {
   const me = DB.myUid(), xs = shown();
-  return xs.map(x => `<li><b>${esc(x.nick)}${x.host ? '<em>진행</em>' : ''}</b><p>${esc(x.text)}</p>${me && x.uid === me ? `<button type="button" data-tkdel="${x.id}">지우기</button>` : x.seed || x.host ? '' : `<button type="button" data-tkrep="${x.id}">신고</button>`}</li>`).join('') || '<li class="tk-empty"><p>첫 이야기를 남겨 주세요.</p></li>';
+  return xs.map(x => `<li><b>${esc(x.nick)}${x.host ? '<em>진행</em>' : ''}${x.from ? `<small class="tk-from">${esc(x.from)} 이야기</small>` : ''}</b><p>${esc(x.text)}</p>${me && x.uid === me ? `<button type="button" data-tkdel="${x.id}">지우기</button>` : x.seed || x.host ? '' : `<button type="button" data-tkrep="${x.id}">신고</button>`}</li>`).join('') || '<li class="tk-empty"><p>첫 이야기를 남겨 주세요.</p></li>';
 }
 function renderList() {
   const ul = document.querySelector('#talk-body .tk-list'); if (!ul) return renderDetail();
@@ -100,14 +100,17 @@ export async function renderDetail() {
   const el = document.getElementById('talk-body'); if (!el) return;
   if (!TOPIC) TOPIC = await topic();
   if (!ALL.length) await load();
+  if ('__tkAsk' in window) { ASK = window.__tkAsk || null; delete window.__tkAsk; }   // 들어올 때마다 새로: 한 끼·한 권 물음에서 왔으면 그 물음, 아니면 없음
   const keep = (el.querySelector('#tk-in') || {}).value || '';   // 다시 그려도 쓰던 글은 그대로
   el.innerHTML = `<div class="tk-head"><span class="tk-k">오늘의 주제</span><h3>${nw(TOPIC.q)}</h3><p>${esc(TOPIC.sub || '')}</p></div>
-    <form class="tk-form" id="tk-form"><textarea id="tk-in" maxlength="120" rows="3" placeholder="한 줄이면 충분해요. 오늘 주제에 내 이야기를 남겨 보세요."></textarea>
+    ${ASK ? `<div class="tk-ask"><small>${esc(ASK.from)}에서 온 물음</small><p>${esc(ASK.q)}</p><button type="button" id="tk-ask-x" aria-label="물음 닫기">×</button></div>` : ''}
+    <form class="tk-form" id="tk-form"><textarea id="tk-in" maxlength="120" rows="3" placeholder="${ASK ? '이 물음에 내 이야기를 한 줄로 남겨 보세요.' : '한 줄이면 충분해요. 오늘 주제에 내 이야기를 남겨 보세요.'}"></textarea>
     <div class="tk-fb"><small id="tk-cnt">0 / 120</small><span class="tk-btns"><button type="button" class="btn line tk-mic" id="tk-mic">🎙 말로 쓰기</button><button type="submit" class="btn green">남기기</button></span></div></form>
     <ul class="tk-list">${listHTML()}</ul>
     <p class="note" style="margin-top:22px">서로 다정하게 — 남을 깎아내리는 말·광고·연락처는 내려갑니다. 신고가 세 번 모이면 자동으로 가려집니다.</p>`;
   const inp = el.querySelector('#tk-in'), cnt = () => { el.querySelector('#tk-cnt').textContent = `${inp.value.length} / 120`; }; inp.oninput = cnt;
   if (keep) { inp.value = keep; cnt(); }
+  const ax = el.querySelector('#tk-ask-x'); if (ax) ax.onclick = () => { ASK = null; ax.parentElement.remove(); inp.placeholder = '한 줄이면 충분해요. 오늘 주제에 내 이야기를 남겨 보세요.'; };
   el.querySelector('#tk-mic').onclick = () => {
     if (!listen) return;
     listen(async raw => {
@@ -121,7 +124,7 @@ export async function renderDetail() {
   };
   el.querySelector('#tk-form').onsubmit = async e => {
     e.preventDefault(); if (!DB.currentUser()) return openGate('이야기를 남기려면');
-    try { await DB.addTalk(TODAY, inp.value); inp.value = ''; cnt(); await load(); renderList(); paint(true); toast('남겼어요. 고맙습니다.'); } catch (err) { toast(err.message); }
+    try { await DB.addTalk(TODAY, inp.value, ASK ? ASK.from : ''); inp.value = ''; cnt(); ASK = null; const a = el.querySelector('.tk-ask'); if (a) a.remove(); await load(); renderList(); paint(true); toast('남겼어요. 고맙습니다.'); } catch (err) { toast(err.message); }
   };
   renderList();
 }
