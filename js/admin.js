@@ -180,9 +180,11 @@ async function loadBlog() {
   const key = $('b-date').value || TODAY, [Y, M1, D] = key.split('-').map(Number), M = M1 - 1;
   const dow = DOWS[new Date(Date.UTC(Y, M, D)).getUTCDay()];
   $('b-msg').textContent = '불러오는 중…'; $('b-cards').innerHTML = '';
-  const x = await DB.loadDaily(key);
-  const G = x && x.greetings;
-  if (!G || !G.length) { $('b-msg').textContent = key + ' 인사 카드가 아직 없습니다. (밤 12시 5분에 만들어집니다)'; return; }
+  let x = await DB.loadDaily(key);
+  let G = x && x.greetings;
+  // 아직 오지 않은 날은 일주일 치 미리 만든 글귀로 (대표 2026-10-25: 일주일에 한 번 몰아서 예약 발행)
+  if (!G || !G.length) { try { const w = await (await fetch('data/greetings_week.json?t=' + Date.now(), { cache: 'no-store' })).json(); if (w[key] && w[key].length) { G = w[key]; x = x || {}; } } catch (e) {} }
+  if (!G || !G.length) { $('b-msg').textContent = key + ' 인사 카드가 아직 없습니다. (다음 주 치는 일요일 밤 9시 반에 만들어집니다)'; return; }
   const cards = await import('./cards.js');
   const dateText = `${M + 1}월 ${D}일 · ${dow}요일`, season = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
   const vv = i => ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'][(Math.floor(Date.UTC(Y, M, D) / 864e5) * 4 + i) % 6];   // 사이트(app.js cardVar)와 같은 셈
@@ -213,4 +215,13 @@ async function loadBlog() {
   $('b-msg').textContent = key + ' 카드 ' + G.length + '장';
 }
 $('b-load').onclick = loadBlog;
+// 일주일 치 날짜 단추 (대표 2026-10-25): 다음 월~일(일요일엔 다음 주, 다른 날엔 이번 주 남은 날부터)
+(function weekBtns() {
+  const now = new Date(Date.now() + 9 * 3600e3), dw = now.getUTCDay(), start = new Date(now); start.setUTCDate(now.getUTCDate() + (dw === 0 ? 1 : 1 - dw));
+  const box = document.createElement('div'); box.className = 'bar'; box.id = 'b-week';
+  for (let i = 0; i < 7; i++) { const d = new Date(start); d.setUTCDate(start.getUTCDate() + i); const k = d.toISOString().slice(0, 10);
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${DOWS[d.getUTCDay()]}`;
+    b.onclick = () => { $('b-date').value = k; loadBlog(); }; box.appendChild(b); }
+  $('b-load').closest('.bar').after(box);
+})();
 document.querySelector('[data-sec="blog"]').addEventListener('click', async e => { const b = e.target.closest('[data-copy]'); if (!b) return; const t = $(b.dataset.copy); try { await navigator.clipboard.writeText(t.value); } catch (err) { t.select(); document.execCommand('copy'); } const o = b.textContent; b.textContent = '복사됨'; setTimeout(() => b.textContent = o, 1200); });

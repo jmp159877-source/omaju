@@ -136,7 +136,13 @@ def parse_json(text):
 
 # ── 각 코너 ────────────────────────────────────────────────
 
-def gen_greetings(d):
+def gen_greetings(d, fresh=False):
+    # 일주일 치를 미리 만들어 둔 것이 있으면 그대로 쓴다 (대표 2026-10-25: 블로그 예약 발행용 — 사이트·블로그 카드가 같은 글귀)
+    if not fresh:
+        try:
+            wk = json.load(open(os.path.join(os.path.dirname(HERE), "data", "greetings_week.json"), encoding="utf-8")).get(d.isoformat())
+            if wk and len(wk) == 4 and all(len(line) <= 10 for x in wk for line in x.split("\n")): return wk
+        except Exception: pass
     season = ["겨울", "겨울", "봄", "봄", "봄", "여름", "여름", "여름", "가을", "가을", "가을", "겨울"][d.month - 1]
     j = gemini(f"""오늘은 {d.year}년 {d.month}월 {d.day}일, {season}이다.
 아침 인사 카드에 넣을 짧은 인사말 4개를 만들어라. 카톡으로 친구에게 보내는 사진 카드에 들어간다.

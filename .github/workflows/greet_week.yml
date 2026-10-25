@@ -1,0 +1,31 @@
+# 인사 카드 글귀 일주일 치 미리 (대표 2026-10-25: 블로그 예약 발행용) → data/greetings_week.json
+name: greet_week
+on:
+  schedule:
+    # 본 예약은 Vercel 정시(api/tick.js): 일 21:30 KST — 다음 월~일 치
+    - cron: '30 16 * * 0'   # 월 01:30 KST (못 채운 날 보강)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 일주일 치 인사말
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          set +e
+          timeout 15m python -u tools/greet_week.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -80 | tee daily/last-greet.log
+      - name: 기록
+        if: always()
+        run: |
+          git config user.name "omaju-bot"; git config user.email "bot@omaju.kr"
+          git add -A data/greetings_week.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "다음 주 인사 카드 글귀 [skip ci]"
+          ok=0; for i in 1 2 3 4 5; do git checkout -q -- . 2>/dev/null; git pull -q --rebase -X theirs origin main && git push && ok=1 && break; git rebase --abort 2>/dev/null; sleep 5; done; [ $ok = 1 ] || { echo '저장소에 올리지 못함'; exit 1; }
+          GITHUB_TOKEN=${{ github.token }} bash tools/push_logs.sh daily/last-greet.log
