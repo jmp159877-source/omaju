@@ -48,7 +48,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: python tools/era_photos.py "${{ github.event.inputs.date || '' }}$( [ -z "${{ github.event.inputs.date }}" ] && TZ=Asia/Seoul date +%F )" || true
-      - name: 검색용 글 쪽·사이트맵 (집사·한 끼)
+      - name: 인사 카드 그림 (이미지 검색용, 대표 2026-10-25)
+        if: always()
+        run: bash tools/greet_imgs.sh 3 || true
+      - name: 검색용 글 쪽·사이트맵 (집사·한 끼·인사 카드·운세)
         if: always()
         run: python tools/seo_pages.py || true
       - name: 만든 내용을 저장소에 기록
@@ -61,7 +64,7 @@ jobs:
             git config --global --add safe.directory "$GITHUB_WORKSPACE"
             git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
             echo "[git] status"; git status --porcelain | head
-            git add daily/*.json data/pets.json data/solo.json pet meal solo ev ai sitemap.xml
+            git add daily/*.json data/pets.json data/solo.json pet meal solo ev ai greet fortune sitemap.xml rss.xml
             git diff --cached --quiet || git commit -m "오늘의 콘텐츠 기록 [skip ci]"
             ok=0
             for i in 1 2 3 4 5; do

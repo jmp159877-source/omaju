@@ -2,3 +2,6 @@ __pycache__/
 
 # 봇 기록은 logs 가지로만 간다 (2026-10-22: main 에 남아 있으면 git pull --rebase 가 거부당해 그날치가 안 올라갔다)
 daily/last-*.log
+
+tools/node_modules/
+tools/package*.json

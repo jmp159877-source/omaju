@@ -1,0 +1,29 @@
+# 인사 카드 그림 → 검색용 쪽 (대표 2026-10-25: 이미지 검색). 매일은 daily.yml 이 같은 일을 하고, 이건 지난 날짜 채우기·손으로 돌리기용.
+name: greet_imgs
+on:
+  workflow_dispatch:
+    inputs:
+      days: { description: '며칠 거슬러 채울지', required: false, default: '7' }
+concurrency: { group: daily, cancel-in-progress: false }
+permissions: { contents: write }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: 인사 카드 그림
+        run: bash tools/greet_imgs.sh "${{ github.event.inputs.days || '7' }}"
+      - name: 검색용 쪽·사이트맵
+        run: python tools/seo_pages.py
+      - name: 기록
+        shell: bash
+        run: |
+          set +e
+          git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
+          git add greet fortune pet meal solo ev ai sitemap.xml rss.xml
+          git diff --cached --quiet && exit 0
+          git commit -m "인사 카드 그림·검색용 쪽 [skip ci]"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
