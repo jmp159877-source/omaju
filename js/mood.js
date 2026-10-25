@@ -4,12 +4,13 @@
 //  · 소리는 언제나 하나만: 오프닝·유튜브 등 다른 소리가 나면 멎고, 이걸 틀면 다른 소리가 멎는다.
 // 깃허브 원본을 먼저(audio/mpeg 로 주는 것 확인), jsDelivr 는 예비 — 곡이 많아 jsDelivr 크기 한도에 걸릴 수 있다
 const BASES = ['https://raw.githubusercontent.com/jmp159877-source/omaju/mood/', 'https://cdn.jsdelivr.net/gh/jmp159877-source/omaju@mood/'];
+// 단추는 상황이 아니라 분위기(장르)로 — 산책이든 운전이든 듣고 싶은 걸 고르게 (대표 2026-10-25)
 export const MOODS = [
-  ['walk', '산책', '기분 좋은 어쿠스틱'], ['hike', '등산', '발걸음 가벼운'], ['exercise', '운동', '신나는 리듬'], ['drive', '운전', '감미로운 그루브'],
-  ['rest', '휴식', '잔잔한 피아노'], ['work', '업무', '집중을 돕는'], ['travel', '여행', '창밖 보며 듣는'],
+  ['walk', '기분 좋은 어쿠스틱', '기타 · 피아노'], ['hike', '발걸음 가벼운 포크', '통기타 · 손북'], ['exercise', '신나는 리듬', '팝 · 박수'], ['drive', '감미로운 그루브', '일렉 피아노 · 베이스'],
+  ['rest', '잔잔한 피아노', '피아노 · 현악'], ['work', '차분한 집중', '피아노 · 잔잔한 비트'], ['travel', '설레는 여행길', '기타 · 스트링'], ['classic', '클래식', '피아노 · 현악 실내악'],
 ];
 const IC = { play: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>', pause: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>', prev: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" fill="currentColor"/></svg>', next: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" fill="currentColor"/></svg>' };
-const NAME = Object.fromEntries(MOODS.map(([k, n, s]) => [k, n + ' · ' + s]));
+const NAME = Object.fromEntries(MOODS.map(([k, n]) => [k, n]));
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -22,6 +23,7 @@ async function load() {
   }
   return null;
 }
+// eslint-disable-next-line no-unused-vars
 const mins = k => Math.max(1, Math.round(((LIST && LIST[k]) || []).reduce((a, x) => a + (x.sec || 0), 0) / 60));
 
 function paint() {
@@ -76,11 +78,19 @@ export function stop() {
   try { if ('mediaSession' in navigator) { navigator.mediaSession.metadata = null; navigator.mediaSession.playbackState = 'none'; } } catch (e) {}
 }
 
+// 추천 음악 안쪽에 넣을 묶음 (시간 표시는 하지 않는다 — '16분 이어 듣기'가 16분짜리로 읽혔다, 대표 2026-10-25. 한 바퀴 돌면 다시 이어진다)
+export function html() {
+  return `<section class="mz" id="mz"><span class="pk-sec">오늘의 음악과 함께</span><h3 class="mz-h">이어폰 꽂고, <span class="nw">그냥 틀어 두세요</span></h3>`
+    + `<p class="mz-lead">산책 · 등산 · 운동 · 운전 · 휴식 · 업무 · 여행, 어디서든 듣고 싶은 분위기를 고르면 끊김 없이 이어져요. <b>광고 없이</b>, 화면을 꺼도 <span class="nw">계속 들려요.</span></p>`
+    + `<div class="mz-grid">` + MOODS.map(([k, n, s]) => `<button type="button" class="mz-c" data-mz="${k}" aria-pressed="false"><i aria-hidden="true">${IC.play}</i><b>${esc(n)}</b><small>${esc(s)}</small></button>`).join('') + `</div>`
+    + `<p class="mz-note">오마주 매거진이 직접 만든 연주곡이에요. 노랫말 없이 잔잔하게 이어집니다.</p></section>`;
+}
+export { paint };
+
 export function init(opts = {}) {
   toastFn = opts.toast || null; closeFn = opts.closeModal || null; trackFn = opts.track || null;
-  const grid = $('mz-grid'); if (!grid) return;
-  grid.innerHTML = MOODS.map(([k, n, s]) => `<button type="button" class="mz-c" data-mz="${k}" aria-pressed="false"><i aria-hidden="true">${IC.play}</i><b>${esc(n)}</b><small>${esc(s)}</small><em class="mz-min" data-min="${k}"></em></button>`).join('');
-  grid.addEventListener('click', e => {
+  // 칸은 '오늘의 추천 음악' 안쪽에 그린다(대표 2026-10-25: 따로 빼지 말고 추천 음악 안에) — app.js renderPick 이 html() 을 넣고 paint() 를 부른다
+  document.addEventListener('click', e => {
     const b = e.target.closest('[data-mz]'); if (!b) return;
     const k = b.dataset.mz;
     if (cur === k && au && au.src) { au.paused ? resume() : pause(); } else start(k);
@@ -92,6 +102,6 @@ export function init(opts = {}) {
   document.addEventListener('play', e => { if (au && e.target !== au && e.target.tagName === 'AUDIO') pause(); }, true);
   // 유튜브 영상(노래·따라하기·추천 음악)을 열면 멎는다
   document.addEventListener('click', e => { if (e.target.closest('[data-swv], [data-fl], [data-msong], [data-song], #opn-play, #opn-ctrl')) pause(); }, true);
-  load().then(L => { if (!L) return; document.querySelectorAll('[data-min]').forEach(s => { const m = mins(s.dataset.min); if ((L[s.dataset.min] || []).length) s.textContent = `${m}분 이어 듣기`; }); });
+  load();
   window.omajuMood = { pause, stop, start, get playing() { return !!(au && !au.paused); }, get cur() { return cur; } };
 }

@@ -125,12 +125,13 @@ srv.listen(0, '127.0.0.1', async () => {
       const L = {}; for (const k of ['walk', 'hike', 'exercise', 'drive', 'rest', 'work', 'travel']) L[k] = [{ f: k + '/1.mp3', sec: 6 }, { f: k + '/2.mp3', sec: 6 }];
       const mp3 = fs.readFileSync(path.join(__dirname, 'fixtures', 'mood.mp3'));
       await c.route(/omaju@mood\/|omaju\/mood\//, r => r.request().url().endsWith('list.json') ? r.fulfill({ contentType: 'application/json', body: JSON.stringify(L) }) : r.fulfill({ contentType: 'audio/mpeg', body: mp3 }));
-      await p.goto(base + '/index.html#g1'); await wait(p, 2500);
+      await p.goto(base + '/index.html'); await wait(p, 2500); await p.evaluate(() => window.omajuNav('pick')); await wait(p, 1500);
       const o = [];
-      const n = await p.evaluate(() => document.querySelectorAll('.tabsec[data-g="g1"] .mz-c').length); if (n !== 7) o.push('칸 ' + n);
+      const n = await p.evaluate(() => document.querySelectorAll('#pick-body .mz-c').length); if (n !== 8) o.push('추천 음악 안 칸 ' + n);
+      if (await p.evaluate(() => document.querySelectorAll('.tabsec .mz-c').length)) o.push('장 목록에 따로 나옴');
       await p.evaluate(() => document.querySelector('.mz-c[data-mz="walk"]').click()); await wait(p, 1500);
       let st = await p.evaluate(() => ({ on: window.omajuMood && window.omajuMood.playing, bar: !document.getElementById('mz-bar').hidden, t: document.getElementById('mz-t').textContent }));
-      if (!st.on || !st.bar || !/산책/.test(st.t)) o.push('재생 ' + JSON.stringify(st));
+      if (!st.on || !st.bar || !/기분 좋은/.test(st.t)) o.push('재생 ' + JSON.stringify(st));
       await p.evaluate(() => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); }); await wait(p, 600);
       if (!(await p.evaluate(() => window.omajuMood.playing))) o.push('화면을 끄니 멎음');
       await p.evaluate(() => { Object.defineProperty(document, 'hidden', { value: false, configurable: true }); });
@@ -141,7 +142,7 @@ srv.listen(0, '127.0.0.1', async () => {
       await p.evaluate(() => document.getElementById('mz-x').click()); await wait(p, 400);
       st = await p.evaluate(() => ({ on: window.omajuMood.playing, bar: !document.getElementById('mz-bar').hidden }));
       if (st.on || st.bar) o.push('끄기 ' + JSON.stringify(st));
-      ok('오늘의 음악과 함께: 재생·화면 꺼도 계속·다른 소리에 멎음·끄기', !o.length, o.concat([...new Set(errs)].filter(e => !/process is not defined/.test(e))).join(' / '));
+      ok('오늘의 음악과 함께(추천 음악 안): 재생·화면 꺼도 계속·다른 소리에 멎음·끄기', !o.length, o.concat([...new Set(errs)].filter(e => !/process is not defined/.test(e))).join(' / '));
       await c.close(); }
     // 1-4) 카카오·네이버로 시작하기: 단추가 보이고, 두 회사 색이고, 누르면 우리 서버 다리로 간다
     { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));

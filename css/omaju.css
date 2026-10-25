@@ -2640,7 +2640,7 @@ body.in-chapter .cols-wrap { display: none; }
 #talk-body .tk-from { margin-left: 6px; font-weight: 400; font-size: .76rem; color: #4A6A8A; background: #EEF5FC; border-radius: 6px; padding: 1px 6px; }
 
 /* ── 오늘의 음악과 함께 (대표 2026-10-25) — js/mood.js ── */
-.mz { margin: 0 0 8px; }
+.mz { margin: 34px 0 8px; padding-top: 26px; border-top: 1px solid #E7E1D3; min-width: 0; }
 .mz-h { margin: 6px 0 4px; font: 900 1.25rem/1.4 'Noto Serif KR', 'Nanum Myeongjo', serif; color: #1F2A24; word-break: keep-all; }
 .mz-lead { margin: 0 0 14px; color: #5B655F; font-size: .92rem; line-height: 1.55; word-break: keep-all; }
 .mz-lead b { color: #1F5A43; }
@@ -2663,3 +2663,6 @@ body.in-chapter .cols-wrap { display: none; }
 .mz-bar .mz-pp { background: #F9E9A8; color: #3A2E00; width: 42px; height: 42px; border-radius: 50%; }
 .mz-bar .mz-x { font-size: .8rem; border: 1px solid rgba(255,255,255,.35); padding: 0 10px; }
 body.mz-on { padding-bottom: 76px; }
+
+.pk-sec { display: inline-block; margin: 0 0 12px; padding: 4px 10px; border-radius: 6px; background: #E6F1EA; color: #1F5A43; font-weight: 700; font-size: .9rem; }
+.mz-c b { overflow-wrap: anywhere; }

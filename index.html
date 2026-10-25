@@ -36,7 +36,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&family=Nanum+Pen+Script&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10251930" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10252040" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -147,15 +147,8 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
     <button type="button" class="banner photo" data-open="culture" data-corner="culture" id="culture-banner" style="background-image:url('img/culture.jpg?v=2')"><div class="b-text"><div><h3 id="culture-title">시 · 그림 · 명언 · 에세이</h3><p id="culture-sub">성경 · 법문 · 음악 · 유머</p></div><span>감상하기</span></div></button>
 
     <!-- 판갈이 시안 (대표 2026-10-24): 날씨·경제·이슈는 "온 김에 보는 것" — 맨 밑 30초 브리핑으로 -->
-    <div class="label">오늘의 추천 음악</div>
-    <button type="button" class="banner photo" data-open="pick" data-corner="pick" style="background-image:url('img/pick.jpg?v=2'); background-position: center"><div class="b-text"><div><h3 id="pick-title">오늘, 이 한 곡</h3><p id="pick-sub">그 시절 주옥같은 노래, 하루 한 곡</p></div><span>들어 보기</span></div></button>
-
-    <!-- 오늘의 음악과 함께 (대표 2026-10-25): 상황을 고르면 직접 만든 연주곡이 이어진다 — 화면을 꺼도 계속(js/mood.js) -->
     <div class="label">오늘의 음악과 함께</div>
-    <div class="mz" id="mz"><h3 class="mz-h">이어폰 꽂고, <span class="nw">그냥 틀어 두세요</span></h3>
-      <p class="mz-lead">상황만 고르면 끊김 없이 이어서. <b>광고 없이</b>, 화면을 꺼도 <span class="nw">계속 들려요.</span></p>
-      <div class="mz-grid" id="mz-grid"></div>
-      <p class="mz-note">오마주 매거진이 직접 만든 연주곡이에요. <span class="nw">노랫말 없이 잔잔하게 이어집니다.</span></p></div>
+    <button type="button" class="banner photo" data-open="pick" data-corner="pick" style="background-image:url('img/pick.jpg?v=2'); background-position: center"><div class="b-text"><div><h3 id="pick-title">오늘, 이 한 곡</h3><p id="pick-sub">그 시절 주옥같은 노래, 하루 한 곡</p></div><span>들어 보기</span></div></button>
 
     <div class="brief-h"><span>온 김에</span><b>30초 브리핑</b><small>날씨 · 경제 · 오늘의 이슈</small></div>
     <div class="brief">
@@ -429,7 +422,7 @@ try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10251930"></script>
+<script type="module" src="js/app.js?v=10252040"></script>
 <div class="mz-bar" id="mz-bar" hidden role="region" aria-label="오늘의 음악과 함께 재생">
   <div class="mz-bt"><b id="mz-t"></b><small id="mz-s"></small></div>
   <button type="button" id="mz-prev" aria-label="앞 곡">⏮</button><button type="button" id="mz-pp" class="mz-pp" aria-label="잠시 멈춤">❚❚</button><button type="button" id="mz-next" aria-label="다음 곡">⏭</button><button type="button" id="mz-x" class="mz-x" aria-label="끄기">끄기</button>
