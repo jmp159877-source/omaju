@@ -2556,34 +2556,31 @@ body.in-chapter .cols-wrap { display: none; }
 #detail .ev .ev-box b:first-child { font-weight: 800; }
 #detail .ev .ev-cons b, #detail .ev .ev-box b:not(:first-child) { display: inline; font-size: inherit; color: #111; margin: 0; font-weight: 800; }
 
-/* ── 오마주 사랑방 (대표 2026-10-25): 대표가 재미나이로 받은 시안을 따름 — 미색 종이 바탕·명조 주제·말풍선 없는 글 블록·숲색 단추 ── */
+/* ── 오마주 사랑방 (대표 2026-10-25): 재미나이 시안의 결(미색 종이·명조 주제·말풍선 없는 글) + 가로 칸(나의 수첩만 한 크기)
+   — 세로로 길면 오히려 촌스럽다. 글은 한 번에 하나씩, 아래에서 떠올라 위로 올라간다. ── */
 .talk { position: relative; margin: 22px 0 0; border-radius: 16px; overflow: hidden; cursor: pointer; text-align: left;
-  background: #F9F8F6; border: 1px solid #E8E6E1; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
-.tk-band { padding: 26px 24px 0; }
-.tk-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
-.tk-k { font: 600 .86rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .03em; color: #2C4B3B; }
-.tk-live { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #F0F0EE; border-radius: 999px; padding: 4px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  font: 500 .68rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .1em; color: #222; }
-.tk-live i { width: 6px; height: 6px; border-radius: 50%; background: #2C4B3B; animation: tkPulse 2s infinite; }
-@keyframes tkPulse { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(44,75,59,.7); } 70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(44,75,59,0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(44,75,59,0); } }
-.tk-q { margin: 0; padding-bottom: 20px; border-bottom: 1px solid #E8E6E1; font: 800 1.42rem/1.38 'Noto Serif KR', 'Nanum Myeongjo', serif; color: #222; word-break: keep-all; }
-.tk-q small { display: block; margin-top: 8px; font: 400 .86rem/1.5 Pretendard, 'Noto Sans KR', sans-serif; color: rgba(34,34,34,0.7); }
-.tk-win { position: relative; height: calc(3 * 6.2em); overflow: hidden; margin: 6px 24px 0;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 80%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 8%, #000 80%, transparent 100%); }
+  background: #F9F8F6; border: 1px solid #E8E6E1; box-shadow: 0 15px 40px rgba(0,0,0,0.08); padding: 20px 22px 16px; }
+.tk-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+.tk-k { font: 600 .84rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .02em; color: #2C4B3B; min-width: 0; white-space: nowrap; }
+.tk-live { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; background: #EEF3FB; border: 1px solid #D3E0F3; border-radius: 999px; padding: 3px 10px;
+  font: 600 .66rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .12em; color: #1F4E8C; }   /* LIVE 는 고급스러운 블루로 (대표 2026-10-25) */
+.tk-live i { width: 6px; height: 6px; border-radius: 50%; background: #2F6BC4; animation: tkPulse 2s infinite; }
+@keyframes tkPulse { 0% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,107,196,.6); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(47,107,196,0); } 100% { transform: scale(.95); box-shadow: 0 0 0 0 rgba(47,107,196,0); } }
+.tk-q { margin: 10px 0 0; padding-bottom: 14px; border-bottom: 1px solid #E8E6E1; font: 700 min(1.2rem, 5.4vw)/1.4 'Noto Serif KR', 'Nanum Myeongjo', serif; color: #222; word-break: keep-all; }
+.tk-q small { display: block; margin-top: 5px; font: 400 .84rem/1.5 Pretendard, 'Noto Sans KR', sans-serif; color: rgba(34,34,34,0.65); }
+.tk-win { position: relative; height: 10em; overflow: hidden; margin-top: 6px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 6%, #000 90%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 6%, #000 90%, transparent 100%); }
 .tk-reel { list-style: none; margin: 0; padding: 0; will-change: transform; }
-.tk-it { height: 6.2em; box-sizing: border-box; padding: .6em 0; display: flex; align-items: center; min-width: 0;
-  opacity: .15; transform: translateY(14px); transition: opacity .9s ease, transform 1.1s cubic-bezier(.22,1,.36,1); }
+.tk-it { height: 5em; box-sizing: border-box; padding: .45em 0; display: flex; align-items: center; min-width: 0;
+  opacity: 0; transform: translateY(12px); transition: opacity .9s ease, transform 1.1s cubic-bezier(.22,1,.36,1); }
 .tk-it.in { opacity: 1; transform: none; }
 .tk-bb { flex: 1 1 auto; min-width: 0; }
-.tk-bb b { display: flex; align-items: center; gap: 8px; font: 600 .88rem Pretendard, 'Noto Sans KR', sans-serif; color: #222; min-width: 0; margin-bottom: 6px; }
+.tk-bb b { display: flex; align-items: center; gap: 8px; font: 600 .84rem Pretendard, 'Noto Sans KR', sans-serif; color: #222; min-width: 0; margin-bottom: 3px; }
 .tk-bb b span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tk-bb b em { font-style: normal; font-weight: 500; font-size: .64rem; color: #2C4B3B; background: rgba(44,75,59,0.1); border: 1px solid rgba(44,75,59,0.2); border-radius: 4px; padding: 1px 6px; }
-.tk-bb b i { font-style: normal; font-weight: 400; font-size: .74rem; color: #888; margin-left: auto; white-space: nowrap; }
-.tk-bb p { margin: 0; font: 400 .95rem/1.65 Pretendard, 'Noto Sans KR', sans-serif; color: rgba(34,34,34,0.9); word-break: keep-all;
+.tk-bb b em { font-style: normal; font-weight: 500; font-size: .62rem; color: #2C4B3B; background: rgba(44,75,59,0.1); border: 1px solid rgba(44,75,59,0.2); border-radius: 4px; padding: 1px 6px; }
+.tk-bb b i { font-style: normal; font-weight: 400; font-size: .72rem; color: #888; margin-left: auto; white-space: nowrap; }
+.tk-bb p { margin: 0; font: 400 .94rem/1.55 Pretendard, 'Noto Sans KR', sans-serif; color: rgba(34,34,34,0.9); word-break: keep-all;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.tk-topic { flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; }
-.tk-topic span { font: 600 .72rem Pretendard, 'Noto Sans KR', sans-serif; letter-spacing: .08em; color: #2C4B3B; opacity: .7; }
-.tk-topic p { margin: 0; font: 800 1.06rem/1.4 'Noto Serif KR', 'Nanum Myeongjo', serif; color: #2C4B3B; word-break: keep-all; }
 .tk-typing { gap: 5px; }
 .tk-typing small { font: italic 400 .86rem Pretendard, 'Noto Sans KR', sans-serif; color: #888; white-space: nowrap; }
 .tk-dots { display: inline-flex; gap: 3px; transform: translateY(2px); }
@@ -2591,10 +2588,12 @@ body.in-chapter .cols-wrap { display: none; }
 .tk-dots i:nth-child(2) { animation-delay: .2s; } .tk-dots i:nth-child(3) { animation-delay: .4s; }
 @keyframes tkDot { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
 .tk-empty p { color: #888; }
-.tk-go { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 6px; width: calc(100% - 44px); margin: 10px 22px 0; padding: 14px; border: 0; border-radius: 12px;
-  background: #2C4B3B; color: #fff; font: 500 .96rem Pretendard, 'Noto Sans KR', sans-serif; cursor: pointer; box-shadow: 0 4px 12px rgba(44,75,59,0.2); }
-.tk-n { display: block; text-align: center; margin: 12px 0 24px; font: 400 .76rem Pretendard, 'Noto Sans KR', sans-serif; color: #888; }
+.tk-foot { margin-top: 10px; }
+.tk-r { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.tk-n { font: 400 .74rem Pretendard, 'Noto Sans KR', sans-serif; color: #888; white-space: nowrap; }
 .tk-n b { font-weight: 600; color: #2C4B3B; }
+.tk-go { display: block; text-align: center; padding: 12px; border-radius: 12px; background: #2C4B3B; color: #fff; font: 500 .94rem Pretendard, 'Noto Sans KR', sans-serif; box-shadow: 0 4px 12px rgba(44,75,59,0.2); }
+.tk-go b { font-size: 1.1em; margin-left: 2px; }
 @media (prefers-reduced-motion: reduce) { .tk-reel { transition: none !important; } .tk-it { transition: none; } .tk-dots i, .tk-live i { animation: none; } }
 /* #talk 안쪽: 오늘 글 전부 + 쓰기 */
 #talk-body .tk-head { margin: 26px 0 14px; }

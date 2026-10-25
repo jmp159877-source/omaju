@@ -38,20 +38,20 @@ const item = x => `<li class="tk-it${x.host ? ' tk-host' : ''}"><div class="tk-b
 function mount() {
   const box = document.getElementById('talk-box'); if (!box) return;
   box.hidden = false;
-  box.querySelector('.tk-q').innerHTML = `${nw(TOPIC.q)}<small>${esc(TOPIC.sub || '')}</small>`;
+  box.querySelector('.tk-q').innerHTML = nw(TOPIC.q);   // 가로 칸 — 설명 한 줄은 안쪽 화면에
   box.onclick = e => { if (e.target.closest('a,button') && !e.target.closest('.tk-go')) return; nav('talk'); };
   paint(true);
 }
 // 띠에 걸 글 차례: 최근 것부터 열두 개, 네 칸마다 주제 카드를 한 번 끼운다
 function reel() {
   const xs = shown().slice(0, 12), out = [];
-  xs.forEach((x, i) => { if (i && i % 6 === 0) out.push({ topic: 1 }); else if (i && i % 3 === 0) out.push({ typing: 1 }); out.push(x); });
+  xs.forEach((x, i) => { if (i && i % 3 === 0) out.push({ typing: 1 }); out.push(x); });
   return out;
 }
 function paint(reset) {
   const ul = document.querySelector('#talk-box .tk-reel'); if (!ul) return;
   const r = reel(), n = document.querySelector('#talk-box .tk-n');
-  if (n) { const c = shown().length; n.innerHTML = c ? `오늘 <b>${c}개</b>의 이야기` : '첫 이야기를 남겨 주세요'; }
+  if (n) { const c = shown().length; n.innerHTML = c ? `오늘 <b>${c}</b>` : ''; }
   if (!r.length) { ul.innerHTML = '<li class="tk-it tk-empty"><p>아직 조용해요. 첫 이야기를 남겨 주세요.</p></li>'; return; }
   // 끝없이 도는 띠: 두 벌 이어 붙이고 한 칸씩 올린다
   ul.innerHTML = [...r, ...r].map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : x.typing ? '<li class="tk-it tk-typing"><small>누군가 이야기를 쓰고 있어요</small><span class="tk-dots"><i></i><i></i><i></i></span></li>' : item(x)).join('');
@@ -63,12 +63,12 @@ function tick() {
   const len = +ul.dataset.len || 0; if (len < 2) return;
   const h = ul.children[0].getBoundingClientRect().height;
   idx++; ul.style.transition = 'transform 1.1s cubic-bezier(.22,.7,.2,1)'; ul.style.transform = `translateY(${-idx * h}px)`;
-  [...ul.children].forEach((li, i) => li.classList.toggle('in', i >= idx && i < idx + 3));
-  if (idx >= len) setTimeout(() => { ul.style.transition = 'none'; idx = 0; ul.style.transform = 'translateY(0)'; [...ul.children].forEach((li, i) => li.classList.toggle('in', i < 3)); }, 1150);
+  [...ul.children].forEach((li, i) => li.classList.toggle('in', i >= idx && i < idx + 2));
+  if (idx >= len) setTimeout(() => { ul.style.transition = 'none'; idx = 0; ul.style.transform = 'translateY(0)'; [...ul.children].forEach((li, i) => li.classList.toggle('in', i < 2)); }, 1150);
 }
 function start() {
   stop();
-  const ul = document.querySelector('#talk-box .tk-reel'); if (ul) [...ul.children].forEach((li, i) => li.classList.toggle('in', i < 3));
+  const ul = document.querySelector('#talk-box .tk-reel'); if (ul) [...ul.children].forEach((li, i) => li.classList.toggle('in', i < 2));
   timer = setInterval(() => { if (document.hidden) return; tick(); }, STEP);
   // 새 글 확인: 30초마다(화면이 보일 때만), 채움 글이 시간 되어 떠오르는 것도 이때 반영
   let last = shown().length;
