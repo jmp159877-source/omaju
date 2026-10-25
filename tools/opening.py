@@ -456,6 +456,51 @@ def split(pcm, lens):
     for k in range(N, 0, -1): i = bk[k][j]; sel.append(i); j = i
     return [0.0] + [round(pts[i], 2) for i in sel[::-1][1:]], round(T, 2)
 
+def pauses(pcm):
+    """말 사이 쉼 자리 (가운데 초, 길이) 목록과 전체 길이"""
+    import numpy as np
+    x = np.frombuffer(pcm, np.int16).astype(float); sr = 24000; T = len(x) / sr; hop = 240
+    e = np.array([np.sqrt((x[i:i + hop] ** 2).mean()) for i in range(0, len(x) - hop, hop)]); sil = e < 0.03 * e.max()
+    runs = []; i = 0
+    while i < len(sil):
+        if sil[i]:
+            j = i
+            while j < len(sil) and sil[j]: j += 1
+            if (j - i) * hop / sr >= 0.12 and i > 0 and j < len(sil): runs.append(((i + j) / 2 * hop / sr, (j - i) * hop / sr))
+            i = j
+        else: i += 1
+    return runs, T
+
+def align(pcm, texts):
+    """받아쓰기 모델에게 문장마다 시작 시각을 묻고, 가장 가까운 쉼 자리에 맞춘다 (대표 2026-10-25 밤: 자막이 멘트와 어긋남).
+    글자 수 비례로만 자르면(split) 문장 길이와 실제 말 길이가 다를 때 한 문장씩 밀린다. 실패하면 None."""
+    if len(texts) < 2: return None
+    try:
+        import io
+        buf = io.BytesIO()
+        with wave.open(buf, 'wb') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
+        q = ('이 녹음은 아래 문장들을 차례로 읽은 것이다. 문장마다 말이 시작한 시각을 초 단위(소수 둘째 자리)로 JSON 배열로만 답하라. '
+             '형식: [0.00, 3.12, ...] (문장 수만큼)\n' + '\n'.join(f'{i}: {t}' for i, t in enumerate(texts)))
+        for m in pick('flash')[:2]:
+            try:
+                d = post(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={KEY}',
+                         {'contents': [{'parts': [{'inline_data': {'mime_type': 'audio/wav', 'data': base64.b64encode(buf.getvalue()).decode()}}, {'text': q}]}],
+                          'generationConfig': {'responseMimeType': 'application/json', 'temperature': 0}}, 120)
+                ts = json.loads(d['candidates'][0]['content']['parts'][0]['text'])
+                if isinstance(ts, list) and len(ts) == len(texts): break
+            except Exception: ts = None
+        if not ts: return None
+        runs, T = pauses(pcm); out = [0.0]; prev = 0.0
+        for k in range(1, len(texts)):
+            t = float(ts[k] if not isinstance(ts[k], dict) else ts[k].get('start', 0))
+            near = [r for r in runs if abs(r[0] - t) <= 1.5 and r[0] > prev + 0.6]
+            c = min(near, key=lambda r: abs(r[0] - t) - min(r[1], 0.6) * 0.5)[0] if near else None
+            if c is None: return None
+            out.append(round(c, 2)); prev = c
+        return out, round(T, 2)
+    except Exception as e:
+        say('시각 맞추기 실패', str(e)[:80]); return None
+
 # ── 배경 음악 ──
 # 음악이 먼저 혼자 흐르다(LEAD) 말이 시작되면 밑으로 내려가 깔리고, 끝에서 서서히 사라진다.
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -613,13 +658,28 @@ def build():
             got = tts('\n'.join(texts), HOST)
             if got is None: continue
             gf = f0(got); off_p = abs(gf / tgt0 - 1) if (tgt0 and gf) else 0; fd = fade_db(got)
-            st, Tg = split(got, glens); sr = 24000
-            ed = [int(x * sr) * 2 for x in st] + [len(got) // 2 * 2]
-            bad = []
-            for k, t in enumerate(texts):
-                okk, heard, r = check(KEY, got[ed[k]:ed[k + 1]], t)
-                if r < 0.7 and not str(heard).startswith('(받아쓰기 실패'): bad.append(f'{k + 1}:{r} {str(heard)[:24]}')
-                elif '사랑합니다' in str(heard).replace(' ', '') and '사랑합니다' not in t: bad.append(f'{k + 1}:대본에 없는 사랑합니다')   # 10/25 저녁
+            sr = 24000
+            # 자르기: ① 받아쓰기 시각 + 쉼 자리(align) ② 글자 수 비례(split). 조각마다 받아쓰기로 대본과 맞춰 보고 더 잘 맞는 쪽을 쓴다.
+            # 일치율 기준을 0.7 → 0.8 로 (10/25 밤 0.7 로는 한 문장씩 밀린 것을 못 걸렀다)
+            cands = []
+            a1 = align(got, texts)
+            if a1: cands.append(('시각', a1[0], a1[1]))
+            s2, t2 = split(got, glens); cands.append(('비례', s2, t2))
+            pickc = None
+            for nm_, st, Tg in cands:
+                ed = [int(x * sr) * 2 for x in st] + [len(got) // 2 * 2]
+                bad = []; rs = []
+                for k, t in enumerate(texts):
+                    okk, heard, r = check(KEY, got[ed[k]:ed[k + 1]], t)
+                    if str(heard).startswith('(받아쓰기 실패'): continue
+                    rs.append(r)
+                    if r < 0.8: bad.append(f'{k + 1}:{r} {str(heard)[:24]}')
+                    elif '사랑합니다' in str(heard).replace(' ', '') and '사랑합니다' not in t: bad.append(f'{k + 1}:대본에 없는 사랑합니다')   # 10/25 저녁
+                sc_ = (len(bad), -(min(rs) if rs else 0))
+                say(f'  자르기 {nm_}', '어긋남', bad or '없음', '최저 일치', min(rs) if rs else '-')
+                if pickc is None or sc_ < pickc[0]: pickc = (sc_, st, Tg, bad)
+                if not bad: break
+            _, st, Tg, bad = pickc
             # 가라앉음: 구간 하나라도 기준보다 8% 넘게 낮거나, 억양 폭이 첫 토막의 80% 아래로 납작해지면 (대표 2026-10-24 저녁 48~72초 173Hz·폭 170)
             wins = f0_win(got); low = [round(m) for m, sp in wins if tgt0 and m < tgt0 * 0.92]
             spread = sorted(sp for m, sp in wins)[len(wins) // 2] if wins else 0
