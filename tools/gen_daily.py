@@ -831,12 +831,12 @@ def gen_culture(d):
     quote = data["quotes"][(n * 7) % len(data["quotes"])]
     bible = data["bible"][(n * 5) % len(data["bible"])]
     dharma = data["dharma"][(n * 3) % len(data["dharma"])]
-    ps = data["paintings"]; paint = None
-    for k in range(len(ps)):
-        cand = ps[(n * 3 + k) % len(ps)]
-        im = wiki_image(cand["wiki"])
-        if im:
-            paint = {**cand, **im}; break
+    ps = data["paintings"]
+    # 그림은 날짜로만 고른다 — 사진을 받아 보고 고르면 받는 곳(깃허브·클국장 작업 공간)마다 고른 그림이 달라져
+    # 주문서 문구가 바뀌고, 클국장이 밤에 써 둔 답을 못 찾는다(2026-10-27 문화·말 거는 제목이 그래서 비었다).
+    cand = ps[(n * 3) % len(ps)]
+    im = wiki_image(cand["wiki"])
+    paint = {**cand, **(im or {})}
     season = ["한겨울", "늦겨울", "이른 봄", "봄", "늦봄", "초여름", "한여름", "늦여름", "초가을", "가을", "늦가을", "초겨울"][d.month - 1]
     a = gemini(f"""오늘의 문화 코너 해설을 써라. 확실한 사실만, 모르는 건 쓰지 말 것.
 [시] {poem["author"]} 「{poem["title"]}」 ({poem["year"]})
@@ -882,7 +882,7 @@ def _culture_out(d, n, data, poem, quote, bible, dharma, paint, a, b):
     e = b.get("essay") or {}
     if e.get("title") and len(e.get("paras", [])) >= 2:
         out["essay"] = {"title": e["title"].strip(), "paras": [x.strip() for x in e["paras"]], "by": "오마주 편집실"}
-    if paint:
+    if paint and paint.get("img"):   # 사진을 못 받았으면 빼 둔다 — 화면이 같은 차례로 사진을 직접 찾는다
         out["painting"] = {**paint, "about": a.get("painting_about", "").strip(), "points": [x for x in a.get("painting_points", []) if x], "artist_story": a.get("painting_artist", "").strip()}
     return out
 
