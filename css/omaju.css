@@ -2723,3 +2723,10 @@ body.mz-on { padding-bottom: 76px; }
 html.big .endb { min-height: 130px; }
 html.big .endb .eb-t { max-width: 86%; }
 .tk-orn + .endb-wrap { margin-top: 0; }
+
+/* 음악 재생 띠 — 초록이 촌스럽다(대표 2026-10-26) → 연노랑 단추 색으로 */
+.mz-bar { background: #F9E9A8; color: #3A2E00; box-shadow: 0 8px 24px rgba(58,46,0,.22); border: 1px solid #E8D58A; }
+.mz-bar button { color: #3A2E00; }
+.mz-bar .mz-pp { background: #3A2E00; color: #F9E9A8; }
+.mz-bar .mz-x { border-color: rgba(58,46,0,.35); }
+.mz-bt small { opacity: .75; }

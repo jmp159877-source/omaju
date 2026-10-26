@@ -54,8 +54,8 @@ function others() {
 function setTrack() {
   const it = LIST[cur][order[idx]]; au.src = BASES[base] + it.f;
 }
-async function start(k) {
-  if (!(await load()) || !(LIST[k] || []).length) { toastFn && toastFn('음악을 준비하는 중이에요. 잠시 뒤에 다시 눌러 주세요.'); return; }
+async function start(k, auto = false) {
+  if (!(await load()) || !(LIST[k] || []).length) { if (!auto) toastFn && toastFn('음악을 준비하는 중이에요. 잠시 뒤에 다시 눌러 주세요.'); return; }
   if (!au) {
     au = new Audio(); au.preload = 'auto'; au.setAttribute('playsinline', ''); au.id = 'mz-audio';
     au.onended = () => step(1);
@@ -65,7 +65,12 @@ async function start(k) {
   cur = k; const n = LIST[k].length; order = [...Array(n).keys()];
   for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
   idx = 0; setTrack(); others();
-  try { await au.play(); } catch (e) { toastFn && toastFn('재생을 시작하지 못했어요. 한 번 더 눌러 주세요.'); }
+  au.volume = auto ? 0 : 1;
+  try {
+    await au.play();
+    if (auto) { let v = 0; const t = setInterval(() => { v += 0.04; au.volume = Math.min(0.6, v); if (v >= 0.6) clearInterval(t); }, 150); }   // 저절로 틀 때는 3초에 걸쳐 작게 시작
+  } catch (e) { au.volume = 1; if (!auto) toastFn && toastFn('재생을 시작하지 못했어요. 한 번 더 눌러 주세요.'); }   // 막히면 아래 띠만 멈춘 채로 — 누르면 나온다
+  if (!auto) try { localStorage.setItem('omaju.autoMusic', 'on'); } catch (e) {}
   paint(); session();
   try { trackFn && trackFn('mood_play', { k }); } catch (e) {}
 }
@@ -87,6 +92,18 @@ export function html() {
 }
 export { paint };
 
+// 앱 아이콘으로 들어오면 '감미로운 그루브'가 저절로 흐른다 (대표 2026-10-26: "음악 들으면서 콘텐츠를 하나씩 보게").
+// 홈 화면에 깐 앱으로 열었을 때만(브라우저로 처음 온 분에게는 틀지 않는다), 끄기를 누른 적이 있으면 틀지 않는다.
+// 아이폰처럼 저절로 틀기를 막는 곳에서는 아래 띠만 멈춘 채로 떠서 한 번 누르면 나온다.
+export function auto() {
+  try {
+    if (!(matchMedia('(display-mode: standalone)').matches || navigator.standalone)) return;
+    if (localStorage.getItem('omaju.autoMusic') === 'off') return;
+  } catch (e) { return; }
+  if (cur) return;
+  start('drive', true);
+}
+
 export function init(opts = {}) {
   toastFn = opts.toast || null; closeFn = opts.closeModal || null; trackFn = opts.track || null;
   // 칸은 '오늘의 추천 음악' 안쪽에 그린다(대표 2026-10-25: 따로 빼지 말고 추천 음악 안에) — app.js renderPick 이 html() 을 넣고 paint() 를 부른다
@@ -97,7 +114,7 @@ export function init(opts = {}) {
   });
   $('mz-prev').innerHTML = IC.prev; $('mz-next').innerHTML = IC.next; $('mz-pp').innerHTML = IC.pause;
   $('mz-pp').onclick = () => (au && au.paused ? resume() : pause());
-  $('mz-prev').onclick = () => step(-1); $('mz-next').onclick = () => step(1); $('mz-x').onclick = () => stop();
+  $('mz-prev').onclick = () => step(-1); $('mz-next').onclick = () => step(1); $('mz-x').onclick = () => { stop(); try { localStorage.setItem('omaju.autoMusic', 'off'); } catch (e) {} };   // 끄기를 누른 분에게는 다음부터 저절로 틀지 않는다
   // 다른 소리가 나면 멎는다 (오프닝 등 <audio>)
   document.addEventListener('play', e => { if (au && e.target !== au && e.target.tagName === 'AUDIO') pause(); }, true);
   // 유튜브 영상(노래·따라하기·추천 음악)을 열면 멎는다
