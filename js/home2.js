@@ -48,8 +48,6 @@ export async function mount() {
   const lede = intro.querySelector('.intro-lede'); if (lede) lede.innerHTML = '<span class="nw">매일 아침,</span> <span class="nw">새로운 이야기를 만납니다.</span>';
   // 시안 4 (대표 2026-10-27 07:43 — "기존 시대 공유 박스가 깔끔하고 고급스러웠다, 그 모양으로"):
   // 예전 '시대 공유' 사진 칸을 그대로 첫 화면 맨 앞으로 — 연재 다섯 + 그해 오늘 = 2×3 사진 칸, 그 밑 사랑방. CONTENTS 는 그 아래 원래 모양 그대로.
-  await Promise.all(['ev', 'ai'].map(k => EV.load(k)));
-  const T = today();
   const wrap = document.querySelector('.cols-wrap'); if (!wrap) return;
   const sec = document.createElement('section'); sec.className = 'cols-wrap h4'; sec.setAttribute('aria-label', '시대 공유');
   const head = wrap.querySelector('.cols-head'), orn = wrap.querySelector('.cols-orn:not(.tk-orn)'), row = wrap.querySelector('.cols-row'), tkOrn = wrap.querySelector('.cols-orn.tk-orn'), talk = document.getElementById('talk-box');
@@ -76,8 +74,8 @@ export async function mount() {
   const dots = el => { if (!el || el.dataset.glued) return; el.innerHTML = el.textContent.split(' · ').map(x => '<span class="nw">' + esc(x.trim()) + '</span>').join(' · '); el.dataset.glued = 1; };
   setTimeout(() => { document.querySelectorAll('#tabs3 button b, .h4 .col-tile b').forEach(glue); document.querySelectorAll('#tabs3 button small').forEach(dots); }, 0);
   // 나의 수첩 → 내 서재
-  const nb = document.querySelector('#tabs3 [data-tab="g4"]'); if (nb) nb.innerHTML = '<b>내 서재</b><small>이어 읽기 · 담아 둔 글</small>';
-  mountLibrary();
+  // 내 서재는 아직 시안(담아 둔 글·예전 수첩 잇기 전) — ?lib=1 인 기기에서만
+  if (document.documentElement.classList.contains('lib2')) { const nb = document.querySelector('#tabs3 [data-tab="g4"]'); if (nb) nb.innerHTML = '<b>내 서재</b><small>이어 읽기 · 담아 둔 글</small>'; mountLibrary(); }
 }
 
 // ── 내 서재 (나의 수첩 자리) — 세 가지만: 이어 읽기 · 따라가는 연재 · 담아 둔 글 ──

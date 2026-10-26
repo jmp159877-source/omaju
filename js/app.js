@@ -214,7 +214,7 @@ async function kakaoSendCard(file, url) {
     try {
       window.Kakao.Share.sendDefault({ objectType: 'feed', content: { title: '', ...pic }, buttons: btn });
     } catch (e2) {
-      window.Kakao.Share.sendDefault({ objectType: 'feed', content: { title: '매일 아침 새로 나오는 잡지, 오마주', ...pic }, buttons: btn });
+      window.Kakao.Share.sendDefault({ objectType: 'feed', content: { title: '매일 아침, 새로운 이야기를 만납니다 · 오마주 매거진', ...pic }, buttons: btn });
     }
     return true;
   } catch (err) { return false; }
@@ -1460,7 +1460,7 @@ function setChapter(g) {
   if (g) {
     if (!head) { head = document.createElement('header'); head.id = 'ch-head'; head.className = 'ch-head'; document.querySelector('.tabsec').before(head); }
     let [t, sub, img, no] = CH[g];
-    if (g === 'g4' && document.documentElement.classList.contains('v2')) { t = '내 서재'; sub = '이어 읽기 · 따라가는 연재 · 담아 둔 글'; }   // 시안 (대표 2026-10-27)
+    if (g === 'g4' && document.documentElement.classList.contains('lib2')) { t = '내 서재'; sub = '이어 읽기 · 따라가는 연재 · 담아 둔 글'; }   // 시안 (대표 2026-10-27)
     head.style.backgroundImage = `url('img/${img}.jpg?v=2')`;
     head.innerHTML = `<button type="button" class="ch-back" id="ch-back">← 처음으로</button><div class="ch-t"><span class="ch-k">CHAPTER ${no || g.slice(1)}</span><h2>${t}</h2><p>${sub}</p></div>`;
     $('ch-back').onclick = () => history.back();

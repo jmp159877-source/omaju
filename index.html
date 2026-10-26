@@ -31,8 +31,8 @@ try{if(matchMedia('(display-mode: standalone)').matches||navigator.standalone)do
 js 를 다 받은 뒤에 귀를 열면 이미 지나간 뒤라 '점 세 개를 누르세요' 안내로 빠진다 (2026-10-21).
 여기서 먼저 받아 두고 app.js 가 가져다 쓴다. */
 window.__bip=null;addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__bip=e;});</script>
-<script>/* 첫 화면 판갈이 시안 (대표 2026-10-27) — ?v2=1 이면 켜고 이 기기에 기억, ?v2=0 이면 끔 */
-try{var _q=location.search;if(/[?&]v2=1/.test(_q))localStorage.setItem('omaju.v2','1');if(/[?&]v2=0/.test(_q))localStorage.removeItem('omaju.v2');if(localStorage.getItem('omaju.v2')==='1')document.documentElement.classList.add('v2');}catch(e){}</script>
+<script>/* 첫 화면 판갈이 (대표 2026-10-27 08:07 '올리자') — 모두에게 켬. ?v2=0 은 이 기기에서 예전 화면(시험용). 내 서재는 아직 시안: ?lib=1 */
+try{var _q=location.search;if(/[?&]v2=0/.test(_q))localStorage.setItem('omaju.v2','0');if(/[?&]v2=1/.test(_q))localStorage.removeItem('omaju.v2');if(localStorage.getItem('omaju.v2')!=='0')document.documentElement.classList.add('v2');if(/[?&]lib=1/.test(_q))localStorage.setItem('omaju.lib2','1');if(/[?&]lib=0/.test(_q))localStorage.removeItem('omaju.lib2');if(localStorage.getItem('omaju.lib2')==='1')document.documentElement.classList.add('lib2');}catch(e){document.documentElement.classList.add('v2');}</script>
 <script>/* 글자 크기를 그리기 전에 정한다 — 나중에 정하면 보통 크기로 한 번 그렸다가 커지며 튄다 (2026-10-18) */
 try{var _b=localStorage.getItem('omaju.big');document.documentElement.classList.toggle('big',_b==null?true:JSON.parse(_b));}catch(e){document.documentElement.classList.add('big');}
 try{var _hh=JSON.parse(localStorage.getItem('omaju.hello')||'null');if(_hh&&_hh.s==='in'){document.documentElement.classList.add('hello-in');
@@ -42,7 +42,7 @@ _st.textContent='html.hello-in #user-nick:empty::before{content:"'+_t.replace(/[
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&family=Nanum+Pen+Script&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10270750" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10270810" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -84,7 +84,7 @@ _st.textContent='html.hello-in #user-nick:empty::before{content:"'+_t.replace(/[
 
     <!-- 처음 온 사람이 "여기가 어디지" 하지 않게, 커버와 오프닝 사이에 한 번 (운영자 2026-10-20) -->
     <section class="intro" aria-label="오마주 소개">
-      <p class="intro-lede"><span class="nw">매일 아침, 새로 나오는 잡지.</span></p>
+      <p class="intro-lede"><span class="nw">매일 아침,</span> <span class="nw">새로운 이야기를 만납니다.</span></p>
       <p class="intro-sub"><span class="nw">당신의 오늘과 내일,</span><br><span class="nw">한 스푼의 보탬이 되는 시간.</span></p>
       <p class="intro-mast">Omaju · Lifestyle Magazine</p>
     </section>
@@ -432,7 +432,7 @@ _st.textContent='html.hello-in #user-nick:empty::before{content:"'+_t.replace(/[
   <span class="rd-bar-btns"><button type="button" class="rd-bar-b" id="rd-bar-pp" aria-pressed="true">잠시 멈춤</button><button type="button" class="rd-bar-b" id="rd-bar-skip">다음 코너</button></span>
 </div>
 <div class="toast" id="toast" hidden></div>
-<script type="module" src="js/app.js?v=10270750"></script>
+<script type="module" src="js/app.js?v=10270810"></script>
 <div class="mz-bar" id="mz-bar" hidden role="region" aria-label="오늘의 음악과 함께 재생">
   <div class="mz-bt"><b id="mz-t"></b><small id="mz-s"></small></div>
   <button type="button" id="mz-prev" aria-label="앞 곡">⏮</button><button type="button" id="mz-pp" class="mz-pp" aria-label="잠시 멈춤">❚❚</button><button type="button" id="mz-next" aria-label="다음 곡">⏭</button><button type="button" id="mz-x" class="mz-x" aria-label="끄기">끄기</button>

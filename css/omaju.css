@@ -2863,8 +2863,8 @@ body.in-chapter .h2, body.in-chapter .h2-hd.more { display: none; }
 @media (min-width: 900px) { .h2-tx em { display: block; margin-top: 6px; font-style: normal; font-size: .84rem; color: var(--sub); } .h2-ep { flex-basis: 190px; } }
 
 /* 내 서재 (나의 수첩 자리) — v2 에서만, 같은 요즘 앱 결 */
-html:not(.v2) .lib { display: none; }
-html.v2 .tabsec[data-g="g4"] > :not(.lib) { display: none !important; }
+html:not(.lib2) .lib { display: none; }
+html.lib2 .tabsec[data-g="g4"] > :not(.lib) { display: none !important; }
 .lib { padding-bottom: 20px; --ink: #111; --sub: #6B7280; --bd: #E7E5E4; --pt: #0F4A35; }
 .lib, .lib * { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; }
 .lib .mcard2, .lib .mcard2 * { font-family: revert; }

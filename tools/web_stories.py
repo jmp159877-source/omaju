@@ -60,7 +60,7 @@ def end_page():
     return ('<amp-story-page id="end"><amp-story-grid-layer template="fill" class="bg"></amp-story-grid-layer>'
             '<amp-story-grid-layer template="vertical" class="mid">'
             f'<div><amp-img class="logo" src="{SITE}/icon-192.png" width="192" height="192" layout="fixed" alt="오마주 매거진"></amp-img>'
-            '<p class="h1">매일 아침,<br>새로 나오는 잡지.</p><p class="p">운세 · 한 끼 · 그 시절 노래 · 여행 · 인사 카드<br>가입 없이 무료로</p>'
+            '<p class="h1">매일 아침,<br>새로운 이야기를 만납니다.</p><p class="p">운세 · 한 끼 · 그 시절 노래 · 여행 · 인사 카드<br>가입 없이 무료로</p>'
             '<p class="zl">네이버·구글에서 "오마주 매거진"</p></div></amp-story-grid-layer>'
             + outlink(f'{SITE}/?from=story', '오늘 호 펼쳐 보기') + '</amp-story-page>')
 
