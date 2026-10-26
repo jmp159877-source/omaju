@@ -8,7 +8,7 @@ import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
 import * as PET from './pet.js';
 import * as SOLO from './solo.js';
-import * as MOOD from './mood.js?v=10261920';   // 오늘의 음악과 함께 (대표 2026-10-25)
+import * as MOOD from './mood.js?v=10261910';   // 오늘의 음악과 함께 (대표 2026-10-25)
 let EV = null;   // 기획 칼럼은 첫 화면 맨 아래라 늦게 불러온다 — 처음에 같이 부르면 커버 단추가 밀렸다(큰 글씨 시험)
 const evMod = () => EV ? Promise.resolve(EV) : import('./ev.js').then(m => (EV = m));
 // 오마주 사랑방 (대표 2026-10-25) — 기획 연재 밑 창, 첫 화면을 다 그린 뒤에 불러온다

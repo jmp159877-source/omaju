@@ -70,7 +70,6 @@ async function start(k, auto = false) {
     await au.play();
     if (auto) { let v = 0; const t = setInterval(() => { v += 0.04; au.volume = Math.min(0.6, v); if (v >= 0.6) clearInterval(t); }, 150); }   // 저절로 틀 때는 3초에 걸쳐 작게 시작
   } catch (e) { au.volume = 1; if (!auto) toastFn && toastFn('재생을 시작하지 못했어요. 한 번 더 눌러 주세요.'); }   // 막히면 아래 띠만 멈춘 채로 — 누르면 나온다
-  if (!auto) try { localStorage.setItem('omaju.autoMusic', 'on'); } catch (e) {}
   paint(); session();
   try { trackFn && trackFn('mood_play', { k }); } catch (e) {}
 }
@@ -93,12 +92,11 @@ export function html() {
 export { paint };
 
 // 앱 아이콘으로 들어오면 '감미로운 그루브'가 저절로 흐른다 (대표 2026-10-26: "음악 들으면서 콘텐츠를 하나씩 보게").
-// 홈 화면에 깐 앱으로 열었을 때만(브라우저로 처음 온 분에게는 틀지 않는다), 끄기를 누른 적이 있으면 틀지 않는다.
+// 홈 화면에 깐 앱으로 열었을 때만(브라우저로 처음 온 분에게는 틀지 않는다). 끄기는 그때뿐 — 앱을 새로 열면 또 흐른다.
 // 아이폰처럼 저절로 틀기를 막는 곳에서는 아래 띠만 멈춘 채로 떠서 한 번 누르면 나온다.
 export function auto() {
   try {
     if (!(matchMedia('(display-mode: standalone)').matches || navigator.standalone)) return;
-    if (localStorage.getItem('omaju.autoMusic') === 'off') return;
   } catch (e) { return; }
   if (cur) return;
   start('drive', true);
@@ -114,7 +112,7 @@ export function init(opts = {}) {
   });
   $('mz-prev').innerHTML = IC.prev; $('mz-next').innerHTML = IC.next; $('mz-pp').innerHTML = IC.pause;
   $('mz-pp').onclick = () => (au && au.paused ? resume() : pause());
-  $('mz-prev').onclick = () => step(-1); $('mz-next').onclick = () => step(1); $('mz-x').onclick = () => { stop(); try { localStorage.setItem('omaju.autoMusic', 'off'); } catch (e) {} };   // 끄기를 누른 분에게는 다음부터 저절로 틀지 않는다
+  $('mz-prev').onclick = () => step(-1); $('mz-next').onclick = () => step(1); $('mz-x').onclick = () => stop();   // 끄기는 이번에 열어 둔 동안만 — 앱을 다시 열면 또 흐른다 (대표 2026-10-26 19:07)
   // 다른 소리가 나면 멎는다 (오프닝 등 <audio>)
   document.addEventListener('play', e => { if (au && e.target !== au && e.target.tagName === 'AUDIO') pause(); }, true);
   // 유튜브 영상(노래·따라하기·추천 음악)을 열면 멎는다
