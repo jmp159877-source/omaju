@@ -1415,7 +1415,7 @@ async function openMy() {
     szOn();
     $('m-size-big').onclick = () => { applySize(true); store.set('big', true); szOn(); toast('글자를 크게 했습니다.'); };
     $('m-size-normal').onclick = () => { applySize(false); store.set('big', false); szOn(); toast('글자를 보통으로 했습니다.'); };
-    $('m-nick-go').onclick = async () => { const m = $('m-nick-msg'); try { await DB.changeNick($('m-nick').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; const q = DB.currentProfile(), h = new Date().getHours(); $('user-nick').textContent = q.nick + ' 님, ' + (h < 12 ? '좋은 아침입니다.' : h < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); store.set('hello', { s: 'in', n: q.nick, f: isFounder(q) ? 1 : 0 }); /* 별명만 남고 인사가 빠지던 것 (대표 2026-10-23) */ } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
+    $('m-nick-go').onclick = async () => { const m = $('m-nick-msg'); try { await DB.changeNick($('m-nick').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; const q = DB.currentProfile(), h = new Date().getHours(); $('user-nick').textContent = q.nick + ' 님, 반갑습니다.'; store.set('hello', { s: 'in', n: q.nick, f: isFounder(q) ? 1 : 0 }); /* 별명만 남고 인사가 빠지던 것 (대표 2026-10-23) */ } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
     if ($('m-pw-go')) $('m-pw-go').onclick = async () => { const m = $('m-pw-msg'); try { await DB.changePw($('m-pw').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.code === 'auth/requires-recent-login' ? '안전을 위해 나갔다가 다시 로그인한 뒤 바꿔 주세요.' : e.message; } };
   });
 }
@@ -1441,7 +1441,7 @@ DB.onUser((u, p) => {
   $('user-chip').hidden = !u; $('login-btn').hidden = !!u;
   $('admin-btn').hidden = !(p && p.role === 'admin');
   if (p && p.role === 'admin') $('maint').hidden = true;
-  if (u && p) { $('user-nick').textContent = p.nick + ' 님, ' + (new Date().getHours() < 12 ? '좋은 아침입니다.' : new Date().getHours() < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); if (p.zodiac && !myZ) { myZ = p.zodiac; renderZ(); } wxByRegion(p); if (p.region && !store.get('outRegion', null)) { outRegion = p.region.split(' ')[0]; renderOuting(); } }
+  if (u && p) { $('user-nick').textContent = p.nick + ' 님, 반갑습니다.'; if (p.zodiac && !myZ) { myZ = p.zodiac; renderZ(); } wxByRegion(p); if (p.region && !store.get('outRegion', null)) { outRegion = p.region.split(' ')[0]; renderOuting(); } }
   // 다음에 열 때 인사말을 그리기 전에 띄울 수 있게 적어 둔다 (늦게 띄우면 화면이 한 번 밀린다)
   $('fd-badge').hidden = !isFounder(p);
   store.set('hello', u && p ? { s: 'in', n: p.nick, f: isFounder(p) ? 1 : 0 } : { s: 'out' });
