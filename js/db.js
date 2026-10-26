@@ -326,7 +326,7 @@ export async function bumpVisit() {
   try { await setDoc(doc(db, 'stats', todayKey()), add, { merge: true }); } catch (e) {}
 }
 export async function bumpClick(corner) {
-  try { await setDoc(doc(db, 'stats', todayKey()), { ['clicks.' + corner]: increment(1) }, { merge: true }); } catch (e) {}
+  try { await setDoc(doc(db, 'stats', todayKey()), { clicks: { [corner]: increment(1) } }, { merge: true }); } catch (e) {}
   track('corner_open', { corner });
 }
 export function track(name, params) { try { if (analytics) logEvent(analytics, name, params || {}); } catch (e) {} }
