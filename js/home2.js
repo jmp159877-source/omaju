@@ -58,14 +58,14 @@ export async function mount() {
   const sec = document.createElement('section'); sec.className = 'h2'; sec.id = 'h2';
   const d = dow();
   sec.innerHTML = `
-    <div class="h2-hd"><p class="h2-k">오늘의 연재</p><h2>오늘 새로 올라온 이야기</h2><p class="h2-sub">요일마다 다음 편이 이어집니다. 1편부터 천천히 따라오셔도 좋아요.</p></div>
+    <div class="h2-hd"><h2>오늘의 연재</h2><p class="h2-sub">오늘 새로 올라온 이야기 · 요일마다 다음 편이 이어집니다</p></div>
     <div class="h2-todays">${todays.map(x => todayCard(x.s, x.a, x.isNew)).join('')}</div>
     <div class="h2-week" aria-label="요일 편성">${[1, 2, 3, 4, 5].map(n => { const s = SER.find(x => x.day === n); return `<span class="${n === d ? 'on' : ''}"><i>${DOW[n]}</i><b>${esc(s.short)}</b></span>`; }).join('')}</div>
-    <div class="h2-hd sm"><p class="h2-k">연재 서가</p><h2>다섯 개의 연재</h2></div>
+    <div class="h2-hd sm"><h2>연재 서가</h2><p class="h2-sub">다섯 개의 연재 · 1편부터 천천히 따라오셔도 좋아요</p></div>
     <div class="h2-shelf">${SER.map(s => shelfRow(s, lists[s.k])).join('')}</div>
-    <div class="h2-hd sm then"><p class="h2-k">그때</p><h2>그해 오늘, 우리는</h2></div>
+    <div class="h2-hd sm then"><h2>그때</h2><p class="h2-sub">그해 오늘, 우리는</p></div>
     <button type="button" class="h2-then" data-open="history" data-corner="history" style="background-image:url('img/detail_history.jpg')"><span><small>50·40·30·20·10년 전 오늘</small><b>그해 오늘, 무슨 일이 있었을까</b><em>그날의 신문 · 그 시절 노래 · 나는 그때</em></span></button>
-    <div class="h2-hd sm"><p class="h2-k">사랑방</p><h2>오늘의 이야기, 한 줄 보태기</h2></div>
+    <div class="h2-hd sm"><h2>사랑방</h2><p class="h2-sub">오늘의 이야기에 한 줄 보태기</p></div>
     <div class="h2-talk" id="h2-talk"></div>`;
   intro.after(sec);
   // 에피소드 표지를 누르면 그 편을 연다 (연재 서가)
@@ -75,7 +75,7 @@ export async function mount() {
   const talk = document.getElementById('talk-box'); if (talk) document.getElementById('h2-talk').appendChild(talk);
   // CONTENTS → 더 둘러보기, 나의 수첩 → 내 서재
   const toc = document.querySelector('.toc.toc-c:not(.opn-toc) em'); if (toc) toc.textContent = 'More';
-  const tocBox = toc && toc.closest('.toc'); if (tocBox) { const h = document.createElement('div'); h.className = 'h2-hd sm more'; h.innerHTML = '<p class="h2-k">더 둘러보기</p><h2>운세 · 한 끼 · 인사 카드 · 그 밖의 코너</h2>'; tocBox.before(h); tocBox.hidden = true; }
+  const tocBox = toc && toc.closest('.toc'); if (tocBox) { const h = document.createElement('div'); h.className = 'h2-hd sm more'; h.innerHTML = '<h2>더 둘러보기</h2><p class="h2-sub">운세 · 한 끼 · 인사 카드 · 그 밖의 코너</p>'; tocBox.before(h); tocBox.hidden = true; }
   const nb = document.querySelector('#tabs3 [data-tab="g4"]'); if (nb) nb.innerHTML = '<b>내 서재</b><small>이어 읽기 · 담아 둔 글</small>';
   // 아래 '시대 공유' 두 칸은 위로 올라갔으니 감춘다
   const cols = document.querySelector('.cols-wrap .cols-row'); if (cols) { cols.hidden = true; const hd = document.querySelector('.cols-head'); if (hd) hd.hidden = true; const o = document.querySelector('.cols-wrap > .cols-orn:not(.tk-orn)'); if (o) o.hidden = true; }
