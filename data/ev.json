@@ -1612,6 +1612,511 @@
    ],
    "photos": "사진 띠 Alexander Migl · Alexander-93 · Matti Blume · Giorno2 · Yo-Co-Man (CC BY-SA 4.0 · 위키미디어 공용)",
    "corrections": []
+  },
+  {
+   "id": "ev-06",
+   "no": 6,
+   "date": "2026-10-29",
+   "part": "2부 브랜드 해부",
+   "title": "BYD를 뜯어보다: 휴대폰 배터리 회사가 세계 1위가 되기까지",
+   "dek": "배터리 솜씨, 플러그인 하이브리드, 그리고 바다 밖 시장",
+   "asof": "2026년 10월 기준",
+   "hook": "30여 년 전 중국 선전에서 휴대폰 배터리를 만들던 회사가 있습니다. 이 회사가 지난해 **테슬라보다 순수 전기차를 62만 대 더** 팔았습니다. BYD 이야기입니다.",
+   "blocks": [
+    {
+     "h": "휴대폰 배터리에서 시작했습니다"
+    },
+    {
+     "p": "BYD는 1995년 중국 선전에서 왕촨푸가 세운 **충전지 회사**입니다. 처음 만든 것은 휴대폰에 들어가는 배터리였습니다."
+    },
+    {
+     "p": "2000년대 초에는 모토로라와 노키아에도 배터리를 댔습니다. 이때 쌓은 배터리 솜씨가 훗날 전기차의 밑천이 됩니다."
+    },
+    {
+     "gallery": {
+      "title": "BYD, 사진으로 보면",
+      "items": [
+       {
+        "src": "img/ev/ev-06-g1.jpg",
+        "caption": "중국 선전의 BYD 본사 앞에 늘어선 차들",
+        "credit": "iMoD Official · CC BY 3.0 · 위키미디어 공용",
+        "alt": "중국 선전의 BYD 본사 앞에 늘어선 차들"
+       },
+       {
+        "src": "img/ev/ev-06-g2.jpg",
+        "caption": "BYD 한(漢) — 회사의 대표 세단",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "BYD 한(漢)"
+       },
+       {
+        "src": "img/ev/ev-06-g3.jpg",
+        "caption": "거리의 빨간 한",
+        "credit": "Jengtingchen · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "거리의 빨간 한"
+       },
+       {
+        "src": "img/ev/ev-06-g4.jpg",
+        "caption": "BYD 탕(唐) — 세 줄 좌석의 큰 SUV",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "BYD 탕(唐)"
+       },
+       {
+        "src": "img/ev/ev-06-g5.jpg",
+        "caption": "전시장의 탕",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "전시장의 탕"
+       },
+       {
+        "src": "img/ev/ev-06-g6.jpg",
+        "caption": "돌핀 서프(중국 이름 시걸) — BYD의 가장 작은 차",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "돌핀 서프(중국 이름 시걸)"
+       },
+       {
+        "src": "img/ev/ev-06-g7.jpg",
+        "caption": "돌핀 서프 뒷모습",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "돌핀 서프 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-06-g8.jpg",
+        "caption": "씨라이언7 뒷모습",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "씨라이언7 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-06-g9.jpg",
+        "caption": "BYD는 전기 버스도 만듭니다(코스타리카)",
+        "credit": "Mariordo · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "BYD는 전기 버스도 만듭니다(코스타리카)"
+       }
+      ]
+     }
+    },
+    {
+     "h": "2003년, 자동차로"
+    },
+    {
+     "p": "2003년 BYD는 작은 자동차 회사 **친촨자동차**를 사들여 차를 만들기 시작했습니다. 배터리 회사로서는 낯선 길이었습니다."
+    },
+    {
+     "p": "2005년 처음으로 직접 개발한 차 F3를 내놓았습니다. 2008년에는 F3에 충전 플러그를 단 **F3DM**을 선보였는데, 흔히 세계 첫 양산 플러그인 하이브리드로 꼽힙니다."
+    },
+    {
+     "h": "버핏이 산 주식"
+    },
+    {
+     "p": "같은 2008년 9월, 워런 버핏의 버크셔 해서웨이가 BYD 주식 2억 2,500만 주를 약 **2억 3천만 달러**에 샀습니다. 지분으로 10%쯤이었습니다."
+    },
+    {
+     "p": "버크셔는 2022년 8월부터 조금씩 팔았고, 2025년 3월 말 기준 보유분이 '0'으로 공시됐습니다. 17년 동안 투자 가치는 **20배 넘게** 불었습니다."
+    },
+    {
+     "h": "세계 1위가 되기까지"
+    },
+    {
+     "p": "2022년 3월, BYD는 엔진만 단 차를 더는 만들지 않기로 했습니다. 그 뒤로는 순수 전기차와 플러그인 하이브리드만 만듭니다."
+    },
+    {
+     "p": "그해 BYD는 둘을 합쳐 186만 대를 팔아, 131만 대를 인도한 테슬라를 앞질렀습니다. 다만 **순수 전기차만 놓고 보면** 그때도 테슬라가 앞섰습니다."
+    },
+    {
+     "p": "순수 전기차에서 처음 앞선 것은 2023년 4분기(BYD 52만 6,409대, 테슬라 48만 4,507대)였습니다. 2024년 한 해로는 테슬라가 2만여 대 차이로 다시 앞섰습니다."
+    },
+    {
+     "p": "한 해 전체로 순수 전기차 1위에 오른 것은 **지난해(2025년)**입니다. 차이는 62만 대 남짓이었습니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "2025년 한 해 순수 전기차 판매",
+      "sub": "BYD는 승용 판매, 테슬라는 인도 대수 · 각 회사 발표",
+      "unit": "대",
+      "items": [
+       [
+        "BYD",
+        2256714,
+        true
+       ],
+       [
+        "테슬라",
+        1636129,
+        false
+       ]
+      ],
+      "legend": "플러그인 하이브리드를 빼고 배터리로만 달리는 차끼리 비교한 숫자입니다.",
+      "source": "BYD 2025년 판매 발표(2026년 1월 1일) · 테슬라 2025년 4분기 인도 발표(2026년 1월 2일), CnEVPost·Electrek 대조"
+     }
+    },
+    {
+     "p": "올해는 엎치락뒤치락입니다. 1분기에는 테슬라가 앞섰고(35만 8,023대 대 31만 389대), 2·3분기에는 BYD가 앞섰습니다."
+    },
+    {
+     "p": "1~9월을 모두 더하면 순수 전기차는 BYD 163만 대, 테슬라 132만 대입니다. 참고로 **우리나라 안에서는** 올해 전기차를 가장 많이 판 곳이 기아입니다(4편)."
+    },
+    {
+     "h": "절반은 플러그인 하이브리드"
+    },
+    {
+     "p": "BYD를 말할 때 빼놓을 수 없는 것이 **플러그인 하이브리드**입니다. 충전해서 전기로 달리다가, 전기가 모자라면 엔진이 돕는 차입니다."
+    },
+    {
+     "p": "BYD는 이 기술을 'DM-i'라고 부릅니다."
+    },
+    {
+     "p": "지난해 BYD 승용차 판매의 절반 남짓이 플러그인 하이브리드였습니다. 우리나라에도 씨라이언 6 DM-i가 들어와 있습니다(2편)."
+    },
+    {
+     "chart": {
+      "kind": "donut",
+      "title": "2025년 BYD 승용차 판매",
+      "sub": "454만 5,423대 가운데",
+      "value": 50.4,
+      "center": "플러그인 하이브리드",
+      "on": "플러그인 하이브리드 228만 8,709대",
+      "off": "순수 전기차 225만 6,714대",
+      "source": "BYD 2025년 판매 발표(2026년 1월 1일), CnEVPost·CarNewsChina 대조"
+     }
+    },
+    {
+     "p": "올해는 무게가 순수 전기차 쪽으로 옮겨 갔습니다. 1~9월에는 순수 전기차(163만 대)가 플러그인 하이브리드(145만 대)보다 많이 팔렸습니다."
+    },
+    {
+     "h": "바다 밖으로"
+    },
+    {
+     "p": "중국 안 경쟁이 거세지자 BYD는 바다 밖으로 나갔습니다. 해외 판매는 2024년 41만 7,204대에서 지난해 104만 6,083대로 **2.5배**가 됐습니다."
+    },
+    {
+     "p": "올해는 1~9월에만 134만 2,960대로, 전체 판매의 **43%**입니다. 전체 판매는 한 해 전보다 4% 줄었는데, 줄어든 중국 판매를 해외가 받치고 있는 셈입니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "BYD 해외 판매",
+      "sub": "2026년은 1~9월",
+      "unit": "만 대",
+      "items": [
+       [
+        "2024년",
+        41.7,
+        false
+       ],
+       [
+        "2025년",
+        104.6,
+        false
+       ],
+       [
+        "2026년 1~9월",
+        134.3,
+        true
+       ]
+      ],
+      "legend": "올해는 아홉 달 만에 지난해 한 해 해외 판매를 넘었습니다.",
+      "source": "BYD 월간 판매 발표, Gasgoo·ArenaEV(2024년) · CnEVPost·CarNewsChina(2025년) · electrive·Just Auto(2026년 10월 2일) 대조"
+     }
+    },
+    {
+     "p": "공장도 밖에 짓습니다. 2024년 7월 태국 라용에 해마다 15만 대를 만드는 공장을 열었고, 2025년 10월에는 브라질 카마사리 공장을 준공했습니다(1단계 15만 대)."
+    },
+    {
+     "p": "계획대로만 가지는 않습니다. 유럽 첫 승용차 공장인 헝가리 세게드는 올해 1월 말 시험 생산을 했지만, 본격 생산은 **올해 4분기**로 미뤄졌습니다."
+    },
+    {
+     "p": "10억 달러를 들이겠다던 **튀르키예 공장**은 올해 6월 계획을 멈췄다고 로이터 등이 전했습니다."
+    },
+    {
+     "h": "한국에서는"
+    },
+    {
+     "p": "BYD는 2025년 1월 16일 아토 3로 국내 승용차 시장에 들어왔습니다. 첫해 6,107대, 올해 1~9월 2만 137대를 팔았습니다(2편)."
+    },
+    {
+     "p": "시작은 순탄치 않았습니다. 2월 중순이면 차를 받을 줄 알았던 사전 계약자들은 보조금 자료와 인증 절차가 늦어져 **두 달 넘게** 기다렸습니다."
+    },
+    {
+     "h": "약한 고리"
+    },
+    {
+     "p": "많이 판 만큼 남는 것은 줄었습니다. 지난해 BYD 순이익은 326억 위안으로 한 해 전보다 **19% 줄었습니다**."
+    },
+    {
+     "p": "2021년 이후 처음 줄어든 것입니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "BYD 한 해 순이익",
+      "sub": "주주 몫 순이익",
+      "unit": "억 위안",
+      "items": [
+       [
+        "2024년",
+        403,
+        false
+       ],
+       [
+        "2025년",
+        326,
+        true
+       ]
+      ],
+      "legend": "매출은 3.5% 늘었지만 순이익은 19% 줄었습니다.",
+      "source": "BYD 2025년 실적 공시(홍콩거래소, 2026년 3월 27일), CnEVPost·Euronews 대조"
+     }
+    },
+    {
+     "p": "올해 상반기 순이익도 20.5% 줄었습니다. 값을 깎아 판 출혈 경쟁의 그늘입니다(5편 참고)."
+    },
+    {
+     "p": "판매망에도 금이 갔습니다. 2025년 5월, 산둥성의 큰 판매사 '첸청'이 운영하던 BYD 매장 20여 곳이 문을 닫거나 영업을 멈췄습니다."
+    },
+    {
+     "p": "BYD는 자기 정책 탓이 아니라 판매사가 무리하게 늘린 탓이라고 했습니다."
+    },
+    {
+     "p": "우리나라에서는 **정비망**이 가장 큰 숙제입니다. BYD는 지난해 4월 연말까지 서비스센터를 25곳으로 늘리겠다고 했지만, 올해 9월에도 20곳이었습니다."
+    },
+    {
+     "p": "사고 수리비가 너무 많이 나왔다는 차주들의 불만도 보도됐습니다. BYD코리아는 손상 일부만 알려져 실제보다 작게 전해졌다고 해명했습니다."
+    },
+    {
+     "p": "여기에 7월부터는 BYD 승용차가 국고 보조금 대상에서 빠져 있습니다(4편 참고)."
+    },
+    {
+     "box": {
+      "title": "한 줄로 보면",
+      "text": "휴대폰 배터리 회사는 **배터리 솜씨, 플러그인 하이브리드, 바다 밖 시장**으로 세계 1위에 올랐습니다. 다만 이익은 줄었고, 한국에서는 정비망이 아직 판매를 따라오지 못하고 있습니다."
+     }
+    }
+   ],
+   "cons": [
+    "'세계 1위'는 **무엇을 세느냐에 따라** 달라집니다. 플러그인 하이브리드를 넣으면 2022년부터, 순수 전기차만 보면 지난해부터이고, 올해 1분기에는 테슬라가 다시 앞섰습니다.",
+    "BYD는 '판매', 테슬라는 '인도' 대수로 발표해 **세는 법이 똑같지는 않습니다.** 이 글의 숫자는 모두 각 회사 발표를 매체 두 곳 이상과 대조한 것입니다.",
+    "해외 공장과 국내 정비망은 **계획이 자주 바뀌었습니다**(헝가리 연기, 튀르키예 보류, 서비스센터 25곳 약속). 올해 말 26곳 계획도 지켜질지는 지켜볼 일입니다."
+   ],
+   "next": "테슬라를 뜯어보다: 차보다 소프트웨어를 판다",
+   "sources": [
+    {
+     "name": "CarNewsChina, The Big Read: History of BYD (2021.8.1)",
+     "url": "https://carnewschina.com/2021/08/01/the-big-read-history-of-byd/"
+    },
+    {
+     "name": "Fiches-auto, Histoire de BYD : de la batterie de téléphone à l'automobile",
+     "url": "https://www.fiches-auto.fr/articles-auto/histoire-et-evolutions/s-4278-histoire-de-byd.php"
+    },
+    {
+     "name": "CnEVPost, How did BYD rise to prominence? (2020.10.29)",
+     "url": "https://cnevpost.com/2020/10/29/how-did-byd-rise-to-prominence/"
+    },
+    {
+     "name": "EV Magazine, Wang Chuanfu: The Innovator Behind BYD's Global Success",
+     "url": "https://evmagazine.com/articles/wang-chuanfu-the-innovator-behind-byds-global-success"
+    },
+    {
+     "name": "아주경제, 왕촨푸와 비야디 (2020.5.21)",
+     "url": "https://www.ajunews.com/view/20200521170142703"
+    },
+    {
+     "name": "Business Standard, Berkshire Hathaway exits BYD after 17-year investment (2025.9.22, 로이터)",
+     "url": "https://www.business-standard.com/world-news/warren-buffett-berkshire-hathaway-exits-byd-17-year-investment-profits-125092200783_1.html"
+    },
+    {
+     "name": "Jing Daily, Warren Buffett's Berkshire Hathaway exits BYD stake (2025.9.22)",
+     "url": "https://jingdaily.com/intels/2025-09/22/warren-buffett-s-berkshire-hathaway-exits-byd-stake"
+    },
+    {
+     "name": "CNBC, China's BYD ends full combustion engine cars (2022.4.3)",
+     "url": "https://www.cnbc.com/2022/04/03/chinas-byd-ends-full-combustion-engine-cars-to-focus-on-electric-plug-in-hybrids.html"
+    },
+    {
+     "name": "CarNewsChina, BYD announce end of ICE vehicle production (2022.4.4)",
+     "url": "https://carnewschina.com/2022/04/04/byd-announce-end-of-ice-vehicle-production-and-new-sales-record/"
+    },
+    {
+     "name": "CnEVPost, BYD 2022년 12월·연간 판매 (2023.1.2)",
+     "url": "https://cnevpost.com/2023/01/02/byd-sells-235197-nevs-in-dec/"
+    },
+    {
+     "name": "CnEVPost, BEV sales: Tesla, BYD … compare 2022 (2023.1.3)",
+     "url": "https://cnevpost.com/2023/01/03/bev-sales-how-tesla-byd-nio-xpeng-zeekr-compare-2022/"
+    },
+    {
+     "name": "Autocar, BYD sells nearly two million cars in 2022",
+     "url": "https://cdn.autocar.co.uk/car-news/business-car-sales/byd-sells-nearly-two-million-cars-2022"
+    },
+    {
+     "name": "CnEVPost, BYD beats Tesla in quarterly BEV sales for 1st time (2024.1.2)",
+     "url": "https://cnevpost.com/2024/01/02/byd-beats-tesla-quarterly-bev-sales/"
+    },
+    {
+     "name": "Hong Kong Free Press(AFP), BYD overtakes Tesla as top all-electric vehicle maker (2024.1.3)",
+     "url": "https://hongkongfp.com/2024/01/03/chinas-byd-overtakes-tesla-as-top-all-electric-vehicle-maker/"
+    },
+    {
+     "name": "Gasgoo, BYD's full-year sales exceed 4 million vehicles in 2024 (2025.1)",
+     "url": "https://autonews.gasgoo.com/articles/news/byds-full-year-sales-exceed-4-million-vehicles-in-2024-70035590"
+    },
+    {
+     "name": "ArenaEV, BYD over 4 million NEVs sold in 2024 (2025.1)",
+     "url": "https://www.arenaev.com/byd_shatters_sales_records_with_over_4_million_nevs_sold_in_2024-news-4281.php"
+    },
+    {
+     "name": "CnEVPost, BYD NEV sales Dec 2025 (2026.1.1)",
+     "url": "https://cnevpost.com/2026/01/01/byd-nev-sales-dec-2025/"
+    },
+    {
+     "name": "CarNewsChina, BYD sold 4.6 million cars in 2025 (2026.1.1)",
+     "url": "https://carnewschina.com/2026/01/01/byd-sold-4-6-million-cars-in-2025-but-things-dont-look-very-good-for-2026/"
+    },
+    {
+     "name": "electrive, BYD overtakes Tesla as world's largest EV manufacturer (2026.1.2)",
+     "url": "https://www.electrive.com/2026/01/02/byd-overtakes-tesla-as-worlds-largest-ev-manufacturer"
+    },
+    {
+     "name": "Electrek, BYD crushes Tesla in all-electric sales for 2025 (2026.1.2)",
+     "url": "https://electrek.co/2026/01/02/byd-crushes-tesla-all-electric-sales-for-2025-secures-global-bev-crown/"
+    },
+    {
+     "name": "Not a Tesla App, Tesla Q4 2025 deliveries (2026.1.2)",
+     "url": "https://www.notateslaapp.com/news/3468/tesla-reports-q4-delivery-numbers-narrowly-misses-on-deliveries-energy-hits-record"
+    },
+    {
+     "name": "Tesla IR, Fourth Quarter 2025 Production, Deliveries & Deployments (2026.1.2)",
+     "url": "https://ir.tesla.com/press-release/tesla-fourth-quarter-2025-production-deliveries-deployments"
+    },
+    {
+     "name": "Drive Tesla Canada, Tesla tops BYD in Q1 2026 (2026.4)",
+     "url": "https://driveteslacanada.ca/news/tesla-tops-byd-in-q1-2026-to-retake-global-ev-sales-lead/"
+    },
+    {
+     "name": "CnEVPost, BYD's BEV sales beat Tesla again in Q2 (2026.7.2)",
+     "url": "https://cnevpost.com/2026/07/02/byd-bev-sales-beat-tesla-again/"
+    },
+    {
+     "name": "CnEVPost, Tesla Q3 delivery vs BYD BEV sales (2026.10.2)",
+     "url": "https://cnevpost.com/2026/10/02/tesla-q3-delivery-byd-bev-sales/"
+    },
+    {
+     "name": "ElektroQuatsch, Tesla Auslieferungen Q3 2026 (2026.10)",
+     "url": "https://www.elektroquatsch.de/artikel/tesla-auslieferungen-q3-2026-byd-vorsprung"
+    },
+    {
+     "name": "MotorWatt, Q3 2026 EV sales roundup (2026.10)",
+     "url": "https://motorwatt.com/ev-blog/trends/q3-2026-ev-sales-roundup"
+    },
+    {
+     "name": "electrive, September was BYD's strongest month of the year so far (2026.10.2)",
+     "url": "https://www.electrive.com/2026/10/02/september-was-byds-strongest-month-of-the-year-so-far/"
+    },
+    {
+     "name": "Just Auto, BYD's global sales rise 17% in September (2026.10)",
+     "url": "https://www.just-auto.com/news/byds-global-sales-rise-17-in-september/"
+    },
+    {
+     "name": "Malay Mail(AFP), BYD opens first EV plant in Southeast Asia (2024.7.4)",
+     "url": "https://www.malaymail.com/news/world/2024/07/04/byd-opens-first-electric-vehicle-plant-in-southeast-asia-choosing-thailand-as-key-production-hub/142686"
+    },
+    {
+     "name": "Investment Monitor, BYD inaugurates its first EV plant in Southeast Asia (2024.7.4)",
+     "url": "https://www.investmentmonitor.ai/news/byd-inaugurates-its-first-ev-plant-in-southeast-asia"
+    },
+    {
+     "name": "CnEVPost, BYD Brazil plant (2025.10.10)",
+     "url": "https://cnevpost.com/2025/10/10/byd-1"
+    },
+    {
+     "name": "Forbes Brasil, BYD inaugura primeira fábrica do Brasil (2025.10.9)",
+     "url": "https://forbes.com.br/forbes-life/forbes-motors/2025/10/byd-inaugura-primeira-fabrica-do-brasil-que-produz-carros-eletricos-e-hibridos/"
+    },
+    {
+     "name": "electrive, BYD begins passenger car trial production in Hungary (2026.2.2)",
+     "url": "https://www.electrive.com/2026/02/02/byd-begins-trial-production-of-passenger-cars-in-hungary/"
+    },
+    {
+     "name": "KrASIA(로이터 인용), BYD sets Hungary production for Q4 2026 (2026.6.11)",
+     "url": "https://kr-asia.com/pulses/162614"
+    },
+    {
+     "name": "Elektroauto-News, BYD-Werk in Ungarn startet wohl erst Ende des Jahres (2026.6.11)",
+     "url": "https://www.elektroauto-news.net/news/byd-ungarn-produktion-ende-2026-tuerkei-pause"
+    },
+    {
+     "name": "bne IntelliNews, BYD quietly shelves plan for billion-dollar plant in Turkey (2026.6.10)",
+     "url": "https://www.intellinews.com/chinese-ev-giant-byd-quietly-shelves-plan-for-billion-dollar-plant-in-turkey-447770/"
+    },
+    {
+     "name": "더팩트, 「BYD 승용차 한국 상륙」 (2025.1.16)",
+     "url": "https://news.tf.co.kr/read/economy/2171158.htm"
+    },
+    {
+     "name": "경향신문, 아토3 출고 지연 (2025.3.9)",
+     "url": "https://www.khan.co.kr/article/202503090937001"
+    },
+    {
+     "name": "더팩트, 「중국 BYD '아토3' 인도 개시…출시 지연 악재 만회할까」 (2025.4.5)",
+     "url": "https://news.tf.co.kr/read/economy/2194399.htm"
+    },
+    {
+     "name": "CEO스코어데일리, 「국내 전기차 시장 흔드는 '메기' BYD」 (2026.2.10)",
+     "url": "https://www.ceoscoredaily.com/page/view/2026020911025427241"
+    },
+    {
+     "name": "파이낸셜뉴스, 「지커 7X 출고 임박」 (2026.10.21)",
+     "url": "https://www.fnnews.com/news/202610210715202965"
+    },
+    {
+     "name": "CnEVPost, BYD 2025년 실적 (2026.3.27)",
+     "url": "https://cnevpost.com/2026/03/27/byd-2025-full-year-results/"
+    },
+    {
+     "name": "Euronews, BYD profit slumps 19% after record year (2026.3.27)",
+     "url": "https://euronews.com/business/2026/03/27/byd-profit-slumps-19-after-record-year-edging-tesla-off-the-ev-throne"
+    },
+    {
+     "name": "New Mobility, BYD posts first profit drop in four years (2026.3.30)",
+     "url": "https://newmobility.news/en/2026/03/30/worlds-largest-electric-carmaker-byd-posts-first-profit-drop-in-four-years/"
+    },
+    {
+     "name": "Barchart, BYD sees first profit drop since 2021 (2026.3)",
+     "url": "https://www.barchart.com/story/news/1008713/china-s-byd-sees-first-profit-drop-since-2021-even-as-the-tesla-rival-takes-global-ev-crown"
+    },
+    {
+     "name": "CnEVPost, BYD H1 2026 earnings (2026.8.28)",
+     "url": "https://cnevpost.com/2026/08/28/byd-h1-2026-earnings/"
+    },
+    {
+     "name": "CarNewsChina, Major BYD dealer network collapses in eastern China (2025.5.29)",
+     "url": "https://carnewschina.com/2025/05/29/major-byd-dealer-network-collapses-in-eastern-china/"
+    },
+    {
+     "name": "CleanTechnica, Big BYD dealer network collapses (2025.5.29)",
+     "url": "https://cleantechnica.com/2025/05/29/big-byd-dealer-network-collapses-what-is-going-on/"
+    },
+    {
+     "name": "CnEVPost, BYD plans to double its sales network in South Korea (2025.4.3, 조선일보 인용)",
+     "url": "https://cnevpost.com/2025/04/03/byd-to-double-sales-network-south-korea-2025/"
+    },
+    {
+     "name": "SBS Biz, 「1년 넘게 못 지킨 AS약속…BYD 차주는 청주 원정 수리」 (2026.9.29)",
+     "url": "https://biz.sbs.co.kr/amp/article/20000337368"
+    },
+    {
+     "name": "SBS Biz, 「車 싸게 팔더니 수리비 폭탄?...BYD 해명 들어보니」 (2026.9.1)",
+     "url": "https://biz.sbs.co.kr/amp/article/20000332075"
+    },
+    {
+     "name": "CEO스코어데일리, BYD 수리 공임·서비스센터 (2026.9.1)",
+     "url": "https://ceoscoredaily.com/page/view/2026090114381380666"
+    },
+    {
+     "name": "뉴시스, 「'보조금 탈락 BYD, 가격 올린 테슬라'…」 (2026.7.2)",
+     "url": "https://www.newsis.com/view/NISX20260702_0003693658"
+    }
+   ],
+   "photos": "사진 띠 iMoD Official · Alexander-93 · Jengtingchen · Alexander Migl · Mariordo (CC BY 3.0 · CC BY-SA 4.0 · 위키미디어 공용)",
+   "corrections": []
   }
  ]
 }
