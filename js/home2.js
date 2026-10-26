@@ -68,6 +68,13 @@ export async function mount() {
   if (talk) sec.appendChild(talk);
   intro.after(sec);
   sec.addEventListener('click', e => { const s = e.target.closest('[data-soon]'); if (s) { e.stopPropagation(); const t = document.getElementById('toast'); if (t) { t.textContent = '11월에 첫 화가 올라옵니다.'; t.hidden = false; setTimeout(() => { t.hidden = true; }, 2200); } } }, true);
+  // CONTENTS 도 시대 공유와 같은 꼴로 (대표 2026-10-27 08:01 — 나뭇잎 로고 머리 빼고 같은 금빛 줄 + 큰 제목, 칸도 같은 사진 칸)
+  const toc = document.querySelector('.toc.toc-c:not(.opn-toc)');
+  if (toc) { toc.hidden = true; toc.insertAdjacentHTML('afterend', '<div class="h4-chd"><div class="cols-orn" aria-hidden="true"><i></i><b>✦</b><i></i></div><p class="cols-head">콘텐츠 <small>매일 새로 펼쳐지는 코너</small></p></div>'); }
+  // 큰 글씨에서 끝 낱말 하나만 다음 줄로 떨어지지 않게 (CLAUDE.md '한 글자만 다음 줄로 떨어짐 없게')
+  const glue = el => { if (!el || el.dataset.glued) return; const t = el.textContent.trim(); const w = t.split(' '); if (w.length > 1 && w[w.length - 1].length <= 2) { el.innerHTML = esc(w.slice(0, -2).join(' ')) + (w.length > 2 ? ' ' : '') + '<span class="nw">' + esc(w.slice(-2).join(' ')) + '</span>'; } el.dataset.glued = 1; };
+  const dots = el => { if (!el || el.dataset.glued) return; el.innerHTML = el.textContent.split(' · ').map(x => '<span class="nw">' + esc(x.trim()) + '</span>').join(' · '); el.dataset.glued = 1; };
+  setTimeout(() => { document.querySelectorAll('#tabs3 button b, .h4 .col-tile b').forEach(glue); document.querySelectorAll('#tabs3 button small').forEach(dots); }, 0);
   // 나의 수첩 → 내 서재
   const nb = document.querySelector('#tabs3 [data-tab="g4"]'); if (nb) nb.innerHTML = '<b>내 서재</b><small>이어 읽기 · 담아 둔 글</small>';
   mountLibrary();

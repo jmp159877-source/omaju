@@ -2902,3 +2902,17 @@ body.in-chapter .h4 { display: none; }
 html.v2 .intro { background-image: url('../img/intro-v2.jpg'); background-position: 92% 60%; }
 @media (min-width: 900px) { html.v2 .intro { background-position: center 55%; } }
 html.v2 .intro::before { background: linear-gradient(180deg, rgba(28,22,14,0.30) 0%, rgba(28,22,14,0.28) 50%, rgba(28,22,14,0.42) 100%); }
+/* 시안 7 (대표 2026-10-27 08:01): 큰 제목 둘(시대 공유 · 콘텐츠)을 같은 꼴로, CONTENTS 칸도 시대 공유 사진 칸처럼 */
+html.v2 .h4 .cols-head, html.v2 .h4-chd .cols-head { font-size: min(1.55rem, 6.6vw); font-weight: 800; letter-spacing: .02em; color: #1d1d1b; margin-bottom: 16px; }
+html.v2 .h4 .cols-head small, html.v2 .h4-chd .cols-head small { font-size: .84rem; font-weight: 500; margin-top: 4px; }
+html.v2 .h4-chd { margin: 40px 0 0; text-align: center; }
+html.v2 #tabs3 { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; background: none; padding: 0; margin: 0 0 10px; }
+html.v2 #tabs3 button { position: relative; display: flex !important; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1 / 1 !important; min-height: 0 !important; height: auto; padding: 14px !important; border: 0 !important; border-radius: 14px !important; overflow: hidden;
+  box-shadow: 0 6px 18px rgba(60,40,10,0.16) !important; opacity: 1 !important; filter: none !important; transform: none !important; outline: 0; text-shadow: none; }
+html.v2 #tabs3 button[data-tab="g1"] { grid-column: 1 / -1; aspect-ratio: 16 / 9 !important; }
+html.v2 #tabs3 button::before { background: radial-gradient(ellipse 70% 42% at center, rgba(14,12,8,.42) 0%, rgba(14,12,8,.22) 55%, rgba(14,12,8,0) 100%) !important; border-radius: inherit; }
+html.v2 #tabs3 button b { display: block !important; height: auto !important; padding: 0 !important; font-size: 1.15rem !important; font-weight: 700 !important; line-height: 1.38; text-align: center; text-decoration: none !important; word-break: keep-all; color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.7), 0 2px 16px rgba(0,0,0,.55); }
+html.v2 #tabs3 button small { display: block !important; position: relative !important; inset: auto !important; margin-top: 4px; font-size: .74rem !important; letter-spacing: .04em; color: #fff; opacity: .92; background: none !important; padding: 0 !important; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+body.in-chapter .h4-chd { display: none; }
+html.v2 #tabs3 button[data-tab="g4"] { grid-column: auto !important; aspect-ratio: 1 / 1 !important; }
