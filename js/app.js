@@ -1017,7 +1017,7 @@ function route() { const k = location.hash.slice(1);
   if (cur === 'play') PLAY.hub($('play-root'));
   if (cur && cur.startsWith('solo-')) { const sk = cur.slice(5), sc = cur; SOLO.load().then(() => { SOLO.render($('solo-' + sk), sk); if (cur === sc) setTitle(); }); }
   if (cur === 'talk') { talkMod().then(m => m.renderDetail()); } else if (TALK) TALK.clearAsk();   // 사랑방을 나가면 물음도 지운다
-  if (cur === 'ev' || cur === 'ai') { const ck = cur; evMod().then(m => m.load(ck)).then(() => { EV.render($(ck + '-body'), null, ck); if (cur === ck) setTitle(); }); }
+  if (cur === 'ev' || cur === 'ai') { const ck = cur; evMod().then(m => m.load(ck)).then(() => { let ep = null; try { ep = sessionStorage.getItem('omaju.ep.' + ck); sessionStorage.removeItem('omaju.ep.' + ck); } catch (x) {} EV.render($(ck + '-body'), ep, ck); if (cur === ck) setTitle(); }); }
   if (cur === 'dog' || cur === 'cat') { const pk = cur; PET.load().then(() => { PET.render($('pet-' + pk), pk); if (cur === pk) setTitle(); }); }
   if (GAME[cur] && (!gameDone[cur] || cur === 'psy' || /^pt-/.test(cur))) { gameDone[cur] = true; GAME[cur](); }   /* 심리 테스트 목록·테스트는 들어올 때마다 새로 (지난 결과 반영) */ document.body.classList.toggle('in-detail', !!cur); stopRead(); if (cur) { if (DET[cur][0]) $('d-bg').style.backgroundImage = `url('img/${DET[cur][0]}.jpg?v=2')`; $('d-bg').classList.toggle('d-wide', cur === 'food');   /* 사람 있는 가로 사진은 잘리지 않게 통째로 (대표 2026-10-24) */ $('d-tag').textContent = DET[cur][1]; setTitle(); document.querySelectorAll('.dsec').forEach(s => s.classList.toggle('on', s.dataset.k === cur)); window.scrollTo(0, 0); } else if (route.y != null) window.scrollTo(0, route.y); }
 $('back').onclick = () => { const up = NS.length > 1 ? NS[NS.length - 2] : null; if (up != null && LV(up) < LV(location.hash.slice(1))) history.back(); else nav(/^g[1-7]$/.test(NS[0]) ? NS[0] : ''); };
@@ -1459,7 +1459,8 @@ function setChapter(g) {
   let head = $('ch-head');
   if (g) {
     if (!head) { head = document.createElement('header'); head.id = 'ch-head'; head.className = 'ch-head'; document.querySelector('.tabsec').before(head); }
-    const [t, sub, img, no] = CH[g];
+    let [t, sub, img, no] = CH[g];
+    if (g === 'g4' && document.documentElement.classList.contains('v2')) { t = '내 서재'; sub = '이어 읽기 · 따라가는 연재 · 담아 둔 글'; }   // 시안 (대표 2026-10-27)
     head.style.backgroundImage = `url('img/${img}.jpg?v=2')`;
     head.innerHTML = `<button type="button" class="ch-back" id="ch-back">← 처음으로</button><div class="ch-t"><span class="ch-k">CHAPTER ${no || g.slice(1)}</span><h2>${t}</h2><p>${sub}</p></div>`;
     $('ch-back').onclick = () => history.back();
@@ -1482,4 +1483,5 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catc
 import('./hometown.js?v=10221640').then(m => { m.init({ toast, modal, closeModal, esc, store, DB }); m.load(); }).catch(e => console.warn('hometown', e));
 // 오늘의 오프닝 — 당분간 쉰다 (대표 2026-10-26: "구독자·방문자가 많지 않으니 내려놓자, 나중에 다시"). 다시 켜려면 OPENING_ON = true
 // + tools/opening.py 예약(opening.yml schedule · api/tick.js · vercel.json) + 예약 작업 '오프닝 대본 쓰기'·'오프닝 새벽 점검' 을 되살린다.
+if (document.documentElement.classList.contains('v2')) import('./home2.js').then(m => m.mount()).catch(e => console.warn('home2', e));   // 첫 화면 판갈이 시안 (?v2=1)
 if (OPENING_ON) import('./opening.js?v=10250140').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));

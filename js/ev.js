@@ -19,6 +19,7 @@ export function load(k = 'ev') {
 }
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const list = k => ((DATA[k] && DATA[k].items) || []).filter(x => x.date <= today()).sort((a, b) => b.no - a.no);
+export function all(k = 'ev') { return list(k).slice().reverse(); }   // 1편부터 (첫 화면 연재 서가)
 export function latest(k = 'ev') { return list(k)[0] || null; }
 export function current(k = 'ev') { return shown[k] || latest(k); }
 const fmt = n => Number(n).toLocaleString('ko-KR');
@@ -95,6 +96,7 @@ export function render(el, id, k = 'ev') {
   if (!items.length) { el.innerHTML = '<p class="note" style="margin-top:30px">첫 편을 준비하고 있어요.</p>'; return; }
   const a = items.find(x => x.id === id) || items[0];
   shown[k] = a;
+  try { const r = JSON.parse(localStorage.getItem('omaju.read') || '{}'); if (!r[k] || r[k].no < a.no) { r[k] = { no: a.no, title: a.title, id: a.id }; localStorage.setItem('omaju.read', JSON.stringify(r)); } } catch (e) {}   // 내 서재 '이어 읽기'
   const t = document.getElementById('d-title'); if (t && document.body.classList.contains('in-detail')) t.textContent = a.title;
   const d = a.date.slice(5).replace('-', '월 ').replace(/^0/, '') + '일';
   el.innerHTML = `<article class="ev">
