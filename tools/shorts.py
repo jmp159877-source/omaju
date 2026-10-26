@@ -218,7 +218,7 @@ def cards():
 # 이미 오늘치를 만들었고 그 뒤 오프닝이 다시 녹음되지 않았으면 그냥 둔다 (보강 시각에 또 돌 때)
 _prev = os.path.join(OUT, DATE + '.json'); _jp = os.path.join(MEDIA, 'opening', DATE + '.json')
 _built = json.load(open(_jp, encoding='utf-8')).get('built') if os.path.exists(_jp) else None
-if '--force' not in sys.argv and os.path.exists(_prev) and all(os.path.exists(os.path.join(OUT, f'{DATE}-{k}.mp4')) for k in ('opening', 'cards')):
+if '--force' not in sys.argv and os.path.exists(_prev) and all(os.path.exists(os.path.join(OUT, f'{DATE}-{k}.mp4')) for k in (('opening', 'cards') if os.path.exists(_jp) else ('cards',))):
     if json.load(open(_prev, encoding='utf-8')).get('built') == _built: print('이미 있음', DATE); sys.exit(0)
 op = opening(); cd = cards()
 # 올릴 때 쓸 제목·설명·태그 — 대표가 복사해 붙인다

@@ -115,7 +115,7 @@ srv.listen(0, '127.0.0.1', async () => {
     { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await c.route('https://www.gstatic.com/**', r => { const u = r.request().url(); const n = u.includes('firebase-app') ? 'app' : u.includes('firebase-auth') ? 'auth' : u.includes('firestore') ? 'firestore' : 'analytics'; r.fulfill({ contentType: 'application/javascript', body: n === 'firestore' ? fsStub.replace('{"era":{', '{"era":{},"era_off":{') : fs.readFileSync(path.join(STUB, n + '.js'), 'utf8') }); });
       await p.goto(base + '/index.html'); await wait(p, 3200);
-      const r = await p.evaluate(() => { const o = []; const op = document.getElementById('opening'); if (!op || op.hidden || op.offsetHeight < 100) o.push('오프닝 안 뜸');
+      const r = await p.evaluate(() => { const o = []; const op = document.getElementById('opening'); if (false && (!op || op.hidden || op.offsetHeight < 100)) o.push('오프닝 안 뜸')  /* 오프닝 쉬는 중 2026-10-26 */;
         const t = [...document.querySelectorAll('.col-tile')]; if (!t.length || t.some(x => !x.hidden && !x.style.backgroundImage)) o.push('기획 연재 사진이 안 깔림');
         if (!document.querySelectorAll('#tabs3 button').length) o.push('CONTENTS 없음'); return o; });
       ok('한 칸이 비어 들어와도 오프닝·기획 연재가 뜸', !r.length, r.concat([...new Set(errs)].filter(e => !/process is not defined/.test(e))).join(' / '));
@@ -692,7 +692,8 @@ srv.listen(0, '127.0.0.1', async () => {
       ok('써 보기 중 화면 오류 없음', !errs.length, [...new Set(errs)].join(' / '));
       await c.close(); }
     // 8) 오늘의 오프닝: 저절로 소리 안 남, 재생·멈춤, 장면·자막 넘김, 다른 코너·앱으로 가면 멈춤, 사연 보내기
-    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2000);
+    // 오프닝 쉬는 중 (대표 2026-10-26) — 다시 켜면 if (false) 를 지운다
+    if (false) { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2000);
       const E = (fn, a) => p.evaluate(fn, a);
       const st = await E(() => { const s = document.getElementById('opening'); const a = document.getElementById('opn-audio');
         return { shown: !!s && !s.hidden && s.offsetHeight > 200, name: document.getElementById('opn-name').textContent, cap: document.getElementById('opn-cap').textContent, next: document.getElementById('opn-next').textContent,

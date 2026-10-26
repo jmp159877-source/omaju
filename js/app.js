@@ -1,6 +1,7 @@
 import { DEFAULT_CONTENT } from './content.js';
 import * as HOOKS from './hooks.js';
 import * as DB from './db.js';
+const OPENING_ON = false;   // 오늘의 오프닝 쉬는 중 (대표 2026-10-26)
 import * as NB from './notebook.js';
 import * as RADIO from './radio.js';
 import * as MM from './malmoi.js';
@@ -1325,7 +1326,7 @@ function welcomeHi(nick, after) {
   </button>` : ''}
   <p class="hi-sub">${canInstall ? '그리고' : '처음이시라면'}</p>
   <ol class="hi-list">
-    <li><button type="button" data-hi="open"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/></svg></i><span><b>오늘의 오프닝 듣기</b><small>오늘 이야기를 들려드려요</small></span></button></li>
+    ${OPENING_ON ? `<li><button type="button" data-hi="open"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M9 21h6"/></svg></i><span><b>오늘의 오프닝 듣기</b><small>오늘 이야기를 들려드려요</small></span></button></li>` : ''}
     <li><button type="button" data-hi="card"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#3A86A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></i><span><b>인사 카드 한 장 보내기</b><small>마음 가는 분께 카톡으로</small></span></button></li>
   </ol>
   <button type="button" class="hi-go" id="hi-go">오마주 들어가기</button>
@@ -1447,4 +1448,6 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catc
 
 // ── 오늘의 오프닝 (미소·한결) ──
 import('./hometown.js?v=10221640').then(m => { m.init({ toast, modal, closeModal, esc, store, DB }); m.load(); }).catch(e => console.warn('hometown', e));
-import('./opening.js?v=10250140').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));
+// 오늘의 오프닝 — 당분간 쉰다 (대표 2026-10-26: "구독자·방문자가 많지 않으니 내려놓자, 나중에 다시"). 다시 켜려면 OPENING_ON = true
+// + tools/opening.py 예약(opening.yml schedule · api/tick.js · vercel.json) + 예약 작업 '오프닝 대본 쓰기'·'오프닝 새벽 점검' 을 되살린다.
+if (OPENING_ON) import('./opening.js?v=10250140').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));

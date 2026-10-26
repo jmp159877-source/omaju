@@ -110,14 +110,6 @@
     },
     {
       "path": "/api/tick",
-      "schedule": "0 16 * * *"
-    },
-    {
-      "path": "/api/tick",
-      "schedule": "10 19 * * *"
-    },
-    {
-      "path": "/api/tick",
       "schedule": "20 17 * * *"
     },
     {

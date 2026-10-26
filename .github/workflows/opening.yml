@@ -1,9 +1,10 @@
 # 오늘의 오프닝 (미소·한결): 대본 → 목소리 3벌 → 받아쓰기 확인 → media 가지에 올림 (최근 5일만)
 name: 오늘의 오프닝
 on:
-  schedule:
-    - cron: '10 15 * * *'   # 00:10 KST
-    - cron: '10 19 * * *'   # 04:10 KST (빠졌으면 다시)
+  # 오프닝 쉬는 중 (대표 2026-10-26) — 다시 켜려면 아래 두 줄과 api/tick.js·vercel.json 예약을 되살린다
+  # schedule:
+  #   - cron: '10 15 * * *'   # 00:10 KST
+  #   - cron: '10 19 * * *'   # 04:10 KST (빠졌으면 다시)
   workflow_dispatch:
     inputs:
       date:
