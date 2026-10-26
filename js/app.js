@@ -1358,6 +1358,7 @@ async function welcomeHi(nick, after) {
 }
 window.welcomeHi = welcomeHi;   // 시안·시험용
 window.__memberNo = memberNo;
+window.__memberCard = memberCard;   // 시안·시험용
 function openLogin() {
   modal(`<h2>로그인</h2>
   <div class="field"><label>아이디</label><input id="l-id" autocomplete="username" placeholder="아이디"></div>
@@ -1378,6 +1379,21 @@ const FOUNDER_END = Date.UTC(2026, 10, 22, 9, 0);   // 2026-11-22 18:00 KST
 const isFounder = p => !!p && p.role !== 'admin' && !p.noFounder && (!!p.founderNo || (p.createdAt && p.createdAt.toMillis && p.createdAt.toMillis() < FOUNDER_END));
 const founderNow = () => Date.now() < FOUNDER_END;
 const fdNo = n => 'No. ' + String(n).padStart(5, '0');   // 만 단위 다섯 자리 (운영자 2026-10-23) — 넘으면 저절로 자리가 는다
+// 멤버십 카드 (대표 2026-10-27: "프라이드를 갖게, 소속감을 갖게") — 이름·구독일·구독 번호·등급·방문 날 수
+function memberCard(p) {
+  const d = p.createdAt && p.createdAt.toDate ? p.createdAt.toDate() : null;
+  const since = d ? `${d.getFullYear()}. ${String(d.getMonth() + 1).padStart(2, '0')}. ${String(d.getDate()).padStart(2, '0')}` : '—';
+  const grade = isFounder(p) ? '창간 멤버' : '멤버';
+  const visits = Math.max(p.visitDays || 0, p.checkinCount || 0, 1);
+  return `<div class="mcard${isFounder(p) ? ' fd' : ''}" role="img" aria-label="오마주 매거진 멤버십 카드 — ${esc(p.nick)} 님, ${grade}${p.founderNo ? ', 구독 번호 ' + p.founderNo : ''}">
+    <div class="mc-top"><img src="logo-light.png" alt=""><span>OMAJU MAGAZINE<br><i>MEMBERSHIP</i></span></div>
+    <div class="mc-grade">${grade}</div>
+    <div class="mc-name">${esc(p.nick)}</div>
+    <div class="mc-no">${p.founderNo ? fdNo(p.founderNo) : 'No. —'}</div>
+    <dl class="mc-row"><div><dt>구독일</dt><dd>${since}</dd></div><div><dt>방문</dt><dd>${visits.toLocaleString()}일</dd></div></dl>
+    <p class="mc-foot">오늘도 마음은 주니어</p>
+  </div>`;
+}
 async function openMy() {
   const p = DB.currentProfile();
   if (!p) { toast('정보를 불러오지 못했습니다. 새로고침한 뒤 다시 눌러 주세요.'); return; }
@@ -1385,7 +1401,7 @@ async function openMy() {
   const ym = TODAY.slice(0, 7), month = (await DB.myCheckins(ym)).length;
   const since = p.createdAt && p.createdAt.toDate ? (d => `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일부터`)(p.createdAt.toDate()) : '';
   modal(`<div class="my-in">
-  ${isFounder(p) ? `<div class="fd-card"><small>OMAJU</small><b>창간 독자${p.founderNo ? ` <span>${fdNo(p.founderNo)}</span>` : ''}</b><em><span class="nw">2026년 10월 22일,</span> <span class="nw">오마주 창간호부터 함께</span></em></div>` : ''}
+  ${memberCard(p)}
   <h2><span class="nw">${esc(p.nick)} 님</span></h2>
   <p class="my-line">${[p.streak ? `<span class="nw">연속 ${p.streak}일째</span>` : '', month ? `<span class="nw">${M + 1}월 ${month}일 출석</span>` : '', since ? `<span class="nw">${since} 함께</span>` : ''].filter(Boolean).join(' · ') || '오늘도 반갑습니다.'}</p>
   <div class="my-f"><label>글자 크기</label><div class="in"><button type="button" class="btn line" id="m-size-big">크게</button><button type="button" class="btn line" id="m-size-normal">보통</button></div></div>

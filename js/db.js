@@ -46,7 +46,9 @@ onAuthStateChanged(auth, async user => {
       // (운영자 2026-10-21). 정보가 없는 채로라도 알린다.
       tellAll(); return;
     }
-    try { await updateDoc(doc(db, 'users', user.uid), { lastSeen: serverTimestamp(), lastSeenDay: todayKey() }); } catch (e) {}
+    // 방문한 날 수 (대표 2026-10-27 멤버십 카드 '방문 횟수') — 하루 한 번만 센다
+    const newDay = profile.lastSeenDay !== todayKey();
+    try { await updateDoc(doc(db, 'users', user.uid), newDay ? { lastSeen: serverTimestamp(), lastSeenDay: todayKey(), visitDays: increment(1) } : { lastSeen: serverTimestamp(), lastSeenDay: todayKey() }); if (newDay) profile.visitDays = (profile.visitDays || 0) + 1; } catch (e) {}
   }
   tellAll();
 });

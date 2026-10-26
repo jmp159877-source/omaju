@@ -2734,3 +2734,25 @@ html.big .endb .eb-t { max-width: 86%; }
 @media (min-width: 769px) { .mz-bar { left: calc(45% + 20px); right: 20px; max-width: 540px; } }   /* PC: 왼쪽 커버를 가리지 않게 글 쪽 가운데에 (2026-10-26) */
 .mz-bt small:empty { display: none; }
 .mz-bt b { font-size: min(1.02rem, 4.4vw); }
+
+/* ── 멤버십 카드 (대표 2026-10-27) — 나의 정보 맨 위. 짙은 초록 바탕에 금빛 테·결, 카드 비율 1.586:1 ── */
+.mcard { position: relative; overflow: hidden; width: 100%; max-width: 420px; margin: 0 auto 18px; aspect-ratio: 1.586 / 1; border-radius: 16px; padding: 5.2% 6%;
+  color: #F6EED8; background: radial-gradient(120% 90% at 85% 0%, rgba(232,210,150,.22) 0%, rgba(232,210,150,0) 55%), linear-gradient(135deg, #0F3A2A 0%, #1B5A41 55%, #0C2E21 100%);
+  box-shadow: 0 14px 30px rgba(12,46,33,.35), inset 0 0 0 1px rgba(232,210,150,.55), inset 0 0 0 5px rgba(12,46,33,.9), inset 0 0 0 6px rgba(232,210,150,.35);
+  display: grid; grid-template-rows: auto 1fr auto auto auto; font-size: min(16px, 4.1vw); }
+.mcard::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,240,200,.16) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
+@keyframes mcShine { 0%, 55% { transform: translateX(-45%); } 100% { transform: translateX(45%); } }
+@media (prefers-reduced-motion: reduce) { .mcard::after { animation: none; } }
+.mc-top { display: flex; align-items: center; gap: .6em; }
+.mc-top img { width: 2.6em; height: auto; filter: drop-shadow(0 1px 2px rgba(0,0,0,.3)); }
+.mc-top span { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: .22em; font-size: .78em; line-height: 1.35; color: #E8D296; }
+.mc-top i { font-style: normal; letter-spacing: .32em; opacity: .8; }
+.mc-grade { position: absolute; top: 6.5%; right: 6%; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: .78em; color: #3A2E00; background: linear-gradient(135deg, #F3E1A6, #D9B867); padding: .35em .8em; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.mc-name { grid-row: 3; align-self: end; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: 1.75em; letter-spacing: .02em; line-height: 1.2; text-shadow: 0 1px 3px rgba(0,0,0,.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mc-no { grid-row: 4; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.3em; letter-spacing: .16em; color: #E8D296; margin: 0 0 .5em; text-shadow: 0 1px 0 rgba(0,0,0,.35); }
+.mc-row { grid-row: 5; display: flex; gap: 1.2em; margin: 0; padding-top: .6em; border-top: 1px solid rgba(232,210,150,.35); }
+.mc-row div { min-width: 0; }
+.mc-row dt { font-size: .66em; letter-spacing: .08em; color: rgba(246,238,216,.7); }
+.mc-row dd { margin: .1em 0 0; font-size: .86em; font-weight: 700; white-space: nowrap; }
+.mc-foot { position: absolute; right: 6%; bottom: 5%; margin: 0; font-family: 'Nanum Pen Script', 'Nanum Myeongjo', serif; font-size: .82em; color: rgba(232,210,150,.75); }
+.mcard:not(.fd) { background: radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #2B3A33 0%, #46574E 55%, #26332D 100%); }
