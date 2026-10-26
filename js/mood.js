@@ -33,7 +33,7 @@ function paint() {
   bar.hidden = !show; document.body.classList.toggle('mz-on', show);
   if (!show) return;
   $('mz-t').textContent = title();
-  $('mz-s').textContent = `${order.length}곡 중 ${idx + 1}번째 · 이어 듣기`;
+  $('mz-s').textContent = '';   // 이름만 — '8곡 중 1번째 · 이어 듣기'는 뺐다 (대표 2026-10-26 19:39)
   $('mz-pp').innerHTML = au.paused ? IC.play : IC.pause; $('mz-pp').setAttribute('aria-label', au.paused ? '이어 듣기' : '잠시 멈춤');
 }
 // 앱을 열 때 저절로 흐른 것은 원래 이름 대신 '오마주 뮤직박스'로 (대표 2026-10-26). 칸을 직접 누르면 그 칸 이름.

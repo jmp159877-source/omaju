@@ -173,7 +173,7 @@ $('mt-off').onclick = async () => { await setDoc(doc(db, 'settings', 'maint'), {
 
 // ── 오마주 뮤직박스 (대표 2026-10-26: "가끔 골라서 바꿀 수 있게") — settings/musicbox.k ──
 async function loadMusicbox() {
-  const { MOODS } = await import('./mood.js?v=10261935');
+  const { MOODS } = await import('./mood.js?v=10261940');
   const s = await getDoc(doc(db, 'settings', 'musicbox')); const k = (s.exists() && s.data().k) || 'drive';
   $('mb-list').innerHTML = MOODS.map(([id, n, d]) => `<label class="mb-item"><input type="radio" name="mb" value="${id}" ${id === k ? 'checked' : ''}><b>${esc(n)}</b><button type="button" class="mb-play" data-pv="${id}">▶ 들어보기</button><small>${esc(d || '')}</small></label>`).join('');
   $('mb-msg').textContent = '지금: ' + ((MOODS.find(m => m[0] === k) || [, k])[1]);
