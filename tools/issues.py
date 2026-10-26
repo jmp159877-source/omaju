@@ -101,15 +101,48 @@ JSON 하나만 출력:
 {{"items":[{{"n":번호,"cat":"경제","line":"한 문장"}}]}}"""
 
 
+# 구글 없이 고르기 (대표 2026-10-27 — 구글 선불 잔액이 바닥나 "구글에 낼 돈"을 없애기로) — 이제 기본.
+# 뉴스 순서(많이 오르내린 차례)대로 분야마다 앞에서부터, 한 분야 둘까지, 날씨·시세 제목은 뺀다.
+# 문장은 제목을 다듬기만 한다([단독]·따옴표·말줄임 걷기, 45자 안쪽) — 제목에 있는 말만 남으니 없는 사실이 보태질 일이 없다.
+SKIP = ("날씨", "기온", "비 소식", "눈 소식", "미세먼지", "환율", "코스피", "코스닥", "주가", "증시", "마감", "광고", "이벤트", "할인")
+def tidy(t):
+    t = re.sub(r"^\s*[\[(【<][^\])】>]{1,8}[\])】>]\s*", "", t)          # 앞의 [단독]·(종합)
+    t = re.sub(r"[\[(【<](종합|단독|속보|영상|사진|포토|인터뷰)[^\])】>]*[\])】>]", "", t)
+    t = re.sub(r"[\"'“”‘’]", "", t); t = re.sub(r"\s*(…|\.\.\.|[!?])+\s*", ", ", t); t = re.sub(r"(,\s*)+", ", ", t)
+    t = re.sub(r"\s+", " ", t).strip(" ,·")
+    if len(t) > 45:
+        cut = t[:45]; sp = max(cut.rfind(" "), cut.rfind(","))
+        t = (cut[:sp] if sp > 25 else cut).strip(" ,·")
+    return t
+def pick_rule(pool):
+    per, out, cats = {}, [], ["경제", "사회", "스포츠", "연예"]
+    for rnd in range(2):
+        for c in cats:
+            for p in pool:
+                if p["cat"] != c or any(w in p["title"] for w in SKIP) or any(o["url"] == p["url"] for o in out): continue
+                if per.get(c, 0) > rnd: break
+                line = tidy(p["title"])
+                if len(line) < 10: continue
+                out.append({"cat": c, "line": line, "title": p["title"], "src": p["src"], "url": p["url"]}); per[c] = per.get(c, 0) + 1
+                break
+            if len(out) >= 5: return out
+    return out
+
+
 def main():
     pool = gather()
     if len(pool) < 8:
         print("쓸 만한 제목이 모자람 — 그만둠", file=sys.stderr)
         sys.exit(1)
 
-    G.gemini.models = G.list_models()
-    listing = "\n".join(f"{i}. [{p['cat']}] {p['title']}" for i, p in enumerate(pool))
-    got = G.gemini(PROMPT.format(list=listing))
+    got = None
+    if os.environ.get("ISSUES_AI"):   # 구글로 고쳐 쓰기는 일부러 켤 때만
+        try:
+            G.gemini.models = G.list_models()
+            listing = "\n".join(f"{i}. [{p['cat']}] {p['title']}" for i, p in enumerate(pool))
+            got = G.gemini(PROMPT.format(list=listing))
+        except Exception as e:
+            print("[구글 실패 → 규칙으로]", str(e)[:120], file=sys.stderr)
     items = []
     for x in (got or {}).get("items", []):
         try:
@@ -124,6 +157,8 @@ def main():
         items.append({"cat": x.get("cat") or p["cat"], "line": line,
                       "title": p["title"], "src": p["src"], "url": p["url"]})
     items = items[:5]
+    if len(items) < 3:
+        items = pick_rule(pool)
     if len(items) < 3:
         print(f"고른 것이 {len(items)} 개뿐 — 그만둠", file=sys.stderr)
         sys.exit(1)

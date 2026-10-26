@@ -111,6 +111,17 @@ def real_posts(db, n=8):
 
 def make(d, db=None):
     tp = topic(d)
+    # 클국장이 밤에 미리 써 둔 글이 있으면 구글을 부르지 않는다 (대표 2026-10-27: 구글 선불 잔액 소진 — "구글에 낼 돈이 왜 이렇게 많냐")
+    # daily/pre/<날짜>.talk.json = {"host": "진행자 첫 글", "posts": ["글", ...]} — 별명은 아래 NICKS 에서 붙인다
+    pre = os.path.join(ROOT, 'daily', 'pre', d + '.talk.json')
+    if os.path.exists(pre):
+        j = json.load(open(pre, encoding='utf-8')); posts = []
+        pool = NICKS[:]; random.Random(d + 'nick').shuffle(pool)
+        for t in j.get('posts', []):
+            t = tone(t)
+            if t and pool: posts.append({'nick': pool.pop(), 'text': t})
+        if j.get('host'): posts.insert(0, {'nick': HOSTS['miso' if today_host(d) == 'seungwoo' else today_host(d)], 'text': re.sub(r'!+', '.', j['host']), 'host': True})
+        print('[클국장 글]', len(posts), '개'); return tp, posts
     real = real_posts(db)
     print('말투 견본', len(real), '개')
     G.gemini.models = G.list_models()

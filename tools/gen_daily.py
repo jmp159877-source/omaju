@@ -117,6 +117,8 @@ def gemini(prompt, json_mode=True, search=False, max_retry=None, timeout=None):
         raise RuntimeError("GEMINI_API_KEY 없음")
     if search and getattr(gemini, "search_ok", True) is False:
         raise RuntimeError("검색 기능 사용 불가(앞서 확인됨)")
+    if getattr(gemini, "broke", False):   # 선불 잔액 소진(402)을 한 번 봤으면 그 뒤로는 부르지 않는다 (2026-10-27 — 다시 부르며 시간만 쓰다 사랑방 작업이 10분에 끊겼다)
+        raise RuntimeError("구글 잔액 소진(402) — 부르지 않음")
     errs = []
     for model in list(gemini.models):
         for attempt in range(max_retry):
@@ -145,6 +147,9 @@ def gemini(prompt, json_mode=True, search=False, max_retry=None, timeout=None):
                 msg = re.sub(r"\s+", " ", detail)[:220]
                 errs.append(f"{model} {e.code}: {msg}")
                 print(f"[gemini] {model} {e.code}: {msg}", file=sys.stderr)
+                if e.code == 402:
+                    gemini.broke = True
+                    raise RuntimeError(f"구글 잔액 소진(402): {msg[:120]}")
                 if e.code == 404:
                     if model in gemini.models and not search:
                         gemini.models.remove(model)  # 없어진 모델은 이후 건너뜀
