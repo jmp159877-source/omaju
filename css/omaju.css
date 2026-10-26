@@ -2774,7 +2774,7 @@ html.big .endb .eb-t { max-width: 86%; }
 
 /* 구독자 카드 — 대표 재미나이 빈 카드 그림 위에 글씨만 (2026-10-27). 자리는 그림 크기에 대한 % · 글자는 카드 폭(cqw) 기준 */
 .mcard2 { position: relative; width: 100%; max-width: 460px; margin: 0 auto 18px; aspect-ratio: 1400 / 863; container-type: inline-size;
-  background: url(../img/member-card.jpg?v=1) center / 100% 100% no-repeat; border-radius: 4.2cqw; overflow: hidden; color: #2E2218;
+  background: url(../img/member-card.jpg?v=2) center / 100% 100% no-repeat; border-radius: 4.2cqw; overflow: hidden; color: #2E2218;
   box-shadow: 0 14px 28px rgba(90,70,40,.22); font-family: 'Noto Sans KR', 'Pretendard', sans-serif; }
 .mcard2::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.5) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
 .mcard2 > * { position: absolute; transform: translateY(-50%); white-space: nowrap; line-height: 1.1; }
