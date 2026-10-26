@@ -387,7 +387,7 @@ function svSync() {
     const on = SAVED.has(b.dataset.sk);
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
     b.querySelector('.sv-ic').textContent = on ? '\u2713' : '+';
-    b.querySelector('.sv-tx').textContent = on ? '수첩에 담아 둠' : '담아 두기';
+    b.querySelector('.sv-tx').textContent = on ? '서재에 담아 둠' : '담아 두기';
   });
 }
 window.omajuSvSync = svSync;
@@ -397,12 +397,12 @@ document.addEventListener('click', async e => {
   const corner = b.dataset.save, key = b.dataset.sk;
   if (!DB.currentUser()) return openGate('마음에 든 글을 담아 두려면');
   try {
-    if (SAVED.has(key)) { await DB.removeSave(key); SAVED.delete(key); toast('수첩에서 뺐습니다.'); }
+    if (SAVED.has(key)) { await DB.removeSave(key); SAVED.delete(key); toast('서재에서 뺐습니다.'); }
     else {
       const d = (SV_DATA[corner] || (() => null))();
       if (!d) return toast('담을 내용이 아직 없습니다.');
       await DB.addSave({ key, corner, kind: b.dataset.sv || '', date: TODAY, title: b.dataset.st, data: d });
-      SAVED.add(key); toast('나의 수첩에 담았습니다.');
+      SAVED.add(key); toast('내 서재에 담았습니다.');
     }
     svSync(); NB.refreshSaves();
   } catch (err) { toast(err.message || '담아 두지 못했습니다.'); }
@@ -1191,7 +1191,7 @@ function openGate(why) {
   modal(`<div class="gate-in">
     <p class="gate-logo"><span>오</span><span>마</span><span>주</span></p>
     <h1 class="gate-head">평생 무료로 열려 있는<br>당신만의 공간.</h1>
-    <p class="gate-desc">${why ? why + ' 회원이 되셔야 합니다.<br>' : ''}가입비나 이용료 없이 오마주의 모든 이야기를 누려 보세요.<br>나의 수첩을 채우고 따뜻한 한마디를 나눌 수 있습니다.</p>
+    <p class="gate-desc">${why ? why + ' 회원이 되셔야 합니다.<br>' : ''}가입비나 이용료 없이 오마주의 모든 이야기를 누려 보세요.<br>좋았던 글을 내 서재에 담고 따뜻한 한마디를 나눌 수 있습니다.</p>
     <div class="gate-btns">
       <button type="button" class="gbtn kakao" id="g-kakao"><i aria-hidden="true"></i>카카오로 빠르게 시작하기</button>
       <button type="button" class="gbtn naver" id="g-naver"><i aria-hidden="true"></i>네이버로 빠르게 시작하기</button>
@@ -1460,7 +1460,7 @@ function setChapter(g) {
   if (g) {
     if (!head) { head = document.createElement('header'); head.id = 'ch-head'; head.className = 'ch-head'; document.querySelector('.tabsec').before(head); }
     let [t, sub, img, no] = CH[g];
-    if (g === 'g4' && document.documentElement.classList.contains('lib2')) { t = '내 서재'; sub = '이어 읽기 · 따라가는 연재 · 담아 둔 글'; }   // 시안 (대표 2026-10-27)
+    if (g === 'g4' && document.documentElement.classList.contains('lib2')) { t = '내 서재'; sub = '이어 읽기 · 따라가는 연재 · 담아 둔 글'; }   // 대표 2026-10-27 — 나의 수첩 자리
     head.style.backgroundImage = `url('img/${img}.jpg?v=2')`;
     head.innerHTML = `<button type="button" class="ch-back" id="ch-back">← 처음으로</button><div class="ch-t"><span class="ch-k">CHAPTER ${no || g.slice(1)}</span><h2>${t}</h2><p>${sub}</p></div>`;
     $('ch-back').onclick = () => history.back();
@@ -1483,5 +1483,5 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catc
 import('./hometown.js?v=10221640').then(m => { m.init({ toast, modal, closeModal, esc, store, DB }); m.load(); }).catch(e => console.warn('hometown', e));
 // 오늘의 오프닝 — 당분간 쉰다 (대표 2026-10-26: "구독자·방문자가 많지 않으니 내려놓자, 나중에 다시"). 다시 켜려면 OPENING_ON = true
 // + tools/opening.py 예약(opening.yml schedule · api/tick.js · vercel.json) + 예약 작업 '오프닝 대본 쓰기'·'오프닝 새벽 점검' 을 되살린다.
-if (document.documentElement.classList.contains('v2')) import('./home2.js').then(m => m.mount()).catch(e => console.warn('home2', e));   // 첫 화면 판갈이 시안 (?v2=1)
+if (document.documentElement.classList.contains('v2')) import('./home2.js').then(m => m.mount({ profile: () => DB.currentProfile(), onUser: DB.onUser, login: () => openGate(), saves: NB.savesList, label: NB.saveLabel, openSaves: NB.openSaves, refreshSaves: NB.refreshSaves })).catch(e => console.warn('home2', e));   // 첫 화면 판갈이 시안 (?v2=1)
 if (OPENING_ON) import('./opening.js?v=10250140').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));

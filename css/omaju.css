@@ -2916,3 +2916,9 @@ html.v2 #tabs3 button b { display: block !important; height: auto !important; pa
 html.v2 #tabs3 button small { display: block !important; position: relative !important; inset: auto !important; margin-top: 4px; font-size: .74rem !important; letter-spacing: .04em; color: #fff; opacity: .92; background: none !important; padding: 0 !important; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
 body.in-chapter .h4-chd { display: none; }
 html.v2 #tabs3 button[data-tab="g4"] { grid-column: auto !important; aspect-ratio: 1 / 1 !important; }
+
+/* 장 안에서는 콘텐츠 칸을 감춘다 — html.v2 #tabs3 { display:grid } 가 body.in-chapter 규칙을 이겨 장 머리 위에 칸이 다시 떠서 '열렸다가 다시 나온 것'처럼 보였다 (대표 2026-10-27 08:25) */
+html.v2 body.in-chapter #tabs3 { display: none; }
+.lib-saved li { padding: 0; }
+.lib-saved button { display: block; width: 100%; padding: 12px 14px; border: 0; background: none; text-align: left; border-radius: 12px; }
+.lib-more { display: block; margin: 8px 0 0 auto; border: 0; background: none; font-size: .86rem; font-weight: 700; color: var(--pt); padding: 6px 2px; }

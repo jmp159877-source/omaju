@@ -42,7 +42,7 @@ function shelfRow(s, list) {
     <div class="h2-eps">${tiles}</div></div>`;
 }
 
-export async function mount() {
+export async function mount(h) {
   const intro = document.querySelector('.intro'); if (!intro) return;
   // 배너 첫 줄: '잡지' 빼고 (대표 2026-10-27)
   const lede = intro.querySelector('.intro-lede'); if (lede) lede.innerHTML = '<span class="nw">매일 아침,</span> <span class="nw">새로운 이야기를 만납니다.</span>';
@@ -74,31 +74,46 @@ export async function mount() {
   const dots = el => { if (!el || el.dataset.glued) return; el.innerHTML = el.textContent.split(' · ').map(x => '<span class="nw">' + esc(x.trim()) + '</span>').join(' · '); el.dataset.glued = 1; };
   setTimeout(() => { document.querySelectorAll('#tabs3 button b, .h4 .col-tile b').forEach(glue); document.querySelectorAll('#tabs3 button small').forEach(dots); }, 0);
   // 나의 수첩 → 내 서재
-  // 내 서재는 아직 시안(담아 둔 글·예전 수첩 잇기 전) — ?lib=1 인 기기에서만
-  if (document.documentElement.classList.contains('lib2')) { const nb = document.querySelector('#tabs3 [data-tab="g4"]'); if (nb) nb.innerHTML = '<b>내 서재</b><small>이어 읽기 · 담아 둔 글</small>'; mountLibrary(); }
+  // 내 서재 — 모두에게 (대표 2026-10-27 08:25 "나의 서재도 리셋해도 돼, 사용자 없으니까"). 예전 수첩 칸은 css 로 감춘다.
+  if (document.documentElement.classList.contains('lib2')) {
+    H = h || {};
+    mountLibrary();
+    EV.load('ev').then(() => EV.load('ai')).then(mountLibrary).catch(() => {});
+    if (H.onUser) H.onUser(() => { Promise.resolve(H.refreshSaves && H.refreshSaves()).catch(() => {}).then(mountLibrary); });
+    addEventListener('hashchange', () => { if (location.hash === '#g4') mountLibrary(); });
+    addEventListener('omaju:saves', mountLibrary);
+  }
 }
+let H = {};
 
 // ── 내 서재 (나의 수첩 자리) — 세 가지만: 이어 읽기 · 따라가는 연재 · 담아 둔 글 ──
 const LS = { get(k, d) { try { const v = localStorage.getItem('omaju.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('omaju.' + k, JSON.stringify(v)); } catch (e) {} } };
 export function mountLibrary() {
   const g4 = document.querySelector('.tabsec[data-g="g4"]'); if (!g4) return;
   let lib = document.getElementById('lib'); if (!lib) { lib = document.createElement('div'); lib.id = 'lib'; lib.className = 'lib'; g4.prepend(lib); }
-  const p = (window.__libProfile) || null;
-  const read = LS.get('read', null) || (window.__libDemo ? { ev: { no: 3, title: "테슬라가 문을 열었다: '중국산' 꼬리표가 옅어진 까닭", id: 'ev-03' }, ai: { no: 3, title: '처음 써 보기: 휴대폰에서 5분', id: 'ai-03' } } : {});
-  const follow = LS.get('follow', window.__libDemo ? ['ev', 'ai', 'work'] : []);
-  const saved = window.__libDemo ? [['전기차 시대 · 1화', '전기차 시대가 왔다'], ['오늘의 한 끼', '꽈리고추 멸치 비빔밥'], ['AI 시대 · 4화', '잘 묻는 법: 대답이 달라지는 세 가지 요령']] : [];
+  const p = H.profile ? H.profile() : null;
+  const read = LS.get('read', {});
+  const follow = LS.get('follow', []);
+  const saved = (H.saves ? H.saves() : []) || [];
   const card = p && window.__memberCard ? window.__memberCard(p) : '';
-  const rk = Object.keys(read);
+  const rk = Object.keys(read).filter(k => SER.some(x => x.k === k));
+  const cont = k => {   // 다음 편이 올라와 있으면 그 편, 아니면 마지막 읽은 편
+    const s = SER.find(x => x.k === k), r = read[k], items = EV.all(k), nx = items.find(x => x.no === r.no + 1);
+    const go = nx ? nx.id : r.id;
+    return `<button type="button" class="lib-cont" data-open="${k}" data-corner="${k}" data-ep="${esc(go)}"><small>${esc(s ? s.name : k)}</small><b>${nx ? `${nx.no}화부터 이어 보기` : `${r.no}화까지 읽으셨어요`}</b><em>${nx ? `지난번 ${r.no}화 · ${esc(r.title)}` : '새 편이 오르면 여기서 이어 봅니다'}</em><i>›</i></button>`;
+  };
   lib.innerHTML = `
-    ${card ? `<div class="lib-card">${card}</div>` : `<div class="lib-join"><b>무료 구독하면, 읽던 연재를 이어서 볼 수 있어요.</b><span>어디까지 읽었는지 기억해 두고, 좋았던 글은 담아 둡니다.</span><button type="button" class="btn green" id="lib-login">로그인 · 무료 구독하기</button></div>`}
+    ${card ? `<div class="lib-card">${card}</div>` : `<div class="lib-join"><b>무료 구독하면, 좋았던 글을 담아 둘 수 있어요.</b><span>어디까지 읽었는지는 이 휴대폰이 기억해 둡니다.</span><button type="button" class="btn green" id="lib-login">로그인 · 무료 구독하기</button></div>`}
     <div class="lib-h">이어 읽기</div>
-    ${rk.length ? rk.map(k => { const s = SER.find(x => x.k === k); const r = read[k]; return `<button type="button" class="lib-cont" data-open="${k}" data-corner="${k}"><small>${esc(s ? s.name : k)}</small><b>${r.no + 1}화부터 이어 보기</b><em>지난번 ${r.no}화 · ${esc(r.title)}</em><i>›</i></button>`; }).join('') : '<p class="lib-empty">연재를 읽으면 여기에서 이어 볼 수 있어요.</p>'}
+    ${rk.length ? rk.map(cont).join('') : '<p class="lib-empty">연재를 읽으면 여기에서 이어 볼 수 있어요.</p>'}
     <div class="lib-h">따라가는 연재 <small>누르면 켜고 끕니다</small></div>
     <div class="lib-fol">${SER.map(s => `<button type="button" class="lib-f${follow.includes(s.k) ? ' on' : ''}" data-fk="${s.k}"><b>${esc(s.name)}</b><small>${s.daily ? '매일 연재' : `${DOW[s.day]}요일 연재`}${s.soon ? ' · ' + esc(s.soon) : ''}</small><i>${follow.includes(s.k) ? '따라가는 중' : '따라가기'}</i></button>`).join('')}</div>
-    <div class="lib-h">담아 둔 글</div>
-    ${saved.length ? `<ul class="lib-saved">${saved.map(([k, t]) => `<li><small>${esc(k)}</small><b>${esc(t)}</b></li>`).join('')}</ul>` : '<p class="lib-empty">글 끝의 \'담아 두기\'를 누르면 여기에 모입니다.</p>'}
-    <p class="lib-note">예전에 수첩에 적어 두신 메모·일정은 지우지 않고 그대로 보관합니다.</p>`;
+    <div class="lib-h">담아 둔 글${saved.length ? ` <small>${saved.length}개</small>` : ''}</div>
+    ${saved.length ? `<ul class="lib-saved">${saved.slice(0, 5).map(it => `<li><button type="button" data-libsave="1"><small>${esc(H.label ? H.label(it) : '')}</small><b>${esc(it.title || '')}</b></button></li>`).join('')}</ul>${saved.length > 5 ? '<button type="button" class="lib-more" data-libsave="1">모두 보기 ›</button>' : ''}` : `<p class="lib-empty">${p ? "글 끝의 '담아 두기'를 누르면 여기에 모입니다." : "구독하시면 글 끝의 '담아 두기'로 좋았던 글을 모아 둘 수 있어요."}</p>`}`;
   lib.onclick = e => {
+    if (e.target.closest('#lib-login')) { H.login && H.login(); return; }
+    if (e.target.closest('[data-libsave]')) { H.openSaves && H.openSaves(); return; }
+    const c = e.target.closest('[data-ep]'); if (c) { try { sessionStorage.setItem('omaju.ep.' + c.dataset.open, c.dataset.ep); } catch (x) {} return; }   // 넘어가는 것은 app.js 의 [data-open]
     const f = e.target.closest('[data-fk]'); if (!f) return;
     const cur = LS.get('follow', []); const k = f.dataset.fk; const nx = cur.includes(k) ? cur.filter(x => x !== k) : cur.concat(k); LS.set('follow', nx); mountLibrary();
   };

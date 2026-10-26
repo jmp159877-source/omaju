@@ -285,9 +285,12 @@ function svListHtml() {
   return saves.map(it => {
     const open = svOpen === it.key;
     const tag = it.corner === 'culture' ? (CU_LABEL[it.kind] || SV_LABEL.culture) : (SV_LABEL[it.corner] || '');
-    return `<div class="sv-item${open ? ' open' : ''}"><button type="button" class="sv-head" data-sopen="${esc(it.key)}" aria-expanded="${open}"><span class="sv-meta"><span class="sv-tag">${esc(tag)}</span><span class="sv-date">${esc(svWhen(it.date))}</span></span><strong>${esc(it.title || '')}</strong></button>${open ? `<div class="sv-full">${svBody(it)}<button type="button" class="sv-rm" data-srm="${esc(it.key)}">수첩에서 빼기</button></div>` : ''}</div>`;
+    return `<div class="sv-item${open ? ' open' : ''}"><button type="button" class="sv-head" data-sopen="${esc(it.key)}" aria-expanded="${open}"><span class="sv-meta"><span class="sv-tag">${esc(tag)}</span><span class="sv-date">${esc(svWhen(it.date))}</span></span><strong>${esc(it.title || '')}</strong></button>${open ? `<div class="sv-full">${svBody(it)}<button type="button" class="sv-rm" data-srm="${esc(it.key)}">서재에서 빼기</button></div>` : ''}</div>`;
   }).join('');
 }
+export const savesList = () => saves;   // 내 서재 '담아 둔 글' (대표 2026-10-27)
+export const saveLabel = it => it.corner === 'culture' ? (CU_LABEL[it.kind] || SV_LABEL.culture) : (SV_LABEL[it.corner] || '');
+export function openSaves() { openList('save'); }
 export async function refreshSaves() {
   try { saves = await DB.listSaves(); } catch (e) { saves = []; }
   renderSaves();
@@ -295,6 +298,7 @@ export async function refreshSaves() {
 /** 담아 둔 것 개수는 칸에 적고, 창이 열려 있으면 목록도 다시 그린다. */
 function renderSaves() {
   const n = $('nb-n-save'); if (n) n.textContent = saves.length;
+  try { dispatchEvent(new Event('omaju:saves')); } catch (e) {}   // 내 서재가 다시 그린다
   if (listOpen === 'save') paintList();
 }
 
