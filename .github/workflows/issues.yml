@@ -21,7 +21,8 @@ jobs:
       - env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: python3 -u tools/issues.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
+        # pipefail: 이게 없으면 issues.py 가 실패해도 sed 가 성공해 '성공'으로 보인다(2026-10-26 07:28·11:40 이 그렇게 조용히 빠졌다)
+        run: set -o pipefail; python3 -u tools/issues.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'
       - name: 창간 독자 번호
         if: always()
         env:
