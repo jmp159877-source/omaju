@@ -67,7 +67,9 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: |
           D="${{ inputs.date }}"; [ -z "$D" ] && D=$(TZ=Asia/Seoul date +%F)
-          python3 -u tools/yt_upload.py "$D" || echo '유튜브 올리기 실패 — 영상은 media 에 남아 있음'
+          mkdir -p media/shorts
+          python3 -u tools/yt_upload.py "$D" 2>&1 | tee media/shorts/yt_last.log || true   # 기록을 media 에 남긴다(작업 기록은 밖에서 못 받는다, 2026-10-27)
+          grep -q "올림\|이미 올림" media/shorts/yt_last.log || echo "::warning title=유튜브::올린 영상 없음 — media shorts/yt_last.log 확인"
       - name: media 가지에 올리기 (기록 없이 새로)
         run: |
           rm -rf /tmp/oldmedia && git clone -q --depth 1 --branch media "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /tmp/oldmedia 2>/dev/null || true
