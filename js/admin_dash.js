@@ -36,7 +36,7 @@ function lineChart(id, days, series, { area = false, W = 640, H = 220 } = {}) {
 function niceMax(v) { const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 2, 2.5, 5, 10]) if (v <= m * p) return m * p; return 10 * p; }
 
 // ── 가로 막대 (크기 비교 — 한 가지 색, 숫자는 막대 끝에) ──
-function hbars(rows, { unit = '', color = G, empty = '아직 없음' } = {}) {
+export function hbars(rows, { unit = '', color = G, empty = '아직 없음' } = {}) {
   if (!rows.length || rows.every(r => !r[1])) return `<p class="ad-empty">${empty}</p>`;
   const mx = Math.max(1, ...rows.map(r => r[1])), tot = rows.reduce((t, r) => t + r[1], 0);
   return `<ul class="ad-bars">${rows.map(([k, v, note]) => `<li title="${esc(k)} ${n(v)}${unit}${tot ? ` (${Math.round(v * 100 / tot)}%)` : ''}"><span class="ad-bk">${esc(k)}${note ? `<small>${esc(note)}</small>` : ''}</span><span class="ad-bt"><i style="width:${Math.max(v ? 2 : 0, v * 100 / mx)}%;background:${color}"></i></span><b>${n(v)}${unit}</b></li>`).join('')}</ul>`;
@@ -49,7 +49,7 @@ function ratio(parts) {
   return `<div class="ad-ratio">${parts.filter(p => p[1]).map(([k, v, c]) => `<i style="flex:${v};background:${c}" title="${esc(k)} ${v}명"></i>`).join('')}</div><div class="ad-rl">${parts.map(([k, v, c]) => `<span><i style="background:${c}"></i>${esc(k)} <b>${Math.round(v * 100 / tot)}%</b> <small>${v}명</small></span>`).join('')}</div>`;
 }
 
-const card = (k, title, body, wide) => `<section class="ad-card${wide ? ' wide' : ''}"><p class="ad-k">${esc(k)}</p><h3>${esc(title)}</h3>${body}</section>`;
+export const card = (k, title, body, wide) => `<section class="ad-card${wide ? ' wide' : ''}"><p class="ad-k">${esc(k)}</p><h3>${esc(title)}</h3>${body}</section>`;
 
 export function renderDash(el, D) {
   const narrow = (el.clientWidth || 1000) < 620;   // 휴대폰: 그래프를 좁은 틀로 그려 글씨가 작아지지 않게

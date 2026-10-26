@@ -8,7 +8,7 @@
 <link rel="icon" href="leaf.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&display=swap">
 <link rel="stylesheet" href="css/omaju.css">
-<link rel="stylesheet" href="css/admin_dash.css?v=10251610">
+<link rel="stylesheet" href="css/admin_dash.css?v=10261400">
 <style>
 body { background: var(--ivory2); }
 .adm { max-width: 1000px; margin: 0 auto; padding: 20px 16px 100px; }
@@ -81,9 +81,14 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
 
   <div id="panel" hidden>
     <div class="topbar"><a href="index.html">오마주로 돌아가기</a><button type="button" id="a-out">로그아웃</button></div>
-    <div class="tabs"><button type="button" data-tab="dash" aria-pressed="true">현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button><button type="button" data-tab="blog">블로그</button></div>
+    <div class="tabs"><button type="button" data-tab="today" aria-pressed="true">오늘 현황</button><button type="button" data-tab="dash" aria-pressed="false">전체 현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button><button type="button" data-tab="blog">블로그</button></div>
 
-    <section class="sec on" data-sec="dash">
+    <section class="sec on" data-sec="today">
+      <p style="margin:0 0 12px"><button type="button" id="t-reload">새로 보기</button> <small class="note" id="t-at"></small></p>
+      <div id="today-board"><p class="note">오늘 현황을 불러오고 있어요…</p></div>
+    </section>
+
+    <section class="sec" data-sec="dash">
       <div id="dash-board"><p class="note">현황을 불러오고 있어요…</p></div>
       <section class="ad-card" style="margin-top:14px"><p class="ad-k">오늘</p><h3>오늘 구독한 사람</h3><table id="joined"></table></section>
       <details class="ad-more"><summary>자세한 숫자 표 · 이 기기 빼기</summary>
@@ -143,6 +148,6 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
     </section>
   </div>
 </div>
-<script type="module" src="js/admin.js?v=10251740"></script>
+<script type="module" src="js/admin.js?v=10261400"></script>
 </body>
 </html>

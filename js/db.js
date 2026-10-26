@@ -311,7 +311,16 @@ export async function bumpVisit() {
   try { if (localStorage.getItem(k)) return; localStorage.setItem(k, '1'); } catch (e) {}
   // 처음 온 기기 (운영자 2026-10-22 — 가입 안 해도 보는 곳이니 '지금까지 몇 명이 봤나'를 누적으로). 이 브라우저에서 처음이면 1.
   let first = false; try { if (!localStorage.getItem('omaju.seen')) { localStorage.setItem('omaju.seen', todayKey()); first = true; } } catch (e) {}
-  try { await setDoc(doc(db, 'stats', todayKey()), first ? { visits: increment(1), newDevices: increment(1) } : { visits: increment(1) }, { merge: true }); } catch (e) {}
+  // 오늘 현황 (대표 2026-10-26: "오늘 어디서 들어왔는지 매일 보자") — 몇 시에, 어디서 왔는지를 기기마다 하루 한 번 센다.
+  // 어디서: ?from= 꼬리표가 먼저, 없으면 카카오톡·네이버 앱 안 브라우저, 그다음 앞 쪽 주소(referrer), 아무것도 없으면 '직접'.
+  let src = from;
+  if (!src) {
+    const ua = navigator.userAgent || '', ref = (() => { try { return new URL(document.referrer).hostname; } catch (e) { return ''; } })();
+    src = /KAKAOTALK/i.test(ua) ? 'kakao' : /NAVER\(inapp|NAVER/.test(ua) ? 'naver' : /Instagram/i.test(ua) ? 'insta' : /FBAN|FBAV/i.test(ua) ? 'facebook' : /BAND\//i.test(ua) ? 'band'
+      : !ref || ref.endsWith('omaju.kr') ? 'direct' : /naver/.test(ref) ? 'naver' : /google/.test(ref) ? 'google' : /daum|kakao/.test(ref) ? 'kakao' : /youtube|youtu\.be/.test(ref) ? 'yt' : /bing/.test(ref) ? 'bing' : 'etc';
+  }
+  const hh = String(new Date().getHours()).padStart(2, '0');
+  try { await setDoc(doc(db, 'stats', todayKey()), first ? { visits: increment(1), newDevices: increment(1), ['hours.' + hh]: increment(1), ['src.' + src]: increment(1) } : { visits: increment(1), ['hours.' + hh]: increment(1), ['src.' + src]: increment(1) }, { merge: true }); } catch (e) {}
 }
 export async function bumpClick(corner) {
   try { await setDoc(doc(db, 'stats', todayKey()), { ['clicks.' + corner]: increment(1) }, { merge: true }); } catch (e) {}

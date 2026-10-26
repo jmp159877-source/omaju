@@ -1,5 +1,5 @@
 /* 관리자 '현황' 판 (대표 2026-10-25 "세련되고 멋있게, 그래픽 차트로") — js/admin_dash.js 가 그린다 */
-#dash-board { --g: #0F8A5F; --a: #C0761A; --ink: #1F2A24; --sub: #6B756F; --line: #E7EAE5; color: var(--ink); }
+#dash-board, #today-board { --g: #0F8A5F; --a: #C0761A; --ink: #1F2A24; --sub: #6B756F; --line: #E7EAE5; color: var(--ink); }
 .ad-hero { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 14px; padding: 22px 24px; margin: 0 0 14px; border-radius: 16px;
   background: linear-gradient(135deg, #0F3D2C 0%, #155A40 60%, #1F6E4F 100%); color: #F4F1E8; box-shadow: 0 10px 30px rgba(15,61,44,.18); }
 .ad-hero h2 { margin: 2px 0 4px; font: 800 1.9rem/1.2 'Nanum Myeongjo', serif; letter-spacing: -.01em; }
@@ -45,3 +45,13 @@
   .ad-hero { padding: 18px; } .ad-hero h2 { font-size: 1.6rem; }
   .ad-bars li { grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr) auto; }
 }
+/* 오늘 현황 (대표 2026-10-26) */
+.ad-bigs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 0 14px; }
+.ad-big { background: linear-gradient(135deg, #0F3D2C, #1F6E4F); color: #F4F1E8; border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.ad-big small { display: block; font-size: .84rem; opacity: .85; }
+.ad-big b { display: block; font: 700 2.2rem/1.15 'Cormorant Garamond', 'Nanum Myeongjo', serif; color: #fff; }
+.ad-big i { display: block; font-style: normal; font-size: .74rem; opacity: .7; }
+#today-board .t-who { list-style: none; margin: 0; padding: 0; } #today-board .t-who li { padding: 9px 0; border-bottom: 1px solid var(--line); } #today-board .t-who li:last-child { border-bottom: 0; } #today-board .t-who span { display: block; font-size: .84rem; color: var(--sub); margin-top: 2px; } #today-board .t-who em { font-style: normal; font-size: .76rem; background: #E8F3EC; color: #0F6B47; padding: 1px 7px; border-radius: 8px; margin-left: 4px; }
+#today-board .t-talk { margin: 0; padding-left: 1.1em; line-height: 1.6; word-break: keep-all; }
+#today-board .note { font-size: .8rem; color: var(--sub); margin: 8px 0 0; }
+@media (max-width: 620px) { .ad-bigs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

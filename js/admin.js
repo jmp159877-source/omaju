@@ -3,7 +3,7 @@
 function labelize(t) { const hs = [...t.querySelectorAll('th')].map(h => h.textContent); t.querySelectorAll('tr').forEach(tr => [...tr.children].forEach((td, i) => { if (td.tagName === 'TD' && hs[i]) td.dataset.l = hs[i]; })); }
 import * as DB from './db.js';
 import { DEFAULT_CONTENT } from './content.js';
-import { renderDash } from './admin_dash.js?v=10251740';
+import { renderDash, hbars, card } from './admin_dash.js?v=10261400';
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, where, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js';
 
 const $ = id => document.getElementById(id);
@@ -20,9 +20,41 @@ DB.onUser((u, p) => {
   const ok = u && p && p.role === 'admin';
   $('gate').hidden = !!ok; $('panel').hidden = !ok;
   if (u && !ok) { $('err').textContent = '관리자 권한이 없는 계정입니다.'; DB.logout(); }
-  if (ok) { $('who').textContent = p.nick; loadDash(); }
+  if (ok) { $('who').textContent = p.nick; loadToday(); }
 });
-document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); }, notice: loadNotice, maint: loadMaint, stories: loadStories })[b.dataset.tab]?.(); };
+document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ today: loadToday, dash: () => { if (!loadDash.done) { loadDash.done = true; loadDash(); } }, users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); }, notice: loadNotice, maint: loadMaint, stories: loadStories })[b.dataset.tab]?.(); };
+
+// ── 오늘 현황 (대표 2026-10-26: "당분간 매일 체크 — 오늘 방문, 어디서 들어왔는지, 누가 들어왔는지") ──
+const SRC = { direct: '직접 (주소·홈 화면·북마크)', kakao: '카카오톡', naver: '네이버', google: '구글', yt: '유튜브', blog: '블로그 링크', search: '검색용 글 쪽', card: '받은 인사 카드', psy: '심리 테스트 결과', kid: '유튜브 자녀 편', story: '구글 웹 스토리', band: '밴드', insta: '인스타그램', facebook: '페이스북', bing: '빙', etc: '그 밖의 곳' };
+$('t-reload').onclick = () => loadToday();
+async function loadToday() {
+  const el = $('today-board');
+  try {
+    const st = (await getDoc(doc(db, 'stats', TODAY))).data() || {};
+    const users = (await getDocs(collection(db, 'users'))).docs.map(d => ({ id: d.id, ...d.data() }));
+    const seen = users.filter(u => u.lastSeenDay === TODAY).sort((a, b) => ((b.lastSeen && b.lastSeen.toMillis()) || 0) - ((a.lastSeen && a.lastSeen.toMillis()) || 0));
+    const joined = users.filter(u => u.createdAt && u.createdAt.toDate && DB.todayKey(u.createdAt.toDate()) === TODAY);
+    let talk = [];
+    try { talk = (await getDocs(query(collection(db, 'talk'), where('date', '==', TODAY)))).docs.map(d => d.data()).filter(t => !t.seed && !t.host); } catch (e) {}
+    const hm = t => { if (!t || !t.toDate) return ''; const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+    // 어디서: 새로 세는 src(10/26 오후부터) + 예전부터 세던 꼬리표(blog·yt·search·card·psy·kid·story)
+    const src = { ...(st.src || {}) };
+    if (!st.src) for (const k of ['blog', 'yt', 'search', 'card', 'psy', 'kid', 'story']) if (st[k]) src[k] = st[k];
+    const srcRows = Object.entries(src).filter(([, v]) => v).sort((a, b) => b[1] - a[1]).map(([k, v]) => [SRC[k] || k, v]);
+    const hours = st.hours || {}; const hRows = Object.keys(hours).sort().map(h => [`${+h}시`, hours[h]]);
+    const NM = { greeting: '인사말', fortune: '운세', luck: '운세', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: '오늘 PLAY', history: '그해 오늘', music: '그 시절 노래', talk: '사랑방', ev: '전기차 시대', ai: 'AI 시대', dog: '댕댕이', cat: '냥이', pick: '추천 음악', psy: '심리 테스트' };
+    const clicks = Object.entries(st.clicks || {}).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => [NM[k] || k, v]);
+    const big = (k, v, note) => `<div class="ad-big"><small>${esc(k)}</small><b>${(v || 0).toLocaleString()}</b>${note ? `<i>${esc(note)}</i>` : ''}</div>`;
+    const who = seen.length ? '<ul class="t-who">' + seen.map(u => `<li><b>${esc(u.nick)}</b>${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${joined.includes(u) ? ' <em>오늘 구독</em>' : ''}<span>${hm(u.lastSeen)} · ${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : '아이디'} 가입 · 출석 ${u.checkinCount || 0}번</span></li>`).join('') + '</ul>' : '<p class="ad-empty">오늘 들른 구독자가 아직 없어요</p>';
+    el.innerHTML = `<div class="ad-bigs">${big('오늘 방문', st.visits, '기기마다 하루 한 번')}${big('처음 온 기기', st.newDevices)}${big('들른 구독자', seen.length)}${big('오늘 구독', joined.length)}</div><div class="ad-grid">`
+      + card('어디서', '어디서 들어왔나', hbars(srcRows, { empty: '아직 없음 — 들어온 곳은 10/26 오후부터 셉니다' }) + '<p class="note">카카오톡으로 받은 링크를 누르면 \'카카오톡\', 주소를 직접 치거나 홈 화면 아이콘으로 열면 \'직접\'으로 잡힙니다.</p>', true)
+      + card('누가', '오늘 들른 구독자', who + '<p class="note">구독하지 않은 분은 누구인지 알 수 없어 숫자로만 셉니다.</p>', true)
+      + card('언제', '몇 시에 들어왔나', hbars(hRows, { empty: '아직 없음 — 10/26 오후부터 셉니다' }))
+      + card('무엇을', '오늘 많이 누른 코너', hbars(clicks, { empty: '아직 없음' }))
+      + card('사랑방', '오늘 독자가 쓴 글', talk.length ? '<ul class="t-talk">' + talk.map(t => `<li><b>${esc(t.nick)}</b> ${esc(t.text)}</li>`).join('') + '</ul>' : '<p class="ad-empty">아직 없음</p>', true) + '</div>';
+    $('t-at').textContent = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) + ' 기준';
+  } catch (e) { el.innerHTML = '<p class="note">오늘 현황을 불러오지 못했어요: ' + esc(e.message) + ' (사이트 저장소 하루 읽기 한도에 걸렸으면 오후 4시 뒤에 다시 보세요)</p>'; }
+}
 
 // ── 현황 ──
 async function loadDash() {
