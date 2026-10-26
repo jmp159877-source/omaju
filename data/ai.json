@@ -1291,6 +1291,380 @@
    ],
    "photos": "본문 사진 Dennis Cortés (CC0 · 위키미디어 공용)",
    "corrections": []
+  },
+  {
+   "id": "ai-07",
+   "no": 7,
+   "date": "2026-10-30",
+   "part": "1부 이미 시작됐다",
+   "title": "사진으로 묻는 AI: 꽃 이름부터 영어 설명서까지",
+   "dek": "찍어서 보여 주면 읽고, 알아보고, 풀어 줍니다. 다만 먹고 바르는 일은 사진에 맡기지 않습니다",
+   "asof": "2026년 10월 기준",
+   "hook": "가을 산길에서 처음 보는 보랏빛 꽃을 만났습니다. 휴대폰으로 한 장 찍어 '이 꽃 이름이 뭐야?' 하고 물으면, 몇 초 만에 이름과 피는 때까지 돌아옵니다. 오늘은 **사진으로 묻는 법**입니다.",
+   "blocks": [
+    {
+     "h": "글 대신 사진으로"
+    },
+    {
+     "p": "지금까지는 글이나 말로 물었습니다. 요즘 AI는 **사진도 읽습니다.** 사진 속 글자를 읽고, 무엇이 찍혔는지 알아보고, 그에 대해 대화를 이어 갑니다."
+    },
+    {
+     "p": "쓰는 앱은 크게 두 갈래입니다. 구글 렌즈·네이버 스마트렌즈는 사진과 비슷한 것을 **찾아 주는** 쪽이고, 챗GPT·제미나이·클로드는 사진을 보고 **대답을 써 주는** 쪽입니다."
+    },
+    {
+     "box": {
+      "title": "두 번째 편과 같은 이치",
+      "text": "검색은 길을 알려 주고, AI는 대답을 써 줍니다. 사진도 같습니다. 렌즈는 **비슷한 사진과 누리집**을 보여 주고, AI는 사진을 보고 **설명과 요약**을 써 줍니다. 둘을 함께 쓰면 서로 확인이 됩니다."
+     }
+    },
+    {
+     "photo": {
+      "src": "img/ai/ai-07-camera.jpg",
+      "caption": "카메라를 비추고 한 줄 물으면 됩니다. 글로 설명하기 어려운 것일수록 사진이 빠릅니다.",
+      "credit": "Ka Kit Pang · CC BY 3.0 · 위키미디어 공용"
+     }
+    },
+    {
+     "h": "얼마나 쓰나"
+    },
+    {
+     "p": "구글은 2025년 5월, 렌즈를 한 달에 한 번 이상 쓰는 사람이 세계에서 **15억 명**을 넘었다고 밝혔습니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "구글 렌즈로 한 달에 찾는 횟수",
+      "sub": "세계 · 구글 발표",
+      "unit": "억",
+      "items": [
+       [
+        "2022년 5월",
+        80,
+        false
+       ],
+       [
+        "2023년 2월",
+        100,
+        false
+       ],
+       [
+        "2024년 10월",
+        200,
+        true
+       ]
+      ],
+      "legend": "2년 남짓 만에 두 배 반으로 늘었습니다. 2024년 10월 값은 구글이 '200억 회 가까이'라고 밝힌 것입니다.",
+      "source": "구글 발표(2022 I/O · 2023.2.8 파리 행사 · 2024.10.3 렌즈 소개) — AR Insider · SEOZoom · TechRadar · The Register · Retail Brew 보도"
+     }
+    },
+    {
+     "p": "2024년 10월 기준으로, 그 가운데 **다섯에 하나**(20%)는 물건을 사려고 찾은 것이었습니다. 사진으로 묻는 일이 그만큼 생활 가까이 와 있습니다."
+    },
+    {
+     "h": "무엇으로 물을까"
+    },
+    {
+     "box": {
+      "title": "사진으로 찾아 주는 앱",
+      "text": "· **구글 렌즈**: 구글 앱 검색창의 카메라 단추 · **네이버 스마트렌즈**: 네이버 앱 검색창의 카메라 단추. 2025년 7월부터 꽃·와인 같은 사진을 찍으면 AI가 내용을 요약해 줍니다 · **파파고**: 사진 속 외국어를 사진 위에 바로 바꿔 보여 줍니다"
+     }
+    },
+    {
+     "box": {
+      "title": "사진을 보고 대답하는 앱",
+      "text": "· **챗GPT · 제미나이 · 클로드**: 셋 다 무료로 사진을 올려 한국어로 물을 수 있습니다. 입력 칸 옆 **+ 단추나 카메라 단추**를 누르면 됩니다 · 무료는 사진 올리기에 따로 **횟수 제한**이 있어, 많이 쓰면 잠시 기다려야 합니다"
+     }
+    },
+    {
+     "p": "제미나이는 2025년 5월부터 무료 이용자도 갤럭시·아이폰 모두에서 카메라를 켜 둔 채 **말로 묻고 답하는** 기능을 씁니다. 화분을 비추며 '이 잎 왜 이래?' 하고 물으면 보면서 대답합니다."
+    },
+    {
+     "p": "갤럭시라면 화면에 보이는 것을 바로 물을 수도 있습니다. 홈 키를 길게 누르고 궁금한 곳에 **동그라미**를 그리면 됩니다(기종에 따라 다릅니다)."
+    },
+    {
+     "p": "네이버의 대화형 AI '클로바X'는 2026년 4월 9일 서비스를 마쳤습니다. 예전 안내를 보고 찾으셨다면, 네이버에서는 **스마트렌즈**로 물으시면 됩니다."
+    },
+    {
+     "h": "산길에서 · 꽃과 나무 이름"
+    },
+    {
+     "p": "꽃만 찍기보다 **잎과 줄기까지** 함께 담으면 더 잘 알아봅니다. 찍은 곳과 때를 한 줄 덧붙이면 비슷한 꽃을 가려내는 데 도움이 됩니다."
+    },
+    {
+     "box": {
+      "title": "이렇게 물어보세요 · 꽃",
+      "text": "'10월 말 서울 근교 산에서 찍은 꽃이야. **이름이 뭔지**, 비슷하게 생긴 꽃이 있으면 어떻게 구별하는지도 알려 줘.'"
+     }
+    },
+    {
+     "p": "네이버 스마트렌즈로 꽃을 찍으면 이름·피는 때·꽃말·기르는 법을 한데 모아 보여 줍니다. AI 대답과 **견주어 보기** 좋습니다."
+    },
+    {
+     "h": "여행지에서 · 메뉴판과 설명서"
+    },
+    {
+     "box": {
+      "title": "이렇게 물어보세요 · 메뉴판",
+      "text": "'일본 식당 메뉴판이야. 한국어로 옮겨 주고, **날것이거나 매운 음식**은 따로 표시해 줘. 값은 엔화 그대로 적어 줘.'"
+     }
+    },
+    {
+     "p": "환율처럼 날마다 바뀌는 것은 AI에게 맡기지 않는 편이 낫습니다. 값은 원래 통화로 받고 **환율은 은행 앱**에서 보세요."
+    },
+    {
+     "box": {
+      "title": "이렇게 물어보세요 · 영어 설명서",
+      "text": "'새로 산 전기 압력솥의 영어 설명서 한 쪽이야. **처음 쓸 때 할 일만** 순서대로 다섯 줄로 정리해 줘. 경고 문구가 있으면 빠뜨리지 말고.'"
+     }
+    },
+    {
+     "p": "설명서는 여러 쪽을 한 번에 올려도 됩니다. 다만 안전에 관한 대목은 AI 요약만 보지 말고 **원문을 한 번 더** 보세요."
+    },
+    {
+     "h": "집에서 · 작은 글씨와 부품"
+    },
+    {
+     "box": {
+      "title": "이렇게 물어보세요 · 작은 글씨",
+      "text": "'냉장고 뒤에 붙은 이름표야. **모델명과 만든 날짜**를 글자 그대로 읽어 줘.' — 서비스 센터에 전화할 때 바로 쓸 수 있습니다."
+     }
+    },
+    {
+     "box": {
+      "title": "이렇게 물어보세요 · 부품",
+      "text": "'세면대 밑에 있는 이 부품 이름이 뭐야? **철물점에서 뭐라고 하면** 되는지, 사진 속 숫자가 무슨 뜻인지도 알려 줘.'"
+     }
+    },
+    {
+     "p": "부품은 자를 옆에 대고 찍으면 크기까지 짐작합니다. 살 때는 가게에서 **실물과 한 번 더** 맞춰 보세요."
+    },
+    {
+     "h": "긴 안내문과 편지"
+    },
+    {
+     "box": {
+      "title": "이렇게 물어보세요 · 안내문",
+      "text": "'아파트 관리사무소 안내문이야. **나한테 해당하는 것만**, 날짜와 해야 할 일 위주로 세 줄로 줄여 줘.'"
+     }
+    },
+    {
+     "p": "우편물을 찍을 때는 **이름·주소·계좌번호**를 손가락이나 종이로 가리고 찍습니다. 필요한 것은 내용이지 내 정보가 아닙니다."
+    },
+    {
+     "h": "사진으로 묻지 말아야 할 것"
+    },
+    {
+     "p": "알약 사진을 보여 주며 무슨 약이냐고 묻거나, 피부에 난 것을 찍어 무슨 병이냐고 묻는 일은 **AI에게 맡기지 않습니다.** 약은 약사에게, 피부는 의사에게 묻습니다."
+    },
+    {
+     "p": "네 번째 편에서 말씀드린 대로, AI에게는 진찰 대신 **의사에게 물어볼 것**을 정리하게 하는 편이 쓸모 있습니다."
+    },
+    {
+     "box": {
+      "title": "이런 사진은 올리지 않습니다",
+      "text": "· **신분증·카드·통장** · 남의 얼굴이 또렷한 사진(본인이 동의하지 않았다면) · 집 주소가 보이는 우편물이나 택배 상자 · **자동차 번호판**"
+     }
+    },
+    {
+     "h": "사진에는 '어디서'가 담깁니다"
+    },
+    {
+     "p": "휴대폰으로 찍은 사진 파일에는 설정에 따라 **찍은 곳의 위치**가 함께 저장됩니다. 그대로 보내면 받는 쪽에서 볼 수 있습니다."
+    },
+    {
+     "p": "위치 정보가 없어도 안심할 수는 없습니다. 2025년 4월, 사진 **배경만 보고** 찍은 곳을 알아맞히게 하는 놀이가 챗GPT에서 유행했고, 꽤 잘 맞혀 사생활 걱정이 나왔습니다."
+    },
+    {
+     "box": {
+      "title": "위치를 빼고 보내는 법",
+      "text": "· 갤럭시: 사진을 공유할 때 위쪽의 **'위치 정보 삭제'**를 켭니다 · 아이폰: 사진의 정보(ⓘ)에서 위치를 **'위치 없음'**으로 바꿉니다 · 집 창밖, 아이 학교 앞처럼 **사는 곳이 드러나는 배경**은 잘라 내고 올립니다"
+     }
+    },
+    {
+     "h": "버섯은 사진으로 가리지 않습니다"
+    },
+    {
+     "p": "농촌진흥청·산림청에 따르면 우리나라에 자라는 버섯은 **2,292종**입니다. 이 가운데 먹을 수 있다고 확인된 것은 416종, **18%**뿐입니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "우리나라 자생 버섯 2,292종",
+      "sub": "먹을 수 있는지에 따라 · 2025년 9월 발표",
+      "unit": "종",
+      "items": [
+       [
+        "먹어도 되는지 아직 모름",
+        1550,
+        false
+       ],
+       [
+        "먹을 수 있다고 확인",
+        416,
+        true
+       ],
+       [
+        "독버섯으로 확인",
+        248,
+        false
+       ]
+      ],
+      "legend": "열에 일곱 가까이는 먹어도 되는지조차 밝혀지지 않았습니다.",
+      "source": "농촌진흥청·산림청 (데일리안·세계일보 2025.9.15 보도)"
+     }
+    },
+    {
+     "p": "사진 앱도 믿을 만하지 않습니다. 2023년 호주 연구진이 버섯 78점의 사진을 앱 세 가지에 보였더니, 가장 잘 맞힌 앱도 **절반쯤**(49%)만 맞혔습니다."
+    },
+    {
+     "p": "독버섯만 따로 보면 앱에 따라 **30~44%**를 알아봤습니다. 잘 맞힌 앱으로도 **절반 넘게** 놓친 셈입니다."
+    },
+    {
+     "p": "농촌진흥청은 **야생 버섯은 먹지 말라**고 당부합니다. 색이나 냄새, 은수저가 변하는지로 가리는 옛말도 근거가 없습니다."
+    },
+    {
+     "p": "산나물도 같습니다. AI가 알려 준 이름은 **구경할 때만** 쓰고, 먹는 것은 장에서 산 것으로 합니다."
+    },
+    {
+     "box": {
+      "title": "오늘 해 볼 것",
+      "text": "집 안 화분이나 냉장고 속 외국어 상표 하나를 찍어 물어보세요. 그리고 **같은 사진을 다른 앱에도** 보여 주세요. 두 대답이 같으면 믿을 만하고, 다르면 거기서부터 확인하면 됩니다."
+     }
+    },
+    {
+     "p": "이 칼럼은 11월부터 **월·수·금**에 찾아갑니다. 다음 편은 11월 2일 월요일입니다."
+    }
+   ],
+   "cons": [
+    "사진으로 받은 이름이나 번역은 **첫 짐작**입니다. 꽃·나무 이름도 틀릴 수 있으니, 먹거나 바르거나 만지는 결정에는 쓰지 마세요.",
+    "렌즈 도표는 구글이 스스로 밝힌 **세계 집계**입니다. 우리나라만의 숫자나 네이버 스마트렌즈 이용자 수는 공개된 것을 찾지 못했습니다.",
+    "앱 단추 이름과 **무료로 쓸 수 있는 횟수**는 자주 바뀝니다. 이 글은 2026년 10월 기준입니다."
+   ],
+   "next": "말로 묻는 AI: 타자 대신 대화로",
+   "sources": [
+    {
+     "name": "TechCrunch, 「Eight years of Google Lens」 (2025.5.20, 월 15억 명)",
+     "url": "https://techcrunch.com/snippet/3009742/eight-years-of-google-lens"
+    },
+    {
+     "name": "Think with Google, 「Google Lens · AI visual search」 (2025.6, 월 15억 명 이상)",
+     "url": "https://business.google.com/us/think/search-and-video/google-lens-ai-visual-search/"
+    },
+    {
+     "name": "AR Insider, 「Google Lens Reaches 8 Billion Monthly Searches」 (2022.5.16)",
+     "url": "https://arinsider.co/2022/05/16/google-lens-reaches-8-billion-monthly-searches/"
+    },
+    {
+     "name": "SEOZoom, 「At Google I/O 2022 the latest news on the search system」 (2022.5)",
+     "url": "https://www.seozoom.com/at-google-i-o-2022-the-latest-news-on-the-search-system-and-seo/"
+    },
+    {
+     "name": "AR Insider, 「Google Lens Reaches 10 Billion Monthly Searches」 (2023.2.13)",
+     "url": "https://arinsider.co/2023/02/13/google-lens-reaches-10-billion-monthly-searches/"
+    },
+    {
+     "name": "TechRadar, 구글 'Live from Paris' 행사 실시간 보도 (2023.2.8)",
+     "url": "https://www.techradar.com/news/live/google-live-from-paris-ai-event-live-all-the-latest-on-maps-search-and-more"
+    },
+    {
+     "name": "The Register, 「Google expands visual and audio search」 (2024.10.3)",
+     "url": "https://www.theregister.com/2024/10/03/google_expands_visual_audio_search/"
+    },
+    {
+     "name": "Retail Brew, 「Google Lens gets a precise tweak before the holidays to push shopping」 (2024.10.3)",
+     "url": "https://www.retailbrew.com/stories/2024/10/03/google-lens-gets-a-precise-tweak-before-the-holidays-to-push-shopping"
+    },
+    {
+     "name": "바이라인네트워크, 「네이버, 이미지 검색에도 AI 브리핑 확대 적용」 (2025.8.1)",
+     "url": "https://byline.network/2025/08/01_naver_2/"
+    },
+    {
+     "name": "CEO스코어데일리, 「AI 브리핑 이미지 검색까지 확대」 (2025.8.1)",
+     "url": "https://www.ceoscoredaily.com/page/view/2025080110533826324"
+    },
+    {
+     "name": "네이버 보도자료, 「네이버 파파고, 이미지 '바로번역' 기능 새롭게 선보여」 (2020.11.4)",
+     "url": "https://navercorp.com/media/pressReleasesDetail?seq=30263"
+    },
+    {
+     "name": "더팩트, 「\"여행지서 사진 한 장이면 번역 끝\"…네이버, 'AI 브리핑' 확대」 (2026.7.30)",
+     "url": "https://v.daum.net/v/20260730173853839"
+    },
+    {
+     "name": "OpenAI 도움말, 「ChatGPT Free Tier FAQ」 (2026.10 확인)",
+     "url": "https://help.openai.com/en/articles/9275245-chatgpt-free-tier-faq"
+    },
+    {
+     "name": "Clauder Navi, 「Claude Free Plan Limits」 (2026.4.26 수정)",
+     "url": "https://www.clauder-navi.com/en/claude-free-complete-guide/"
+    },
+    {
+     "name": "Baked With, 「Using Claude for free: features, limits」 (2026.10 기준)",
+     "url": "https://www.bakedwith.com/en/blog/using-claude-for-free-features-limits-alternatives"
+    },
+    {
+     "name": "Anthropic 도움말, 「Upload files to Claude」 (2026.7.23)",
+     "url": "https://support.claude.com/en/articles/8241126-upload-files-to-claude"
+    },
+    {
+     "name": "TechRadar, 「Gemini Live is now free for everyone on Android and iOS」 (2025.5.20)",
+     "url": "https://www.techradar.com/computing/artificial-intelligence/gemini-live-is-now-free-for-everyone-on-android-and-ios-and-you-can-finally-share-your-screen-and-camera-on-iphone"
+    },
+    {
+     "name": "9to5Google, Gemini Live 카메라·화면 공유 전체 확대 (2025.5.30)",
+     "url": "https://9to5google.com/2025/05/30/gemini-live-camera-screen-wide/"
+    },
+    {
+     "name": "삼성전자서비스, 서클 투 서치 사용 방법 안내",
+     "url": "https://www.samsungsvc.co.kr/solution/1847951"
+    },
+    {
+     "name": "뉴스토마토, 「'클로바X' 종료하는 네이버」 (2026.4.7)",
+     "url": "https://newstomato.com/ReadNews.aspx?no=1297022"
+    },
+    {
+     "name": "스마트테크노트, 네이버 큐·클로바X 종료 안내 (2026.2.26, 3.20 수정)",
+     "url": "https://smarttechnote.com/naver-cue-shutdown-guide/"
+    },
+    {
+     "name": "TechCrunch, 「The latest viral ChatGPT trend is doing 'reverse location search' from photos」 (2025.4.17)",
+     "url": "https://techcrunch.com/2025/04/17/the-latest-viral-chatgpt-trend-is-doing-reverse-location-search-from-photos"
+    },
+    {
+     "name": "TechRadar, 「Beware, another ChatGPT trend threatens your privacy」 (2025.4.25)",
+     "url": "https://www.techradar.com/computing/cyber-security/beware-another-chatgpt-trend-threatens-your-privacy-heres-how-to-stay-safe"
+    },
+    {
+     "name": "익스트림 매뉴얼, 「갤럭시 사진 위치 정보 지우기 및 메타데이터 삭제 방법」 (2026.3.6)",
+     "url": "https://extrememanual.net/58971"
+    },
+    {
+     "name": "Tenorshare 4DDiG, 「사진 EXIF 제거·확인·추출 가이드」 (2026.10.22 수정)",
+     "url": "https://4ddig.tenorshare.com/kr/photo-tips/check-and-remove-exif-data.html"
+    },
+    {
+     "name": "데일리안, 「국내 자생 버섯 18%만 식용 가능…\"함부로 먹지 마세요\"」 (2025.9.15, 농촌진흥청·산림청)",
+     "url": "https://www.dailian.co.kr/news/view/1549083/"
+    },
+    {
+     "name": "세계일보, 야생 버섯 주의 보도 (2025.9.15, 농촌진흥청·산림청)",
+     "url": "https://www.segye.com/newsView/20250915513904"
+    },
+    {
+     "name": "Hodgson 외, 「A comparison of the accuracy of mushroom identification applications using digital photographs」, Clinical Toxicology (2023.2)",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/36794335/"
+    },
+    {
+     "name": "Clinical Toxicology 연구 소개 (clintox.org, 2023.3.27)",
+     "url": "https://clintox.org/?p=22461"
+    },
+    {
+     "name": "Gizmodo, 「AI mushroom ID is dangerous, consumer advocates warn」 (2024.3.21)",
+     "url": "https://gizmodo.com/ai-mushroom-id-dangerous-consumer-advocates-warn-1851355484"
+    }
+   ],
+   "photos": "본문 사진 Ka Kit Pang (CC BY 3.0 · 위키미디어 공용)",
+   "corrections": []
   }
  ]
 }
