@@ -2898,3 +2898,7 @@ html.v2 .tabsec[data-g="g4"] > :not(.lib) { display: none !important; }
 .h4-row .col-tile.h4-wide::after { aspect-ratio: 16 / 9; }
 .h4-soon .h4-when { display: block; margin-top: 4px; font-style: normal; font-size: .74rem; letter-spacing: .06em; opacity: .92; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
 body.in-chapter .h4 { display: none; }
+/* 소개 배너 사진 갈이 시안 (대표 2026-10-27 07:58 — 파란 바다가 혼자 튄다 → 창가 찻잔 너머 바다, 따뜻한 빛) */
+html.v2 .intro { background-image: url('../img/intro-v2.jpg'); background-position: 92% 60%; }
+@media (min-width: 900px) { html.v2 .intro { background-position: center 55%; } }
+html.v2 .intro::before { background: linear-gradient(180deg, rgba(28,22,14,0.30) 0%, rgba(28,22,14,0.28) 50%, rgba(28,22,14,0.42) 100%); }
