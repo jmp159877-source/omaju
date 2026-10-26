@@ -25,13 +25,20 @@ jobs:
         run: |
           if git fetch -q origin media 2>/dev/null; then git worktree add -q media origin/media 2>/dev/null || (mkdir -p media && git --work-tree=media checkout origin/media -- .); else mkdir -p media; fi
       - name: 준비 — 글꼴·ffmpeg
-        timeout-minutes: 14
+        timeout-minutes: 6
+        # 2026-10-27: apt 가 14분을 넘겨도 끝나지 않아(우분투 저장소 문제) 쇼츠가 네 번 실패 — apt 없이 받는다.
+        # ffmpeg 는 BtbN 정적 빌드, 나눔 글꼴은 구글 폰트 저장소(OFL)에서.
         run: |
-          for k in 1 2 3; do
-            sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update && sudo DEBIAN_FRONTEND=noninteractive apt-get -qq install -y --no-install-recommends ffmpeg fonts-nanum >/dev/null && break
-            echo "apt 다시 ($k)"; sleep 20
+          set -e
+          curl -fsSL --retry 3 -o /tmp/ff.tar.xz https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
+          mkdir -p /tmp/ff && tar -xf /tmp/ff.tar.xz -C /tmp/ff --strip-components=1
+          sudo cp /tmp/ff/bin/ffmpeg /tmp/ff/bin/ffprobe /usr/local/bin/ && ffmpeg -version | head -1
+          mkdir -p ~/.local/share/fonts && cd ~/.local/share/fonts
+          G=https://raw.githubusercontent.com/google/fonts/main/ofl
+          for f in nanummyeongjo/NanumMyeongjo-Regular nanummyeongjo/NanumMyeongjo-Bold nanummyeongjo/NanumMyeongjo-ExtraBold nanumgothic/NanumGothic-Regular nanumgothic/NanumGothic-Bold nanumgothic/NanumGothic-ExtraBold; do
+            curl -fsSL --retry 3 -O "$G/$f.ttf"
           done
-          fc-cache -f >/dev/null; fc-list | grep -i nanummyeongjo | head -3 || true
+          fc-cache -f >/dev/null; fc-list | grep -i nanum | head -6
       - name: 준비 — 파이썬·크롬 조종
         timeout-minutes: 5
         run: |
