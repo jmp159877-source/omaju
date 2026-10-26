@@ -2714,7 +2714,7 @@ body.mz-on { padding-bottom: 76px; }
   background-size: cover; background-position: right center; box-shadow: 0 6px 18px rgba(40,30,10,0.10); font: inherit; }
 .endb[hidden] { display: none !important; }
 .endb-in { background-image: linear-gradient(90deg, rgba(30,20,11,0.80) 0%, rgba(30,20,11,0.55) 45%, rgba(30,20,11,0.05) 78%), url(../img/end-install.jpg); }
-.endb-sh { background-image: linear-gradient(90deg, rgba(10,45,32,0.80) 0%, rgba(10,45,32,0.55) 45%, rgba(10,45,32,0.05) 78%), url(../img/end-share.jpg); }
+.endb-sh { background-image: linear-gradient(90deg, rgba(74,50,6,0.80) 0%, rgba(74,50,6,0.52) 45%, rgba(74,50,6,0.04) 78%), url(../img/end-share.jpg?v=2); }  /* 노란 사진엔 꿀갈색 막 (대표 2026-10-26 카톡 느낌) */
 .endb .eb-t { display: flex; flex-direction: column; gap: 4px; max-width: 72%; min-width: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
 .endb small { font-size: 0.85rem; letter-spacing: 0.04em; color: #F3E7C4; font-weight: 600; }
 .endb b { font-family: 'Noto Serif KR', serif; font-size: 1.32rem; font-weight: 700; line-height: 1.3; word-break: keep-all; }
