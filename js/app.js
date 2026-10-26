@@ -1379,19 +1379,31 @@ const FOUNDER_END = Date.UTC(2026, 10, 22, 9, 0);   // 2026-11-22 18:00 KST
 const isFounder = p => !!p && p.role !== 'admin' && !p.noFounder && (!!p.founderNo || (p.createdAt && p.createdAt.toMillis && p.createdAt.toMillis() < FOUNDER_END));
 const founderNow = () => Date.now() < FOUNDER_END;
 const fdNo = n => 'No. ' + String(n).padStart(5, '0');   // 만 단위 다섯 자리 (운영자 2026-10-23) — 넘으면 저절로 자리가 는다
-// 멤버십 카드 (대표 2026-10-27: "프라이드를 갖게, 소속감을 갖게") — 이름·구독일·구독 번호·등급·방문 날 수
+// 멤버십 카드 (대표 2026-10-27: "프라이드를 갖게, 소속감을 갖게" — 대표가 준 시안: 샴페인 골드 '구독자 카드')
 function memberCard(p) {
   const d = p.createdAt && p.createdAt.toDate ? p.createdAt.toDate() : null;
-  const since = d ? `${d.getFullYear()}. ${String(d.getMonth() + 1).padStart(2, '0')}. ${String(d.getDate()).padStart(2, '0')}` : '—';
-  const grade = isFounder(p) ? '창간 멤버' : '멤버';
+  const since = d ? `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}` : '—';
+  const boss = p.role === 'admin', fd = boss || isFounder(p);   // 대표(관리자)는 '발행인' No. OMJ-00001
   const visits = Math.max(p.visitDays || 0, p.checkinCount || 0, 1);
-  return `<div class="mcard${isFounder(p) ? ' fd' : ''}" role="img" aria-label="오마주 매거진 멤버십 카드 — ${esc(p.nick)} 님, ${grade}${p.founderNo ? ', 구독 번호 ' + p.founderNo : ''}">
-    <div class="mc-top"><img src="logo-light.png" alt=""><span>OMAJU MAGAZINE<br><i>MEMBERSHIP</i></span></div>
-    <div class="mc-grade">${grade}</div>
-    <div class="mc-name">${esc(p.nick)}</div>
-    <div class="mc-no">${p.founderNo ? fdNo(p.founderNo) : 'No. —'}</div>
-    <dl class="mc-row"><div><dt>구독일</dt><dd>${since}</dd></div><div><dt>방문</dt><dd>${visits.toLocaleString()}일</dd></div></dl>
-    <p class="mc-foot">오늘도 마음은 주니어</p>
+  const no = boss ? 'OMJ-00001' : p.founderNo ? 'OMJ-' + String(p.founderNo).padStart(5, '0') : '—';
+  const g = boss ? ['발행인', 'PUBLISHER'] : fd ? ['창간멤버', 'FOUNDING MEMBER'] : ['멤버', 'MEMBER'];
+  // 바코드는 번호로 그리는 무늬(읽히는 바코드 아님)
+  const seed = String(p.founderNo || 0).padStart(5, '0') + '0MAJU'; let bars = '', x = 0;
+  for (let k = 0; k < 34; k++) { const w = 1 + ((seed.charCodeAt(k % seed.length) + k * 7) % 3); if (k % 2 === 0) bars += `<rect x="${x}" y="0" width="${w}" height="30"/>`; x += w + 1; }
+  return `<div class="mcard${fd ? ' fd' : ''}" role="img" aria-label="오마주 구독자 카드 — ${esc(p.nick)} 님, ${g[0]}, 구독 번호 ${no}, 방문 ${visits}회">
+    <div class="mc-head"><b>오마주 <i>OMAJU</i></b><span>구독자 카드<small>SUBSCRIBER CARD</small></span></div>
+    <div class="mc-body">
+      <div class="mc-l"><small>가입자명</small><strong>${esc(p.nick)} 님</strong>
+        <p><span>구독일</span>${since}</p><p><span>구독번호</span>No. ${no}</p></div>
+      <div class="mc-r"><em>CREATOR'S PARTNER</em>
+        <div class="mc-badge"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17h16l-1.5-8-4.5 4-2-6-2 6-4.5-4z" fill="currentColor"/></svg></i><span>등급</span><b>${g[0]}<small>${g[1]}</small></b></div>
+        <p class="mc-v"><span>방문횟수</span>${visits.toLocaleString()}회</p></div>
+    </div>
+    <div class="mc-foot">
+      <svg class="mc-chip" viewBox="0 0 44 34" aria-hidden="true"><rect x="1" y="1" width="42" height="32" rx="6" fill="url(#mcg)" stroke="#9B6B4E" stroke-width="1"/><path d="M15 1v10H1M29 1v10h14M15 33V23H1M29 33V23h14M15 11h14v12H15z" fill="none" stroke="#9B6B4E" stroke-width="1"/><defs><linearGradient id="mcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2D3BE"/><stop offset=".5" stop-color="#D9A88A"/><stop offset="1" stop-color="#EBC7AF"/></linearGradient></defs></svg>
+      <p>Thank you for being with us<br><span>오마주와 함께하는 특별한 여정</span></p>
+      <svg class="mc-bar" viewBox="0 0 ${x} 30" preserveAspectRatio="none" aria-hidden="true"><g fill="#3A2A20">${bars}</g></svg>
+    </div>
   </div>`;
 }
 async function openMy() {

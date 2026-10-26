@@ -2735,24 +2735,39 @@ html.big .endb .eb-t { max-width: 86%; }
 .mz-bt small:empty { display: none; }
 .mz-bt b { font-size: min(1.02rem, 4.4vw); }
 
-/* ── 멤버십 카드 (대표 2026-10-27) — 나의 정보 맨 위. 짙은 초록 바탕에 금빛 테·결, 카드 비율 1.586:1 ── */
-.mcard { position: relative; overflow: hidden; width: 100%; max-width: 420px; margin: 0 auto 18px; aspect-ratio: 1.586 / 1; border-radius: 16px; padding: 5.2% 6%;
-  color: #F6EED8; background: radial-gradient(120% 90% at 85% 0%, rgba(232,210,150,.22) 0%, rgba(232,210,150,0) 55%), linear-gradient(135deg, #0F3A2A 0%, #1B5A41 55%, #0C2E21 100%);
-  box-shadow: 0 14px 30px rgba(12,46,33,.35), inset 0 0 0 1px rgba(232,210,150,.55), inset 0 0 0 5px rgba(12,46,33,.9), inset 0 0 0 6px rgba(232,210,150,.35);
-  display: grid; grid-template-rows: auto 1fr auto auto auto; font-size: min(16px, 4.1vw); }
-.mcard::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,240,200,.16) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
+/* ── 구독자 카드 (대표 2026-10-27 시안: 샴페인 골드·로즈 골드 테) — 나의 정보 맨 위 ── */
+.mcard { position: relative; overflow: hidden; width: 100%; max-width: 440px; margin: 0 auto 18px; border-radius: 18px;
+  display: grid; grid-template-rows: auto 1fr auto; color: #3A2A20; font-size: min(15px, 3.75vw);
+  background: linear-gradient(160deg, #F7EEE3 0%, #EFE0CF 45%, #F5E9DC 100%);
+  box-shadow: 0 16px 30px rgba(90,60,40,.28), inset 0 0 0 1px rgba(255,255,255,.7); }
+.mcard::before { content: ''; position: absolute; inset: 9px; border: 2px solid #C08C72; border-radius: 12px; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+.mcard::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.45) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
 @keyframes mcShine { 0%, 55% { transform: translateX(-45%); } 100% { transform: translateX(45%); } }
 @media (prefers-reduced-motion: reduce) { .mcard::after { animation: none; } }
-.mc-top { display: flex; align-items: center; gap: .6em; }
-.mc-top img { width: 2.6em; height: auto; filter: drop-shadow(0 1px 2px rgba(0,0,0,.3)); }
-.mc-top span { font-family: 'Cormorant Garamond', serif; font-weight: 600; letter-spacing: .22em; font-size: .78em; line-height: 1.35; color: #E8D296; }
-.mc-top i { font-style: normal; letter-spacing: .32em; opacity: .8; }
-.mc-grade { position: absolute; top: 6.5%; right: 6%; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: .78em; color: #3A2E00; background: linear-gradient(135deg, #F3E1A6, #D9B867); padding: .35em .8em; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
-.mc-name { grid-row: 3; align-self: end; font-family: 'Nanum Myeongjo', serif; font-weight: 800; font-size: 1.75em; letter-spacing: .02em; line-height: 1.2; text-shadow: 0 1px 3px rgba(0,0,0,.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mc-no { grid-row: 4; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.3em; letter-spacing: .16em; color: #E8D296; margin: 0 0 .5em; text-shadow: 0 1px 0 rgba(0,0,0,.35); }
-.mc-row { grid-row: 5; display: flex; gap: 1.2em; margin: 0; padding-top: .6em; border-top: 1px solid rgba(232,210,150,.35); }
-.mc-row div { min-width: 0; }
-.mc-row dt { font-size: .66em; letter-spacing: .08em; color: rgba(246,238,216,.7); }
-.mc-row dd { margin: .1em 0 0; font-size: .86em; font-weight: 700; white-space: nowrap; }
-.mc-foot { position: absolute; right: 6%; bottom: 5%; margin: 0; font-family: 'Nanum Pen Script', 'Nanum Myeongjo', serif; font-size: .82em; color: rgba(232,210,150,.75); }
-.mcard:not(.fd) { background: radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #2B3A33 0%, #46574E 55%, #26332D 100%); }
+.mc-head { display: flex; justify-content: space-between; align-items: center; gap: .6em; padding: 1.35em 8% .6em; background: linear-gradient(180deg, #E6D3BF, #DCC5AE); }
+.mc-head b { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; font-weight: 900; font-size: 1.55em; letter-spacing: -.01em; white-space: nowrap; }
+.mc-head b i { font-style: normal; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: .62em; letter-spacing: .04em; }
+.mc-head span { text-align: right; font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 1.02em; line-height: 1.15; white-space: nowrap; }
+.mc-head small { display: block; font-family: 'Pretendard', sans-serif; font-weight: 500; font-size: .66em; letter-spacing: .06em; }
+.mc-body { display: flex; justify-content: space-between; align-items: flex-end; gap: 4%; padding: .8em 8% 1em; }
+.mc-l { min-width: 0; }
+.mc-l small { font-size: .78em; color: #5C4A3E; }
+.mc-l strong { display: block; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 1.75em; line-height: 1.15; margin: .05em 0 .35em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mc-l p, .mc-v { margin: .15em 0 0; font-size: .9em; white-space: nowrap; }
+.mc-l p span, .mc-v span { margin-right: .7em; color: #5C4A3E; }
+.mc-r { display: flex; flex-direction: column; align-items: flex-end; flex: none; }
+.mc-r em { font-style: normal; font-size: .68em; letter-spacing: .05em; color: #4A3A30; }
+.mc-badge { position: relative; display: flex; align-items: center; gap: .7em; margin: 1.3em 0 .5em; padding: .55em .9em .45em; border-radius: 12px;
+  background: linear-gradient(180deg, #F3E6D7, #E6D1BB); border: 1.5px solid #D2B597; box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 2px 4px rgba(90,60,40,.15); }
+.mc-badge i { position: absolute; top: -1.1em; left: 50%; transform: translateX(-50%); width: 1.9em; height: 1.9em; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #F6E2B9, #CFA769); color: #8A6328; box-shadow: 0 1px 3px rgba(90,60,40,.3); }
+.mc-badge i svg { width: 1.1em; height: 1.1em; }
+.mc-badge span { font-size: .78em; color: #5C4A3E; }
+.mc-badge b { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 1.12em; text-align: center; line-height: 1.1; white-space: nowrap; }
+.mc-badge b small { display: block; font-family: 'Pretendard', sans-serif; font-weight: 500; font-size: .52em; letter-spacing: .06em; margin-top: .25em; }
+.mc-foot { display: flex; align-items: center; gap: 3.5%; padding: .7em 8% 1.35em; background: linear-gradient(180deg, #E6D3BF, #DCC5AE); }
+.mc-chip { width: 11%; flex: none; }
+.mc-foot p { flex: 1; min-width: 0; margin: 0; font-size: .7em; line-height: 1.35; white-space: nowrap; overflow: hidden; }
+.mc-foot p span { font-size: 1.06em; }
+.mc-bar { width: 22%; height: 2.2em; flex: none; background: #F7F1EA; padding: .25em .35em; border-radius: 3px; }
+.mcard:not(.fd) .mc-badge { filter: grayscale(.6); }
