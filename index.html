@@ -39,7 +39,7 @@ _st.textContent='html.hello-in #user-nick:empty::before{content:"'+_t.replace(/[
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Gaegu:wght@700&family=Nanum+Pen+Script&display=swap">
-<link rel="stylesheet" href="css/omaju.css?v=10260330" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
+<link rel="stylesheet" href="css/omaju.css?v=10261430" onerror="(function(l){if(l.dataset.r)return;l.dataset.r=1;var n=document.createElement('link');n.rel='stylesheet';n.href='css/omaju.css?r='+Date.now();l.after(n);})(this)">
 </head>
 <body>
 
@@ -61,8 +61,6 @@ _st.textContent='html.hello-in #user-nick:empty::before{content:"'+_t.replace(/[
         <div class="auth-slot" id="auth-slot">
         <span class="user-chip" id="user-chip" hidden><span class="fd-badge" id="fd-badge" hidden>창간 독자</span><b id="user-nick"></b><span class="today-line" id="today-line" hidden></span><span class="chip-links"><button type="button" id="my">나의 정보</button><span>·</span><button type="button" id="logout">로그아웃</button><a id="admin-btn" href="admin.html" hidden>관리자 화면</a></span></span>
         <button type="button" class="ghost" id="login-btn" hidden><span class="nw">로그인 ·</span> <span class="nw">무료 구독하기</span></button></div>
-        <button type="button" class="ghost go" id="install-btn">앱 아이콘 설치하기</button>
-        <button type="button" class="ghost go kakao" id="share-btn">친구에게 보내기</button>
       </div>
     </div>
   </aside>
@@ -345,6 +343,11 @@ _st.textContent='html.hello-in #user-nick:empty::before{content:"'+_t.replace(/[
         </div>
         <div class="tk-win"><ul class="tk-reel"></ul></div>
         <div class="tk-foot"><span class="tk-go">모두 보기 · 나도 한 줄 쓰기</span></div>
+      </div>
+      <!-- 맨 끝 배너 둘 (대표 2026-10-26): 다 읽은 뒤에 '두기·보내기' — 커버에 있던 두 단추를 여기로 옮겼다(id 그대로) -->
+      <div class="endb-wrap">
+        <button type="button" class="endb endb-in" id="install-btn"><span class="eb-t"><small>휴대폰 바탕화면에</small><b>오마주 아이콘 <span class="nw">만들기</span></b><em>누르면 매일 아침 <span class="nw">바로 열려요</span></em></span><span class="eb-go">만들기 ›</span></button>
+        <button type="button" class="endb endb-sh" id="share-btn"><span class="eb-t"><small>카카오톡으로</small><b>친구에게 오마주 <span class="nw">보내기</span></b><em>오늘 호가 <span class="nw">링크 하나로 가요</span></em></span><span class="eb-go">보내기 ›</span></button>
       </div>
     </section>
     <footer class="foot colophon">
