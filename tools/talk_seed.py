@@ -34,6 +34,12 @@ PLACES = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', 
           '마산', '목포', '순천', '군산', '원주', '구미', '안동', '경주', '평택', '용인', '성남', '안양', '부천', '의정부', '해운대',
           '강남', '동래', '거제', '통영', '속초', '무등산', '한라산', '지리산', '설악', '대관령', '남해', '서귀포', '여의도', '광안리']
 
+# 말투 거르기 (대표 2026-10-26: "'샀제'·'그랬제'·'허허' 같은 말은 쓰지 말고 오퓨굿맨처럼 일상적인 말로, ㅋ·ㅎㅎ는 적당히, 느낌표는 잘 안 쓴다")
+OLD_TONE = re.compile(r'(허허|허헛|[했었았랬샀갔왔봤됐겠렸였]제(?=[\s.,~?ㅋㅎ]|$)|구먼|구려|하오(?=[\s.,]|$)|한기라|카이(?=[\s.,]|$)|아이가|했다아이|그려(?=[\s.,]|$))')
+def tone(t):
+    t = re.sub(r'\?!+', '?', t or ''); t = re.sub(r'!+', '.', t); t = re.sub(r'\.{2}(?!\.)', '.', t).strip()
+    return None if OLD_TONE.search(t) else t
+
 def clean_nick(n):
     n = (n or '').strip()
     for w in sorted(PLACES, key=len, reverse=True): n = n.replace(w, '')
@@ -75,8 +81,10 @@ def batch(tp, ps, used, real=()):
 아래 사람들이 휴대폰으로 한 줄씩 남긴다. 사람마다 별명을 짓고 그 사람 말투로 글을 써라.\n별명 규칙: 실제 사람들이 쓰는 짧은 인터넷 별명 — 한두 낱말, 2~6글자(예: 들꽃, 커피한잔, 소나무, 해피맘, 봄날, 동네형). **지역 이름·나이·태어난 해 숫자·직업을 별명에 넣지 말 것.**
 {lines}
 말투 규칙:
-- 나이대 말버릇을 살린다: 30대는 가볍고 ㅋㅋ·~요 많이, 40대는 담백하고 현실적, 50대는 정 많고 '~네요·~더라구요', 60대는 점잖거나 구수한 옛말·'허허'.
-- 성별·직업·지역(사투리 살짝)·성격이 글에서 느껴지게. 직업을 그대로 밝히지 말고 이야기 속 장면으로 드러나게.
+- 요즘 사람들이 카톡에 쓰는 **평범한 일상 말투**로 쓴다. 30대는 가볍게, 40대는 담백하게, 50·60대는 '~네요·~더라구요' 정도로 차분하게. 나이 들어 보이게 꾸민 말투는 쓰지 않는다.
+- **쓰지 말 것**: 사투리 어미('샀제·그랬제·했는기라·~카이'), '허허·허헛', '~구먼·~하오·~그려' 같은 옛날 말투, **느낌표(!)**.
+- 'ㅋ·ㅋㅋ·ㅎㅎ'는 열에 서넛 정도만 가볍게 써도 된다.
+- 성별·직업·성격이 글에서 느껴지게. 직업을 그대로 밝히지 말고 이야기 속 장면으로 드러나게.
 - 한 사람당 20~80자. 길이·문장 수·이모지 유무를 서로 다르게(이모지는 열에 둘셋). 맞춤법을 일부러 살짝 틀리거나 띄어쓰기를 붙여 쓰는 사람도 한둘.
 - 구체적인 장면(물건·장소·연도 느낌). 뻔한 교훈·설교 금지. 웃긴 것·뭉클한 것·담백한 것을 섞는다.
 - 이 게시판·사이트·잡지를 언급하거나 칭찬하지 말 것. 광고 말투·실존 유명인·정치·종교·질병 금지. 시니어·어르신·노인·은퇴 같은 말 금지.
@@ -84,7 +92,11 @@ def batch(tp, ps, used, real=()):
 - 아래는 실제 독자들이 남긴 글이다. 이 사람들처럼 **짧고 꾸밈없이, 휴대폰으로 툭 적은 듯한 솔직한 말투**로 써라(문장을 베끼지는 말 것):
 {chr(10).join('  · ' + r for r in real) or '  · 장군이 꿈이었는데 지금은 음식점을 하고 있네요. 그래도 만족합니다. 하하'}
 형식(JSON만): {{"posts": [{{"nick": "별명", "text": "글"}}]}} — 위 순서대로 {len(ps)}개""")
-    return [p for p in j.get('posts', []) if p.get('nick') and p.get('text')]
+    out = []
+    for p in j.get('posts', []):
+        t = tone(p.get('text'))
+        if p.get('nick') and t: p['text'] = t; out.append(p)
+    return out
 
 def real_posts(db, n=8):
     # 진짜 독자 글(seed 아님)을 말투 견본으로 — 대표 2026-10-25: "내가 쓴 것처럼, 다음 글 쓸 때도 반영"
@@ -117,6 +129,7 @@ def make(d, db=None):
     h = today_host(d)
     jh = G.gemini(f"""라디오 진행자 '{HOSTS[h]}'(오마주 진행자)가 독자 게시판에 오늘 주제로 먼저 한 줄 남긴다. 주제: "{tp['q']}".
 30~60자, 밝고 다정한 존댓말, 독자도 써 보라고 살짝 권하는 끝맺음 한 번. 형식(JSON만): {{"text": "글"}}""")
+    if jh.get('text'): jh['text'] = re.sub(r'!+', '.', jh['text'])
     if jh.get('text'): posts.insert(0, {'nick': HOSTS[h], 'text': jh['text'], 'host': True})
     return tp, posts
 
@@ -147,6 +160,15 @@ def main():
             used.add(new); x.reference.update({'nick': new}); n += 1
             print(v.get('nick'), '→', new)
         print('별명 고침', n); return
+    if '--fixtone' in sys.argv:   # 이미 올라간 채움 글: 느낌표는 마침표로, 옛날·사투리 말투 글은 숨긴다 (대표 2026-10-26)
+        d = sys.argv[sys.argv.index('--fixtone') + 1]; db = G.firestore(); n = h = 0
+        for x in db.collection('talk').where('date', '==', d).where('seed', '==', True).stream():
+            v = x.to_dict(); t = v.get('text', '')
+            if v.get('host'): nt = re.sub(r'!+', '.', t)
+            else: nt = tone(t)
+            if nt is None: x.reference.update({'hidden': True}); h += 1; print('숨김', v.get('nick'), '|', t)
+            elif nt != t: x.reference.update({'text': nt}); n += 1; print('고침', t, '→', nt)
+        print('말투 고침', n, '· 숨김', h); return
     if '--purge' in sys.argv:
         what = sys.argv[sys.argv.index('--purge') + 1]
         db = G.firestore(); q = db.collection('talk').where('seed', '==', True)
