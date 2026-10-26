@@ -2737,19 +2737,19 @@ html.big .endb .eb-t { max-width: 86%; }
 
 /* ── 구독자 카드 (대표 2026-10-27 시안: 샴페인 골드·로즈 골드 테) — 나의 정보 맨 위 ── */
 .mcard { position: relative; overflow: hidden; width: 100%; max-width: 440px; margin: 0 auto 18px; border-radius: 18px;
-  display: grid; grid-template-rows: auto 1fr auto; color: #3A2A20; font-size: min(15px, 3.75vw);
-  background: linear-gradient(125deg, #F6E9DB 0%, #E7CDB5 18%, #FAF1E7 36%, #E2C3A7 56%, #F3E2D1 74%, #DAB89A 100%);   /* 금속 결 — 밝고 어두운 띠를 번갈아 */
-  box-shadow: 0 16px 30px rgba(90,60,40,.28), inset 0 0 0 1px rgba(255,255,255,.7); }
-.mcard::before { content: ''; position: absolute; inset: 9px; border: 2px solid #B98068; border-radius: 12px; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
-.mcard::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.45) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
+  display: grid; grid-template-rows: auto 1fr auto; color: #2C241B; font-size: min(15px, 3.75vw);
+  background: linear-gradient(135deg, #FDFAF2 0%, #F4E8D3 40%, #E6D3BA 100%);   /* 대표 시안(재미나이) 결 — 밝은 아이보리에서 샴페인으로 */
+  box-shadow: 0 14px 28px rgba(90,70,40,.2), inset 0 0 0 1px rgba(255,255,255,.8); }
+.mcard::before { content: ''; position: absolute; inset: 9px; border: 1.5px solid #C9A28A; border-radius: 12px; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+.mcard::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.6) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
 @keyframes mcShine { 0%, 55% { transform: translateX(-45%); } 100% { transform: translateX(45%); } }
 @media (prefers-reduced-motion: reduce) { .mcard::after { animation: none; } }
-.mc-head { display: flex; justify-content: space-between; align-items: center; gap: .6em; padding: 1.35em 8% .6em; background: linear-gradient(100deg, rgba(196,150,118,.38), rgba(232,206,182,.25) 45%, rgba(196,150,118,.38)); }
+.mc-head { display: flex; justify-content: space-between; align-items: center; gap: .6em; padding: 1.35em 8% .6em; background: linear-gradient(100deg, rgba(214,192,160,.55), rgba(236,222,198,.45) 50%, rgba(214,192,160,.55)); }
 .mc-head b { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; font-weight: 900; font-size: 1.55em; letter-spacing: -.01em; white-space: nowrap; }
 .mc-head b i { font-style: normal; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: .62em; letter-spacing: .04em; }
 .mc-head span { text-align: right; font-family: 'Noto Serif KR', serif; font-weight: 700; font-size: 1.02em; line-height: 1.15; white-space: nowrap; }
 .mc-head small { display: block; font-family: 'Pretendard', sans-serif; font-weight: 500; font-size: .66em; letter-spacing: .06em; }
-.mc-body { display: flex; justify-content: space-between; align-items: flex-end; gap: 4%; padding: .8em 8% 1em; }
+.mc-body { background: linear-gradient(120deg, rgba(255,255,255,.55), rgba(255,255,255,.2) 60%, rgba(255,255,255,.35)); display: flex; justify-content: space-between; align-items: flex-end; gap: 4%; padding: .8em 8% 1em; }
 .mc-l { min-width: 0; }
 .mc-l small { font-size: .78em; color: #5C4A3E; }
 .mc-l strong { display: block; font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 1.75em; line-height: 1.15; margin: .05em 0 .35em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -2758,14 +2758,14 @@ html.big .endb .eb-t { max-width: 86%; }
 .mc-r { display: flex; flex-direction: column; align-items: flex-end; flex: none; }
 .mc-r em { font-style: normal; font-size: .68em; letter-spacing: .05em; color: #4A3A30; }
 .mc-badge { position: relative; display: flex; align-items: center; gap: .7em; margin: 1.3em 0 .5em; padding: .55em .9em .45em; border-radius: 12px;
-  background: linear-gradient(160deg, #FBF3EA, #E8CFB8 55%, #F4E4D3); border: 1.5px solid #D2B597; box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 2px 4px rgba(90,60,40,.15); }
+  background: linear-gradient(135deg, rgba(255,255,255,.7), rgba(220,198,166,.45)); border: 1.5px solid #C8B295; box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 3px 8px rgba(90,70,40,.12); }
 .mc-badge i { position: absolute; top: -1.1em; left: 50%; transform: translateX(-50%); width: 1.9em; height: 1.9em; border-radius: 50%; display: grid; place-items: center;
   background: radial-gradient(circle at 35% 30%, #F6E2B9, #CFA769); color: #8A6328; box-shadow: 0 1px 3px rgba(90,60,40,.3); }
 .mc-badge i svg { width: 1.1em; height: 1.1em; }
 .mc-badge span { font-size: .78em; color: #5C4A3E; }
 .mc-badge b { font-family: 'Noto Serif KR', serif; font-weight: 900; font-size: 1.12em; text-align: center; line-height: 1.1; white-space: nowrap; }
 .mc-badge b small { display: block; font-family: 'Pretendard', sans-serif; font-weight: 500; font-size: .52em; letter-spacing: .06em; margin-top: .25em; }
-.mc-foot { display: flex; align-items: center; gap: 3.5%; padding: .7em 8% 1.35em; background: linear-gradient(100deg, rgba(196,150,118,.38), rgba(232,206,182,.25) 45%, rgba(196,150,118,.38)); }
+.mc-foot { display: flex; align-items: center; gap: 3.5%; padding: .7em 8% 1.35em; background: linear-gradient(100deg, rgba(214,192,160,.55), rgba(236,222,198,.45) 50%, rgba(214,192,160,.55)); }
 .mc-chip { width: 11%; flex: none; }
 .mc-foot p { flex: 1; min-width: 0; margin: 0; font-size: .7em; line-height: 1.35; white-space: nowrap; overflow: hidden; }
 .mc-foot p span { font-size: 1.06em; }
