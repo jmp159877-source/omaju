@@ -2709,17 +2709,17 @@ body.mz-on { padding-bottom: 76px; }
 /* ── 맨 끝 배너 둘 (대표 2026-10-26): 홈 화면에 두기 · 카톡으로 보내기 — 집안 공식(사진 + 짙은 막 + 흰 글씨), 막은 왼쪽만 ── */
 .endb-wrap { display: grid; grid-template-columns: 1fr; grid-auto-rows: 1fr; gap: 12px; margin: 22px 0 0; }
 @media (min-width: 769px) { .endb-wrap { grid-template-columns: 1fr 1fr; gap: 16px; } }
-.endb { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 10px; width: 100%; min-width: 0;
-  min-height: 150px; padding: 20px 22px; border: 0; border-radius: 16px; overflow: hidden; cursor: pointer; text-align: left; color: #fff;
+.endb { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 8px; width: 100%; min-width: 0;
+  min-height: 120px; padding: 15px 20px; border: 0; border-radius: 16px; overflow: hidden; cursor: pointer; text-align: left; color: #fff;
   background-size: cover; background-position: right center; box-shadow: 0 6px 18px rgba(40,30,10,0.10); font: inherit; }
 .endb[hidden] { display: none !important; }
-.endb-in { background-image: linear-gradient(90deg, rgba(30,20,11,0.80) 0%, rgba(30,20,11,0.55) 45%, rgba(30,20,11,0.05) 78%), url(../img/end-install.jpg); }
+.endb-in { background-image: linear-gradient(90deg, rgba(10,45,32,0.82) 0%, rgba(10,45,32,0.55) 45%, rgba(10,45,32,0.05) 78%), url(../img/end-install2.jpg); }  /* 보내기(노랑)와 갈라지게 서늘한 초록 (대표 2026-10-26) */
 .endb-sh { background-image: linear-gradient(90deg, rgba(74,50,6,0.80) 0%, rgba(74,50,6,0.52) 45%, rgba(74,50,6,0.04) 78%), url(../img/end-share.jpg?v=2); }  /* 노란 사진엔 꿀갈색 막 (대표 2026-10-26 카톡 느낌) */
-.endb .eb-t { display: flex; flex-direction: column; gap: 4px; max-width: 72%; min-width: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
+.endb .eb-t { display: flex; flex-direction: column; gap: 2px; max-width: 80%; min-width: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
 .endb small { font-size: 0.85rem; letter-spacing: 0.04em; color: #F3E7C4; font-weight: 600; }
-.endb b { font-family: 'Noto Serif KR', serif; font-size: 1.32rem; font-weight: 700; line-height: 1.3; word-break: keep-all; }
+.endb b { font-family: "Noto Serif KR", serif; font-size: 1.25rem; font-weight: 700; line-height: 1.3; word-break: keep-all; }
 .endb em { font-style: normal; font-size: 0.95rem; color: rgba(255,255,255,0.9); line-height: 1.45; word-break: keep-all; }
-.endb .eb-go { display: inline-block; padding: 7px 14px; border-radius: 8px; background: #F9E9A8; color: #3A2E00; font-weight: 700; font-size: 0.95rem; text-shadow: none; }
-html.big .endb { min-height: 170px; }
-html.big .endb .eb-t { max-width: 80%; }
+.endb .eb-go { display: inline-block; padding: 5px 13px; border-radius: 8px; background: #F9E9A8; color: #3A2E00; font-weight: 700; font-size: 0.95rem; text-shadow: none; }
+html.big .endb { min-height: 130px; }
+html.big .endb .eb-t { max-width: 86%; }
 .tk-orn + .endb-wrap { margin-top: 0; }
