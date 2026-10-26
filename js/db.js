@@ -319,8 +319,11 @@ export async function bumpVisit() {
   let src = from;
   if (!src) {
     const ua = navigator.userAgent || '', ref = (() => { try { return new URL(document.referrer).hostname; } catch (e) { return ''; } })();
-    src = /KAKAOTALK/i.test(ua) ? 'kakao' : /NAVER\(inapp|NAVER/.test(ua) ? 'naver' : /Instagram/i.test(ua) ? 'insta' : /FBAN|FBAV/i.test(ua) ? 'facebook' : /BAND\//i.test(ua) ? 'band'
-      : !ref || ref.endsWith('omaju.kr') ? 'direct' : /naver/.test(ref) ? 'naver' : /google/.test(ref) ? 'google' : /daum|kakao/.test(ref) ? 'kakao' : /youtube|youtu\.be/.test(ref) ? 'yt' : /bing/.test(ref) ? 'bing' : 'etc';
+    // 앞 쪽 주소를 먼저 본다 — 네이버 검색에서 눌러 온 분을 따로 세려고 (대표 2026-10-26: "불특정 다수가 들어오는 가장 중요한 수치")
+    src = /(^|\.)search\.naver\.com$/.test(ref) ? 'naver_search' : /(^|\.)blog\.naver\.com$/.test(ref) ? 'naver_blog' : /(^|\.)cafe\.naver\.com$/.test(ref) ? 'naver_cafe'
+      : /(^|\.)google\./.test(ref) ? 'google' : /(^|\.)daum\.net$/.test(ref) ? 'daum' : /(^|\.)bing\.com$/.test(ref) ? 'bing' : /youtube|youtu\.be/.test(ref) ? 'yt'
+      : /KAKAOTALK/i.test(ua) ? 'kakao' : /NAVER/.test(ua) ? 'naver' : /Instagram/i.test(ua) ? 'insta' : /FBAN|FBAV/i.test(ua) ? 'facebook' : /BAND\//i.test(ua) ? 'band'
+      : !ref || ref.endsWith('omaju.kr') ? 'direct' : /naver/.test(ref) ? 'naver' : /kakao/.test(ref) ? 'kakao' : 'etc';
   }
   const hh = String(new Date().getHours()).padStart(2, '0');
   // setDoc 은 'hours.18' 같은 점 이름을 칸 안이 아니라 그 이름 그대로의 칸으로 만든다 → 관리자 '오늘 현황'에 시간·출처가 안 떴다(2026-10-26). 묶음 꼴로 넣는다.
