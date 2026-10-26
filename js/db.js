@@ -47,8 +47,11 @@ onAuthStateChanged(auth, async user => {
       tellAll(); return;
     }
     // 방문한 날 수 (대표 2026-10-27 멤버십 카드 '방문 횟수') — 하루 한 번만 센다
-    const newDay = profile.lastSeenDay !== todayKey();
-    try { await updateDoc(doc(db, 'users', user.uid), newDay ? { lastSeen: serverTimestamp(), lastSeenDay: todayKey(), visitDays: increment(1) } : { lastSeen: serverTimestamp(), lastSeenDay: todayKey() }); if (newDay) profile.visitDays = (profile.visitDays || 0) + 1; } catch (e) {}
+    // 처음 세는 분은 2일부터(대표 2026-10-27 00:10 — 지금 시점 모두 2일, 그다음부터 날마다 한 번)
+    const newDay = profile.lastSeenDay !== todayKey(), first = profile.visitDays == null;
+    const up = { lastSeen: serverTimestamp(), lastSeenDay: todayKey() };
+    if (first) up.visitDays = 2; else if (newDay) up.visitDays = increment(1);
+    try { await updateDoc(doc(db, 'users', user.uid), up); profile.visitDays = first ? 2 : newDay ? profile.visitDays + 1 : profile.visitDays; } catch (e) {}
   }
   tellAll();
 });
