@@ -1390,20 +1390,13 @@ function memberCard(p) {
   // 바코드는 번호로 그리는 무늬(읽히는 바코드 아님)
   const seed = String(p.founderNo || 0).padStart(5, '0') + '0MAJU'; let bars = '', x = 0;
   for (let k = 0; k < 34; k++) { const w = 1 + ((seed.charCodeAt(k % seed.length) + k * 7) % 3); if (k % 2 === 0) bars += `<rect x="${x}" y="0" width="${w}" height="30"/>`; x += w + 1; }
-  return `<div class="mcard${fd ? ' fd' : ''}" role="img" aria-label="오마주 구독자 카드 — ${esc(p.nick)} 님, ${g[0]}, 구독 번호 ${no}, 방문 ${visits}일">
-    <div class="mc-head"><b>오마주 <i>OMAJU</i></b><span>구독자 카드<small>SUBSCRIBER CARD</small></span></div>
-    <div class="mc-body">
-      <div class="mc-l"><small>가입자명</small><strong>${esc(p.nick)} 님</strong>
-        <p><span>구독일</span>${since}</p><p><span>구독번호</span>${no}</p></div>
-      <div class="mc-r"><em>CREATOR'S PARTNER</em>
-        <div class="mc-badge"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17h16l-1.5-8-4.5 4-2-6-2 6-4.5-4z" fill="currentColor"/></svg></i><span>등급</span><b>${g[0]}<small>${g[1]}</small></b></div>
-        <p class="mc-v"><span>방문일수</span>${visits.toLocaleString()}일</p></div>
-    </div>
-    <div class="mc-foot">
-      <svg class="mc-chip" viewBox="0 0 44 34" aria-hidden="true"><rect x="1" y="1" width="42" height="32" rx="6" fill="url(#mcg)" stroke="#9B6B4E" stroke-width="1"/><path d="M15 1v10H1M29 1v10h14M15 33V23H1M29 33V23h14M15 11h14v12H15z" fill="none" stroke="#9B6B4E" stroke-width="1"/><defs><linearGradient id="mcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2D3BE"/><stop offset=".5" stop-color="#D9A88A"/><stop offset="1" stop-color="#EBC7AF"/></linearGradient></defs></svg>
-      <p>Thank you for being with us<br><span>오마주와 함께하는 특별한 여정</span></p>
-      <svg class="mc-bar" viewBox="0 0 ${x} 30" preserveAspectRatio="none" aria-hidden="true"><g fill="#3A2A20">${bars}</g></svg>
-    </div>
+  // 바탕은 대표가 재미나이로 만든 빈 카드 그림(img/member-card.jpg) — 글씨만 사람마다 얹는다
+  return `<div class="mcard2${fd ? ' fd' : ''}" role="img" aria-label="오마주 구독자 카드 — ${esc(p.nick)} 님, ${g[0]}, 구독 번호 ${no}, 방문 ${visits}일">
+    <b class="m2-name">${esc(p.nick)} 님</b>
+    <span class="m2-since">${since}</span>
+    <span class="m2-no">${no}</span>
+    <b class="m2-grade">${g[0]}<small>${g[1]}</small></b>
+    <span class="m2-visit"><i>방문일수</i> ${visits.toLocaleString()}일</span>
   </div>`;
 }
 async function openMy() {

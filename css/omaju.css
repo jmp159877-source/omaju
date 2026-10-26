@@ -2771,3 +2771,18 @@ html.big .endb .eb-t { max-width: 86%; }
 .mc-foot p span { font-size: 1.06em; }
 .mc-bar { width: 22%; height: 2.2em; flex: none; background: #F7F1EA; padding: .25em .35em; border-radius: 3px; }
 .mcard:not(.fd) .mc-badge { filter: grayscale(.6); }
+
+/* 구독자 카드 — 대표 재미나이 빈 카드 그림 위에 글씨만 (2026-10-27). 자리는 그림 크기에 대한 % · 글자는 카드 폭(cqw) 기준 */
+.mcard2 { position: relative; width: 100%; max-width: 460px; margin: 0 auto 18px; aspect-ratio: 1400 / 863; container-type: inline-size;
+  background: url(../img/member-card.jpg?v=1) center / 100% 100% no-repeat; border-radius: 4.2cqw; overflow: hidden; color: #2E2218;
+  box-shadow: 0 14px 28px rgba(90,70,40,.22); font-family: 'Noto Sans KR', 'Pretendard', sans-serif; }
+.mcard2::after { content: ''; position: absolute; inset: -40% -60%; background: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.5) 50%, transparent 58%); animation: mcShine 6s ease-in-out infinite; pointer-events: none; }
+.mcard2 > * { position: absolute; transform: translateY(-50%); white-space: nowrap; line-height: 1.1; }
+.m2-name { left: 7.1%; top: 37.5%; max-width: 46%; overflow: hidden; text-overflow: ellipsis; font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; font-weight: 900; font-size: 6.6cqw; letter-spacing: -.01em; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+.m2-since, .m2-no { left: 24.5%; font-size: 3.4cqw; font-weight: 500; letter-spacing: .01em; }
+.m2-since { top: 52.4%; } .m2-no { top: 62.4%; }
+.m2-grade { left: 77.5%; top: 48.5%; transform: translate(-50%, -50%); text-align: center; font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; font-weight: 900; font-size: 4.3cqw; text-shadow: 0 1px 0 rgba(255,255,255,.55); }
+.m2-grade small { display: block; margin-top: .45em; font-family: 'Noto Sans KR', sans-serif; font-weight: 500; font-size: .48em; letter-spacing: .05em; }
+.m2-visit { right: 7%; top: 64.5%; font-size: 3.4cqw; font-weight: 500; }
+.m2-visit i { font-style: normal; margin-right: .5em; }
+@media (prefers-reduced-motion: reduce) { .mcard2::after { animation: none; } }
