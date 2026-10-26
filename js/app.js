@@ -1403,24 +1403,20 @@ async function openMy() {
   const p = DB.currentProfile();
   if (!p) { toast('정보를 불러오지 못했습니다. 새로고침한 뒤 다시 눌러 주세요.'); return; }
   // 나의 정보 (운영자 2026-10-23 — "촌스럽다, 출석 달력은 왜 있나") — 환영 카드와 같은 '사진 + 흰 종이' 꼴, 달력은 빼고 한 줄로.
-  const ym = TODAY.slice(0, 7), month = (await DB.myCheckins(ym)).length;
-  const since = p.createdAt && p.createdAt.toDate ? (d => `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일부터`)(p.createdAt.toDate()) : '';
   modal(`<div class="my-in">
   ${memberCard(p)}
-  <h2><span class="nw">${esc(p.nick)} 님</span></h2>
-  <p class="my-line">${[p.streak ? `<span class="nw">연속 ${p.streak}일째</span>` : '', month ? `<span class="nw">${M + 1}월 ${month}일 출석</span>` : '', since ? `<span class="nw">${since} 함께</span>` : ''].filter(Boolean).join(' · ') || '오늘도 반갑습니다.'}</p>
   <div class="my-f"><label>글자 크기</label><div class="in"><button type="button" class="btn line" id="m-size-big">크게</button><button type="button" class="btn line" id="m-size-normal">보통</button></div></div>
   <div class="my-f"><label>별명</label><div class="in"><input id="m-nick" value="${esc(p.nick)}" maxlength="12"><button type="button" class="btn line" id="m-nick-go">바꾸기</button></div><div class="msg" id="m-nick-msg"></div></div>
-  ${p.username ? `<div class="my-f"><label>비밀번호</label><div class="in"><input id="m-pw" type="password" inputmode="numeric" maxlength="6" placeholder="새 숫자 6개"><button type="button" class="btn line" id="m-pw-go">바꾸기</button></div><div class="msg" id="m-pw-msg"></div></div>` : ''}
-  <div class="my-f"><label>태어난 해 · 성별</label><div class="in"><input id="m-born" inputmode="numeric" maxlength="4" placeholder="예: 1960" value="${p.born || p.birthYear || ''}"><select id="m-sex"><option value="">성별</option><option ${(p.sex || p.gender) === '남' ? 'selected' : ''}>남</option><option ${(p.sex || p.gender) === '여' ? 'selected' : ''}>여</option></select><button type="button" class="btn line" id="m-born-go">저장</button></div><div class="msg" id="m-born-msg"></div></div>
+  ${p.username ? `<div class="my-f"><label>비밀번호</label><div class="in"><input id="m-pw" type="password" inputmode="numeric" maxlength="6" placeholder="새 비밀번호 숫자 6자리"><button type="button" class="btn line" id="m-pw-go">바꾸기</button></div><div class="msg" id="m-pw-msg"></div></div>` : ''}
   </div>`,
   () => {
     $('modal').classList.add('wel-my');
-    $('m-size-big').onclick = () => { applySize(true); store.set('big', true); toast('글자를 크게 했습니다.'); };
-    $('m-size-normal').onclick = () => { applySize(false); store.set('big', false); toast('글자를 보통으로 했습니다.'); };
+    const szOn = () => { const b = document.documentElement.classList.contains('big'); $('m-size-big').setAttribute('aria-pressed', b); $('m-size-normal').setAttribute('aria-pressed', !b); };
+    szOn();
+    $('m-size-big').onclick = () => { applySize(true); store.set('big', true); szOn(); toast('글자를 크게 했습니다.'); };
+    $('m-size-normal').onclick = () => { applySize(false); store.set('big', false); szOn(); toast('글자를 보통으로 했습니다.'); };
     $('m-nick-go').onclick = async () => { const m = $('m-nick-msg'); try { await DB.changeNick($('m-nick').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; const q = DB.currentProfile(), h = new Date().getHours(); $('user-nick').textContent = q.nick + ' 님, ' + (h < 12 ? '좋은 아침입니다.' : h < 18 ? '좋은 오후입니다.' : '편안한 저녁입니다.'); store.set('hello', { s: 'in', n: q.nick, f: isFounder(q) ? 1 : 0 }); /* 별명만 남고 인사가 빠지던 것 (대표 2026-10-23) */ } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
     if ($('m-pw-go')) $('m-pw-go').onclick = async () => { const m = $('m-pw-msg'); try { await DB.changePw($('m-pw').value); m.className = 'msg ok'; m.textContent = '바꿨습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.code === 'auth/requires-recent-login' ? '안전을 위해 나갔다가 다시 로그인한 뒤 바꿔 주세요.' : e.message; } };
-    $('m-born-go').onclick = async () => { const m = $('m-born-msg'); const born = +$('m-born').value; if ($('m-born').value && (born < 1920 || born > 2010)) { m.className = 'msg err'; m.textContent = '태어난 해를 다시 확인해 주세요.'; return; } try { await DB.saveProfile({ born: $('m-born').value, sex: $('m-sex').value }); m.className = 'msg ok'; m.textContent = '저장했습니다.'; } catch (e) { m.className = 'msg err'; m.textContent = e.message; } };
   });
 }
 $('login-btn').onclick = () => openGate('');
