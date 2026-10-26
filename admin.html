@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/omaju.css">
 <link rel="stylesheet" href="css/admin_dash.css?v=10261400">
 <style>
+.mb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:14px 0}.mb-item{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;border:1px solid #E6E1D4;border-radius:12px;padding:12px 14px;background:#fff;cursor:pointer}.mb-item b{font-size:1.02rem}.mb-item small{width:100%;color:#777;padding-left:26px}.mb-item:has(input:checked){border-color:#1F5A3E;background:#EEF5F0}
 body { background: var(--ivory2); }
 .adm { max-width: 1000px; margin: 0 auto; padding: 20px 16px 100px; }
 .adm h1 { font-size: 1.4rem; color: var(--dark-green); display: flex; align-items: center; gap: 10px; margin: 0 0 14px; flex-wrap: wrap; }
@@ -81,7 +82,7 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
 
   <div id="panel" hidden>
     <div class="topbar"><a href="index.html">오마주로 돌아가기</a><button type="button" id="a-out">로그아웃</button></div>
-    <div class="tabs"><button type="button" data-tab="today" aria-pressed="true">오늘 현황</button><button type="button" data-tab="dash" aria-pressed="false">전체 현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button><button type="button" data-tab="blog">블로그</button></div>
+    <div class="tabs"><button type="button" data-tab="today" aria-pressed="true">오늘 현황</button><button type="button" data-tab="dash" aria-pressed="false">전체 현황</button><button type="button" data-tab="users">구독자</button><button type="button" data-tab="content">오늘 콘텐츠</button><button type="button" data-tab="stories">사연</button><button type="button" data-tab="comments">한마디·신고</button><button type="button" data-tab="resets">찾기 요청</button><button type="button" data-tab="notice">공지</button><button type="button" data-tab="maint">점검 모드</button><button type="button" data-tab="musicbox">뮤직박스</button><button type="button" data-tab="blog">블로그</button></div>
 
     <section class="sec on" data-sec="today">
       <p style="margin:0 0 12px"><button type="button" id="t-reload">새로 보기</button> <small class="note" id="t-at"></small></p>
@@ -126,6 +127,11 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
       <table id="resets"></table>
     </section>
 
+    <section class="sec" data-sec="musicbox">
+      <p class="note">앱 아이콘으로 들어오면 저절로 흐르는 음악입니다. 화면 아래 띠에는 고른 이름 대신 늘 <b>'오마주 뮤직박스'</b>로 보입니다. 바꾸면 다음에 앱을 여는 분부터 적용됩니다.</p>
+      <div id="mb-list" class="mb-list"></div>
+      <div class="bar"><button type="button" class="btn green" id="mb-save">이걸로 정하기</button><span class="note" id="mb-msg"></span></div>
+    </section>
     <section class="sec" data-sec="maint">
       <p class="note">켜면 일반 방문자에게는 점검 안내만 보이고, 관리자는 평소처럼 들어갈 수 있습니다. 끄면 바로 풀립니다.</p>
       <div class="field"><label>안내 문구</label><input id="mt-text" maxlength="120" placeholder="예: 밤 11시부터 새벽 1시까지 점검합니다."></div>
@@ -148,6 +154,6 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
     </section>
   </div>
 </div>
-<script type="module" src="js/admin.js?v=10261845"></script>
+<script type="module" src="js/admin.js?v=10261930"></script>
 </body>
 </html>

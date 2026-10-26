@@ -22,7 +22,7 @@ DB.onUser((u, p) => {
   if (u && !ok) { $('err').textContent = '관리자 권한이 없는 계정입니다.'; DB.logout(); }
   if (ok) { $('who').textContent = p.nick; loadToday(); }
 });
-document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ today: loadToday, dash: () => { if (!loadDash.done) { loadDash.done = true; loadDash(); } }, users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); }, notice: loadNotice, maint: loadMaint, stories: loadStories })[b.dataset.tab]?.(); };
+document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ today: loadToday, dash: () => { if (!loadDash.done) { loadDash.done = true; loadDash(); } }, users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); }, notice: loadNotice, maint: loadMaint, musicbox: loadMusicbox, stories: loadStories })[b.dataset.tab]?.(); };
 
 // ── 오늘 현황 (대표 2026-10-26: "당분간 매일 체크 — 오늘 방문, 어디서 들어왔는지, 누가 들어왔는지") ──
 const SRC = { direct: '직접 (주소·홈 화면·북마크)', kakao: '카카오톡', naver: '네이버', google: '구글', yt: '유튜브', blog: '블로그 링크', search: '검색용 글 쪽', card: '받은 인사 카드', psy: '심리 테스트 결과', kid: '유튜브 자녀 편', story: '구글 웹 스토리', band: '밴드', insta: '인스타그램', facebook: '페이스북', bing: '빙', etc: '그 밖의 곳' };
@@ -170,6 +170,19 @@ $('n-off').onclick = async () => { const old = await getDocs(query(collection(db
 async function loadMaint() { const s = await getDoc(doc(db, 'settings', 'maint')); const m = s.exists() ? s.data() : {}; $('mt-text').value = m.text || ''; $('mt-msg').textContent = m.on ? '지금 점검 모드가 켜져 있습니다.' : '꺼져 있습니다.'; }
 $('mt-on').onclick = async () => { await setDoc(doc(db, 'settings', 'maint'), { on: true, text: $('mt-text').value.trim(), ts: serverTimestamp() }); $('mt-msg').textContent = '켰습니다. 방문자에게 안내가 보입니다.'; };
 $('mt-off').onclick = async () => { await setDoc(doc(db, 'settings', 'maint'), { on: false, text: '', ts: serverTimestamp() }); $('mt-msg').textContent = '껐습니다.'; };
+
+// ── 오마주 뮤직박스 (대표 2026-10-26: "가끔 골라서 바꿀 수 있게") — settings/musicbox.k ──
+async function loadMusicbox() {
+  const { MOODS } = await import('./mood.js?v=10261930');
+  const s = await getDoc(doc(db, 'settings', 'musicbox')); const k = (s.exists() && s.data().k) || 'drive';
+  $('mb-list').innerHTML = MOODS.map(([id, n, d]) => `<label class="mb-item"><input type="radio" name="mb" value="${id}" ${id === k ? 'checked' : ''}><b>${esc(n)}</b><small>${esc(d || '')}</small></label>`).join('');
+  $('mb-msg').textContent = '지금: ' + ((MOODS.find(m => m[0] === k) || [, k])[1]);
+}
+$('mb-save').onclick = async () => {
+  const v = (document.querySelector('input[name=mb]:checked') || {}).value; if (!v) return;
+  await setDoc(doc(db, 'settings', 'musicbox'), { k: v, ts: serverTimestamp() });
+  $('mb-msg').textContent = '정했습니다. 다음에 앱을 여는 분부터 이 음악이 흐릅니다.';
+};
 
 // ── 사연 ──
 // 보내 온 사연은 여기서 한 번 보고 '싣기'를 누른 것만 아침에 올라간다.

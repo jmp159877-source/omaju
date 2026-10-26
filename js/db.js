@@ -194,6 +194,9 @@ export async function loadDaily(date = todayKey()) {
 export async function loadMaint() {
   try { const s = await getDoc(doc(db, 'settings', 'maint')); return s.exists() ? s.data() : null; } catch (e) { return null; }
 }
+export async function loadMusicbox() {   // 오마주 뮤직박스 — 앱을 열면 저절로 흐를 분위기 (관리자에서 고름, 대표 2026-10-26)
+  try { const s = await getDoc(doc(db, 'settings', 'musicbox')); return s.exists() ? s.data() : null; } catch (e) { return null; }
+}
 export async function loadMarket() {
   try { const s = await getDoc(doc(db, 'settings', 'market')); return s.exists() ? s.data() : null; } catch (e) { return null; }
 }

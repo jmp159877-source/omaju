@@ -8,7 +8,7 @@ import * as MM from './malmoi.js';
 import * as PLAY from './play.js';
 import * as PET from './pet.js';
 import * as SOLO from './solo.js';
-import * as MOOD from './mood.js?v=10261910';   // 오늘의 음악과 함께 (대표 2026-10-25)
+import * as MOOD from './mood.js?v=10261930';   // 오늘의 음악과 함께 (대표 2026-10-25)
 let EV = null;   // 기획 칼럼은 첫 화면 맨 아래라 늦게 불러온다 — 처음에 같이 부르면 커버 단추가 밀렸다(큰 글씨 시험)
 const evMod = () => EV ? Promise.resolve(EV) : import('./ev.js').then(m => (EV = m));
 // 오마주 사랑방 (대표 2026-10-25) — 기획 연재 밑 창, 첫 화면을 다 그린 뒤에 불러온다
@@ -855,7 +855,7 @@ if (CBOX[location.hash.slice(1)]) renderCbox(location.hash.slice(1));
 
 PLAY.init({ toast, modal, closeModal, esc, openGate: (...a) => openGate(...a) });
 NB.init({ toast, modal, closeModal, openGate });
-try { MOOD.init({ toast, closeModal, track: (n, d) => DB.track(n, d) }); } catch (e) {}
+try { MOOD.init({ toast, closeModal, track: (n, d) => DB.track(n, d), box: () => DB.loadMusicbox() }); } catch (e) {}
 setTimeout(() => { try { MOOD.auto(); } catch (e) {} }, 1200);   // 앱으로 열면 감미로운 그루브 (대표 2026-10-26)
 RADIO.init({ toast });
 

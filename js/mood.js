@@ -14,7 +14,7 @@ const NAME = Object.fromEntries(MOODS.map(([k, n]) => [k, n]));
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-let LIST = null, base = 0, au = null, cur = null, order = [], idx = 0, toastFn = null, closeFn = null, trackFn = null;
+let LIST = null, base = 0, au = null, cur = null, order = [], idx = 0, toastFn = null, closeFn = null, trackFn = null, boxFn = null;
 
 async function load() {
   if (LIST) return LIST;
@@ -32,14 +32,17 @@ function paint() {
   const show = !!(cur && au && au.src);
   bar.hidden = !show; document.body.classList.toggle('mz-on', show);
   if (!show) return;
-  $('mz-t').textContent = NAME[cur] || '';
+  $('mz-t').textContent = title();
   $('mz-s').textContent = `${order.length}곡 중 ${idx + 1}번째 · 이어 듣기`;
   $('mz-pp').innerHTML = au.paused ? IC.play : IC.pause; $('mz-pp').setAttribute('aria-label', au.paused ? '이어 듣기' : '잠시 멈춤');
 }
+// 앱을 열 때 저절로 흐른 것은 원래 이름 대신 '오마주 뮤직박스'로 (대표 2026-10-26). 칸을 직접 누르면 그 칸 이름.
+let boxMode = false;
+const title = () => (boxMode ? '오마주 뮤직박스' : (NAME[cur] || ''));
 function session() {
   if (!('mediaSession' in navigator) || !cur) return;
   try {
-    navigator.mediaSession.metadata = new MediaMetadata({ title: NAME[cur], artist: '오마주 매거진', album: '오늘의 음악과 함께',
+    navigator.mediaSession.metadata = new MediaMetadata({ title: title(), artist: '오마주 매거진', album: '오늘의 음악과 함께',
       artwork: [{ src: location.origin + '/icon-512.png', sizes: '512x512', type: 'image/png' }, { src: location.origin + '/icon-192.png', sizes: '192x192', type: 'image/png' }] });
     const h = { play: () => resume(), pause: () => pause(), previoustrack: () => step(-1), nexttrack: () => step(1), stop: () => stop() };
     for (const [a, f] of Object.entries(h)) { try { navigator.mediaSession.setActionHandler(a, f); } catch (e) {} }
@@ -55,6 +58,7 @@ function setTrack() {
   const it = LIST[cur][order[idx]]; au.src = BASES[base] + it.f;
 }
 async function start(k, auto = false) {
+  boxMode = !!auto;
   if (!(await load()) || !(LIST[k] || []).length) { if (!auto) toastFn && toastFn('음악을 준비하는 중이에요. 잠시 뒤에 다시 눌러 주세요.'); return; }
   if (!au) {
     au = new Audio(); au.preload = 'auto'; au.setAttribute('playsinline', ''); au.id = 'mz-audio';
@@ -99,11 +103,17 @@ export function auto() {
     if (!(matchMedia('(display-mode: standalone)').matches || navigator.standalone)) return;
   } catch (e) { return; }
   if (cur) return;
-  start('drive', true);
+  // 고른 분위기: 관리자 '뮤직박스'(settings/musicbox) → 지난번 받아 둔 값 → 감미로운 그루브. 1.5초 안에 못 받으면 받아 둔 값으로 바로 튼다.
+  let k = 'drive'; try { k = localStorage.getItem('omaju.musicbox') || k; } catch (e) {}
+  const got = boxFn ? Promise.race([boxFn().catch(() => null), new Promise(r => setTimeout(() => r(null), 1500))]) : Promise.resolve(null);
+  got.then(b => {
+    if (b && b.k && MOODS.some(m => m[0] === b.k)) { k = b.k; try { localStorage.setItem('omaju.musicbox', k); } catch (e) {} }
+    if (!cur) start(k, true);
+  });
 }
 
 export function init(opts = {}) {
-  toastFn = opts.toast || null; closeFn = opts.closeModal || null; trackFn = opts.track || null;
+  toastFn = opts.toast || null; closeFn = opts.closeModal || null; trackFn = opts.track || null; boxFn = opts.box || null;
   // 칸은 '오늘의 추천 음악' 안쪽에 그린다(대표 2026-10-25: 따로 빼지 말고 추천 음악 안에) — app.js renderPick 이 html() 을 넣고 paint() 를 부른다
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-mz]'); if (!b) return;
