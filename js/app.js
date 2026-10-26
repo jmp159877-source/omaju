@@ -1313,13 +1313,26 @@ function openSignup() {
 }
 // ── 구독 환영 카드 (운영자 2026-10-22) ── 구독이 끝난 바로 뒤 한 번만. 반갑게 인사하고, 처음 해 볼 세 가지를 권한다.
 // 첫 줄은 '홈 화면에 놓기'(운영자 2026-10-22 — 맨 먼저). 이미 앱으로 연 사람에게는 보이지 않는다.
-function welcomeHi(nick, after) {
+// 창간 며칠째·몇 번 구독자 (대표 2026-10-26 23:56 — "창간 5일째, 1207번 구독자가 되셨습니다~!")
+// 번호는 api/member-no 가 그 자리에서 매겨 돌려준다. 3초 안에 못 받으면 번호 없이 연다.
+async function memberNo() {
+  try {
+    const u = DB.auth && DB.auth.currentUser; if (!u) return null;
+    const idToken = await u.getIdToken();
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 3000);
+    const r = await fetch('/api/member-no', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ idToken }), signal: ctl.signal });
+    clearTimeout(t); const j = await r.json(); return j && j.no ? j.no : null;
+  } catch (e) { return null; }
+}
+async function welcomeHi(nick, after) {
+  const no = await memberNo();
+  const day = Math.floor((Date.parse(DB.todayKey()) - Date.parse('2026-10-22')) / 864e5) + 1;   // 창간일(10/22)이 1일째
   const who = esc(nick || '구독자');
   const canInstall = !(matchMedia('(display-mode: standalone)').matches || navigator.standalone);
   modal(`<div class="hi-in">
   <p class="hi-eye">Welcome</p>
   <h2><span class="nw">${who}님,</span> <span class="nw">반갑습니다.</span></h2>
-  <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br><span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span></p>
+  <p class="hi-lead"><span class="nw">오마주를 구독해 주셔서</span> <span class="nw">고맙습니다.</span><br>${no ? `<span class="nw">창간 ${day}일째,</span> <span class="nw"><b>${no}번</b> 구독자가</span> <span class="nw">되셨습니다~!</span>` : `<span class="nw">매일 아침,</span> <span class="nw">새 호가 기다리고 있을게요.</span>`}</p>
   ${founderNow() ? `<p class="hi-fd"><span class="nw">창간 첫 달에 함께해 주신</span> <span class="nw"><b>창간 독자</b>이십니다.</span></p>` : ''}
   ${canInstall ? `<button type="button" class="hi-feat" data-hi="install">
     <span class="hi-app" aria-hidden="true"><img src="icon-192.png" alt=""><em>오마주</em></span>
@@ -1344,6 +1357,7 @@ function welcomeHi(nick, after) {
   });
 }
 window.welcomeHi = welcomeHi;   // 시안·시험용
+window.__memberNo = memberNo;
 function openLogin() {
   modal(`<h2>로그인</h2>
   <div class="field"><label>아이디</label><input id="l-id" autocomplete="username" placeholder="아이디"></div>
