@@ -55,3 +55,10 @@
 #today-board .t-talk { margin: 0; padding-left: 1.1em; line-height: 1.6; word-break: keep-all; }
 #today-board .note { font-size: .8rem; color: var(--sub); margin: 8px 0 0; }
 @media (max-width: 620px) { .ad-bigs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* 지금 보는 분 (2026-10-27) */
+.ad-nowbar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; margin: 0 0 14px; padding: 14px 18px; border-radius: 14px; background: #FFF8EE; border: 1px solid #EBD6B8; color: #3A2E00; font-size: .95rem; }
+.ad-nowbar b { font: 700 1.7rem 'Cormorant Garamond', 'Nanum Myeongjo', serif; color: #B4461C; }
+.ad-nowbar .dot { width: 9px; height: 9px; border-radius: 50%; background: #E8622F; align-self: center; animation: adPulse 1.6s ease-in-out infinite; }
+.ad-nowbar small { flex-basis: 100%; color: #6B5A44; font-size: .85rem; line-height: 1.6; }
+.ad-nowbar small i { font-style: normal; color: #9A8870; font-size: .8rem; }
+@keyframes adPulse { 50% { opacity: .3; } }

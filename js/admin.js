@@ -27,6 +27,20 @@ document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[da
 // ── 오늘 현황 (대표 2026-10-26: "당분간 매일 체크 — 오늘 방문, 어디서 들어왔는지, 누가 들어왔는지") ──
 const SRC = { naver_search: '네이버 검색', naver_blog: '네이버 블로그', naver_cafe: '네이버 카페', daum: '다음 검색', direct: '직접 (주소·홈 화면·북마크)', kakao: '카카오톡', naver: '네이버 앱 (검색 아닌 곳)', google: '구글 검색', yt: '유튜브', blog: '블로그 링크', search: '검색용 글 쪽', card: '받은 인사 카드', psy: '심리 테스트 결과', kid: '유튜브 자녀 편', story: '구글 웹 스토리', band: '밴드', insta: '인스타그램', facebook: '페이스북', bing: '빙', etc: '그 밖의 곳' };
 $('t-reload').onclick = () => loadToday();
+// 지금 보는 분 (대표 2026-10-27 — "5분마다 한 번씩 봐도 돼") — 화면을 보는 기기가 3분마다 live/ 에 남기는 것을 6분 안 것만 센다
+const LIVE_NM = { home: '첫 화면', g1: '오늘 즐기기', g2: '그때 돌아보기', g3: '앞으로 나아가기', g4: '나를 돌보기', g5: '집사', g6: '나의 수첩', g7: '혼자라서 좋은 날', talk: '사랑방', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: 'PLAY', ev: '전기차 연재', ai: 'AI 연재' };
+async function paintLive() {
+  const el = $('ad-now'); if (!el) return;
+  try {
+    const L = await DB.listLive(), mem = L.filter(x => x.m).length;
+    const where = {}; L.forEach(x => { const k = LIVE_NM[x.ch] || x.ch; where[k] = (where[k] || 0) + 1; });
+    const w = Object.entries(where).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${esc(k)} ${v}`).join(' · ');
+    const t = new Date(), hm = String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0');
+    el.querySelector('b').textContent = L.length + '명';
+    el.querySelector('small').innerHTML = L.length ? `구독자 ${mem} · 비회원 ${L.length - mem}${w ? '<br>' + w : ''}<br><i>${hm} 기준 · 5분마다 새로</i>` : `<i>${hm} 기준 · 5분마다 새로</i>`;
+  } catch (e) { el.querySelector('small').textContent = '읽지 못했어요: ' + (e.code || e.message); }
+}
+setInterval(() => { if (!document.hidden) paintLive(); }, 300000);
 async function loadToday() {
   const el = $('today-board');
   try {
@@ -47,13 +61,13 @@ async function loadToday() {
     const clicks = Object.entries(st.clicks || {}).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => [NM[k] || k, v]);
     const big = (k, v, note) => `<div class="ad-big"><small>${esc(k)}</small><b>${(v || 0).toLocaleString()}</b>${note ? `<i>${esc(note)}</i>` : ''}</div>`;
     const who = seen.length ? '<ul class="t-who">' + seen.map(u => `<li><b>${esc(u.nick)}</b>${u.role === 'admin' ? ' <small>(관리자)</small>' : ''}${joined.includes(u) ? ' <em>오늘 구독</em>' : ''}<span>${hm(u.lastSeen)} · ${u.via === 'kakao' ? '카카오' : u.via === 'naver' ? '네이버' : '아이디'} 가입 · 출석 ${u.checkinCount || 0}번</span></li>`).join('') + '</ul>' : '<p class="ad-empty">오늘 들른 구독자가 아직 없어요</p>';
-    el.innerHTML = `<div class="ad-bigs five">${big('오늘 방문', st.visits, '기기마다 하루 한 번')}${big('처음 온 기기', st.newDevices)}${big('들른 구독자', seen.length)}${big('오늘 구독', joined.length)}${big('검색으로 온 분', ['naver_search', 'google', 'daum', 'bing', 'search'].reduce((t, k) => t + (src[k] || 0), 0), '네이버·구글·다음 검색')}</div><div class="ad-grid">`
+    el.innerHTML = `<div class="ad-nowbar" id="ad-now"><span class="dot"></span><b>…</b> 지금 보는 분<small></small></div><div class="ad-bigs five">${big('오늘 방문', st.visits, '기기마다 하루 한 번')}${big('처음 온 기기', st.newDevices)}${big('들른 구독자', seen.length)}${big('오늘 구독', joined.length)}${big('검색으로 온 분', ['naver_search', 'google', 'daum', 'bing', 'search'].reduce((t, k) => t + (src[k] || 0), 0), '네이버·구글·다음 검색')}</div><div class="ad-grid">`
       + card('어디서', '어디서 들어왔나', hbars(srcRows, { empty: '아직 없음 — 들어온 곳은 10/26 오후부터 셉니다' }) + '<p class="note">\'네이버 검색\'은 네이버에서 검색해 오마주를 눌러 온 분 — 모르는 분이 들어오는 가장 중요한 숫자입니다(10/26 밤부터 셉니다). 카카오톡으로 받은 링크는 \'카카오톡\', 주소를 직접 치거나 홈 화면 아이콘은 \'직접\'.</p>', true)
       + card('누가', '오늘 들른 구독자', who + '<p class="note">구독하지 않은 분은 누구인지 알 수 없어 숫자로만 셉니다.</p>', true)
       + card('언제', '몇 시에 들어왔나', hbars(hRows, { empty: '아직 없음 — 10/26 오후부터 셉니다' }))
       + card('무엇을', '오늘 많이 누른 코너', hbars(clicks, { empty: '아직 없음' }))
       + card('사랑방', '오늘 독자가 쓴 글', talk.length ? '<ul class="t-talk">' + talk.map(t => `<li><b>${esc(t.nick)}</b> ${esc(t.text)}</li>`).join('') + '</ul>' : '<p class="ad-empty">아직 없음</p>', true) + '</div>';
-    $('t-at').textContent = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) + ' 기준';
+    paintLive(); $('t-at').textContent = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) + ' 기준';
   } catch (e) { el.innerHTML = '<p class="note">오늘 현황을 불러오지 못했어요: ' + esc(e.message) + ' (사이트 저장소 하루 읽기 한도에 걸렸으면 오후 4시 뒤에 다시 보세요)</p>'; }
 }
 

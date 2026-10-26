@@ -336,6 +336,24 @@ export async function bumpVisit() {
   if (first) add.newDevices = increment(1);
   try { await setDoc(doc(db, 'stats', todayKey()), add, { merge: true }); } catch (e) {}
 }
+// 지금 보는 분 (대표 2026-10-27 "관리자에서 현재 접속자를 볼 수 있을까") — 화면을 보고 있는 동안 3분마다 live/<기기> 에 시각 한 줄.
+// 관리자 '현황'이 5분마다 6분 안에 남은 것을 센다. 운영자 기기·관리자·로봇은 남기지 않는다. 한 기기에 한 문서라 쌓이지 않는다.
+let liveLast = 0;
+function liveKey() { try { let k = localStorage.getItem('omaju.lid'); if (!k) { k = Math.random().toString(36).slice(2, 12); localStorage.setItem('omaju.lid', k); } return k; } catch (e) { return liveKey.k || (liveKey.k = Math.random().toString(36).slice(2, 12)); } }
+export function startLive() {
+  try { if (localStorage.getItem('omaju.noCount') === '1') return; } catch (e) {}
+  if (navigator.webdriver || /bot|crawl|spider|slurp|yeti|daum|lighthouse|headless|preview/i.test(navigator.userAgent)) return;
+  const beat = () => {
+    if (document.hidden || Date.now() - liveLast < 60000) return;
+    if (profile && profile.role === 'admin') return;
+    liveLast = Date.now();
+    setDoc(doc(db, 'live', liveKey()), { t: Date.now(), m: me ? 1 : 0, ch: (location.hash.slice(1) || 'home').slice(0, 19) }).catch(() => {});
+  };
+  setTimeout(beat, 4000); setInterval(beat, 180000);
+  document.addEventListener('visibilitychange', beat);
+  window.addEventListener('hashchange', () => { liveLast = 0; setTimeout(beat, 1500); });
+}
+export async function listLive() { const s = await getDocs(query(collection(db, 'live'), where('t', '>', Date.now() - 6 * 60000))); return s.docs.map(d => d.data()); }
 export async function bumpClick(corner) {
   try { await setDoc(doc(db, 'stats', todayKey()), { clicks: { [corner]: increment(1) } }, { merge: true }); } catch (e) {}
   track('corner_open', { corner });

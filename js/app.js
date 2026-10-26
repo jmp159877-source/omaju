@@ -43,7 +43,7 @@ let C = DEFAULT_CONTENT;
 // 서버(Firestore)가 막히면(하루 읽기 한도 등) 새벽에 떠 둔 그날치 파일로 — 옛 기본 글이 나가지 않게 (2026-10-26)
 const remote = (await DB.loadDaily(TODAY)) || (await fetch('daily/' + TODAY + '.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null));
 if (remote) C = Object.assign({}, DEFAULT_CONTENT, remote);
-DB.bumpVisit();
+DB.bumpVisit(); DB.startLive();
 DB.loadMaint().then(m => { if (m && m.on && !DB.isAdmin()) { $('maint-text').textContent = m.text || ''; $('maint').hidden = false; } });
 DB.loadNotice().then(n => { if (n && n.text) { $('notice-text').textContent = n.text; $('notice').hidden = false; } });
 
