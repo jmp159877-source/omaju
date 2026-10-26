@@ -173,11 +173,26 @@ $('mt-off').onclick = async () => { await setDoc(doc(db, 'settings', 'maint'), {
 
 // ── 오마주 뮤직박스 (대표 2026-10-26: "가끔 골라서 바꿀 수 있게") — settings/musicbox.k ──
 async function loadMusicbox() {
-  const { MOODS } = await import('./mood.js?v=10261930');
+  const { MOODS } = await import('./mood.js?v=10261935');
   const s = await getDoc(doc(db, 'settings', 'musicbox')); const k = (s.exists() && s.data().k) || 'drive';
-  $('mb-list').innerHTML = MOODS.map(([id, n, d]) => `<label class="mb-item"><input type="radio" name="mb" value="${id}" ${id === k ? 'checked' : ''}><b>${esc(n)}</b><small>${esc(d || '')}</small></label>`).join('');
+  $('mb-list').innerHTML = MOODS.map(([id, n, d]) => `<label class="mb-item"><input type="radio" name="mb" value="${id}" ${id === k ? 'checked' : ''}><b>${esc(n)}</b><button type="button" class="mb-play" data-pv="${id}">▶ 들어보기</button><small>${esc(d || '')}</small></label>`).join('');
   $('mb-msg').textContent = '지금: ' + ((MOODS.find(m => m[0] === k) || [, k])[1]);
 }
+// 미리 듣기 (대표 2026-10-26: "눌러 보고 들어 보고 고르게") — 그 분위기의 곡을 차례로 하나씩
+const MB_BASE = 'https://raw.githubusercontent.com/jmp159877-source/omaju/mood/';
+let mbList = null, mbAu = null, mbCur = null, mbIdx = {};
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-pv]'); if (!b) return; e.preventDefault(); e.stopPropagation();
+  const id = b.dataset.pv;
+  if (!mbList) { try { mbList = await (await fetch(MB_BASE + 'list.json', { cache: 'no-store' })).json(); } catch (x) { $('mb-msg').textContent = '음악 목록을 못 받았어요. 잠시 뒤 다시 눌러 주세요.'; return; } }
+  if (!mbAu) { mbAu = new Audio(); mbAu.onended = () => { document.querySelectorAll('[data-pv]').forEach(x => { x.textContent = '▶ 들어보기'; }); mbCur = null; }; }
+  document.querySelectorAll('[data-pv]').forEach(x => { x.textContent = '▶ 들어보기'; });
+  if (mbCur === id && !mbAu.paused) { mbAu.pause(); mbCur = null; return; }
+  const L = mbList[id] || []; if (!L.length) { $('mb-msg').textContent = '이 분위기는 아직 곡이 없어요.'; return; }
+  const i = (mbIdx[id] = ((mbIdx[id] ?? -1) + 1) % L.length);   // 누를 때마다 다음 곡
+  mbAu.src = MB_BASE + L[i].f; mbCur = id; b.textContent = '❚❚ 멈춤';
+  try { await mbAu.play(); $('mb-msg').textContent = `들어 보는 중: ${L.length}곡 중 ${i + 1}번째 — 다시 누르면 멈추고, 또 누르면 다음 곡`; } catch (x) { b.textContent = '▶ 들어보기'; }
+}, true);
 $('mb-save').onclick = async () => {
   const v = (document.querySelector('input[name=mb]:checked') || {}).value; if (!v) return;
   await setDoc(doc(db, 'settings', 'musicbox'), { k: v, ts: serverTimestamp() });

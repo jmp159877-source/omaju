@@ -2731,3 +2731,4 @@ html.big .endb .eb-t { max-width: 86%; }
 .mz-bar .mz-x { border-color: rgba(58,46,0,.35); }
 .mz-bt small { opacity: .75; }
 .mz-bar .mz-x { background: #3A2E00; color: #F9E9A8; border: 0; font-weight: 700; padding: 0 13px; height: 38px; }   /* 끄기도 멈춤처럼 짙게 (대표 2026-10-26) */
+@media (min-width: 769px) { .mz-bar { left: calc(45% + 20px); right: 20px; max-width: 540px; } }   /* PC: 왼쪽 커버를 가리지 않게 글 쪽 가운데에 (2026-10-26) */

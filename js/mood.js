@@ -72,10 +72,24 @@ async function start(k, auto = false) {
   au.volume = auto ? 0 : 1;
   try {
     await au.play();
-    if (auto) { let v = 0; const t = setInterval(() => { v += 0.04; au.volume = Math.min(0.6, v); if (v >= 0.6) clearInterval(t); }, 150); }   // 저절로 틀 때는 3초에 걸쳐 작게 시작
-  } catch (e) { au.volume = 1; if (!auto) toastFn && toastFn('재생을 시작하지 못했어요. 한 번 더 눌러 주세요.'); }   // 막히면 아래 띠만 멈춘 채로 — 누르면 나온다
+    if (auto) fadeIn();   // 저절로 틀 때는 3초에 걸쳐 작게 시작
+  } catch (e) {
+    if (!auto) { au.volume = 1; toastFn && toastFn('재생을 시작하지 못했어요. 한 번 더 눌러 주세요.'); }
+    else waitTap();   // 브라우저가 첫 손길 전에는 소리를 막는다 → 띠는 멈춘 채로 떠 있고, 화면을 처음 누르는 순간 작게 시작
+  }
   paint(); session();
   try { trackFn && trackFn('mood_play', { k }); } catch (e) {}
+}
+function fadeIn() { au.volume = 0; let v = 0; const t = setInterval(() => { v += 0.04; au.volume = Math.min(0.6, v); if (v >= 0.6) clearInterval(t); }, 150); }
+function waitTap() {
+  const evs = ['click', 'touchend', 'keydown'];
+  const off = () => evs.forEach(n => document.removeEventListener(n, go, true));
+  const go = e => {
+    if (!boxMode || !cur || !au || !au.paused) return off();          // 그새 직접 골랐거나 껐으면 그만
+    if (e.target && e.target.closest && e.target.closest('[data-mz], #mz-bar')) return off();   // 음악 칸·띠를 누른 것은 그쪽이 알아서
+    au.volume = 0; au.play().then(() => { fadeIn(); off(); }).catch(() => {});   // 스크롤 끝처럼 '손길'로 안 치는 것은 다음 누름을 기다린다
+  };
+  evs.forEach(n => document.addEventListener(n, go, true));
 }
 function step(d) { if (!cur) return; idx = (idx + d + order.length) % order.length; if (idx === 0 && d > 0) { /* 한 바퀴 돌면 그대로 다시 — 끊김 없이 */ } setTrack(); au.play().catch(() => {}); paint(); session(); }
 export function pause() { if (au && !au.paused) au.pause(); }
@@ -96,12 +110,10 @@ export function html() {
 export { paint };
 
 // 앱 아이콘으로 들어오면 '감미로운 그루브'가 저절로 흐른다 (대표 2026-10-26: "음악 들으면서 콘텐츠를 하나씩 보게").
-// 홈 화면에 깐 앱으로 열었을 때만(브라우저로 처음 온 분에게는 틀지 않는다). 끄기는 그때뿐 — 앱을 새로 열면 또 흐른다.
+// 처음 온 분도(브라우저·카톡) 모두 — 대표 2026-10-26 19:21 "끄기가 있으니, 처음 들어와서 감미로운 음악이 나오면 분위기가 다르다". 끄기는 그때뿐 — 다시 열면 또 흐른다.
 // 아이폰처럼 저절로 틀기를 막는 곳에서는 아래 띠만 멈춘 채로 떠서 한 번 누르면 나온다.
 export function auto() {
-  try {
-    if (!(matchMedia('(display-mode: standalone)').matches || navigator.standalone)) return;
-  } catch (e) { return; }
+  if (navigator.webdriver || /bot|crawl|spider|slurp|yeti|lighthouse|preview/i.test(navigator.userAgent || '')) return;   // 검색 로봇·시험 기계는 틀지 않는다
   if (cur) return;
   // 고른 분위기: 관리자 '뮤직박스'(settings/musicbox) → 지난번 받아 둔 값 → 감미로운 그루브. 1.5초 안에 못 받으면 받아 둔 값으로 바로 튼다.
   let k = 'drive'; try { k = localStorage.getItem('omaju.musicbox') || k; } catch (e) {}
