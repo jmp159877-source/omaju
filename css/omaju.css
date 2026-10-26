@@ -2722,3 +2722,4 @@ body.mz-on { padding-bottom: 76px; }
 .endb .eb-go { display: inline-block; padding: 7px 14px; border-radius: 8px; background: #F9E9A8; color: #3A2E00; font-weight: 700; font-size: 0.95rem; text-shadow: none; }
 html.big .endb { min-height: 170px; }
 html.big .endb .eb-t { max-width: 80%; }
+.tk-orn + .endb-wrap { margin-top: 0; }
