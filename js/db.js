@@ -320,7 +320,10 @@ export async function bumpVisit() {
       : !ref || ref.endsWith('omaju.kr') ? 'direct' : /naver/.test(ref) ? 'naver' : /google/.test(ref) ? 'google' : /daum|kakao/.test(ref) ? 'kakao' : /youtube|youtu\.be/.test(ref) ? 'yt' : /bing/.test(ref) ? 'bing' : 'etc';
   }
   const hh = String(new Date().getHours()).padStart(2, '0');
-  try { await setDoc(doc(db, 'stats', todayKey()), first ? { visits: increment(1), newDevices: increment(1), ['hours.' + hh]: increment(1), ['src.' + src]: increment(1) } : { visits: increment(1), ['hours.' + hh]: increment(1), ['src.' + src]: increment(1) }, { merge: true }); } catch (e) {}
+  // setDoc 은 'hours.18' 같은 점 이름을 칸 안이 아니라 그 이름 그대로의 칸으로 만든다 → 관리자 '오늘 현황'에 시간·출처가 안 떴다(2026-10-26). 묶음 꼴로 넣는다.
+  const add = { visits: increment(1), hours: { [hh]: increment(1) }, src: { [src]: increment(1) } };
+  if (first) add.newDevices = increment(1);
+  try { await setDoc(doc(db, 'stats', todayKey()), add, { merge: true }); } catch (e) {}
 }
 export async function bumpClick(corner) {
   try { await setDoc(doc(db, 'stats', todayKey()), { ['clicks.' + corner]: increment(1) }, { merge: true }); } catch (e) {}

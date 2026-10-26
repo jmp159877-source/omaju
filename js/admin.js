@@ -39,9 +39,10 @@ async function loadToday() {
     const hm = t => { if (!t || !t.toDate) return ''; const d = t.toDate(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
     // 어디서: 새로 세는 src(10/26 오후부터) + 예전부터 세던 꼬리표(blog·yt·search·card·psy·kid·story)
     const src = { ...(st.src || {}) };
+    for (const [k, v] of Object.entries(st)) if (k.startsWith('src.')) src[k.slice(4)] = (src[k.slice(4)] || 0) + v;   // 10/26 오후 잘못 들어간 'src.○○' 칸도 함께
     if (!st.src) for (const k of ['blog', 'yt', 'search', 'card', 'psy', 'kid', 'story']) if (st[k]) src[k] = st[k];
     const srcRows = Object.entries(src).filter(([, v]) => v).sort((a, b) => b[1] - a[1]).map(([k, v]) => [SRC[k] || k, v]);
-    const hours = st.hours || {}; const hRows = Object.keys(hours).sort().map(h => [`${+h}시`, hours[h]]);
+    const hours = { ...(st.hours || {}) }; for (const [k, v] of Object.entries(st)) if (k.startsWith('hours.')) hours[k.slice(6)] = (hours[k.slice(6)] || 0) + v; const hRows = Object.keys(hours).sort().map(h => [`${+h}시`, hours[h]]);
     const NM = { greeting: '인사말', fortune: '운세', luck: '운세', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: '오늘 PLAY', history: '그해 오늘', music: '그 시절 노래', talk: '사랑방', ev: '전기차 시대', ai: 'AI 시대', dog: '댕댕이', cat: '냥이', pick: '추천 음악', psy: '심리 테스트' };
     const clicks = Object.entries(st.clicks || {}).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => [NM[k] || k, v]);
     const big = (k, v, note) => `<div class="ad-big"><small>${esc(k)}</small><b>${(v || 0).toLocaleString()}</b>${note ? `<i>${esc(note)}</i>` : ''}</div>`;
