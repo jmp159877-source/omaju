@@ -209,6 +209,16 @@ def cards():
         im = one(i, p)
         if i > 0 and t - i * per < fade: im = Image.blend(one(i - 1, 1.0), im, (t - i * per) / fade)
         return im.convert('RGB')
+    # 끝 장면 2.6초 — 'omaju.kr · "오마주 매거진" 검색' (홍보국 요청, 대표 2026-10-26)
+    import shorts_end as END
+    base, _f0, _last = total, frame, {}
+    total = base + END.SEC
+    def frame(k):
+        t = k / FPS
+        if t < base: return _f0(k)
+        if 'l' not in _last: _last['l'] = _f0(int(base * FPS) - 1)
+        e = t - base; c = END.card('오늘 호 전체는')
+        return Image.blend(_last['l'], c, e / END.FADE) if e < END.FADE else c
     out = os.path.join(OUT, DATE + '-cards.mp4')
     music = os.path.join(ROOT, 'music', 'morning.mp3')
     ffmpeg_video(frame, int(total * FPS), ['-i', music, '-filter_complex', f'[1:a]atrim=0:{total:.2f},afade=t=in:d=0.8,afade=t=out:st={total - 1.6:.2f}:d=1.6[a]', '-map', '0:v', '-map', '[a]'], out)

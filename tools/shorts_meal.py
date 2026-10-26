@@ -180,17 +180,27 @@ def build():
         for dur, name in scenes:
             frame(int((acc + dur * 0.8) * FPS)).save(os.path.join(OUT, f'{DATE}-meal-{name}.png')); acc += dur
         sys.exit(0)
+    # 끝 장면 2.6초 — 'omaju.kr · "오마주 매거진" 검색' (홍보국 요청, 대표 2026-10-26 "앞으로 붙이도록")
+    import shorts_end as END
+    base, _f0, _last = total, frame, {}
+    total_v = base + END.SEC
+    def frame(k):
+        t = k / FPS
+        if t < base: return _f0(k)
+        if 'l' not in _last: _last['l'] = _f0(int(base * FPS) - 1)
+        e = t - base; c = END.card('레시피 전체는')
+        return Image.blend(_last['l'], c, e / END.FADE) if e < END.FADE else c
     out = os.path.join(OUT, DATE + '-meal.mp4')
     music = os.path.join(ROOT, 'music', 'noon.mp3')
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-', '-i', music,
-           '-filter_complex', f'[1:a]atrim=0:{total:.2f},afade=t=in:d=0.8,afade=t=out:st={total - 1.6:.2f}:d=1.6[a]', '-map', '0:v', '-map', '[a]',
+           '-filter_complex', f'[1:a]atrim=0:{total_v:.2f},afade=t=in:d=0.8,afade=t=out:st={total_v - 1.6:.2f}:d=1.6[a]', '-map', '0:v', '-map', '[a]',
            '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '160k', '-shortest', '-movflags', '+faststart', out]
     pr = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-    for k in range(int(total * FPS)): pr.stdin.write(frame(k).tobytes())
+    for k in range(int(total_v * FPS)): pr.stdin.write(frame(k).tobytes())
     pr.stdin.close(); pr.wait()
     if pr.returncode: raise SystemExit('ffmpeg 실패')
-    print('한 끼 쇼츠', round(total, 1), '초')
-    return {'file': os.path.basename(out), 'sec': round(total, 1), 'title': meal['title'], 'hook': l1, 'no': no, 'facts': facts}, meal
+    print('한 끼 쇼츠', round(total_v, 1), '초')
+    return {'file': os.path.basename(out), 'sec': round(total_v, 1), 'title': meal['title'], 'hook': l1, 'no': no, 'facts': facts}, meal
 
 if __name__ == '__main__':
     r = build()

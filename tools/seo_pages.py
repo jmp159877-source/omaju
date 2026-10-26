@@ -12,7 +12,8 @@ SITE = 'https://omaju.kr'
 e = lambda s: html.escape(str(s or ''), quote=True)
 
 
-IMGS, META = {}, {}   # 이미지 사이트맵·새 글 알림판(RSS)용 (대표 2026-10-25: "이미지 검색에 1도 안 걸린다")
+IMGS, META = {}, {}
+HUBS = set()   # 모음 쪽 — 주소가 바뀌지 않아 검색 힘이 쌓이는 곳 (홍보국 2026-10-26: 아침 인사 이미지·띠별 운세·오늘 뭐 해 먹지)   # 이미지 사이트맵·새 글 알림판(RSS)용 (대표 2026-10-25: "이미지 검색에 1도 안 걸린다")
 
 
 def page(path, title, desc, kicker, body, back, ld, image, imgs=(), date=''):
@@ -153,6 +154,7 @@ def main():
               'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
         urls.append((page(f'{SK}/index.html', f'{SNAME} — 시대 공유', SDESC, '시대 공유 · 오마주 매거진', body, f'{SITE}/?from=search#{SK}', ld, f'img/detail_{SK}.jpg'), lst[-1]['date']))
     # 오늘의 한 끼
+    meal_list = []
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
         d = os.path.basename(f)[:10]
         if d > TODAY: continue
@@ -167,13 +169,25 @@ def main():
                 + (f'<div class="box green">{e(m.get("lead"))}</div>' if m.get('lead') else '')
                 + '<span class="sub">재료</span><ul class="chips">' + ''.join(f'<li>{e(t)}</li>' for t in m.get('ingredients', [])) + '</ul>'
                 + '<span class="sub">만드는 법</span><ol>' + ''.join(f'<li>{e(t)}</li>' for t in m['steps']) + '</ol>'
-                + (f'<div class="box yellow"><b>요령</b>{e(m.get("tip"))}</div>' if m.get('tip') else ''))
+                + (f'<div class="box yellow"><b>요령</b>{e(m.get("tip"))}</div>' if m.get('tip') else '')
+                + '<p><a href="/meal/index.html"><b>지난 한 끼 모두 보기 ›</b></a></p>')
         desc = (m.get('lead', '') + ' 재료: ' + ', '.join(m.get('ingredients', [])))[:150]
         ld = {'@context': 'https://schema.org', '@type': 'Recipe', 'name': m['title'], 'description': m.get('lead', ''), 'datePublished': d,
               'inLanguage': 'ko', 'image': f'{SITE}/img/food.jpg', 'recipeCategory': '집밥', 'recipeCuisine': '한식·가정식',
               'recipeIngredient': m.get('ingredients', []), 'recipeInstructions': [{'@type': 'HowToStep', 'text': t} for t in m['steps']],
               'author': {'@type': 'Organization', 'name': '오마주 매거진'}}
-        urls.append((page(f'meal/{d}.html', title, desc, '오늘의 한 끼', body, f'{SITE}/?from=search#food', ld, 'img/food.jpg'), d))
+        urls.append((page(f'meal/{d}.html', title, desc, '오늘의 한 끼', body, f'{SITE}/?from=search#food', ld, 'img/food.jpg'), d)); meal_list.append((d, m, no))
+    if meal_list:   # 모음 쪽: '오늘 뭐 해 먹지' — 오늘 한 끼를 맨 위에, 아래로 지난 한 끼
+        d0, m0, n0 = meal_list[-1]
+        body = ('<h1>오늘 뭐 해 먹지?</h1><p class="date">오늘의 한 끼 · 매일 아침 새 집밥 레시피 · 오마주 매거진</p>'
+                + f'<div class="box green"><b>오늘의 한 끼' + (f' No.{n0}' if n0 > 0 else '') + f' · {kdate(d0)}</b><a href="/meal/{d0}.html" style="color:inherit"><b style="font-size:1.25rem;margin:4px 0">{e(m0["title"])}</b></a>{e(m0.get("lead"))}</div>'
+                + '<span class="sub">재료</span><ul class="chips">' + ''.join(f'<li>{e(t)}</li>' for t in m0.get('ingredients', [])) + '</ul>'
+                + f'<p><a href="/meal/{d0}.html"><b>만드는 법 보기 ›</b></a></p>'
+                + '<span class="sub">지난 한 끼</span><ol>' + ''.join(f'<li><a href="/meal/{d}.html"><b>{e(m["title"])}</b></a><br><small>' + (f'No.{n} · ' if n > 0 else '') + f'{kdate(d)}' + (f' · {e(m.get("sub"))}' if m.get('sub') else '') + '</small></li>' for d, m, n in reversed(meal_list[:-1])) + '</ol>')
+        ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘 뭐 해 먹지 — 오늘의 한 끼 레시피 모음', 'inLanguage': 'ko',
+              'hasPart': [{'@type': 'Recipe', 'name': m['title'], 'url': f'{SITE}/meal/{d}.html', 'datePublished': d} for d, m, _ in reversed(meal_list)]}
+        u = page('meal/index.html', '오늘 뭐 해 먹지 — 오늘의 한 끼 집밥 레시피 모음', f'오늘 뭐 해 먹을지 고민될 때, 매일 아침 새로 올라오는 집밥 한 끼. 오늘은 {m0["title"]}.', '오늘의 한 끼', body, f'{SITE}/?from=search#food', ld, 'img/food.jpg', (), d0)
+        urls.append((u, d0)); HUBS.add(u)
     # 오늘의 인사 카드 — 이미지 검색에 걸리게 (대표 2026-10-25). 그림은 daily.yml 이 tools/shorts_cards.mjs 로 떠 둔 greet/img/<날짜>-N.jpg
     WD = '월화수목금토일'
     def season(m): return '겨울' if m in (12, 1, 2) else '봄' if m <= 5 else '여름' if m <= 8 else '가을'
@@ -200,10 +214,18 @@ def main():
               'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
         u = page(f'greet/{d}.html', title, desc, '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, files[0], list(zip(files[1:], alts[1:])), d)
         urls.append((u, d)); greet_list.append((d, title))
-    if greet_list:
-        body = '<h1>오늘의 인사 카드 모음</h1><p class="date">오마주 매거진 · 매일 아침 새 카드</p><div class="box green">카톡으로 보내기 좋은 아침 인사 이미지를 날마다 모아 둡니다.</div><ol>' + ''.join(f'<li><a href="/greet/{d}.html"><b>{e(t)}</b></a></li>' for d, t in reversed(greet_list)) + '</ol>'
+    if greet_list:   # 모음 쪽: 오늘 카드 그림을 맨 위에 그대로 (이미지 검색이 이 주소에 쌓이게), 아래로 지난 날짜
+        d0 = greet_list[-1][0]; dt0 = datetime.date.fromisoformat(d0)
+        G0 = [g for g in (json.load(open(os.path.join(ROOT, 'daily', d0 + '.json'), encoding='utf-8')).get('greetings') or []) if g]
+        f0 = [f'greet/img/{d0}-{i + 1}.jpg' for i in range(len(G0))]
+        a0 = [f'{dt0.month}월 {dt0.day}일 {WD[dt0.weekday()]}요일 좋은 아침 인사 이미지 {i + 1} — ' + g.replace(chr(10), ' ') for i, g in enumerate(G0)]
+        body = ('<h1>오늘의 아침 인사 이미지</h1><p class="date">오마주 매거진 · 매일 아침 새 카드 · ' + kdate(d0) + '</p>'
+                + '<div class="box green">카톡으로 보내기 좋은 아침 인사 이미지와 글귀를 날마다 새로 올립니다. 마음 가는 분께 한 장 보내 보세요.</div>'
+                + ''.join(f'<figure style="margin:22px 0"><img src="/{x}" alt="{e(a)}" loading="lazy" style="width:100%;border-radius:14px"><figcaption style="margin-top:8px;color:#444">{e(g).replace(chr(10), "<br>")}</figcaption></figure>' for x, a, g in zip(f0, a0, G0))
+                + '<span class="sub">지난 인사 카드</span><ol>' + ''.join(f'<li><a href="/greet/{d}.html"><b>{e(t)}</b></a></li>' for d, t in reversed(greet_list[:-1])) + '</ol>')
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 인사 카드 모음 — 아침 인사 이미지', 'inLanguage': 'ko'}
-        urls.append((page('greet/index.html', '아침 인사 이미지 모음 — 날마다 새 인사 카드', '카톡으로 보내기 좋은 좋은 아침 인사 이미지와 글귀를 날마다 모아 둡니다.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f'greet/img/{greet_list[-1][0]}-1.jpg', (), greet_list[-1][0]), greet_list[-1][0]))
+        u = page('greet/index.html', '아침 인사 이미지 — 오늘의 좋은 아침 인사 카드 모음', '카톡으로 보내기 좋은 좋은 아침 인사 이미지와 글귀를 날마다 새로 올립니다.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f0[0] if f0 else f'greet/img/{d0}-1.jpg', list(zip(f0[1:], a0[1:])), d0)
+        urls.append((u, d0)); HUBS.add(u)
     # 오늘의 한 권 · 요즘 말(시사 상식) · 몸 한 가지 · 그해 오늘 — 콘텐츠마다 검색어가 걸리게 (홍보국 2026-10-25: "소제목부터 내용까지 다 노출되게")
     ORG = {'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
     def art(title, desc, d, img): return {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc, 'datePublished': d, 'inLanguage': 'ko', 'image': f'{SITE}/{img}', **ORG}
@@ -279,6 +301,7 @@ def main():
         urls.append((page('test/index.html', '무료 심리 테스트 모음 — 성격·관계·취향 테스트', '1분이면 끝나는 오마주 매거진 심리 테스트 모음. 카톡 답장 속도, 여행 스타일 등.', '심리 테스트', body, f'{SITE}/?from=search', {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '심리 테스트 모음', 'inLanguage': 'ko'}, 'img/psy.jpg', (), TODAY), TODAY))
     # 오늘의 운세 — 띠별 (대표 2026-10-25: "뭐라도 걸려서 들어오게")
     ORDER = ['쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양', '원숭이', '닭', '개', '돼지']
+    fortune_list = []
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):
         d = os.path.basename(f)[:10]
         if d > TODAY: continue
@@ -295,11 +318,20 @@ def main():
             rows.append(f'<span class="sub">{e(z)}띠 오늘의 운세</span><p>{e(x.get("total"))}</p>'
                         + ''.join(f'<p><b>{lb}</b> {e(x.get(k))}</p>' for lb, k in (('재물', 'money'), ('사람', 'people'), ('일', 'work'), ('조심', 'care'), ('해 보면 좋은 것', 'do')) if x.get(k))
                         + f'<p class="note">행운의 색 {e(x.get("color"))} · 숫자 {e(x.get("num"))} · 장소 {e(x.get("place"))} · 좋은 때 {e(x.get("time"))}</p>')
-        body = f'<h1>{e(md)} {e(wd)} 오늘의 운세</h1><p class="date">오마주 매거진 · 띠별 운세 · {kdate(d)}</p><div class="box green">재미로 보는 오늘 하루의 길잡이예요. 좋은 말은 챙기고, 조심할 말은 가볍게 마음에 두세요.</div>' + ''.join(rows)
+        body = f'<h1>{e(md)} {e(wd)} 오늘의 운세</h1><p class="date">오마주 매거진 · 띠별 운세 · {kdate(d)}</p><div class="box green">재미로 보는 오늘 하루의 길잡이예요. 좋은 말은 챙기고, 조심할 말은 가볍게 마음에 두세요.</div>' + ''.join(rows) + '<p><a href="/fortune/index.html"><b>날마다 운세 모아 보기 ›</b></a></p>'
         desc = f'{md} {wd} 띠별 오늘의 운세. 쥐띠 ' + ((F.get('쥐') or {}).get('total', ''))[:90]
         ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc, 'datePublished': d, 'inLanguage': 'ko', 'image': f'{SITE}/img/fortune.jpg',
               'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-        urls.append((page(f'fortune/{d}.html', title, desc, '오늘의 운세', body, f'{SITE}/?from=search#fortune', ld, 'img/fortune.jpg', (), d), d))
+        urls.append((page(f'fortune/{d}.html', title, desc, '오늘의 운세', body, f'{SITE}/?from=search#fortune', ld, 'img/fortune.jpg', (), d), d)); fortune_list.append((d, F, md, wd))
+    if fortune_list:   # 모음 쪽: 오늘 열두 띠 한 줄씩 맨 위에, 아래로 지난 날짜
+        d0, F0, md0, wd0 = fortune_list[-1]
+        body = (f'<h1>오늘의 운세 — 띠별 운세</h1><p class="date">오마주 매거진 · 매일 아침 새 운세 · {kdate(d0)}</p>'
+                + f'<div class="box green">{e(md0)} {e(wd0)}, 쥐띠부터 돼지띠까지 오늘 하루의 길잡이. 띠를 눌러 재물·사람·일·조심할 것까지 보세요.</div>'
+                + ''.join(f'<span class="sub">{e(z)}띠</span><p>{e((F0.get(z) or {}).get("total"))} <a href="/fortune/{d0}.html">자세히 ›</a></p>' for z in ORDER if F0.get(z))
+                + '<span class="sub">지난 운세</span><ol>' + ''.join(f'<li><a href="/fortune/{d}.html"><b>{e(md)} {e(wd)} 띠별 운세</b></a></li>' for d, _, md, wd in reversed(fortune_list[:-1])) + '</ol>')
+        ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 운세 띠별 모음', 'inLanguage': 'ko'}
+        u = page('fortune/index.html', '오늘의 운세 띠별 — 쥐띠부터 돼지띠까지 매일 새 운세', f'{md0} {wd0} 띠별 오늘의 운세. 매일 아침 새로 올라오는 쥐띠·소띠·호랑이띠·토끼띠·용띠·뱀띠·말띠·양띠·원숭이띠·닭띠·개띠·돼지띠 운세.', '오늘의 운세', body, f'{SITE}/?from=search#fortune', ld, 'img/fortune.jpg', (), d0)
+        urls.append((u, d0)); HUBS.add(u)
     # 구글 웹 스토리 (홍보국 2026-10-25) — 인사 카드·띠별 운세를 넘겨 보는 세로 화면
     try:
         import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -311,7 +343,8 @@ def main():
     x = lambda t: html.escape(str(t or ''), quote=False)
     def imgtags(u): return ''.join(f'<image:image><image:loc>{x(i)}</image:loc><image:title>{x(t)}</image:title></image:image>' for i, t in IMGS.get(u, []))
     rows = [f'  <url><loc>{SITE}/</loc><lastmod>{TODAY}</lastmod><changefreq>daily</changefreq><priority>1.0</priority><image:image><image:loc>{SITE}/img/hero.jpg</image:loc><image:title>오마주 매거진 — 오늘도 마음은 주니어</image:title></image:image></url>']
-    rows += [f'  <url><loc>{u}</loc><lastmod>{d}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>{imgtags(u)}</url>' for u, d in sorted(urls, key=lambda x: x[1], reverse=True)]
+    rows += [f'  <url><loc>{u}</loc><lastmod>{d}</lastmod><changefreq>daily</changefreq><priority>0.9</priority>{imgtags(u)}</url>' for u, d in urls if u in HUBS]
+    rows += [f'  <url><loc>{u}</loc><lastmod>{d}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>{imgtags(u)}</url>' for u, d in sorted(urls, key=lambda x: x[1], reverse=True) if u not in HUBS]
     rows += [f'  <url><loc>{SITE}/{p}</loc><lastmod>2026-10-21</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>' for p in ('terms.html', 'privacy.html')]
     open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + '\n'.join(rows) + '\n</urlset>\n')
     # 새 글 알림판(RSS) — 네이버 서치어드바이저에 한 번 등록하면 새 글을 빨리 가져간다
