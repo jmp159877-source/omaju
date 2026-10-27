@@ -1032,6 +1032,18 @@ def main():
                 finally: BANK_ON[0] = True
             if name == "outing":
                 ref.set({"outing": out[name]}, merge=True)  # 지역별 필드 병합 (다른 묶음 결과 보존)
+            elif name == "era":
+                # 2026-10-28: 다섯 해를 한꺼번에 넣다가 한 해가 "invalid nested entity" 로 막혀 다섯 해가 다 빠졌다.
+                # 해마다 따로 넣고, 막히면 그 해를 칸별로 나눠 넣어(막힌 칸만 빠지게) 어느 칸인지 기록에 남긴다.
+                for ago, v in out[name].items():
+                    try:
+                        ref.set({"era": {ago: v}}, merge=True)
+                    except Exception as e:
+                        print(f"[era] {ago}년 전 한꺼번에 저장 실패: {str(e)[:100]} → 칸별로", file=sys.stderr)
+                        for fk, fv in v.items():
+                            try: ref.set({"era": {ago: {fk: fv}}}, merge=True)
+                            except Exception as e2:
+                                print(f"[era] {ago}년 전 {fk} 저장 실패: {str(e2)[:80]} 값={json.dumps(fv, ensure_ascii=False)[:600]}", file=sys.stderr)
             else:
                 ref.set({name: out[name]}, merge=True)
             print(f"[ok] {name}")
