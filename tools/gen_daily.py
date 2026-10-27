@@ -371,7 +371,7 @@ def gen_solo(d, keys=None):
     except Exception:
         db = {}
     key, n = d.isoformat(), d.toordinal()
-    keys = keys or ((["eat", "home"] if n % 2 == 0 else ["hobby", "see"]) + (["day", "trip"] if d.weekday() == 4 else []))   # 하루 코스·여행은 금요일(주말 계획용), 나머지 넷은 이틀에 한 번 (대표 2026-10-24)
+    keys = keys or ((["eat", "home"] if n % 2 == 0 else ["hobby", "see"]) + (["day", "trip"] if d.weekday() in (0, 2, 4) else []))   # 하루 코스·여행은 월·수·금 주 세 번(대표 2026-10-27 "일주일에 두세 번"), 나머지 넷은 이틀에 한 번
     out = {}
     for k in keys:
         name, places, guide = SOLO[k]
@@ -411,7 +411,7 @@ def gen_solo(d, keys=None):
                  "tips": [str(t).strip() for t in (j.get("tips") or []) if str(t).strip()][:3]}
             break
         if not a: print(f"[solo] {k} 오늘은 못 만듦 — 지난 글이 그대로 보인다", file=sys.stderr); continue
-        lst.insert(0, a); del lst[90:]
+        lst.insert(0, a); del lst[1000:]   # 지난 글도 아깝다 — 목록으로 계속 본다 (대표 2026-10-27)
         out[k] = a
     with open(SOLO_FILE, "w", encoding="utf-8") as fp:
         json.dump(db, fp, ensure_ascii=False, indent=1)

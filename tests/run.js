@@ -51,7 +51,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const bad = [...dup(cards).map(x => '카드 ' + x), ...dup(heroes).map(x => '표지 ' + x), ...missing.map(x => '없는 사진 ' + x)];
       ok('같은 사진을 두 곳에 쓰지 않음', !bad.length, bad.join(' / ')); }
     // 1) 화면 전부 × 보통·큰 글씨
-    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g6', 'g7', 'g4', 'dog', 'cat', 'solo-day', 'solo-eat', 'solo-hobby', 'solo-see', 'solo-home', 'solo-trip', 'ev', 'ai', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'pick', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'psy', 'psa', 'pt-wall', 'pt-talk', 'pt-trip', 'quiz', 'story', 'talk'];
+    const ROUTES = ['', 'g1', 'g2', 'g5', 'g3', 'g6', 'g7', 'g4', 'dog', 'cat', 'solo-day', 'solo-eat', 'solo-hobby', 'solo-see', 'solo-home', 'solo-trip', 'ev', 'ai', 'then', 'work', 'trip', 'move', 'mind', 'body', 'home', 'book', 'show', 'culture', 'pick', 'follow', 'food', 'luck', 'fortune', 'dream', 'history', 'music', 'outing', 'phrase', 'play', 'psy', 'psa', 'pt-wall', 'pt-talk', 'pt-trip', 'quiz', 'story', 'talk'];
     for (const big of [false, true]) {
       const c = await ctx(big); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
       await p.goto(base + '/index.html'); await wait(p, 1500); const bad = [];

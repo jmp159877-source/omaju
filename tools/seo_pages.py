@@ -111,7 +111,8 @@ def main():
                   'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
             urls.append((page(f'solo/{a["id"]}.html', a['title'], desc, f'혼자라서 좋은 날 · {nm}', body, f'{SITE}/?from=search#solo-{k}', ld, img), a['date']))
     # 기획 연재 '전기차 시대' (대표 2026-10-24) — 도표는 검색이 읽을 수 있게 표로, 사진은 출처와 함께
-    for SK, SNAME, SABOUT in (('ev', '전기차 시대', '중국 전기차'), ('ai', 'AI 시대에 살 준비가 되었는가', '생성형 AI')):
+    SD = lambda k: {'then': 'things'}.get(k, k)   # then/ 은 그해 오늘 쪽이 쓰고 있어 '그때 그 물건'은 things/ 에
+    for SK, SNAME, SABOUT in (('ev', '전기차 시대', '중국 전기차'), ('ai', 'AI 시대에 살 준비가 되었는가', '생성형 AI'), ('then', '그때 그 물건, 지금은', '추억의 물건'), ('work', '다시, 일', '50대 재취업·자격증'), ('trip', '요즘 여행법', '여행 앱·해외여행 준비')):
         try: ev = json.load(open(os.path.join(ROOT, 'data', SK + '.json'), encoding='utf-8'))
         except Exception: ev = {}
         for a in ev.get('items', []):
@@ -134,25 +135,28 @@ def main():
                     + ''.join('<div class="box yellow"><b>바로잡습니다 (' + e(c.get('date', '')[5:].replace('-', '.')) + ')</b>' + '<br>'.join(e(t) for t in c.get('items', [])) + '</div>' for c in a.get('corrections', []))
                     + '<p class="note">출처: ' + ' · '.join(e(x.get('name')) for x in a.get('sources', [])) + '</p>'
                     + '<p class="note">※ 이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 매거진이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.</p>'
-                + f'<p><a href="/{SK}/index.html"><b>{e(SNAME)} 연재 전체 보기 ›</b></a></p>')
+                + f'<p><a href="/{SD(SK)}/index.html"><b>{e(SNAME)} 연재 전체 보기 ›</b></a></p>')
             desc = (a.get('dek', '') + ' ' + a.get('hook', ''))[:150]
             img = next((b['photo']['src'] for b in a.get('blocks', []) if b.get('photo')), f'img/detail_{SK}.jpg')
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
                   'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-            urls.append((page(f'{SK}/{a["id"]}.html', f'{a["title"]} — {SNAME} {a["no"]}편', desc, f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
+            urls.append((page(f'{SD(SK)}/{a["id"]}.html', f'{a["title"]} — {SNAME} {a["no"]}편', desc, f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
     # 기획 연재 목차 쪽 (대표 2026-10-24: "기획 연재 두 개도 검색되게") — 연재 전체를 한 쪽에 모아 검색이 묶음으로 알아보게
     for SK, SNAME, SDESC in (('ev', '전기차 시대', '중국 전기차가 이미 우리 곁에 왔습니다. 브랜드 해부부터 충전·보험·중고값까지, 50~60대의 눈으로 객관적으로 짚는 오마주 매거진 시대 공유.'),
-                             ('ai', 'AI 시대에 살 준비가 되었는가', '쉰과 예순이 가장 빨리 배우고 있는 생성형 AI. 처음 써 보기부터 사기 막기까지, 오늘 휴대폰으로 해 볼 수 있는 것을 짚는 오마주 매거진 시대 공유.')):
+                             ('ai', 'AI 시대에 살 준비가 되었는가', '쉰과 예순이 가장 빨리 배우고 있는 생성형 AI. 처음 써 보기부터 사기 막기까지, 오늘 휴대폰으로 해 볼 수 있는 것을 짚는 오마주 매거진 시대 공유.'),
+                             ('then', '그때 그 물건, 지금은', '삐삐·공중전화·워크맨처럼 그 시절 손에 들던 물건은 지금 무엇이 됐을까. 아날로그와 지금을 다 살아 본 세대의 눈으로 짚는 오마주 매거진 시대 공유.'),
+                             ('work', '다시, 일', '쉰 넘어 다시 일하는 길 — 자격증·재취업·작은 가게를 공식 통계와 공공 창구 중심으로, 돈 버는 약속 없이 차근차근 짚는 오마주 매거진 시대 공유.'),
+                             ('trip', '요즘 여행법', '역 창구 줄에서 휴대폰 예매로. 기차·비행기·숙소 예약부터 eSIM·해외 결제까지, 오늘 휴대폰으로 해 볼 수 있는 여행법을 짚는 오마주 매거진 시대 공유.')):
         try: lst = [a for a in json.load(open(os.path.join(ROOT, 'data', SK + '.json'), encoding='utf-8')).get('items', []) if a.get('id') and (a.get('date') or '') <= TODAY]
         except Exception: lst = []
         if not lst: continue
         lst.sort(key=lambda a: a['no'])
         body = (f'<h1>{e(SNAME)}</h1><p class="date">오마주 매거진 시대 공유 · 지금까지 {len(lst)}편</p><div class="box green">{e(SDESC)}</div>'
-                + '<ol>' + ''.join(f'<li><a href="/{SK}/{a["id"]}.html"><b>{a["no"]}편. {e(a["title"])}</b></a><br><small>{e(a.get("dek", ""))} · {kdate(a["date"])}</small></li>' for a in lst) + '</ol>')
+                + '<ol>' + ''.join(f'<li><a href="/{SD(SK)}/{a["id"]}.html"><b>{a["no"]}편. {e(a["title"])}</b></a><br><small>{e(a.get("dek", ""))} · {kdate(a["date"])}</small></li>' for a in lst) + '</ol>')
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': f'{SNAME} — 오마주 매거진 시대 공유', 'description': SDESC, 'inLanguage': 'ko',
-              'hasPart': [{'@type': 'Article', 'headline': a['title'], 'url': f'{SITE}/{SK}/{a["id"]}.html', 'datePublished': a['date']} for a in lst],
+              'hasPart': [{'@type': 'Article', 'headline': a['title'], 'url': f'{SITE}/{SD(SK)}/{a["id"]}.html', 'datePublished': a['date']} for a in lst],
               'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-        urls.append((page(f'{SK}/index.html', f'{SNAME} — 시대 공유', SDESC, '시대 공유 · 오마주 매거진', body, f'{SITE}/?from=search#{SK}', ld, f'img/detail_{SK}.jpg'), lst[-1]['date']))
+        urls.append((page(f'{SD(SK)}/index.html', f'{SNAME} — 시대 공유', SDESC, '시대 공유 · 오마주 매거진', body, f'{SITE}/?from=search#{SK}', ld, f'img/detail_{SK}.jpg'), lst[-1]['date']))
     # 오늘의 한 끼
     meal_list = []
     for f in sorted(glob.glob(os.path.join(ROOT, 'daily', '*.json'))):

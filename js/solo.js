@@ -6,7 +6,8 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&a
 export const CORNERS = { day: '혼자 떠나는 하루 코스', eat: '혼밥 맛집', hobby: '혼자 즐기는 취미 자리', see: '혼자 보기 좋은 것', home: '혼자 사는 살림', trip: '혼자 떠나는 여행' };
 const HEAD = { day: '오늘의 코스', eat: '혼자 가기 편한 집', hobby: '혼자 가기 좋은 곳', see: '혼자 보기 좋은 곳', home: '오늘의 요령', trip: '들를 곳' };
 let DATA = null, loading = null;
-const shown = {};
+const shown = {}, REG = {};   // 지난 이야기 지역 고르기 (대표 2026-10-27 — 지역별로 지난 글을 찾게)
+const regs = items => [...new Set(items.map(x => x.region).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ko'));
 export function load() {
   if (DATA) return Promise.resolve(DATA);
   return loading || (loading = fetch('data/solo.json', { cache: 'no-cache' }).then(r => r.json()).catch(() => ({})).then(d => (DATA = d || {})));
@@ -39,7 +40,8 @@ export function render(el, k, id) {
       ${k !== 'home' ? '<p class="note pet-foot">가시기 전에 영업 시간과 휴무일을 한 번 더 확인해 주세요.</p>' : ''}
     </article>
     ${window.omajuSvBar ? window.omajuSvBar('solo-' + k, 'solo_' + a.id, a.title) : ''}
-    <div class="pet-past"><p class="is-sub">지난 이야기</p>${items.slice(0, 30).map(x => `<button type="button" data-solo="${esc(x.id)}" aria-current="${x === a}"><span>${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
+    <div class="pet-past so-past"><p class="is-sub">지난 이야기 <small>${items.length}편</small></p>${regs(items).length > 1 ? `<div class="so-regs"><button type="button" data-reg="" aria-pressed="${!REG[k]}">모두</button>${regs(items).map(r => `<button type="button" data-reg="${esc(r)}" aria-pressed="${REG[k] === r}">${esc(r)}</button>`).join('')}</div>` : ''}${items.filter(x => !REG[k] || x.region === REG[k]).map(x => `<button type="button" data-solo="${esc(x.id)}" aria-current="${x === a}"><span>${esc(x.title)}</span><small>${x.region ? esc(x.region) + ' · ' : ''}${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div>`;
   window.omajuSvSync && window.omajuSvSync();
   el.querySelectorAll('[data-solo]').forEach(b => b.onclick = () => { render(el, k, b.dataset.solo); window.scrollTo({ top: 0 }); });
+  el.querySelectorAll('[data-reg]').forEach(b => b.onclick = () => { REG[k] = b.dataset.reg; const y = window.scrollY; render(el, k, a.id); window.scrollTo(0, y); });
 }

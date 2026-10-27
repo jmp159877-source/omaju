@@ -9,10 +9,10 @@ const dow = () => new Date(Date.now() + 9 * 3600e3).getUTCDay();   // 0 일 ~ 6 
 // 연재 다섯 — 요일 편성(안). 전기차는 11/23 까지 매일(대표 약속), 그 뒤 목요일.
 export const SER = [
   { k: 'ai', name: 'AI 시대에 살 준비가 되었는가', short: 'AI', day: 1, live: true, line: '오늘 저녁 휴대폰으로 해 볼 수 있는 AI' },
-  { k: 'then', name: '그때 그 물건, 지금은', short: '그때', day: 2, line: '삐삐에서 스마트폰까지, 그 물건은 지금 무엇이 됐을까', soon: '11월 공개 예정' },
-  { k: 'work', name: '다시, 일', short: '일', day: 3, line: '자격증 · 작은 가게 · 새 일 — 쉰 넘어 다시 시작한 사람들', soon: '11월 공개 예정' },
+  { k: 'then', name: '그때 그 물건, 지금은', short: '그때', day: 2, live: true, daily: '매일 연재', line: '삐삐에서 스마트폰까지, 그 물건은 지금 무엇이 됐을까' },
+  { k: 'work', name: '다시, 일', short: '일', day: 3, live: true, daily: '매일 연재', line: '자격증 · 작은 가게 · 새 일 — 쉰 넘어 다시 시작한 사람들' },
   { k: 'ev', name: '전기차 시대', short: '전기차', day: 4, live: true, daily: '매일 연재', line: '사기 전에 알아 둘 숫자와 브랜드 이야기' },
-  { k: 'trip', name: '요즘 여행법', short: '여행', day: 5, line: '앱으로 기차·숙소 잡기부터 혼자 떠나는 해외까지', soon: '11월 공개 예정' },
+  { k: 'trip', name: '요즘 여행법', short: '여행', day: 5, live: true, daily: '매일 연재', line: '앱으로 기차·숙소 잡기부터 혼자 떠나는 해외까지' },
 ];
 const DOW = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -58,8 +58,7 @@ export async function mount(h) {
     const ai = row.querySelector('[data-open="ai"]'), ev = row.querySelector('[data-open="ev"]');
     if (ai) { ai.hidden = false; ai.classList.add('h4-wide'); row.prepend(ai); }
     if (ev) ev.hidden = false;
-    const IMG = { then: 'img/then-tile.jpg', work: 'img/work-tile.jpg', trip: 'img/trip-tile.jpg' };
-    row.insertAdjacentHTML('beforeend', SER.filter(s => !s.live).map(s => `<button type="button" class="col-tile h4-soon" data-soon="${s.k}" style="background-image:url('${IMG[s.k]}')"><span class="ct-in"><b>${esc(s.name)}</b><em class="h4-when">11월 시작</em></span></button>`).join(''));
+    // 그때 그 물건 · 다시, 일 · 요즘 여행법은 index.html 에 칸이 있다 — 첫 편이 열리면 ev.js band() 가 보이게 한다 (대표 2026-10-27 연재 시작)
     sec.appendChild(row);
   }
   if (tkOrn) sec.appendChild(tkOrn);
@@ -78,7 +77,7 @@ export async function mount(h) {
   if (document.documentElement.classList.contains('lib2')) {
     H = h || {};
     mountLibrary();
-    EV.load('ev').then(() => EV.load('ai')).then(mountLibrary).catch(() => {});
+    Promise.all(SER.map(x => EV.load(x.k))).then(mountLibrary).catch(() => {});
     if (H.onUser) H.onUser(() => { Promise.resolve(H.refreshSaves && H.refreshSaves()).catch(() => {}).then(mountLibrary); });
     addEventListener('hashchange', () => { if (location.hash === '#g4') mountLibrary(); });
     addEventListener('omaju:saves', mountLibrary);

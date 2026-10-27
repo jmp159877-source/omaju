@@ -2922,3 +2922,8 @@ html.v2 body.in-chapter #tabs3 { display: none; }
 .lib-saved li { padding: 0; }
 .lib-saved button { display: block; width: 100%; padding: 12px 14px; border: 0; background: none; text-align: left; border-radius: 12px; }
 .lib-more { display: block; margin: 8px 0 0 auto; border: 0; background: none; font-size: .86rem; font-weight: 700; color: var(--pt); padding: 6px 2px; }
+/* 혼자라서 좋은 날 지난 이야기 — 지역 고르기 (대표 2026-10-27) */
+#detail .so-past .is-sub small { font-weight: 400; color: #999; margin-left: 4px; }
+#detail .so-regs { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
+#detail .pet-past .so-regs button { display: inline-block; width: auto; padding: 6px 12px; border: 1px solid var(--hair); border-radius: 999px; background: #fff; font-size: .86rem; color: #444; }
+#detail .pet-past .so-regs button[aria-pressed="true"] { background: var(--g); border-color: var(--g); color: #fff; font-weight: 700; }
