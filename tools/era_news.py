@@ -6,7 +6,7 @@
 """
 import os, sys, json, re, time, datetime, html, urllib.request, urllib.error, urllib.parse, concurrent.futures as cf
 sys.path.insert(0, os.path.dirname(__file__))
-from gen_daily import gemini, list_models, parse_json, firestore, KST
+from gen_daily import gemini, list_models, parse_json, firestore, KST, era_unfs
 
 DBG = []
 FIELDS = ["정치", "경제", "사회", "문화", "연예", "생활", "스포츠"]
@@ -235,6 +235,7 @@ def main():
     try:
         if ref:
             full = ref.get().to_dict() or {}
+            if isinstance(full.get("era"), dict): era_unfs(full["era"])
             json.dump(full, open(p, "w"), ensure_ascii=False, indent=1, default=str)
         else:
             json.dump({"era": era}, open(f"/tmp/era-{date}.json", "w"), ensure_ascii=False, indent=1)

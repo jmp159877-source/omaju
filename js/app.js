@@ -43,6 +43,8 @@ let C = DEFAULT_CONTENT;
 // 서버(Firestore)가 막히면(하루 읽기 한도 등) 새벽에 떠 둔 그날치 파일로 — 옛 기본 글이 나가지 않게 (2026-10-26)
 const remote = (await DB.loadDaily(TODAY)) || (await fetch('daily/' + TODAY + '.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).catch(() => null));
 if (remote) C = Object.assign({}, DEFAULT_CONTENT, remote);
+// 그해 오늘: Firestore 가 배열 안의 배열을 받지 않아 [a,b,c] 를 {"0":a,"1":b,"2":c} 로 넣는다(2026-10-28) → 여기서 되돌린다
+if (C.era && typeof C.era === 'object') for (const v of Object.values(C.era)) if (v && typeof v === 'object') for (const k of ['facts', 'songs', 'pop']) if (Array.isArray(v[k])) v[k] = v[k].map(x => (x && !Array.isArray(x) && typeof x === 'object') ? Object.keys(x).sort((a, b) => a - b).map(j => x[j]) : x);
 DB.bumpVisit(); DB.startLive();
 DB.loadMaint().then(m => { if (m && m.on && !DB.isAdmin()) { $('maint-text').textContent = m.text || ''; $('maint').hidden = false; } });
 DB.loadNotice().then(n => { if (n && n.text) { $('notice-text').textContent = n.text; $('notice').hidden = false; } });

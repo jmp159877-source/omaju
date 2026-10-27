@@ -953,6 +953,29 @@ def complete(name, v):
     return all(v.get(k) for k in NEED.get(name, ())) if isinstance(v, dict) else bool(v)
 
 
+def era_fs(era):
+    """Firestore 는 '배열 안의 배열'을 받지 않는다(2026-10-28 부터 그해 오늘 저장이 통째로 막힘) →
+    facts·songs·pop 의 [a,b,c] 를 {"0":a,"1":b,"2":c} 로 바꿔 넣는다. 읽을 때 era_unfs 로 되돌린다(앱도 두 모양 다 읽음)."""
+    out = {}
+    for ago, v in (era or {}).items():
+        v = dict(v)
+        for k in ("facts", "songs", "pop"):
+            if isinstance(v.get(k), list):
+                v[k] = [{str(i): y for i, y in enumerate(x)} if isinstance(x, (list, tuple)) else x for x in v[k]]
+        out[ago] = v
+    return out
+
+
+def era_unfs(era):
+    if not isinstance(era, dict): return era
+    for v in era.values():
+        if not isinstance(v, dict): continue
+        for k in ("facts", "songs", "pop"):
+            if isinstance(v.get(k), list):
+                v[k] = [[x[j] for j in sorted(x, key=int)] if isinstance(x, dict) and x and all(str(j).isdigit() for j in x) else x for x in v[k]]
+    return era
+
+
 def recent_garden(d):
     """바로 앞 날짜들의 daily 파일에서 정원 글을 찾아 그대로 쓴다 (새로 쓰지 않는 날)."""
     for back in range(1, 10):
@@ -970,6 +993,7 @@ def snapshot(ref, key, fallback=None):
     """서버에 들어간 그날치를 daily/{날짜}.json 으로 떠 둔다 (오프닝·읽어 드려요가 이 파일을 읽는다)."""
     os.makedirs(os.path.join(HERE, "..", "daily"), exist_ok=True)
     full = ref.get().to_dict() or fallback or {}
+    if isinstance(full.get("era"), dict): era_unfs(full["era"])
     with open(os.path.join(HERE, "..", "daily", key + ".json"), "w", encoding="utf-8") as fp:
         json.dump(full, fp, ensure_ascii=False, indent=1, default=str)
     return full
@@ -1035,7 +1059,7 @@ def main():
             elif name == "era":
                 # 2026-10-28: 다섯 해를 한꺼번에 넣다가 한 해가 "invalid nested entity" 로 막혀 다섯 해가 다 빠졌다.
                 # 해마다 따로 넣고, 막히면 그 해를 칸별로 나눠 넣어(막힌 칸만 빠지게) 어느 칸인지 기록에 남긴다.
-                for ago, v in out[name].items():
+                for ago, v in era_fs(out[name]).items():
                     try:
                         ref.set({"era": {ago: v}}, merge=True)
                     except Exception as e:
