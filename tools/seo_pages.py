@@ -18,6 +18,7 @@ HUBS = set()   # 모음 쪽 — 주소가 바뀌지 않아 검색 힘이 쌓이�
 
 def page(path, title, desc, kicker, body, back, ld, image, imgs=(), date=''):
     url = f'{SITE}/{path}'
+    pid = path[:-5].replace('/', '_') if path.endswith('.html') else path.replace('/', '_')
     IMGS[url] = [(f'{SITE}/{image}', title)] + [(f'{SITE}/{i}', t) for i, t in imgs]
     META[url] = (title, desc, date)
     doc = f'''<!doctype html>
@@ -54,6 +55,7 @@ ol{{padding-left:1.3em}}li{{margin:0 0 10px}}ul.chips{{list-style:none;padding:0
 <main>
 <span class="tag">{e(kicker)}</span>
 {body}
+<script>/* 이 쪽을 읽은 분 세기(대표 2026-10-28) — 기기마다 하루 한 번, 운영자 기기·로봇은 빼고 */(function(){{try{{if(localStorage.getItem('omaju.noCount')==='1'||navigator.webdriver||/bot|crawl|spider|slurp|yeti|daum|lighthouse|headless|preview/i.test(navigator.userAgent))return;var d=new Date(),k=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2),id='{pid}',s='omaju.pg.'+k+'.'+id;if(localStorage.getItem(s))return;localStorage.setItem(s,'1');var r='';try{{r=new URL(document.referrer).hostname}}catch(e){{}}var src=/naver/.test(r)?'naver':/google/.test(r)?'google':/daum/.test(r)?'daum':/bing/.test(r)?'bing':/omaju\\.kr$/.test(r)?'inside':r?'etc':'direct';var P='projects/omaju-d7862/databases/(default)/documents';fetch('https://firestore.googleapis.com/v1/'+P+':commit?key=AIzaSyDy7HkwonhfoAJLe-K1zDQ4Lh02xFzC2_U',{{method:'POST',keepalive:true,headers:{{'Content-Type':'application/json'}},body:JSON.stringify({{writes:[{{transform:{{document:P+'/stats/'+k,fieldTransforms:[{{fieldPath:'pages.`'+id+'`',increment:{{integerValue:'1'}}}},{{fieldPath:'pageSrc.'+src,increment:{{integerValue:'1'}}}}]}}}}]}})}}).catch(function(){{}})}}catch(e){{}}}})();</script>
 <a class="go" href="{back}">오늘의 오마주 매거진 펼쳐 보기 ›</a>
 <p class="note">매일 아침 새로 나오는 무료 매거진, 오마주 매거진. 네이버·구글에서 "오마주 매거진"을 검색하세요.</p>
 </main>

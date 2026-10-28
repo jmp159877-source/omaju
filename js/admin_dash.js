@@ -84,6 +84,12 @@ export function renderDash(el, D) {
   const reg = {}; users.forEach(u => { const r = (u.region || '').split(' ')[0] || '미입력'; reg[r] = (reg[r] || 0) + 1; });
   const regRows = Object.entries(reg).sort((a, b) => b[1] - a[1]).slice(0, 8);
   const clickRows = Object.entries(clicks || {}).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([k, v]) => [names[k] || k, v]);
+  // 검색용 글 쪽(ai/ev/meal/… .html)에서 읽힌 수 — 글 쪽만 읽고 나간 분도 잡으려고 (대표 2026-10-28)
+  const PG = { ai: 'AI 시대', ev: '전기차 시대', things: '그때 그 물건', work: '다시, 일', trip: '요즘 여행법', greet: '인사 카드', meal: '한 끼', fortune: '운세', book: '한 권', word: '요즘 말', body: '몸 한 가지', then: '그해 오늘', pet: '집사', solo: '혼자라서 좋은 날', test: '심리 테스트' };
+  const pages = {}, psrc = {}; Object.values(stats).forEach(s => { Object.entries(s.pages || {}).forEach(([k, v]) => { if (!k.startsWith('_')) pages[k] = (pages[k] || 0) + v; }); Object.entries(s.pageSrc || {}).forEach(([k, v]) => { psrc[k] = (psrc[k] || 0) + v; }); });
+  const pageRows = Object.entries(pages).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([k, v]) => { const [a, ...b] = k.split('_'); return [(PG[a] || a) + ' · ' + (b.join('_').replace(/^(ai|ev|then|work|trip)-0?/, '') + (/^(ai|ev|then|work|trip)-/.test(b.join('_')) ? '편' : '')), v]; });
+  const SRCN = { naver: '네이버에서', google: '구글에서', daum: '다음에서', bing: '빙에서', inside: '오마주 안에서 넘어옴', direct: '주소로 바로', etc: '그 밖' };
+  const pageSrcRows = Object.entries(psrc).sort((a, b) => b[1] - a[1]).map(([k, v]) => [SRCN[k] || k, v]);
   // 다시 오는 비율: 최근 7일 접속 구독자 / 누적 구독자
   const wk0 = (() => { const d = new Date(today + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() - 6); return d.toISOString().slice(0, 10); })();
   const active7 = users.filter(u => (u.lastSeenDay || '') >= wk0).length, activeT = users.filter(u => u.lastSeenDay === today).length;
@@ -99,6 +105,7 @@ export function renderDash(el, D) {
     ${card('구독자', '나이대', hbars(ageRows, { unit: '명', empty: '태어난 해를 받은 구독자가 아직 없어요' }))}
     ${card('구독자', '성별 · 지역', ratio([['여성', gen.여, G], ['남성', gen.남, A], ['미입력', gen.기타, '#C9CEC8']]) + '<div style="height:16px"></div>' + hbars(regRows, { unit: '명' }))}
     ${card('오늘', '코너별 클릭', hbars(clickRows, { unit: '번', empty: '오늘은 아직 클릭이 없어요' }), true)}
+    ${card('검색용 글 쪽 · 창간 이후', '검색으로 와서 읽은 글', hbars(pageRows, { unit: '명', empty: '아직 없어요 — 10월 28일부터 셉니다' }) + '<div style="height:14px"></div>' + hbars(pageSrcRows, { unit: '명', empty: '' }), true)}
   </div>`;
   wire(el);
 }
