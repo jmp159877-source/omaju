@@ -130,13 +130,13 @@ def main():
                     rows = [(c.get('on'), f'{c["value"]}%')] if c.get('kind') == 'donut' else [(i[0], f'{i[1]:,}{c.get("unit", "")}' if isinstance(i[1], int) else f'{i[1]}{c.get("unit", "")}') for i in c.get('items', [])]
                     parts.append(f'<table><caption>{e(c["title"])}</caption>' + ''.join(f'<tr><th>{e(l)}</th><td>{e(v)}</td></tr>' for l, v in rows) + f'</table><p class="note">자료: {e(c.get("source"))}</p>')
             body = (f'<h1>{e(a["title"])}</h1><p class="date">시대 공유 {SNAME} {a["no"]}편 · 오마주 매거진 · {kdate(a["date"])}</p>'
-                    + (f'<div class="box green">{e(a.get("hook"))}</div>' if a.get('hook') else '') + ''.join(parts)
+                    + (f'<div class="box green">{rich(a.get("hook"))}</div>' if a.get('hook') else '') + ''.join(parts)
                     + (('<div class="box yellow"><b>생각해 볼 점</b>' + '<br>'.join(rich(t) for t in a.get('cons', [])) + '</div>') if a.get('cons') else '')
                     + ''.join('<div class="box yellow"><b>바로잡습니다 (' + e(c.get('date', '')[5:].replace('-', '.')) + ')</b>' + '<br>'.join(e(t) for t in c.get('items', [])) + '</div>' for c in a.get('corrections', []))
                     + '<p class="note">출처: ' + ' · '.join(e(x.get('name')) for x in a.get('sources', [])) + '</p>'
                     + '<p class="note">※ 이 연재는 AI가 공개된 자료를 모아 정리하고, 오마주 매거진이 출처를 대조해 싣습니다. 숫자는 기준 시점의 자료이며 다소 오류가 있을 수 있습니다. 바로잡을 곳은 jmp159877@gmail.com 으로 알려 주시면 확인해 고치겠습니다.</p>'
                 + f'<p><a href="/{SD(SK)}/index.html"><b>{e(SNAME)} 연재 전체 보기 ›</b></a></p>')
-            desc = (a.get('dek', '') + ' ' + a.get('hook', ''))[:150]
+            desc = (a.get('dek', '') + ' ' + a.get('hook', '')).replace('**', '')[:150]   # 굵게 표시(**)가 검색 설명에 그대로 보이지 않게 (2026-10-28)
             img = next((b['photo']['src'] for b in a.get('blocks', []) if b.get('photo')), f'img/detail_{SK}.jpg')
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
                   'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
