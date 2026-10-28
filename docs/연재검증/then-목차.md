@@ -9,7 +9,7 @@ Commons 검색어는 영어가 잘 걸린다. CC0·PD·CC BY·CC BY-SA만.
 |---|---|---|---|---|
 | 1 | 삐삐에 찍힌 8282, 당신은 누구에게 보냈나요? | 삐삐 → 카카오톡 (완료) | 가입자 1988·1997·1999 | Motorola pager; numeric pager; pager belt clip |
 | 2 | 지갑 속 전화카드 한 장, 당신은 어디에 걸었나요? | 공중전화·전화카드 → 교통카드·비상용 부스 (완료) | 공중전화 대수 1999~2023 | public telephone South Korea; Korean phone card; payphone Seoul |
-| 3 | 걸 수만 있고 받을 순 없던 전화, 써 보셨나요? | 시티폰(CT-2, 1997~1999) → 와이파이 통화 | 시티폰 가입자·종료(YTN 2019, 서울신문 1997) | CT2 telephone; CT2 handset; Hutchison Rabbit phone |
+| 3 | 걸 수만 있고 받을 순 없던 전화, 써 보셨나요? | 시티폰(CT-2, 1997~2000) → 와이파이 통화 | 시티폰 가입자·종료(YTN 2019, 서울신문 1997) | CT2 telephone; CT2 handset; Hutchison Rabbit phone |
 | 4 | 벽돌만 한 휴대폰, 당신의 첫 휴대폰은 무엇이었나요? | 카폰·벽돌폰 → 스마트폰 | 이동전화 가입자 추이(과기정통부 무선통신 통계) | Motorola DynaTAC; car phone 1980s; Samsung SH-100 |
 | 5 | 두꺼운 전화번호부, 집에서 누가 찾아봤나요? | 전화번호부·114 → 지도 앱 검색 | 114 안내 이용 건수(KT 자료 보도) | telephone directory; phone book stack |
 | 6 | 우표에 침 바르던 편지, 마지막으로 언제 써 보셨나요? | 편지·우표 → 메시지·전자우편 | 우편물 물량(우정사업본부 통계) | Korean postage stamps; red mailbox Korea; airmail envelope |
