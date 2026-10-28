@@ -148,6 +148,16 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
       <div class="bk-box"><div class="bk-h"><b>본문</b><button type="button" data-copy="b-body">복사</button></div><textarea id="b-body" rows="14"></textarea></div>
       <div class="bk-box"><div class="bk-h"><b>태그</b><button type="button" data-copy="b-tags">복사</button></div><textarea id="b-tags" rows="2"></textarea></div>
       <div class="bk-box"><div class="bk-h"><b>맨 끝 그림</b><a class="bk-dl" href="img/blog-go.png" download="오마주로_가기.png">내려받기</a></div><img src="img/blog-go.png" alt="" style="max-width:320px;width:100%"><p class="note">이 그림을 누르고 링크에 https://omaju.kr 을 넣습니다.</p></div>
+      <h3 style="margin:34px 0 6px;font-size:1.15rem">시대 공유 연재 글 (카테고리 '시대 공유')</h3>
+      <p class="note">요일마다 연재 하나씩 — <b>월 AI 시대 · 화 그때 그 물건 · 수 다시, 일 · 목 전기차 시대 · 금 요즘 여행법 · 토 한 주 몰아 보기</b> (일요일은 쉼). 날짜를 고르면 그날 차례 연재의 '모아 보기' 글이 나옵니다. 사진은 번호 순서대로 ▶ 표시 자리에 넣으세요.</p>
+      <div class="bar"><input type="date" id="s-date"><button type="button" class="btn green" id="s-load">불러오기</button><span class="note" id="s-msg2"></span></div>
+      <div class="bar" id="s-pick"></div>
+      <div class="bk-cards" id="s-photos"></div>
+      <div class="bk-box"><div class="bk-h"><b>카테고리</b></div><p id="s-cat" style="margin:4px 0"></p></div>
+      <div class="bk-box"><div class="bk-h"><b>제목</b><button type="button" data-copy="s-title">복사</button></div><textarea id="s-title" rows="2"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>본문</b><button type="button" data-copy="s-body">복사</button></div><textarea id="s-body" rows="18"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>태그</b><button type="button" data-copy="s-tags">복사</button></div><textarea id="s-tags" rows="2"></textarea></div>
+      <p class="note">맨 끝 그림은 위의 '맨 끝 그림'과 같습니다. 링크만 본문 끝에 적힌 주소로 넣으세요.</p>
     </section>
     <section class="sec" data-sec="notice">
       <div class="field"><label>첫 화면 맨 위에 보일 공지</label><input id="n-text" maxlength="120" placeholder="예: 오마주가 문을 열었습니다. 친구에게 알려 주세요."></div>
@@ -155,6 +165,6 @@ textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid rgba
     </section>
   </div>
 </div>
-<script type="module" src="js/admin.js?v=10281640"></script>
+<script type="module" src="js/admin.js?v=10290010"></script>
 </body>
 </html>

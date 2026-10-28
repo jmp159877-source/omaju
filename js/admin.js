@@ -298,3 +298,83 @@ $('b-load').onclick = loadBlog;
   $('b-load').closest('.bar').after(box);
 })();
 document.querySelector('[data-sec="blog"]').addEventListener('click', async e => { const b = e.target.closest('[data-copy]'); if (!b) return; const t = $(b.dataset.copy); try { await navigator.clipboard.writeText(t.value); } catch (err) { t.select(); document.execCommand('copy'); } const o = b.textContent; b.textContent = '복사됨'; setTimeout(() => b.textContent = o, 1200); });
+
+// ── 시대 공유 연재 블로그 글 (대표 2026-10-28 "인사 카드처럼 관리자에 올려 줘") ──
+// 요일 편성: 월 AI · 화 그때 그 물건 · 수 다시, 일 · 목 전기차 · 금 요즘 여행법 · 토 한 주 몰아 보기(일 쉼).
+// 글은 연재 본문(data/<키>.json — 이미 출처를 대조해 실은 글)에서만 가져온다. 새 숫자를 지어 넣지 않는다.
+const SER = {
+  ai: { name: 'AI 시대', full: 'AI 시대에 살 준비가 되었는가', about: '어렵게 배우는 기술이 아니라\n휴대폰 하나로 오늘부터 쓰는 AI 이야기를\n50~60대의 눈으로 차근차근 짚습니다.', tags: ['AI시대', '챗GPT', '생성형AI', 'AI활용법', '제미나이', 'AI사용법', '디지털배우기'] },
+  then: { name: '그때 그 물건, 지금은', full: '그때 그 물건, 지금은', about: '허리춤의 삐삐, 지갑 속 전화카드.\n그때 우리 손에 있던 물건이\n지금은 무엇이 되었는지 숫자와 함께 따라가 봅니다.', tags: ['추억의물건', '그때그시절', '삐삐', '공중전화', '레트로', '추억', '7080'] },
+  work: { name: '다시, 일', full: '다시, 일', about: '쉰 넘어 다시 일을 찾는 분들을 위해\n공공 창구와 자격증, 숫자로\n어디서부터 시작하면 좋을지 차근차근 짚습니다.', tags: ['재취업', '50대재취업', '자격증', '중장년일자리', '국가기술자격', '큐넷', '인생2막'] },
+  ev: { name: '전기차 시대', full: '전기차 시대', about: '중국 전기차가 이미 우리 곁에 왔습니다.\n사기 전에 알아 둘 숫자와 브랜드 이야기를\n50~60대의 눈으로 차분히 짚습니다.', tags: ['전기차', '전기차시대', '중국전기차', 'BYD', '테슬라', '기아전기차', '전기차보조금'] },
+  trip: { name: '요즘 여행법', full: '요즘 여행법', about: '기차표는 앱으로, 해외 데이터는 이심으로.\n요즘 여행에서 달라진 것들을\n공식 안내를 따라 한 단계씩 담았습니다.', tags: ['여행팁', '해외여행준비', '코레일플러스', '이심', '로밍', '기차표예매', '자유여행'] },
+};
+const SER_DAY = { 1: 'ai', 2: 'then', 3: 'work', 4: 'ev', 5: 'trip', 6: 'week' };
+const SER_ORDER = ['ai', 'ev', 'then', 'work', 'trip'];
+const serCache = {};
+async function serItems(k) {
+  if (!serCache[k]) { try { serCache[k] = (await (await fetch(`data/${k}.json?t=${Date.now()}`, { cache: 'no-store' })).json()).items || []; } catch (e) { serCache[k] = []; } }
+  return serCache[k].slice().sort((a, b) => a.no - b.no);
+}
+const josa = w => { const c = String(w).trim().slice(-1).charCodeAt(0) - 0xAC00; return c >= 0 && c <= 11171 && c % 28 ? '을' : '를'; };
+const plain = s => String(s || '').replace(/\*\*/g, '').replace(/\s*\n\s*/g, ' ').trim();
+const dayKey = d => d.toISOString().slice(0, 10);
+function sentences(t, n) { return plain(t).split(/(?<=[.!?。]["”’']?)\s+/).filter(Boolean).slice(0, n); }   // 12.9% 처럼 숫자 속 점에서 자르지 않게 — 점 뒤에 빈칸이 올 때만
+function wrap(lines) { return lines.join('\n'); }
+async function loadSer(forceKey) {
+  const key = $('s-date').value || TODAY, [Y, M1, D] = key.split('-').map(Number);
+  const dw = new Date(Date.UTC(Y, M1 - 1, D)).getUTCDay();
+  const k = forceKey || SER_DAY[dw];
+  $('s-photos').innerHTML = ''; ['s-title', 's-body', 's-tags'].forEach(i => $(i).value = ''); $('s-cat').textContent = '';
+  if (!k) { $('s-msg2').textContent = '일요일은 쉬는 날입니다. 아래 단추로 연재를 골라 쓸 수도 있습니다.'; return; }
+  const photos = [];
+  const addPhoto = (src, label, credit) => { if (!src || photos.some(p => p.src === src)) return; photos.push({ src, label, credit }); };
+  let title, body, tags, cat, link;
+  if (k === 'week') {
+    // 토요일: 이번 주(월~토) 다섯 연재에 실린 편을 한데
+    const mon = new Date(Date.UTC(Y, M1 - 1, D)); mon.setUTCDate(mon.getUTCDate() - (dw + 6) % 7); const from = dayKey(mon);
+    const rows = [];
+    for (const s of SER_ORDER) { const it = (await serItems(s)).filter(a => a.date >= from && a.date <= key); if (it.length) rows.push([s, it]); }
+    if (!rows.length) { $('s-msg2').textContent = '이번 주에 열린 연재 편이 없습니다.'; return; }
+    rows.forEach(([s]) => addPhoto(`img/${s}-tile.jpg`, SER[s].name, ''));
+    cat = '시대 공유'; link = 'https://omaju.kr/?from=blog';
+    title = `[이번 주 시대 공유] ${M1}월 ${mon.getUTCDate()}일부터 — 연재 ${rows.reduce((t, r) => t + r[1].length, 0)}편 한 번에 보기 — 오마주 매거진`;
+    body = ['안녕하세요, 오마주 매거진입니다.', '', '이번 주 시대 공유에 실린 이야기를', '한 번에 모아 드립니다.', '',
+      ...rows.flatMap(([s, it], i) => [`▶ 사진 ${i + 1}_${SER[s].name.replace(/[ ,]/g, '')}.jpg`, '', `${SER[s].full}`, ...it.map(a => `${a.no}편 ${plain(a.title)}`), '']),
+      '가입 없이 무료로 보실 수 있습니다.', '네이버·구글에서 "오마주 매거진"을 검색하셔도 됩니다.', '', `▶ 맨 끝 그림 (링크: ${link})`];
+    tags = ['오마주매거진', '시대공유', ...rows.map(([s]) => SER[s].tags[0]), '무료매거진', '주간정리'].slice(0, 10);
+  } else {
+    const S = SER[k], all = (await serItems(k)), open = all.filter(a => (a.date || '') <= key);
+    if (!open.length) { $('s-msg2').textContent = `${S.name}: ${key}까지 열린 편이 없습니다.`; return; }
+    const last = open[open.length - 1], next = all.find(a => a.no === last.no + 1);
+    addPhoto(`img/${k}-tile.jpg`, S.name, '');
+    for (const b of last.blocks || []) {
+      if (photos.length >= 3) break;
+      if (b.photo) addPhoto(b.photo.src, plain(b.photo.caption), b.photo.credit);
+      else if (b.gallery) for (const g of b.gallery.items || []) { if (photos.length >= 3) break; addPhoto(g.src, plain(g.caption), g.credit); }
+    }
+    cat = `시대 공유 › ${S.name}`; link = `https://omaju.kr/?from=blog#${k}`;
+    const lead = sentences(last.hook || last.dek, 4);
+    title = `[${S.name}] ${plain(last.title)} — 오마주 매거진`;
+    const ps = (last.blocks || []).filter(b => b.p).slice(0, 2).map(b => sentences(b.p, 2).join('\n'));
+    const ph = photos.slice(1).map((p, i) => [`▶ 사진 ${i + 2}`, `(사진 설명) ${p.label}${p.credit ? ' — 사진: ' + p.credit : ''}`, '']);
+    body = ['안녕하세요, 오마주 매거진입니다.', '', `오마주 매거진은 매일 아침`, `'${S.full}'${josa(S.full)} 한 편씩 연재하고 있습니다.`, '', S.about, '', '▶ 사진 1', '',
+      '지금까지 실린 이야기', '', ...open.flatMap(a => [`${a.no}편 ${plain(a.title)}`, `— ${plain(a.dek)}`, '']),
+      `오늘은 ${last.no}편 이야기를 조금 나눠 드립니다.`, '', ...lead, '', ...(ph[0] || []), ...(ps[0] ? [ps[0], ''] : []), ...(ph[1] || []), ...(ps[1] ? [ps[1], ''] : []),
+      '나머지 이야기와 도표, 출처는', '본문에 모두 담았습니다.', '',
+      ...(next ? ['다음 편은', `「${plain(next.title)}」입니다.`, ''] : []),
+      `▶ 맨 끝 그림 (링크: ${link})`, '', '가입 없이 무료로 보실 수 있습니다.', '네이버·구글에서 "오마주 매거진"을 검색하셔도 됩니다.'];
+    tags = ['오마주매거진', ...S.tags, '무료매거진', '시대공유'].slice(0, 10);
+  }
+  $('s-cat').textContent = cat;
+  $('s-title').value = title;
+  $('s-body').value = wrap(body).replace(/\n{3,}/g, '\n\n');
+  $('s-tags').value = tags.join(', ');
+  photos.forEach((p, i) => $('s-photos').insertAdjacentHTML('beforeend', `<figure><img src="${p.src}" alt=""><a class="bk-dl" href="${p.src}" download="${i + 1}_${p.label.slice(0, 20).replace(/[\\/:*?"<>|\s,]/g, '')}.jpg">${i + 1}번 내려받기</a>${p.credit ? `<small style="display:block;margin-top:4px;color:#888">${esc(p.credit)}</small>` : ''}</figure>`));
+  $('s-msg2').textContent = `${key} · ${k === 'week' ? '한 주 몰아 보기' : SER[k].name} · 사진 ${photos.length}장`;
+}
+$('s-load').onclick = () => loadSer();
+(function serBtns() {
+  const box = $('s-pick');
+  [...SER_ORDER, 'week'].forEach(k => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = k === 'week' ? '한 주 몰아 보기' : SER[k].name; b.onclick = () => loadSer(k); box.appendChild(b); });
+})();
