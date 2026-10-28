@@ -355,6 +355,10 @@ export function startLive() {
 }
 export async function listLive() { const s = await getDocs(query(collection(db, 'live'), where('t', '>', Date.now() - 6 * 60000))); return s.docs.map(d => d.data()); }
 export async function bumpClick(corner) {
+  // 운영자 기기·로봇·시험 기계는 세지 않는다 — 방문 수와 같은 기준(2026-10-28: 방문 2명에 누름 30번, 클국장 점검 기계가 센 것)
+  try { if (localStorage.getItem('omaju.noCount') === '1') return; } catch (e) {}
+  if (navigator.webdriver || /bot|crawl|spider|slurp|yeti|daum|lighthouse|headless|preview/i.test(navigator.userAgent)) return;
+  if (profile && profile.role === 'admin') return;
   try { await setDoc(doc(db, 'stats', todayKey()), { clicks: { [corner]: increment(1) } }, { merge: true }); } catch (e) {}
   track('corner_open', { corner });
 }
