@@ -24,7 +24,7 @@ jobs:
         run: |
           set +e
           git config --global user.name "omaju-bot"; git config --global user.email "bot@omaju.kr"
-          git add greet fortune book word body then test pet meal solo ev ai sitemap.xml rss.xml
+          git add greet fortune book word body then test pet meal solo ev ai things work trip sitemap.xml rss.xml
           git diff --cached --quiet && exit 0
           git commit -m "인사 카드 그림·검색용 쪽 [skip ci]"
           for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && break; sleep 5; done
