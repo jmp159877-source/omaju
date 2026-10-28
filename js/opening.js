@@ -49,7 +49,7 @@ export async function init({ modal, closeModal, toast, DB }) {
   $('opn-next').textContent = data.next_title || '';
   $('opn-nextbox').hidden = !data.next_title;
   // 처음부터 상반신으로 새로 받은 사진은 확대하지 않는다 (대표 2026-10-24 — 은채2 인사 사진부터). 새로 받으면 여기에 이름을 더한다.
-  const UPPER = ['eunchae-mor2-wave', 'eunchae-mor2-stand', 'seungwoo-mor-wave', 'seungwoo-mor-stand'];
+  const UPPER = ['seungwoo-mor-wave', 'seungwoo-mor-stand'];
   $('opn-stage').innerHTML = tags.map(t => `<i class="opn-shot" data-tag="${t}"${UPPER.some(u => img(t).includes(u)) ? ' data-up="1"' : ''} style="background-image:url('${img(t)}')"></i>`).join('');
   const au = $('opn-audio');
   let shotI = -1, capI = -1, started = false;
