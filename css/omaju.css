@@ -2927,3 +2927,32 @@ html.v2 body.in-chapter #tabs3 { display: none; }
 #detail .so-regs { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
 #detail .pet-past .so-regs button { display: inline-block; width: auto; padding: 6px 12px; border: 1px solid var(--hair); border-radius: 999px; background: #fff; font-size: .86rem; color: #444; }
 #detail .pet-past .so-regs button[aria-pressed="true"] { background: var(--g); border-color: var(--g); color: #fff; font-weight: 700; }
+
+/* ── 판갈이 v3: 요즘 매거진 결 (대표 2026-10-29 "너무 엔틱하고 올드하다" → 시안 보고 "올려") ──
+   크림 → 맑은 흰 바탕 · 금빛 줄/✦ 대신 마당 머리에 검은 가로줄 · 칸 글씨는 사진 아래 흰 칸(그림자 글씨 없음).
+   사진은 버튼의 background 를 ::before 가 inherit 로 받아 위쪽에 그린다(버튼 자체 배경은 크기 0) —
+   콘텐츠 칸 누를 때 퍼지는 효과(app.js tabs3.onclick)가 getComputedStyle(b).backgroundImage 를 읽으므로 배경은 버튼에 그대로 둔다.
+   ?v3=0 이면 이 기기만 예전 화면. */
+html.v3, html.v3 body, html.v3 #main, html.v3 .layout, html.v3 main.content, html.v3 .cols-wrap, html.v3 .h4-chd { background-color: #fff !important; }
+html.v3 .cols-orn, html.v3 .co-orn { display: none !important; }
+html.v3 .h4 .cols-head, html.v3 .h4-chd .cols-head { display: flex; flex-direction: column; gap: 2px; text-align: left; border-top: 2px solid #141414; padding-top: 14px; margin: 34px 0 14px; font-size: min(1.7rem, 7vw) !important; font-weight: 800 !important; letter-spacing: -.02em; color: #141414; }
+html.v3 .h4 .cols-head small, html.v3 .h4-chd .cols-head small { order: -1; margin: 0; font-size: .8rem; font-weight: 700; letter-spacing: 0; color: #1F7A55; }
+html.v3 .h4 > .cols-head:first-child { margin-top: 26px; }
+/* 시대 공유 칸 */
+html.v3 .h4 .col-tile { display: flex; flex-direction: column; align-items: stretch; background-size: 0 0 !important; background-color: #fff !important; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.06); }
+html.v3 .h4 .col-tile[hidden] { display: none; }
+html.v3 .h4 .col-tile::before { content: ""; position: static; inset: auto; display: block; flex: none; width: 100%; aspect-ratio: 4 / 3; border-radius: 0; background: none; background-image: inherit; background-position: inherit; background-size: cover; background-repeat: no-repeat; }
+html.v3 .h4 .col-tile.h4-wide::before, html.v3 .h4 .cols-row.one .col-tile::before { aspect-ratio: 16 / 9; }
+html.v3 .h4 .col-tile::after { display: none; }
+html.v3 .h4 .col-tile .ct-in { align-self: stretch; align-items: flex-start; text-align: left; padding: 12px 14px 14px; color: #141414; flex: 1; justify-content: flex-start; }
+html.v3 .h4 .col-tile b { font-size: 1.02rem; font-weight: 800; line-height: 1.35; letter-spacing: -.01em; color: #141414; text-shadow: none; }
+/* 콘텐츠 칸 */
+html.v3 #tabs3 { align-items: stretch; }
+html.v3 #tabs3 button, html.v3 #tabs3 button[aria-pressed="true"], html.v3 #tabs3 button[aria-pressed="false"] { display: flex !important; flex-direction: column; align-items: stretch; justify-content: flex-start; aspect-ratio: auto !important; height: auto !important; min-height: 0 !important; padding: 0 !important; background-size: 0 0 !important; background-color: #fff !important; color: #141414 !important; text-shadow: none !important; opacity: 1 !important; filter: none !important; transform: none !important; border: 0 !important; border-radius: 16px !important; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.06) !important; }
+html.v3 #tabs3 button::before { content: ""; position: static !important; inset: auto !important; display: block; flex: none; width: 100%; aspect-ratio: 4 / 3; background: none !important; background-image: inherit !important; background-position: inherit !important; background-size: cover !important; background-repeat: no-repeat !important; transition: none; }
+html.v3 #tabs3 button:first-child::before { aspect-ratio: 16 / 9; }
+html.v3 #tabs3 button::after { display: none !important; }
+html.v3 #tabs3 button b, html.v3 #tabs3 button[aria-pressed="true"] b { display: block !important; height: auto !important; padding: 12px 14px 0 !important; text-align: left !important; font-size: 1.02rem !important; font-weight: 800 !important; line-height: 1.35; letter-spacing: -.01em; color: #141414 !important; text-shadow: none !important; text-decoration: none !important; }
+html.v3 #tabs3 button small, html.v3 #tabs3 button[aria-pressed="true"] small { display: block !important; position: static !important; padding: 3px 14px 14px !important; margin: 0 !important; text-align: left !important; font-size: .78rem !important; font-weight: 500; color: #6B6F6C !important; opacity: 1 !important; text-shadow: none !important; }
+html.v3 #talk-box { margin-top: 30px; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.06); }
+html.v3 .colophon { border-top: 1px solid #E6E6E2; margin-top: 34px; padding-top: 30px; }
