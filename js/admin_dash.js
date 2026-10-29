@@ -74,7 +74,7 @@ export function renderDash(el, D) {
   ].map(([k, v, s, sp]) => `<div class="ad-kpi"><span>${k}</span><b>${v}</b><small>${s}</small>${sp}</div>`).join('');
 
   // 어디서 왔나
-  const src = [['네이버·구글 검색', sum('search')], ['카톡으로 받은 인사 카드', sum('card')], ['심리 테스트 결과', sum('psy')], ['유튜브', sum('yt')], ['유튜브 자녀 편', sum('kid')], ['구글 웹 스토리', sum('story')], ['네이버 블로그', sum('blog')]];
+  const src = [['네이버·구글 검색', sum('search')], ['카톡으로 받은 인사 카드', sum('card')], ['심리 테스트 결과', sum('psy')], ['유튜브', sum('yt')], ['유튜브 자녀 편', sum('kid')], ['구글 웹 스토리', sum('story')], ['네이버 블로그', sum('blog')], ['명함 QR', sum('qr')]];
   const direct = Math.max(0, sum('newDevices') - src.reduce((t, s) => t + s[1], 0));
   // 나이대 · 성별
   const yr = +today.slice(0, 4), age = {};

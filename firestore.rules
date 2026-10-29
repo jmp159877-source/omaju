@@ -114,7 +114,7 @@ service cloud.firestore {
     }
     match /stats/{date} {
       allow read: if isAdmin();
-      allow create, update: if request.resource.data.keys().hasOnly(['visits', 'clicks', 'newDevices', 'blog', 'yt', 'search', 'card', 'psy', 'kid', 'story', 'hours', 'src', 'pages', 'pageSrc']);   // 2026-10-28: 검색용 글 쪽에서 읽힌 수(pages)·어디서 왔나(pageSrc)   // 2026-10-26: 꼬리표 다섯·시간·출처가 막혀 방문이 안 세지던 것
+      allow create, update: if request.resource.data.keys().hasOnly(['visits', 'clicks', 'newDevices', 'blog', 'yt', 'search', 'card', 'psy', 'kid', 'story', 'qr', 'hours', 'src', 'pages', 'pageSrc']);   // 2026-10-28: 검색용 글 쪽에서 읽힌 수(pages)·어디서 왔나(pageSrc)   // 2026-10-26: 꼬리표 다섯·시간·출처가 막혀 방문이 안 세지던 것
     }
   }
 }

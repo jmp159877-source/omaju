@@ -3,7 +3,7 @@
 function labelize(t) { const hs = [...t.querySelectorAll('th')].map(h => h.textContent); t.querySelectorAll('tr').forEach(tr => [...tr.children].forEach((td, i) => { if (td.tagName === 'TD' && hs[i]) td.dataset.l = hs[i]; })); }
 import * as DB from './db.js';
 import { DEFAULT_CONTENT } from './content.js';
-import { renderDash, hbars, card } from './admin_dash.js?v=10281640';
+import { renderDash, hbars, card } from './admin_dash.js?v=10300105';
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, addDoc, query, where, orderBy, limit, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js';
 
 const $ = id => document.getElementById(id);
