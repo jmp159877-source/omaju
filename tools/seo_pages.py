@@ -142,7 +142,8 @@ def main():
             img = next((b['photo']['src'] for b in a.get('blocks', []) if b.get('photo')), f'img/detail_{SK}.jpg')
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
                   'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-            urls.append((page(f'{SD(SK)}/{a["id"]}.html', f'{a["title"]} — {SNAME} {a["no"]}편', desc, f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
+            urls.append((page(f'{SD(SK)}/{a["id"]}.html', a.get('seo') or f'{a["title"]} — {SNAME} {a["no"]}편', desc,   # seo = 사람들이 실제로 치는 말로 쓴 검색 제목(대표 2026-10-30), 화면 제목(h1)은 그대로
+                                  f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
     # 기획 연재 목차 쪽 (대표 2026-10-24: "기획 연재 두 개도 검색되게") — 연재 전체를 한 쪽에 모아 검색이 묶음으로 알아보게
     for SK, SNAME, SDESC in (('ev', '전기차 시대', '중국 전기차가 이미 우리 곁에 왔습니다. 브랜드 해부부터 충전·보험·중고값까지, 50~60대의 눈으로 객관적으로 짚는 오마주 매거진 시대 공유.'),
                              ('ai', 'AI 시대에 살 준비가 되었는가', '쉰과 예순이 가장 빨리 배우고 있는 생성형 AI. 처음 써 보기부터 사기 막기까지, 오늘 휴대폰으로 해 볼 수 있는 것을 짚는 오마주 매거진 시대 공유.'),
