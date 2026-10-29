@@ -12,7 +12,7 @@ import * as MOOD from './mood.js?v=10261940';   // 오늘의 음악과 함께 (�
 let EV = null;   // 기획 칼럼은 첫 화면 맨 아래라 늦게 불러온다 — 처음에 같이 부르면 커버 단추가 밀렸다(큰 글씨 시험)
 const evMod = () => EV ? Promise.resolve(EV) : import('./ev.js').then(m => (EV = m));
 // 오마주 사랑방 (대표 2026-10-25) — 기획 연재 밑 창, 첫 화면을 다 그린 뒤에 불러온다
-let TALK = null; const talkMod = () => TALK ? Promise.resolve(TALK) : import('./talk.js?v=10260845').then(m => { TALK = m; m.init({ DB, toast, openGate, esc, TODAY, nav, listen: NB.listen, closeModal }); return m; });
+let TALK = null; const talkMod = () => TALK ? Promise.resolve(TALK) : import('./talk.js?v=10300100').then(m => { TALK = m; m.init({ DB, toast, openGate, esc, TODAY, nav, listen: NB.listen, closeModal }); return m; });
 // 장(章). 네 번째 값은 표지에 찍히는 번호 — 화면에 보이는 차례와 맞춘다(아이디는 그대로 둔다).
 const CH = { g1: ['오늘 즐기기', '하루를 기분 좋게', 'tab-today', 1], g2: ['그때 돌아보기', '그 시절을 꺼내다', 'tab-past', 2], g5: ['앞으로 나아가기', '여행 · 관광 · 취미', 'tab-travel', 3], g3: ['나를 돌보기', '산 · 운동 · 마음 · 건강', 'tab-health', 4], g6: ['어쩌다 점점 집사', '댕댕이 · 냥이와 사는 이야기', 'tab-pet', 5], g7: ['혼자라서 좋은 날', '혼자일 때 더 좋은 하루', 'tab-solo', 6], g4: ['나의 수첩', '메모와 일정', 'tab-note', 7] };
 let modalPushed = false, skipPop = false, exitOpen = false, reopenAfterPop = false;

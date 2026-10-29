@@ -56,7 +56,9 @@ function paint(reset) {
   if (n) { const c = shown().length; n.innerHTML = c ? `오늘 <b>${c}</b>` : ''; }
   if (!r.length) { ul.innerHTML = '<li class="tk-it tk-empty"><p>아직 조용해요. 첫 이야기를 남겨 주세요.</p></li>'; return; }
   // 끝없이 도는 띠: 두 벌 이어 붙이고 한 칸씩 올린다
-  ul.innerHTML = [...r, ...r].map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : x.typing ? '<li class="tk-it tk-typing"><small>누군가 이야기를 쓰고 있어요</small><span class="tk-dots"><i></i><i></i><i></i></span></li>' : item(x)).join('');
+  // 글이 하나뿐일 때 두 벌을 이으면 같은 글이 두 줄로 뜬다(2026-10-30 새벽 '오늘 1'에 까치 글이 두 번) → 한 벌 + '쓰고 있어요'
+  const loop = r.length < 2 ? [...r, { typing: 1 }] : [...r, ...r];
+  ul.innerHTML = loop.map(x => x.topic ? `<li class="tk-it tk-topic"><span>오늘의 이야기</span><p>${esc(TOPIC.q)}</p></li>` : x.typing ? '<li class="tk-it tk-typing"><small>누군가 이야기를 쓰고 있어요</small><span class="tk-dots"><i></i><i></i><i></i></span></li>' : item(x)).join('');
   if (reset) { idx = 0; ul.style.transition = 'none'; ul.style.transform = 'translateY(0)'; }
   ul.dataset.len = r.length;
 }
