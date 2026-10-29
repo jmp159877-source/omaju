@@ -1,0 +1,78 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:P;src:url(Pretendard-Regular.otf);font-weight:400}
+@font-face{font-family:P;src:url(Pretendard-Medium.otf);font-weight:500}
+@font-face{font-family:P;src:url(Pretendard-SemiBold.otf);font-weight:600}
+@font-face{font-family:Pen;src:url(NanumPen.ttf)}
+@page{size:92mm 52mm;margin:0}
+html,body{margin:0;padding:0}
+:root{--g:#1E3A2A;--gold:#9C7A3C;--ink:#2B2B2B}
+.pg{width:92mm;height:52mm;position:relative;overflow:hidden;background:#fff;page-break-after:always;font-family:P,'Noto Sans CJK KR',sans-serif;color:var(--ink)}
+.serif{font-family:'Noto Serif CJK KR',serif}
+/* 재단선 안쪽 안전 영역: 바깥 1mm 재단 + 3mm 여백 */
+/* 앞면 */
+.f .logo{position:absolute;left:5mm;top:7.5mm;width:28mm}
+.f .logo img{width:100%;display:block}
+.f .mz{position:absolute;left:12mm;top:23.5mm;width:17.6mm;text-align:center;font-size:6.4pt;letter-spacing:.08em;color:var(--g);font-weight:500;white-space:nowrap}
+.f .sl{position:absolute;left:5.5mm;top:32mm;width:27mm;text-align:center;font-family:Pen;font-size:12pt;color:var(--g)}
+.f .bar{position:absolute;left:35.5mm;top:6mm;bottom:6mm;width:.25mm;background:var(--gold)}
+.f .r{position:absolute;left:39mm;right:5mm;top:7.2mm}
+.f .row{display:flex;align-items:baseline;gap:2.6mm;white-space:nowrap}
+.f .role{font-size:6.6pt;letter-spacing:.12em;color:var(--gold);font-weight:500}
+.f .nm{font-size:11pt;font-weight:700;color:var(--g);letter-spacing:.1em;line-height:1.15}
+.f .tag{font-size:7.4pt;color:var(--gold);font-weight:600;margin-top:4.6mm;padding-top:2.6mm;border-top:.2mm solid #E4D7BE;display:inline-block}
+.f .ct{position:absolute;left:39mm;right:4.5mm;bottom:5.6mm;font-size:8pt;line-height:1.62}
+.f .ct div{white-space:nowrap}
+.f .ct b{display:inline-block;width:3.6mm;color:var(--gold);font-weight:600;font-size:7pt}
+.f .sl i{font-style:normal;position:relative}
+.f .sl i::before{content:'';display:block;position:absolute;left:50%;top:-.75mm;width:.75mm;height:.75mm;margin-left:-.375mm;border-radius:50%;background:#9DB89A}
+/* 뒷면 */
+.b .logo{position:absolute;left:5mm;top:7mm;width:36mm}
+.b .logo img{width:100%;display:block}
+.b .t{position:absolute;left:44.5mm;top:8.5mm;right:4.5mm}
+.b .t .h{font-size:14pt;font-weight:700;color:var(--g);letter-spacing:.08em;line-height:1.2}
+.b .t .ln{width:9mm;height:.3mm;background:var(--gold);margin:2.2mm 0 2mm}
+.b .t .s{font-size:7.8pt;color:#444;line-height:1.5}
+.b .qrw{position:absolute;left:44.5mm;bottom:5mm;display:flex;align-items:flex-end;gap:2.6mm}
+.b .qr{width:15mm;height:15mm}
+.b .qr svg{width:100%;height:100%;display:block}
+.b .qt{font-size:7pt;line-height:1.5;color:#444;padding-bottom:.2mm}
+.b .qt .u{font-size:9pt;font-weight:600;color:var(--g);letter-spacing:.03em}
+/* 시안 보기용 재단선 */
+body.guide .pg::after{content:'';position:absolute;left:1mm;top:1mm;right:1mm;bottom:1mm;border:.15mm dashed #e33;pointer-events:none}
+body.guide .pg::before{content:'';position:absolute;left:4mm;top:4mm;right:4mm;bottom:4mm;border:.15mm dotted #39f;pointer-events:none}
+</style></head><body>
+<section class="pg f">
+ <div class="logo"><img src="logo_leaf.png"></div>
+ <div class="mz">오마주 매거진</div>
+ <div class="sl"><i>오</i>늘도 <i>마</i>음은 <i>주</i>니어</div>
+ <div class="bar"></div>
+ <div class="r">
+  <div class="row"><div class="nm serif">박정민</div><div class="role">발행인 · PUBLISHER</div></div>
+  <div class="tag">4070 라이프스타일 큐레이션 매거진</div>
+ </div>
+ <div class="ct">
+  <div><b>M</b>010-4712-8523</div>
+  <div><b>A</b>경기 수원시 장안구 상률로46번길 9</div>
+  <div><b>W</b>omaju.kr</div>
+ </div>
+</section>
+<section class="pg b">
+ <div class="logo"><img src="logo_leaf.png"></div>
+ <div class="t">
+  <div class="h serif">오마주 매거진</div>
+  <div class="ln"></div>
+  <div class="s">매일 아침,<br>새로운 이야기를 만납니다</div>
+ </div>
+ <div class="qrw">
+  <div class="qr" id="qr"></div>
+  <div class="qt"><span class="u">omaju.kr</span><br>카메라로 찍으면<br>바로 열립니다</div>
+ </div>
+</section>
+<script src="qrcode.js"></script>
+<script>
+const q=qrcode(0,'M');q.addData('https://omaju.kr/?from=qr');q.make();
+document.getElementById('qr').innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true}).replace(/fill="black"/g,'fill="#1E3A2A"');
+if(location.hash=='#guide')document.body.classList.add('guide');
+</script>
+</body></html>
