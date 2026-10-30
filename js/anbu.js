@@ -23,10 +23,10 @@ const nameFor = t => (member() && getName(t)) || (TABS.find(x => x[0] === t) || 
 // 오늘 이 칸에 보여 줄 여섯 장 — 오늘 요일·철에 맞는 문장을 먼저, 날마다 차례가 돈다
 export function todays(t) {
   const all = (D[t] || []).map((x, i) => ({ ...x, i })).filter(fits);
-  const tagged = all.filter(x => x.w || x.s), plain = all.filter(x => !x.w && !x.s);
+  const tagged = all.filter(x => x.w || x.s), hope = all.filter(x => x.h), plain = all.filter(x => !x.w && !x.s && !x.h);
   const rot = (a, n) => a.length ? a.slice(n % a.length).concat(a.slice(0, n % a.length)) : a;
   const ti = TABS.findIndex(x => x[0] === t);
-  const out = rot(tagged, DAY).slice(0, 2).concat(rot(plain, DAY * 3 + ti)).slice(0, 6);
+  const out = rot(tagged, DAY).slice(0, 2).concat(rot(hope, DAY + ti).slice(0, 2), rot(plain, DAY * 3 + ti)).slice(0, 6);   // 힘이 되는 글귀 두 장은 늘 (대표 2026-10-31: 시대가 어렵다)
   const ph = D.photos.filter(fits);
   return out.map((x, k) => ({ text: x.t, photo: ph[(DAY * 5 + ti * 3 + k) % ph.length] }));
 }
@@ -128,7 +128,7 @@ export async function mount(d) {
   if (document.documentElement.classList.contains('v2')) for (let i = 0; i < 40 && !document.querySelector('.cols-wrap.h4'); i++) await new Promise(r => setTimeout(r, 50));
   const intro = document.querySelector('.intro'); if (!intro || document.getElementById('anbu')) return;
   box = document.createElement('section'); box.id = 'anbu'; box.className = 'anbu'; box.setAttribute('aria-label', '안부 카드');
-  box.innerHTML = `<p class="cols-head">오늘의 안부 카드 <small>마음 가는 분께 한 장</small></p>
+  box.innerHTML = `<p class="cols-head">힘이 되는 안부 카드 <small>용기와 희망을 전하는 좋은 글귀</small></p>
     <ol class="anb-how"><li>누구에게 보낼지 고르고</li><li>받는 분 이름이나 호칭을 쓰고</li><li>마음에 드는 카드를 눌러 카톡으로</li></ol>
     <div class="anb-tabs" role="group" aria-label="누구에게"></div>
     <label class="anb-in"><span>받는 분</span><input id="anb-name" type="text" maxlength="16" autocomplete="off" inputmode="text"></label>
