@@ -1487,4 +1487,7 @@ import('./hometown.js?v=10221640').then(m => { m.init({ toast, modal, closeModal
 // 오늘의 오프닝 — 당분간 쉰다 (대표 2026-10-26: "구독자·방문자가 많지 않으니 내려놓자, 나중에 다시"). 다시 켜려면 OPENING_ON = true
 // + tools/opening.py 예약(opening.yml schedule · api/tick.js · vercel.json) + 예약 작업 '오프닝 대본 쓰기'·'오프닝 새벽 점검' 을 되살린다.
 if (document.documentElement.classList.contains('v2')) import('./home2.js').then(m => m.mount({ profile: () => DB.currentProfile(), onUser: DB.onUser, login: () => openGate(), saves: NB.savesList, label: NB.saveLabel, openSaves: NB.openSaves, refreshSaves: NB.refreshSaves })).catch(e => console.warn('home2', e));   // 첫 화면 판갈이 시안 (?v2=1)
+// 안부 카드 (대표 2026-10-31) — 시대 공유 판이 소개 배너 뒤에 붙은 다음에 그 앞(배너 바로 밑)에 끼운다
+const anbuGo = () => import('./anbu.js' + MODV).then(m => m.mount({ DB, openGate, modal, closeModal, kakaoSendCard, toast })).catch(e => console.warn('anbu', e));
+if (document.documentElement.classList.contains('v2')) setTimeout(anbuGo, 0); else anbuGo();
 if (OPENING_ON) import('./opening.js?v=10250140').then(m => m.init({ modal, closeModal, toast, DB })).catch(e => console.warn('opening', e));
