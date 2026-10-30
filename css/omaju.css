@@ -2966,10 +2966,20 @@ html.v3 .colophon { border-top: 1px solid #E6E6E2; margin-top: 34px; padding-top
 
 /* ── 좋은 글귀 인사 카드 (대표 2026-10-31, 02:13 판갈이 — 마음 → 누구 → 호칭 → 큰 카드) — 커버·소개 배너 바로 밑. 판갈이 v3 결 ── */
 .anbu { max-width: 760px; margin: 34px auto 0; padding: 0; }
-.anbu .cols-head { display: flex; flex-direction: column; border-top: 2px solid #141414; padding-top: 14px; margin: 0 0 6px; font-weight: 800; font-size: min(1.7rem, 7vw); color: #141414; text-align: left; letter-spacing: -.02em; }
-.anbu .cols-head small { display: block; order: -1; font-size: .58em; color: #1F7A55; font-weight: 700; letter-spacing: 0; margin: 0 0 6px; }
+/* 첫 화면 칸 — 사진 한 장 안에 제목·단추 (07:24 판갈이). 사진 왼쪽이 비어 있어 글씨는 왼쪽 */
+.anb-hero { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; border: 0; border-radius: 14px; overflow: hidden; padding: 0; cursor: pointer; text-align: left; background: #EFE6D6 url('../img/anbu-tile.jpg?v=1') 78% center / cover no-repeat; box-shadow: 0 4px 16px rgba(0,0,0,.10); font: inherit; }
+@media (min-width: 700px) { .anb-hero { aspect-ratio: 16 / 8; background-position: center; } }
+.anb-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,250,240,.82) 0%, rgba(255,250,240,.55) 38%, rgba(255,250,240,0) 62%); }
+.anb-hx { position: absolute; left: 6.5%; top: 50%; transform: translateY(-50%); z-index: 1; display: flex; flex-direction: column; align-items: flex-start; max-width: 60%; color: #2B2418; }
+.anb-hx small { font-size: min(3.5vw, 15px); font-weight: 700; color: #6B5A2E; letter-spacing: .02em; margin-bottom: .55em; white-space: nowrap; }
+.anb-hx b { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(8.6vw, 40px); line-height: 1.22; letter-spacing: -.02em; word-break: keep-all; }
+.anb-hsub { font-size: min(3.5vw, 15px); color: #5A4E38; margin-top: .6em; white-space: nowrap; }
+.anb-go { margin-top: min(4vw, 18px); background: #F9E9A8; color: #3A2E00; font-weight: 800; font-size: min(4vw, 17px); padding: .62em 1.15em; border-radius: 999px; box-shadow: 0 2px 8px rgba(58,46,0,.15); white-space: nowrap; }
+.anb-hero:active { transform: scale(.99); }
+.anbu-in { max-width: 760px; margin: 0 auto; padding: 4px 0 24px; }
+.anbu-in .anb-q:first-child { margin-top: 6px; }
 .anb-q { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 20px 0 10px; font-size: 1.05rem; font-weight: 800; color: #141414; word-break: keep-all; }
-.anb-q b { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: #1F5A3E; color: #fff; font-size: .78em; flex: none; }
+.anb-q b { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%; background: #F9E9A8; color: #3A2E00; font-size: .78em; flex: none; }
 .anb-cnt { margin-left: auto; font-size: .82em; font-weight: 600; color: #888; letter-spacing: .04em; }
 .anb-moods { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 30px) / 3.4); gap: 10px; align-items: start; overflow-x: auto; scroll-snap-type: x proximity; padding: 6px 6px 8px; margin: 0 -6px; scroll-padding-inline: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .anb-moods::-webkit-scrollbar { display: none; }
@@ -2977,17 +2987,17 @@ html.v3 .colophon { border-top: 1px solid #E6E6E2; margin-top: 34px; padding-top
 .anb-moods button { scroll-snap-align: start; min-width: 0; border: 0; background: none; padding: 0; cursor: pointer; text-align: center; font: inherit; color: #555; }
 .anb-mph { display: block; aspect-ratio: 1; border-radius: 12px; background: #ddd center / cover no-repeat; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); transition: transform .15s; }
 .anb-mn { display: block; margin-top: 7px; font-size: .9rem; font-weight: 700; line-height: 1.3; word-break: keep-all; }
-.anb-moods button.on .anb-mph { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #1F5A3E; }
-.anb-moods button.on .anb-mn { color: #1F5A3E; font-weight: 800; }
+.anb-moods button.on .anb-mph { box-shadow: 0 0 0 3px #fff, 0 0 0 6px #EBCB55; }
+.anb-moods button.on .anb-mn { color: #3A2E00; font-weight: 800; }
 .anb-moods button:active .anb-mph { transform: scale(.96); }
 .anb-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid #E6E6E2; margin-bottom: 4px; }
 .anb-tabs button { flex: 1 1 auto; min-width: 0; background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 6px 9px; font: inherit; font-size: .98rem; font-weight: 700; color: #777; cursor: pointer; word-break: keep-all; }
-.anb-tabs button.on { color: #141414; border-bottom-color: #1F5A3E; }
-.anb-in { display: flex; align-items: center; gap: 10px; background: #F6F6F2; border-radius: 12px; padding: 4px 6px 4px 14px; }
-.anb-in span { font-weight: 700; color: #1F5A3E; white-space: nowrap; font-size: .95rem; }
+.anb-tabs button.on { color: #3A2E00; border-bottom-color: #EBCB55; background: #FFF8DC; border-radius: 8px 8px 0 0; }
+.anb-in { display: flex; align-items: center; gap: 10px; background: #FFF9E3; border-radius: 12px; padding: 4px 6px 4px 14px; }
+.anb-in span { font-weight: 700; color: #3A2E00; white-space: nowrap; font-size: .95rem; }
 .anb-in input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 1.05rem; padding: 10px 4px; color: #141414; outline: none; }
 .anb-lock { margin: 8px 2px 0; font-size: .9rem; color: #6A6A64; }
-.anb-lock b { color: #1F5A3E; }
+.anb-lock b { color: #3A2E00; background: #F9E9A8; padding: 0 .2em; border-radius: 3px; }
 .anb-row { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 10px; -webkit-overflow-scrolling: touch; }
 @media (min-width: 700px) { .anb-row { grid-auto-columns: 46%; } }
 .anb-card { position: relative; scroll-snap-align: start; aspect-ratio: 4 / 5; border: 0; border-radius: 10px; overflow: hidden; background: #ddd center / cover no-repeat; box-shadow: 0 4px 14px rgba(0,0,0,.14); cursor: pointer; padding: 0; text-align: left; font-family: 'Nanum Myeongjo', serif; }
@@ -3006,5 +3016,6 @@ html.v3 .colophon { border-top: 1px solid #E6E6E2; margin-top: 34px; padding-top
 .anb-card.k-full .anb-txt { bottom: 14%; }
 .anb-mark { position: absolute; right: 3.6%; bottom: 2.6%; z-index: 2; font: 500 max(9px, 2.3cqw) 'Noto Sans KR', sans-serif; letter-spacing: .08em; color: rgba(255,255,255,.8); }
 .anb-card.k-top .anb-mark { color: rgba(60,60,55,.55); }
-body.in-chapter #anbu { display: none; }
+body.in-chapter #anbu-home { display: none; }
+.btn.anb-kakao { background: #F9E9A8; color: #3A2E00; border-color: #F9E9A8; font-weight: 800; }
 .anb-tip { text-align: center; font-size: .92rem; color: #6A6A64; margin: 10px 0 0; }

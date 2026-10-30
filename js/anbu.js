@@ -109,7 +109,7 @@ async function open(k) {
   try { DB.bumpClick('anbu'); } catch (e) {}
   const c = todays(tab)[k], name = nameFor(tab);
   if (!c) return;
-  modal(`<h2 id="anb-h">인사 카드를 만들고 있어요</h2><div id="anb-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;opacity:.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn green" id="anb-send" disabled style="opacity:.45">카톡으로 보내기</button><button type="button" class="btn line" id="anb-save" disabled style="opacity:.45">사진에 저장하기</button></div>${member() ? '' : '<p class="anb-tip">무료 구독하면 받는 분 이름을 넣어 보낼 수 있어요.</p>'}`);
+  modal(`<h2 id="anb-h">인사 카드를 만들고 있어요</h2><div id="anb-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;opacity:.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn anb-kakao" id="anb-send" disabled style="opacity:.45">카톡으로 보내기</button><button type="button" class="btn line" id="anb-save" disabled style="opacity:.45">사진에 저장하기</button></div>${member() ? '' : '<p class="anb-tip">무료 구독하면 받는 분 이름을 넣어 보낼 수 있어요.</p>'}`);
   const fname = `오마주매거진_인사카드_${k + 1}.jpg`; let blob, file;
   try { blob = await toBlob(await draw(c, name)); if (!blob) throw new Error('blob'); file = new File([blob], fname, { type: 'image/jpeg' }); } catch (e) { closeModal(); toast('카드를 만들지 못했어요. 잠시 뒤 다시 눌러 주세요.'); return; }
   const bx = document.getElementById('anb-box'); if (!bx) return;
@@ -129,16 +129,29 @@ async function open(k) {
   };
 }
 
+let readyR; const ready = new Promise(r => { readyR = r; });
+// 첫 화면: 콘텐츠 칸처럼 사진 한 장 안에 제목·단추 (대표 2026-10-31 07:24 — "쫙 펼쳐 놓지 말고 하나의 항목으로")
 export async function mount(d) {
   deps = d;
   try { D = await (await fetch('data/anbu.json?v=' + DAY)).json(); } catch (e) { return; }
-  // 시대 공유 판(home2)이 먼저 배너 뒤에 붙고 나서 끼워야 안부 카드가 배너 바로 밑에 온다
+  readyR();
   if (document.documentElement.classList.contains('v2')) for (let i = 0; i < 40 && !document.querySelector('.cols-wrap.h4'); i++) await new Promise(r => setTimeout(r, 50));
-  const intro = document.querySelector('.intro'); if (!intro || document.getElementById('anbu')) return;
-  box = document.createElement('section'); box.id = 'anbu'; box.className = 'anbu'; box.setAttribute('aria-label', '좋은 글귀 인사 카드');
+  const intro = document.querySelector('.intro'); if (!intro || document.getElementById('anbu-home')) return;
+  const tile = document.createElement('section'); tile.id = 'anbu-home'; tile.className = 'anbu';
+  tile.innerHTML = `<button type="button" class="anb-hero" aria-label="좋은 글귀 인사 카드 — 카드 고르러 가기"><span class="anb-hx"><small>오늘, 마음을 전하는 한 장</small><b>좋은 글귀<br>인사 카드</b><span class="anb-hsub">용기 · 희망 · 위로 · 고마움</span><span class="anb-go">카드 고르기 ›</span></span></button>`;
+  intro.after(tile);
+  if (document.documentElement.classList.contains('v2') && !document.querySelector('.cols-wrap.h4')) { const mo = new MutationObserver(() => { if (document.querySelector('.cols-wrap.h4')) { mo.disconnect(); intro.after(tile); } }); mo.observe(intro.parentNode, { childList: true }); setTimeout(() => mo.disconnect(), 15000); }
+  tile.querySelector('.anb-hero').onclick = () => { try { deps.DB.bumpClick('anbu_tile'); } catch (e) {} (window.omajuNav || (h => { location.hash = h; }))('anbu'); };
+  deps.DB.onUser(() => { if (box && box.isConnected) render(); });
+}
+
+// 안쪽(#anbu 코너): ① 어떤 마음 ② 누구에게 ③ 호칭 ④ 카드 → 카톡
+export async function renderDetail(el) {
+  await ready; if (!el) return;
+  if (box === el && el.firstChild) { render(); return; }
+  box = el; box.classList.add('anbu-in');
   const sv = ls('omaju.anbu.mood'); if (D.moods.some(x => x.k === sv)) mood = sv;
-  box.innerHTML = `<p class="cols-head">좋은 글귀 인사 카드 <small>용기와 희망을 전하는 한 장</small></p>
-    <p class="anb-q"><b>1</b>어떤 마음을 전할까요?</p>
+  box.innerHTML = `<p class="anb-q"><b>1</b>어떤 마음을 전할까요?</p>
     <div class="anb-moods" role="group" aria-label="어떤 마음"></div>
     <p class="anb-q"><b>2</b>누구에게 보낼까요?</p>
     <div class="anb-tabs" role="group" aria-label="누구에게"></div>
@@ -147,9 +160,6 @@ export async function mount(d) {
     <p class="anb-lock">이름 넣기는 <b>무료 구독</b>하면 바로 쓸 수 있어요. 카톡·네이버로 두 번이면 끝나요.</p>
     <p class="anb-q"><b>4</b>카드를 눌러 카톡으로 <span class="anb-cnt"></span></p>
     <div class="anb-row"></div>`;
-  intro.after(box);
-  // 느린 폰에서 시대 공유 판이 나중에 배너 뒤에 붙으면 안부 카드를 다시 배너 바로 밑으로
-  if (document.documentElement.classList.contains('v2') && !document.querySelector('.cols-wrap.h4')) { const mo = new MutationObserver(() => { if (document.querySelector('.cols-wrap.h4')) { mo.disconnect(); intro.after(box); } }); mo.observe(intro.parentNode, { childList: true }); setTimeout(() => mo.disconnect(), 15000); }
   render();
   box.addEventListener('click', e => {
     const mb = e.target.closest('[data-m]'); if (mb) { mood = mb.dataset.m; ls('omaju.anbu.mood', mood); render(); return; }
@@ -160,8 +170,6 @@ export async function mount(d) {
   const gate = e => { if (!member()) { e.preventDefault(); inp.blur(); deps.openGate('받는 분 이름을 넣어 보내려면'); } };
   inp.addEventListener('focus', gate); inp.addEventListener('mousedown', gate);
   let tm; inp.addEventListener('input', () => { const t = tab; setName(t, inp.value.trim()); clearTimeout(tm); tm = setTimeout(() => { if (t !== tab) return; const row = box.querySelector('.anb-row'), x = row.scrollLeft; cards(); row.scrollLeft = x; row.dispatchEvent(new Event('scroll')); }, 250); });
-  // 넘길 때 '몇 번째 / 여섯' 표시
   const row = box.querySelector('.anb-row'); let rt;
   row.addEventListener('scroll', () => { clearTimeout(rt); rt = setTimeout(() => { const c = row.querySelector('.anb-card'); if (!c) return; const w = c.offsetWidth + 12, n = row.children.length; const i = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4 ? n : Math.min(n, Math.round(row.scrollLeft / w) + 1); box.querySelector('.anb-cnt').textContent = `${i} / ${n}`; }, 80); }, { passive: true });
-  deps.DB.onUser(() => render());
 }
