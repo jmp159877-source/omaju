@@ -13,6 +13,7 @@ e = lambda s: html.escape(str(s or ''), quote=True)
 
 
 IMGS, META = {}, {}
+NEW_TODAY = []   # 오늘 새로 연 연재 쪽 — 손님이 드는 인사 카드 모음 쪽에서 길을 내 준다(대표 2026-10-31)
 HUBS = set()   # 모음 쪽 — 주소가 바뀌지 않아 검색 힘이 쌓이는 곳 (홍보국 2026-10-26: 아침 인사 이미지·띠별 운세·오늘 뭐 해 먹지)   # 이미지 사이트맵·새 글 알림판(RSS)용 (대표 2026-10-25: "이미지 검색에 1도 안 걸린다")
 
 
@@ -132,6 +133,7 @@ def main():
                     rows = [(c.get('on'), f'{c["value"]}%')] if c.get('kind') == 'donut' else [(i[0], f'{i[1]:,}{c.get("unit", "")}' if isinstance(i[1], int) else f'{i[1]}{c.get("unit", "")}') for i in c.get('items', [])]
                     parts.append(f'<table><caption>{e(c["title"])}</caption>' + ''.join(f'<tr><th>{e(l)}</th><td>{e(v)}</td></tr>' for l, v in rows) + f'</table><p class="note">자료: {e(c.get("source"))}</p>')
             body = (f'<h1>{e(a["title"])}</h1><p class="date">시대 공유 {SNAME} {a["no"]}편 · 오마주 매거진 · {kdate(a["date"])}</p>'
+                    + (f'<div class="box yellow"><b>한 줄 답</b>{rich(a.get("dek"))}</div>' if a.get('dek') else '')   # 검색으로 온 분께 답부터(대표 2026-10-31)
                     + (f'<div class="box green">{rich(a.get("hook"))}</div>' if a.get('hook') else '') + ''.join(parts)
                     + (('<div class="box yellow"><b>생각해 볼 점</b>' + '<br>'.join(rich(t) for t in a.get('cons', [])) + '</div>') if a.get('cons') else '')
                     + ''.join('<div class="box yellow"><b>바로잡습니다 (' + e(c.get('date', '')[5:].replace('-', '.')) + ')</b>' + '<br>'.join(e(t) for t in c.get('items', [])) + '</div>' for c in a.get('corrections', []))
@@ -142,6 +144,7 @@ def main():
             img = next((b['photo']['src'] for b in a.get('blocks', []) if b.get('photo')), f'img/detail_{SK}.jpg')
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
                   'about': SABOUT, 'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
+            if a['date'] == TODAY: NEW_TODAY.append((f'/{SD(SK)}/{a["id"]}.html', SNAME, a.get('seo') or a['title']))
             urls.append((page(f'{SD(SK)}/{a["id"]}.html', a.get('seo') or f'{a["title"]} — {SNAME} {a["no"]}편', desc,   # seo = 사람들이 실제로 치는 말로 쓴 검색 제목(대표 2026-10-30), 화면 제목(h1)은 그대로
                                   f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
     # 기획 연재 목차 쪽 (대표 2026-10-24: "기획 연재 두 개도 검색되게") — 연재 전체를 한 쪽에 모아 검색이 묶음으로 알아보게
@@ -229,6 +232,7 @@ def main():
         body = ('<h1>오늘의 아침 인사 이미지</h1><p class="date">오마주 매거진 · 매일 아침 새 카드 · ' + kdate(d0) + '</p>'
                 + '<div class="box green">카톡으로 보내기 좋은 아침 인사 이미지와 글귀를 날마다 새로 올립니다. 마음 가는 분께 한 장 보내 보세요.</div>'
                 + ''.join(f'<figure style="margin:22px 0"><img src="/{x}" alt="{e(a)}" loading="lazy" style="width:100%;border-radius:14px"><figcaption style="margin-top:8px;color:#444">{e(g).replace(chr(10), "<br>")}</figcaption></figure>' for x, a, g in zip(f0, a0, G0))
+                + (('<span class="sub">오늘 새로 올라온 글</span><ol>' + ''.join(f'<li><a href="{h}"><b>{e(t)}</b></a><br><small>{e(n)}</small></li>' for h, n, t in NEW_TODAY) + '</ol>') if NEW_TODAY else '')
                 + '<span class="sub">지난 인사 카드</span><ol>' + ''.join(f'<li><a href="/greet/{d}.html"><b>{e(t)}</b></a></li>' for d, t in reversed(greet_list[:-1])) + '</ol>')
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 인사 카드 모음 — 아침 인사 이미지', 'inLanguage': 'ko'}
         u = page('greet/index.html', '아침 인사 이미지 — 오늘의 좋은 아침 인사 카드 모음', '카톡으로 보내기 좋은 좋은 아침 인사 이미지와 글귀를 날마다 새로 올립니다.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f0[0] if f0 else f'greet/img/{d0}-1.jpg', list(zip(f0[1:], a0[1:])), d0)
