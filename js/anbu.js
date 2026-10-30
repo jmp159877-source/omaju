@@ -53,7 +53,7 @@ export async function draw(c, name) {
   const x = cv.getContext('2d', { willReadFrequently: true });
   const cap = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise(r => setTimeout(() => r(null), ms))]);
   const lines = c.text.split('\n');
-  const [im] = await Promise.all([load(`img/anbu/${c.photo.f}.jpg`), cap(document.fonts.load('800 64px "Nanum Myeongjo"', c.text + name + '오마주 매거진'), 2500), cap(document.fonts.load('500 24px "Noto Sans KR"', '오마주 매거진'), 2500)]);
+  const [im] = await Promise.all([load(`img/anbu/${c.photo.f}.jpg`), cap(document.fonts ? document.fonts.load('800 64px "Nanum Myeongjo"', c.text + name + '오마주 매거진') : null, 2500), cap(document.fonts ? document.fonts.load('500 24px "Noto Sans KR"', '오마주 매거진') : null, 2500)]);
   const k = c.photo.k;
   x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
   const PH = k === 'top' ? 820 : H;
@@ -102,8 +102,8 @@ async function open(k) {
   try { DB.bumpClick('anbu'); } catch (e) {}
   const c = todays(tab)[k], name = nameFor(tab);
   modal(`<h2 id="anb-h">안부 카드를 만들고 있어요</h2><div id="anb-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;opacity:.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn green" id="anb-send" disabled style="opacity:.45">카톡으로 보내기</button><button type="button" class="btn line" id="anb-save" disabled style="opacity:.45">사진에 저장하기</button></div>${member() ? '' : '<p class="anb-tip">무료 구독하면 받는 분 이름을 넣어 보낼 수 있어요.</p>'}`);
-  const blob = await toBlob(await draw(c, name)), fname = `오마주매거진_안부카드_${k + 1}.jpg`;
-  const file = new File([blob], fname, { type: 'image/jpeg' });
+  const fname = `오마주매거진_안부카드_${k + 1}.jpg`; let blob, file;
+  try { blob = await toBlob(await draw(c, name)); if (!blob) throw new Error('blob'); file = new File([blob], fname, { type: 'image/jpeg' }); } catch (e) { closeModal(); toast('카드를 만들지 못했어요. 잠시 뒤 다시 눌러 주세요.'); return; }
   const bx = document.getElementById('anb-box'); if (!bx) return;
   const url = URL.createObjectURL(blob);
   document.getElementById('anb-h').textContent = '안부 카드가 준비되었습니다';
@@ -135,6 +135,8 @@ export async function mount(d) {
     <p class="anb-lock">이름 넣기는 <b>무료 구독</b>하면 바로 쓸 수 있어요. 카톡·네이버로 두 번이면 끝나요.</p>
     <div class="anb-row"></div>`;
   intro.after(box);
+  // 느린 폰에서 시대 공유 판이 나중에 배너 뒤에 붙으면 안부 카드를 다시 배너 바로 밑으로
+  if (document.documentElement.classList.contains('v2') && !document.querySelector('.cols-wrap.h4')) { const mo = new MutationObserver(() => { if (document.querySelector('.cols-wrap.h4')) { mo.disconnect(); intro.after(box); } }); mo.observe(intro.parentNode, { childList: true }); setTimeout(() => mo.disconnect(), 15000); }
   render();
   box.addEventListener('click', e => {
     const tb = e.target.closest('[data-t]'); if (tb) { tab = tb.dataset.t; render(); return; }
@@ -143,6 +145,6 @@ export async function mount(d) {
   const inp = box.querySelector('#anb-name');
   const gate = e => { if (!member()) { e.preventDefault(); inp.blur(); deps.openGate('받는 분 이름을 넣어 보내려면'); } };
   inp.addEventListener('focus', gate); inp.addEventListener('mousedown', gate);
-  let tm; inp.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { setName(tab, inp.value.trim()); const t = tab; box.querySelector('.anb-row').innerHTML = todays(t).map((c, k) => tileHTML(c, k, nameFor(t))).join(''); }, 250); });
+  let tm; inp.addEventListener('input', () => { const t = tab; setName(t, inp.value.trim()); clearTimeout(tm); tm = setTimeout(() => { if (t !== tab) return; box.querySelector('.anb-row').innerHTML = todays(t).map((c, k) => tileHTML(c, k, nameFor(t))).join(''); }, 250); });
   deps.DB.onUser(() => render());
 }
