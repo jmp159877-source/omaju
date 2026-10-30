@@ -1,34 +1,33 @@
-// 안부 카드 (대표 2026-10-31 — "오마주에 와서 인사 카드 보내기를 메인으로 딱 빼자")
-// 첫 화면 커버·소개 배너 바로 밑. 친구·지인 / 부모님께 / 자녀에게 / 모임 단톡방 네 갈래.
+// 좋은 글귀 인사 카드 (대표 2026-10-31 02:13 — "어떤 마음을 전할지부터 고르고, 누구에게, 호칭, 카드, 카톡")
+// 첫 화면 커버·소개 배너 바로 밑. ① 마음 갈래 일곱(사진 칸) ② 받는 사람 넷(말투가 바뀐다) ③ 호칭 ④ 큰 카드 옆으로 넘겨 고르기.
 // 보내기는 누구나, **받는 분 이름 넣기는 무료 구독자만**(이름 칸을 누르는 순간 한 번 권함).
-// 카드에는 로고 없이 오른쪽 아래 구석에 작게 '오마주 매거진'(대표 2026-10-31: "받는 사람이 이게 뭐지 하고 검색해 보게").
-// 사진은 cardpool 가지에서 고른 실사(img/anbu/), 문장은 data/anbu.json.
+// 카드에는 로고 없이 오른쪽 아래 구석에 작게 '오마주 매거진'. 사진 img/anbu/, 문장 data/anbu.json(cards[마음][받는 사람]).
 const TABS = [
-  ['friend', '친구·지인에게', '예: 미숙아 · 김 선생님 · 언니', ''],
+  ['friend', '친구·지인에게', '예: 미숙아 · 김 선생님', ''],
   ['parent', '부모님께', '예: 엄마 · 아버지 · 장모님', '엄마 아빠,'],
   ['child', '자녀에게', '예: 지수야 · 아들 · 우리 딸', ''],
-  ['group', '모임 단톡방에', '예: 62년생 동창회 여러분 · 북한산 산악회', '여러분,'],
+  ['group', '모임 단톡방에', '예: 동창회 여러분', '여러분,'],
 ];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-export let D; let deps, tab = 'friend', box;
+export let D; let deps, tab = 'friend', mood = 'courage', box;
 const now = new Date(), DAY = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 864e5), DOW = now.getDay();
 const M = now.getMonth(), SEASON = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
 const fits = x => (!x.w || x.w.includes(DOW)) && (!x.s || x.s === SEASON);
+const ls = (k, v) => { try { if (v === undefined) return localStorage.getItem(k) || ''; v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) { return ''; } };
 const nameKey = t => 'omaju.anbu.' + t;
-const getName = t => { try { return localStorage.getItem(nameKey(t)) || ''; } catch (e) { return ''; } };
-const setName = (t, v) => { try { v ? localStorage.setItem(nameKey(t), v) : localStorage.removeItem(nameKey(t)); } catch (e) {} };
+const getName = t => ls(nameKey(t));
+const setName = (t, v) => ls(nameKey(t), v);
 const member = () => !!(deps && deps.DB.currentUser());
 const nameFor = t => (member() && getName(t)) || (TABS.find(x => x[0] === t) || [])[3] || '';   // 이름을 안 넣으면 부모님께는 '엄마 아빠,' 모임에는 '여러분,'
+const photo = f => D.photos.find(p => p.f === f) || { f, k: 'full' };
 
-// 오늘 이 칸에 보여 줄 여섯 장 — 오늘 요일·철에 맞는 문장을 먼저, 날마다 차례가 돈다
-export function todays(t) {
-  const all = (D[t] || []).map((x, i) => ({ ...x, i })).filter(fits);
-  const tagged = all.filter(x => x.w || x.s), hope = all.filter(x => x.h), plain = all.filter(x => !x.w && !x.s && !x.h);
-  const rot = (a, n) => a.length ? a.slice(n % a.length).concat(a.slice(0, n % a.length)) : a;
-  const ti = TABS.findIndex(x => x[0] === t);
-  const out = rot(tagged, DAY).slice(0, 2).concat(rot(hope, DAY + ti).slice(0, 2), rot(plain, DAY * 3 + ti)).slice(0, 6);   // 힘이 되는 글귀 두 장은 늘 (대표 2026-10-31: 시대가 어렵다)
-  const ph = D.photos.filter(fits);
-  return out.map((x, k) => ({ text: x.t, photo: ph[(DAY * 5 + ti * 3 + k) % ph.length] }));
+// 이 마음·이 사람에게 보여 줄 여섯 장 — 오늘 요일·철에 맞는 것만, 날마다 차례가 돈다
+export function todays(t, m = mood) {
+  const all = ((D.cards[m] || {})[t] || []).map(x => typeof x === 'string' ? { t: x } : x).filter(fits);
+  const n = all.length ? DAY % all.length : 0, out = all.slice(n).concat(all.slice(0, n)).slice(0, 6);
+  const md = D.moods.find(x => x.k === m) || D.moods[0];
+  const ph = md.p.slice(1).map(photo).filter(fits), pool = ph.length ? ph : D.photos.filter(fits);
+  return out.map((x, k) => ({ text: x.t, photo: pool[(DAY + k) % pool.length] }));
 }
 
 function tileHTML(c, k, name) {
@@ -36,13 +35,21 @@ function tileHTML(c, k, name) {
   return `<button type="button" class="anb-card k-${c.photo.k}" data-k="${k}" style="background-image:url('img/anbu/${c.photo.f}.jpg')"><span class="anb-txt">${lines.map((l, j) => `<span class="${name && j === 0 ? 'anb-nm' : ''}">${esc(l)}</span>`).join('')}</span><small class="anb-mark">오마주 매거진</small></button>`;
 }
 
+function cards() {
+  const row = box.querySelector('.anb-row'), name = nameFor(tab), L = todays(tab);
+  row.innerHTML = L.map((c, k) => tileHTML(c, k, name)).join('');
+  row.scrollLeft = 0; box.querySelector('.anb-cnt').textContent = L.length ? `1 / ${L.length}` : '';
+}
 function render() {
-  const t = TABS.find(x => x[0] === tab), name = nameFor(tab);
+  const mw = box.querySelector('.anb-moods');
+  if (mw.children.length) mw.querySelectorAll('[data-m]').forEach(b => { const on = b.dataset.m === mood; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  else mw.innerHTML = D.moods.map(x => `<button type="button" data-m="${x.k}" class="${x.k === mood ? 'on' : ''}" aria-pressed="${x.k === mood}"><span class="anb-mph" style="background-image:url('img/anbu/${x.p[0]}.jpg')"></span><span class="anb-mn">${esc(x.n)}</span></button>`).join('');
+  const t = TABS.find(x => x[0] === tab);
   box.querySelector('.anb-tabs').innerHTML = TABS.map(x => `<button type="button" data-t="${x[0]}" class="${x[0] === tab ? 'on' : ''}" aria-pressed="${x[0] === tab}">${x[1]}</button>`).join('');
   const inp = box.querySelector('#anb-name');
   inp.placeholder = t[2]; inp.value = member() ? getName(tab) : '';
   box.querySelector('.anb-lock').hidden = member();
-  box.querySelector('.anb-row').innerHTML = todays(tab).map((c, k) => tileHTML(c, k, name)).join('');
+  cards();
 }
 
 // ── 보내는 그림 (1080×1350) ──
@@ -83,7 +90,7 @@ export async function draw(c, name) {
     putLines(W / 2, top, 'center', '#23201B', null, '#1F5A3E');
     markColor = 'rgba(60,60,55,0.55)';
   } else {   // sky — 하늘·풍경 가운데 흰 글씨, 그림자를 넉넉히(밝은 하늘에 흰 글씨는 안 읽힌다)
-    x.fillStyle = 'rgba(0,0,0,0.20)'; x.fillRect(0, 0, W, H);
+    x.fillStyle = 'rgba(0,0,0,0.26)'; x.fillRect(0, 0, W, H);
     putLines(W / 2, (H - blockH) / 2 - 20, 'center', '#fff', 'rgba(0,0,0,0.6)');
   }
   // 오른쪽 아래 구석 '오마주 매거진' (작게)
@@ -101,12 +108,13 @@ async function open(k) {
   const { modal, closeModal, kakaoSendCard, DB, toast } = deps;
   try { DB.bumpClick('anbu'); } catch (e) {}
   const c = todays(tab)[k], name = nameFor(tab);
-  modal(`<h2 id="anb-h">안부 카드를 만들고 있어요</h2><div id="anb-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;opacity:.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn green" id="anb-send" disabled style="opacity:.45">카톡으로 보내기</button><button type="button" class="btn line" id="anb-save" disabled style="opacity:.45">사진에 저장하기</button></div>${member() ? '' : '<p class="anb-tip">무료 구독하면 받는 분 이름을 넣어 보낼 수 있어요.</p>'}`);
-  const fname = `오마주매거진_안부카드_${k + 1}.jpg`; let blob, file;
+  if (!c) return;
+  modal(`<h2 id="anb-h">인사 카드를 만들고 있어요</h2><div id="anb-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;opacity:.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn green" id="anb-send" disabled style="opacity:.45">카톡으로 보내기</button><button type="button" class="btn line" id="anb-save" disabled style="opacity:.45">사진에 저장하기</button></div>${member() ? '' : '<p class="anb-tip">무료 구독하면 받는 분 이름을 넣어 보낼 수 있어요.</p>'}`);
+  const fname = `오마주매거진_인사카드_${k + 1}.jpg`; let blob, file;
   try { blob = await toBlob(await draw(c, name)); if (!blob) throw new Error('blob'); file = new File([blob], fname, { type: 'image/jpeg' }); } catch (e) { closeModal(); toast('카드를 만들지 못했어요. 잠시 뒤 다시 눌러 주세요.'); return; }
   const bx = document.getElementById('anb-box'); if (!bx) return;
   const url = URL.createObjectURL(blob);
-  document.getElementById('anb-h').textContent = '안부 카드가 준비되었습니다';
+  document.getElementById('anb-h').textContent = '인사 카드가 준비되었습니다';
   bx.outerHTML = `<img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,.25)">`;
   ['anb-send', 'anb-save'].forEach(id => { const el = document.getElementById(id); el.disabled = false; el.style.opacity = ''; });
   const save = () => { const a = document.createElement('a'); a.href = url; a.download = fname; a.click(); closeModal(); toast('사진에 저장했어요. 카톡에서 사진으로 보내 주세요.'); };
@@ -127,24 +135,33 @@ export async function mount(d) {
   // 시대 공유 판(home2)이 먼저 배너 뒤에 붙고 나서 끼워야 안부 카드가 배너 바로 밑에 온다
   if (document.documentElement.classList.contains('v2')) for (let i = 0; i < 40 && !document.querySelector('.cols-wrap.h4'); i++) await new Promise(r => setTimeout(r, 50));
   const intro = document.querySelector('.intro'); if (!intro || document.getElementById('anbu')) return;
-  box = document.createElement('section'); box.id = 'anbu'; box.className = 'anbu'; box.setAttribute('aria-label', '안부 카드');
-  box.innerHTML = `<p class="cols-head">힘이 되는 안부 카드 <small>용기와 희망을 전하는 좋은 글귀</small></p>
-    <ol class="anb-how"><li>누구에게 보낼지 고르고</li><li>받는 분 이름이나 호칭을 쓰고</li><li>마음에 드는 카드를 눌러 카톡으로</li></ol>
+  box = document.createElement('section'); box.id = 'anbu'; box.className = 'anbu'; box.setAttribute('aria-label', '좋은 글귀 인사 카드');
+  const sv = ls('omaju.anbu.mood'); if (D.moods.some(x => x.k === sv)) mood = sv;
+  box.innerHTML = `<p class="cols-head">좋은 글귀 인사 카드 <small>용기와 희망을 전하는 한 장</small></p>
+    <p class="anb-q"><b>1</b>어떤 마음을 전할까요?</p>
+    <div class="anb-moods" role="group" aria-label="어떤 마음"></div>
+    <p class="anb-q"><b>2</b>누구에게 보낼까요?</p>
     <div class="anb-tabs" role="group" aria-label="누구에게"></div>
+    <p class="anb-q"><b>3</b>받는 분을 불러 주세요</p>
     <label class="anb-in"><span>받는 분</span><input id="anb-name" type="text" maxlength="16" autocomplete="off" inputmode="text"></label>
     <p class="anb-lock">이름 넣기는 <b>무료 구독</b>하면 바로 쓸 수 있어요. 카톡·네이버로 두 번이면 끝나요.</p>
+    <p class="anb-q"><b>4</b>카드를 눌러 카톡으로 <span class="anb-cnt"></span></p>
     <div class="anb-row"></div>`;
   intro.after(box);
   // 느린 폰에서 시대 공유 판이 나중에 배너 뒤에 붙으면 안부 카드를 다시 배너 바로 밑으로
   if (document.documentElement.classList.contains('v2') && !document.querySelector('.cols-wrap.h4')) { const mo = new MutationObserver(() => { if (document.querySelector('.cols-wrap.h4')) { mo.disconnect(); intro.after(box); } }); mo.observe(intro.parentNode, { childList: true }); setTimeout(() => mo.disconnect(), 15000); }
   render();
   box.addEventListener('click', e => {
+    const mb = e.target.closest('[data-m]'); if (mb) { mood = mb.dataset.m; ls('omaju.anbu.mood', mood); render(); return; }
     const tb = e.target.closest('[data-t]'); if (tb) { tab = tb.dataset.t; render(); return; }
     const cd = e.target.closest('.anb-card'); if (cd) open(+cd.dataset.k);
   });
   const inp = box.querySelector('#anb-name');
   const gate = e => { if (!member()) { e.preventDefault(); inp.blur(); deps.openGate('받는 분 이름을 넣어 보내려면'); } };
   inp.addEventListener('focus', gate); inp.addEventListener('mousedown', gate);
-  let tm; inp.addEventListener('input', () => { const t = tab; setName(t, inp.value.trim()); clearTimeout(tm); tm = setTimeout(() => { if (t !== tab) return; box.querySelector('.anb-row').innerHTML = todays(t).map((c, k) => tileHTML(c, k, nameFor(t))).join(''); }, 250); });
+  let tm; inp.addEventListener('input', () => { const t = tab; setName(t, inp.value.trim()); clearTimeout(tm); tm = setTimeout(() => { if (t !== tab) return; const row = box.querySelector('.anb-row'), x = row.scrollLeft; cards(); row.scrollLeft = x; row.dispatchEvent(new Event('scroll')); }, 250); });
+  // 넘길 때 '몇 번째 / 여섯' 표시
+  const row = box.querySelector('.anb-row'); let rt;
+  row.addEventListener('scroll', () => { clearTimeout(rt); rt = setTimeout(() => { const c = row.querySelector('.anb-card'); if (!c) return; const w = c.offsetWidth + 12, n = row.children.length; const i = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4 ? n : Math.min(n, Math.round(row.scrollLeft / w) + 1); box.querySelector('.anb-cnt').textContent = `${i} / ${n}`; }, 80); }, { passive: true });
   deps.DB.onUser(() => render());
 }
