@@ -1,459 +1,433 @@
 {
- "body": {
-  "part": "피부",
-  "note": "골프장이나 산길을 걷다 보면 모자 챙이 얼굴은 가려 주지만 귀와 목덜미는 그대로 볕을 받습니다. 가을 하늘이 맑을수록 햇빛은 여름 못지않게 피부에 닿고, 늘 놓치는 이 두 곳이 먼저 붉어지고 거칠어집니다.",
-  "todo": "외출 전 선크림을 귀 뒤와 목덜미까지 한 번 더 바르세요.",
-  "line": "가을 골프장 햇볕, 귀와 목덜미가 먼저 탑니다",
-  "tip": "선크림은 두세 시간마다 덧발라야 처음 효과가 이어집니다."
- },
- "generatedAt": "2026-10-31T01:12:21.664960+09:00",
- "startedAt": "2026-10-31T03:00:47.437843+09:00",
- "pet": {
-  "dog": {
-   "why": "강아지는 바깥에서 묻혀 온 냄새를 익숙한 집 냄새로 덮으려고 몸을 비비곤 합니다. 산책으로 신난 기분을 터뜨리는 몸짓이기도 하고, 목줄과 하네스를 벗은 뒤의 시원함을 즐기는 것일 수도 있습니다.",
-   "date": "2026-10-31",
-   "vet": "같은 곳만 계속 비비거나 긁어 털이 빠지고 피부가 붉어지면 병원에 보여 주세요.",
-   "hook": "현관문을 닫자마자 쏜살같이 거실로 달려가 소파와 러그에 등을 문지릅니다. 한참을 뒹굴고 나서야 시원한 얼굴로 물그릇 앞에 앉습니다.",
-   "kind": "행동",
-   "title": "산책 다녀오면 소파에 몸을 비비는 우리 댕댕이, 왜 그럴까?",
-   "todo": [
-    "산책 뒤 마른 수건으로 몸을 한 번 닦아 주세요",
-    "몸을 비벼도 괜찮은 전용 담요를 한 장 깔아 두세요",
-    "하네스를 벗긴 뒤 목과 가슴을 손으로 살살 풀어 주세요"
+ "solo": {
+  "eat": {
+   "corner": "eat",
+   "hook": "점심때를 조금 비껴 문을 열면 주방 소리만 낮게 들립니다. 수십 년 같은 맛을 지켜 온 집은 혼자 온 손님에게도 똑같은 그릇을 내옵니다.",
+   "topic": "",
+   "title": "한 그릇 앞에 혼자 앉기 좋은 경기 노포 네 집",
+   "items": [
+    {
+     "where": "수원 인계동",
+     "note": "뼈와 우거지를 듬뿍 넣은 해장국, 선지를 따로 내줘 입맛대로 넣어 먹는다",
+     "solo": "1인 좌석이 있고 늦은 밤에도 혼자 들르는 손님이 많다",
+     "time": "",
+     "name": "유치회관"
+    },
+    {
+     "where": "수원 장안문 앞",
+     "note": "1977년부터 빚은 고기 군만두와 맵기를 고르는 쫄면",
+     "solo": "만두 한 접시에 쫄면 하나면 혼자 딱 알맞은 양이다",
+     "time": "",
+     "name": "보영만두 북문본점"
+    },
+    {
+     "where": "의정부 평화로",
+     "note": "1969년 문을 연 집, 맑고 슴슴한 육수에 메밀 향 도는 평양냉면",
+     "solo": "냉면 한 그릇 비우고 일어서도 아무도 눈여겨보지 않는다",
+     "time": "",
+     "name": "의정부 평양면옥"
+    },
+    {
+     "where": "고양 일산동구 경의로",
+     "note": "진한 닭 육수에 바지락을 더한 닭칼국수 한 가지",
+     "solo": "술을 팔지 않아 혼자 한 그릇에 집중하기 좋은 분위기다",
+     "time": "",
+     "name": "일산칼국수 본점"
+    }
    ],
-   "id": "dog-2026-10-31"
+   "tips": [
+    "오래된 집은 점심 피크를 피해 1시 반 넘어 가면 자리 고르기가 편합니다.",
+    "영업시간이 바뀌는 일이 있으니 나서기 전에 지도 앱에서 한 번 더 확인하세요."
+   ],
+   "id": "eat-2026-10-31",
+   "region": "경기",
+   "date": "2026-10-31"
   },
+  "home": {
+   "corner": "home",
+   "hook": "마트에서 대파 한 단을 들었다가 내려놓은 적이 있습니다. 혼자 먹기엔 많고, 안 사면 아쉬운 그 망설임이 장보기마다 따라옵니다.",
+   "topic": "1인분 장보기",
+   "title": "1인분 장보기, 남기지 않고 다 먹는 네 가지 방법",
+   "items": [
+    {
+     "where": "",
+     "note": "나가기 전에 냉장고 안을 휴대폰으로 찍어 두세요. 마트에서 사진만 보면 같은 걸 또 사는 일이 확 줄어듭니다.",
+     "solo": "",
+     "time": "",
+     "name": "장보기 전에 냉장고 사진부터 한 장"
+    },
+    {
+     "where": "",
+     "note": "대형 마트와 동네 시장 모두 반 단·한 줌짜리 채소가 늘었습니다. 값은 조금 비싸 보여도 버리는 양을 따지면 오히려 남습니다.",
+     "solo": "",
+     "time": "",
+     "name": "채소는 한 단 대신 소분 코너에서"
+    },
+    {
+     "where": "",
+     "note": "사 오자마자 한 번 먹을 만큼씩 지퍼 봉지에 납작하게 담아 얼리세요. 얇게 펴 두면 꺼내서 금방 녹습니다.",
+     "solo": "",
+     "time": "",
+     "name": "고기는 사 온 날 한 끼씩 나눠 얼리기"
+    },
+    {
+     "where": "",
+     "note": "두부 한 모를 사면 첫날은 부침, 다음 날은 찌개, 그다음 날은 샐러드로 돌려 보세요. 재료 하나가 사흘의 메뉴를 정해 줍니다.",
+     "solo": "",
+     "time": "",
+     "name": "일주일 메뉴는 재료 하나로 이어 가기"
+    }
+   ],
+   "tips": [
+    "저녁 7시 넘어 마트에 가면 반찬·채소 마감 할인을 자주 만납니다.",
+    "장바구니는 작은 것 하나만 들고 가면 충동구매가 줄어듭니다."
+   ],
+   "id": "home-2026-10-31",
+   "region": "",
+   "date": "2026-10-31"
+  }
+ },
+ "culture": {
+  "essay": {
+   "paras": [
+    "아침에 베란다 문을 여니 공기가 달라져 있었다. 빨래 건조대에 걸어 둔 고무장갑이 밤새 차가워져 손을 넣을 때 움찔했다. 여름 내내 미지근하던 물이 오늘은 손등을 콕 찌른다. 계절은 이렇게 부엌 싱크대에서 먼저 바뀐다.",
+    "어머니는 이맘때면 고무장갑을 새것으로 바꾸셨다. 김장 전에 손이 트지 않게 하려는 거라고 하셨다. 그때는 그 말이 그냥 살림 이야기인 줄 알았다. 지금 보니 겨울을 맞는 당신만의 작은 의식이었던 것 같다.",
+    "오늘 마트에서 고무장갑 한 켤레를 샀다. 주황색 말고 연한 초록으로 골랐다. 새 장갑을 끼고 설거지를 하니 물소리가 조금 부드럽게 들린다. 겨울을 잘 지낼 준비는 이 정도면 시작으로 충분하다."
+   ],
+   "title": "고무장갑 한 켤레",
+   "by": "오마주 편집실"
+  },
+  "poem": {
+   "bg": "고려가 저물던 1392년 무렵, 새 나라를 세우려던 이방원이 고려를 끝까지 지키려던 정몽주의 마음을 떠보려고 읊었다고 전하는 시조입니다. 정몽주는 「단심가」로 답해 뜻을 굽히지 않았고, 얼마 뒤 개성 선죽교에서 목숨을 잃었습니다. 이 노래는 뒷날 가집 『청구영언』 등에 실려 전합니다.",
+   "words": [
+    {
+     "w": "어떠하리",
+     "m": "어떠하겠는가, 무슨 상관이 있겠는가"
+    },
+    {
+     "w": "만수산",
+     "m": "개성 서쪽에 있는 산"
+    },
+    {
+     "w": "드렁칡",
+     "m": "산비탈이나 두렁에 엉켜 자라는 칡"
+    },
+    {
+     "w": "얽혀진들",
+     "m": "서로 감기고 엉킨다 한들"
+    },
+    {
+     "w": "누리리라",
+     "m": "즐기며 살겠다"
+    }
+   ],
+   "year": "고려 시조",
+   "text": "이런들 어떠하며 저런들 어떠하리\n만수산 드렁칡이 얽혀진들 어떠하리\n우리도 이같이 얽혀져 백년까지 누리리라",
+   "author": "이방원",
+   "title": "하여가",
+   "note": "부드럽게 웃으며 손을 내미는 말투인데, 그 안에 '함께 가자'는 단단한 요구가 숨어 있습니다. 칡덩굴처럼 얽혀 살자는 비유가 정겹게 들려서 오히려 거절하기 어려운 권유가 됩니다. 어제 실린 「단심가」와 나란히 읽으면, 같은 자리에서 오간 두 사람의 마음이 또렷하게 보입니다."
+  },
+  "quote": {
+   "who": "세네카",
+   "text": "삶이 짧은 것이 아니라, 우리가 그것을 짧게 만든다.",
+   "note": "로마 철학자 세네카가 친구에게 쓴 글 「삶의 짧음에 대하여」에 담긴 생각을 옮긴 말입니다. 오늘은 미뤄 둔 일 하나를 골라 십 분만이라도 먼저 해 보세요."
+  },
+  "bible": {
+   "ref": "시편 23:1",
+   "text": "여호와는 나의 목자시니 내가 부족함이 없으리로다",
+   "note": "부족함이 없다는 고백은 가진 것이 많아서가 아니라 곁을 지켜 주는 이가 있다는 믿음에서 나옵니다. 오늘 하루도 혼자 걷는 길이 아니라는 마음이면 발걸음이 한결 가벼워집니다."
+  },
+  "humor": {
+   "text": "동창 단톡방에 총무가 공지를 올렸다.\n\"이번 모임은 건강을 위해 술 없이 등산만 합니다.\"\n삼십 분 동안 아무도 답이 없었다.\n그러다 한 명이 조용히 물었다.\n\"하산은 어느 식당으로 하나요?\"",
+   "title": "단톡방 공지",
+   "kind": "짧은 이야기",
+   "punch": "그 뒤로 답장이 스물두 개 달렸다."
+  },
+  "painting": {
+   "points": [
+    "잿빛 안개 속에서 혼자 선명한 주황빛 해와 물 위에 길게 번진 빛 그림자를 보세요.",
+    "앞쪽 작은 배와 노 젓는 사람이 몇 번의 붓질만으로 그려져 있습니다.",
+    "뒤편 배의 돛대와 항구의 기계들이 안개에 녹아들어 형체만 희미하게 남아 있습니다."
+   ],
+   "title": "인상, 해돋이",
+   "artist": "클로드 모네",
+   "wiki": "en:Impression,_Sunrise",
+   "about": "모네가 고향처럼 자란 항구 도시 르아브르의 아침 바다를 그린 그림입니다. 1874년 파리에서 열린 첫 독립 전시에 걸렸고, 한 비평가가 이 제목을 빌려 화가들을 '인상파'라고 비꼰 것이 오히려 이름이 되었습니다. 지금은 파리 마르모탕 모네 미술관에 있습니다.",
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+   "year": "1872",
+   "page": "https://en.wikipedia.org/wiki/Impression%2C_Sunrise",
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/640px-Monet_-_Impression%2C_Sunrise.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+   "artist_story": "클로드 모네(1840~1926)는 파리에서 태어나 르아브르에서 자랐습니다. 같은 풍경도 빛과 시간에 따라 달라진다고 보고 밖에 나가 그리기를 즐겼습니다. 말년에는 지베르니 정원에서 수련 연작을 오래 그렸습니다."
+  },
+  "dharma": {
+   "text": "마음은 모든 일의 근본이다. 마음이 주인이 되어 모든 일을 시킨다. 맑은 마음으로 말하고 행하면 즐거움이 그를 따른다. 그림자가 몸을 따르듯이.",
+   "src": "『법구경』",
+   "note": "같은 일을 겪어도 어떤 마음으로 맞느냐에 따라 하루의 빛깔이 달라진다는 말씀입니다. 말 한마디를 맑게 고르는 것부터가 그림자처럼 따라오는 즐거움의 시작입니다."
+  }
+ },
+ "garden": {
+  "when": "10월 하순 ~ 11월 초",
+  "tip": "베란다 화분은 받침에 고인 물을 꼭 버려 주세요. 찬 물이 바닥에 고여 있으면 뿌리가 숨을 못 쉬어요.",
+  "title": "월동 전, 잔디와 화분 물 주기 횟수를 줄이세요",
+  "myth": "'겨울엔 물을 아예 안 줘도 된다'는 말은 반만 맞아요. 횟수를 줄일 뿐, 흙이 바싹 마르면 늘푸른 식물은 한겨울에도 물이 필요해요.",
+  "body": [
+   "밤 기온이 10도 아래로 내려가면 식물은 자라는 속도를 늦추고 겨울 채비에 들어가요. 이때 여름처럼 물을 주면 뿌리가 늘 젖어 있게 되죠.",
+   "겉흙을 손가락 두 마디 깊이로 찔러 보고, 그 안까지 말라 있을 때만 흠뻑 주세요. 대개 여름보다 간격이 두 배쯤 길어져요.",
+   "물은 해가 들어 흙이 데워진 오전 10시에서 정오 사이에 주는 게 좋아요. 저녁에 준 물은 밤새 차가워져 뿌리를 식히거든요."
+  ],
+  "by": "오마주 정원노트"
+ },
+ "pet": {
   "cat": {
    "why": "고양이는 흐르는 물을 더 신선하다고 느끼는 편입니다. 움직이는 물은 눈에 잘 띄고 소리도 나서 관심을 끕니다. 고인 물그릇보다 물줄기를 반기는 아이가 많은 까닭입니다.",
-   "date": "2026-10-31",
-   "vet": "물을 평소보다 눈에 띄게 많이 마시거나 거의 안 마시면 병원에 들러 보세요.",
-   "hook": "설거지를 하려고 물을 틀면 어느새 싱크대 위에 올라와 있습니다. 앞발로 물줄기를 툭툭 건드리다 고개를 들이밀고 할짝입니다.",
-   "kind": "행동",
    "title": "수도꼭지만 틀면 달려오는 우리 냥이, 흐르는 물이 그렇게 좋을까?",
+   "vet": "물을 평소보다 눈에 띄게 많이 마시거나 거의 안 마시면 병원에 들러 보세요.",
+   "kind": "행동",
+   "id": "cat-2026-10-31",
    "todo": [
     "물그릇을 밥그릇과 조금 떨어진 곳에 하나 더 놓아 보세요.",
     "하루 두 번은 물을 갈아 주고 그릇도 함께 헹궈 주세요.",
     "넓고 얕은 그릇으로 바꿔 수염이 닿지 않게 해 보세요."
    ],
-   "id": "cat-2026-10-31"
+   "date": "2026-10-31",
+   "hook": "설거지를 하려고 물을 틀면 어느새 싱크대 위에 올라와 있습니다. 앞발로 물줄기를 툭툭 건드리다 고개를 들이밀고 할짝입니다."
+  },
+  "dog": {
+   "why": "강아지는 바깥에서 묻혀 온 냄새를 익숙한 집 냄새로 덮으려고 몸을 비비곤 합니다. 산책으로 신난 기분을 터뜨리는 몸짓이기도 하고, 목줄과 하네스를 벗은 뒤의 시원함을 즐기는 것일 수도 있습니다.",
+   "title": "산책 다녀오면 소파에 몸을 비비는 우리 댕댕이, 왜 그럴까?",
+   "vet": "같은 곳만 계속 비비거나 긁어 털이 빠지고 피부가 붉어지면 병원에 보여 주세요.",
+   "kind": "행동",
+   "id": "dog-2026-10-31",
+   "todo": [
+    "산책 뒤 마른 수건으로 몸을 한 번 닦아 주세요",
+    "몸을 비벼도 괜찮은 전용 담요를 한 장 깔아 두세요",
+    "하네스를 벗긴 뒤 목과 가슴을 손으로 살살 풀어 주세요"
+   ],
+   "date": "2026-10-31",
+   "hook": "현관문을 닫자마자 쏜살같이 거실로 달려가 소파와 러그에 등을 문지릅니다. 한참을 뒹굴고 나서야 시원한 얼굴로 물그릇 앞에 앉습니다."
   }
  },
+ "mind": {
+  "line": "끝내지 못한 일이 남은 저녁에도, 하루는 제 몫을 다했다",
+  "todo": "오늘 해낸 일 세 가지를 수첩에 적어 보세요.",
+  "by": "",
+  "note": "할 일을 다 끝내지 못한 저녁에도 하루는 제 몫을 다하고 조용히 저물어 갑니다. 남은 일은 남은 대로 두고, 해낸 한두 가지만 손바닥에 올려 두어도 충분한 날입니다."
+ },
+ "generatedAt": "2026-10-31T01:12:21.664960+09:00",
+ "fortune": {
+  "닭": {
+   "num": "52",
+   "place": "골목 빵집",
+   "do": "출근길이나 산책길을 한 블록만 바꿔 걸어 보세요.",
+   "total": "무난하게 흘러가는 가운데 작은 기쁨이 숨어 있는 날입니다. 늘 하던 일을 조금 다른 순서로 해 보면 새로운 재미가 생깁니다. 하루 끝에는 소소한 성취감이 남습니다.",
+   "care": "잘 안다고 생각한 길도 한 번 더 확인하세요.",
+   "work": "평소 루틴 하나만 바꿔도 오후가 훨씬 가볍습니다.",
+   "color": "하늘색",
+   "people": "가족과 짧게라도 저녁을 같이하면 대화가 길어집니다.",
+   "money": "자주 쓰는 정기 결제 하나를 점검하면 새는 돈이 보입니다.",
+   "time": "오후 4시 무렵"
+  },
+  "쥐": {
+   "num": "14",
+   "place": "동네 도서관",
+   "do": "현관 신발장을 딱 한 칸만 비워 정리해 보세요.",
+   "total": "미뤄 두었던 일이 한꺼번에 시원하게 풀리는 날입니다. 아침에 떠오른 순서대로 하나씩 손대면 오후에는 책상과 마음이 한결 가벼워집니다. 저녁에는 해낸 일을 하나씩 세어 보는 재미가 쏠쏠합니다.",
+   "care": "일이 잘 풀린다고 한 번에 너무 많이 벌이지는 마세요.",
+   "work": "오래 붙잡고 있던 서류나 정리가 생각보다 빨리 끝납니다.",
+   "color": "남색",
+   "people": "오랜만에 온 연락에 답하면 반가운 약속이 하나 생깁니다.",
+   "money": "미뤄 둔 작은 수리비는 오늘 치르면 마음이 한결 놓입니다.",
+   "time": "오전 10시 무렵"
+  },
+  "원숭이": {
+   "num": "33",
+   "place": "동네 공방",
+   "do": "서랍 속 안 쓰는 충전기 줄을 정리해 보세요.",
+   "total": "손재주와 눈썰미가 빛나는 날입니다. 고장 난 물건이나 엉킨 일을 붙잡으면 생각보다 금방 해결됩니다. 저녁에는 작은 칭찬 한마디가 하루를 환하게 만듭니다.",
+   "care": "재미에 빠져 끼니를 거르지 않게 시간을 보세요.",
+   "work": "오래 안 풀리던 집안 고칠 거리를 오늘 손보면 시원합니다.",
+   "color": "주황",
+   "people": "도움을 청해 온 사람을 돕고 나면 내 일도 수월해집니다.",
+   "money": "새로 사기 전에 있는 것을 고쳐 쓰면 지갑이 웃습니다.",
+   "time": "오전 11시 무렵"
+  },
+  "호랑이": {
+   "num": "23",
+   "place": "단골 카페",
+   "do": "고마웠던 사람에게 짧은 안부 문자를 보내 보세요.",
+   "total": "먼저 손을 내밀면 막혔던 일이 쉽게 풀리는 날입니다. 망설이던 제안이나 부탁을 오전에 꺼내면 상대도 생각보다 반갑게 받아 줍니다. 저녁에는 뜻밖의 칭찬 한마디가 하루를 기분 좋게 마무리해 줍니다.",
+   "care": "자신감이 앞서 남의 말을 끊지 않도록 조금만 조심하세요.",
+   "work": "혼자 끙끙대던 일을 동료와 나누면 뜻밖에 빨리 끝납니다.",
+   "color": "주황색",
+   "people": "동료나 이웃과 나눈 짧은 대화에서 쓸 만한 정보를 얻습니다.",
+   "money": "함께 먹는 점심값을 먼저 내면 더 좋은 일로 돌아옵니다.",
+   "time": "오전 11시 무렵"
+  },
+  "돼지": {
+   "num": "61",
+   "place": "시장 골목",
+   "do": "제철 과일 하나를 사서 천천히 맛보세요.",
+   "total": "느긋하게 즐길수록 운이 따라오는 날입니다. 해야 할 일 목록을 줄이고 하고 싶은 일 하나를 넣으면 마음이 넉넉해집니다. 하루 끝에는 맛있는 한 끼가 기분 좋게 남습니다.",
+   "care": "늦은 밤 간식은 조금만 덜어 드세요.",
+   "work": "꼭 오늘 할 일 세 가지만 골라 끝내면 충분합니다.",
+   "color": "와인색",
+   "people": "먼저 밥 한번 먹자고 말하면 반가운 대답이 옵니다.",
+   "money": "좋아하는 것에 쓰는 작은 돈은 아끼지 않아도 됩니다.",
+   "time": "저녁 6시 무렵"
+  },
+  "용": {
+   "num": "5",
+   "place": "서점",
+   "do": "관심 가던 강좌나 모임을 하나 찾아 적어 두세요.",
+   "total": "뜻밖의 소식이 반가운 기회를 물고 오는 날입니다. 처음엔 번거로워 보여도 끝까지 들어 보면 마음이 움직이는 이야기입니다. 저녁에는 새로운 계획 하나를 수첩에 적어 두고 싶어집니다.",
+   "care": "들뜬 마음에 그 자리에서 약속을 다 해 버리지는 마세요.",
+   "work": "새로 맡게 된 일이 앞으로의 흐름을 바꿔 줄 수 있습니다.",
+   "color": "하늘색",
+   "people": "새로 알게 된 사람과 의외로 말이 잘 통해 오래 이야기합니다.",
+   "money": "배우는 일에 쓰는 작은 돈은 오늘만큼은 아끼지 마세요.",
+   "time": "오전 9시 무렵"
+  },
+  "뱀": {
+   "num": "19",
+   "place": "조용한 창가 자리",
+   "do": "휴대폰을 30분 내려놓고 한 가지 일에만 집중해 보세요.",
+   "total": "조용히 내 할 일에 집중하면 성과가 나는 날입니다. 주변이 시끄러워도 한 가지에만 매달리면 오후쯤 손에 잡히는 결과가 생깁니다. 저녁에는 혼자만의 시간이 오랜만에 단단하게 채워집니다.",
+   "care": "사소한 말에 마음이 상하기 쉬우니 가볍게 흘려들으세요.",
+   "work": "미뤄 두었던 공부나 정리를 한 시간만 해도 크게 나아갑니다.",
+   "color": "보라색",
+   "people": "남의 일에 끼어들기보다 한 걸음 물러서 있는 편이 낫습니다.",
+   "money": "오늘은 지갑을 닫아 두는 것이 가장 크게 남는 장사입니다.",
+   "time": "오후 3시 무렵"
+  },
+  "양": {
+   "num": "8",
+   "place": "집 근처 찻집",
+   "do": "따뜻한 차 한 잔을 천천히 다 마셔 보세요.",
+   "total": "한 박자 늦추는 편이 득이 되는 날입니다. 남의 속도에 맞추기보다 내 걸음대로 가면 실수가 줄어듭니다. 하루 끝에는 조용히 쉬어 간 것이 오히려 잘한 일로 남습니다.",
+   "care": "피곤하면 약속을 하나 줄여도 괜찮습니다.",
+   "work": "급한 연락은 짧게 답하고 큰 결정은 다음 주로 미루세요.",
+   "color": "베이지",
+   "people": "말을 아끼고 들어 주면 서운했던 사이가 풀립니다.",
+   "money": "충동구매가 당기는 날이니 장바구니에만 담아 두세요.",
+   "time": "저녁 7시 무렵"
+  },
+  "말": {
+   "num": "27",
+   "place": "강변 산책로",
+   "do": "가 보고 싶던 곳의 길을 지도에서 미리 찾아 두세요.",
+   "total": "생각해 둔 계획을 꺼내 놓기 좋은 날입니다. 혼자 고민하던 일을 가까운 사람에게 털어놓으면 뜻밖의 쉬운 길이 보입니다. 저녁에는 일정표에 동그라미 하나가 늘어 있습니다.",
+   "care": "좋은 생각이라도 결정은 하룻밤 재워 두세요.",
+   "work": "미뤄 둔 계획표를 펼치면 오늘 할 첫 단계가 또렷해집니다.",
+   "color": "연두",
+   "people": "옛 동료에게 먼저 안부를 물으면 좋은 정보를 얻습니다.",
+   "money": "할인보다 오래 쓸 물건인지를 먼저 따져 보면 후회가 없습니다.",
+   "time": "오후 2시 무렵"
+  },
+  "토끼": {
+   "num": "31",
+   "place": "동네 시장",
+   "do": "내일 입을 옷과 가방을 오늘 밤 미리 챙겨 두세요.",
+   "total": "무난하게 흘러가지만 작은 실수를 조심하면 좋은 날입니다. 약속 시간과 준비물을 한 번만 더 확인해 두면 걱정할 일이 없습니다. 하루 끝에는 별일 없이 지나간 것이 고맙게 느껴집니다.",
+   "care": "열쇠나 휴대폰을 두고 나오기 쉬우니 문 앞에서 한 번 살피세요.",
+   "work": "익숙한 일일수록 빠뜨린 것이 없는지 한 번 더 보세요.",
+   "color": "연두색",
+   "people": "가족과 나누는 소소한 이야기가 오늘의 가장 큰 즐거움입니다.",
+   "money": "자동 결제 목록을 훑어보면 새는 돈 하나를 찾게 됩니다.",
+   "time": "오후 2시 무렵"
+  },
+  "개": {
+   "num": "19",
+   "place": "단골 식당",
+   "do": "고마웠던 사람에게 짧은 문자 하나 보내 보세요.",
+   "total": "믿었던 사람과의 약속이 든든한 힘이 되는 날입니다. 혼자 다 하려 하지 말고 함께하는 쪽을 고르면 일이 반으로 줄어듭니다. 저녁에는 고마운 얼굴이 하나 떠오릅니다.",
+   "care": "부탁을 다 들어주다 내 일이 밀리지 않게 하세요.",
+   "work": "나눠 맡기면 끝나는 시간이 확 당겨집니다.",
+   "color": "갈색",
+   "people": "오래된 친구의 한마디가 고민을 시원하게 풀어 줍니다.",
+   "money": "함께 쓰는 물건은 나눠 사면 서로 이득입니다.",
+   "time": "오후 1시 무렵"
+  },
+  "소": {
+   "num": "8",
+   "place": "집 앞 산책길",
+   "do": "따뜻한 차 한 잔을 휴대폰 없이 천천히 마셔 보세요.",
+   "total": "서두르면 손해를 보니 한 박자 늦추는 것이 좋은 날입니다. 답을 바로 내기보다 하루쯤 묵혀 두면 더 나은 쪽이 저절로 눈에 들어옵니다. 해 질 무렵에는 들떴던 마음이 차분히 가라앉습니다.",
+   "care": "급하게 보낸 문자가 오해를 살 수 있으니 한 번 더 읽어 보세요.",
+   "work": "새 일을 벌이기보다 하던 일을 마무리하는 쪽이 낫습니다.",
+   "color": "황토색",
+   "people": "말을 아끼는 사람이 오늘은 오히려 더 큰 믿음을 얻습니다.",
+   "money": "눈에 들어온 물건은 장바구니에 담아 두고 내일 다시 보세요.",
+   "time": "오후 5시 무렵"
+  }
+ },
+ "body": {
+  "line": "가을 골프장 햇볕, 귀와 목덜미가 먼저 탑니다",
+  "part": "피부",
+  "todo": "외출 전 선크림을 귀 뒤와 목덜미까지 한 번 더 바르세요.",
+  "tip": "선크림은 두세 시간마다 덧발라야 처음 효과가 이어집니다.",
+  "note": "골프장이나 산길을 걷다 보면 모자 챙이 얼굴은 가려 주지만 귀와 목덜미는 그대로 볕을 받습니다. 가을 하늘이 맑을수록 햇빛은 여름 못지않게 피부에 닿고, 늘 놓치는 이 두 곳이 먼저 붉어지고 거칠어집니다."
+ },
+ "source": "auto",
+ "meal": {
+  "steps": [
+   "단호박은 얇게 썰어 전자레인지에 3분 돌려 반쯤 익힌다.",
+   "팬에 버터를 녹여 새우와 단호박을 볶다가 데친 우동면을 넣는다.",
+   "간장을 팬 가장자리에 둘러 향을 낸 뒤 센 불에서 1분 더 볶는다."
+  ],
+  "ingredients": [
+   "우동면 1봉",
+   "단호박 1/4통(얇게 썰기)",
+   "생새우 8마리",
+   "버터 1큰술",
+   "간장 1큰술"
+  ],
+  "title": "단호박 새우 볶음우동",
+  "lead": "가을 단호박은 단맛이 꽉 차 볶기만 해도 소스가 됩니다. 탱글한 새우와 버터를 더하면 혼자 먹기 아까운 한 그릇이 됩니다.",
+  "tip": "단호박을 조금 으깨듯 볶으면 면에 달큰한 소스가 고루 묻습니다.",
+  "sub": "1인분 · 20분 · 재료 5가지"
+ },
  "era": {
-  "20": {
-   "facts": [
-    [
-     "반기문 총장",
-     "10월 13일(미국 시각), 유엔 총회가 반기문 외교부 장관을 제8대 유엔 사무총장으로 임명했습니다. 한국인이 유엔의 수장이 된 것은 처음이었습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Ban_Ki-moon_February_2016.jpg/640px-Ban_Ki-moon_February_2016.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "구글과 유튜브",
-     "10월 9일, 구글이 문을 연 지 두 해도 안 된 동영상 사이트 유튜브를 16억 5천만 달러에 사들인다고 밝혔습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Googleplex_HQ_%28cropped%29.jpg/640px-Googleplex_HQ_%28cropped%29.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "드라마 주몽",
-     "이 가을 송일국 주연의 MBC 사극 「주몽」이 월요일·화요일 밤마다 온 가족을 텔레비전 앞에 불러 모았습니다."
-    ]
-   ],
-   "songs": [
-    [
-     "남자를 몰라",
-     "버즈"
-    ],
-    [
-     "그 남자 그 여자",
-     "바이브"
-    ],
-    [
-     "하기 힘든 말",
-     "이승기"
-    ],
-    [
-     "제자리걸음",
-     "김종국"
-    ],
-    [
-     "여인의 향기",
-     "씨야"
-    ],
-    [
-     "거리에서",
-     "성시경"
-    ],
-    [
-     "U",
-     "슈퍼주니어"
-    ],
-    [
-     "이따 이따요",
-     "장윤정"
-    ],
-    [
-     "O-正.反.合.",
-     "동방신기"
-    ],
-    [
-     "Grace",
-     "이수영"
-    ]
-   ],
-   "pop": [
-    [
-     "Crazy",
-     "Gnarls Barkley"
-    ],
-    [
-     "Hips Don't Lie",
-     "Shakira"
-    ],
-    [
-     "SexyBack",
-     "Justin Timberlake"
-    ],
-    [
-     "Bad Day",
-     "Daniel Powter"
-    ],
-    [
-     "You're Beautiful",
-     "James Blunt"
-    ],
-    [
-     "Unwritten",
-     "Natasha Bedingfield"
-    ],
-    [
-     "Irreplaceable",
-     "Beyoncé"
-    ],
-    [
-     "Chasing Cars",
-     "Snow Patrol"
-    ],
-    [
-     "Over My Head (Cable Car)",
-     "The Fray"
-    ],
-    [
-     "Promiscuous",
-     "Nelly Furtado"
-    ]
-   ],
-   "mood": "디지털카메라로 찍은 사진을 미니홈피에 올리고 도토리로 배경 음악을 사던 그 시절을 다시 꺼내어 봅니다."
-  },
-  "40": {
-   "facts": [
-    [
-     "오페라의 유령",
-     "10월 9일, 런던 웨스트엔드 허 머제스티스 극장에서 뮤지컬 「오페라의 유령」이 막을 올렸습니다. 이후 수십 년 동안 무대를 지킨 작품의 시작이었습니다.",
-     "https://upload.wikimedia.org/wikipedia/en/e/ef/The_Phantom_of_the_Opera_%281986_musical%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-    ],
-    [
-     "한지붕 세가족",
-     "이해 MBC 일요 아침 드라마 「한지붕 세가족」이 시작됐습니다. 한집에 세 들어 사는 이웃들의 이야기로 8년 동안 사랑받았습니다."
-    ]
-   ],
-   "songs": [
-    [
-     "나의 사랑 나의 어둠",
-     "이선희"
-    ],
-    [
-     "남남",
-     "최성수"
-    ],
-    [
-     "바람 바람 바람",
-     "김범룡"
-    ],
-    [
-     "난 아직 모르잖아요",
-     "이문세"
-    ],
-    [
-     "허공",
-     "조용필"
-    ],
-    [
-     "오늘밤",
-     "김완선"
-    ],
-    [
-     "알고 싶어요",
-     "이선희"
-    ],
-    [
-     "사랑하기에",
-     "이정석"
-    ],
-    [
-     "젊음의 노트",
-     "유미리"
-    ],
-    [
-     "아직도 어두운 밤인가봐",
-     "전영록"
-    ]
-   ],
-   "pop": [
-    [
-     "That's What Friends Are For",
-     "Dionne Warwick & Friends"
-    ],
-    [
-     "Take My Breath Away",
-     "Berlin"
-    ],
-    [
-     "Glory of Love",
-     "Peter Cetera"
-    ],
-    [
-     "Greatest Love of All",
-     "Whitney Houston"
-    ],
-    [
-     "Papa Don't Preach",
-     "Madonna"
-    ],
-    [
-     "Live to Tell",
-     "Madonna"
-    ],
-    [
-     "Kyrie",
-     "Mr. Mister"
-    ],
-    [
-     "Say You, Say Me",
-     "Lionel Richie"
-    ],
-    [
-     "Addicted to Love",
-     "Robert Palmer"
-    ],
-    [
-     "The Final Countdown",
-     "Europe"
-    ]
-   ],
-   "mood": "골목마다 연탄 배달 리어카가 오가고 일요일 아침이면 온 식구가 텔레비전 앞에 모이던 그 시절을 다시 꺼내어 봅니다."
-  },
-  "10": {
-   "facts": [
-    [
-     "밥 딜런 노벨상",
-     "10월 13일, 스웨덴 한림원이 가수 밥 딜런에게 노벨 문학상을 준다고 발표했습니다. 노랫말이 문학상을 받은 일로 세계가 떠들썩했습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Bob_Dylan_-_Azkena_Rock_Festival_2010_1_%28cropped%29.jpg/640px-Bob_Dylan_-_Azkena_Rock_Festival_2010_1_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ],
-    [
-     "구르미 그린 달빛",
-     "10월, 박보검·김유정이 나온 KBS 사극 「구르미 그린 달빛」이 막을 내렸습니다. 월요일·화요일 밤마다 '박보검 앓이'라는 말이 돌았습니다.",
-     "https://thumb.wikimedia.org/wikipedia/ko/thumb/3/3e/%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg/640px-%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-    ]
-   ],
-   "songs": [
-    [
-     "Cheer Up",
-     "TWICE"
-    ],
-    [
-     "TT",
-     "TWICE"
-    ],
-    [
-     "피 땀 눈물",
-     "방탄소년단"
-    ],
-    [
-     "우주를 줄게",
-     "볼빨간사춘기"
-    ],
-    [
-     "시간을 달려서",
-     "여자친구"
-    ],
-    [
-     "휘파람",
-     "BLACKPINK"
-    ],
-    [
-     "Russian Roulette",
-     "Red Velvet"
-    ],
-    [
-     "이 사랑",
-     "다비치"
-    ],
-    [
-     "You Are My Everything",
-     "거미"
-    ],
-    [
-     "하늘바라기",
-     "정은지"
-    ]
-   ],
-   "pop": [
-    [
-     "Love Yourself",
-     "Justin Bieber"
-    ],
-    [
-     "One Dance",
-     "Drake"
-    ],
-    [
-     "Closer",
-     "The Chainsmokers"
-    ],
-    [
-     "Stressed Out",
-     "Twenty One Pilots"
-    ],
-    [
-     "Can't Stop the Feeling!",
-     "Justin Timberlake"
-    ],
-    [
-     "Cheap Thrills",
-     "Sia"
-    ],
-    [
-     "Treat You Better",
-     "Shawn Mendes"
-    ],
-    [
-     "Work",
-     "Rihanna"
-    ],
-    [
-     "I Took a Pill in Ibiza",
-     "Mike Posner"
-    ],
-    [
-     "We Don't Talk Anymore",
-     "Charlie Puth"
-    ]
-   ],
-   "mood": "단톡방 알림이 쉴 새 없이 울리고 월요일 밤마다 드라마 짤이 타임라인을 채우던 그 시절을 다시 꺼내어 봅니다."
-  },
-  "50": {
-   "facts": [
-    [
-     "아바 「어라이벌」",
-     "10월 11일, 스웨덴 그룹 아바가 앨범 「어라이벌」을 냈습니다. '댄싱 퀸'과 '머니, 머니, 머니'가 이 한 장에 함께 실렸습니다.",
-     "https://upload.wikimedia.org/wikipedia/en/7/71/ABBA_-_Arrival.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-    ],
-    [
-     "하이틴 스타 임예진",
-     "이해 임예진은 「진짜 진짜 잊지마」 「진짜 진짜 미안해」 같은 하이틴 영화에 잇달아 나오며 중고생들의 첫사랑 얼굴이 됐습니다.",
-     "https://upload.wikimedia.org/wikipedia/commons/d/dc/190302_KBS2_%27%ED%95%B4%ED%94%BC%ED%88%AC%EA%B2%8C%EB%8D%944%27_%EC%B6%9C%EA%B7%BC%EA%B8%B8_%EC%9E%84%EC%98%88%EC%A7%84_%281%29.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
-    ]
-   ],
-   "songs": [
-    [
-     "돌아와요 부산항에",
-     "조용필"
-    ],
-    [
-     "오동잎",
-     "최헌"
-    ],
-    [
-     "해뜰날",
-     "송대관"
-    ],
-    [
-     "당신은 모르실거야",
-     "혜은이"
-    ],
-    [
-     "빗속을 둘이서",
-     "투에이스"
-    ],
-    [
-     "내 마음 갈 곳을 잃어",
-     "최백호"
-    ],
-    [
-     "당신만을 사랑해",
-     "혜은이"
-    ],
-    [
-     "아내에게 바치는 노래",
-     "하수영"
-    ],
-    [
-     "나는 못난이",
-     "딕훼밀리"
-    ],
-    [
-     "목마와 숙녀",
-     "박인희"
-    ]
-   ],
-   "pop": [
-    [
-     "Dancing Queen",
-     "ABBA"
-    ],
-    [
-     "Bohemian Rhapsody",
-     "Queen"
-    ],
-    [
-     "Don't Go Breaking My Heart",
-     "Elton John & Kiki Dee"
-    ],
-    [
-     "Silly Love Songs",
-     "Wings"
-    ],
-    [
-     "Fernando",
-     "ABBA"
-    ],
-    [
-     "If You Leave Me Now",
-     "Chicago"
-    ],
-    [
-     "I Write the Songs",
-     "Barry Manilow"
-    ],
-    [
-     "Love Hurts",
-     "Nazareth"
-    ],
-    [
-     "December, 1963 (Oh, What a Night)",
-     "The Four Seasons"
-    ],
-    [
-     "Tonight's the Night",
-     "Rod Stewart"
-    ]
-   ],
-   "mood": "첫 연탄을 들이고 동네 극장 앞 간판을 올려다보던 늦가을, 그 시절을 다시 꺼내어 봅니다."
-  },
   "30": {
-   "facts": [
+   "pop": [
     [
-     "드라마 첫사랑",
-     "이해 가을, 배용준·최수종이 형제로 나온 KBS 주말극 「첫사랑」이 한창이었습니다. 이듬해 마지막 회는 시청률 65.8%를 기록했습니다.",
-     "https://upload.wikimedia.org/wikipedia/en/0/07/First_Love_%281996_TV_series%29_promotional_image.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+     "Macarena",
+     "Los del Río"
     ],
     [
-     "H.O.T. 데뷔",
-     "9월 7일 데뷔한 다섯 청년 H.O.T.의 「전사의 후예」가 이 가을 교실과 거리를 들썩이게 했습니다.",
-     "https://upload.wikimedia.org/wikipedia/en/a/a4/HOT_2018.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+     "Because You Loved Me",
+     "Celine Dion"
     ],
     [
-     "마카레나 열풍",
-     "로스 델 리오의 「마카레나」가 미국 빌보드 1위를 14주 동안 지키며 10월에도 정상에 있었습니다. 팔을 차례로 내미는 춤을 모두가 따라 했습니다.",
-     "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Remix_of_Los_Del_Rio%27s_Macarena_by_The_Bayside_Boys_European_CD.jpeg/640px-Remix_of_Los_Del_Rio%27s_Macarena_by_The_Bayside_Boys_European_CD.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+     "One Sweet Day",
+     "Mariah Carey & Boyz II Men"
+    ],
+    [
+     "Wannabe",
+     "Spice Girls"
+    ],
+    [
+     "Killing Me Softly",
+     "Fugees"
+    ],
+    [
+     "Ironic",
+     "Alanis Morissette"
+    ],
+    [
+     "Don't Speak",
+     "No Doubt"
+    ],
+    [
+     "Always Be My Baby",
+     "Mariah Carey"
+    ],
+    [
+     "It's All Coming Back to Me Now",
+     "Celine Dion"
+    ],
+    [
+     "Change the World",
+     "Eric Clapton"
     ]
    ],
    "songs": [
@@ -498,289 +472,549 @@
      "쿨"
     ]
    ],
+   "mood": "삐삐 번호를 외워 두고 주말 저녁이면 온 식구가 드라마 앞에 모여 앉던 그 시절을 다시 꺼내어 봅니다.",
+   "facts": [
+    [
+     "드라마 첫사랑",
+     "이해 가을, 배용준·최수종이 형제로 나온 KBS 주말극 「첫사랑」이 한창이었습니다. 이듬해 마지막 회는 시청률 65.8%를 기록했습니다.",
+     "https://upload.wikimedia.org/wikipedia/en/0/07/First_Love_%281996_TV_series%29_promotional_image.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "H.O.T. 데뷔",
+     "9월 7일 데뷔한 다섯 청년 H.O.T.의 「전사의 후예」가 이 가을 교실과 거리를 들썩이게 했습니다.",
+     "https://upload.wikimedia.org/wikipedia/en/a/a4/HOT_2018.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "마카레나 열풍",
+     "로스 델 리오의 「마카레나」가 미국 빌보드 1위를 14주 동안 지키며 10월에도 정상에 있었습니다. 팔을 차례로 내미는 춤을 모두가 따라 했습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Remix_of_Los_Del_Rio%27s_Macarena_by_The_Bayside_Boys_European_CD.jpeg/640px-Remix_of_Los_Del_Rio%27s_Macarena_by_The_Bayside_Boys_European_CD.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ]
+   ]
+  },
+  "40": {
    "pop": [
     [
-     "Macarena",
-     "Los del Río"
+     "That's What Friends Are For",
+     "Dionne Warwick & Friends"
     ],
     [
-     "Because You Loved Me",
-     "Celine Dion"
+     "Take My Breath Away",
+     "Berlin"
     ],
     [
-     "One Sweet Day",
-     "Mariah Carey & Boyz II Men"
+     "Glory of Love",
+     "Peter Cetera"
     ],
     [
-     "Wannabe",
-     "Spice Girls"
+     "Greatest Love of All",
+     "Whitney Houston"
     ],
     [
-     "Killing Me Softly",
-     "Fugees"
+     "Papa Don't Preach",
+     "Madonna"
     ],
     [
-     "Ironic",
-     "Alanis Morissette"
+     "Live to Tell",
+     "Madonna"
     ],
     [
-     "Don't Speak",
-     "No Doubt"
+     "Kyrie",
+     "Mr. Mister"
     ],
     [
-     "Always Be My Baby",
-     "Mariah Carey"
+     "Say You, Say Me",
+     "Lionel Richie"
     ],
     [
-     "It's All Coming Back to Me Now",
-     "Celine Dion"
+     "Addicted to Love",
+     "Robert Palmer"
     ],
     [
-     "Change the World",
-     "Eric Clapton"
+     "The Final Countdown",
+     "Europe"
     ]
    ],
-   "mood": "삐삐 번호를 외워 두고 주말 저녁이면 온 식구가 드라마 앞에 모여 앉던 그 시절을 다시 꺼내어 봅니다."
+   "songs": [
+    [
+     "나의 사랑 나의 어둠",
+     "이선희"
+    ],
+    [
+     "남남",
+     "최성수"
+    ],
+    [
+     "바람 바람 바람",
+     "김범룡"
+    ],
+    [
+     "난 아직 모르잖아요",
+     "이문세"
+    ],
+    [
+     "허공",
+     "조용필"
+    ],
+    [
+     "오늘밤",
+     "김완선"
+    ],
+    [
+     "알고 싶어요",
+     "이선희"
+    ],
+    [
+     "사랑하기에",
+     "이정석"
+    ],
+    [
+     "젊음의 노트",
+     "유미리"
+    ],
+    [
+     "아직도 어두운 밤인가봐",
+     "전영록"
+    ]
+   ],
+   "mood": "골목마다 연탄 배달 리어카가 오가고 일요일 아침이면 온 식구가 텔레비전 앞에 모이던 그 시절을 다시 꺼내어 봅니다.",
+   "facts": [
+    [
+     "오페라의 유령",
+     "10월 9일, 런던 웨스트엔드 허 머제스티스 극장에서 뮤지컬 「오페라의 유령」이 막을 올렸습니다. 이후 수십 년 동안 무대를 지킨 작품의 시작이었습니다.",
+     "https://upload.wikimedia.org/wikipedia/en/e/ef/The_Phantom_of_the_Opera_%281986_musical%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "한지붕 세가족",
+     "이해 MBC 일요 아침 드라마 「한지붕 세가족」이 시작됐습니다. 한집에 세 들어 사는 이웃들의 이야기로 8년 동안 사랑받았습니다."
+    ]
+   ]
+  },
+  "50": {
+   "pop": [
+    [
+     "Dancing Queen",
+     "ABBA"
+    ],
+    [
+     "Bohemian Rhapsody",
+     "Queen"
+    ],
+    [
+     "Don't Go Breaking My Heart",
+     "Elton John & Kiki Dee"
+    ],
+    [
+     "Silly Love Songs",
+     "Wings"
+    ],
+    [
+     "Fernando",
+     "ABBA"
+    ],
+    [
+     "If You Leave Me Now",
+     "Chicago"
+    ],
+    [
+     "I Write the Songs",
+     "Barry Manilow"
+    ],
+    [
+     "Love Hurts",
+     "Nazareth"
+    ],
+    [
+     "December, 1963 (Oh, What a Night)",
+     "The Four Seasons"
+    ],
+    [
+     "Tonight's the Night",
+     "Rod Stewart"
+    ]
+   ],
+   "songs": [
+    [
+     "돌아와요 부산항에",
+     "조용필"
+    ],
+    [
+     "오동잎",
+     "최헌"
+    ],
+    [
+     "해뜰날",
+     "송대관"
+    ],
+    [
+     "당신은 모르실거야",
+     "혜은이"
+    ],
+    [
+     "빗속을 둘이서",
+     "투에이스"
+    ],
+    [
+     "내 마음 갈 곳을 잃어",
+     "최백호"
+    ],
+    [
+     "당신만을 사랑해",
+     "혜은이"
+    ],
+    [
+     "아내에게 바치는 노래",
+     "하수영"
+    ],
+    [
+     "나는 못난이",
+     "딕훼밀리"
+    ],
+    [
+     "목마와 숙녀",
+     "박인희"
+    ]
+   ],
+   "mood": "첫 연탄을 들이고 동네 극장 앞 간판을 올려다보던 늦가을, 그 시절을 다시 꺼내어 봅니다.",
+   "facts": [
+    [
+     "아바 「어라이벌」",
+     "10월 11일, 스웨덴 그룹 아바가 앨범 「어라이벌」을 냈습니다. '댄싱 퀸'과 '머니, 머니, 머니'가 이 한 장에 함께 실렸습니다.",
+     "https://upload.wikimedia.org/wikipedia/en/7/71/ABBA_-_Arrival.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "하이틴 스타 임예진",
+     "이해 임예진은 「진짜 진짜 잊지마」 「진짜 진짜 미안해」 같은 하이틴 영화에 잇달아 나오며 중고생들의 첫사랑 얼굴이 됐습니다.",
+     "https://upload.wikimedia.org/wikipedia/commons/d/dc/190302_KBS2_%27%ED%95%B4%ED%94%BC%ED%88%AC%EA%B2%8C%EB%8D%944%27_%EC%B6%9C%EA%B7%BC%EA%B8%B8_%EC%9E%84%EC%98%88%EC%A7%84_%281%29.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ]
+   ]
+  },
+  "20": {
+   "pop": [
+    [
+     "Crazy",
+     "Gnarls Barkley"
+    ],
+    [
+     "Hips Don't Lie",
+     "Shakira"
+    ],
+    [
+     "SexyBack",
+     "Justin Timberlake"
+    ],
+    [
+     "Bad Day",
+     "Daniel Powter"
+    ],
+    [
+     "You're Beautiful",
+     "James Blunt"
+    ],
+    [
+     "Unwritten",
+     "Natasha Bedingfield"
+    ],
+    [
+     "Irreplaceable",
+     "Beyoncé"
+    ],
+    [
+     "Chasing Cars",
+     "Snow Patrol"
+    ],
+    [
+     "Over My Head (Cable Car)",
+     "The Fray"
+    ],
+    [
+     "Promiscuous",
+     "Nelly Furtado"
+    ]
+   ],
+   "songs": [
+    [
+     "남자를 몰라",
+     "버즈"
+    ],
+    [
+     "그 남자 그 여자",
+     "바이브"
+    ],
+    [
+     "하기 힘든 말",
+     "이승기"
+    ],
+    [
+     "제자리걸음",
+     "김종국"
+    ],
+    [
+     "여인의 향기",
+     "씨야"
+    ],
+    [
+     "거리에서",
+     "성시경"
+    ],
+    [
+     "U",
+     "슈퍼주니어"
+    ],
+    [
+     "이따 이따요",
+     "장윤정"
+    ],
+    [
+     "O-正.反.合.",
+     "동방신기"
+    ],
+    [
+     "Grace",
+     "이수영"
+    ]
+   ],
+   "mood": "디지털카메라로 찍은 사진을 미니홈피에 올리고 도토리로 배경 음악을 사던 그 시절을 다시 꺼내어 봅니다.",
+   "facts": [
+    [
+     "반기문 총장",
+     "10월 13일(미국 시각), 유엔 총회가 반기문 외교부 장관을 제8대 유엔 사무총장으로 임명했습니다. 한국인이 유엔의 수장이 된 것은 처음이었습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Ban_Ki-moon_February_2016.jpg/640px-Ban_Ki-moon_February_2016.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "구글과 유튜브",
+     "10월 9일, 구글이 문을 연 지 두 해도 안 된 동영상 사이트 유튜브를 16억 5천만 달러에 사들인다고 밝혔습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Googleplex_HQ_%28cropped%29.jpg/640px-Googleplex_HQ_%28cropped%29.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "드라마 주몽",
+     "이 가을 송일국 주연의 MBC 사극 「주몽」이 월요일·화요일 밤마다 온 가족을 텔레비전 앞에 불러 모았습니다."
+    ]
+   ]
+  },
+  "10": {
+   "pop": [
+    [
+     "Love Yourself",
+     "Justin Bieber"
+    ],
+    [
+     "One Dance",
+     "Drake"
+    ],
+    [
+     "Closer",
+     "The Chainsmokers"
+    ],
+    [
+     "Stressed Out",
+     "Twenty One Pilots"
+    ],
+    [
+     "Can't Stop the Feeling!",
+     "Justin Timberlake"
+    ],
+    [
+     "Cheap Thrills",
+     "Sia"
+    ],
+    [
+     "Treat You Better",
+     "Shawn Mendes"
+    ],
+    [
+     "Work",
+     "Rihanna"
+    ],
+    [
+     "I Took a Pill in Ibiza",
+     "Mike Posner"
+    ],
+    [
+     "We Don't Talk Anymore",
+     "Charlie Puth"
+    ]
+   ],
+   "songs": [
+    [
+     "Cheer Up",
+     "TWICE"
+    ],
+    [
+     "TT",
+     "TWICE"
+    ],
+    [
+     "피 땀 눈물",
+     "방탄소년단"
+    ],
+    [
+     "우주를 줄게",
+     "볼빨간사춘기"
+    ],
+    [
+     "시간을 달려서",
+     "여자친구"
+    ],
+    [
+     "휘파람",
+     "BLACKPINK"
+    ],
+    [
+     "Russian Roulette",
+     "Red Velvet"
+    ],
+    [
+     "이 사랑",
+     "다비치"
+    ],
+    [
+     "You Are My Everything",
+     "거미"
+    ],
+    [
+     "하늘바라기",
+     "정은지"
+    ]
+   ],
+   "mood": "단톡방 알림이 쉴 새 없이 울리고 월요일 밤마다 드라마 짤이 타임라인을 채우던 그 시절을 다시 꺼내어 봅니다.",
+   "facts": [
+    [
+     "밥 딜런 노벨상",
+     "10월 13일, 스웨덴 한림원이 가수 밥 딜런에게 노벨 문학상을 준다고 발표했습니다. 노랫말이 문학상을 받은 일로 세계가 떠들썩했습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Bob_Dylan_-_Azkena_Rock_Festival_2010_1_%28cropped%29.jpg/640px-Bob_Dylan_-_Azkena_Rock_Festival_2010_1_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "구르미 그린 달빛",
+     "10월, 박보검·김유정이 나온 KBS 사극 「구르미 그린 달빛」이 막을 내렸습니다. 월요일·화요일 밤마다 '박보검 앓이'라는 말이 돌았습니다.",
+     "https://thumb.wikimedia.org/wikipedia/ko/thumb/3/3e/%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg/640px-%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ]
+   ]
   }
  },
- "story": {
-  "sub": "고봉으로 담아 주던 손",
-  "paras": [
-   "1970년대 우리 동네 쌀집 앞에는 늘 쌀가마가 쌓여 있었습니다. 어머니 심부름으로 양은 그릇을 들고 가면 주인아저씨는 나무 됫박에 쌀을 고봉으로 퍼 담고는 손바닥으로 위를 쓱 깎아 냈습니다. 그래도 꼭 한 줌을 더 얹어 주며 \"어머니께 안부 전해라\" 하던 목소리, 쌀겨 냄새가 가게 안에 뽀얗게 떠 있었습니다.",
-   "집에 오는 길에는 그릇이 무거워 몇 번이나 쉬었습니다. 됫박을 깎던 그 손길이 왜 그렇게 넉넉해 보였는지 그때는 몰랐습니다. 지금은 마트에서 포장된 쌀을 카트에 싣는데, 가끔 쌀 봉지를 들 때면 그 한 줌의 무게가 먼저 떠오릅니다."
-  ],
-  "title": "쌀집 됫박",
-  "by": "오마주 편집실"
- },
  "phrase": {
-  "ja": {
-   "reading": "프레젠토요니 츠츤데 이타다케마스카",
-   "text": "プレゼント用に包んでいただけますか。",
-   "meaning": "선물용으로 포장해 주실 수 있나요?",
-   "tip": "일본은 포장이 무료인 곳이 많아요"
-  },
-  "zh": {
-   "reading": "커이 빵워 빠오청 리우 마",
-   "text": "可以帮我包成礼物吗？",
-   "meaning": "선물로 포장해 줄 수 있나요?",
-   "tip": "끝에 '셰셰'를 붙이면 더 정중해요"
-  },
   "topic": "가게에서 선물 포장 부탁할 때",
   "en": {
    "reading": "쿠드 유 기프트랩 디스 플리즈",
+   "tip": "계산할 때 미리 말하면 수월해요",
    "text": "Could you gift-wrap this, please?",
-   "meaning": "이거 선물 포장해 주실 수 있나요?",
-   "tip": "계산할 때 미리 말하면 수월해요"
-  }
- },
- "hooks": {
-  "culture": {
-   "sub": "이방원 「하여가」와 모네의 해돋이",
-   "kick": "오늘의 문화",
-   "hook": "어제의 「단심가」에\n누가 먼저 물었을까요"
+   "meaning": "이거 선물 포장해 주실 수 있나요?"
   },
-  "quiz": {
-   "sub": "요즘 다들 쓰는 말 하나의 뜻",
-   "kick": "오늘의 요즘 말",
-   "hook": "빵이 다 팔렸는데\n오히려 웃었다면?"
+  "ja": {
+   "reading": "프레젠토요니 츠츤데 이타다케마스카",
+   "tip": "일본은 포장이 무료인 곳이 많아요",
+   "text": "プレゼント用に包んでいただけますか。",
+   "meaning": "선물용으로 포장해 주실 수 있나요?"
   },
-  "book": {
-   "sub": "백 쪽 남짓, 평범한 가장의 며칠",
-   "kick": "오늘의 한 권 · 『이처럼 사소한 것들』",
-   "ask": "짧은데 오래 남은 소설이 있나요?",
-   "hook": "모두가 못 본 척할 때\n당신이라면 어떻게 할까요"
-  },
-  "food": {
-   "sub": "버터와 새우로 볶는 20분 한 그릇",
-   "kick": "오늘의 한 끼 · 단호박 새우 볶음우동",
-   "ask": "가을이면 꼭 해 먹는 음식이 있나요?",
-   "hook": "단호박이 소스가 된다면\n어떤 맛일까요"
+  "zh": {
+   "reading": "커이 빵워 빠오청 리우 마",
+   "tip": "끝에 '셰셰'를 붙이면 더 정중해요",
+   "text": "可以帮我包成礼物吗？",
+   "meaning": "선물로 포장해 줄 수 있나요?"
   }
  },
  "errors": [
   "garden: 구글 잔액 소진(402) — 부르지 않음"
  ],
- "mind": {
-  "note": "할 일을 다 끝내지 못한 저녁에도 하루는 제 몫을 다하고 조용히 저물어 갑니다. 남은 일은 남은 대로 두고, 해낸 한두 가지만 손바닥에 올려 두어도 충분한 날입니다.",
-  "todo": "오늘 해낸 일 세 가지를 수첩에 적어 보세요.",
-  "line": "끝내지 못한 일이 남은 저녁에도, 하루는 제 몫을 다했다",
-  "by": ""
- },
- "meal": {
-  "sub": "1인분 · 20분 · 재료 5가지",
-  "steps": [
-   "단호박은 얇게 썰어 전자레인지에 3분 돌려 반쯤 익힌다.",
-   "팬에 버터를 녹여 새우와 단호박을 볶다가 데친 우동면을 넣는다.",
-   "간장을 팬 가장자리에 둘러 향을 낸 뒤 센 불에서 1분 더 볶는다."
-  ],
-  "lead": "가을 단호박은 단맛이 꽉 차 볶기만 해도 소스가 됩니다. 탱글한 새우와 버터를 더하면 혼자 먹기 아까운 한 그릇이 됩니다.",
-  "ingredients": [
-   "우동면 1봉",
-   "단호박 1/4통(얇게 썰기)",
-   "생새우 8마리",
-   "버터 1큰술",
-   "간장 1큰술"
-  ],
-  "title": "단호박 새우 볶음우동",
-  "tip": "단호박을 조금 으깨듯 볶으면 면에 달큰한 소스가 고루 묻습니다."
+ "startedAt": "2026-10-31T04:53:35.823830+09:00",
+ "book": {
+  "blurb": "1985년 겨울, 아일랜드 작은 마을에서 석탄을 배달하는 펄롱이 성탄을 앞두고 수녀원 창고에서 본 한 장면을 마음에서 지우지 못합니다. 백 쪽 남짓한 짧은 소설이 평범한 가장 한 사람의 며칠을 따라갑니다. 모두가 못 본 척하는 일 앞에서 보통 사람이 무엇을 할 수 있는지 조용히 묻습니다.",
+  "publisher": "다산책방",
+  "why": "첫 추위가 오는 밤, 따뜻한 차 한 잔 옆에서 한자리에 읽기 좋습니다",
+  "translator": "홍한별",
+  "title": "이처럼 사소한 것들",
+  "kind": "소설",
+  "scene": "배달을 마친 펄롱이 트럭 안에서 한참 동안 시동을 걸지 못하고 앉아 있는 대목이 있습니다. 아무 말 없는 그 몇 분이 책 전체에서 가장 크게 들립니다.",
+  "year": "2023",
+  "author": "클레어 키건"
  },
  "quiz": {
   "explain": "행운을 뜻하는 영어 '럭키(Lucky)'에 가수 장원영의 영어 이름 '비키(Vicky)'를 붙인 말입니다. 이런 태도를 통틀어 '원영적 사고'라고도 부릅니다. 일이 꼬여도 '오히려 좋아' 하고 좋은 쪽으로 해석해 넘기는 마음가짐을 뜻합니다.",
-  "why": "2023년 가을 스페인 빵집 브이로그에서 앞사람이 빵을 다 사 가자 '덕분에 갓 나온 빵을 받는다'며 웃은 장면이 퍼지면서 2024년 내내 유행어가 됐습니다.",
+  "example": "버스 놓쳤는데 다음 차가 텅 비었네, 럭키비키야.",
   "options": [
    "비가 와서 산행이 취소됐지만, 덕분에 미뤄 둔 책을 다 읽었다",
    "복권을 샀는데 한 장도 맞지 않아 속상했다",
    "친구 부탁으로 주말 내내 이삿짐을 날랐다",
    "좋아하는 가수의 콘서트 표를 정가에 샀다"
   ],
-  "question": "다음 중 '럭키비키'라고 말하기 가장 알맞은 상황은?",
-  "example": "버스 놓쳤는데 다음 차가 텅 비었네, 럭키비키야.",
-  "term": "럭키비키",
+  "answer": 0,
+  "why": "2023년 가을 스페인 빵집 브이로그에서 앞사람이 빵을 다 사 가자 '덕분에 갓 나온 빵을 받는다'며 웃은 장면이 퍼지면서 2024년 내내 유행어가 됐습니다.",
   "kind": "요즘 말",
   "meaning": "안 좋은 일도 결국 행운으로 바꿔 보는 마음",
-  "answer": 0
+  "question": "다음 중 '럭키비키'라고 말하기 가장 알맞은 상황은?",
+  "term": "럭키비키"
+ },
+ "story": {
+  "paras": [
+   "1970년대 우리 동네 쌀집 앞에는 늘 쌀가마가 쌓여 있었습니다. 어머니 심부름으로 양은 그릇을 들고 가면 주인아저씨는 나무 됫박에 쌀을 고봉으로 퍼 담고는 손바닥으로 위를 쓱 깎아 냈습니다. 그래도 꼭 한 줌을 더 얹어 주며 \"어머니께 안부 전해라\" 하던 목소리, 쌀겨 냄새가 가게 안에 뽀얗게 떠 있었습니다.",
+   "집에 오는 길에는 그릇이 무거워 몇 번이나 쉬었습니다. 됫박을 깎던 그 손길이 왜 그렇게 넉넉해 보였는지 그때는 몰랐습니다. 지금은 마트에서 포장된 쌀을 카트에 싣는데, 가끔 쌀 봉지를 들 때면 그 한 줌의 무게가 먼저 떠오릅니다."
+  ],
+  "title": "쌀집 됫박",
+  "by": "오마주 편집실",
+  "sub": "고봉으로 담아 주던 손"
  },
  "follow": {
-  "camp": {
-   "channel": "캠스캠핑  Cams Camping",
-   "query": "늦가을 차박 준비물",
-   "videoId": "LFgVwZkZ1F8",
-   "say": "밤이 차가워진 지금, 따뜻하게 자는 법부터 챙겨요",
-   "name": "차박·캠핑 첫걸음",
-   "thumb": "https://i.ytimg.com/vi/LFgVwZkZ1F8/mqdefault.jpg",
-   "title": "차박 초보자 필수용품 BEST6｜차박용품 뭘 사야할지 딱 정해드림｜파워뱅크, 냉장고, 선풍기, 랜턴, 차박매트, 폴딩박스 이거면 끝"
-  },
-  "coffee": {
-   "channel": "커피하는 람쥐",
-   "title": "핸드드립 처음이세요? 핸드드립 커피 내리는 방법 | 하리오 핸드드립 레시피",
-   "say": "물 붓는 속도만 바꿔도 같은 원두가 달라져요",
-   "videoId": "P-iycaUCOak",
-   "name": "커피·와인 한 잔",
-   "thumb": "https://i.ytimg.com/vi/P-iycaUCOak/mqdefault.jpg",
-   "query": "핸드드립 처음 내리는 법"
-  },
-  "pilates": {
-   "channel": "Move With Nicole",
-   "title": "20 MIN TOTAL CORE/AB WORKOUT || At-Home Pilates",
-   "say": "매트 한 장이면 거실이 오늘의 운동실이 돼요",
-   "videoId": "P4GukOvkeQQ",
-   "name": "필라테스·홈트",
-   "thumb": "https://i.ytimg.com/vi/P4GukOvkeQQ/mqdefault.jpg",
-   "query": "20분 홈 필라테스 전신"
-  },
   "gym": {
-   "channel": "아영황",
-   "title": "15분 폼롤러 요가 루틴 / 마사지보다 시원해요. 🍀",
-   "say": "주말 아침, 굳은 등을 천천히 풀고 시작해요",
-   "videoId": "U_vNFQqX_Qc",
-   "name": "요가",
+   "query": "아침 15분 요가 루틴",
    "thumb": "https://i.ytimg.com/vi/U_vNFQqX_Qc/mqdefault.jpg",
-   "query": "아침 15분 요가 루틴"
+   "videoId": "U_vNFQqX_Qc",
+   "title": "15분 폼롤러 요가 루틴 / 마사지보다 시원해요. 🍀",
+   "channel": "아영황",
+   "say": "주말 아침, 굳은 등을 천천히 풀고 시작해요",
+   "name": "요가"
   },
   "meditate": {
-   "channel": "에일린 mind yoga",
-   "title": "5분 호흡명상 - 뇌를 위한 최고의 휴식법 (스트레스 해소, 뇌 피로회복)",
-   "say": "한 주를 내려놓는 호흡 열 번이면 충분해요",
-   "videoId": "dZewQEbQQM0",
-   "name": "명상",
+   "query": "10분 호흡 명상 한국어",
    "thumb": "https://i.ytimg.com/vi/dZewQEbQQM0/mqdefault.jpg",
-   "query": "10분 호흡 명상 한국어"
+   "videoId": "dZewQEbQQM0",
+   "title": "5분 호흡명상 - 뇌를 위한 최고의 휴식법 (스트레스 해소, 뇌 피로회복)",
+   "channel": "에일린 mind yoga",
+   "say": "한 주를 내려놓는 호흡 열 번이면 충분해요",
+   "name": "명상"
+  },
+  "pilates": {
+   "query": "20분 홈 필라테스 전신",
+   "thumb": "https://i.ytimg.com/vi/P4GukOvkeQQ/mqdefault.jpg",
+   "videoId": "P4GukOvkeQQ",
+   "title": "20 MIN TOTAL CORE/AB WORKOUT || At-Home Pilates",
+   "channel": "Move With Nicole",
+   "say": "매트 한 장이면 거실이 오늘의 운동실이 돼요",
+   "name": "필라테스·홈트"
+  },
+  "camp": {
+   "videoId": "LFgVwZkZ1F8",
+   "name": "차박·캠핑 첫걸음",
+   "query": "늦가을 차박 준비물",
+   "title": "차박 초보자 필수용품 BEST6｜차박용품 뭘 사야할지 딱 정해드림｜파워뱅크, 냉장고, 선풍기, 랜턴, 차박매트, 폴딩박스 이거면 끝",
+   "channel": "캠스캠핑  Cams Camping",
+   "say": "밤이 차가워진 지금, 따뜻하게 자는 법부터 챙겨요",
+   "thumb": "https://i.ytimg.com/vi/LFgVwZkZ1F8/mqdefault.jpg"
+  },
+  "coffee": {
+   "query": "핸드드립 처음 내리는 법",
+   "thumb": "https://i.ytimg.com/vi/P-iycaUCOak/mqdefault.jpg",
+   "videoId": "P-iycaUCOak",
+   "title": "핸드드립 처음이세요? 핸드드립 커피 내리는 방법 | 하리오 핸드드립 레시피",
+   "channel": "커피하는 람쥐",
+   "say": "물 붓는 속도만 바꿔도 같은 원두가 달라져요",
+   "name": "커피·와인 한 잔"
   },
   "run": {
-   "channel": "노마드윤",
-   "title": "러닝 초보가 한 달동안 달리면 생기는 일 | 과장 없는 현실 후기 #공복유산소 #아침달리기",
-   "say": "선선한 토요일, 천천히 뛰어도 첫 1km는 기억에 남아요",
-   "videoId": "CeesR1z2T8w",
-   "name": "러닝 입문",
+   "query": "러닝 처음 시작하는 법",
    "thumb": "https://i.ytimg.com/vi/CeesR1z2T8w/mqdefault.jpg",
-   "query": "러닝 처음 시작하는 법"
+   "videoId": "CeesR1z2T8w",
+   "title": "러닝 초보가 한 달동안 달리면 생기는 일 | 과장 없는 현실 후기 #공복유산소 #아침달리기",
+   "channel": "노마드윤",
+   "say": "선선한 토요일, 천천히 뛰어도 첫 1km는 기억에 남아요",
+   "name": "러닝 입문"
   },
   "photo": {
-   "channel": "닥터필름 Dr. Film",
-   "title": "단풍사진 잘 찍는법 | 인물과 어울리는 구도 | 접사 그리고 역광 | 스마트폰으로도 쉽게 촬영하기",
-   "say": "이번 주말 단풍, 빛을 등지지 말고 옆에서 담아 보세요",
-   "videoId": "ETBoFnKIoew",
-   "name": "폰 사진 잘 찍기",
+   "query": "단풍 사진 폰으로 잘 찍는 법",
    "thumb": "https://i.ytimg.com/vi/ETBoFnKIoew/mqdefault.jpg",
-   "query": "단풍 사진 폰으로 잘 찍는 법"
-  }
- },
- "culture": {
-  "bible": {
-   "note": "부족함이 없다는 고백은 가진 것이 많아서가 아니라 곁을 지켜 주는 이가 있다는 믿음에서 나옵니다. 오늘 하루도 혼자 걷는 길이 아니라는 마음이면 발걸음이 한결 가벼워집니다.",
-   "text": "여호와는 나의 목자시니 내가 부족함이 없으리로다",
-   "ref": "시편 23:1"
-  },
-  "humor": {
-   "punch": "그 뒤로 답장이 스물두 개 달렸다.",
-   "text": "동창 단톡방에 총무가 공지를 올렸다.\n\"이번 모임은 건강을 위해 술 없이 등산만 합니다.\"\n삼십 분 동안 아무도 답이 없었다.\n그러다 한 명이 조용히 물었다.\n\"하산은 어느 식당으로 하나요?\"",
-   "title": "단톡방 공지",
-   "kind": "짧은 이야기"
-  },
-  "poem": {
-   "title": "하여가",
-   "note": "부드럽게 웃으며 손을 내미는 말투인데, 그 안에 '함께 가자'는 단단한 요구가 숨어 있습니다. 칡덩굴처럼 얽혀 살자는 비유가 정겹게 들려서 오히려 거절하기 어려운 권유가 됩니다. 어제 실린 「단심가」와 나란히 읽으면, 같은 자리에서 오간 두 사람의 마음이 또렷하게 보입니다.",
-   "words": [
-    {
-     "w": "어떠하리",
-     "m": "어떠하겠는가, 무슨 상관이 있겠는가"
-    },
-    {
-     "w": "만수산",
-     "m": "개성 서쪽에 있는 산"
-    },
-    {
-     "w": "드렁칡",
-     "m": "산비탈이나 두렁에 엉켜 자라는 칡"
-    },
-    {
-     "w": "얽혀진들",
-     "m": "서로 감기고 엉킨다 한들"
-    },
-    {
-     "w": "누리리라",
-     "m": "즐기며 살겠다"
-    }
-   ],
-   "text": "이런들 어떠하며 저런들 어떠하리\n만수산 드렁칡이 얽혀진들 어떠하리\n우리도 이같이 얽혀져 백년까지 누리리라",
-   "year": "고려 시조",
-   "bg": "고려가 저물던 1392년 무렵, 새 나라를 세우려던 이방원이 고려를 끝까지 지키려던 정몽주의 마음을 떠보려고 읊었다고 전하는 시조입니다. 정몽주는 「단심가」로 답해 뜻을 굽히지 않았고, 얼마 뒤 개성 선죽교에서 목숨을 잃었습니다. 이 노래는 뒷날 가집 『청구영언』 등에 실려 전합니다.",
-   "author": "이방원"
-  },
-  "quote": {
-   "note": "로마 철학자 세네카가 친구에게 쓴 글 「삶의 짧음에 대하여」에 담긴 생각을 옮긴 말입니다. 오늘은 미뤄 둔 일 하나를 골라 십 분만이라도 먼저 해 보세요.",
-   "text": "삶이 짧은 것이 아니라, 우리가 그것을 짧게 만든다.",
-   "who": "세네카"
-  },
-  "painting": {
-   "artist": "클로드 모네",
-   "wiki": "en:Impression,_Sunrise",
-   "about": "모네가 고향처럼 자란 항구 도시 르아브르의 아침 바다를 그린 그림입니다. 1874년 파리에서 열린 첫 독립 전시에 걸렸고, 한 비평가가 이 제목을 빌려 화가들을 '인상파'라고 비꼰 것이 오히려 이름이 되었습니다. 지금은 파리 마르모탕 모네 미술관에 있습니다.",
-   "page": "https://en.wikipedia.org/wiki/Impression%2C_Sunrise",
-   "year": "1872",
-   "title": "인상, 해돋이",
-   "artist_story": "클로드 모네(1840~1926)는 파리에서 태어나 르아브르에서 자랐습니다. 같은 풍경도 빛과 시간에 따라 달라진다고 보고 밖에 나가 그리기를 즐겼습니다. 말년에는 지베르니 정원에서 수련 연작을 오래 그렸습니다.",
-   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-   "points": [
-    "잿빛 안개 속에서 혼자 선명한 주황빛 해와 물 위에 길게 번진 빛 그림자를 보세요.",
-    "앞쪽 작은 배와 노 젓는 사람이 몇 번의 붓질만으로 그려져 있습니다.",
-    "뒤편 배의 돛대와 항구의 기계들이 안개에 녹아들어 형체만 희미하게 남아 있습니다."
-   ],
-   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/640px-Monet_-_Impression%2C_Sunrise.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
-  },
-  "essay": {
-   "paras": [
-    "아침에 베란다 문을 여니 공기가 달라져 있었다. 빨래 건조대에 걸어 둔 고무장갑이 밤새 차가워져 손을 넣을 때 움찔했다. 여름 내내 미지근하던 물이 오늘은 손등을 콕 찌른다. 계절은 이렇게 부엌 싱크대에서 먼저 바뀐다.",
-    "어머니는 이맘때면 고무장갑을 새것으로 바꾸셨다. 김장 전에 손이 트지 않게 하려는 거라고 하셨다. 그때는 그 말이 그냥 살림 이야기인 줄 알았다. 지금 보니 겨울을 맞는 당신만의 작은 의식이었던 것 같다.",
-    "오늘 마트에서 고무장갑 한 켤레를 샀다. 주황색 말고 연한 초록으로 골랐다. 새 장갑을 끼고 설거지를 하니 물소리가 조금 부드럽게 들린다. 겨울을 잘 지낼 준비는 이 정도면 시작으로 충분하다."
-   ],
-   "title": "고무장갑 한 켤레",
-   "by": "오마주 편집실"
-  },
-  "dharma": {
-   "note": "같은 일을 겪어도 어떤 마음으로 맞느냐에 따라 하루의 빛깔이 달라진다는 말씀입니다. 말 한마디를 맑게 고르는 것부터가 그림자처럼 따라오는 즐거움의 시작입니다.",
-   "src": "『법구경』",
-   "text": "마음은 모든 일의 근본이다. 마음이 주인이 되어 모든 일을 시킨다. 맑은 마음으로 말하고 행하면 즐거움이 그를 따른다. 그림자가 몸을 따르듯이."
+   "videoId": "ETBoFnKIoew",
+   "title": "단풍사진 잘 찍는법 | 인물과 어울리는 구도 | 접사 그리고 역광 | 스마트폰으로도 쉽게 촬영하기",
+   "channel": "닥터필름 Dr. Film",
+   "say": "이번 주말 단풍, 빛을 등지지 말고 옆에서 담아 보세요",
+   "name": "폰 사진 잘 찍기"
   }
  },
  "greetings": [
@@ -789,262 +1023,28 @@
   "오늘의 날씨는\n대체로 내 마음대로\n맑음입니다",
   "웃음 장전 완료\n오늘 하루도 가볍게\n통과해 볼까요"
  ],
- "fortune": {
-  "양": {
-   "place": "집 근처 찻집",
-   "color": "베이지",
-   "money": "충동구매가 당기는 날이니 장바구니에만 담아 두세요.",
-   "do": "따뜻한 차 한 잔을 천천히 다 마셔 보세요.",
-   "people": "말을 아끼고 들어 주면 서운했던 사이가 풀립니다.",
-   "total": "한 박자 늦추는 편이 득이 되는 날입니다. 남의 속도에 맞추기보다 내 걸음대로 가면 실수가 줄어듭니다. 하루 끝에는 조용히 쉬어 간 것이 오히려 잘한 일로 남습니다.",
-   "work": "급한 연락은 짧게 답하고 큰 결정은 다음 주로 미루세요.",
-   "num": "8",
-   "care": "피곤하면 약속을 하나 줄여도 괜찮습니다.",
-   "time": "저녁 7시 무렵"
+ "hooks": {
+  "food": {
+   "kick": "오늘의 한 끼 · 단호박 새우 볶음우동",
+   "ask": "가을이면 꼭 해 먹는 음식이 있나요?",
+   "hook": "단호박이 소스가 된다면\n어떤 맛일까요",
+   "sub": "버터와 새우로 볶는 20분 한 그릇"
   },
-  "돼지": {
-   "place": "시장 골목",
-   "color": "와인색",
-   "money": "좋아하는 것에 쓰는 작은 돈은 아끼지 않아도 됩니다.",
-   "do": "제철 과일 하나를 사서 천천히 맛보세요.",
-   "people": "먼저 밥 한번 먹자고 말하면 반가운 대답이 옵니다.",
-   "total": "느긋하게 즐길수록 운이 따라오는 날입니다. 해야 할 일 목록을 줄이고 하고 싶은 일 하나를 넣으면 마음이 넉넉해집니다. 하루 끝에는 맛있는 한 끼가 기분 좋게 남습니다.",
-   "work": "꼭 오늘 할 일 세 가지만 골라 끝내면 충분합니다.",
-   "num": "61",
-   "care": "늦은 밤 간식은 조금만 덜어 드세요.",
-   "time": "저녁 6시 무렵"
+  "book": {
+   "kick": "오늘의 한 권 · 『이처럼 사소한 것들』",
+   "ask": "짧은데 오래 남은 소설이 있나요?",
+   "hook": "모두가 못 본 척할 때\n당신이라면 어떻게 할까요",
+   "sub": "백 쪽 남짓, 평범한 가장의 며칠"
   },
-  "용": {
-   "place": "서점",
-   "color": "하늘색",
-   "money": "배우는 일에 쓰는 작은 돈은 오늘만큼은 아끼지 마세요.",
-   "do": "관심 가던 강좌나 모임을 하나 찾아 적어 두세요.",
-   "people": "새로 알게 된 사람과 의외로 말이 잘 통해 오래 이야기합니다.",
-   "total": "뜻밖의 소식이 반가운 기회를 물고 오는 날입니다. 처음엔 번거로워 보여도 끝까지 들어 보면 마음이 움직이는 이야기입니다. 저녁에는 새로운 계획 하나를 수첩에 적어 두고 싶어집니다.",
-   "work": "새로 맡게 된 일이 앞으로의 흐름을 바꿔 줄 수 있습니다.",
-   "num": "5",
-   "care": "들뜬 마음에 그 자리에서 약속을 다 해 버리지는 마세요.",
-   "time": "오전 9시 무렵"
+  "quiz": {
+   "kick": "오늘의 요즘 말",
+   "hook": "빵이 다 팔렸는데\n오히려 웃었다면?",
+   "sub": "요즘 다들 쓰는 말 하나의 뜻"
   },
-  "개": {
-   "place": "단골 식당",
-   "color": "갈색",
-   "money": "함께 쓰는 물건은 나눠 사면 서로 이득입니다.",
-   "do": "고마웠던 사람에게 짧은 문자 하나 보내 보세요.",
-   "people": "오래된 친구의 한마디가 고민을 시원하게 풀어 줍니다.",
-   "total": "믿었던 사람과의 약속이 든든한 힘이 되는 날입니다. 혼자 다 하려 하지 말고 함께하는 쪽을 고르면 일이 반으로 줄어듭니다. 저녁에는 고마운 얼굴이 하나 떠오릅니다.",
-   "work": "나눠 맡기면 끝나는 시간이 확 당겨집니다.",
-   "num": "19",
-   "care": "부탁을 다 들어주다 내 일이 밀리지 않게 하세요.",
-   "time": "오후 1시 무렵"
-  },
-  "뱀": {
-   "place": "조용한 창가 자리",
-   "color": "보라색",
-   "money": "오늘은 지갑을 닫아 두는 것이 가장 크게 남는 장사입니다.",
-   "do": "휴대폰을 30분 내려놓고 한 가지 일에만 집중해 보세요.",
-   "people": "남의 일에 끼어들기보다 한 걸음 물러서 있는 편이 낫습니다.",
-   "total": "조용히 내 할 일에 집중하면 성과가 나는 날입니다. 주변이 시끄러워도 한 가지에만 매달리면 오후쯤 손에 잡히는 결과가 생깁니다. 저녁에는 혼자만의 시간이 오랜만에 단단하게 채워집니다.",
-   "work": "미뤄 두었던 공부나 정리를 한 시간만 해도 크게 나아갑니다.",
-   "num": "19",
-   "care": "사소한 말에 마음이 상하기 쉬우니 가볍게 흘려들으세요.",
-   "time": "오후 3시 무렵"
-  },
-  "원숭이": {
-   "place": "동네 공방",
-   "color": "주황",
-   "money": "새로 사기 전에 있는 것을 고쳐 쓰면 지갑이 웃습니다.",
-   "do": "서랍 속 안 쓰는 충전기 줄을 정리해 보세요.",
-   "people": "도움을 청해 온 사람을 돕고 나면 내 일도 수월해집니다.",
-   "total": "손재주와 눈썰미가 빛나는 날입니다. 고장 난 물건이나 엉킨 일을 붙잡으면 생각보다 금방 해결됩니다. 저녁에는 작은 칭찬 한마디가 하루를 환하게 만듭니다.",
-   "work": "오래 안 풀리던 집안 고칠 거리를 오늘 손보면 시원합니다.",
-   "num": "33",
-   "care": "재미에 빠져 끼니를 거르지 않게 시간을 보세요.",
-   "time": "오전 11시 무렵"
-  },
-  "말": {
-   "place": "강변 산책로",
-   "color": "연두",
-   "money": "할인보다 오래 쓸 물건인지를 먼저 따져 보면 후회가 없습니다.",
-   "do": "가 보고 싶던 곳의 길을 지도에서 미리 찾아 두세요.",
-   "people": "옛 동료에게 먼저 안부를 물으면 좋은 정보를 얻습니다.",
-   "total": "생각해 둔 계획을 꺼내 놓기 좋은 날입니다. 혼자 고민하던 일을 가까운 사람에게 털어놓으면 뜻밖의 쉬운 길이 보입니다. 저녁에는 일정표에 동그라미 하나가 늘어 있습니다.",
-   "work": "미뤄 둔 계획표를 펼치면 오늘 할 첫 단계가 또렷해집니다.",
-   "num": "27",
-   "care": "좋은 생각이라도 결정은 하룻밤 재워 두세요.",
-   "time": "오후 2시 무렵"
-  },
-  "토끼": {
-   "place": "동네 시장",
-   "color": "연두색",
-   "money": "자동 결제 목록을 훑어보면 새는 돈 하나를 찾게 됩니다.",
-   "do": "내일 입을 옷과 가방을 오늘 밤 미리 챙겨 두세요.",
-   "people": "가족과 나누는 소소한 이야기가 오늘의 가장 큰 즐거움입니다.",
-   "total": "무난하게 흘러가지만 작은 실수를 조심하면 좋은 날입니다. 약속 시간과 준비물을 한 번만 더 확인해 두면 걱정할 일이 없습니다. 하루 끝에는 별일 없이 지나간 것이 고맙게 느껴집니다.",
-   "work": "익숙한 일일수록 빠뜨린 것이 없는지 한 번 더 보세요.",
-   "num": "31",
-   "care": "열쇠나 휴대폰을 두고 나오기 쉬우니 문 앞에서 한 번 살피세요.",
-   "time": "오후 2시 무렵"
-  },
-  "호랑이": {
-   "place": "단골 카페",
-   "color": "주황색",
-   "money": "함께 먹는 점심값을 먼저 내면 더 좋은 일로 돌아옵니다.",
-   "do": "고마웠던 사람에게 짧은 안부 문자를 보내 보세요.",
-   "people": "동료나 이웃과 나눈 짧은 대화에서 쓸 만한 정보를 얻습니다.",
-   "total": "먼저 손을 내밀면 막혔던 일이 쉽게 풀리는 날입니다. 망설이던 제안이나 부탁을 오전에 꺼내면 상대도 생각보다 반갑게 받아 줍니다. 저녁에는 뜻밖의 칭찬 한마디가 하루를 기분 좋게 마무리해 줍니다.",
-   "work": "혼자 끙끙대던 일을 동료와 나누면 뜻밖에 빨리 끝납니다.",
-   "num": "23",
-   "care": "자신감이 앞서 남의 말을 끊지 않도록 조금만 조심하세요.",
-   "time": "오전 11시 무렵"
-  },
-  "소": {
-   "place": "집 앞 산책길",
-   "color": "황토색",
-   "money": "눈에 들어온 물건은 장바구니에 담아 두고 내일 다시 보세요.",
-   "do": "따뜻한 차 한 잔을 휴대폰 없이 천천히 마셔 보세요.",
-   "people": "말을 아끼는 사람이 오늘은 오히려 더 큰 믿음을 얻습니다.",
-   "total": "서두르면 손해를 보니 한 박자 늦추는 것이 좋은 날입니다. 답을 바로 내기보다 하루쯤 묵혀 두면 더 나은 쪽이 저절로 눈에 들어옵니다. 해 질 무렵에는 들떴던 마음이 차분히 가라앉습니다.",
-   "work": "새 일을 벌이기보다 하던 일을 마무리하는 쪽이 낫습니다.",
-   "num": "8",
-   "care": "급하게 보낸 문자가 오해를 살 수 있으니 한 번 더 읽어 보세요.",
-   "time": "오후 5시 무렵"
-  },
-  "쥐": {
-   "place": "동네 도서관",
-   "color": "남색",
-   "money": "미뤄 둔 작은 수리비는 오늘 치르면 마음이 한결 놓입니다.",
-   "do": "현관 신발장을 딱 한 칸만 비워 정리해 보세요.",
-   "people": "오랜만에 온 연락에 답하면 반가운 약속이 하나 생깁니다.",
-   "total": "미뤄 두었던 일이 한꺼번에 시원하게 풀리는 날입니다. 아침에 떠오른 순서대로 하나씩 손대면 오후에는 책상과 마음이 한결 가벼워집니다. 저녁에는 해낸 일을 하나씩 세어 보는 재미가 쏠쏠합니다.",
-   "work": "오래 붙잡고 있던 서류나 정리가 생각보다 빨리 끝납니다.",
-   "num": "14",
-   "care": "일이 잘 풀린다고 한 번에 너무 많이 벌이지는 마세요.",
-   "time": "오전 10시 무렵"
-  },
-  "닭": {
-   "place": "골목 빵집",
-   "color": "하늘색",
-   "money": "자주 쓰는 정기 결제 하나를 점검하면 새는 돈이 보입니다.",
-   "do": "출근길이나 산책길을 한 블록만 바꿔 걸어 보세요.",
-   "people": "가족과 짧게라도 저녁을 같이하면 대화가 길어집니다.",
-   "total": "무난하게 흘러가는 가운데 작은 기쁨이 숨어 있는 날입니다. 늘 하던 일을 조금 다른 순서로 해 보면 새로운 재미가 생깁니다. 하루 끝에는 소소한 성취감이 남습니다.",
-   "work": "평소 루틴 하나만 바꿔도 오후가 훨씬 가볍습니다.",
-   "num": "52",
-   "care": "잘 안다고 생각한 길도 한 번 더 확인하세요.",
-   "time": "오후 4시 무렵"
-  }
- },
- "source": "auto",
- "garden": {
-  "when": "10월 하순 ~ 11월 초",
-  "myth": "'겨울엔 물을 아예 안 줘도 된다'는 말은 반만 맞아요. 횟수를 줄일 뿐, 흙이 바싹 마르면 늘푸른 식물은 한겨울에도 물이 필요해요.",
-  "body": [
-   "밤 기온이 10도 아래로 내려가면 식물은 자라는 속도를 늦추고 겨울 채비에 들어가요. 이때 여름처럼 물을 주면 뿌리가 늘 젖어 있게 되죠.",
-   "겉흙을 손가락 두 마디 깊이로 찔러 보고, 그 안까지 말라 있을 때만 흠뻑 주세요. 대개 여름보다 간격이 두 배쯤 길어져요.",
-   "물은 해가 들어 흙이 데워진 오전 10시에서 정오 사이에 주는 게 좋아요. 저녁에 준 물은 밤새 차가워져 뿌리를 식히거든요."
-  ],
-  "tip": "베란다 화분은 받침에 고인 물을 꼭 버려 주세요. 찬 물이 바닥에 고여 있으면 뿌리가 숨을 못 쉬어요.",
-  "title": "월동 전, 잔디와 화분 물 주기 횟수를 줄이세요",
-  "by": "오마주 정원노트"
- },
- "book": {
-  "scene": "배달을 마친 펄롱이 트럭 안에서 한참 동안 시동을 걸지 못하고 앉아 있는 대목이 있습니다. 아무 말 없는 그 몇 분이 책 전체에서 가장 크게 들립니다.",
-  "publisher": "다산책방",
-  "why": "첫 추위가 오는 밤, 따뜻한 차 한 잔 옆에서 한자리에 읽기 좋습니다",
-  "translator": "홍한별",
-  "year": "2023",
-  "title": "이처럼 사소한 것들",
-  "kind": "소설",
-  "blurb": "1985년 겨울, 아일랜드 작은 마을에서 석탄을 배달하는 펄롱이 성탄을 앞두고 수녀원 창고에서 본 한 장면을 마음에서 지우지 못합니다. 백 쪽 남짓한 짧은 소설이 평범한 가장 한 사람의 며칠을 따라갑니다. 모두가 못 본 척하는 일 앞에서 보통 사람이 무엇을 할 수 있는지 조용히 묻습니다.",
-  "author": "클레어 키건"
- },
- "solo": {
-  "home": {
-   "region": "",
-   "date": "2026-10-31",
-   "items": [
-    {
-     "where": "",
-     "solo": "",
-     "note": "나가기 전에 냉장고 안을 휴대폰으로 찍어 두세요. 마트에서 사진만 보면 같은 걸 또 사는 일이 확 줄어듭니다.",
-     "name": "장보기 전에 냉장고 사진부터 한 장",
-     "time": ""
-    },
-    {
-     "where": "",
-     "solo": "",
-     "note": "대형 마트와 동네 시장 모두 반 단·한 줌짜리 채소가 늘었습니다. 값은 조금 비싸 보여도 버리는 양을 따지면 오히려 남습니다.",
-     "name": "채소는 한 단 대신 소분 코너에서",
-     "time": ""
-    },
-    {
-     "where": "",
-     "solo": "",
-     "note": "사 오자마자 한 번 먹을 만큼씩 지퍼 봉지에 납작하게 담아 얼리세요. 얇게 펴 두면 꺼내서 금방 녹습니다.",
-     "name": "고기는 사 온 날 한 끼씩 나눠 얼리기",
-     "time": ""
-    },
-    {
-     "where": "",
-     "solo": "",
-     "note": "두부 한 모를 사면 첫날은 부침, 다음 날은 찌개, 그다음 날은 샐러드로 돌려 보세요. 재료 하나가 사흘의 메뉴를 정해 줍니다.",
-     "name": "일주일 메뉴는 재료 하나로 이어 가기",
-     "time": ""
-    }
-   ],
-   "title": "1인분 장보기, 남기지 않고 다 먹는 네 가지 방법",
-   "corner": "home",
-   "tips": [
-    "저녁 7시 넘어 마트에 가면 반찬·채소 마감 할인을 자주 만납니다.",
-    "장바구니는 작은 것 하나만 들고 가면 충동구매가 줄어듭니다."
-   ],
-   "hook": "마트에서 대파 한 단을 들었다가 내려놓은 적이 있습니다. 혼자 먹기엔 많고, 안 사면 아쉬운 그 망설임이 장보기마다 따라옵니다.",
-   "id": "home-2026-10-31",
-   "topic": "1인분 장보기"
-  },
-  "eat": {
-   "region": "경기",
-   "date": "2026-10-31",
-   "items": [
-    {
-     "where": "수원 인계동",
-     "solo": "1인 좌석이 있고 늦은 밤에도 혼자 들르는 손님이 많다",
-     "note": "뼈와 우거지를 듬뿍 넣은 해장국, 선지를 따로 내줘 입맛대로 넣어 먹는다",
-     "name": "유치회관",
-     "time": ""
-    },
-    {
-     "where": "수원 장안문 앞",
-     "solo": "만두 한 접시에 쫄면 하나면 혼자 딱 알맞은 양이다",
-     "note": "1977년부터 빚은 고기 군만두와 맵기를 고르는 쫄면",
-     "name": "보영만두 북문본점",
-     "time": ""
-    },
-    {
-     "where": "의정부 평화로",
-     "solo": "냉면 한 그릇 비우고 일어서도 아무도 눈여겨보지 않는다",
-     "note": "1969년 문을 연 집, 맑고 슴슴한 육수에 메밀 향 도는 평양냉면",
-     "name": "의정부 평양면옥",
-     "time": ""
-    },
-    {
-     "where": "고양 일산동구 경의로",
-     "solo": "술을 팔지 않아 혼자 한 그릇에 집중하기 좋은 분위기다",
-     "note": "진한 닭 육수에 바지락을 더한 닭칼국수 한 가지",
-     "name": "일산칼국수 본점",
-     "time": ""
-    }
-   ],
-   "title": "한 그릇 앞에 혼자 앉기 좋은 경기 노포 네 집",
-   "corner": "eat",
-   "tips": [
-    "오래된 집은 점심 피크를 피해 1시 반 넘어 가면 자리 고르기가 편합니다.",
-    "영업시간이 바뀌는 일이 있으니 나서기 전에 지도 앱에서 한 번 더 확인하세요."
-   ],
-   "hook": "점심때를 조금 비껴 문을 열면 주방 소리만 낮게 들립니다. 수십 년 같은 맛을 지켜 온 집은 혼자 온 손님에게도 똑같은 그릇을 내옵니다.",
-   "id": "eat-2026-10-31",
-   "topic": ""
+  "culture": {
+   "kick": "오늘의 문화",
+   "hook": "어제의 「단심가」에\n누가 먼저 물었을까요",
+   "sub": "이방원 「하여가」와 모네의 해돋이"
   }
  }
 }
