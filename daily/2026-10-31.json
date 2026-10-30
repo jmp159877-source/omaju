@@ -1,0 +1,104 @@
+{
+ "garden": {
+  "body": [
+   "밤 기온이 10도 아래로 내려가면 식물은 자라는 속도를 늦추고 겨울 채비에 들어가요. 이때 여름처럼 물을 주면 뿌리가 늘 젖어 있게 되죠.",
+   "겉흙을 손가락 두 마디 깊이로 찔러 보고, 그 안까지 말라 있을 때만 흠뻑 주세요. 대개 여름보다 간격이 두 배쯤 길어져요.",
+   "물은 해가 들어 흙이 데워진 오전 10시에서 정오 사이에 주는 게 좋아요. 저녁에 준 물은 밤새 차가워져 뿌리를 식히거든요."
+  ],
+  "tip": "베란다 화분은 받침에 고인 물을 꼭 버려 주세요. 찬 물이 바닥에 고여 있으면 뿌리가 숨을 못 쉬어요.",
+  "myth": "'겨울엔 물을 아예 안 줘도 된다'는 말은 반만 맞아요. 횟수를 줄일 뿐, 흙이 바싹 마르면 늘푸른 식물은 한겨울에도 물이 필요해요.",
+  "title": "월동 전, 잔디와 화분 물 주기 횟수를 줄이세요",
+  "by": "오마주 정원노트",
+  "when": "10월 하순 ~ 11월 초"
+ },
+ "source": "auto",
+ "greetings": [
+  "시월의 마지막 날\n바스락거리는 길을\n여유롭게 걷습니다",
+  "마음 닿는 자리에\n다정한 온기가\n오래 머물기를",
+  "오늘의 날씨는\n대체로 내 마음대로\n맑음입니다",
+  "웃음 장전 완료\n오늘 하루도 가볍게\n통과해 볼까요"
+ ],
+ "errors": [
+  "fortune: 구글 잔액 소진(402): { \"error\": { \"code\": 402, \"message\": \"Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/",
+  "era: 구글 잔액 소진(402) — 부르지 않음",
+  "mind: 구글 잔액 소진(402) — 부르지 않음",
+  "body: 구글 잔액 소진(402) — 부르지 않음",
+  "book: 구글 잔액 소진(402) — 부르지 않음",
+  "meal: 구글 잔액 소진(402) — 부르지 않음",
+  "quiz: 구글 잔액 소진(402) — 부르지 않음",
+  "story: 구글 잔액 소진(402) — 부르지 않음",
+  "phrase: 구글 잔액 소진(402) — 부르지 않음",
+  "culture: 구글 잔액 소진(402) — 부르지 않음",
+  "pet: 구글 잔액 소진(402) — 부르지 않음",
+  "solo: 혼자라서 좋은 날 — 한 칸도 못 만듦",
+  "hooks: 구글 잔액 소진(402) — 부르지 않음"
+ ],
+ "generatedAt": "2026-10-31T00:06:00.508810+09:00",
+ "era": {},
+ "startedAt": "2026-10-31T00:05:39.959776+09:00",
+ "follow": {
+  "coffee": {
+   "query": "핸드드립 커피 내리는 법",
+   "videoId": "93G-V5qfSPc",
+   "channel": "노띵커피 커피탐구",
+   "thumb": "https://i.ytimg.com/vi/93G-V5qfSPc/mqdefault.jpg",
+   "title": "38년 핸드드립 장인이 내리는 커피 맛이 궁금하다면? 이대로만 따라하세요.",
+   "say": "오늘은 내 손으로 내린 커피 한 잔",
+   "name": "커피·와인 한 잔"
+  },
+  "camp": {
+   "query": "차박 처음 준비물",
+   "videoId": "LFgVwZkZ1F8",
+   "channel": "캠스캠핑  Cams Camping",
+   "thumb": "https://i.ytimg.com/vi/LFgVwZkZ1F8/mqdefault.jpg",
+   "title": "차박 초보자 필수용품 BEST6｜차박용품 뭘 사야할지 딱 정해드림｜파워뱅크, 냉장고, 선풍기, 랜턴, 차박매트, 폴딩박스 이거면 끝",
+   "say": "이번 주말, 트렁크 열고 떠나 볼까요",
+   "name": "차박·캠핑 첫걸음"
+  },
+  "run": {
+   "query": "러닝 입문 5km 처음 달리기",
+   "videoId": "rivy-eqNNCc",
+   "channel": "뛰뛰 유경띠",
+   "thumb": "https://i.ytimg.com/vi/rivy-eqNNCc/mqdefault.jpg",
+   "title": "숨 안차게 5km 달리는 방법 | 초보러너 | 첫 마라톤 준비 | 달리기 초보",
+   "say": "오늘은 딱 10분만, 천천히 달려 볼까요",
+   "name": "러닝 입문"
+  },
+  "gym": {
+   "query": "아침 요가 초보",
+   "videoId": "hSW2yuvtPmM",
+   "channel": "려경요가 RK yoga",
+   "thumb": "https://i.ytimg.com/vi/hSW2yuvtPmM/mqdefault.jpg",
+   "title": "「려경요가」 16분 * 구석구석 전신스트레칭 매일 아침 개원하게 전신순환 / 목어깨옆구리골반까지 / 데일리요가 / 모닝요가 / 초보요가 / 골반푸는요가 / 복부힘키우기 / 홈요가",
+   "say": "가볍게 몸을 펴며 하루를 열어 보세요",
+   "name": "요가"
+  },
+  "photo": {
+   "query": "핸드폰 사진 잘 찍는 법",
+   "videoId": "WRSb3RBH2MU",
+   "channel": "욜디_컴퓨터 인터넷 기초강의",
+   "thumb": "https://i.ytimg.com/vi/WRSb3RBH2MU/mqdefault.jpg",
+   "title": "갤럭시 기본 카메라로 사진 잘 찍는 3가지 방법",
+   "say": "오늘 찍는 한 장이 인생샷이 될지도",
+   "name": "폰 사진 잘 찍기"
+  },
+  "pilates": {
+   "query": "필라테스 홈트 20분",
+   "videoId": "iVhO_paV8EM",
+   "channel": "빵느",
+   "thumb": "https://i.ytimg.com/vi/iVhO_paV8EM/mqdefault.jpg",
+   "title": "하루 한 번🧘‍♀️ 꼭 해야하는 20분 전신 스트레칭 Ep.02 - 하루동안 쌓인 피로를 완전히 녹여주는 루틴 (Whole body stretch)",
+   "say": "매트 하나면 충분해요, 땀 한번 내 봐요",
+   "name": "필라테스·홈트"
+  },
+  "meditate": {
+   "query": "10분 아침 명상",
+   "videoId": "gMvogiGB8RI",
+   "channel": "귓전명상 채환TV Healing Meditation ChaeHwanTV",
+   "thumb": "https://i.ytimg.com/vi/gMvogiGB8RI/mqdefault.jpg",
+   "title": "[미라클모닝 아침10분] 매일아침 10분 루틴으로 미라클 인생만들기 🧘🏻‍♂️ 호흡명상 기본 배우기 🛎️ 아침명상 가이드 ✔️ 아침마다 루틴으로 하는 명상법",
+   "say": "숨을 고르며 마음을 가만히 내려놓아 보세요",
+   "name": "명상"
+  }
+ }
+}
