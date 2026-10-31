@@ -1,0 +1,433 @@
+{
+ "at": "2026-10-31T12:01+09:00",
+ "stats": {
+  "2026-10-16": {
+   "visits": 54
+  },
+  "2026-10-17": {
+   "visits": 11
+  },
+  "2026-10-18": {
+   "visits": 33
+  },
+  "2026-10-19": {
+   "visits": 26
+  },
+  "2026-10-20": {
+   "visits": 49
+  },
+  "2026-10-21": {
+   "visits": 76
+  },
+  "2026-10-22": {
+   "visits": 98,
+   "newDevices": 1
+  },
+  "2026-10-23": {
+   "visits": 18,
+   "blog": 1,
+   "yt": 2,
+   "newDevices": 18
+  },
+  "2026-10-24": {
+   "visits": 8,
+   "newDevices": 3
+  },
+  "2026-10-25": {
+   "visits": 6,
+   "newDevices": 3
+  },
+  "2026-10-26": {
+   "visits": 6,
+   "blog": 1,
+   "src": {
+    "naver": 1,
+    "direct": 2
+   },
+   "hours": {
+    "19": 1,
+    "18": 1,
+    "20": 1
+   },
+   "newDevices": 4,
+   "clicks": {
+    "cat": 1,
+    "ev": 2,
+    "body": 2,
+    "ai": 2,
+    "mind": 1,
+    "dog": 1,
+    "pick": 2,
+    "follow": 1
+   }
+  },
+  "2026-10-27": {
+   "visits": 3,
+   "src": {
+    "direct": 3
+   },
+   "clicks": {
+    "cat": 1,
+    "then": 8,
+    "quiz": 1,
+    "work": 7,
+    "ev": 17,
+    "ai": 16,
+    "music": 2,
+    "phrase": 1,
+    "move": 1,
+    "hike": 1,
+    "food": 1,
+    "play": 1,
+    "story": 2,
+    "trip": 7,
+    "mind": 1
+   },
+   "hours": {
+    "15": 1,
+    "00": 1,
+    "18": 1
+   }
+  },
+  "2026-10-28": {
+   "pages": {
+    "_test_browser": 1,
+    "_test": 1
+   },
+   "visits": 3,
+   "clicks": {
+    "ai": 8,
+    "history": 1,
+    "music": 1,
+    "then": 4,
+    "trip": 5,
+    "ev": 9,
+    "work": 4
+   },
+   "src": {
+    "direct": 2,
+    "kakao": 1
+   },
+   "hours": {
+    "00": 1,
+    "13": 1,
+    "08": 1
+   },
+   "pageSrc": {
+    "direct": 1
+   },
+   "newDevices": 2
+  },
+  "2026-10-29": {
+   "pages": {
+    "greet_2026-10-28": 1,
+    "pet_dog-2026-10-30": 1,
+    "pet_cat-2026-10-29": 1,
+    "ai_ai-04": 2,
+    "then_2026-10-29-40": 1,
+    "greet_index": 2,
+    "ai_ai-02": 1,
+    "pet_dog-2026-10-29": 1
+   },
+   "visits": 1,
+   "clicks": {
+    "ai": 2,
+    "ev": 2
+   },
+   "src": {
+    "direct": 1
+   },
+   "hours": {
+    "04": 1
+   },
+   "pageSrc": {
+    "naver": 2,
+    "direct": 7,
+    "inside": 1
+   }
+  },
+  "2026-10-30": {
+   "visits": 4,
+   "blog": 1,
+   "clicks": {
+    "ai": 2,
+    "then": 1,
+    "trip": 1,
+    "ev": 2
+   },
+   "hours": {
+    "18": 1,
+    "02": 1,
+    "10": 1,
+    "17": 1
+   },
+   "newDevices": 2,
+   "src": {
+    "blog": 1,
+    "direct": 2,
+    "naver_blog": 1
+   }
+  }
+ },
+ "users": {
+  "total": 15,
+  "by_day": {
+   "2026-10-14": 1,
+   "2026-10-16": 1,
+   "2026-10-21": 1,
+   "2026-10-22": 8,
+   "2026-10-23": 1,
+   "2026-10-24": 1,
+   "2026-10-26": 2
+  },
+  "via": {
+   "kakao": 11,
+   "id": 3,
+   "naver": 1
+  }
+ },
+ "talk": {
+  "real": 8,
+  "all": 426
+ },
+ "yt_channel": {
+  "title": "오마주 매거진",
+  "viewCount": "2881",
+  "subscriberCount": "4",
+  "hiddenSubscriberCount": false,
+  "videoCount": "21"
+ },
+ "yt_videos": [
+  {
+   "id": "qojPLXALU7I",
+   "title": "오늘의 한 끼 No.10 · 단호박 새우 볶음우동 | 20분 집밥 레시피 #shorts",
+   "at": "2026-10-31T01:00",
+   "status": "public",
+   "viewCount": "4",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "_vRx1ESX2kw",
+   "title": "10월 31일 토요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-30T21:30",
+   "status": "public",
+   "viewCount": "398",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "JbAwaGefJ-I",
+   "title": "오늘의 한 끼 No.9 · 무 소고기 솥밥 | 20분 집밥 레시피 #shorts",
+   "at": "2026-10-30T01:00",
+   "status": "public",
+   "viewCount": "134",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "IEAamdEiwSM",
+   "title": "10월 30일 금요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-29T21:30",
+   "status": "public",
+   "viewCount": "215",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "KI3NM5R5hvE",
+   "title": "오늘의 한 끼 No.8 · 가지 돼지고기 덮밥 | 15분 집밥 레시피 #shorts",
+   "at": "2026-10-29T01:00",
+   "status": "public",
+   "viewCount": "410",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "GjsGrvuUGMc",
+   "title": "10월 29일 목요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-28T21:30",
+   "status": "public",
+   "viewCount": "133",
+   "likeCount": "2",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "_emfIvPyyuM",
+   "title": "오늘의 한 끼 No.7 · 고등어 무조림 덮밥 | 20분 집밥 레시피 #shorts",
+   "at": "2026-10-28T01:00",
+   "status": "public",
+   "viewCount": "249",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "FoY-RKqtpMI",
+   "title": "10월 28일 수요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-27T21:30",
+   "status": "public",
+   "viewCount": "82",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "xdWWhxhm5pQ",
+   "title": "오늘의 한 끼 No.6 · 꽈리고추 멸치 비빔밥 | 15분 집밥 레시피 #shorts",
+   "at": "2026-10-27T01:00",
+   "status": "public",
+   "viewCount": "254",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "rwtl_unl1A8",
+   "title": "10월 27일 화요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-26T22:04",
+   "status": "public",
+   "viewCount": "79",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "Tu7V3lzpwaY",
+   "title": "예순 무렵의 평범한 은행원, 애플이 박수친 여든하나 #오마주매거진 #shorts",
+   "at": "2026-10-26T10:00",
+   "status": "public",
+   "viewCount": "184",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "0"
+  },
+  {
+   "id": "35ZSQp5nijA",
+   "title": "오늘의 한 끼 No.5 · 굴 버터 볶음밥 | 15분 집밥 레시피 #shorts",
+   "at": "2026-10-26T01:00",
+   "status": "public",
+   "viewCount": "132",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "VTnl8vpUXKI",
+   "title": "10월 26일 월요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-25T21:30",
+   "status": "public",
+   "viewCount": "117",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "yJopzP2X9i4",
+   "title": "예순세 살에 모델 학원으로, 런웨이에 쏟아진 환호성 #오마주매거진 #shorts",
+   "at": "2026-10-25T10:00",
+   "status": "public",
+   "viewCount": "110",
+   "likeCount": "3",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "q0vgQInneCI",
+   "title": "부모님 휴대폰에 깔아 드릴 무료 앱 추천 | 아침 인사 이미지·오늘의 운세·그 시절 노래 #부모님선물 #효도 #shorts",
+   "at": "2026-10-25T08:42",
+   "status": "public",
+   "viewCount": "141",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "TW0pT0iDF0U",
+   "title": "오늘의 한 끼 No.4 · 삼치 간장조림 덮밥 | 15분 집밥 레시피 #shorts",
+   "at": "2026-10-25T01:00",
+   "status": "public",
+   "viewCount": "455",
+   "likeCount": "2",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "SY6XKFZUfaI",
+   "title": "10월 25일 일요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-24T22:00",
+   "status": "public",
+   "viewCount": "160",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "FkjORJXzcvE",
+   "title": "마흔 앞둔 아이 다섯 엄마, 세상에 나온 데뷔작 #오마주매거진 #shorts",
+   "at": "2026-10-24T10:00",
+   "status": "public",
+   "viewCount": "113",
+   "likeCount": "0",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "4ND3GE44_7M",
+   "title": "10월 24일 토요일 아침 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-23T21:30",
+   "status": "public",
+   "viewCount": "128",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "JYhTF-J4Iaw",
+   "title": "마흔에 드레스 만든 그녀, 세계인이 아는 브랜드로 #오마주매거진 #shorts",
+   "at": "2026-10-23T04:52",
+   "status": "public",
+   "viewCount": "14",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  },
+  {
+   "id": "_EWT_aoQ1v4",
+   "title": "10월 23일 금요일 인사 카드 · 좋은 아침 인사말 #오마주매거진",
+   "at": "2026-10-23T04:49",
+   "status": "public",
+   "viewCount": "49",
+   "likeCount": "1",
+   "dislikeCount": "0",
+   "favoriteCount": "0",
+   "commentCount": "1"
+  }
+ ]
+}
