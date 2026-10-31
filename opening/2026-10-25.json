@@ -1,0 +1,299 @@
+{
+ "date": "2026-10-25",
+ "host": "miso",
+ "outfit": 1,
+ "imgs": {
+  "mor": {
+   "read": "miso-mor-read.jpg",
+   "wave": "miso-mor-wave.jpg",
+   "curious": "miso-mor-curious.jpg",
+   "stand": "miso-mor-stand.jpg",
+   "thumb": "miso-mor-thumb.jpg",
+   "laugh": "miso-mor-laugh.jpg",
+   "smile": "miso-mor-smile.jpg",
+   "delight": "miso-mor-delight.jpg",
+   "talk": "miso-mor-talk.jpg"
+  },
+  "eve": {
+   "read": "miso-eve-read.jpg",
+   "wave": "miso-eve-wave.jpg",
+   "curious": "miso-eve-curious.jpg",
+   "stand": "miso-eve-stand.jpg",
+   "thumb": "miso-eve-thumb.jpg",
+   "laugh": "miso-eve-laugh.jpg",
+   "smile": "miso-eve-smile.jpg",
+   "delight": "miso-eve-delight.jpg",
+   "talk": "miso-eve-talk.jpg"
+  }
+ },
+ "who": {
+  "morning": "로라 잉걸스 와일더",
+  "noon": "강익중",
+  "evening": "비비안 마이어"
+ },
+ "title": "오래 묵혀둔 설렘의 발견",
+ "next_title": "마흔에 처음 산 스케치북",
+ "built": "10252204",
+ "slots": {
+  "morning": {
+   "audio": "2026-10-25-morning.mp3",
+   "end": 74.47,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요",
+      "좋은 아침입니다"
+     ]
+    },
+    {
+     "t": 8.14,
+     "tag": "stand",
+     "cap": [
+      "유난히 달콤한",
+      "일요일의 커피 향기"
+     ]
+    },
+    {
+     "t": 14.41,
+     "tag": "read",
+     "cap": [
+      "예순을 넘긴 나이",
+      "낡은 공책을 펴다"
+     ]
+    },
+    {
+     "t": 19.37,
+     "tag": "laugh",
+     "cap": [
+      "마차를 타고 누비던",
+      "초원의 기억"
+     ]
+    },
+    {
+     "t": 26.56,
+     "tag": "smile",
+     "cap": [
+      "딸에게 들려주던 이야기",
+      "초원의 집이 되다"
+     ]
+    },
+    {
+     "t": 34.01,
+     "tag": "talk",
+     "cap": [
+      "오늘 오마주 인사 카드",
+      "재미있는 글귀"
+     ]
+    },
+    {
+     "t": 38.37,
+     "tag": "smile",
+     "cap": [
+      "단풍 보러 가려다",
+      "이불 속 풍경에 반하다"
+     ]
+    },
+    {
+     "t": 47.43,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 57.02,
+     "tag": "smile",
+     "cap": [
+      "어제보다 조금 더",
+      "단단해진 나를 만나는 시간"
+     ]
+    },
+    {
+     "t": 67.33,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 윤미소였습니다."
+     ]
+    }
+   ]
+  },
+  "noon": {
+   "audio": "2026-10-25-noon.mp3",
+   "end": 76.56,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요",
+      "점심 맛있게 드셨어요?"
+     ]
+    },
+    {
+     "t": 9.02,
+     "tag": "stand",
+     "cap": [
+      "햇살 좋은 일요일",
+      "가벼운 산책 어떠세요"
+     ]
+    },
+    {
+     "t": 14.89,
+     "tag": "read",
+     "cap": [
+      "호주머니 속에 늘",
+      "작은 캔버스를 품고"
+     ]
+    },
+    {
+     "t": 21.99,
+     "tag": "smile",
+     "cap": [
+      "복잡한 지하철 안에서",
+      "손바닥만 한 그림을 그리가"
+     ]
+    },
+    {
+     "t": 28.33,
+     "tag": "delight",
+     "cap": [
+      "작은 조각들이 모여",
+      "거대한 작품이 되다"
+     ]
+    },
+    {
+     "t": 36.26,
+     "tag": "talk",
+     "cap": [
+      "오늘 오마주 인사 카드",
+      "재미있는 글귀"
+     ]
+    },
+    {
+     "t": 40.62,
+     "tag": "smile",
+     "cap": [
+      "단풍 보러 가려다",
+      "이불 속 풍경에 반하다"
+     ]
+    },
+    {
+     "t": 49.69,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 59.27,
+     "tag": "smile",
+     "cap": [
+      "올려다본 하늘이 맑을 때",
+      "덩달아 환해지는 기분"
+     ]
+    },
+    {
+     "t": 69.43,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 윤미소였습니다."
+     ]
+    }
+   ]
+  },
+  "evening": {
+   "audio": "2026-10-25-evening.mp3",
+   "end": 79.49,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요",
+      "오늘 하루도 수고하셨어요"
+     ]
+    },
+    {
+     "t": 9.29,
+     "tag": "stand",
+     "cap": [
+      "좋아하는 음악과 함께",
+      "쉬어가는 일요일 저녁"
+     ]
+    },
+    {
+     "t": 15.56,
+     "tag": "read",
+     "cap": [
+      "평생 아이들을 돌보며",
+      "조용히 보낸 시간"
+     ]
+    },
+    {
+     "t": 21.94,
+     "tag": "smile",
+     "cap": [
+      "낡은 카메라에 담은",
+      "평범한 사람들의 표정"
+     ]
+    },
+    {
+     "t": 29.2,
+     "tag": "read",
+     "cap": [
+      "창고 구석에서 발견된",
+      "수만 장의 필름"
+     ]
+    },
+    {
+     "t": 38.09,
+     "tag": "talk",
+     "cap": [
+      "오늘 오마주 인사 카드",
+      "재미있는 글귀"
+     ]
+    },
+    {
+     "t": 42.45,
+     "tag": "smile",
+     "cap": [
+      "단풍 보러 가려다",
+      "이불 속 풍경에 반하다"
+     ]
+    },
+    {
+     "t": 51.52,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 61.1,
+     "tag": "smile",
+     "cap": [
+      "무사히 하루를 보낸 것만으로도",
+      "충분히 반짝이는 당신의 시간"
+     ]
+    },
+    {
+     "t": 72.35,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 윤미소였습니다."
+     ]
+    }
+   ]
+  }
+ },
+ "model": "gemini-3.1-flash-tts-preview",
+ "hz": 214
+}
