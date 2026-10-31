@@ -12,6 +12,10 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&am
 export let D; let deps, tab = 'friend', mood = 'courage', box;
 const now = new Date(), DAY = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 864e5), DOW = now.getDay();
 const M = now.getMonth(), SEASON = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
+const MD = String(M + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+const Q = (() => { try { return new URLSearchParams(location.search).get('mood') || ''; } catch (e) { return ''; } })();   // ?mood=exam — 검색용 쪽·쇼츠에서 그 갈래로 바로
+const live = x => x.k === Q || ((!x.from || MD >= x.from) && (!x.to || MD <= x.to));   // 수능 응원처럼 기간이 있는 갈래
+const MOODS = () => D.moods.filter(live);
 const fits = x => (!x.w || x.w.includes(DOW)) && (!x.s || x.s === SEASON);
 const ls = (k, v) => { try { if (v === undefined) return localStorage.getItem(k) || ''; v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) { return ''; } };
 const nameKey = t => 'omaju.anbu.' + t;
@@ -43,7 +47,7 @@ function cards() {
 function render() {
   const mw = box.querySelector('.anb-moods');
   if (mw.children.length) mw.querySelectorAll('[data-m]').forEach(b => { const on = b.dataset.m === mood; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
-  else mw.innerHTML = D.moods.map(x => `<button type="button" data-m="${x.k}" class="${x.k === mood ? 'on' : ''}" aria-pressed="${x.k === mood}"><span class="anb-mph" style="background-image:url('img/anbu/${x.p[0]}.jpg')"></span><span class="anb-mn">${esc(x.n)}</span></button>`).join('');
+  else mw.innerHTML = MOODS().map(x => `<button type="button" data-m="${x.k}" class="${x.k === mood ? 'on' : ''}" aria-pressed="${x.k === mood}"><span class="anb-mph" style="background-image:url('img/anbu/${x.p[0]}.jpg')"></span><span class="anb-mn">${esc(x.n)}</span></button>`).join('');
   const t = TABS.find(x => x[0] === tab);
   box.querySelector('.anb-tabs').innerHTML = TABS.map(x => `<button type="button" data-t="${x[0]}" class="${x[0] === tab ? 'on' : ''}" aria-pressed="${x[0] === tab}">${x[1]}</button>`).join('');
   const inp = box.querySelector('#anb-name');
@@ -150,7 +154,8 @@ export async function renderDetail(el) {
   await ready; if (!el) return;
   if (box === el && el.firstChild) { render(); return; }
   box = el; box.classList.add('anbu-in');
-  const sv = ls('omaju.anbu.mood'); if (D.moods.some(x => x.k === sv)) mood = sv;
+  const sv = ls('omaju.anbu.mood'), sea = MOODS().find(x => x.from || x.k === Q);
+  if (sea) mood = sea.k; else if (MOODS().some(x => x.k === sv)) mood = sv;   // 기간 갈래(수능 응원)가 열려 있으면 그것부터
   box.innerHTML = `<p class="anb-q"><b>1</b>어떤 마음을 전할까요?</p>
     <div class="anb-moods" role="group" aria-label="어떤 마음"></div>
     <p class="anb-q"><b>2</b>누구에게 보낼까요?</p>

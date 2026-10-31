@@ -237,6 +237,29 @@ def main():
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 인사 카드 모음 — 아침 인사 이미지', 'inLanguage': 'ko'}
         u = page('greet/index.html', '아침 인사 이미지 · 힘이 되는 좋은 글귀 카드 — 용기와 희망을 주는 글귀 모음', '카톡으로 보내기 좋은 아침 인사 이미지와 용기·희망을 주는 좋은 글귀 카드를 날마다 새로 올립니다. 부모님께, 자녀에게, 친구에게 보내는 안부 카드도 오마주 매거진 첫 화면에서 이름을 넣어 만들 수 있어요.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f0[0] if f0 else f'greet/img/{d0}-1.jpg', list(zip(f0[1:], a0[1:])), d0)
         urls.append((u, d0)); HUBS.add(u)
+    # 좋은 글귀 인사 카드 모음 · 수능 응원 문구 (대표 2026-11-01 "올려") — 첫 화면 인사 카드(data/anbu.json)의 글귀를 검색에 걸리게
+    try:
+        AB = json.load(open(os.path.join(ROOT, 'data', 'anbu.json'), encoding='utf-8'))
+        WHO = [('parent', '부모님께'), ('child', '자녀에게'), ('friend', '친구·지인에게'), ('group', '모임 단톡방에')]
+        tx = lambda x: x if isinstance(x, str) else x['t']
+        def lines(mk, who): return '<ol>' + ''.join(f'<li>{e(tx(x)).replace(chr(10), "<br>")}</li>' for x in AB['cards'][mk][who] if isinstance(x, str) or not x.get('w')) + '</ol>'
+        tday = TODAY if 'TODAY' in dir() else datetime.date.today().isoformat()
+        body = ('<h1>좋은 글귀 인사 카드</h1><p class="date">오마주 매거진 · 용기 · 희망 · 위로 · 고마움</p>'
+                + '<div class="box green">마음 갈래를 고르고, 받는 분을 고르고, 이름을 넣어 카톡으로 보내는 인사 카드입니다. 아래 글귀는 모두 카드로 만들어 보낼 수 있어요.</div>'
+                + ''.join(f'<span class="sub">{e(m["n"])} 글귀</span>' + ''.join(f'<p><b>{w}</b></p>' + lines(m["k"], k) for k, w in WHO) for m in AB['moods'] if not m.get('from')))
+        ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '좋은 글귀 인사 카드 — 용기·희망·위로·고마움을 전하는 글귀 모음', 'inLanguage': 'ko'}
+        u = page('card/index.html', '좋은 글귀 인사 카드 — 부모님께·자녀에게·친구에게 보내는 용기·희망·위로 글귀 모음', '부모님께 보내는 안부 글귀, 자녀에게 보내는 응원 문구, 친구에게 보내는 위로·고마움의 한마디까지. 마음 갈래별 좋은 글귀를 카드로 만들어 카톡으로 보내세요.', '좋은 글귀 인사 카드 · 오마주 매거진', body, f'{SITE}/?from=search#anbu', ld, 'img/anbu-tile.jpg')
+        urls.append((u, tday)); HUBS.add(u)
+        ex = next((m for m in AB['moods'] if m['k'] == 'exam'), None)
+        if ex:
+            body = ('<h1>수능 응원 문구 모음</h1><p class="date">오마주 매거진 · 2027학년도 수능 2026년 11월 19일(목)</p>'
+                    + '<div class="box green">수험생 자녀에게, 수험생 둔 친구에게, 모임 단톡방에 보내는 수능 응원 글귀입니다. 받는 분 이름을 넣어 카드로 만들어 카톡으로 보낼 수 있어요.</div>'
+                    + ''.join(f'<span class="sub">{w}</span>' + lines('exam', k) for k, w in [('child', '수험생 자녀에게'), ('friend', '수험생 둔 친구에게'), ('group', '모임 단톡방에'), ('parent', '부모님께 (손주 수능)')])
+                    + '<p style="margin-top:22px"><a href="/?from=search&amp;mood=exam#anbu"><b>이 글귀로 응원 카드 만들기 ›</b></a></p>')
+            ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '수능 응원 문구 모음 — 수험생 응원 카드', 'inLanguage': 'ko'}
+            u = page('suneung/index.html', '수능 응원 문구 모음 — 수험생 자녀·친구에게 보내는 응원 글귀 카드 (2026 수능)', '2026년 11월 19일 수능을 앞둔 수험생 자녀에게, 수험생 둔 친구와 모임 단톡방에 보내기 좋은 수능 응원 문구와 응원 카드. 이름을 넣어 카톡으로 보내세요.', '수능 응원 · 오마주 매거진', body, f'{SITE}/?from=search&mood=exam#anbu', ld, 'img/anbu-tile.jpg')
+            urls.append((u, tday)); HUBS.add(u)
+    except Exception as x: print('[seo] 인사 카드 모음 실패', x)
     # 오늘의 한 권 · 요즘 말(시사 상식) · 몸 한 가지 · 그해 오늘 — 콘텐츠마다 검색어가 걸리게 (홍보국 2026-10-25: "소제목부터 내용까지 다 노출되게")
     ORG = {'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
     def art(title, desc, d, img): return {'@context': 'https://schema.org', '@type': 'Article', 'headline': title, 'description': desc, 'datePublished': d, 'inLanguage': 'ko', 'image': f'{SITE}/{img}', **ORG}
