@@ -21,7 +21,7 @@ jobs:
       - run: pip install -q google-cloud-firestore
       - name: 그날의 신문 만들기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           DATE: ${{ github.event.inputs.date }}
           FORCE: ${{ github.event.inputs.force }}

@@ -19,7 +19,7 @@ jobs:
         with: { python-version: '3.12' }
       - name: 일주일 치 인사말
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
         run: |
           set +e
           timeout 15m python -u tools/greet_week.py ${{ inputs.redo == '1' && '--redo' || '' }} 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -80 | tee daily/last-greet.log

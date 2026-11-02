@@ -11,7 +11,7 @@ jobs:
           ref: host-assets
       - run: git fetch -q origin main && git show origin/main:tools/face_boxes.py > /tmp/face_boxes.py
       - env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
         run: python3 /tmp/face_boxes.py
       - if: always()
         run: |

@@ -18,7 +18,7 @@ jobs:
         run: mkdir -p out_mood && (git fetch -q origin mood && git --work-tree=out_mood checkout origin/mood -- . && git reset -q) || true; rm -f out_mood/vercel.json; ls out_mood
       - name: 만들기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           ONLY: ${{ inputs.only }}
           TAKES: ${{ inputs.takes }}
           KEEP: ${{ inputs.keep }}

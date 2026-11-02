@@ -23,7 +23,7 @@ jobs:
         run: git fetch -q origin main && git show origin/main:tools/host_images.py > /tmp/host_images.py
       - name: 사진 만들기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           ONLY: ${{ inputs.only }}
           SET: ${{ inputs.set }}
         run: python3 /tmp/host_images.py

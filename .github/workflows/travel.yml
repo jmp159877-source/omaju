@@ -17,7 +17,7 @@ jobs:
         with: { python-version: '3.12' }
       - name: 여행 채우기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
         run: |
           set +e
           timeout 25m python -u tools/travel_week.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tail -200 | tee daily/last-travel.log

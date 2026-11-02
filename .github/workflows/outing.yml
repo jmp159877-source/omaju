@@ -22,7 +22,7 @@ jobs:
         with: { python-version: '3.12' }
       - name: 나들이 채우기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           LIMIT: ${{ github.event.inputs.limit || '9' }}
         run: |
           set +e

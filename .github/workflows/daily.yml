@@ -31,7 +31,7 @@ jobs:
       - run: pip install -q google-cloud-firestore
       - name: 콘텐츠 만들기 (나들이 제외)
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: 그해 오늘 사진 빠진 것 채우기
         if: always()
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: python tools/era_photos.py "${{ github.event.inputs.date || '' }}$( [ -z "${{ github.event.inputs.date }}" ] && TZ=Asia/Seoul date +%F )" || true
       - name: 인사 카드 그림 (이미지 검색용, 대표 2026-10-25)

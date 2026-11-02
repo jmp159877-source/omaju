@@ -23,7 +23,7 @@ jobs:
         with: { python-version: '3.12' }
       - run: pip install -q google-cloud-firestore
       - env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           if [ -n "${{ inputs.tone }}" ]; then python3 -u tools/talk_seed.py --fixtone "${{ inputs.tone }}"; exit 0; fi

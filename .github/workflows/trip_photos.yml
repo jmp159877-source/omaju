@@ -22,7 +22,7 @@ jobs:
       - name: 사진 모으기
         env:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           PHOTO_OUT: /tmp/trip-out
           FORCE: "${{ inputs.force || '0' }}"
         run: |

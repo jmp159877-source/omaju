@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
         run: |
           set +e
           python3 -u tools/music_probe.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g' | tee /tmp/probe.txt

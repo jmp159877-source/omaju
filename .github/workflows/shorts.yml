@@ -48,7 +48,7 @@ jobs:
       - name: 만들기
         timeout-minutes: 25   # 한 끼 쇼츠가 붙어 5분쯤 더 걸린다
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           MEDIA_DIR: media
           CARDS: /tmp/cards
         run: |

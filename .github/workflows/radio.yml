@@ -28,7 +28,7 @@ jobs:
         run: sudo apt-get -qq update && sudo apt-get -qq install -y ffmpeg >/dev/null && pip install -q numpy
       - name: 만들기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           MEDIA_DIR: media
           CHUNK_MAX: ${{ inputs.chunk }}
         run: |

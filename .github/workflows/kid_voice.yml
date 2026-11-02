@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: 목소리 만들기
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ vars.GOOGLE_ON == '1' && secrets.GEMINI_API_KEY || '' }}
           KID_SCRIPT: ${{ inputs.script }}
         run: python3 -u tools/kid_voice.py 2>&1 | sed -E 's/key=[A-Za-z0-9_\-]+/key=[키]/g'; test -f out_kid/kid.wav
       - name: kid-voice 가지에 올리기
