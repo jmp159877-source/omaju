@@ -3,6 +3,187 @@
  "by": "오마주 편집실",
  "items": [
   {
+   "id": "trip-07",
+   "no": 7,
+   "date": "2026-11-03",
+   "part": "1부 떠나기 전",
+   "title": "미국·일본 가기 전, 전자 입국 신청 하셨나요?",
+   "dek": "미국은 ESTA를 미리 받아야 하고, 일본은 Visit Japan Web으로 종이 신고서를 줄일 수 있습니다. 둘 다 정부 공식 주소에서만 하면 됩니다",
+   "asof": "2026년 11월 기준 · ESTA 수수료는 2026년 10월 16일 시행 기준(미 연방 관보 공고), Visit Japan Web은 일본 디지털청 안내",
+   "hook": "예전엔 비행기 안에서 승무원이 나눠 주는 입국 카드를 받아 들고, 무릎 위에서 볼펜으로 영어 칸을 채웠습니다. 요즘은 떠나기 며칠 전 휴대폰으로 미리 신청하고, 공항에서는 화면 하나만 보여 주면 됩니다.",
+   "blocks": [
+    {
+     "h": "미국은 '미리 허가'부터"
+    },
+    {
+     "p": "우리 여권으로 미국에 짧게 다녀올 때는 비자 대신 **ESTA(전자여행허가)**를 받습니다. 관광이나 출장이라면 한 번에 **90일**까지 머물 수 있습니다."
+    },
+    {
+     "p": "이 허가가 없으면 비행기에 오르지 못할 수 있습니다. 그래서 표를 끊었다면 ESTA부터 챙기는 편이 순서입니다."
+    },
+    {
+     "p": "한 번 받으면 **2년** 동안 여러 번 쓸 수 있습니다. 다만 그 사이 여권이 끝나면 허가도 함께 끝나고, 여권을 새로 만들면 다시 신청해야 합니다."
+    },
+    {
+     "h": "값이 많이 올랐습니다"
+    },
+    {
+     "p": "ESTA 수수료는 2025년 9월 30일 **21달러에서 40달러**로 거의 두 배가 됐습니다."
+    },
+    {
+     "p": "그 뒤 물가에 맞춰 조금씩 오르고 있어, 2026년 10월 16일부터는 **40.62달러**입니다. 허가가 나지 않으면 이 가운데 일부만 냅니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "미국 ESTA 수수료(허가 1건)",
+      "sub": "바뀐 때부터 · 단위 달러",
+      "unit": "달러",
+      "items": [
+       [
+        "2010.9",
+        14,
+        false
+       ],
+       [
+        "2022.5",
+        21,
+        false
+       ],
+       [
+        "2025.9",
+        40,
+        false
+       ],
+       [
+        "2026.10",
+        40.62,
+        true
+       ]
+      ],
+      "legend": "2022년 5월부터 21달러, 2025년 9월 30일부터 40달러, 2026년 10월 16일부터 40.62달러(물가 반영)입니다.",
+      "source": "미 국토안보부·CBP 연방 관보 공고(2026.10.1) · AILA 「CBP Final Rule Increasing ESTA Fee to $21」 · Business Travel News Europe(2025) · 뉴시스(2025.9.22) · VisasNews·EIG Law(2026.10) · 위키백과 ESTA 항목"
+     }
+    },
+    {
+     "h": "일본은 '미리 적어 두기'"
+    },
+    {
+     "p": "일본은 지금 우리 국민에게 ESTA 같은 사전 허가를 받지 않습니다. 대신 **Visit Japan Web**에 입국 심사와 세관 신고 내용을 미리 적어 둘 수 있습니다."
+    },
+    {
+     "p": "일본 디지털청이 운영하는 **무료** 서비스입니다. 공항에서는 휴대폰에 뜬 QR 코드를 보여 주면 됩니다."
+    },
+    {
+     "p": "꼭 해야 하는 것은 아니어서, 등록하지 않으면 예전처럼 **종이 입국 카드**를 쓰면 됩니다. 다만 비행기 안에서 볼펜을 찾을 일은 줄어듭니다."
+    },
+    {
+     "p": "일본도 미국처럼 미리 허가를 받는 **JESTA**를 2028년에 들이겠다고 밝혔습니다. 대상과 값은 아직 정해지지 않았습니다."
+    },
+    {
+     "h": "검색 맨 위가 정부 사이트는 아닙니다"
+    },
+    {
+     "p": "'ESTA'를 검색하면 맨 위에 광고로 **대행 사이트**가 뜨곤 합니다. 화면이 공식 사이트와 비슷해 그대로 결제하기 쉽습니다."
+    },
+    {
+     "p": "한국소비자원이 2026년 9월 대행 사이트 29곳을 살펴보니, 한 건에 **최대 176달러**까지 받는 곳이 있었습니다. 공식 값의 몇 배입니다."
+    },
+    {
+     "p": "공식 주소는 미국 **esta.cbp.dhs.gov**, 일본 Visit Japan Web은 **vjw.digital.go.jp**입니다. 미국은 주소 끝이 **.gov**, 일본은 **.go.jp**로 끝나는 정부 주소입니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 정리하면",
+      "text": "미국은 **ESTA를 미리**, 일본은 **Visit Japan Web으로 미리 적어 두기** — 둘 다 **주소 확인**부터입니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘 휴대폰으로 해 볼 것",
+      "text": "미국이나 일본 갈 계획이 있다면 공식 주소 두 개를 휴대폰 **즐겨찾기**에 넣어 두세요. 나중에 급할 때 검색 광고를 거치지 않고 바로 들어갈 수 있습니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘의 물음",
+      "text": "비행기 안에서 입국 카드를 쓰다가 칸을 몰라 쩔쩔맸던 기억, 있으신가요?"
+     }
+    }
+   ],
+   "cons": [
+    "대행 사이트가 모두 불법은 아닙니다. 다만 같은 허가를 받으면서 **웃돈을 내는 것**이고, '환불 불가'라고 적어 둔 곳이 많아 잘못 결제하면 돌려받기 어렵습니다.",
+    "ESTA는 받았다고 입국이 보장되는 것이 아닙니다. 마지막 판단은 도착한 공항의 입국 심사관이 합니다.",
+    "미국 수수료는 해마다 물가에 맞춰 바뀔 수 있습니다. 결제 전 공식 사이트에 적힌 금액을 다시 보세요.",
+    "Visit Japan Web은 휴대폰 화면에 기대는 만큼, 배터리가 떨어지거나 인터넷이 안 되면 곤란합니다. QR 화면을 미리 **캡처**해 두거나 종이 입국 카드를 쓰면 됩니다.",
+    "일본 JESTA의 시행 시기·대상·수수료는 아직 확정되지 않았습니다. 떠나기 전 일본 정부 공식 안내를 확인하세요."
+   ],
+   "next": "여행자 보험, 휴대폰으로 가입해도 될까요?",
+   "sources": [
+    {
+     "name": "미국 세관국경보호국(CBP) ESTA 공식 신청 사이트",
+     "url": "https://esta.cbp.dhs.gov"
+    },
+    {
+     "name": "일본 디지털청 Visit Japan Web 안내",
+     "url": "https://services.digital.go.jp/visit-japan-web/"
+    },
+    {
+     "name": "뉴시스, 「트럼프 정부, 전문직 비자 이어 또 'ESTA' 수수료도 대폭 인상」 (2025.9.22)",
+     "url": "https://www.newsis.com/view/NISX20250922_0003338158"
+    },
+    {
+     "name": "Business Travel News Europe, 「US confirms increase in ESTA fee from 30 September」 (2025)",
+     "url": "https://www.businesstravelnewseurope.com/Management/US-confirms-increase-in-ESTA-fee-from-30-September"
+    },
+    {
+     "name": "AILA, 「CBP Final Rule Increasing ESTA Fee to $21」 (2022)",
+     "url": "https://www.aila.org/cbp-final-rule-increasing-esta-fee-to-21"
+    },
+    {
+     "name": "VisasNews, 「US ESTA fee increases starting October 16, 2026」 (2026.10.1)",
+     "url": "https://visasnews.com/en/us-esta-fee-increases-starting-october-16-2026/"
+    },
+    {
+     "name": "EIG Law, 「DHS Announces FY 2027 Increases to Parole, ESTA, and EVUS Fees」 (2026.10)",
+     "url": "https://eiglaw.com/dhs-announces-fy-2027-increases-to-parole-esta-and-evus-fees/"
+    },
+    {
+     "name": "Wikipedia, 「Electronic System for Travel Authorization」",
+     "url": "https://en.wikipedia.org/wiki/Electronic_System_for_Travel_Authorization"
+    },
+    {
+     "name": "FUN! JAPAN, 「[2026 최신판] 비짓 재팬 웹 등록 및 이용 방법」",
+     "url": "https://www.fun-japan.jp/ko/articles/14686"
+    },
+    {
+     "name": "Wego, 「Visit Japan Web 2026: How to Register and Use Your QR Code on Arrival」 (2026.6)",
+     "url": "https://blog.wego.com/visit-japan-web/"
+    },
+    {
+     "name": "시대일보, 일본 JESTA 2028년 도입 보도 (2025.10)",
+     "url": "https://www.sidae.com/article/2025101814413237608"
+    },
+    {
+     "name": "Newland Chase, 「Japan Electronic Travel Authorization System Will Launch in 2028」 (2025.5.27)",
+     "url": "https://newlandchase.com/japan-electronic-travel-authorization-system-will-launch-in-2028/"
+    },
+    {
+     "name": "YTN, 한국소비자원 전자여행허가 대행 사이트 주의 보도 (2026.9.3)",
+     "url": "https://www.ytn.co.kr/_ln/0102_202609031417390934"
+    },
+    {
+     "name": "SBS Biz, 「소비자원 \"전자여행허가제도 사칭사이트 주의\"」 (2025.7.11)",
+     "url": "https://biz.sbs.co.kr/amp/article/20000246146"
+    },
+    {
+     "name": "아시아경제, 「ESTA 공식수수료는 21달러」 (2024.7.11)",
+     "url": "https://view.asiae.co.kr/article/2024071016100096761"
+    }
+   ],
+   "seo": "ESTA 신청 공식 사이트와 2026년 수수료 40.62달러, Visit Japan Web 무료 등록 — 대행 사이트 웃돈 피하는 법"
+  },
+  {
    "id": "trip-06",
    "no": 6,
    "date": "2026-11-01",
