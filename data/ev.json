@@ -4227,6 +4227,326 @@
     }
    ],
    "seo": "볼보 EX30·EX90과 폴스타 2·3·4 — 안전벨트 이야기부터 국내 판매·값까지"
+  },
+  {
+   "id": "ev-13",
+   "no": 13,
+   "date": "2026-11-06",
+   "part": "2부 브랜드 해부",
+   "title": "중국 새 얼굴들을 뜯어보다: 지커·샤오미가 온다",
+   "dek": "지난달 첫 차를 내준 지커, 한국 땅을 저울질하는 샤오미 — BYD 다음 차례의 두 이름",
+   "asof": "2026년 11월 기준",
+   "hook": "지난달 22일, 중국 전기차 **지커 7X**의 국내 1호차가 주인을 찾았습니다. 아직 한국에 들어오지 않은 **샤오미**도 이름이 자주 오르내립니다.",
+   "blocks": [
+    {
+     "h": "지커는 누구인가"
+    },
+    {
+     "p": "지커는 중국 **지리자동차**가 2021년에 세운 고급 전기차 브랜드입니다. 지난 편의 볼보·폴스타와 주인이 같습니다."
+    },
+    {
+     "p": "지리는 지난해 12월 지커의 남은 지분을 모두 사들였습니다. 그래서 지커는 뉴욕 증시에서 내려오고 지리 안으로 완전히 들어갔습니다."
+    },
+    {
+     "p": "한국에 처음 들여온 차는 중형 전기 SUV **7X**입니다. 중국에서 2024년 가을 나온 뒤, 올해 9월 생산 **20만 대**를 넘겼습니다."
+    },
+    {
+     "gallery": {
+      "title": "지커·샤오미 전기차, 사진으로 보면",
+      "items": [
+       {
+        "src": "img/ev/ev-13-g1.jpg",
+        "caption": "지커 7X — 한국에 처음 들어온 지커",
+        "credit": "JustAnotherCarDesigner · CC0 · 위키미디어 공용",
+        "alt": "지커 7X 앞모습"
+       },
+       {
+        "src": "img/ev/ev-13-g2.jpg",
+        "caption": "지커 7X 뒷모습 — 가로로 길게 이어진 뒷등",
+        "credit": "JustAnotherCarDesigner · CC0 · 위키미디어 공용",
+        "alt": "지커 7X 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-13-g3.jpg",
+        "caption": "지커 7X — 거리에 선 회색 차",
+        "credit": "JustAnotherCarDesigner · CC0 · 위키미디어 공용",
+        "alt": "지커 7X 앞모습, 거리"
+       },
+       {
+        "src": "img/ev/ev-13-g4.jpg",
+        "caption": "지커 001 — 낮고 긴 왜건 모양의 첫 차",
+        "credit": "Юрий Д.К. · CC BY 4.0 · 위키미디어 공용",
+        "alt": "지커 001 옆모습"
+       },
+       {
+        "src": "img/ev/ev-13-g5.jpg",
+        "caption": "지커 X — 작은 전기 SUV",
+        "credit": "Matti Blume · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "지커 X 앞모습"
+       },
+       {
+        "src": "img/ev/ev-13-g6.jpg",
+        "caption": "샤오미 SU7 — 휴대폰 회사가 만든 첫 전기 세단",
+        "credit": "S5A-0043 · CC BY 4.0 · 위키미디어 공용",
+        "alt": "샤오미 SU7 앞모습"
+       },
+       {
+        "src": "img/ev/ev-13-g7.jpg",
+        "caption": "샤오미 SU7 뒷모습 — 거리에서",
+        "credit": "JustAnotherCarDesigner · CC0 · 위키미디어 공용",
+        "alt": "샤오미 SU7 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-13-g8.jpg",
+        "caption": "샤오미 SU7 실내 — 길게 누운 계기판과 가운데 화면",
+        "credit": "JustAnotherCarDesigner · CC0 · 위키미디어 공용",
+        "alt": "샤오미 SU7 실내"
+       },
+       {
+        "src": "img/ev/ev-13-g9.jpg",
+        "caption": "샤오미 YU7 GT — 전시장에 선 전기 SUV",
+        "credit": "JustAnotherCarDesigner · CC0 · 위키미디어 공용",
+        "alt": "샤오미 YU7 GT 앞모습"
+       }
+      ]
+     }
+    },
+    {
+     "h": "지커 7X, 한국에 오기까지"
+    },
+    {
+     "p": "7X는 올해 5월 말 국내 인증을 마치고, 6월 5일부터 **사전 예약**을 받았습니다."
+    },
+    {
+     "p": "값은 세 가지입니다. 가장 낮은 것이 **5,299만 원**, 가운데가 5,999만 원, 맨 위가 6,999만 원입니다. 보조금을 받기 전 값입니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "지커 7X 국내 값",
+      "sub": "트림 세 가지 · 보조금 받기 전",
+      "unit": "만 원",
+      "items": [
+       [
+        "기본형",
+        5299,
+        true
+       ],
+       [
+        "가운데",
+        5999,
+        false
+       ],
+       [
+        "맨 윗급",
+        6999,
+        false
+       ]
+      ],
+      "legend": "가장 낮은 값이 5천만 원대 초반입니다. 사는 곳의 보조금에 따라 실제로 내는 돈은 달라집니다.",
+      "source": "지커코리아 발표, 파이낸셜뉴스(2026.10.8)·오토뷰(2026.9.4)·뉴스웨이(2026.9.28) 보도 대조"
+     }
+    },
+    {
+     "p": "사전 예약은 **1,500대**를 넘었습니다. 그리고 10월 22일 첫 고객에게 차가 건네졌습니다. 1호차 주인은 배터리 회사 SK온이었습니다."
+    },
+    {
+     "p": "7X는 아이오닉 5·모델 Y와 같은 중형 전기 SUV 자리에 섭니다. 참고로 같은 10월 한 달 동안 테슬라는 국내에서 **9,165대**를 등록했습니다."
+    },
+    {
+     "h": "샤오미, 휴대폰 회사가 차를 팔다"
+    },
+    {
+     "p": "샤오미는 우리에게 휴대폰과 보조배터리로 익숙한 회사입니다. 2024년 3월 28일 첫 전기 세단 **SU7**을 내놓았습니다."
+    },
+    {
+     "p": "회사 발표로는 판매를 연 지 27분 만에 확정 주문이 **5만 대**를 넘었습니다."
+    },
+    {
+     "p": "지난해 6월 26일 나온 SUV **YU7**은 한 시간 만에 주문 28만9천 대를 받았다고 밝혔습니다. 주문은 아직 차를 받은 숫자가 아닙니다."
+    },
+    {
+     "p": "실제로 건넨 차는 2024년 13만5천 대 남짓, 지난해에는 **40만 대**를 넘었습니다. 한 해 만에 세 배 가까이 늘었습니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "샤오미 전기차 한 해 인도",
+      "sub": "중국 · 회사 발표 · '넘게'로 밝힌 숫자",
+      "unit": "대",
+      "items": [
+       [
+        "2024년",
+        135000,
+        false
+       ],
+       [
+        "2025년",
+        400000,
+        true
+       ]
+      ],
+      "legend": "첫 차를 내놓은 지 두 해째에 한 해 40만 대를 넘겼습니다.",
+      "source": "샤오미 발표, Electrek(2024.12.31)·CarNewsChina(2026.1.1)·ArenaEV 보도 대조"
+     }
+    },
+    {
+     "p": "올해 10월에는 한 달에만 5만 대 넘게 건넸다고 이투데이 등이 전했습니다."
+    },
+    {
+     "h": "샤오미는 언제 오나"
+    },
+    {
+     "p": "샤오미는 **2027년 유럽**에 차를 팔기 시작하겠다고 밝혔습니다. 해외로 나가는 첫걸음입니다."
+    },
+    {
+     "p": "한국은 아직 정해진 것이 없습니다. 샤오미코리아는 올해 5월 '전기차 도입도 검토한다'고 했습니다(머니투데이)."
+    },
+    {
+     "p": "2028년에 들어온다는 보도(엠투데이)도 나왔습니다. 다만 회사가 날짜를 못 박아 발표한 것은 아닙니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 보면",
+      "text": "지커는 **이미 왔고**, 샤오미는 **아직 오는 중**입니다. BYD가 연 길에 중국 고급 전기차가 차례로 서고 있지만, 국내 판매는 이제 막 첫 숫자가 쌓이기 시작하는 단계입니다."
+     }
+    }
+   ],
+   "cons": [
+    "지커 7X는 지난달에야 출고가 시작돼 **국내 판매 실적이 아직 쌓이지 않았습니다**. 사전 예약은 계약과 달라 그대로 판매로 이어진다고 볼 수 없습니다.",
+    "수입 브랜드는 **전시장·서비스센터가 어디에 있는지**가 중요합니다. 사기 전에 사는 곳 가까이에 정비할 곳이 있는지 먼저 확인해 보세요.",
+    "7X 값은 **보조금을 받기 전 값**입니다. 사는 곳과 그해 보조금에 따라 실제로 내는 돈은 달라집니다.",
+    "샤오미는 **한국에 정식으로 들어오지 않았습니다**. 정식으로 들어오기 전에는 국내에서 보증 수리나 보조금을 기대하기 어렵습니다.",
+    "샤오미의 주문·인도 숫자는 **회사가 발표한 숫자를 전한 보도**입니다. 주문 수는 취소될 수 있어 실제 판매와 다릅니다."
+   ],
+   "next": "르노코리아를 뜯어보다: 부산 공장에서 나오는 전기차",
+   "sources": [
+    {
+     "name": "Wikipedia, Zeekr",
+     "url": "https://en.wikipedia.org/wiki/Zeekr"
+    },
+    {
+     "name": "CarNewsChina, 지커 뉴욕 증시 상장 폐지·지리 완전 인수 (2025.12.23)",
+     "url": "https://carnewschina.com/2025/12/23/zeekr-delists-from-nyse-as-geely-completes-full-acquisition/"
+    },
+    {
+     "name": "FilingReader, Geely Auto completes Zeekr privatization (2025.12.22)",
+     "url": "https://filingreader.com/news-wire/hongkong/2025-12-22/geely-auto-completes-zeekr-privatization-delists-from-nyse"
+    },
+    {
+     "name": "CarNewsChina, 지커 7X 20만 대 (2026.9.8)",
+     "url": "https://carnewschina.com/2026/09/08/zeekr-7x-hits-200000-units-as-new-85-kwh-version-arrives-in-q4/"
+    },
+    {
+     "name": "Gasgoo, ZEEKR 7X Hits 200,000 Global Production Milestone",
+     "url": "https://autonews.gasgoo.com/articles/news/zeekr-7x-hits-200000-global-production-milestone-2097577273296510977"
+    },
+    {
+     "name": "헤럴드경제, 지커 7X 생산 20만 대·국내 사전예약 1,500대",
+     "url": "https://biz.heraldcorp.com/article/10875240"
+    },
+    {
+     "name": "한국경제, 지커 7X 국내 인증 통과 (2026.5.29)",
+     "url": "https://www.hankyung.com/article/2026052974351"
+    },
+    {
+     "name": "헤럴드K, 지커 7X 5일 사전예약 시작 (2026.6.4)",
+     "url": "https://www.heraldk.com/article/2026060422040371356"
+    },
+    {
+     "name": "이코노미스트, 한국 첫 투입 7X (2026.6.5)",
+     "url": "https://economist.co.kr/article/view/ecn202606050017"
+    },
+    {
+     "name": "파이낸셜뉴스, 지커 7X 값 (2026.10.8)",
+     "url": "https://www.fnnews.com/news/202610080601020427"
+    },
+    {
+     "name": "오토뷰, 지커 7X 값 (2026.9.4)",
+     "url": "https://www.autoview.co.kr/ko-kr/articles/101629"
+    },
+    {
+     "name": "뉴스웨이, 6,999만 원 지커 7X 10월 출격 (2026.9.28)",
+     "url": "https://newsway.co.kr/news/view?ud=2026092812045826583"
+    },
+    {
+     "name": "블로터, 지커 7X 10월부터 국내 인도·1,500대 예약",
+     "url": "https://www.bloter.net/news/articleView.html?idxno=672866"
+    },
+    {
+     "name": "지디넷코리아, 지커 7X 국내 인도 시작·1호차 SK온 (2026.10.22)",
+     "url": "https://zdnet.co.kr/view/?no=20261022094056"
+    },
+    {
+     "name": "이코노미스트, SK온에 1호차 전달 (2026.10.22)",
+     "url": "https://economist.co.kr/article/view/ecn202610220013"
+    },
+    {
+     "name": "뉴시스, 지커 7X 아이오닉5·모델Y급 중형 SUV (2026.10.7)",
+     "url": "https://www.newsis.com/view/NISX20261007_0003817886"
+    },
+    {
+     "name": "이투데이, 10월 수입차·테슬라 9,165대 (2026.11)",
+     "url": "https://www.etoday.co.kr/news/view/2643873"
+    },
+    {
+     "name": "지피코리아, 10월 테슬라 9,165대 (2026.11)",
+     "url": "https://www.gpkorea.com/news/articleView.html?idxno=148295"
+    },
+    {
+     "name": "CarNewsChina, SU7 27분 만에 확정 주문 5만 대 (2024.3.28)",
+     "url": "https://carnewschina.com/2024/03/28/xiaomi-su7-received-50000-firm-orders-in-27-minutes-undercuts-tesla-model-3/"
+    },
+    {
+     "name": "ArenaEV, SU7 50,000 firm orders in 27 minutes",
+     "url": "https://www.arenaev.com/xiaomi_su7_gets_50000_firm_orders_in_27_minutes_limited_founders_edition_unveiled-news-3348.php"
+    },
+    {
+     "name": "CarNewsChina, YU7 한 시간 28만9천 대 주문 (2025.6.27)",
+     "url": "https://carnewschina.com/2025/06/27/xiaomi-yu7-suv-got-over-289000-orders-in-60-minutes-sparks-scalper-chaos"
+    },
+    {
+     "name": "Profit(Pakistan Today), YU7 289,000 orders (2025.6.27)",
+     "url": "https://profit.pakistantoday.com.pk/2025/06/27/xiaomi-receives-289000-orders-for-yu7-within-one-hour-of-launch"
+    },
+    {
+     "name": "Electrek, 샤오미 2024년 13만5천 대 (2024.12.31)",
+     "url": "https://electrek.co/2024/12/31/xiaomi-delivered-135k-evs-2024-looks-double-that-2025/"
+    },
+    {
+     "name": "CarNewsChina, 샤오미 2025년 40만 대 넘게 (2026.1.1)",
+     "url": "https://carnewschina.com/2026/01/01/xiaomi-delivered-over-400000-cars-in-2025-one-year-after-its-first-model-launch/"
+    },
+    {
+     "name": "ArenaEV, Xiaomi 400,000 delivered in 2025",
+     "url": "https://m.arenaev.com/xiaomi_hits_major_milestone_with_400000_electric_cars_delivered_in_2025-amp-5464.php"
+    },
+    {
+     "name": "이투데이, 샤오미 10월 5만 대 돌파 (2026.11)",
+     "url": "https://www.etoday.co.kr/news/view/2643078"
+    },
+    {
+     "name": "CnEVPost, 샤오미 2027년 유럽 진출 (2025.8.20)",
+     "url": "https://cnevpost.com/2025/08/20/xiaomi-plans-entry-european-ev-market-2027/"
+    },
+    {
+     "name": "Autocar, Xiaomi plans to launch electric cars in Europe in 2027",
+     "url": "https://www.autocar.co.uk/node/330500"
+    },
+    {
+     "name": "머니투데이, 샤오미코리아 '전기차 도입도 검토' (2026.5.29)",
+     "url": "https://www.mt.co.kr/tech/2026/05/29/2026052915134954187"
+    },
+    {
+     "name": "엠투데이, 샤오미 2028년 한국 상륙",
+     "url": "https://www.autodaily.co.kr/news/articleView.html?idxno=545990"
+    },
+    {
+     "name": "사진: 위키미디어 공용 (각 사진 아래 찍은 사람·라이선스)",
+     "url": "https://commons.wikimedia.org/"
+    }
+   ],
+   "seo": "지커 7X 국내 값·사전예약·1호차와 샤오미 SU7·YU7 — 중국 새 전기차 브랜드의 한국 진출 현황"
   }
  ]
 }
