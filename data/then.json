@@ -3,6 +3,178 @@
  "by": "오마주 편집실",
  "items": [
   {
+   "id": "then-11",
+   "no": 11,
+   "date": "2026-11-07",
+   "part": "2부 듣고 보던 물건들",
+   "title": "다시 돌기 시작한 LP, 집에 몇 장 남아 있나요?",
+   "dek": "1948년 처음 나온 LP는 CD에 밀려 사라지는 듯했습니다. 2025년 미국에서는 4,680만 장이 팔려 19년째 늘었습니다",
+   "asof": "2026년 11월 기준 (미국 LP 판매는 미국음반산업협회 RIAA 의 2022~2025년 연말 보고서를 전한 보도)",
+   "hook": "비닐 봉투에서 판을 꺼내 턴테이블에 올리고, 바늘을 살며시 내렸습니다. '지직' 하는 잡음 끝에 첫 소절이 흘러나왔습니다.",
+   "blocks": [
+    {
+     "h": "두 손바닥으로 받쳐 들던 판"
+    },
+    {
+     "p": "지름 30센티미터 남짓한 **LP**는 1948년 6월 미국 컬럼비아 레코드가 처음 선보였습니다. 1분에 33⅓번 도는 이 판은 한 면에 23분 안팎의 음악을 담았습니다."
+    },
+    {
+     "p": "판은 가장자리만 잡았습니다. 지문이 묻으면 소리가 튈까 봐 **두 손바닥**으로 받쳐 들고 조심스레 올렸습니다."
+    },
+    {
+     "p": "바늘이 내려앉으면 작은 잡음이 먼저 났습니다. 그 소리가 곧 노래가 시작된다는 신호였습니다."
+    },
+    {
+     "h": "앞면이 끝나면 일어나 뒤집던 판"
+    },
+    {
+     "p": "앞면이 끝나면 자리에서 일어나 판을 **뒤집어야** 했습니다. 그래서 앨범 한 장을 처음부터 끝까지 순서대로 듣는 일이 자연스러웠습니다."
+    },
+    {
+     "p": "큼직한 재킷은 그 자체로 그림 한 점이었습니다. 속지에 실린 가사를 따라 읽으며 노래를 외웠습니다."
+    },
+    {
+     "p": "이사할 때마다 무거운 판 상자는 짐이 됐고, CD가 나오면서 하나둘 정리했습니다. 그래도 차마 내놓지 못한 **몇 장**이 아직 어딘가에 있을지 모릅니다."
+    },
+    {
+     "h": "숫자로 보면, 19년째 늘어난 LP"
+    },
+    {
+     "p": "미국음반산업협회(RIAA)에 따르면 2025년 미국에서 팔린 LP는 **4,680만 장**이었습니다. LP 매출이 10억 달러를 넘은 것은 1983년 이후 처음입니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "미국 LP 판매량",
+      "sub": "미국음반산업협회(RIAA) 연말 보고서를 전한 보도 · 해마다 한 해 동안 팔린 장수",
+      "unit": "만 장",
+      "items": [
+       [
+        "2022년",
+        4100,
+        false
+       ],
+       [
+        "2023년",
+        4300,
+        false
+       ],
+       [
+        "2024년",
+        4400,
+        false
+       ],
+       [
+        "2025년",
+        4680,
+        true
+       ]
+      ],
+      "legend": "2022~2024년은 발표 때 반올림한 숫자입니다. 2025년 발표는 한 해 전보다 7.9% 늘었다고 해, 2024년을 약 4,340만 장으로 다시 잡은 셈입니다.",
+      "source": "2022: Rolling Stone(2023.3)·Headphonesty(2024.4) / 2023: Headphonesty(2024.4)·Billboard Brasil(2024.3) / 2024: Engadget(2025.3)·SVC(2025.3) / 2025: Music Week(2026.3)·Digital Music News(2026.3.18)"
+     }
+    },
+    {
+     "p": "2022년에는 **1987년 이후 처음**으로 미국에서 LP가 CD보다 많이 팔렸습니다. 4,100만 장 대 3,300만 장이었습니다."
+    },
+    {
+     "p": "2025년 미국에서 LP로 가장 많이 팔린 앨범은 테일러 스위프트의 새 앨범으로, LP로만 약 160만 장이 나갔습니다."
+    },
+    {
+     "p": "우리나라에서도 K팝 가수들이 잇따라 LP를 내고 있습니다. 듣는 판이라기보다 **간직하는 물건**으로 사는 사람이 많다는 이야기입니다."
+    },
+    {
+     "h": "지금은, 듣는 음악에서 간직하는 음악으로"
+    },
+    {
+     "p": "이제 노래는 휴대폰으로 언제든 듣습니다. 그래서 오히려 판을 꺼내 바늘을 올리는 **느린 시간**을 일부러 찾는 사람들이 생겼습니다."
+    },
+    {
+     "p": "요즘 턴테이블 가운데는 블루투스 스피커에 바로 이어지는 것도 있습니다. 옛 판을 꺼내 다시 들어 보기가 예전보다 한결 수월해졌습니다."
+    },
+    {
+     "p": "집에 남은 LP 몇 장은 그 시절 내가 고른 음악의 목록입니다. 재킷만 꺼내 봐도 그때의 방과 **그때의 사람**이 함께 떠오릅니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 정리하면",
+      "text": "한때 짐이 되어 정리하던 **LP**는, 미국에서만 19년째 판매가 늘며 다시 '간직하는 음악'으로 돌아왔습니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘 휴대폰으로 해 볼 것",
+      "text": "집에 남은 LP 재킷을 한 장씩 사진으로 찍어 앨범 하나에 모아 보세요. 판이 없다면 음악 앱에서 그 시절 앨범을 찾아 **첫 곡부터 끝 곡까지** 순서대로 들어 보세요."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘의 물음",
+      "text": "집 어딘가에 아직 남아 있는 LP, 몇 장인가요? 그중 끝내 내놓지 못한 한 장은 누구의 어떤 앨범인가요?"
+     }
+    }
+   ],
+   "cons": [
+    "목차에서는 국내 보도(써클차트)도 도표에 넣으려 했지만, 국내 LP 판매량은 보도마다 숫자가 맞지 않아(2026년 상반기 약 93만 7천 장이라는 보도와 1~9월 약 92만 장이라는 보도) 싣지 않았습니다. 도표는 미국 RIAA 숫자로만 그렸습니다.",
+    "RIAA 는 2025년 발표부터 매출을 소매가 추정이 아니라 도매가 기준으로 셉니다. 그래서 2024년 '14억 달러'와 2025년 '10억 달러'는 바로 견줄 수 없어, 도표는 매출 대신 판매 장수로 그렸습니다.",
+    "LP 가 처음 공개된 날은 자료마다 6월 18일·21일로 다르게 적혀 있어 '1948년 6월'까지만 썼습니다.",
+    "새 LP 는 대개 CD 보다 값이 나가고, 턴테이블까지 갖추면 돈이 꽤 듭니다. 집에 있는 판부터 꺼내 들어 보는 편이 먼저입니다.",
+    "오래 둔 판은 휘거나 곰팡이가 슬 수 있고, 닳은 바늘은 판을 상하게 합니다. 오래 쉬던 턴테이블이라면 바늘부터 살펴보는 편이 좋습니다."
+   ],
+   "next": "차 안에서 바꿔 끼우던 CD, 어떤 앨범이었나요?",
+   "sources": [
+    {
+     "name": "Music Week, 「RIAA: US revenue hits record high as vinyl sales pass $1 billion」 (2026.3)",
+     "url": "https://www.musicweek.com/labels/read/riaa-us-revenue-hits-record-high-as-vinyl-sales-pass-1-billion/093770"
+    },
+    {
+     "name": "Hypebot, 「US music revenue hits record $11.5B as vinyl surpasses $1B」 (2026.3)",
+     "url": "https://www.hypebot.com/us-music-revenue-hits-record-11-5b-as-vinyl-surpasses-1b"
+    },
+    {
+     "name": "Digital Music News, 2025년 미국 LP 판매 분석 (2026.3.18)",
+     "url": "https://www.digitalmusicnews.com/2026/03/18/vinyl-sales-2025-analysis/"
+    },
+    {
+     "name": "Engadget, 「Vinyl record sales continue to rise amid music streaming's dominance」 (2025.3)",
+     "url": "https://www.engadget.com/entertainment/streaming/vinyl-record-sales-continue-to-rise-amid-music-streamings-dominance-142131328.html"
+    },
+    {
+     "name": "SVC, 「Vinyl record highest sales since CDs」 (2025.3)",
+     "url": "https://www.svconline.com/proav-today/vinyl-record-highest-sales-since-cds"
+    },
+    {
+     "name": "Headphonesty, 「Vinyl Sales Surpass CDs for the Second Year in a Row」 (2024.4)",
+     "url": "https://www.headphonesty.com/2024/04/vinyl-records-outsell-cds-second-year-row/"
+    },
+    {
+     "name": "Billboard Brasil, 2023년 미국 LP 판매 보도 (2024.3)",
+     "url": "https://billboard.com.br/vinis-ultrapassam-43-milhoes-de-copias-e-passam-cds-pelo-segundo-ano-consecutivo/"
+    },
+    {
+     "name": "Rolling Stone, 「For The First Time In Decades, People Bought More Vinyl Than CDs Last Year」 (2023.3)",
+     "url": "https://www.rollingstone.com/music/music-news/riaa-vinyl-units-surpass-cds-1234693223/"
+    },
+    {
+     "name": "미국 의회도서관 블로그, 「Inside the Archival Box: The First Long-Playing Disc」 (2019.4)",
+     "url": "https://blogs.loc.gov/now-see-hear/2019/04/inside-the-archival-box-the-first-long-playing-disc/"
+    },
+    {
+     "name": "WTOP(AP), 「Vinyl LP turns 75」 (2023.6)",
+     "url": "https://wtop.com/lifestyle/2023/06/vinyl-lp-turns-75-revolutionized-how-music-was-recorded-packaged-listened-to"
+    },
+    {
+     "name": "매일신문, 국내 LP 판매 보도 (2026.9.30)",
+     "url": "https://www.imaeil.com/page/view/2026093018471760030"
+    },
+    {
+     "name": "데일리안, 국내 음반·LP 보도 (2026.10.30)",
+     "url": "https://m.dailian.co.kr/news/view/1707458/"
+    }
+   ],
+   "seo": "집에 남은 LP 와 턴테이블 추억 — 1948년 6월 컬럼비아 레코드가 내놓은 33⅓회전 LP 에서 2022년 1987년 이후 처음 CD 를 앞지르고 2025년 미국 4,680만 장·19년째 증가(RIAA)한 바이닐 재유행까지"
+  },
+  {
    "id": "then-10",
    "no": 10,
    "date": "2026-11-06",
