@@ -3,6 +3,236 @@
  "by": "오마주 편집실",
  "items": [
   {
+   "id": "then-12",
+   "no": 12,
+   "date": "2026-11-08",
+   "part": "2부 듣고 보던 물건들",
+   "title": "차 안에서 바꿔 끼우던 CD, 어떤 앨범이었나요?",
+   "dek": "1982년 10월 일본에서 처음 팔린 CD는 이제 음원에 자리를 내주었습니다. 그런데 우리나라에서는 2023년 한 해 앨범이 1억 장 넘게 나갔습니다",
+   "asof": "2026년 11월 기준 (국내 앨범 판매는 써클차트 연간 상위 400위 합계를 전한 보도, 세계 매출은 국제음반산업협회 IFPI 「글로벌 뮤직 리포트 2026」)",
+   "hook": "신호에 걸린 사이 조수석 수납함을 열고 CD 케이스를 더듬었습니다. 딸깍 하고 판이 빨려 들어가면, 차 안이 금세 그 앨범의 첫 곡으로 찼습니다.",
+   "blocks": [
+    {
+     "h": "손바닥만 한 반짝이는 원판"
+    },
+    {
+     "p": "**CD**는 1982년 10월 1일 일본에서 처음 팔렸습니다. 지름 12센티미터의 판 한 장에 74분 안팎의 음악이 들어갔습니다."
+    },
+    {
+     "p": "테이프처럼 되감을 필요가 없었습니다. 단추 하나로 **듣고 싶은 곡**으로 바로 넘어가는 것이 그때는 신기했습니다."
+    },
+    {
+     "p": "판 뒷면이 무지개빛으로 반짝여서, 긁힐까 봐 가운데 구멍과 가장자리만 잡고 꺼냈습니다."
+    },
+    {
+     "photo": {
+      "src": "img/then/then-12-1.jpg",
+      "caption": "CD 한 장을 밀어 넣던 자동차 오디오. 뒷날에는 MP3 파일을 구운 CD까지 읽었습니다.",
+      "credit": "Notwist · 퍼블릭 도메인 · 위키미디어 공용",
+      "alt": "자동차 계기판 가운데에 끼워진 은색 CD 오디오와 보랏빛 화면"
+     }
+    },
+    {
+     "h": "차 안의 CD 꽂이, 주머니 속 CD 플레이어"
+    },
+    {
+     "p": "차 햇빛 가리개에 **CD 꽂이**를 달아 두고, 길이 막히면 한 장씩 바꿔 끼웠습니다. 멀리 가는 날에는 떠나기 전날 밤 어떤 앨범을 챙길지 골랐습니다."
+    },
+    {
+     "p": "휴대용 CD 플레이어도 있었습니다. 소니가 1984년 11월 내놓은 첫 **디스크맨**은 CD 케이스 네 개를 포갠 크기를 목표로 만들었다고 합니다."
+    },
+    {
+     "p": "걸으면서 들으면 소리가 툭툭 끊겨, 가방 속에서도 **수평**을 맞춰 들고 다녔습니다. 좋아하는 곡만 골라 구운 CD를 친구와 주고받기도 했습니다."
+    },
+    {
+     "gallery": {
+      "title": "그때 그 CD",
+      "items": [
+       {
+        "src": "img/then/then-12-g1.jpg",
+        "caption": "켜켜이 쌓아 두던 CD 더미. 옆에서 보면 판마다 초록빛이 돕니다",
+        "credit": "Dietmar Rabich · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "옆에서 본 CD 여러 장이 겹겹이 쌓인 모습"
+       },
+       {
+        "src": "img/then/then-12-g2.jpg",
+        "caption": "뚜껑을 열고 판을 올리던 휴대용 CD 플레이어",
+        "credit": "MiNe · CC BY 2.0 · 위키미디어 공용",
+        "alt": "나무 탁자 위의 검은 휴대용 CD 플레이어"
+       },
+       {
+        "src": "img/then/then-12-g3.jpg",
+        "caption": "뒷날 더 얇고 둥글어진 은빛 휴대용 CD 플레이어",
+        "credit": "Lcarsdata · CC BY-SA 3.0 · 위키미디어 공용",
+        "alt": "회색 바탕 위의 은색 휴대용 CD 플레이어"
+       }
+      ]
+     }
+    },
+    {
+     "h": "숫자로 보면, 1억 장이 넘게 나간 해"
+    },
+    {
+     "p": "세계 음악 시장에서 노래를 듣는 길은 이미 **스트리밍**입니다. 국제음반산업협회(IFPI)에 따르면 2025년 세계 음반 매출 317억 달러 가운데 약 70%가 스트리밍이었습니다."
+    },
+    {
+     "p": "그런데 우리나라에서는 앨범이 오히려 더 많이 나갔습니다. 써클차트 집계로 2023년 상위 400위 앨범 판매량은 **1억 1,578만 장**이었습니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "국내 앨범 판매량 (써클차트 상위 400위 합계)",
+      "sub": "써클차트 연간 집계를 전한 보도 · 해마다 한 해 동안 팔린 장수(출고에서 반품을 뺀 양)",
+      "unit": "만 장",
+      "items": [
+       [
+        "2020년",
+        4170,
+        false
+       ],
+       [
+        "2021년",
+        5709,
+        false
+       ],
+       [
+        "2022년",
+        8000,
+        false
+       ],
+       [
+        "2023년",
+        11578,
+        true
+       ],
+       [
+        "2024년",
+        9328,
+        false
+       ]
+      ],
+      "legend": "2022년은 보도마다 '약 8,000만 장'으로만 전해 어림값입니다. 2024년은 2014년 이후 10년 만에 처음 줄었습니다.",
+      "source": "2020·2021: Morung Express(연합뉴스)·Manila Bulletin(2022.1) / 2022: 아시아경제(2023.9)·코리아중앙데일리(2023.12) / 2023·2024: MTN(2026.3)·Music Business Worldwide(2025.1)"
+     }
+    },
+    {
+     "p": "그 사이 판매량은 3년 만에 **세 배 가까이** 늘었다가, 2024년 9,328만 장으로 처음 꺾였습니다."
+    },
+    {
+     "p": "요즘 앨범은 음악을 듣는 판이라기보다 **좋아하는 가수의 물건**에 가깝습니다. 사진 카드와 작은 책자가 들어 있어, CD는 뜯지도 않고 꽂아 두는 사람도 많습니다."
+    },
+    {
+     "h": "지금은, 차 안에 CD 넣는 곳이 사라지다"
+    },
+    {
+     "p": "요즘 새 차에는 CD 넣는 곳이 없는 경우가 많습니다. 휴대폰을 이으면 **음원 앱**의 노래가 바로 차 스피커로 나옵니다."
+    },
+    {
+     "p": "길이 막혀도 판을 바꿔 끼울 일이 없습니다. 대신 그 시절 고르고 고른 **한 장의 앨범**을 처음부터 끝까지 듣는 일은 드물어졌습니다."
+    },
+    {
+     "p": "서랍 속 CD 케이스를 열면 속지에 그때 적어 둔 날짜나 이름이 남아 있기도 합니다. 그 한 장이 어느 길 위의 **그날**을 데려옵니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 정리하면",
+      "text": "차 안에서 바꿔 끼우던 **CD**는 음원 앱에 자리를 내주었지만, 우리나라에서는 좋아하는 가수의 물건으로 2023년 한 해 1억 장 넘게 나갔습니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘 휴대폰으로 해 볼 것",
+      "text": "차에서 자주 듣던 CD 한 장을 떠올려, 음악 앱에서 그 앨범을 찾아 **'그때 그 차' 목록**으로 담아 두세요. 다음에 운전할 때 첫 곡부터 순서대로 틀어 보세요."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘의 물음",
+      "text": "차 안에서 가장 많이 바꿔 끼우던 CD는 누구의 어떤 앨범이었나요? 그 앨범을 들으며 달리던 길은 어디였나요?"
+     }
+    }
+   ],
+   "cons": [
+    "써클차트 숫자는 손님이 산 장수가 아니라 가게로 나간 양에서 반품을 뺀 '유통량'이고, 해외로 나간 물량도 들어 있습니다. 또 CD 대신 QR 카드만 든 앨범이나 LP 도 함께 세어, '앨범 = CD'로 딱 잘라 볼 수는 없습니다.",
+    "2025년 국내 앨범 판매량은 보도마다 집계 기준이 달라(상위 400위 합계 약 8,638만 장, 전체 유통량 약 9,350만 장) 두 곳에서 같은 값을 찾지 못해 도표에서 뺐습니다.",
+    "첫 CD 앨범이 무엇이었는지는 자료마다 달라(빌리 조엘 「52nd Street」, 아바 「The Visitors」) 적지 않았습니다.",
+    "같은 앨범을 여러 장 사는 팬이 많아 판매량이 곧 듣는 사람 수는 아닙니다. 쓰지 않는 CD와 플라스틱 케이스가 쓰레기로 쌓인다는 걱정도 나옵니다.",
+    "오래된 CD는 긁히거나 뒷면 막이 상해 읽히지 않을 수 있습니다. 아끼는 앨범이라면 케이스에 세워 그늘에 두는 편이 좋습니다."
+   ],
+   "next": "비디오 빌리러 가던 토요일, 당신은 무엇을 골랐나요?",
+   "sources": [
+    {
+     "name": "MTN, 「K팝 매출 경신 또 경신...앨범 대신 따먹을 과실 많다」 (2026.3.16)",
+     "url": "https://news.mtn.co.kr/news-detail/2026031613404718358"
+    },
+    {
+     "name": "Music Business Worldwide, 「K-Pop in crisis? Around 93m albums were sold in South Korea in 2024」 (2025.1)",
+     "url": "https://www.musicbusinessworldwide.com/k-pop-in-crisis-around-93m-albums-were-sold-in-south-korea-in-2024-23m-fewer-than-in-2023"
+    },
+    {
+     "name": "키움증권 리서치, K팝 앨범 판매 분석",
+     "url": "https://bbn.kiwoom.com/rfCI5185"
+    },
+    {
+     "name": "데일리안, 국내 음반·LP 보도 (2026.10.30)",
+     "url": "https://m.dailian.co.kr/news/view/1707458/"
+    },
+    {
+     "name": "아시아경제, 「K-pop Albums Near Last Year's Annual Sales in 8 Months」 (2023.9)",
+     "url": "https://www.asiae.co.kr/en/article/2023091408483751895"
+    },
+    {
+     "name": "코리아중앙데일리, 「Over 111 million physical albums sold in Korea so far this year」 (2023.12)",
+     "url": "https://v.daum.net/v/20231219170717522"
+    },
+    {
+     "name": "Morung Express(연합뉴스), 2021년 국내 앨범 판매 보도 (2022.1)",
+     "url": "https://morungexpress.com/successive-covid-waves-lift-korean-album-sales-by-369-to-417-mn"
+    },
+    {
+     "name": "Manila Bulletin, 「K-pop albums sold 57 million copies in 2021」 (2022.1)",
+     "url": "https://mb.com.ph/2022/1/14/k-pop-albums-sold-57-million-copies-in-2021"
+    },
+    {
+     "name": "Music Business Worldwide, IFPI 2025년 세계 음반 매출 보도 (2026.3)",
+     "url": "https://www.musicbusinessworldwide.com/global-recorded-music-revenues-hit-31-7bn-in-2025-up-6-4-yoy-users-of-paid-music-subscriptions-reach-837m"
+    },
+    {
+     "name": "Digital Music News, 2025년 세계 음악 산업 매출 (2026.3.18)",
+     "url": "https://www.digitalmusicnews.com/2026/03/18/global-music-industry-revenue-2025/"
+    },
+    {
+     "name": "Hypebot, 「New data reveals that streaming is 70% of total recorded music revenue」 (2026.4)",
+     "url": "https://www.hypebot.com/new-data-reveals-that-streaming-is-70-of-total-recorded-music-revenue/"
+    },
+    {
+     "name": "The Register, 「Compact disc is 30 years old」 (2012.10.1)",
+     "url": "https://www.theregister.com/2012/10/01/compact_disc_is_30_years_old/"
+    },
+    {
+     "name": "Global News, 「Happy 40th birthday, compact disc」 (2022.10)",
+     "url": "https://globalnews.ca/news/9068777/happy-40th-birthday-compact-disc"
+    },
+    {
+     "name": "StorageNewsletter, 「History (1983): Compact Disc by Sony and Philips」",
+     "url": "https://www.storagenewsletter.com/?p=194033"
+    },
+    {
+     "name": "History UK, 「The First CD Goes on Sale」",
+     "url": "https://www.history.co.uk/this-day-in-history/01-october/the-first-cd-goes-on-sale"
+    },
+    {
+     "name": "영국 빅토리아 앨버트 박물관 소장품, Sony D-50",
+     "url": "https://collections.vam.ac.uk/item/O1305128"
+    },
+    {
+     "name": "위키백과(영어), 「Discman」",
+     "url": "https://en.wikipedia.org/wiki/Discman"
+    }
+   ],
+   "seo": "차 안 CD 와 휴대용 CD 플레이어 추억 — 1982년 10월 1일 일본에서 처음 팔린 지름 12cm·74분 CD, 1984년 11월 소니 디스크맨에서 2023년 국내 앨범 1억 1,578만 장(써클차트 상위 400위)과 스트리밍이 세계 매출의 약 70%(IFPI 2025)가 된 지금까지"
+  },
+  {
    "id": "then-11",
    "no": 11,
    "date": "2026-11-07",
