@@ -126,8 +126,11 @@ def tidy(t):
     t = re.sub(r"\s+", " ", t).strip(" ,·")
     t = re.sub(r"\s*[\[(【<][^\])】>]*$", "", t).strip(" ,·")      # 자르다 남은 여는 괄호 조각
     if len(t) > 45:
-        cut = t[:45]; sp = max(cut.rfind(" "), cut.rfind(","))
-        t = (cut[:sp] if sp > 25 else cut).strip(" ,·")
+        cut = t[:45]; cm = cut.rfind(","); sp = max(cut.rfind(" "), cm)
+        if cm >= 15: t = cut[:cm].strip(" ,·")      # 11/08: '우승까지 단'·'장찬희 하루'처럼 말 중간에서 끊겼다 → 쉼표(마디 끝)를 먼저
+        else:
+            t = (cut[:sp] if sp > 25 else cut).strip(" ,·")
+            t = re.sub(r"\s+\S$", "", t).strip(" ,·")   # 끝에 한 글자만 남은 낱말('단')은 뗀다
         t = re.sub(r"\s*[\[(【<][^\])】>]*$", "", t).strip(" ,·")
     return t
 def pick_rule(pool):
