@@ -1,0 +1,56 @@
+2026-10-21
+1976 후보 2 → 1건 연예
+1986 후보 2 → 2건 연예/생활
+1996 후보 20 → 6건 정치/경제/사회/문화/연예/스포츠
+--- 자세히 ---
+검색 1976: Gemini 후보 15개 https://ko.wikipedia.org/wiki/제주특별자치도_부지사; http://monthly.chosun.com/client/news/viw.asp?nNewsNumb=2009; https://namu.wiki/w/탐마삿%20학살; https://film.k-heritage.tv/record/subjectDetail.do?id=12586; https://www.seongnam.go.kr/tour/1001476/10850/contents.do; https://www.policemuseum.go.kr/sub/bbs/detail.do?idx=1432&bb
+fetch 실패 https://ko.wikipedia.org/wiki/제주특별자치도_부지사 'ascii' codec can't encode characters in position 10-16: ord
+fetch 실패 https://namu.wiki/w/탐마삿%20학살 'ascii' codec can't encode characters in position 7-9: ordin
+fetch 실패 https://namu.wiki/w/테네리페%20참사 'ascii' codec can't encode characters in position 7-10: ordi
+fetch 실패 https://ko.wikipedia.org/wiki/더_송_리메인즈_더_세임_(영화) 'ascii' codec can't encode character '\ub354' in position 10
+fetch 실패 http://monthly.chosun.com/client/news/viw.asp?nNewsNumb=200910100067 HTTP Error 404: Not Found
+fetch 실패 https://ko.wikipedia.org/wiki/동물의_왕국 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://film.k-heritage.tv/record/subjectDetail.do?id=12586 <urlopen error [Errno -2] Name or service not known>
+fetch 실패 https://ko.wikipedia.org/wiki/1976년_월드_시리즈 'ascii' codec can't encode character '\ub144' in position 14
+fetch 실패 https://ko.wikipedia.org/wiki/니콜라_레그로탈리에 'ascii' codec can't encode characters in position 10-12: ord
+날짜 없음 https://www.policemuseum.go.kr/sub/bbs/detail.do?idx=1432&bbs_code=G00
+날짜 없음 https://encykorea.aks.ac.kr/Article/E0064434
+fetch 실패 https://www.hani.co.kr/arti/society/environment/536762.html HTTP Error 404: Not Found
+fetch 실패 https://www.seongnam.go.kr/tour/1001476/10850/contents.do <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 al
+검색 1986: Gemini 후보 15개 https://shindonga.donga.com/3/all/13/99507/1; https://ko.wikipedia.org/wiki/마셜_제도; https://ko.wikipedia.org/wiki/이츠하크_샤미르; https://www.hankyung.com/article/1986102100011; https://www.hankyung.com/article/1986102100011; https://ko.wikipedia.org/wiki/이춘재_연쇄_살인_사건
+fetch 실패 https://ko.wikipedia.org/wiki/마셜_제도 'ascii' codec can't encode characters in position 10-11: ord
+fetch 실패 https://ko.wikipedia.org/wiki/이츠하크_샤미르 'ascii' codec can't encode characters in position 10-13: ord
+fetch 실패 https://ko.wikipedia.org/wiki/이춘재_연쇄_살인_사건 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://ko.wikipedia.org/wiki/박태준_(음악가) 'ascii' codec can't encode characters in position 10-12: ord
+fetch 실패 https://namu.wiki/w/더%20스미스/싱글%20목록 'ascii' codec can't encode character '\ub354' in position 7:
+fetch 실패 https://namu.wiki/w/오냥코클럽/디스코그래피 'ascii' codec can't encode characters in position 7-11: ordi
+fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
+fetch 실패 https://ko.wikipedia.org/wiki/틀:1986년_한국시리즈 'ascii' codec can't encode character '\ud2c0' in position 10
+fetch 실패 https://ko.wikipedia.org/wiki/1986년_월드_시리즈 'ascii' codec can't encode character '\ub144' in position 14
+fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
+fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
+날짜 없음 https://shindonga.donga.com/3/all/13/99507/1
+fetch 실패 https://www.hankyung.com/article/1986102100011 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101001 HTTP Error 404: Not Found
+서울신문90 probe /1996102101001 → 없음
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101004 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102001 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101001 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102002 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101005 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102101003 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102102004 HTTP Error 404: Not Found
+fetch 실패 https://www.seoul.co.kr/news/1996/10/21/1996102103001 HTTP Error 404: Not Found
+서울신문90 probe /1996102201001 → 없음
+검색 1996: Gemini 후보 20개 https://www.donga.com/news/article/all/19961021/7201602/1; https://www.donga.com/news/article/all/19961021/7201597/1; https://www.donga.com/news/article/all/19961020/7201372/1; https://www.donga.com/news/article/all/19961021/7201492/9; https://www.donga.com/news/article/all/19961021/7201502/9; https://www.donga.com/news/article/all/19961021/7201505/1
+--- 실행 로그(마지막 200줄) 2026-10-20T20:18:40Z ---
+[models] ['gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash']
+[gather] 1976: 직접 훑은 후보 0
+[gather] 1986: 직접 훑은 후보 0
+[gather] 1996: 직접 훑은 후보 0
+[gemini] gemini-3.8-flash 시도 1 실패: The read operation timed out
+1976 후보 2 → 1건 연예
+1986 후보 2 → 2건 연예/생활
+1996 후보 20 → 6건 정치/경제/사회/문화/연예/스포츠
