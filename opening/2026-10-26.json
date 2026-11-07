@@ -1,0 +1,304 @@
+{
+ "date": "2026-10-26",
+ "host": "eunchae",
+ "outfit": 1,
+ "imgs": {
+  "mor": {
+   "laugh": "eunchae-mor-laugh.jpg",
+   "smile": "eunchae-mor-smile.jpg",
+   "read": "eunchae-mor-read.jpg",
+   "wave": "eunchae-mor-wave.jpg",
+   "thumb": "eunchae-mor-thumb.jpg",
+   "stand": "eunchae-mor-stand.jpg",
+   "curious": "eunchae-mor-curious.jpg",
+   "delight": "eunchae-mor-delight.jpg",
+   "talk": "eunchae-mor-talk.jpg"
+  },
+  "eve": {
+   "laugh": "eunchae-mor-laugh.jpg",
+   "smile": "eunchae-mor-smile.jpg",
+   "read": "eunchae-mor-read.jpg",
+   "wave": "eunchae-mor-wave.jpg",
+   "thumb": "eunchae-mor-thumb.jpg",
+   "stand": "eunchae-mor-stand.jpg",
+   "curious": "eunchae-mor-curious.jpg",
+   "delight": "eunchae-mor-delight.jpg",
+   "talk": "eunchae-mor-talk.jpg"
+  }
+ },
+ "who": {
+  "morning": "와카미야 마사코",
+  "noon": "김두엽",
+  "evening": "윤여정"
+ },
+ "title": "늦게 열어 더 환한 창",
+ "next_title": "쉰에 처음 신은 러닝화",
+ "built": "10260310",
+ "slots": {
+  "morning": {
+   "audio": "2026-10-26-morning.mp3",
+   "end": 69.7,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요, 좋은 아침입니다",
+      "오늘의 오마주 진행자, 송은채입니다"
+     ]
+    },
+    {
+     "t": 8.19,
+     "tag": "stand",
+     "cap": [
+      "월요일 아침,\n커피 물 끓는 소리마저 반가운 날"
+     ]
+    },
+    {
+     "t": 13.01,
+     "tag": "read",
+     "cap": [
+      "일본의 와카미야 마사코,",
+      "은행에서 오래 일한 분"
+     ]
+    },
+    {
+     "t": 17.42,
+     "tag": "curious",
+     "cap": [
+      "예순 무렵,",
+      "처음 배우기 시작한 컴퓨터"
+     ]
+    },
+    {
+     "t": 21.78,
+     "tag": "read",
+     "cap": [
+      "여든하나에",
+      "직접 만든 휴대폰 게임"
+     ]
+    },
+    {
+     "t": 27.63,
+     "tag": "delight",
+     "cap": [
+      "애플 개발자 행사에 초대받아",
+      "큰 박수를 받았어요"
+     ]
+    },
+    {
+     "t": 31.97,
+     "tag": "talk",
+     "cap": [
+      "오늘의 인사 카드",
+      "마음 가는 분께 한 장"
+     ]
+    },
+    {
+     "t": 39.27,
+     "tag": "smile",
+     "cap": [
+      "오늘의 한 끼",
+      "굴 버터 볶음밥"
+     ]
+    },
+    {
+     "t": 45.55,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 54.55,
+     "tag": "smile",
+     "cap": [
+      "오늘 처음 해 보는 작은 일 하나가\n가장 반가운 시작이 될 거예요",
+      "오늘도 좋은 하루 보내세요"
+     ]
+    },
+    {
+     "t": 62.64,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 송은채였습니다."
+     ]
+    }
+   ]
+  },
+  "noon": {
+   "audio": "2026-10-26-noon.mp3",
+   "end": 66.46,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "점심은 맛있게 드셨어요?",
+      "오늘의 오마주 진행자, 송은채입니다"
+     ]
+    },
+    {
+     "t": 9.06,
+     "tag": "stand",
+     "cap": [
+      "월요일 오후,\n한결 부드러워진 햇살"
+     ]
+    },
+    {
+     "t": 13.52,
+     "tag": "read",
+     "cap": [
+      "김두엽 화가,",
+      "여든셋에 시작한 그림"
+     ]
+    },
+    {
+     "t": 18.81,
+     "tag": "smile",
+     "cap": [
+      "화가인 아들 곁에서",
+      "날마다 조금씩 이어 간 붓"
+     ]
+    },
+    {
+     "t": 22.18,
+     "tag": "delight",
+     "cap": [
+      "아흔을 넘겨",
+      "아들과 나란히 연 전시"
+     ]
+    },
+    {
+     "t": 28.6,
+     "tag": "talk",
+     "cap": [
+      "오늘의 인사 카드",
+      "마음 가는 분께 한 장"
+     ]
+    },
+    {
+     "t": 35.9,
+     "tag": "smile",
+     "cap": [
+      "오늘의 한 끼",
+      "굴 버터 볶음밥"
+     ]
+    },
+    {
+     "t": 42.19,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 51.19,
+     "tag": "smile",
+     "cap": [
+      "좋아하는 걸 한 뼘 이어 가는 오후\n그걸로 충분히 멋진 날",
+      "남은 오후도 가볍게 보내세요"
+     ]
+    },
+    {
+     "t": 59.4,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 송은채였습니다."
+     ]
+    }
+   ]
+  },
+  "evening": {
+   "audio": "2026-10-26-evening.mp3",
+   "end": 68.23,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "오늘 하루도 수고 많으셨어요",
+      "오늘의 오마주 진행자, 송은채입니다"
+     ]
+    },
+    {
+     "t": 9.36,
+     "tag": "stand",
+     "cap": [
+      "한 주를 연 월요일 저녁,\n어깨 힘 풀고 들어 볼까요"
+     ]
+    },
+    {
+     "t": 14.19,
+     "tag": "read",
+     "cap": [
+      "배우 윤여정,",
+      "쉰 해 넘게 이어 온 연기"
+     ]
+    },
+    {
+     "t": 20.05,
+     "tag": "laugh",
+     "cap": [
+      "일흔셋에 영화 미나리로",
+      "아카데미 여우조연상"
+     ]
+    },
+    {
+     "t": 26.14,
+     "tag": "smile",
+     "cap": [
+      "눈에 띄지 않던 날들이",
+      "가장 환한 장면이 됐어요"
+     ]
+    },
+    {
+     "t": 30.91,
+     "tag": "talk",
+     "cap": [
+      "오늘의 인사 카드",
+      "마음 가는 분께 한 장"
+     ]
+    },
+    {
+     "t": 38.21,
+     "tag": "smile",
+     "cap": [
+      "오늘의 한 끼",
+      "굴 버터 볶음밥"
+     ]
+    },
+    {
+     "t": 44.49,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 53.49,
+     "tag": "smile",
+     "cap": [
+      "아무 일 없던 것 같은 오늘도\n당신 덕분에 반짝였어요",
+      "편안한 저녁 보내세요"
+     ]
+    },
+    {
+     "t": 61.17,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 송은채였습니다."
+     ]
+    }
+   ]
+  }
+ },
+ "model": "gemini-3.1-flash-tts-preview",
+ "hz": 205
+}
