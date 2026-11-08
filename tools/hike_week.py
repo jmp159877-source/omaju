@@ -10,6 +10,8 @@ today = datetime.datetime.now(KST).date()
 if today.weekday() == 6:   # 일요일 밤에 돌면 다음 주치를 미리 만든다 — 월요일 아침에 새 주가 펼쳐져 있게 (대표 2026-10-24)
     today += datetime.timedelta(days=1)
 mon = today - datetime.timedelta(days=today.weekday())   # 이번 주 월요일을 주 이름으로
+if not os.environ.get("GEMINI_API_KEY"):   # 2026-11-08: 구글을 끊은 뒤 새 주를 빈 칸으로 덮어쓰던 것 — 열쇠가 없으면 지난 것을 그대로 둔다
+    print("[week] GEMINI_API_KEY 없음 — 지난 주치를 그대로 둠"); sys.exit(0)
 P = os.path.join(os.path.dirname(__file__), "..", "data", "hike.json")
 
 cur = json.load(open(P, encoding="utf-8")) if os.path.exists(P) else {}
