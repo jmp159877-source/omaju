@@ -2266,6 +2266,188 @@
     }
    ],
    "seo": "AI로 여행 일정표 짜는 법 — ChatGPT·제미나이에 묻는 말, 확인해야 할 것"
+  },
+  {
+   "id": "ai-11",
+   "no": 11,
+   "date": "2026-11-09",
+   "part": "1부 이미 시작됐다",
+   "title": "AI와 외국어: 여행 영어 한마디 연습",
+   "dek": "공항에서, 식당에서, 길에서 — 막힐 장면을 미리 정해 AI와 소리 내어 맞춰 봅니다",
+   "asof": "2026년 11월 기준 (출국자 수는 2025년 한 해 집계를 전한 보도, 강좌 수는 듀오링고 2025년 4월 발표)",
+   "hook": "지난해 해외로 나간 우리 국민은 **3,000만 명** 가까이였습니다. 여행지에서 말이 막히는 순간은 대개 정해져 있습니다. 체크인, 주문, 길 묻기. 그 장면을 떠나기 전에 AI와 미리 해 볼 수 있습니다.",
+   "blocks": [
+    {
+     "h": "막히는 장면은 몇 가지뿐입니다"
+    },
+    {
+     "p": "2025년 한 해 출국한 우리 국민은 **2,958만 명**으로 집계됐습니다. 해마다 늘어 이제 한 해 3,000만 명 문턱입니다."
+    },
+    {
+     "p": "여행 영어는 시험 영어와 다릅니다. 호텔 체크인, 식당 주문, 길 묻기, 표 사기, 계산하기. **장면 대여섯 개**에서 쓰는 말이 거의 전부입니다."
+    },
+    {
+     "p": "그래서 공부보다 **연습**이 맞습니다. 상대가 할 말을 미리 들어 보고, 내가 할 말을 입으로 몇 번 해 보는 것입니다. AI는 그 연습 상대가 되어 줍니다."
+    },
+    {
+     "photo": {
+      "src": "img/ai/ai-11-tram.jpg",
+      "caption": "표 한 장, 길 한 번 묻는 말. 여행 영어는 이런 장면 몇 개에서 다 씁니다.",
+      "credit": "Ввласенко · CC BY-SA 4.0 · 위키미디어 공용",
+      "alt": "리스본 언덕길을 올라오는 노란 전차와 길가의 사람들"
+     }
+    },
+    {
+     "h": "외국어 배우는 판이 바뀌고 있습니다"
+    },
+    {
+     "p": "외국어 공부 앱 듀오링고는 지난해 4월 생성형 AI로 만든 새 강좌 **148개**를 한꺼번에 내놓았습니다."
+    },
+    {
+     "p": "회사 설명으로는 처음 강좌 100개를 만드는 데 **12년쯤** 걸렸습니다. AI를 쓰자 그보다 많은 강좌가 1년 안쪽에 나왔습니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "외국어 강좌를 만드는 데 걸린 시간",
+      "sub": "듀오링고 발표 · 2025년 4월",
+      "unit": "년",
+      "items": [
+       [
+        "처음 강좌 100개",
+        12,
+        false
+       ],
+       [
+        "AI로 만든 새 강좌 148개",
+        1,
+        true
+       ]
+      ],
+      "legend": "회사가 밝힌 어림값('약 12년', '1년 남짓 안에')입니다. 강좌 하나하나의 깊이까지 같다는 뜻은 아닙니다.",
+      "source": "듀오링고 투자자 공지 「Duolingo Launches 148 New Language Courses」(2025.4.30) · TechCrunch·Fox Business 보도 대조"
+     }
+    },
+    {
+     "p": "대화창 AI도 같은 일을 합니다. 챗GPT·제미나이에 **'너는 호텔 직원이야'** 한마디면 그 자리에서 연습 상대가 됩니다. 8편에서 다룬 말로 묻는 기능을 켜면 소리 내어 주고받을 수 있습니다."
+    },
+    {
+     "h": "이렇게 부탁해 보세요"
+    },
+    {
+     "box": {
+      "title": "역할극 · 장면 하나 정하기",
+      "text": "'나는 다음 달 리스본 호텔에 체크인해. 너는 프런트 직원 역할을 해 줘. **쉬운 영어로 한 문장씩** 말하고, 내가 답하면 다음 말을 이어 가. 내가 틀린 곳은 대화가 끝난 뒤에 한꺼번에 알려 줘.'"
+     }
+    },
+    {
+     "box": {
+      "title": "한마디 다섯 개 · 식당에서",
+      "text": "'식당에서 쓸 영어 한마디 다섯 개만 알려 줘. 자리 묻기, 주문, 맵지 않게, 계산서, 포장. **짧고 공손하게**, 한글로 뜻을 달아 줘.'"
+     }
+    },
+    {
+     "box": {
+      "title": "못 알아들었을 때 · 다시 묻는 말",
+      "text": "'상대 말을 못 알아들었을 때 **다시 물어보는 말** 세 가지를 알려 줘. 천천히 말해 달라는 말도 하나.'"
+     }
+    },
+    {
+     "box": {
+      "title": "소리 내어 · 말로 연습",
+      "text": "말로 묻는 기능을 켜고 '**천천히 말해 줘.** 내가 따라 하면 발음이 알아듣기 쉬운지 말해 줘.'"
+     }
+    },
+    {
+     "h": "연습하는 요령"
+    },
+    {
+     "p": "장면은 **하루에 하나**. 오늘은 체크인, 내일은 주문처럼 나눕니다. 5분이면 한 장면을 두세 번 돌릴 수 있습니다."
+    },
+    {
+     "p": "반드시 **소리 내어** 합니다. 눈으로 아는 문장과 입에서 나오는 문장은 다릅니다. 같은 장면을 사흘쯤 하면 첫마디가 먼저 나옵니다."
+    },
+    {
+     "p": "한글로 단 발음은 길잡이로만 씁니다. 말로 묻는 기능에서 **AI가 읽어 주는 소리**를 듣고 따라 하는 편이 실제와 가깝습니다."
+    },
+    {
+     "photo": {
+      "src": "img/ai/ai-11-kyoto.jpg",
+      "caption": "절 입구에서 표를 사고 길을 묻는 일. 미리 한 번 해 본 말은 현지에서 덜 떨립니다.",
+      "credit": "TarnishedPath · CC BY-SA 4.0 · 위키미디어 공용",
+      "alt": "교토 덴류지 큰 건물 앞에 선 여행객들"
+     }
+    },
+    {
+     "h": "생각해 볼 점: AI는 틀려도 칭찬할 수 있습니다"
+    },
+    {
+     "p": "AI는 맞장구를 잘 칩니다. 지난해 4월 OpenAI는 ChatGPT가 **지나치게 비위를 맞춘다**는 지적을 받고 새로 낸 판을 며칠 만에 되돌렸습니다."
+    },
+    {
+     "p": "그러니 '잘했어요'만 듣고 넘어가지 않습니다. 부탁할 때 **'틀린 곳은 꼭 짚어 줘'**를 한 줄 넣어 둡니다."
+    },
+    {
+     "p": "약·알레르기·길을 잃었을 때처럼 **틀리면 안 되는 말**은 연습만 믿지 않습니다. 번역 앱 화면을 그대로 보여 주고, 상대가 맞게 알아들었는지 다시 확인합니다."
+    },
+    {
+     "p": "대화창에는 여권 번호·예약 번호·카드 번호를 넣지 않습니다. 연습에는 **지어낸 이름과 날짜**면 충분합니다."
+    },
+    {
+     "box": {
+      "title": "오늘 해 볼 것",
+      "text": "AI에게 '**너는 카페 점원이야. 내가 커피 한 잔을 주문할게. 쉬운 영어로 받아 줘.**'라고 말해 보세요. 세 번 주고받은 뒤 '내가 틀린 곳 알려 줘'로 끝내 보세요."
+     }
+    },
+    {
+     "p": "다음 편은 11월 11일 수요일입니다."
+    }
+   ],
+   "cons": [
+    "2,958만 명은 2025년 출국 집계를 전한 **보도**의 숫자입니다. 한 보도는 '3천만 명'으로 어림해 적었습니다. 나이대별로 나눈 값은 쓰지 않았습니다.",
+    "듀오링고의 '12년'·'1년'은 **회사가 밝힌 어림값**입니다. AI로 빠르게 만든 강좌가 사람이 오래 다듬은 강좌만큼 좋은지는 따로 확인된 바 없습니다.",
+    "AI의 영어 교정은 **늘 맞지는 않습니다.** 나라·지역마다 쓰는 말이 다르고, AI가 어색한 표현을 자연스럽다고 할 때도 있습니다."
+   ],
+   "next": "AI와 오래된 사진: 흐린 사진 되살리기",
+   "sources": [
+    {
+     "name": "헤럴드경제, 작년 국민 출국 2958만명, 외국인 입국 1958만명 (2026.1.27)",
+     "url": "https://www.heraldk.com/article/2026012722573312289"
+    },
+    {
+     "name": "여행신문, 한국인 3천만명은 어디로 여행했나? 2025년 인기 해외여행지 10",
+     "url": "https://www.traveltimes.co.kr/news/articleView.html?idxno=415287"
+    },
+    {
+     "name": "Duolingo Investor Relations, Duolingo Launches 148 New Language Courses (2025.4.30)",
+     "url": "https://investors.duolingo.com/news-releases/news-release-details/duolingo-launches-148-new-language-courses"
+    },
+    {
+     "name": "Fox Business, Duolingo announces 148 courses created with generative artificial intelligence",
+     "url": "https://www.foxbusiness.com/lifestyle/duolingo-announces-148-courses-created-generative-artificial-intelligence-launching-soon-platform"
+    },
+    {
+     "name": "Maginative, Duolingo Introduces 148 New Language Courses Built With AI",
+     "url": "https://www.maginative.com/article/duolingo-introduces-148-new-language-courses-built-with-ai/"
+    },
+    {
+     "name": "TechCrunch, OpenAI explains why ChatGPT became too sycophantic (2025.4.29)",
+     "url": "https://techcrunch.com/2025/04/29/openai-explains-why-chatgpt-became-too-sycophantic"
+    },
+    {
+     "name": "VentureBeat, OpenAI rolls back ChatGPT's sycophancy and explains what went wrong",
+     "url": "https://venturebeat.com/technology/openai-rolls-back-chatgpts-sycophancy-and-explains-what-went-wrong/"
+    },
+    {
+     "name": "위키미디어 공용, Tram 28 Lisbon Portuguese (Ввласенко, CC BY-SA 4.0)",
+     "url": "https://commons.wikimedia.org/wiki/File:Tram_28_Lisbon_Portuguese.jpg"
+    },
+    {
+     "name": "위키미디어 공용, Tourists at Tenryu-ji, Kyoto (TarnishedPath, CC BY-SA 4.0)",
+     "url": "https://commons.wikimedia.org/wiki/File:Tourists_at_Tenryu-ji,_Kyoto.jpg"
+    }
+   ],
+   "seo": "AI로 여행 영어 연습하는 법 — ChatGPT·제미나이 역할극 부탁 예시와 주의할 점"
   }
  ]
 }

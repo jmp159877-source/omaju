@@ -5050,6 +5050,306 @@
      "url": "https://www.dailian.co.kr/news/view/1698026/"
     }
    ]
+  },
+  {
+   "id": "ev-16",
+   "no": 16,
+   "date": "2026-11-09",
+   "part": "2부 브랜드 해부",
+   "title": "폭스바겐·아우디를 뜯어보다: 독일 차의 전기차 숙제",
+   "dek": "디젤 파문 뒤 전기차로 방향을 튼 독일 최대 자동차 그룹 — 세계에선 한 해 100만 대 가까이 팔았지만, 숙제도 남았다",
+   "asof": "2026년 11월 기준",
+   "hook": "2016년 8월 우리 정부는 폭스바겐·아우디 차 **8만 3천 대**의 인증을 취소했습니다. 10년이 지난 지금, 같은 회사가 우리나라에서 앞세우는 차는 디젤이 아니라 **전기차** ID.4입니다.",
+   "blocks": [
+    {
+     "h": "한 지붕 아래 두 브랜드"
+    },
+    {
+     "p": "폭스바겐과 아우디는 같은 집안입니다. 독일 **폭스바겐 그룹** 아래에 폭스바겐·아우디·포르쉐·스코다 같은 브랜드가 함께 있습니다."
+    },
+    {
+     "p": "2015년 가을, 이 그룹이 디젤차 배출가스 시험을 속인 일이 미국에서 드러났습니다. 흔히 **'디젤게이트'**라고 부르는 사건입니다."
+    },
+    {
+     "p": "우리나라에서는 2016년 8월 환경부가 서류를 꾸민 **32개 차종, 8만 3천 대**의 인증을 취소하고 판매를 멈추게 했습니다."
+    },
+    {
+     "p": "그 뒤 그룹은 디젤 대신 **전기차**를 앞날의 중심으로 내세웠습니다. 전기차 이름 앞에 붙는 'ID.'가 그 상징입니다."
+    },
+    {
+     "h": "세계에서는 한 해 100만 대 가까이"
+    },
+    {
+     "p": "폭스바겐 그룹은 2025년 한 해 전기차 **98만 3,100대**를 고객에게 넘겼습니다. 한 해 전보다 **32%** 늘었습니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "폭스바겐 그룹 전기차 인도 대수",
+      "sub": "해마다 · 그룹 전체(폭스바겐·아우디·포르쉐·스코다 등) 순수 전기차",
+      "unit": "만 대",
+      "items": [
+       [
+        "2023년",
+        77.1,
+        false
+       ],
+       [
+        "2024년",
+        74.5,
+        false
+       ],
+       [
+        "2025년",
+        98.3,
+        true
+       ]
+      ],
+      "legend": "2024년에는 한 번 줄었다가 2025년에 크게 늘었습니다. 회사 발표 값(77만 1,100 · 74만 4,800 · 98만 3,100대)을 만 대 단위로 줄였습니다.",
+      "source": "폭스바겐 그룹 연간 인도 발표, electrive·insideevs·greentechlead·best-selling-cars 보도 대조"
+     }
+    },
+    {
+     "p": "다만 같은 해 그룹 전체 판매 가운데 전기차는 아직 **일부**입니다. 기름차와 하이브리드가 여전히 대부분을 차지합니다."
+    },
+    {
+     "gallery": {
+      "title": "폭스바겐·아우디 전기차 — 사진으로 보면",
+      "items": [
+       {
+        "src": "img/ev/ev-16-g1.jpg",
+        "caption": "폭스바겐 ID.4 — 2022년 국내에 들어온 폭스바겐 첫 전기 SUV(사진은 힘을 키운 GTX)",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "흰색 ID.4 앞모습, 길가 주차장"
+       },
+       {
+        "src": "img/ev/ev-16-g2.jpg",
+        "caption": "ID.5 — ID.4의 지붕 뒤를 낮춘 쿠페형 형제",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "은회색 ID.5 앞모습, 주차장"
+       },
+       {
+        "src": "img/ev/ev-16-g3.jpg",
+        "caption": "ID.4 실내 — 운전대 너머 작은 계기판과 가운데 큰 화면",
+        "credit": "Tokumeigakarinoaoshima · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "갈색 가죽 시트와 운전대, ID.4 실내"
+       },
+       {
+        "src": "img/ev/ev-16-g4.jpg",
+        "caption": "아우디 Q4 e-트론 — 2022년 국내에 들어온 작은 전기 SUV",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "짙은 회색 Q4 e-트론 옆앞모습"
+       },
+       {
+        "src": "img/ev/ev-16-g5.jpg",
+        "caption": "Q4 스포트백 e-트론 — 지붕 뒤를 낮춘 모습",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "회색 Q4 스포트백 e-트론 앞모습, 담쟁이 벽 앞"
+       },
+       {
+        "src": "img/ev/ev-16-g6.jpg",
+        "caption": "Q4 e-트론 실내 — 2023년 일본 모빌리티쇼 전시차",
+        "credit": "Tokumeigakarinoaoshima · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "검은 가죽 시트와 계기판, Q4 e-트론 실내"
+       },
+       {
+        "src": "img/ev/ev-16-g7.jpg",
+        "caption": "아우디 Q6 스포트백 e-트론 — 포르쉐와 함께 만든 뼈대(PPE)를 쓴 차",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "짙은 회색 Q6 스포트백 e-트론 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-16-g8.jpg",
+        "caption": "충전 중인 아우디 e-트론 GT — 아우디의 고성능 전기 세단",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "하늘빛 회색 e-트론 GT가 충전기에 꽂혀 있는 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-16-g9.jpg",
+        "caption": "폭스바겐 ID.7 — 2023년 독일 IAA 전시장에 나온 전기 세단",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "회색 ID.7 앞모습, 전시장"
+       }
+      ]
+     }
+    },
+    {
+     "h": "우리나라에 온 두 전기차"
+    },
+    {
+     "p": "폭스바겐은 2022년 9월 첫 전기 SUV **ID.4**를 국내에 내놨습니다. 그때 정부 인증 주행거리는 **405km**였습니다."
+    },
+    {
+     "p": "2025년형은 모터를 바꿔 힘을 키우고, 인증 주행거리를 **424km**로 늘렸습니다. 2025년 1월 사전계약 때 시작 값은 **5,299만 원**이었습니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "ID.4 정부 인증 주행거리",
+      "sub": "한 번 충전으로 가는 거리 · 국내 인증 기준",
+      "unit": "km",
+      "items": [
+       [
+        "2022년 첫 출시",
+        405,
+        false
+       ],
+       [
+        "2025년형",
+        424,
+        true
+       ]
+      ],
+      "legend": "같은 차도 해마다 모터·소프트웨어를 바꾸며 거리가 조금씩 늘었습니다. 2025년형은 등급에 따라 424~434km로 알려졌고, 여기에는 짧은 쪽 값을 적었습니다.",
+      "source": "2022: 뉴스토마토·겟차 보도 / 2025: 보배드림 뉴스·리포테라 보도 대조"
+     }
+    },
+    {
+     "p": "올해는 수입 승용 전기차 가운데 가장 많은 국고보조금 **432만 원**을 받게 됐습니다. 보조금을 받으면 값이 국산 전기차와 비슷해집니다."
+    },
+    {
+     "p": "아우디는 2022년 9월 작은 전기 SUV **Q4 e-트론**을 들여왔습니다. 뉴데일리 보도로 그해 10월 **957대**가 팔려 수입 전기차 1위에 올랐습니다."
+    },
+    {
+     "p": "2025년 3월에는 한 체급 큰 **Q6 e-트론**이 나왔습니다. 포르쉐와 함께 만든 전기차 전용 뼈대(PPE)를 쓴 첫 아우디 SUV로, 값은 8천만 원대부터입니다."
+    },
+    {
+     "h": "남은 숙제"
+    },
+    {
+     "p": "아우디의 첫 전기차 e-트론(뒤에 Q8 e-트론)을 만들던 벨기에 **브뤼셀 공장**은 2025년 2월 28일 문을 닫았습니다. 값비싼 큰 전기차를 찾는 사람이 생각보다 적었기 때문입니다."
+    },
+    {
+     "p": "2025년에 늘어난 전기차 판매는 주로 **유럽**에서 나왔습니다. 그런데 그 유럽에도 중국 업체들이 값싼 전기차로 빠르게 들어오고 있습니다. **값을 얼마나 내릴 수 있느냐**가 독일 차의 가장 큰 숙제입니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 보면",
+      "text": "디젤 파문으로 무너졌던 폭스바겐 그룹은 **전기차로 다시 일어서는 중**입니다. 다만 우리나라에서는 아직 차종이 적고, 보조금과 할인에 기대는 부분이 큽니다."
+     }
+    }
+   ],
+   "cons": [
+    "2016년 인증 취소처럼 **회사의 약속과 실제가 어긋난 일**이 있었습니다. 지금 차와는 다른 일이지만, 서비스와 보증 조건은 꼼꼼히 확인해 보세요.",
+    "ID.4의 인증 주행거리 **405~424km**는 요즘 전기차 가운데 중간 정도입니다. 겨울에는 더 짧아질 수 있습니다.",
+    "보조금과 할인 폭이 해마다, 달마다 크게 바뀝니다. **같은 차도 언제 사느냐에 따라 값이 크게 달라지고**, 그만큼 중고차 값이 흔들릴 수 있습니다.",
+    "우리나라에 들어온 폭스바겐·아우디 전기차는 아직 **차종이 많지 않습니다**. 서비스센터 위치도 사기 전에 살펴보세요."
+   ],
+   "next": "포르쉐를 뜯어보다: 타이칸이 바꾼 것과 바꾸지 못한 것",
+   "sources": [
+    {
+     "name": "데일리안, 폭스바겐 32개 차종 8만3000대 인증취소…과징금 178억원 (2016.8.2)",
+     "url": "https://www.dailian.co.kr/news/view/583870"
+    },
+    {
+     "name": "머니투데이, '서류 위조' 폭스바겐 8.3만대 인증취소 및 판매정지 (2016.8.2)",
+     "url": "https://www.mt.co.kr/economy/2016/08/02/2016080208500267187"
+    },
+    {
+     "name": "코리아중앙데일리, Volkswagen sales shut down in Korea (2016)",
+     "url": "https://www.koreajoongangdaily.com/korea/volkswagen-sales-shut-down-in-korea/11059304"
+    },
+    {
+     "name": "greentechlead, Volkswagen Reports 32% Increase in BEV Deliveries Reaching 983,100 in 2025 (2026.1)",
+     "url": "https://greentechlead.com/electric-vehicle/volkswagen-reports-32-increase-in-bev-deliveries-reaching-983100-in-2025-52002"
+    },
+    {
+     "name": "electrive, 2025 balance sheet: VW Group gains momentum in BEVs (2026.1.20)",
+     "url": "https://www.electrive.com/2026/01/20/2025-balance-sheet-vw-group-gains-momentum-in-bevs-especially-in-europe"
+    },
+    {
+     "name": "폭스바겐 그룹, Volkswagen Group deliveries remain stable in 2025 (2026.1)",
+     "url": "https://www.volkswagen-group.com/en/press-releases/volkswagen-group-deliveries-remain-stable-in-2025-20095"
+    },
+    {
+     "name": "electrive, 2024 balance sheet: Volkswagen Group sells fewer electric cars (2025.1.14)",
+     "url": "https://www.electrive.com/2025/01/14/2024-balance-sheet-volkswagen-group-sells-fewer-electric-cars"
+    },
+    {
+     "name": "best-selling-cars, 2024 Global: Volkswagen Group Electric Car Sales by Brand and Model",
+     "url": "https://www.best-selling-cars.com/brands/2024-full-year-global-volkswagen-group-electric-car-sales-worldwide-by-brand-and-model/"
+    },
+    {
+     "name": "insideevs.de, VW-Konzern lieferte im Jahr 2023 rund 771.000 Elektroautos aus (2024.1)",
+     "url": "https://insideevs.de/news/704476/volkswagen-konzern-elektroautos-auslieferungen-2023/"
+    },
+    {
+     "name": "아주경제, 폭스바겐의 첫 번째 전기 SUV 'ID.4' (2022.9.19)",
+     "url": "https://www.ajunews.com/view/20220919142515600"
+    },
+    {
+     "name": "뉴스토마토, 폭스바겐 ID.4 주행거리 405㎞ (2022)",
+     "url": "https://newstomato.com/ReadNews.aspx?no=1138866"
+    },
+    {
+     "name": "겟차, 폭스바겐 ID.4 국내 주행거리 공개, 405km (2022)",
+     "url": "https://web.getcha.kr/community/all/50833?topic=13"
+    },
+    {
+     "name": "다나와 자동차, 폭스바겐 ID.4·ID.5 사전계약… 시작가 5299만원 (2025.1)",
+     "url": "https://auto.danawa.com/news/?Tab=A&Work=detail&no=5728324"
+    },
+    {
+     "name": "데일리카, 폭스바겐 ID.4·ID.5 사전계약..가격은 5299만~6099만원 (2025.1)",
+     "url": "https://www.dailycar.co.kr/content/news.html?type=view&autoId=55407"
+    },
+    {
+     "name": "보배드림 뉴스, 1회 충전 주행거리 424㎞ 달성 (2025)",
+     "url": "https://m.bobaedream.co.kr/board/bbs_view/nnews/228263/2/70"
+    },
+    {
+     "name": "리포테라, 2025년형 ID.4 고객 인도, 424km 주행 가능 (2025)",
+     "url": "https://www.reportera.co.kr/car/volkswagen-starts-delivering-2025-id-4-to-customers/"
+    },
+    {
+     "name": "녹색경제신문, 폭스바겐 ID.4 2026년 보조금 432만원 확정 (2026.1)",
+     "url": "https://www.greened.kr/news/articleView.html?idxno=336101"
+    },
+    {
+     "name": "모터그래프, 폭스바겐 ID.4 2026년 수입 전기차 중 최대 보조금 확보 (2026.1)",
+     "url": "https://www.motorgraph.com/news/articleView.html?idxno=43138"
+    },
+    {
+     "name": "뉴데일리, 아우디 Q4 e-트론 19일부터 판매 및 고객인도 (2022.9.6)",
+     "url": "https://biz.newdaily.co.kr/site/data/html/2022/09/06/2022090600108.html"
+    },
+    {
+     "name": "The Star, Audi Korea launches first all-electric compact SUVs (2022.9.7)",
+     "url": "https://thestar.com.my/business/business-news/2022/09/07/audi-korea-launches-first-all-electric-compact-suvs"
+    },
+    {
+     "name": "뉴데일리, Q4 e-트론 10월 957대로 수입전기차 판매 1위 (2022.11.22)",
+     "url": "https://biz.newdaily.co.kr/site/data/html/2022/11/22/2022112200022.html"
+    },
+    {
+     "name": "시사위크, 아우디 코리아 '더 뉴 아우디 Q6 e-트론' (2025.3.18)",
+     "url": "https://www.sidae.com/article/2025031809084755947"
+    },
+    {
+     "name": "위드뉴스, 더 뉴 아우디 Q6 e-트론 국내 출시",
+     "url": "https://car.withnews.kr/newcar/the-new-audi-q6-e-tron-launched"
+    },
+    {
+     "name": "토픽트리, 아우디 Q6 e-트론 국내 사전계약 8천만원대 시작",
+     "url": "https://topictree.co.kr/automobiles/new-car/the-new-audi-q6-e-tron-pre-order/"
+    },
+    {
+     "name": "newmobility.news, Audi Brussels has built its last Q8 e-tron and closes today (2025.2.28)",
+     "url": "https://newmobility.news/2025/02/28/audi-brussels-builds-it-last-q8-e-tron-today/"
+    },
+    {
+     "name": "Automotive World, Audi's Brussels plant shuts its doors for good (2025)",
+     "url": "https://www.automotiveworld.com/analysis/audis-brussels-plant-shuts-its-doors-for-good/"
+    },
+    {
+     "name": "inovev, The VW Group has sold nearly 700,000 BEVs in Europe in 2025",
+     "url": "https://inovev.com/index.php/en/market-analyses/category-blog/22021-2026-08-1"
+    },
+    {
+     "name": "electrive, Audi to close Brussels plant in February 2025 (2024.10.29)",
+     "url": "https://www.electrive.com/2024/10/29/audi-to-close-brussels-plant-in-february-2025"
+    }
+   ]
   }
  ]
 }
