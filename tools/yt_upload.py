@@ -13,8 +13,8 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 DATE = next((a for a in sys.argv[1:] if not a.startswith('--')), None) or datetime.datetime.now(KST).strftime('%Y-%m-%d')
 MEDIA = os.environ.get('MEDIA_DIR', 'media'); OUT = os.path.join(MEDIA, 'shorts')
 CID, CSEC, RTOK = (os.environ.get(k, '').strip() for k in ('YT_CLIENT_ID', 'YT_CLIENT_SECRET', 'YT_REFRESH_TOKEN'))
-WHEN = {'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0), 'kid': (6, 0)}   # 자녀 편은 아침 6시 (대표 2026-10-25 17:41)   # 한 끼는 오전 10시 (대표 2026-10-24)
-PLAYLIST = {'cards': '오늘의 인사 카드', 'meal': '오늘의 한 끼', 'opening': '오늘의 오프닝', 'kid': '부모님께 보내 드리는 아침 잡지'}
+WHEN = {'brand': (5, 0), 'cards': (6, 30), 'meal': (10, 0), 'opening': (19, 0), 'kid': (6, 0)}   # 자녀 편은 아침 6시 (대표 2026-10-25 17:41)   # 한 끼는 오전 10시 (대표 2026-10-24)
+PLAYLIST = {'brand': '오마주 매거진 소개', 'cards': '오늘의 인사 카드', 'meal': '오늘의 한 끼', 'opening': '오늘의 오프닝', 'kid': '부모님께 보내 드리는 아침 잡지'}
 
 def say(*a): print('[유튜브]', *a, flush=True)
 
@@ -109,6 +109,12 @@ def comment_text(kind, info):
         return '\n'.join([f'🎙 {md} 오마주 오프닝', hook, '',
                           f'진행자 {host + ("이" if host and (ord(host[-1]) - 0xAC00) % 28 else "가") if host else "가"} 아침·오후·저녁마다 힘이 되는 이야기 한 편씩 들려드려요.',
                           '여러분은 늦게 시작해서 더 좋았던 일이 있으신가요? 댓글로 들려주세요.', '', f'오늘 방송 전체 듣기 👉 {TAIL}'])
+    if kind == 'brand':   # 오마주 소개 쇼츠 (대표 2026-11-09 — 매일 새벽 5시, 댓글로 검색어 안내)
+        hook = (info.get('brand_up') or {}).get('comment') or '매일 아침 새로운 무료 매거진, 오마주 매거진입니다.'
+        return '\n'.join(['🌿 오늘도 마음은 주니어', hook, '',
+                          'AI 시대 · 전기차 시대 · 요즘 여행법 연재부터 오늘의 운세 · 한 끼 · 한 권 · 여행까지,',
+                          '가입 없이 무료로 매일 아침 새로 펼쳐집니다.', '',
+                          '👉 네이버·구글에서 "오마주 매거진" 검색', LINK])
     if kind == 'kid':   # 자녀 편 (홍보국 2026-10-25) — 첫날부터 단다
         return '\n'.join(['👉 엄마·아빠에게 바로 보내기: https://omaju.kr/?from=kid', '',
                           '매일 아침 새로 나오는 무료 매거진이에요. 가입 없이 링크만 누르면 바로 열려요.',
@@ -176,8 +182,10 @@ if __name__ == '__main__':
         sys.exit(0)
     if not (CID and CSEC and RTOK): say('열쇠가 없어 건너뜀 (YT_CLIENT_ID · YT_CLIENT_SECRET · YT_REFRESH_TOKEN)'); sys.exit(0)
     jp = os.path.join(OUT, DATE + '.json')
-    if not os.path.exists(jp): say('오늘 쇼츠가 없음', DATE); sys.exit(0)
-    info = json.load(open(jp, encoding='utf-8')); done = info.get('yt', {})
+    if not os.path.exists(jp) and not os.path.exists(os.path.join(OUT, f'{DATE}-brand.json')): say('오늘 쇼츠가 없음', DATE); sys.exit(0)
+    info = json.load(open(jp, encoding='utf-8')) if os.path.exists(jp) else {'date': DATE}; done = info.get('yt', {})
+    _bj = os.path.join(OUT, f'{DATE}-brand.json')
+    if os.path.exists(_bj): info['brand_up'] = json.load(open(_bj, encoding='utf-8'))
     auth = {'Authorization': 'Bearer ' + token()}
     # 다른 채널(조경노트)로 올라가는 사고를 막는다 — 열쇠가 오마주 매거진 채널 것이 아니면 아무것도 안 올린다 (2026-10-23 첫 열쇠가 조경노트 것이었다)
     _, _, ch = req('GET', 'https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', headers=auth)
