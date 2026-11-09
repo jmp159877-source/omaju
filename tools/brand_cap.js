@@ -13,10 +13,16 @@ fs.mkdirSync(OUT, { recursive: true });
   const b = await chromium.launch(opt);
   const c = await b.newContext({ ignoreHTTPSErrors: true, viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, timezoneId: 'Asia/Seoul', locale: 'ko-KR' });
   await c.addInitScript(() => { try { localStorage.setItem('omaju.noCount', '1'); } catch (e) {} });
-  const p = await c.newPage();
+  let p = null;
   const hide = () => p.addStyleTag({ content: '#mood-bar,.mood-bar,#mb-bar,[class*="musicbox"]{display:none!important}' }).catch(() => {});
+  // 화면마다 새 창으로 연다 — 한 창에서 #해시만 바꾸면 앞 화면(안부 카드 창 등)에 막혀 모두 같은 화면이 찍혔다(2026-11-09).
+  // 전체 쪽 캡처는 늦게 받는 사진(lazy)을 안 깨우므로 끝까지 한 번 내려갔다 올라온다.
+  const wake = async () => { const h = await p.evaluate(() => document.documentElement.scrollHeight);
+    for (let y = 0; y < h; y += 700) { await p.evaluate(v => scrollTo(0, v), y); await p.waitForTimeout(250); }
+    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(1200); };
   for (const k of WANT) {
-    await p.goto('https://omaju.kr/' + (k === 'home' ? '' : '#' + k)); await p.waitForTimeout(7000); await hide();
+    if (p) await p.close(); p = await c.newPage();
+    await p.goto('https://omaju.kr/' + (k === 'home' ? '' : '#' + k)); await p.waitForTimeout(7000); await hide(); await wake();
     await p.screenshot({ path: path.join(OUT, k + '.png'), fullPage: true });
     console.log(k, await p.evaluate(() => document.documentElement.scrollHeight));
     if (k === 'anbu') {
