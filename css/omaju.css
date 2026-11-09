@@ -3036,3 +3036,8 @@ html.v4 .anbu { margin-top: 22px; }
 html.v4.v2:not(.h2ok) main.content > :not(.anbu):not(.intro) { visibility: hidden; }
 html.v4 .hero-actions { min-height: calc(2.9rem + 24px); align-content: flex-start; }
 @media (min-width: 769px) { html.v4 .hero { background: linear-gradient(180deg, rgba(22,20,16,.6) 0%, rgba(22,20,16,.32) 55%, rgba(22,20,16,.05) 85%), url("../img/hero-v4.jpg?v=1") center 100% / cover no-repeat, #2a241e !important; } html.v4 .hero-desc { background: rgba(0,0,0,.18); } }
+/* v4 마당 머리 (대표 2026-11-09 12:20): '오마주 매거진 · 시대 공유'를 한 줄로, 콘텐츠 머리는 '콘텐츠' 글자를 빼고 '매일 새로 펼쳐지는 코너'를 크게 */
+html.v4 .h4 .cols-head { flex-direction: row !important; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+html.v4 .h4 .cols-head small { font-size: .95rem; }
+html.v4 .h4-chd .cols-head { font-size: 0 !important; }
+html.v4 .h4-chd .cols-head small { font-size: min(1.45rem, 6.2vw) !important; font-weight: 800; color: #141414; letter-spacing: -.02em; line-height: 1.3; }
