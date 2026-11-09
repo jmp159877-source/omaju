@@ -5425,63 +5425,65 @@
      "p": "전기차 수요가 주춤한 데다, 비싼 전기 스포츠카는 중고차 값이 빨리 떨어진다는 걱정도 컸습니다."
     },
     {
-     "title": "타이칸·마칸 일렉트릭 — 사진으로 보면",
-     "items": [
-      {
-       "src": "img/ev/ev-17-g1.jpg",
-       "caption": "2024년에 얼굴을 바꾼 타이칸 GTS — 2025년 독일 IAA 전시장",
-       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "빨간 타이칸 GTS 옆앞모습, 전시장 마루"
-      },
-      {
-       "src": "img/ev/ev-17-g2.jpg",
-       "caption": "타이칸 뒷모습 — 가로로 길게 이어진 뒷불",
-       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "흰 타이칸 뒷모습, 건물 앞"
-      },
-      {
-       "src": "img/ev/ev-17-g3.jpg",
-       "caption": "타이칸 GTS 실내 — 휘어진 계기판과 가운데 화면(2022년 일본 교토)",
-       "credit": "Aos.1905 · CC BY 4.0 · 위키미디어 공용",
-       "alt": "검은 실내와 운전대, 휘어진 계기판"
-      },
-      {
-       "src": "img/ev/ev-17-g4.jpg",
-       "caption": "타이칸 GTS — 일본 교토 거리 전시",
-       "credit": "Aos.1905 · CC BY 4.0 · 위키미디어 공용",
-       "alt": "푸른 타이칸 앞모습, 상점가 전시"
-      },
-      {
-       "src": "img/ev/ev-17-g5.jpg",
-       "caption": "충전기에 꽂힌 타이칸 터보 S",
-       "credit": "Kirill Borisenko · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "흰 타이칸이 길가 충전기 옆에 서 있는 모습"
-      },
-      {
-       "src": "img/ev/ev-17-g6.jpg",
-       "caption": "타이칸 크로스 투리스모 — 포르쉐 충전기 앞(2021년 취리히 모터쇼)",
-       "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "흰 크로스 투리스모 앞모습, 옆에 충전기"
-      },
-      {
-       "src": "img/ev/ev-17-g7.jpg",
-       "caption": "타이칸 크로스 투리스모 4S — 지붕을 뒤로 늘린 왜건형",
-       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "초록 크로스 투리스모 뒷모습"
-      },
-      {
-       "src": "img/ev/ev-17-g8.jpg",
-       "caption": "마칸 일렉트릭 — 포르쉐 두 번째 전기차, 2025년 국내 출시",
-       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "짙은 회색 마칸 일렉트릭 앞모습"
-      },
-      {
-       "src": "img/ev/ev-17-g9.jpg",
-       "caption": "포르쉐 센터 앞에 선 마칸 일렉트릭 두 대",
-       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
-       "alt": "회색과 흰색 마칸 일렉트릭 뒷모습, 포르쉐 표지 앞"
-      }
-     ]
+     "gallery": {
+      "title": "타이칸·마칸 일렉트릭 — 사진으로 보면",
+      "items": [
+       {
+        "src": "img/ev/ev-17-g1.jpg",
+        "caption": "2024년에 얼굴을 바꾼 타이칸 GTS — 2025년 독일 IAA 전시장",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "빨간 타이칸 GTS 옆앞모습, 전시장 마루"
+       },
+       {
+        "src": "img/ev/ev-17-g2.jpg",
+        "caption": "타이칸 뒷모습 — 가로로 길게 이어진 뒷불",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "흰 타이칸 뒷모습, 건물 앞"
+       },
+       {
+        "src": "img/ev/ev-17-g3.jpg",
+        "caption": "타이칸 GTS 실내 — 휘어진 계기판과 가운데 화면(2022년 일본 교토)",
+        "credit": "Aos.1905 · CC BY 4.0 · 위키미디어 공용",
+        "alt": "검은 실내와 운전대, 휘어진 계기판"
+       },
+       {
+        "src": "img/ev/ev-17-g4.jpg",
+        "caption": "타이칸 GTS — 일본 교토 거리 전시",
+        "credit": "Aos.1905 · CC BY 4.0 · 위키미디어 공용",
+        "alt": "푸른 타이칸 앞모습, 상점가 전시"
+       },
+       {
+        "src": "img/ev/ev-17-g5.jpg",
+        "caption": "충전기에 꽂힌 타이칸 터보 S",
+        "credit": "Kirill Borisenko · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "흰 타이칸이 길가 충전기 옆에 서 있는 모습"
+       },
+       {
+        "src": "img/ev/ev-17-g6.jpg",
+        "caption": "타이칸 크로스 투리스모 — 포르쉐 충전기 앞(2021년 취리히 모터쇼)",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "흰 크로스 투리스모 앞모습, 옆에 충전기"
+       },
+       {
+        "src": "img/ev/ev-17-g7.jpg",
+        "caption": "타이칸 크로스 투리스모 4S — 지붕을 뒤로 늘린 왜건형",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "초록 크로스 투리스모 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-17-g8.jpg",
+        "caption": "마칸 일렉트릭 — 포르쉐 두 번째 전기차, 2025년 국내 출시",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "짙은 회색 마칸 일렉트릭 앞모습"
+       },
+       {
+        "src": "img/ev/ev-17-g9.jpg",
+        "caption": "포르쉐 센터 앞에 선 마칸 일렉트릭 두 대",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "회색과 흰색 마칸 일렉트릭 뒷모습, 포르쉐 표지 앞"
+       }
+      ]
+     }
     },
     {
      "h": "우리나라와 타이칸"
