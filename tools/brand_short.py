@@ -96,17 +96,21 @@ def phone(src, y):
 # ── 장면들 ──
 class Cover:
     """첫 장면 — 잡지 표지. 첫 프레임부터 로고·제목이 다 떠 있다(넘기기 전 1초가 승부)."""
-    def __init__(self, dur, photo='anbu/a05.jpg', lines=(('매일 아침', YEL), ('새로운', WHITE), ('무료 매거진', WHITE)), sub='오늘도 마음은 주니어'):
+    def __init__(self, dur, photo='anbu/a05.jpg', lines=(('매일 아침', YEL), ('새로운', WHITE), ('무료 매거진', WHITE)), sub='오늘도 마음은 주니어', logo=True, fx=.55):
         self.dur = dur
-        self.p = cover(os.path.join(IMG, photo), int(W * 1.08), int(H * 1.08), fx=.55)
+        self.p = cover(os.path.join(IMG, photo), int(W * 1.08), int(H * 1.08), fx=fx)
         L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
         for y in range(H):   # 위는 로고가, 아래는 제목이 읽히게 살짝만 어둡게
             v = int((560 - y) / 560 * 100) if y < 560 else (0 if y < 900 else min(170, int((y - 900) / 700 * 190)))
             d.line([(0, y), (W, y)], fill=(4, 22, 40, max(0, v)))
         lg = Image.open(os.path.join(ROOT, 'logo-light.png')).convert('RGBA'); lg = lg.resize((580, int(580 * lg.height / lg.width)), Image.LANCZOS)
-        L.alpha_composite(lg, ((W - lg.width) // 2, 80))
-        text(L, (W // 2, 80 + lg.height + 44), sub, F(B, 44), WHITE, sh=160)
-        for i, (t, c) in enumerate(lines): text(L, (72, 1040 + i * 172), t, F(K, 150), c, 'lm', sh=180)
+        if logo:
+            L.alpha_composite(lg, ((W - lg.width) // 2, 80))
+            text(L, (W // 2, 80 + lg.height + 44), sub, F(B, 44), WHITE, sh=160)
+        for i, (t, c) in enumerate(lines):
+            sz = 150   # 한 줄이 화면 폭을 넘지 않게 글자 크기를 줄인다
+            while sz > 90 and ImageDraw.Draw(L).textlength(t, font=F(K, sz)) > W - 144: sz -= 4
+            text(L, (72, 1040 + i * 172), t, F(K, sz), c, 'lm', sh=180)
         self.L = L
 
     def frame(self, t):
@@ -229,6 +233,30 @@ def ep1(cap):
 EPS = {'ep1': ep1}
 
 
+def from_spec(path, cap):
+    """편 차례를 JSON 으로 받는다 (밤마다 새 편을 코드 손대지 않고 만들게).
+    [{"t":"Cover","dur":3.2,"lines":[["매일 아침","y"],["새로운","w"]],"photo":"anbu/a05.jpg","sub":"오늘도 마음은 주니어"},
+     {"t":"Series","dur":3.6}, {"t":"Phone","shot":"ai.png","dur":5.5,"bg":[219,234,254],"label":"…","l1":"…","l2":"…","y1":1300,"y0":0},
+     {"t":"Grid","dur":4.8}, {"t":"End","dur":3.6}]"""
+    import json
+    out = []
+    for s in json.load(open(path, encoding='utf-8'))['scenes']:
+        t = s['t']
+        if t == 'Cover':
+            kw = {}
+            if 'lines' in s: kw['lines'] = tuple((x[0], YEL if x[1] == 'y' else WHITE) for x in s['lines'])
+            if 'photo' in s: kw['photo'] = s['photo']
+            for k in ('sub', 'logo', 'fx'):
+                if k in s: kw[k] = s[k]
+            out.append(Cover(s.get('dur', 3.2), **kw))
+        elif t == 'Series': out.append(Series(s.get('dur', 3.6)))
+        elif t == 'Grid': out.append(Grid(s.get('dur', 4.8)))
+        elif t == 'End': out.append(End(s.get('dur', 3.6)))
+        elif t == 'Phone':
+            out.append(Phone(os.path.join(cap, s['shot']), s.get('dur', 5.5), tuple(s.get('bg', (243, 240, 233))), INK, s['label'], s['l1'], s['l2'], s.get('y1', 1300), hold=s.get('hold', 1.0), y0=s.get('y0', 0)))
+    return out
+
+
 def render(scenes, out, music=os.path.join(ROOT, 'music', 'morning.mp3')):
     starts, t = [], 0.0
     for s in scenes: starts.append(t); t += s.dur - X
@@ -248,4 +276,5 @@ def render(scenes, out, music=os.path.join(ROOT, 'music', 'morning.mp3')):
 
 if __name__ == '__main__':
     ep, cap, out = sys.argv[1], sys.argv[2], sys.argv[3]
-    print('길이', round(render(EPS[ep](cap), out), 1), '초 →', out)
+    sc = from_spec(ep, cap) if ep.endswith('.json') else EPS[ep](cap)
+    print('길이', round(render(sc, out), 1), '초 →', out)

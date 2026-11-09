@@ -66,13 +66,19 @@ def upload(auth, kind, path, up):
     with open(path, 'rb') as f:
         _, _, v = req('PUT', loc, raw=f.read(), headers={**auth, 'Content-Type': 'video/mp4'}, timeout=600)
     vid = v['id']; say(kind, '올림', vid, status.get('publishAt', '바로 공개'))
-    pl = playlist_id(auth, PLAYLIST[kind])
-    if pl:
-        req('POST', 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet', headers=auth,
-            body={'snippet': {'playlistId': pl, 'resourceId': {'kind': 'youtube#video', 'videoId': vid}}})
-        say(kind, '재생목록에 넣음')
-    else: say(kind, '재생목록을 못 찾음 —', PLAYLIST[kind])
+    add_pl(auth, kind, vid)
     return vid
+
+def add_pl(auth, kind, vid):
+    # 재생목록 넣기가 실패해도(2026-11-09 409 SERVICE_UNAVAILABLE) 올린 기록은 남겨야 한다 — 안 그러면 다음 차례에 또 올린다
+    try:
+        pl = playlist_id(auth, PLAYLIST[kind])
+        if pl:
+            req('POST', 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet', headers=auth,
+                body={'snippet': {'playlistId': pl, 'resourceId': {'kind': 'youtube#video', 'videoId': vid}}})
+            say(kind, '재생목록에 넣음')
+        else: say(kind, '재생목록을 못 찾음 —', PLAYLIST[kind])
+    except SystemExit as e: say(kind, '재생목록 넣기 실패(영상은 올라감):', str(e)[:160])
 
 # ── 자동 댓글 (대표 2026-10-25: "자동 게시되는 쇼츠 모두에게 자동 댓글도") ──
 # 댓글 달기는 되지만 '고정'은 유튜브가 바깥 프로그램에 열어 두지 않았다 — 고정은 대표가 앱에서 한 번 누른다.
@@ -167,12 +173,15 @@ if __name__ == '__main__':
     _pub = next((a.split('=', 1)[1] for a in sys.argv if a.startswith('--publish=')), '')
     if _pub and CID and CSEC and RTOK:
         jp = os.path.join(OUT, DATE + '.json'); info = json.load(open(jp, encoding='utf-8'))
+        _bj = os.path.join(OUT, f'{DATE}-brand.json')
+        if os.path.exists(_bj): info['brand_up'] = json.load(open(_bj, encoding='utf-8'))
         vid = info.get('yt', {}).get(_pub)
         if not vid: say(_pub, '올린 영상이 없음'); sys.exit(1)
         auth = {'Authorization': 'Bearer ' + token()}
         req('PUT', 'https://www.googleapis.com/youtube/v3/videos?part=status', headers=auth,
             body={'id': vid, 'status': {'privacyStatus': 'public', 'selfDeclaredMadeForKids': False, 'embeddable': True, 'containsSyntheticMedia': _pub in ('opening', 'kid')}})
         say(_pub, '바로 공개함', vid)
+        if '--pl' in sys.argv: add_pl(auth, _pub, vid)
         cm = info.get('yt_comment', {})
         if not cm.get(_pub):
             text = comment_text(_pub, info)
