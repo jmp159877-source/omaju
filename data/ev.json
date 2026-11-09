@@ -5350,6 +5350,284 @@
      "url": "https://www.electrive.com/2024/10/29/audi-to-close-brussels-plant-in-february-2025"
     }
    ]
+  },
+  {
+   "id": "ev-17",
+   "no": 17,
+   "date": "2026-11-10",
+   "part": "2부 브랜드 해부",
+   "title": "포르쉐를 뜯어보다: 타이칸이 바꾼 것과 바꾸지 못한 것",
+   "dek": "스포츠카 회사의 첫 전기차는 한때 911보다 많이 팔렸다 — 그러나 판매는 다시 내려왔고, 포르쉐는 엔진을 남기기로 했다",
+   "asof": "2026년 11월 기준",
+   "hook": "2021년 포르쉐의 첫 전기차 **타이칸**은 **4만 1,296대**가 팔려, 회사의 얼굴인 **911**을 앞질렀습니다. 그런데 4년 뒤 판매는 그 절반에도 못 미쳤습니다.",
+   "blocks": [
+    {
+     "h": "스포츠카 회사의 첫 전기차"
+    },
+    {
+     "p": "포르쉐는 911 같은 스포츠카로 이름난 독일 회사입니다. 지난 편의 폭스바겐 그룹 안에 있는 브랜드입니다."
+    },
+    {
+     "p": "2019년 포르쉐는 첫 순수 전기차 **타이칸**을 내놨습니다. 스포츠카 회사도 전기차를 만들 수 있느냐는 물음에 대한 답이었습니다."
+    },
+    {
+     "p": "반응은 컸습니다. 2021년 타이칸은 전 세계에서 **4만 1,296대**가 팔려, 포르쉐의 상징인 911(3만 8,464대)보다 많았습니다."
+    },
+    {
+     "h": "오르고, 내려온 판매"
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "타이칸 세계 인도 대수",
+      "sub": "해마다 · 포르쉐 발표",
+      "unit": "만 대",
+      "items": [
+       [
+        "2020년",
+        2.0,
+        false
+       ],
+       [
+        "2021년",
+        4.1,
+        false
+       ],
+       [
+        "2022년",
+        3.5,
+        false
+       ],
+       [
+        "2023년",
+        4.1,
+        false
+       ],
+       [
+        "2024년",
+        2.1,
+        false
+       ],
+       [
+        "2025년",
+        1.6,
+        true
+       ]
+      ],
+      "legend": "2021년과 2023년에 4만 대를 넘었다가 2024년에 절반으로 줄었습니다. 회사 발표 값(2만 15 · 4만 1,296 · 3만 4,801 · 4만 629 · 2만 836 · 1만 6,339대)을 만 대 단위로 줄였습니다.",
+      "source": "포르쉐 해마다 인도 발표, electrek·insideevs·Express & Star·motorious 보도 대조"
+     }
+    },
+    {
+     "p": "2024년 타이칸 판매는 **2만 836대**로 한 해 전보다 **49%** 줄었습니다. 2025년에는 **1만 6,339대**로 또 22% 줄었습니다."
+    },
+    {
+     "p": "전기차 수요가 주춤한 데다, 비싼 전기 스포츠카는 중고차 값이 빨리 떨어진다는 걱정도 컸습니다."
+    },
+    {
+     "title": "타이칸·마칸 일렉트릭 — 사진으로 보면",
+     "items": [
+      {
+       "src": "img/ev/ev-17-g1.jpg",
+       "caption": "2024년에 얼굴을 바꾼 타이칸 GTS — 2025년 독일 IAA 전시장",
+       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "빨간 타이칸 GTS 옆앞모습, 전시장 마루"
+      },
+      {
+       "src": "img/ev/ev-17-g2.jpg",
+       "caption": "타이칸 뒷모습 — 가로로 길게 이어진 뒷불",
+       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "흰 타이칸 뒷모습, 건물 앞"
+      },
+      {
+       "src": "img/ev/ev-17-g3.jpg",
+       "caption": "타이칸 GTS 실내 — 휘어진 계기판과 가운데 화면(2022년 일본 교토)",
+       "credit": "Aos.1905 · CC BY 4.0 · 위키미디어 공용",
+       "alt": "검은 실내와 운전대, 휘어진 계기판"
+      },
+      {
+       "src": "img/ev/ev-17-g4.jpg",
+       "caption": "타이칸 GTS — 일본 교토 거리 전시",
+       "credit": "Aos.1905 · CC BY 4.0 · 위키미디어 공용",
+       "alt": "푸른 타이칸 앞모습, 상점가 전시"
+      },
+      {
+       "src": "img/ev/ev-17-g5.jpg",
+       "caption": "충전기에 꽂힌 타이칸 터보 S",
+       "credit": "Kirill Borisenko · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "흰 타이칸이 길가 충전기 옆에 서 있는 모습"
+      },
+      {
+       "src": "img/ev/ev-17-g6.jpg",
+       "caption": "타이칸 크로스 투리스모 — 포르쉐 충전기 앞(2021년 취리히 모터쇼)",
+       "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "흰 크로스 투리스모 앞모습, 옆에 충전기"
+      },
+      {
+       "src": "img/ev/ev-17-g7.jpg",
+       "caption": "타이칸 크로스 투리스모 4S — 지붕을 뒤로 늘린 왜건형",
+       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "초록 크로스 투리스모 뒷모습"
+      },
+      {
+       "src": "img/ev/ev-17-g8.jpg",
+       "caption": "마칸 일렉트릭 — 포르쉐 두 번째 전기차, 2025년 국내 출시",
+       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "짙은 회색 마칸 일렉트릭 앞모습"
+      },
+      {
+       "src": "img/ev/ev-17-g9.jpg",
+       "caption": "포르쉐 센터 앞에 선 마칸 일렉트릭 두 대",
+       "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+       "alt": "회색과 흰색 마칸 일렉트릭 뒷모습, 포르쉐 표지 앞"
+      }
+     ]
+    },
+    {
+     "h": "우리나라와 타이칸"
+    },
+    {
+     "p": "타이칸은 2020년 11월 26일 국내에 나왔습니다. 첫 차 타이칸 4S의 값은 **1억 4,560만 원**, 큰 배터리를 단 차의 국내 인증 주행거리는 **289km**였습니다."
+    },
+    {
+     "p": "주행거리는 짧았지만 반응은 뜨거웠습니다. 매거진한경 보도로 2023년 한 해 국내에서 **1,805대**가 팔려, 우리나라가 세계 다섯 번째 타이칸 시장이 됐습니다."
+    },
+    {
+     "p": "2024년 8월에는 얼굴을 바꾼 '더 뉴 타이칸'이 나왔습니다. 배터리를 키우고, 10%에서 80%까지 충전하는 시간을 37분에서 **18분**으로 줄였습니다(섭씨 15도 기준)."
+    },
+    {
+     "h": "두 번째 전기차, 마칸"
+    },
+    {
+     "p": "포르쉐에서 가장 많이 팔리는 차는 작은 SUV **마칸**입니다. 2024년 이 차의 전기차판 마칸 일렉트릭이 나왔습니다."
+    },
+    {
+     "p": "2025년 마칸은 8만 4,328대가 팔렸고, 그 가운데 전기차가 **4만 5,367대**로 절반을 넘었습니다. 전기차의 무게가 타이칸에서 마칸으로 옮겨 간 셈입니다."
+    },
+    {
+     "chart": {
+      "kind": "donut",
+      "title": "2025년 포르쉐가 판 차 가운데",
+      "sub": "세계 인도 27만 9,449대 기준",
+      "value": 22.2,
+      "center": "순수 전기차",
+      "on": "순수 전기차(타이칸·마칸 일렉트릭 등)",
+      "off": "플러그인 하이브리드 12.1% · 휘발유차 등",
+      "source": "포르쉐 2025년 인도 발표(2026년 1월), motorious 보도 대조"
+     }
+    },
+    {
+     "p": "국내에서는 2024년 7월 사전계약을 받고 2025년 2월 공식 출시했습니다. 시작 값은 **9,910만 원**, 발표된 주행거리(복합)는 기본 모델 474km입니다."
+    },
+    {
+     "h": "바꾸지 못한 것"
+    },
+    {
+     "p": "2025년 포르쉐 전체 판매는 **27만 9,449대**로 한 해 전보다 **10%** 줄었습니다. 그 가운데 순수 전기차는 **22.2%**였습니다."
+    },
+    {
+     "p": "포르쉐는 2025년 전략을 고쳐, 앞으로도 **휘발유차·플러그인 하이브리드·전기차를 함께** 내놓겠다고 밝혔습니다. 전기차만으로 가는 길이 생각보다 멀다는 뜻입니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 보면",
+      "text": "타이칸은 **스포츠카도 전기차가 될 수 있다**는 것을 보여 줬습니다. 다만 비싼 전기차를 사는 사람은 아직 많지 않아, 포르쉐도 엔진을 쉽게 내려놓지 못하고 있습니다."
+     }
+    }
+   ],
+   "cons": [
+    "타이칸 첫 차의 국내 인증 주행거리는 **289km**로 짧았습니다. 지금 차는 늘었지만, 중고로 살 때는 **몇 년식인지** 꼭 보세요.",
+    "비싼 전기차는 **중고차 값이 빨리 떨어지는 편**입니다. 판매가 줄어든 해에는 더 그렇습니다.",
+    "수입 고급 전기차는 값이 높아 **국고보조금을 받지 못하거나 적게 받는** 경우가 많습니다. 사기 전에 그해 기준을 확인하세요.",
+    "고성능 전기차는 무게와 힘이 커서 **타이어가 빨리 닳고** 보험료도 높은 편입니다."
+   ],
+   "next": "미니·푸조를 뜯어보다: 작고 개성 있는 수입 전기차",
+   "sources": [
+    {
+     "name": "포르쉐 뉴스룸, Porsche delivers 279,449 sports cars to customers in 2025 (2026.1.16)",
+     "url": "https://newsroom.porsche.com/en/2026/company/porsche-deliveries-2025-41516.html"
+    },
+    {
+     "name": "motorious, Porsche Reports 279,449 Deliveries in 2025 as Electrified Models Gain Share (2026.1.20)",
+     "url": "https://www.motorious.com/articles/news/porsche-reports-279-449-deliveries/"
+    },
+    {
+     "name": "carsofmalaysia, Porsche sold 279,449 vehicles in 2025 (2026.1.19)",
+     "url": "https://carsofmalaysia.com/news/porsche-sold-279449-vehicles-in-2025-10-less-than-previous-year/"
+    },
+    {
+     "name": "포르쉐 뉴스룸, Porsche delivers 310,718 vehicles in 2024 (2025.1)",
+     "url": "https://newsroom.porsche.com/en/2025/company/porsche-deliveries-2024-38358.html"
+    },
+    {
+     "name": "electrek, Porsche's EV sales took a hit, but electric Macan sparks hope (2025.1.15)",
+     "url": "https://electrek.co/2025/01/15/porsches-ev-sales-took-a-hit-but-electric-macan-sparks-hope/"
+    },
+    {
+     "name": "auto123, Porsche Taycan 2024 sales drop",
+     "url": "https://www.auto123.com/en/news/porsche-taycan-2024-sales-drop/72276/"
+    },
+    {
+     "name": "포르쉐 뉴스룸, Porsche deliveries 2023 (2024.1.12)",
+     "url": "https://newsroom.porsche.com/en/2024/company/porsche-deliveries-2023-34942.html"
+    },
+    {
+     "name": "포르쉐 뉴스룸, 2022 deliveries: Porsche posts a slight increase (2023.1)",
+     "url": "https://newsroom.porsche.com/en/2023/company/porsche-delivieries-2022-30886.html"
+    },
+    {
+     "name": "insideevs, Porsche Taycan Global Sales Decreased In 2022",
+     "url": "https://insideevs.com/news/631126/porsche-taycan-global-sales-2022q4/"
+    },
+    {
+     "name": "Express & Star, Porsche sold more electric Taycans than 911 sports cars last year (2022.1.12)",
+     "url": "https://www.expressandstar.com/news/motors/2022/01/12/porsche-sold-more-electric-taycans-than-911-sports-cars-last-year"
+    },
+    {
+     "name": "포르쉐 뉴스룸, Porsche deliveries 2020 worldwide (2021.1)",
+     "url": "https://newsroom.porsche.com/en_US/2021/company/porsche-deliveries-2020-worldwide-23381.html"
+    },
+    {
+     "name": "electrek, Porsche Taycan EV success story (2023.10.25)",
+     "url": "https://electrek.co/2023/10/25/porsche-taycan-ev-success-story/"
+    },
+    {
+     "name": "지디넷코리아, 포르쉐 타이칸 국내 출시 (2020.11.26)",
+     "url": "https://zdnet.co.kr/view/?no=20201126144124"
+    },
+    {
+     "name": "뉴데일리, 포르쉐 타이칸 출시 (2020.11.26)",
+     "url": "https://biz.newdaily.co.kr/site/data/html/2020/11/26/2020112600132.amp.html"
+    },
+    {
+     "name": "뉴스핌, 포르쉐 타이칸 국내 출시 (2020.11.26)",
+     "url": "https://newspim.com/news/view/20201126000264"
+    },
+    {
+     "name": "CEO스코어데일리, '더 뉴 타이칸' 공식 출시 (2024.8.22)",
+     "url": "https://ceoscoredaily.com/page/view/2024082214442889278"
+    },
+    {
+     "name": "매거진한경, 더 뉴 타이칸 (2024.8.22)",
+     "url": "https://magazine.hankyung.com/business/article/202408229241b"
+    },
+    {
+     "name": "뉴데일리, 포르쉐 마칸 일렉트릭 국내 출시 (2025.2.20)",
+     "url": "https://biz.newdaily.co.kr/site/data/html/2025/02/20/2025022000117.amp.html"
+    },
+    {
+     "name": "아이뉴스24, 마칸 일렉트릭 국내 공식 출시 (2025.2.20)",
+     "url": "https://www.inews24.com/view/wrlted/1815747"
+    },
+    {
+     "name": "오토뷰, 포르쉐 마칸 일렉트릭 사전 계약 (2024.7.17)",
+     "url": "https://www.autoview.co.kr/ko-kr/articles/92187"
+    },
+    {
+     "name": "위드카뉴스, 포르쉐 '마칸 일렉트릭' 사전 계약 (2024.7)",
+     "url": "https://car.withnews.kr/newcar/porsche-macan-electric-launch-price"
+    }
+   ]
   }
  ]
 }
