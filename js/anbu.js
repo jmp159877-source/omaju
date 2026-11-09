@@ -140,11 +140,13 @@ export async function mount(d) {
   try { D = await (await fetch('data/anbu.json?v=' + DAY)).json(); } catch (e) { return; }
   readyR();
   if (document.documentElement.classList.contains('v2')) for (let i = 0; i < 40 && !document.querySelector('.cols-wrap.h4'); i++) await new Promise(r => setTimeout(r, 50));
-  const intro = document.querySelector('.intro'); if (!intro || document.getElementById('anbu-home')) return;
-  const tile = document.createElement('section'); tile.id = 'anbu-home'; tile.className = 'anbu';
-  tile.innerHTML = `<button type="button" class="anb-hero" aria-label="좋은 글귀 인사 카드 — 카드 고르러 가기"><span class="anb-hx"><small>오늘, 마음을 전하는 한 장</small><b>좋은 글귀<br>인사 카드</b><span class="anb-hsub">용기 · 희망 · 위로 · 고마움</span><span class="anb-go">카드 고르기 ›</span></span></button>`;
-  intro.after(tile);
-  if (document.documentElement.classList.contains('v2') && !document.querySelector('.cols-wrap.h4')) { const mo = new MutationObserver(() => { if (document.querySelector('.cols-wrap.h4')) { mo.disconnect(); intro.after(tile); } }); mo.observe(intro.parentNode, { childList: true }); setTimeout(() => mo.disconnect(), 15000); }
+  const intro = document.querySelector('.intro'); if (!intro) return;
+  let tile = document.getElementById('anbu-home');   // index.html 에 처음부터 있다(대표 2026-11-09 v4 — 늦게 끼우면 화면이 밀린다)
+  if (!tile) {
+    tile = document.createElement('section'); tile.id = 'anbu-home'; tile.className = 'anbu';
+    tile.innerHTML = `<button type="button" class="anb-hero" aria-label="좋은 글귀 인사 카드 — 카드 고르러 가기"><span class="anb-hx"><small>오늘, 마음을 전하는 한 장</small><b>좋은 글귀<br>인사 카드</b><span class="anb-hsub">용기 · 희망 · 위로 · 고마움</span><span class="anb-go">카드 고르기 ›</span></span></button>`;
+    intro.after(tile);
+  }
   tile.querySelector('.anb-hero').onclick = () => { try { deps.DB.bumpClick('anbu_tile'); } catch (e) {} (window.omajuNav || (h => { location.hash = h; }))('anbu'); };
   deps.DB.onUser(() => { if (box && box.isConnected) render(); });
 }

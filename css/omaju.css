@@ -3019,3 +3019,20 @@ html.v3 .colophon { border-top: 1px solid #E6E6E2; margin-top: 34px; padding-top
 body.in-chapter #anbu-home { display: none; }
 .btn.anb-kakao { background: #F9E9A8; color: #3A2E00; border-color: #F9E9A8; font-weight: 800; }
 .anb-tip { text-align: center; font-size: .92rem; color: #6A6A64; margin: 10px 0 0; }
+
+/* ── 판갈이 v4 — 심플하게 (대표 2026-11-09 11:36: "커버 축소, 배너 없애고, 인사 카드 → 시대 공유 → 콘텐츠") ──
+   접은 것은 지우지 않고 감춘다(?v4=0 이면 이 기기만 예전): 소개 배너 · 그때 그 물건 · 다시, 일 · 사랑방 · 집사 · 내 서재 */
+html.v4 .intro, html.v4 #talk-box, html.v4 .tk-orn { display: none !important; }
+html.v4 .cols-wrap [data-open="then"], html.v4 .cols-wrap [data-open="work"] { display: none !important; }
+html.v4 #tabs3 button[data-tab="g6"], html.v4 #tabs3 button[data-tab="g4"], html.v4 #tabs3 button[data-tab="g6"][aria-pressed], html.v4 #tabs3 button[data-tab="g4"][aria-pressed] { display: none !important; }
+@media (max-width: 768px) {
+  html.v4 .hero { min-height: 0 !important; padding: 20px 20px 24px; gap: 14px; background: linear-gradient(180deg, rgba(22,20,16,.62) 0%, rgba(22,20,16,.38) 50%, rgba(22,20,16,.05) 85%), url("../img/hero-v4.jpg?v=1") center 100% / cover no-repeat, #2a241e !important; }   /* 대표 2026-11-09 12:08 — 사람 없는 창가 찻잔 사진(제미나이, 클국장이 셋 중 고름). 흰 글씨가 읽히게 위쪽을 어둡게 */
+  html.v4 .hero-foot .when { display: block; min-height: 3.2em; }
+  html.v4 .hero-desc { display: none; }
+  html.v4 .hero .logo-wrap img { width: 112px; height: auto; }
+}
+html.v4 .anbu { margin-top: 22px; }
+/* v4: 첫 화면이 짧아져 시대 공유·콘텐츠를 늦게 끼우는 것이 첫 화면 안에서 보이며 밀렸다 — 끼우기 끝날 때(h2ok)까지 잠깐 감춘다(자리는 그대로). 3초 넘으면 머리 스크립트가 풀어 준다 */
+html.v4.v2:not(.h2ok) main.content > :not(.anbu):not(.intro) { visibility: hidden; }
+html.v4 .hero-actions { min-height: calc(2.9rem + 24px); align-content: flex-start; }
+@media (min-width: 769px) { html.v4 .hero { background: linear-gradient(180deg, rgba(22,20,16,.6) 0%, rgba(22,20,16,.32) 55%, rgba(22,20,16,.05) 85%), url("../img/hero-v4.jpg?v=1") center 100% / cover no-repeat, #2a241e !important; } html.v4 .hero-desc { background: rgba(0,0,0,.18); } }

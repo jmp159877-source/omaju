@@ -63,7 +63,8 @@ export async function mount(h) {
   }
   if (tkOrn) sec.appendChild(tkOrn);
   if (talk) sec.appendChild(talk);
-  intro.after(sec);
+  (document.getElementById('anbu-home') || intro).after(sec);   // 인사 카드 칸 밑에 (v4)
+  document.documentElement.classList.add('h2ok');
   sec.addEventListener('click', e => { const s = e.target.closest('[data-soon]'); if (s) { e.stopPropagation(); const t = document.getElementById('toast'); if (t) { t.textContent = '11월에 첫 화가 올라옵니다.'; t.hidden = false; setTimeout(() => { t.hidden = true; }, 2200); } } }, true);
   // CONTENTS 도 시대 공유와 같은 꼴로 (대표 2026-10-27 08:01 — 나뭇잎 로고 머리 빼고 같은 금빛 줄 + 큰 제목, 칸도 같은 사진 칸)
   const toc = document.querySelector('.toc.toc-c:not(.opn-toc)');
