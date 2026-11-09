@@ -125,4 +125,6 @@ export function band(k = 'ev') {
   const a = latest(k), el = document.getElementById(k + '-band-title'), tile = document.querySelector(`.col-tile[data-open="${k}"]`);
   if (tile) { tile.hidden = !a; const row = tile.parentElement; row.classList.toggle('one', row.querySelectorAll('.col-tile:not([hidden])').length < 2); }
   if (a && el) el.textContent = `${a.no}편 · ${a.title}`;
+  // 오늘 새 편이 올라온 연재 칸에 작은 NEW (대표 2026-11-09 — '매일 새로 나온다'가 첫 화면에서 보이게)
+  if (tile) { const isNew = !!(a && a.date === today()); tile.classList.toggle('is-new', isNew); let b = tile.querySelector('.ct-new'); if (isNew && !b) { b = document.createElement('i'); b.className = 'ct-new'; b.textContent = 'NEW'; tile.appendChild(b); } else if (!isNew && b) b.remove(); }
 }

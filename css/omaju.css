@@ -3041,3 +3041,6 @@ html.v4 .h4 .cols-head { flex-direction: row !important; flex-wrap: wrap; align-
 html.v4 .h4 .cols-head small { font-size: .95rem; }
 html.v4 .h4-chd .cols-head { font-size: 0 !important; }
 html.v4 .h4-chd .cols-head small { font-size: min(1.45rem, 6.2vw) !important; font-weight: 800; color: #141414; letter-spacing: -.02em; line-height: 1.3; }
+/* 연재 칸 NEW (대표 2026-11-09) — 오늘 날짜 편이 열린 칸만. 사진 왼쪽 위 */
+.col-tile { position: relative; }
+.col-tile .ct-new { position: absolute; left: 10px; top: 10px; z-index: 3; padding: 3px 8px; border-radius: 4px; background: #E8622F; color: #fff; font-style: normal; font-size: .72rem; font-weight: 800; letter-spacing: .08em; line-height: 1.4; pointer-events: none; }
