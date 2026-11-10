@@ -3,6 +3,230 @@
  "by": "오마주 편집실",
  "items": [
   {
+   "id": "then-15",
+   "no": 15,
+   "date": "2026-11-11",
+   "part": "2부 듣고 보던 물건들",
+   "title": "필름 서른여섯 장, 당신은 무엇을 찍었나요?",
+   "dek": "코닥이 1888년 롤 필름을 내놓은 뒤 한 세기 넘게 사진은 필름에 담겼습니다. 2010년 한 해 1억 2천만 대 넘게 나가던 디지털카메라도 2025년엔 944만 대로 줄었고, 이제 사진은 휴대폰이 찍습니다. 그런데 필름이 다시 돌고 있습니다",
+   "asof": "2026년 11월 기준 (디지털카메라 출하량은 일본 카메라영상기기공업회(CIPA) 집계를 전한 보도 — 2010년은 2011.2 보도, 2025년은 2026.2 보도. 코닥 인력·공정은 2022년 10월 보도)",
+   "hook": "\"하나, 둘, 셋.\" 찰칵 소리 뒤에 엄지로 드르륵 필름을 감았습니다. 카운터 숫자가 36에 가까워지면 셔터를 누르는 손가락이 조심스러워졌습니다.",
+   "blocks": [
+    {
+     "h": "스물넷 아니면 서른여섯, 아껴 찍던 한 롤"
+    },
+    {
+     "p": "35mm 필름 한 롤은 보통 **24장이나 36장**이었습니다. 찍을 수 있는 수가 정해져 있으니 셔터 앞에서 한 번 더 숨을 골랐습니다."
+    },
+    {
+     "p": "다 찍은 필름은 동네 사진관에 맡겼습니다. 며칠 뒤 봉투를 열기 전까지는 **무엇이 찍혔는지** 아무도 몰랐습니다."
+    },
+    {
+     "p": "눈을 감은 얼굴도, 손가락이 걸린 귀퉁이도 그대로 인화되어 나왔습니다. 그래도 봉투 속 사진은 한 장도 버리기 아까웠습니다."
+    },
+    {
+     "p": "봉투 안에는 갈색 띠 같은 **네거티브 필름**이 함께 들어 있었습니다. 다시 뽑고 싶은 사진은 그 띠를 들고 사진관에 갔습니다."
+    },
+    {
+     "h": "필름의 시대, 그리고 일회용 카메라"
+    },
+    {
+     "p": "코닥이 롤 필름을 내놓은 것은 **1888년**입니다. 그 뒤 한 세기 넘게 사진은 필름에 담겼습니다."
+    },
+    {
+     "p": "1976년 미국에서 코닥은 필름 판매의 **90%**, 카메라 판매의 85%를 차지했습니다. 필름이라면 곧 코닥이던 때였습니다."
+    },
+    {
+     "p": "1986년 7월에는 후지필름이 일회용 카메라 **퀵스냅**을 내놓았습니다. 카메라가 없어도 통째로 사서 찍고, 통째로 맡기면 되었습니다."
+    },
+    {
+     "h": "필름 회사가 만든 첫 디지털카메라"
+    },
+    {
+     "p": "디지털카메라를 처음 만든 곳은 뜻밖에도 코닥이었습니다. **1975년 12월**, 코닥 기술자 스티브 새슨이 시제품을 완성했습니다."
+    },
+    {
+     "p": "무게는 약 8파운드(3.6kg쯤)였고, 흑백 사진 한 장은 **0.01메가픽셀**이었습니다. 한 장을 카세트테이프에 담는 데 23초가 걸렸습니다."
+    },
+    {
+     "p": "2000년 6월, 국내에서 카메라를 단 휴대폰(삼성 SCH-V200)이 나왔습니다. 찍은 사진을 제대로 보려면 **컴퓨터에 연결**해야 하던 시절입니다."
+    },
+    {
+     "p": "그리고 2012년 1월 19일, 코닥은 미국 뉴욕에서 **파산보호(챕터 11)**를 신청했습니다. 필름을 대표하던 이름이 디지털 앞에서 흔들린 순간이었습니다."
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "디지털카메라, 한 해에 몇 대 나갔나",
+      "sub": "CIPA(일본 카메라영상기기공업회) 집계 · 한 해 출하 대수",
+      "unit": "만 대",
+      "items": [
+       [
+        "2010년",
+        12150,
+        false
+       ],
+       [
+        "2025년",
+        944,
+        true
+       ]
+      ],
+      "legend": "2010년 1억 2,150만 대(CIPA 발표 121.5백만 대), 2025년 944만 대. CIPA 회원사가 내보낸 대수라 세상의 모든 카메라를 센 숫자는 아닙니다. 만 대 단위 반올림은 오마주 편집실.",
+      "source": "2010년: Imaging Resource(2011.2.14, CIPA 발표 121.5백만 대)·PetaPixel(2026.2.3, 121.46백만 대)·Digital Camera World(2019.2, 1억 2,100만 대) / 2025년: PetaPixel(2026.2.3)·Capture(2026.2.11) 9.44백만 대"
+     }
+    },
+    {
+     "p": "휴대폰 카메라가 좋아지자 필름은 물론 **디지털카메라마저** 줄었습니다. 2025년 출하량은 2010년의 13분의 1쯤입니다."
+    },
+    {
+     "p": "2025년에는 두 해 내리 조금 늘었다는 집계가 나왔습니다. 그래도 한창때와는 **견줄 수 없는** 수준입니다."
+    },
+    {
+     "h": "지금은, 필름이 다시 돈다"
+    },
+    {
+     "p": "그런데 필름이 다시 돌아오고 있습니다. 2022년 10월, 코닥의 필름 생산 책임자는 **수요를 따라가지 못해** 사람을 더 뽑는다고 밝혔습니다."
+    },
+    {
+     "p": "그 무렵 코닥은 필름 공장 인력을 **300명 넘게** 늘렸습니다. 하루 한 교대로 돌던 필름 마무리 공정은 24시간 내내 돌아가게 되었습니다."
+    },
+    {
+     "p": "후지필름은 2026년 7월, 퀵스냅 **마흔 돌**을 맞아 새 모델을 내놓았습니다. 일회용 카메라가 다시 진열대에 오른 셈입니다."
+    },
+    {
+     "p": "필름을 새로 찾는 사람 가운데는 필름 시절을 겪어 보지 않은 **젊은 세대**가 많다는 조사가 국내외에서 여럿 나옵니다. 기다렸다 받아 보는 사진이 오히려 새롭다는 것입니다."
+    },
+    {
+     "p": "휴대폰으로는 몇 장이든 찍고 지울 수 있습니다. 대신 앨범에 꽂아 두고 오래 꺼내 보는 **한 장**은 드물어졌습니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 정리하면",
+      "text": "서른여섯 장을 아껴 찍던 **필름**은 휴대폰 사진에 자리를 내주었지만, 기다렸다 받아 보는 맛을 찾는 사람들 덕에 다시 돌기 시작했습니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘 휴대폰으로 해 볼 것",
+      "text": "휴대폰 사진첩에서 올해 찍은 사진 가운데 **딱 열 장**만 골라 보세요. 그 열 장을 인화해 두면, 필름 시절처럼 손에 쥐고 꺼내 볼 앨범이 생깁니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘의 물음",
+      "text": "마지막으로 필름을 맡기고 사진을 찾아온 날을 기억하시나요? 그 봉투 속에서 가장 오래 들여다본 한 장은 무엇이었나요?"
+     }
+    }
+   ],
+   "cons": [
+    "CIPA 숫자는 회원사(주로 일본 카메라 회사)가 내보낸 대수라, 세상의 모든 카메라 판매를 센 숫자와는 다릅니다.",
+    "우리나라 필름 판매량과 사진관 수는 서로 다른 두 곳에서 같은 숫자를 찾지 못해 적지 않았습니다.",
+    "필름은 한 롤마다 필름값에 현상·스캔 비용이 따로 듭니다. 재미로 시작하더라도 한 롤에 드는 돈을 먼저 따져 보는 편이 좋습니다.",
+    "휴대폰 사진은 기기를 잃어버리면 한꺼번에 사라질 수 있습니다. 소중한 사진은 다른 곳에도 한 벌 더 남겨 두면 마음이 놓입니다."
+   ],
+   "next": "운동회마다 들고 나가던 캠코더, 테이프는 어디 있나요?",
+   "sources": [
+    {
+     "name": "AP 보도(Bangor Daily News 게재), 「How much longer can photographic film hold on?」 (2011.5.30)",
+     "url": "https://www.bangordailynews.com/2011/05/30/living/how-much-longer-can-photographic-film-hold-on/"
+    },
+    {
+     "name": "R&D World(AP), 「How much longer can photographic film hold on?」 (2011.6.1)",
+     "url": "https://www.rdworldonline.com/how-much-longer-can-photographic-film-hold-on/"
+    },
+    {
+     "name": "한국일보, 「필름시장 1위 코닥, 디카 대중화 대처 못해 역사의 뒤안길로」 (2019.2)",
+     "url": "https://www.hankookilbo.com/news/article/201902071442777462"
+    },
+    {
+     "name": "tutor2u, 「What's gone wrong for Kodak?」 (2012.1.19)",
+     "url": "https://tutor2u.net/business/blog/whats-gone-wrong-for-kodak"
+    },
+    {
+     "name": "Al Jazeera, 「Kodak rolls into bankruptcy」 (2012.1.19)",
+     "url": "https://www.aljazeera.com/amp/economy/2012/1/19/kodak-rolls-into-bankruptcy"
+    },
+    {
+     "name": "Engadget, 「Kodak files Chapter 11 bankruptcy」 (2012.1.19)",
+     "url": "https://www.engadget.com/2012-01-19-kodak-chapter-11-bankruptcy.html"
+    },
+    {
+     "name": "The Daily Record, 「Former trailblazer Kodak files for Chapter 11」 (2012.1.19)",
+     "url": "https://thedailyrecord.com/2012/01/19/former-trailblazer-kodak-files-for-chapter-11/"
+    },
+    {
+     "name": "NBC News, 「Digital camera turns 30 — sort of」",
+     "url": "https://www.nbcnews.com/id/wbna9261340"
+    },
+    {
+     "name": "PetaPixel, 「The World's First Digital Camera by Kodak and Steve Sasson」 (2010.8.5)",
+     "url": "https://petapixel.com/2010/08/05/the-worlds-first-digital-camera-by-kodak-and-steve-sasson/"
+    },
+    {
+     "name": "Android Authority, 첫 카메라폰 기념 기사",
+     "url": "https://www.androidauthority.com/first-camera-phone-anniversary-993492"
+    },
+    {
+     "name": "GSMArena, 「Samsung offers a timeline of all its camera innovations in mobile phones」",
+     "url": "https://m.gsmarena.com/samsung_offers_a_timeline_of_all_its_camera_innovations_in_mobile_phones-news-30003.php"
+    },
+    {
+     "name": "Fujifilm, 「Fujifilm 40 Years Quicksnap new models」 (2026.7.1)",
+     "url": "https://www.fujifilm.com/si/en/news/Fujifilm-40-Years-Quicksnap-new-models"
+    },
+    {
+     "name": "Digital Camera World, 퀵스냅 40년 새 모델 기사 (2026.7.1)",
+     "url": "https://www.digitalcameraworld.com/cameras/film-cameras/trends-revived-the-disposable-film-camera-but-after-40-years-fujifilm-is-finally-offering-this-retro-film-type-inside-a-disposable-for-the-first-time"
+    },
+    {
+     "name": "Imaging Resource, 「2010 global digicam sales set new record」 (2011.2.14)",
+     "url": "https://old.imaging-resource.com/NEWS/1297728975.html"
+    },
+    {
+     "name": "Digital Camera World, 「Camera market has collapsed 84% since 2010」 (2019.2.12)",
+     "url": "https://digitalcameraworld.com/news/camera-market-has-collapsed-84-since-2010"
+    },
+    {
+     "name": "PetaPixel, 「Camera Shipments Increased for Consecutive Years for the First Time in Nearly 20 Years」 (2026.2.3)",
+     "url": "https://petapixel.com/2026/02/03/camera-shipments-increased-for-consecutive-years-for-the-first-time-in-nearly-20-years/"
+    },
+    {
+     "name": "Capture, 「The photography resurgence is real: global camera sales hit another milestone」 (2026.2.11)",
+     "url": "https://www.capturemag.com.au/news/the-photography-resurgence-is-real-global-camera-sales-hit-another-milestone"
+    },
+    {
+     "name": "PetaPixel, 「Kodak is Hiring Film Technicians: 'We Cannot Keep Up with Demand'」 (2022.10)",
+     "url": "https://petapixel.com/2022/10/12/we-cannot-keep-up-with-demand-kodak-are-hiring-film-technicians/"
+    },
+    {
+     "name": "HR Dive, 「Eastman Kodak faces hiring challenges with 35mm revival」 (2022.10.24)",
+     "url": "https://www.hrdive.com/news/eastman-kodak-faces-hiring-challenges-with-35mm-revival/634792/"
+    },
+    {
+     "name": "KB Think, 「픽셀 대신 낭만을 인화하다, 다시 '필름 카메라'에 빠진 이유」 (2026.8.12)",
+     "url": "https://kbthink.com/life/leisure/film-camera-trend-guide.html"
+    },
+    {
+     "name": "Everpresent, 「What Is 35mm (135) Film?」",
+     "url": "https://everpresent.com/what-is-35mm-film/"
+    },
+    {
+     "name": "Fortune, Z세대 필름 카메라 재유행 기사 (2026.7.14)",
+     "url": "https://fortune.com/2026/07/14/gen-z-film-camera-market-revival/"
+    },
+    {
+     "name": "한국경제, 「200만원 고가에도 인기 폭발…요즘 2030 빠진 취미 뭐길래」 (2026.8.29)",
+     "url": "https://www.hankyung.com/article/202608288746H"
+    },
+    {
+     "name": "데일리안, 「AI 시대에도 LP 듣고 필름카메라 든다…뉴트로를 고르는 2030」 (2026.10.30)",
+     "url": "https://www.dailian.co.kr/news/view/1707771"
+    }
+   ],
+   "seo": "필름 카메라와 동네 사진관 추억 — 35mm 필름 한 롤 24장·36장, 1888년 코닥 롤 필름, 1976년 미국 필름 점유율 90%, 1986년 후지필름 일회용 카메라 퀵스냅, 1975년 12월 코닥 스티브 새슨의 첫 디지털카메라(0.01메가픽셀·23초), 2000년 카메라 휴대폰, 2012년 1월 19일 코닥 파산보호, CIPA 디지털카메라 출하 2010년 1억 2,150만 대 → 2025년 944만 대, 2022년 코닥 필름 인력 300명 증원과 필름 재유행까지"
+  },
+  {
    "id": "then-14",
    "no": 14,
    "date": "2026-11-10",
