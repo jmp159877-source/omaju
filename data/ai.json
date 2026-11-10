@@ -2448,6 +2448,220 @@
     }
    ],
    "seo": "AI로 여행 영어 연습하는 법 — ChatGPT·제미나이 역할극 부탁 예시와 주의할 점"
+  },
+  {
+   "id": "ai-12",
+   "no": 12,
+   "date": "2026-11-11",
+   "part": "1부 이미 시작됐다",
+   "title": "AI와 오래된 사진: 흐린 사진 되살리기",
+   "dek": "서랍 속 앨범을 휴대폰으로 옮기고, AI로 또렷하게 — 다만 AI가 얼굴을 '지어낼' 수 있다는 것도 알고 씁니다",
+   "asof": "2026년 11월 기준 (기능 이름·메뉴는 휴대폰 기종과 소프트웨어 판에 따라 다를 수 있음)",
+   "hook": "구글 포토에 올라온 사진과 동영상은 **9조 개**가 넘습니다. 그런데 부모님 결혼사진, 어릴 적 소풍 사진은 아직 서랍 속 앨범에 있습니다. 바래고 흐린 그 사진을 휴대폰 AI로 다시 또렷하게 볼 수 있습니다.",
+   "blocks": [
+    {
+     "h": "먼저, 앨범을 휴대폰으로"
+    },
+    {
+     "p": "종이 사진은 먼저 휴대폰에 옮겨야 합니다. 그냥 찍으면 비닐 앨범에 형광등 빛이 번져 하얗게 뜹니다."
+    },
+    {
+     "p": "2016년 구글이 내놓은 무료 앱 **포토스캔**은 사진 위로 휴대폰을 네 군데 옮겨 가며 찍게 한 뒤, 이어 붙여 **빛 번짐을 없애고** 모서리를 반듯하게 잘라 줍니다."
+    },
+    {
+     "p": "앱 없이 찍을 때는 사진을 앨범 비닐에서 꺼내고, 창가의 고른 빛에서 **바로 위에서** 찍습니다. 원본은 크게, 흔들림 없이 찍어 두는 것이 뒤의 AI보다 중요합니다."
+    },
+    {
+     "photo": {
+      "src": "img/ai/ai-12-walk.jpg",
+      "caption": "1930년대 어느 집 앨범의 한 장. 바래고 거친 사진도 먼저 깨끗하게 옮겨 두면 손볼 길이 생깁니다.",
+      "credit": "작자 미상 · 퍼블릭 도메인 · 위키미디어 공용(헝가리 가족 앨범)",
+      "alt": "숲길을 걸어오는 사람들이 담긴 바랜 흑백 사진"
+     }
+    },
+    {
+     "h": "휴대폰에 이미 들어 있는 기능"
+    },
+    {
+     "p": "갤럭시를 쓴다면 갤러리에 **'사진 리마스터'**가 있습니다. 사진을 열고 오른쪽 위 점 세 개(⋮)를 누르면 나옵니다. 2021년 갤럭시 S21 때부터 들어간 기능입니다."
+    },
+    {
+     "p": "AI가 밝기와 색을 고르고, 흔들려 흐린 곳과 낮은 화질을 손봅니다. 전과 후를 나란히 놓고 비교한 뒤 마음에 들 때만 저장하면 됩니다."
+    },
+    {
+     "p": "아이폰의 **'클린업'**은 사진 속 군더더기를 지우는 기능입니다. 흐린 사진을 또렷하게 하는 것과는 다르니, 얼룩이나 낙서를 지울 때 씁니다."
+    },
+    {
+     "h": "흑백에 색을 입히면"
+    },
+    {
+     "p": "흑백 사진에 색을 입히는 AI도 있습니다. 가계도 서비스 마이헤리티지는 2020년 색 입히기를, 2021년 2월에는 옛 사진 속 얼굴이 눈을 깜빡이며 움직이는 **'딥 노스탤지어'**를 내놨습니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "딥 노스탤지어로 움직인 옛 사진 얼굴",
+      "sub": "2021년 2월 말 공개 뒤",
+      "unit": "만 개",
+      "items": [
+       [
+        "공개 2주쯤",
+        4300,
+        false
+       ],
+       [
+        "공개 5주쯤",
+        7200,
+        true
+       ]
+      ],
+      "legend": "공개 뒤 몇 주 만에 수천만 장의 옛 얼굴이 움직였습니다. 2주 값은 ISRAEL21c 보도, 5주 값은 마이헤리티지 발표입니다. 회사 집계도 '첫 한 달에 5,000만 개 넘게'로 맞물립니다.",
+      "source": "ISRAEL21c (2021.3.14) · 마이헤리티지 블로그 (2021.4, 2021년 돌아보기) 대조"
+     }
+    },
+    {
+     "p": "그만큼 옛 사진을 다시 보고 싶은 마음이 크다는 뜻입니다. 다만 흑백 사진에는 **밝기만 남아 있어**, 색은 AI가 짐작해 칠한 것입니다. 회사도 색이 실제와 다를 수 있다고 밝힙니다."
+    },
+    {
+     "h": "생각해 볼 점: AI는 얼굴을 지어낼 수 있습니다"
+    },
+    {
+     "p": "흐린 얼굴을 또렷하게 만들 때 AI는 없는 부분을 **그럴듯하게 채웁니다.** 2020년 미국 듀크대 연구진의 AI는 흐린 오바마 전 대통령 사진을 전혀 다른 사람 얼굴로 바꿔 놓아 논란이 됐습니다."
+    },
+    {
+     "p": "연구진도 그렇게 만든 얼굴은 '있을 법하지만 실제로는 없는 얼굴'이라고 했습니다. 작고 흐린 얼굴일수록 할머니가 **할머니가 아닌 얼굴**이 될 수 있습니다."
+    },
+    {
+     "p": "그래서 **원본은 꼭 따로** 남겨 둡니다. 손본 사진은 '보기 좋게 다듬은 것', 원본은 '기록'입니다. 가족에게 보낼 때도 둘을 함께 두는 편이 좋습니다."
+    },
+    {
+     "p": "사진을 서버로 보내 처리하는 기능도 있습니다. 갤럭시는 설정의 AI 항목에서 **'기기에서만 데이터 처리'**를 켜면 휴대폰 안에서만 처리합니다(메뉴 자리는 기종마다 다르고, 켜면 일부 생성형 편집은 쓸 수 없습니다)."
+    },
+    {
+     "p": "그림을 새로 그려 넣는 생성형 편집에는 표시가 붙습니다. 삼성은 생성형 편집 사진에 **AI 워터마크**를, 구글은 눈에 안 보이는 표시(SynthID)를 넣습니다."
+    },
+    {
+     "photo": {
+      "src": "img/ai/ai-12-porch.jpg",
+      "caption": "작은 얼굴, 바랜 빛. 이런 사진일수록 AI가 채우는 부분이 많아집니다 — 원본을 함께 남겨 두세요.",
+      "credit": "작자 미상 · 퍼블릭 도메인 · 위키미디어 공용(헝가리 가족 앨범)",
+      "alt": "집 툇마루에 선 남자가 담긴 1920~30년대 흑백 사진"
+     }
+    },
+    {
+     "box": {
+      "title": "오늘 해 볼 것",
+      "text": "앨범에서 **사진 한 장**만 꺼내 창가에서 바로 위에서 찍어 보세요. 갤럭시라면 갤러리에서 ⋮ → **사진 리마스터**를 눌러 전과 후를 비교해 보고, 원본과 함께 저장해 둡니다."
+     }
+    }
+   ],
+   "cons": [
+    "'되살린' 얼굴은 AI가 **짐작해 채운** 것입니다. 실제 그 사람 얼굴과 다를 수 있습니다.",
+    "흑백 사진에 입힌 색은 **추측한 색**입니다. 옷 색·집 색을 사실처럼 이야기하지 마세요.",
+    "앱 이름과 메뉴 자리는 기종·소프트웨어 판에 따라 다르고 자주 바뀝니다. 앱을 받을 때는 **공식 앱인지** 확인하세요.",
+    "가족 사진을 처음 보는 앱에 올리기 전에, 사진이 **어디로 보내지고 저장되는지** 약관을 보세요.",
+    "원본은 지우지 말고 **따로 보관**하세요. 손본 사진만 남으면 나중에 무엇이 진짜였는지 알 수 없습니다."
+   ],
+   "next": "AI와 건강 정보: 물어봐도 되는 것과 가려 들어야 할 것",
+   "sources": [
+    {
+     "name": "PetaPixel, Google Photos turns 10, now hosts over 9 trillion photos and videos (2025.5.28)",
+     "url": "https://petapixel.com/2025/05/28/google-photos-turns-10-now-hosts-over-9-trillion-photos-and-videos"
+    },
+    {
+     "name": "Droid Life, Google Photos is 10 years old (2025.5.28)",
+     "url": "https://www.droid-life.com/2025/05/28/google-photos-10-years-old/"
+    },
+    {
+     "name": "구글 블로그, PhotoScan — even those dusty old prints (2016.11.15)",
+     "url": "https://blog.google/products-and-platforms/products/photos/now-your-photos-look-better-ever-even-those-dusty-old-prints/"
+    },
+    {
+     "name": "TechCrunch, Google's new app PhotoScan turns prints into digital photos (2016.11.15)",
+     "url": "https://techcrunch.com/2016/11/15/googles-new-app-photoscan-turns-prints-into-digital-photos"
+    },
+    {
+     "name": "삼성전자 뉴스룸, Galaxy S21 Tech Talk: Gallery and Photo Editor (2021.1.27)",
+     "url": "https://news.samsung.com/global/video-galaxy-s21-tech-talk-9-gallery-and-photo-editor"
+    },
+    {
+     "name": "익스트림 매뉴얼, 갤럭시 사진 리마스터 (2021.10.3)",
+     "url": "https://extrememanual.net/38791"
+    },
+    {
+     "name": "Xataka Android, Samsung Remaster (2021.8.31)",
+     "url": "https://www.xatakandroid.com/tutoriales/como-mejorar-calidad-fotos-tu-samsung-instalar-nada-unos-pocos-segundos"
+    },
+    {
+     "name": "애플 뉴스룸(한국), Apple Intelligence 기능 한국어 제공 (2025.3)",
+     "url": "https://www.apple.com/kr/newsroom/2025/03/apple-intelligence-features-are-now-available-in-korean/"
+    },
+    {
+     "name": "9to5Mac, iOS 18.1 labels images edited with Clean Up (2024.8.28)",
+     "url": "https://9to5mac.com/2024/08/28/ios-18-1-labels-images-clean-up"
+    },
+    {
+     "name": "마이헤리티지 블로그, MyHeritage In Color (2020.2)",
+     "url": "https://blog.myheritage.com/2020/02/colorize-your-black-and-white-photos-automatically-with-myheritage-in-color"
+    },
+    {
+     "name": "마이헤리티지 도움말, In Color 색은 진짜인가",
+     "url": "https://www.myheritage.com/help/en/articles/12851187-are-the-colors-on-myheritage-in-color-authentic"
+    },
+    {
+     "name": "Family Tree, Deep Nostalgia launched by MyHeritage (2021.2.25)",
+     "url": "https://www.family-tree.co.uk/useful-genealogy-websites/deep-nostalgiat-launched-by-myheritage"
+    },
+    {
+     "name": "ISRAEL21c, Everyone's trying Deep Nostalgia (2021.3.14)",
+     "url": "https://archive.israel21c.org/everyones-trying-deep-nostalgia-to-bring-old-photos-alive/"
+    },
+    {
+     "name": "마이헤리티지 블로그, Deep Nostalgia special animations (2021.4)",
+     "url": "https://blog.myheritage.com/2021/04/introducing-deep-nostalgia-special-animations/"
+    },
+    {
+     "name": "마이헤리티지 블로그, 2021 Year in Review (2022.1)",
+     "url": "https://blog.myheritage.com/2022/01/2021-myheritage-year-in-review/"
+    },
+    {
+     "name": "Scienceline, AI can't color old photos (2021.1.13)",
+     "url": "https://scienceline.org/2021/01/ai-cant-color-old-photos/"
+    },
+    {
+     "name": "Duke Today, AI makes blurry faces look more than 60 times sharper (2020.6.11)",
+     "url": "https://today.duke.edu/2020/06/artificial-intelligence-makes-blurry-faces-look-more-60-times-sharper"
+    },
+    {
+     "name": "The Register, AI image tool (2020.6.24)",
+     "url": "https://www.theregister.com/2020/06/24/ai_image_tool/"
+    },
+    {
+     "name": "Tom's Guide, How to use on-device AI only on Samsung Galaxy S24 (2024.2.23)",
+     "url": "https://www.tomsguide.com/phones/samsung-phones/how-to-use-on-device-ai-only-on-samsung-galaxy-s24"
+    },
+    {
+     "name": "삼성 모바일 프레스, Galaxy AI 개인정보 (2025.9.9)",
+     "url": "https://www.samsungmobilepress.com/feature-stories/your-privacy-secured-how-galaxy-ai-empowers-you-to-take-control-of-your-data/"
+    },
+    {
+     "name": "삼성 모바일 프레스, New update brings Galaxy AI to more devices (2024.2.22)",
+     "url": "https://samsungmobilepress.com/press-releases/new-update-brings-galaxy-ai-to-more-galaxy-devices"
+    },
+    {
+     "name": "Android Authority, Samsung will watermark images edited with AI (2024.1.17)",
+     "url": "https://www.androidauthority.com/samsung-will-watermark-images-edited-with-ai-3402252/"
+    },
+    {
+     "name": "구글 블로그, SynthID in Reimagine (2025.2.6)",
+     "url": "https://blog.google/feed/synthid-reimagine-magic-editor/"
+    },
+    {
+     "name": "9to5Google, Pixel 9 Reimagine watermark (2025.2.6)",
+     "url": "https://9to5google.com/2025/02/06/pixel-9-reimagine-watermark/"
+    }
+   ],
+   "seo": "AI로 오래된 사진 복원하는 법 — 갤럭시 사진 리마스터·포토스캔 쓰는 법과 주의할 점"
   }
  ]
 }

@@ -5630,6 +5630,339 @@
      "url": "https://car.withnews.kr/newcar/porsche-macan-electric-launch-price"
     }
    ]
+  },
+  {
+   "id": "ev-18",
+   "no": 18,
+   "date": "2026-11-11",
+   "part": "2부 브랜드 해부",
+   "title": "미니·푸조를 뜯어보다: 작고 개성 있는 수입 전기차",
+   "dek": "큰 배터리 경쟁 대신 생김새와 운전 맛으로 고르는 차 — 미니는 전기차가 셋 중 하나가 됐고, 푸조는 값을 내려 다시 문을 두드린다",
+   "asof": "2026년 11월 기준 (세계 판매는 BMW 그룹 2025년 발표, 국내 값·주행거리는 출시 때 보도)",
+   "hook": "2025년 미니가 세계에서 판 차 **28만 8,290대** 가운데 **10만 5,535대**가 순수 전기차였습니다. 한 해 만에 두 배 가까이 늘어, 이제 미니 세 대 중 한 대 넘게가 전기차입니다.",
+   "blocks": [
+    {
+     "h": "작은 차, 큰 개성"
+    },
+    {
+     "p": "이번 편의 두 브랜드는 크기로 승부하지 않습니다. 동그란 눈의 영국 **미니**, 사자 엠블럼의 프랑스 **푸조**입니다."
+    },
+    {
+     "p": "미니는 BMW 그룹 안의 브랜드이고, 푸조는 여러 나라 브랜드가 모인 스텔란티스 그룹에 속합니다. 둘 다 도심에서 몰기 좋은 작은 차로 이름이 났습니다."
+    },
+    {
+     "h": "미니, 전기차가 셋 중 하나"
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "미니 순수 전기차 세계 인도 대수",
+      "sub": "해마다 · BMW 그룹 발표",
+      "unit": "만 대",
+      "items": [
+       [
+        "2021년",
+        3.5,
+        false
+       ],
+       [
+        "2022년",
+        4.4,
+        false
+       ],
+       [
+        "2023년",
+        4.5,
+        false
+       ],
+       [
+        "2024년",
+        5.6,
+        false
+       ],
+       [
+        "2025년",
+        10.6,
+        true
+       ]
+      ],
+      "legend": "4년 동안 3만~5만 대에 머물다 2025년에 새 전기차들이 나오며 크게 뛰었습니다. 회사 발표 값(3만 4,851 · 4만 3,744 · 4만 5,261 · 5만 6,181 · 10만 5,535대)을 만 대 단위로 줄였습니다.",
+      "source": "BMW 그룹 해마다 판매 발표, BMWBLOG·electrive·InsideEVs·Motoringfile 보도 대조"
+     }
+    },
+    {
+     "p": "2025년 미니의 순수 전기차 판매는 **10만 5,535대**로 한 해 전보다 **87.9%** 늘었습니다. 전체 판매도 28만 8,290대로 17.7% 늘었습니다."
+    },
+    {
+     "p": "까닭은 새 차입니다. 전기차 전용으로 만든 작은 SUV **에이스맨**, 새 **쿠퍼**, 덩치를 키운 **컨트리맨**의 전기차판이 한꺼번에 나왔습니다."
+    },
+    {
+     "gallery": {
+      "title": "미니·푸조 전기차 — 사진으로 보면",
+      "items": [
+       {
+        "src": "img/ev/ev-18-g1.jpg",
+        "caption": "미니 에이스맨 — 전기차로만 나오는 작은 SUV(2025년)",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "빨간 미니 에이스맨 옆앞모습, 주차장"
+       },
+       {
+        "src": "img/ev/ev-18-g2.jpg",
+        "caption": "에이스맨 뒷모습 — 영국 국기 무늬를 넣은 뒷불",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "빨간 에이스맨 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-18-g3.jpg",
+        "caption": "새 쿠퍼 SE 실내 — 가운데 둥근 화면 하나에 거의 모든 것을 담았다",
+        "credit": "Damian B Oh · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "베이지 실내와 둥근 가운데 화면, 운전대"
+       },
+       {
+        "src": "img/ev/ev-18-g4.jpg",
+        "caption": "새 컨트리맨 — 미니에서 가장 큰 차, 전기차판도 나온다",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "검은 새 컨트리맨 옆앞모습"
+       },
+       {
+        "src": "img/ev/ev-18-g5.jpg",
+        "caption": "1세대 미니 일렉트릭 — 노란 거울이 표시였다(2021년형)",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "회색 3도어 미니 일렉트릭 앞모습, 노란 사이드미러"
+       },
+       {
+        "src": "img/ev/ev-18-g6.jpg",
+        "caption": "얼굴을 바꾼 푸조 e-208 — 2023년 취리히 모터쇼",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "연두색 푸조 e-208 옆앞모습, 전시장"
+       },
+       {
+        "src": "img/ev/ev-18-g7.jpg",
+        "caption": "e-208 실내 — 작은 운전대 위로 계기판을 보는 '아이콕핏'",
+        "credit": "Tokumeigakarinoaoshima · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "검은 실내, 작은 운전대와 높은 계기판"
+       },
+       {
+        "src": "img/ev/ev-18-g8.jpg",
+        "caption": "충전기에 꽂힌 푸조 e-2008",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "파란 e-2008 앞모습, 충전 선이 꽂힌 모습"
+       },
+       {
+        "src": "img/ev/ev-18-g9.jpg",
+        "caption": "푸조 E-3008 — 유럽 기준 최대 700km를 내세운 중형 전기 SUV",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "흰 E-3008 옆앞모습, 광장"
+       }
+      ]
+     }
+    },
+    {
+     "h": "우리나라와 미니"
+    },
+    {
+     "p": "미니는 2005년 우리나라에 들어와 지난해 **20주년**을 맞았습니다. 2025년 국내 판매는 수입차협회 집계로 **7,990대**였습니다."
+    },
+    {
+     "p": "첫 전기차는 2022년에 나온 3도어 미니 일렉트릭이었습니다. 값은 4,560만 원부터였지만 국내 복합 기준 주행거리가 **159km**로 짧았습니다."
+    },
+    {
+     "p": "2025년 3월 새 전기차 셋이 한꺼번에 나왔습니다. 에이스맨은 **4,970만 원**부터, 국내 기준 주행거리 **312km**입니다. 쿠퍼는 5,250만 원부터 300km, 컨트리맨은 5,670만 원부터입니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "국내 기준 주행거리, 이렇게 늘었다",
+      "sub": "한 번 충전 · 출시 때 발표",
+      "unit": "km",
+      "items": [
+       [
+        "미니 일렉트릭(2022)",
+        159,
+        false
+       ],
+       [
+        "푸조 e-208(2020)",
+        244,
+        false
+       ],
+       [
+        "푸조 e-208(2022)",
+        280,
+        false
+       ],
+       [
+        "미니 쿠퍼(2025)",
+        300,
+        false
+       ],
+       [
+        "미니 에이스맨(2025)",
+        312,
+        true
+       ],
+       [
+        "미니 컨트리맨 SE(2025)",
+        326,
+        false
+       ]
+      ],
+      "legend": "같은 작은 차라도 몇 년 사이 배터리가 커지며 주행거리가 두 배 가까이 늘었습니다. 1세대 미니는 '국내 복합 기준'으로 보도된 값입니다.",
+      "source": "스마트투데이·머니투데이(2022), 아이뉴스24·데일리안(2020), 아시아경제·위드카(2022), 뉴데일리·아주경제·파이낸셜뉴스(2025) 보도 대조"
+     }
+    },
+    {
+     "h": "푸조, 값을 내려 다시"
+    },
+    {
+     "p": "푸조는 2020년 7월 작은 해치백 **e-208**과 SUV **e-2008**을 국내에 내놨습니다. e-208은 4,100만 원부터, 국내 인증 주행거리 **244km**였습니다."
+    },
+    {
+     "p": "유럽 기준(340km)보다 국내 인증이 꽤 짧게 나와 아쉽다는 말이 많았습니다. 2022년 손본 차는 e-208이 **280km**, e-2008이 260km로 늘었습니다."
+    },
+    {
+     "p": "그해부터는 그룹의 한국 법인 **스텔란티스 코리아**가 직접 들여와 팝니다. 2024년에는 e-2008 값을 **3,890만 원**부터로 크게 내렸습니다."
+    },
+    {
+     "p": "유럽에서는 중형 SUV **E-3008**이 큰 배터리로 최대 **700km**(유럽 WLTP 기준)를 내세웁니다. 다만 국내에는 2025년 7월 하이브리드 3008이 나왔고, 전기차판 출시는 아직 확인되지 않았습니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 보면",
+      "text": "미니와 푸조는 **'얼마나 멀리'보다 '어떤 기분으로'** 타는 전기차입니다. 다만 작은 차일수록 배터리도 작아, 내 생활 거리에 맞는지 먼저 따져 봐야 합니다."
+     }
+    }
+   ],
+   "cons": [
+    "작은 차는 배터리도 작습니다. 미니 쿠퍼는 국내 기준 **300km** 안팎이라, 고속도로 장거리가 잦다면 충전 계획이 필요합니다.",
+    "1세대 미니 일렉트릭(159km)·첫 e-208(244km)을 **중고로** 살 때는 주행거리가 지금 차보다 크게 짧다는 점을 꼭 보세요.",
+    "유럽 발표(WLTP) 주행거리는 국내 인증보다 **길게 나옵니다.** 해외 기사 숫자만 보고 고르지 마세요.",
+    "국고보조금은 해마다, 차값과 배터리에 따라 달라집니다. 사기 전에 **그해 무공해차 통합누리집**에서 확인하세요.",
+    "작은 차는 뒷자리와 짐칸이 좁습니다. 가족이 함께 타는 일이 많다면 **직접 앉아 보고** 고르세요."
+   ],
+   "next": "미국 차는 왜 드문가: 캐딜락·지프·쉐보레의 전기차",
+   "sources": [
+    {
+     "name": "BMW 그룹 PressClub, Successful year for MINI … over 100,000 fully electric vehicles delivered in 2025 (2026.1.12)",
+     "url": "https://www.press.bmwgroup.com/united-kingdom/article/detail/T0454937EN_GB/"
+    },
+    {
+     "name": "BMWBLOG, Every third MINI sold last year … (2026.1.12)",
+     "url": "https://www.bmwblog.com/2026/01/12/every-third-mini-sold-last-year-countryman/"
+    },
+    {
+     "name": "BMW 그룹 PressClub, 2024년 판매 발표 (2025.1.13)",
+     "url": "https://www.press.bmwgroup.com/global/article/detail/T0447427EN/"
+    },
+    {
+     "name": "electrive, BMW increases electric sales to 368,523 (2025.1.13)",
+     "url": "https://www.electrive.com/2025/01/13/bmw-increases-electric-sales-to-368523-electric-cars"
+    },
+    {
+     "name": "BMW 그룹 PressClub, 2023년 판매 발표 (2024.1.9)",
+     "url": "https://www.press.bmwgroup.com/global/article/detail/T0438999EN/"
+    },
+    {
+     "name": "BMWBLOG, 2023 MINI car brand sales results (2024.1.9)",
+     "url": "https://www.bmwblog.com/2024/01/09/2023-mini-car-brand-sales-results/"
+    },
+    {
+     "name": "BMW 그룹 PressClub, 2022년 판매 발표 (2023.1.19)",
+     "url": "https://www.press.bmwgroup.com/global/article/detail/T0407628EN/"
+    },
+    {
+     "name": "InsideEVs, BMW electric car sales 2022 Q4",
+     "url": "https://insideevs.com/news/632001/bmw-electric-car-sales-2022q4/"
+    },
+    {
+     "name": "BMW 그룹 PressClub, 2021년 판매 발표 (2022.1.17)",
+     "url": "https://www.press.bmwgroup.com/global/article/detail/T0364395EN/"
+    },
+    {
+     "name": "Motoringfile, 10% of 2021 global MINI buyers bought an electric MINI (2022.1.12)",
+     "url": "https://www.motoringfile.com/2022/01/12/10-of-2021-global-mini-buyers-bought-an-electric-mini/"
+    },
+    {
+     "name": "뉴데일리, 韓 진출 20주년 '더 뉴 올-일렉트릭 MINI' 3종 출시 (2025.3.14)",
+     "url": "https://biz.newdaily.co.kr/site/data/html/2025/03/14/2025031400034.html"
+    },
+    {
+     "name": "아주경제, 미니 전기차 3종 출시 (2025.3.13)",
+     "url": "https://www.ajunews.com/view/20250313124903051"
+    },
+    {
+     "name": "파이낸셜뉴스, 미니 전기차 3종 (2025.3.13)",
+     "url": "https://www.fnnews.com/news/202503131108349707"
+    },
+    {
+     "name": "지디넷코리아, 미니 에이스맨 (2025.3.18)",
+     "url": "https://zdnet.co.kr/view/?no=20250318142820"
+    },
+    {
+     "name": "오토뷰, 미니 한국 진출 20주년 (2025.3.13)",
+     "url": "https://www.autoview.co.kr/ko-kr/articles/94787"
+    },
+    {
+     "name": "OSEN, 2025년 수입차 판매 (2026.1.6)",
+     "url": "https://www.osen.co.kr/article/G1112723724"
+    },
+    {
+     "name": "시대일보, 2025년 수입차 브랜드 순위 (2026.1.6)",
+     "url": "https://www.sidae.com/article/2026010614434832767"
+    },
+    {
+     "name": "스마트투데이, 미니 일렉트릭 국내 출시 (2022.2.28)",
+     "url": "https://www.smarttoday.co.kr/ko-kr/articles/22605"
+    },
+    {
+     "name": "머니투데이, 미니 일렉트릭 (2022.3.15)",
+     "url": "https://www.mt.co.kr/industry/2022/03/15/2022031414471814927"
+    },
+    {
+     "name": "아이뉴스24, 푸조 208·2008 순수전기차 국내 출시 (2020.7.1)",
+     "url": "https://www.inews24.com/view/1278067"
+    },
+    {
+     "name": "데일리안, 순수 전기차 '뉴 푸조 e-208' 출시 (2020.7.21)",
+     "url": "https://www.dailian.co.kr/news/view/906703/"
+    },
+    {
+     "name": "오토뷰, 푸조 e-208 출시 (2020.7.21)",
+     "url": "https://www.autoview.co.kr/ko-kr/articles/71192"
+    },
+    {
+     "name": "오토뷰, 푸조 e-2008 출시 (2020.7.28)",
+     "url": "https://www.autoview.co.kr/ko-kr/articles/71255"
+    },
+    {
+     "name": "아시아경제, Peugeot·DS launch EVs with improved driving range (2022.8.18)",
+     "url": "https://www.asiae.co.kr/en/article/2022081809155944427"
+    },
+    {
+     "name": "위드카뉴스, 푸조 E-208·E-2008 가격 인하 (2024.7.21)",
+     "url": "https://car.withnews.kr/newcar/peugeot-electric-car-discount"
+    },
+    {
+     "name": "지디넷코리아, 푸조 e-2008 (2025.2.16)",
+     "url": "https://zdnet.co.kr/view/?no=20250216013435"
+    },
+    {
+     "name": "한경 머니, 스텔란티스 코리아 (2022)",
+     "url": "https://magazine.hankyung.com/money/article/202204018032c"
+    },
+    {
+     "name": "스텔란티스 미디어, New Peugeot E-3008 and E-5008 Long Range … 700km (2024.9.16)",
+     "url": "https://www.media.stellantis.com/em-en/peugeot/press/new-peugeot-e-3008-and-e-5008-long-range-respectively-700km-and-668km-wltp-cycle-the-best-electric-ranges-in-the-suv-market"
+    },
+    {
+     "name": "newmobility.news, Peugeot bumps E-3008 and E-5008 range to near 700 km (2024.9.24)",
+     "url": "https://newmobility.news/2024/09/24/peugeot-bumps-e-3008-and-e-5008-range-to-near-700-km/"
+    },
+    {
+     "name": "데일리안, 푸조 올 뉴 3008 스마트 하이브리드 (2025.7.3)",
+     "url": "https://www.dailian.co.kr/news/view/1518129"
+    }
+   ]
   }
  ]
 }
