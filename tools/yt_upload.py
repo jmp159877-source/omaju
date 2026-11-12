@@ -213,7 +213,7 @@ if __name__ == '__main__':
     if not any('오마주' in n for n in names): say('열쇠가 오마주 채널 것이 아님 — 멈춤', names); sys.exit(1)
     # 대표 2026-11-09 13:24: 인사 카드·한 끼 쇼츠는 당분간 올리지 않는다('조회만 하고 들어오지 않는다') — 매일 '오마주 소개' 한 편(brand)만.
     # 다시 켜려면 이 차례에 'cards', 'meal' 을 되살린다.
-    for kind in ('brand', 'opening', 'kid'):   # 연재 만화 쇼츠는 대표 2026-11-12 19:43 내림 — 다시 올리려면 'comic' 을 넣는다
+    for kind in ('brand', 'comic', 'opening', 'kid'):   # 연재 만화(대표 2026-11-12 21:58 다시)
         up = info.get(kind + '_up'); path = os.path.join(OUT, f'{DATE}-{kind}.mp4')
         if done.get(kind): say(kind, '이미 올림', done[kind]); continue
         if not up or not os.path.exists(path): say(kind, '영상 없음'); continue

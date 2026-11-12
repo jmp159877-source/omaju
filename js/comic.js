@@ -93,14 +93,23 @@ const PROP = {
   suitcase: o => `<g transform="translate(${o.x} ${o.y || 470})"><rect x="0" y="0" width="150" height="200" rx="18" fill="#D9653B" stroke="${INK}" stroke-width="5"/><path d="M50 0 v-34 h50 v34" fill="none" stroke="${INK}" stroke-width="6"/><path d="M40 20 v160 M110 20 v160" stroke="${INK}" stroke-width="4" opacity=".4"/></g>`,
   bigphone: o => `<g transform="translate(${o.x} ${o.y || 90})"><rect width="330" height="600" rx="40" fill="#1E2228" stroke="${INK}" stroke-width="5"/><rect x="18" y="40" width="294" height="520" rx="14" fill="${o.screen || '#F3F1EC'}"/>${o.inner || ''}</g>`,
   // 휴대폰 속 단톡방 — o.lines [{me, t, who}] · o.title
-  chat: o => { let y = 150; const rows = (o.lines || []).map(l => { const n = 9, ls = wrap(l.t, n), h = ls.length * 34 + 22, w = Math.max(...ls.map(z => z.length)) * 27 + 30, x = l.me ? 300 - w : 30;
+  chat: o => { let y = 150; const rows = (o.lines || []).map(l => { const n = 8, ls = wrap(l.t, n), h = ls.length * 40 + 24, w = Math.min(282, Math.max(...ls.map(z => z.length)) * 33 + 30), x = l.me ? 304 - w : 26;
       const r = `${l.who && !l.me ? `<text x="30" y="${y - 6}" font-size="20" font-weight="700" font-family="Noto Sans KR, sans-serif" fill="#55606A">${esc(l.who)}</text>` : ''}<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${l.me ? '#FEE500' : '#FFFFFF'}" stroke="${INK}" stroke-width="2"/>` +
-        (l.emoji ? '' : ls.map((z, i) => `<text x="${x + 15}" y="${y + 36 + i * 34}" font-size="26" font-weight="700" font-family="Noto Sans KR, sans-serif" fill="${INK}">${esc(z)}</text>`).join('')) +
+        (l.emoji ? '' : ls.map((z, i) => `<text x="${x + 15}" y="${y + 40 + i * 40}" font-size="31" font-weight="700" font-family="Noto Sans KR, sans-serif" fill="${INK}">${esc(z)}</text>`).join('')) +
         (l.emoji ? `<g transform="translate(${x + w / 2} ${y + h / 2})"><circle r="${h / 2 - 8}" fill="#FFD84D" stroke="${INK}" stroke-width="3"/><path d="M-20 -6 h12 M8 -6 h12" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><path d="M-16 0 v26 M16 0 v26" stroke="#5BB2E8" stroke-width="7" stroke-linecap="round"/><path d="M-12 20 q12 -10 24 0" fill="none" stroke="${INK}" stroke-width="4"/></g>` : '');
       y += h + (l.who && !l.me ? 46 : 24); return r; }).join('');
     return PROP.bigphone({ x: o.x, y: o.y, screen: '#B9D0E2', inner: `<rect x="18" y="40" width="294" height="64" fill="#A9C2D6"/><text x="165" y="82" text-anchor="middle" font-size="24" font-weight="800" font-family="Noto Sans KR, sans-serif" fill="${INK}">${esc(o.title || '단톡방')}</text>${rows}` }); },
   // 보정 앱 속 내 얼굴 — 반짝이
   selfie: o => PROP.bigphone({ x: o.x, y: o.y, screen: '#F7E9EF', inner: `<g transform="translate(165 560) scale(.62)">${person('juni', 'proud').replace(/^<g transform="[^"]*"/, '<g transform="translate(0 -430)"')}</g>${[[60, 120], [270, 170], [90, 330], [250, 380]].map(([a, b]) => `<path d="M${a} ${b - 16} l5 11 l11 5 l-11 5 l-5 11 l-5 -11 l-11 -5 l11 -5z" fill="#F2B84B"/>`).join('')}<rect x="18" y="470" width="294" height="90" fill="rgba(255,255,255,.85)"/><text x="165" y="526" text-anchor="middle" font-size="26" font-weight="800" font-family="Noto Sans KR, sans-serif" fill="#C2507A">뽀샤시 100%</text>` }),
+  // 주식 그래프 휴대폰 — o.trend 'down' | 'up', o.label
+  chart: o => { const down = o.trend === 'down', c = down ? '#2F6FD6' : '#D8382E', pts = down ? '40,180 90,160 140,200 190,240 240,300 290,380' : '40,380 90,350 140,300 190,250 240,190 290,120';
+    return PROP.bigphone({ x: o.x, y: o.y, screen: '#FFFFFF', inner: `<text x="40" y="110" font-size="30" font-weight="800" font-family="Noto Sans KR, sans-serif" fill="${INK}">${esc(o.label || '내 종목')}</text><text x="40" y="150" font-size="36" font-weight="900" font-family="Noto Sans KR, sans-serif" fill="${c}">${down ? '▼ -12.4%' : '▲ +31.2%'}</text>
+      <polyline points="${pts}" fill="none" stroke="${c}" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" transform="translate(0 120)"/><line x1="40" y1="530" x2="290" y2="530" stroke="#DDD" stroke-width="3"/>` }); },
+  // 접시 위 치킨
+  food: o => `<g transform="translate(${o.x} ${o.y || 600})"><ellipse cx="0" cy="40" rx="190" ry="44" fill="#FFFFFF" stroke="${INK}" stroke-width="5"/>${[-90, -20, 50].map((d, i) => `<g transform="translate(${d} ${-4 - i % 2 * 12}) rotate(${-20 + i * 18})"><ellipse cx="0" cy="0" rx="52" ry="36" fill="#D9842C" stroke="${INK}" stroke-width="4"/><rect x="40" y="-9" width="40" height="18" rx="8" fill="#F6EEDC" stroke="${INK}" stroke-width="3.5"/></g>`).join('')}
+    ${o.steam ? `<path d="M-60 -70 q-14 -24 0 -48 M0 -80 q-14 -24 0 -48 M60 -70 q-14 -24 0 -48" fill="none" stroke="#B8B2A6" stroke-width="5" stroke-linecap="round"/>` : ''}</g>`,
+  dumbbell: o => `<g transform="translate(${o.x} ${o.y || 640}) rotate(${o.r || 0})"><rect x="-90" y="-8" width="180" height="16" rx="6" fill="#8E949C" stroke="${INK}" stroke-width="4"/><rect x="-120" y="-38" width="36" height="76" rx="8" fill="#3B3F46" stroke="${INK}" stroke-width="4"/><rect x="84" y="-38" width="36" height="76" rx="8" fill="#3B3F46" stroke="${INK}" stroke-width="4"/></g>`,
+  cam: o => `<g transform="translate(${o.x} ${o.y || 300})"><rect x="-70" y="-44" width="140" height="88" rx="14" fill="#2B2E33" stroke="${INK}" stroke-width="4"/><circle cx="0" cy="0" r="28" fill="#5C6670" stroke="#FFFFFF" stroke-width="5"/><path d="M-40 -60 l20 -20 M40 -60 l-20 -20 M0 -64 v-26" stroke="#F2B84B" stroke-width="5" stroke-linecap="round"/></g>`,
   zzz: o => `<g fill="${INK}" font-family="Noto Sans KR, sans-serif" font-weight="800"><text x="${o.x}" y="${o.y}" font-size="54">Z</text><text x="${o.x + 40}" y="${o.y - 40}" font-size="40">z</text><text x="${o.x + 70}" y="${o.y - 70}" font-size="30">z</text></g>`,
   notes: o => `<g fill="${INK}" font-size="56" font-family="serif"><text x="${o.x}" y="${o.y}">♪</text><text x="${o.x + 60}" y="${o.y - 40}">♫</text></g>`,
   boom: o => `<g transform="translate(${o.x} ${o.y})"><path d="M0 -70 l18 44 l46 -20 l-22 42 l48 16 l-48 16 l22 42 l-46 -20 l-18 44 l-18 -44 l-46 20 l22 -42 l-48 -16 l48 -16 l-22 -42 l46 20z" fill="#FFE27A" stroke="${INK}" stroke-width="4"/><text x="0" y="12" text-anchor="middle" font-size="34" font-weight="900" font-family="Noto Sans KR, sans-serif" fill="${INK}">${esc(o.t || '!')}</text></g>`,
@@ -129,7 +138,7 @@ export function panel(p, i = 0) {
   const props = (p.props || []).map(o => (PROP[o.k] || (() => ''))(o)).join('');
   const ppl = (p.chars || []).map(c => person(c.who, c.ex, c)).join('');
   const front = (p.front || []).map(o => (PROP[o.k] || (() => ''))(o)).join('');
-  const says = (p.say || []).map(bubble).join('');
+  const says = (p.say || []).map(b => bubble(p.cap && b.y < 92 ? Object.assign({}, b, { y: 92 }) : b)).join('');   // 장면 이름표(위 왼쪽)와 겹치지 않게
   const cap = p.cap ? `<g><rect x="18" y="18" width="${p.cap.length * 30 + 40}" height="56" fill="#FFF8D9" stroke="${INK}" stroke-width="3"/><text x="38" y="56" font-size="28" font-weight="700" font-family="Noto Sans KR, sans-serif" fill="${INK}">${esc(p.cap)}</text></g>` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc((p.say || []).map(s => s.t).join(' '))}">
     <defs><clipPath id="cp${i}"><rect width="${W}" height="${H}" rx="8"/></clipPath></defs>
@@ -165,7 +174,7 @@ export async function render(el, deps, id) {
     <div class="cm-strip">${strip(a)}</div>
     ${isLast && a.next ? `<div class="ev-soon"><small>내일 아침 공개 · ${a.no + 1}화</small><b>${esc(a.next)}</b></div>` : nx && nx.date <= today() ? `<button type="button" class="btn cm-go" data-cm="${esc(nx.id)}">${nx.no}화 이어 보기 ›</button>` : ''}
     <div class="cm-act"><button type="button" class="btn anb-kakao" id="cm-send">카톡으로 보내기</button></div>
-    <p class="cm-cast">등장인물 · <b>오주니</b>(56, 몸은 오십 대 마음은 주니어) · <b>주아</b>(딸, 스물아홉) · <b>강 사장</b>(주니의 오랜 친구)</p>
+    <p class="cm-cast">등장인물 · <b>오주니</b>(마음만은 주니어인 아빠) · <b>주아</b>(딸) · <b>강 사장</b>(주니의 오랜 친구)</p>
     <div class="pet-past"><p class="is-sub">지난 화</p>${L.map(x => `<button type="button" data-cm="${esc(x.id)}" aria-current="${x === a}"><span>${x.no}화. ${esc(x.title)}</span><small>${esc(x.date.slice(5).replace('-', '.'))}</small></button>`).join('')}</div></div>`;
   el.querySelectorAll('[data-cm]').forEach(b => b.onclick = () => { render(el, deps, b.dataset.cm); window.scrollTo({ top: 0 }); });
   try { deps && deps.DB && deps.DB.bumpClick('comic'); } catch (e) {}

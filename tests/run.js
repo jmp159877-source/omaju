@@ -326,7 +326,13 @@ srv.listen(0, '127.0.0.1', async () => {
         a.querySelector('#anb-name').focus(); await new Promise(r => setTimeout(r, 400)); out.gate = !!document.querySelector('#modal'); const x = document.getElementById('modal-x'); if (x) x.click(); await new Promise(r => setTimeout(r, 300));
         a.querySelector('.anb-card').click(); for (let i = 0; i < 40 && !document.querySelector('#modal img'); i++) await new Promise(r => setTimeout(r, 150)); out.img = !!document.querySelector('#modal img'); const x2 = document.getElementById('modal-x'); if (x2) x2.click(); return out; });
       ok('인사 카드: 배너 밑 칸 하나 → 안쪽(재미 카드 여섯 그림·쾅 · 마음 일곱·받는 사람 넷·이름은 구독 창·카드 그림)', !r.none && r.kinds === 2 && r.fun === 6 && r.funImg && r.afterIntro && r.tile && r.hash === '#anbu' && r.inDetail && r.homeHidden && r.cards === 6 && r.tabs === 4 && r.moods >= 7 && r.moodSwap && r.parentOn && r.defName === '엄마 아빠,' && r.gate && r.img && !errs.length, JSON.stringify(r) + (errs.length ? ' 오류 ' + errs[0] : '')); await c.close(); }
-    // 5-1b) 연재 만화는 대표 2026-11-12 19:43 내림(js/comic.js·data/comic.json 은 남겨 둠)
+    // 5-1b) 연재 만화 '마음은 주니어'(2026-11-12 21:58 다시 — 누구나 웃는 생활 반전): 인사 카드 밑 칸 → 네 컷 · 카톡 단추 · 지난 화
+    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2500);
+      const r = await p.evaluate(async () => { const h = document.getElementById('comic-home'); if (!h) return { none: true }; for (let i = 0; i < 30 && !h.querySelector('.cm-th svg'); i++) await new Promise(r => setTimeout(r, 150));
+        const out = { afterAnbu: h.previousElementSibling && h.previousElementSibling.id === 'anbu-home', thumb: !!h.querySelector('.cm-th svg'), title: h.querySelector('.cm-tt').textContent.trim() };
+        h.querySelector('.cm-hero').click(); for (let i = 0; i < 30 && !document.querySelector('#comic-body .cm-p svg'); i++) await new Promise(r => setTimeout(r, 150));
+        const a = document.getElementById('comic-body'); out.hash = location.hash; out.panels = a.querySelectorAll('.cm-p svg').length; out.send = !!a.querySelector('#cm-send'); out.past = a.querySelectorAll('.pet-past [data-cm]').length; return out; });
+      ok('연재 만화: 인사 카드 밑 칸 → 네 컷·카톡 단추·지난 화', !r.none && r.afterAnbu && r.thumb && /화 ·/.test(r.title) && r.hash === '#comic' && r.panels === 4 && r.send && r.past >= 1 && !errs.length, JSON.stringify(r) + (errs.length ? ' 오류 ' + errs[0] : '')); await c.close(); }
     // 6) 오늘 PLAY: 몇 판을 하든 순위에 반영 (1 to 50 을 실제로 두 판) + 사천성·스도쿠 새 판도 순위로
     { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 1500);
       await p.click('#login-btn'); await wait(p, 300); await p.click('#g-signup'); await wait(p, 300);
