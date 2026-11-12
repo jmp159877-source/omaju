@@ -6161,7 +6161,7 @@
     "중고 볼트 EV를 본다면 **배터리 리콜을 받은 차인지** 꼭 확인하세요.",
     "국고보조금은 해마다, 차값과 배터리에 따라 달라집니다. 사기 전에 **그해 무공해차 통합누리집**에서 확인하세요."
    ],
-   "next": "전기차 강국 일본, 토요타는 왜 늦었을까?",
+   "next": "자동차 강국 일본, 토요타는 왜 전기차에 늦었을까?",
    "sources": [
     {
      "name": "한국경제·OSEN, 2025년 수입 승용차 30만 7,377대 (2026.1.6)",
@@ -6276,6 +6276,316 @@
      "url": "https://commons.wikimedia.org/"
     }
    ]
+  },
+  {
+   "id": "ev-20",
+   "no": 20,
+   "date": "2026-11-13",
+   "part": "2부 브랜드 해부",
+   "title": "자동차 강국 일본, 토요타는 왜 전기차에 늦었을까?",
+   "dek": "세계에서 차를 가장 많이 파는 회사가 전기차에선 한 자릿수 — 하이브리드로 먼저 이겼고, 수소에도 걸었고, 이제 전고체 배터리로 따라잡겠다고 합니다",
+   "asof": "2026년 11월 기준 (국내 판매는 수입차협회 2025년 1~12월 집계, 세계 판매는 토요타 2026년 1월 발표)",
+   "hook": "2025년 토요타·렉서스가 세계에서 판 차는 **1,053만 6,807대**로 또 세계 1위였습니다. 그런데 그 가운데 순수 전기차는 **약 19만 9천 대**, 100대에 두 대꼴이었습니다.",
+   "blocks": [
+    {
+     "h": "세계 1위, 전기차에선 한참 뒤"
+    },
+    {
+     "p": "토요타는 2025년에도 세계에서 차를 가장 많이 판 회사였습니다. 렉서스를 합쳐 **1,053만 6,807대**, 한 해 전보다 3.7% 늘었습니다."
+    },
+    {
+     "p": "그런데 순수 전기차는 약 19만 9천 대였습니다. 로이터는 전체의 **1.9%**라고 짚었습니다. 같은 해 테슬라 한 브랜드가 우리나라에서만 6만 대 가까이 팔았습니다."
+    },
+    {
+     "chart": {
+      "kind": "donut",
+      "title": "토요타·렉서스 2025년 세계 판매 가운데 순수 전기차",
+      "value": 1.9,
+      "center": "순수 전기차",
+      "on": "순수 전기차 약 19만 9천 대",
+      "off": "그 밖의 차 (하이브리드·엔진차 등)",
+      "legend": "하이브리드는 판매의 42%였습니다(로이터). 토요타가 전기차를 안 판 것이 아니라, 하이브리드를 훨씬 더 많이 팔았습니다.",
+      "source": "토요타 2025년 판매 발표(2026.1.29) — 로이터·카스쿱스·ecomento 보도 대조"
+     }
+    },
+    {
+     "h": "먼저 이긴 것은 하이브리드"
+    },
+    {
+     "p": "토요타가 늦은 까닭은 거꾸로 너무 일찍 이겼기 때문이라는 말이 있습니다. 1997년 **프리우스**는 세계 첫 양산 하이브리드였습니다."
+    },
+    {
+     "p": "엔진과 전기 모터를 함께 쓰는 하이브리드는 충전기가 필요 없습니다. 토요타는 전기차 하나에 몰지 않고 하이브리드·충전식 하이브리드·수소차·전기차를 **함께 가져가겠다**는 쪽을 택했습니다."
+    },
+    {
+     "p": "2014년에는 일본에서 수소로 달리는 **미라이**도 내놨습니다. 충전소가 적어 수소차는 아직 널리 퍼지지 못했습니다."
+    },
+    {
+     "p": "안방 사정도 같았습니다. JATO 등에 따르면 2025년 상반기 일본 새 차 가운데 순수 전기차는 **1%대 초반**이었고, 2024년 하이브리드는 **35.6%**였습니다."
+    },
+    {
+     "gallery": {
+      "title": "토요타·렉서스와 일본 전기차 — 사진으로 보면",
+      "items": [
+       {
+        "src": "img/ev/ev-20-g1.jpg",
+        "caption": "토요타 bZ4X — 토요타의 첫 전용 전기차, 국내엔 아직 나오지 않았다",
+        "credit": "Alexander Migl · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "은색과 검은색이 섞인 bZ4X 앞모습, 전시장 앞"
+       },
+       {
+        "src": "img/ev/ev-20-g2.jpg",
+        "caption": "bZ4X 실내 — 운전대 너머로 계기판을 보는 낮은 화면",
+        "credit": "Dinkun Chen · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "밝은 회색 좌석과 가운데 큰 화면이 있는 실내"
+       },
+       {
+        "src": "img/ev/ev-20-g3.jpg",
+        "caption": "렉서스 UX 300e — 2022년 국내에 들어온 렉서스 첫 전기차",
+        "credit": "Dinkun Chen · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "은회색 UX 300e 앞모습, 거리"
+       },
+       {
+        "src": "img/ev/ev-20-g4.jpg",
+        "caption": "렉서스 RZ 450e — 충전기를 꽂은 모습",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "짙은 회색 RZ 450e가 충전 중인 모습, 주차장"
+       },
+       {
+        "src": "img/ev/ev-20-g5.jpg",
+        "caption": "RZ 450e 뒷모습 — 가로로 이어진 뒷등",
+        "credit": "Alexander-93 · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "짙은 회색 RZ 450e 뒷모습"
+       },
+       {
+        "src": "img/ev/ev-20-g6.jpg",
+        "caption": "RZ 450e 실내",
+        "credit": "Tokumeigakarinoaoshima · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "검은 가죽 좌석과 가운데 화면이 있는 실내"
+       },
+       {
+        "src": "img/ev/ev-20-g7.jpg",
+        "caption": "5세대 프리우스 — 1997년 세계 첫 양산 하이브리드의 오늘",
+        "credit": "TTTNIS · CC0 · 위키미디어 공용",
+        "alt": "노란 프리우스 옆앞모습, 전시장"
+       },
+       {
+        "src": "img/ev/ev-20-g8.jpg",
+        "caption": "토요타 미라이 — 수소로 달리는 차, 2014년 일본에서 처음 나왔다",
+        "credit": "Matti Blume · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "파란 1세대 미라이 뒷모습, 항구 앞"
+       },
+       {
+        "src": "img/ev/ev-20-g9.jpg",
+        "caption": "닛산 리프 — 2010년 일본에서 먼저 나온 양산 전기차(사진은 2세대)",
+        "credit": "Vauxford · CC BY-SA 4.0 · 위키미디어 공용",
+        "alt": "흰 리프 앞모습, 주차장"
+       }
+      ]
+     }
+    },
+    {
+     "h": "전기차를 먼저 낸 것도 일본이었다"
+    },
+    {
+     "p": "사실 양산 전기차의 문을 연 것도 일본 회사였습니다. 닛산은 2010년 12월 일본에서 **리프**를 팔기 시작하며 '세계 첫 양산 전기차'라 불렀습니다."
+    },
+    {
+     "p": "그 닛산은 2020년 말 우리나라에서 차 판매를 접었습니다. 이미 산 분을 위한 사후 서비스는 2028년까지 이어 가기로 했습니다."
+    },
+    {
+     "p": "토요타의 첫 전용 전기차 **bZ4X**는 2022년 출발이 삐걱댔습니다. 바퀴를 잡는 볼트가 풀려 바퀴가 빠질 수 있다며 세계 **약 2,700대**를 리콜했습니다."
+    },
+    {
+     "h": "우리나라에선 렉서스 두 차종"
+    },
+    {
+     "p": "한국토요타는 bZ4X를 들여오겠다고 예고했지만 아직 내놓지 않았습니다. 국내에 나온 일본 전기차는 렉서스 **UX 300e**(2022년 6월)와 **RZ 450e**(2023년 6월)입니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "국내 기준 한 번 충전 주행거리",
+      "sub": "출시 때 발표",
+      "unit": "km",
+      "items": [
+       [
+        "렉서스 UX 300e(2022)",
+        233,
+        false
+       ],
+       [
+        "렉서스 RZ 450e(2023)",
+        377,
+        true
+       ]
+      ],
+      "legend": "UX 300e는 배터리 54.35kWh, RZ 450e는 71.4kWh입니다. 앞 편들에서 본 국산·수입 전기차와 견주면 멀리 가는 편은 아닙니다.",
+      "source": "뉴스토마토·뉴데일리(UX 300e), 코리아타임스·머니투데이(RZ 450e) 보도 대조"
+     }
+    },
+    {
+     "p": "그래도 두 브랜드는 국내에서 잘 팔립니다. 2025년 렉서스는 **1만 4,891대**, 토요타는 **9,764대**였습니다. 대부분이 하이브리드입니다."
+    },
+    {
+     "chart": {
+      "kind": "hbar",
+      "title": "2025년 국내 판매, 일본 브랜드와 전기차 브랜드",
+      "sub": "수입 승용차 · 1~12월",
+      "unit": "대",
+      "items": [
+       [
+        "테슬라",
+        59916,
+        false
+       ],
+       [
+        "렉서스",
+        14891,
+        true
+       ],
+       [
+        "토요타",
+        9764,
+        true
+       ],
+       [
+        "BYD",
+        6107,
+        false
+       ]
+      ],
+      "legend": "렉서스·토요타는 하이브리드로, 테슬라·BYD는 전기차로 이만큼 팔았습니다. BYD는 국내에서 차를 판 첫해였습니다.",
+      "source": "한국수입자동차협회(KAIDA) 2025년 집계 — OSEN·시대·더팩트 보도 대조"
+     }
+    },
+    {
+     "h": "따라잡을 패, 전고체 배터리"
+    },
+    {
+     "p": "토요타는 불이 덜 나고 더 빨리 충전되는 것으로 기대되는 **전고체 배터리**를 실은 전기차를 **2027~28년**에 내놓는 것을 목표로 한다고 밝혔습니다(2025년 10월)."
+    },
+    {
+     "p": "다만 목표는 목표입니다. 새 배터리는 처음 몇 해 비싸고 물량이 적은 경우가 많습니다. 실제로 언제, 어떤 값에 우리나라에 오는지는 지켜봐야 합니다."
+    },
+    {
+     "box": {
+      "title": "한 줄로 보면",
+      "text": "토요타는 전기차를 못 만든 것이 아니라 **하이브리드로 너무 잘 팔아서** 서두르지 않았습니다. 그 사이 테슬라와 중국 회사가 앞서 나갔고, 토요타는 전고체 배터리로 판을 뒤집겠다고 합니다."
+     }
+    }
+   ],
+   "cons": [
+    "국내에서 살 수 있는 토요타·렉서스 전기차는 **손에 꼽을 만큼** 적습니다. 고를 폭이 좁다는 것을 알고 보세요.",
+    "UX 300e처럼 주행거리가 짧은 차는 **겨울에 더 줄어듭니다.** 출퇴근·장거리 거리를 먼저 따져 보세요.",
+    "'전고체 배터리'는 아직 **회사의 목표**입니다. 기다릴지 지금 살지는 그 말만 믿고 정하지 마세요.",
+    "닛산처럼 브랜드가 한국을 떠나기도 합니다. 수입차는 **사후 서비스를 몇 해 약속하는지**도 보세요.",
+    "국고보조금은 해마다, 차값과 배터리에 따라 달라집니다. 사기 전에 **그해 무공해차 통합누리집**에서 확인하세요."
+   ],
+   "next": "전기차 한 달 충전비, 정말 기름값의 절반일까?",
+   "sources": [
+    {
+     "name": "토요타 공식, 2025년 세계 판매 (2026.1.29) — 카스쿱스 보도",
+     "url": "https://www.carscoops.com/2026/01/toyota-global-sales-2025-ev-gap-grows/"
+    },
+    {
+     "name": "로이터(TimesLive 게재), Toyota retains top carmaker crown in 2025 (2026.1.29)",
+     "url": "https://www.timeslive.co.za/motoring/2026-01-29-toyota-retains-top-carmaker-crown-in-2025-with-record-global-sales/"
+    },
+    {
+     "name": "ecomento, Toyota 2025 판매 (2026.1.30)",
+     "url": "https://ecomento.de/2026/01/30/toyota-auch-2025-an-der-spitze-der-automobilhersteller/"
+    },
+    {
+     "name": "TT News, Toyota top carmaker 2025",
+     "url": "https://www.ttnews.com/articles/toyota-top-carmaker-2025"
+    },
+    {
+     "name": "토요타 공식, 프리우스 세계 첫 양산 하이브리드 (2021.5.12)",
+     "url": "https://global.toyota/en/newsroom/corporate/35267843.html"
+    },
+    {
+     "name": "Toyota Ireland, Electrified — 여러 기술을 함께",
+     "url": "https://www.toyota.ie/discover-toyota/sustainability/electrified"
+    },
+    {
+     "name": "JATO, Japan's automotive electrification trends 2025 H1 (2025.9.19)",
+     "url": "https://www.jato.com/resources/news-and-insights/japans-automotive-electrification-trends-2025-h1"
+    },
+    {
+     "name": "베스트카, 일본 전기차 비중 (2026.2)",
+     "url": "https://bestcarweb.jp/feature/column/1434102"
+    },
+    {
+     "name": "닛산 공식, 리프 일본 판매 시작 (2010.12.3)",
+     "url": "https://global.nissannews.com/en/releases/101203-01-e"
+    },
+    {
+     "name": "닛산 헤리티지, 2010",
+     "url": "https://www.nissan-global.com/EN/COMPANY/PROFILE/HERITAGE/2010"
+    },
+    {
+     "name": "머니투데이, 닛산 한국 철수 (2020.5.29)",
+     "url": "https://www.mt.co.kr/industry/2020/05/29/2020052821532872692"
+    },
+    {
+     "name": "Fortune, bZ4X 바퀴 리콜 (2022.6.24)",
+     "url": "https://fortune.com/2022/06/24/toyota-recalls-battery-ev-bev-bz4x-subaru-wheels-can-literally-come-off/"
+    },
+    {
+     "name": "Notebookcheck, bZ4X 리콜 약 2,700대 (2022.6.24)",
+     "url": "https://www.notebookcheck.net/Toyota-bZ4X-EV-recall-over-fears-tires-may-fall-off-affects-2-700-units.631463.0.html"
+    },
+    {
+     "name": "탑라이더, bZ4X 국내 출시 미정 (2024.12.18)",
+     "url": "https://www.top-rider.com/article/view/trd202412180006"
+    },
+    {
+     "name": "탑라이더, bZ4X 국내 출시 미정 (2025.8.26)",
+     "url": "https://www.top-rider.com/article/view/trd202508260003"
+    },
+    {
+     "name": "뉴스토마토, 렉서스 UX 300e (2022.6.7)",
+     "url": "https://newstomato.com/ReadNews.aspx?no=1127252"
+    },
+    {
+     "name": "뉴데일리, 렉서스 UX 300e (2022.6.20)",
+     "url": "https://biz.newdaily.co.kr/site/data/html/2022/06/20/2022062000222.html"
+    },
+    {
+     "name": "코리아타임스, 렉서스 RZ 국내 출시 (2023.6.21)",
+     "url": "https://www.koreatimes.co.kr/business/companies/20230621/lexus-launches-first-fully-electric-vehicles-in-korea"
+    },
+    {
+     "name": "머니투데이, 렉서스 RZ 시승기 (2023.6.26)",
+     "url": "https://www.mt.co.kr/industry/2023/06/26/2023062608261357981"
+    },
+    {
+     "name": "OSEN, 2025년 수입 승용차 (2026.1.6)",
+     "url": "https://www.osen.co.kr/article/G1112723724"
+    },
+    {
+     "name": "시대, 2025년 수입차 브랜드별 (2026.1.6)",
+     "url": "https://www.sidae.com/article/2026010614434832767"
+    },
+    {
+     "name": "더팩트, 2025년 수입차 (2026.1.7)",
+     "url": "https://news.tf.co.kr/read/economy/2279784.htm"
+    },
+    {
+     "name": "토요타 공식, 전고체 배터리 2027~28년 목표 (2025.10.8)",
+     "url": "https://global.toyota/en/newsroom/corporate/43380876.html"
+    },
+    {
+     "name": "로이터(The Star 게재), 토요타·스미토모금속광산 전고체 양극재 (2025.10.8)",
+     "url": "https://www.thestar.com.my/tech/tech-news/2025/10/08/toyota-sumitomo-metal-make-advances-in-cathode-materials-for-solid-state-batteries"
+    },
+    {
+     "name": "위키미디어 공용 사진 9장 — 찍은 사람·라이선스는 사진마다 표기",
+     "url": "https://commons.wikimedia.org/"
+    }
+   ],
+   "seo": "토요타 전기차가 늦은 이유 — 하이브리드·수소·전고체 배터리 전략과 국내 렉서스 전기차(UX 300e·RZ 450e) 정리"
   }
  ]
 }

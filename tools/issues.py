@@ -6,7 +6,7 @@
 #   · 사건·사고(죽음·범죄·참사)도 넣지 않는다. 뉴스 앱이 아니라 라이프스타일 매거진이다.
 #   · 낚시 제목을 그대로 베끼지 않는다. AI 는 '제목에 있는 사실'만 한 줄로 고쳐 쓴다 —
 #     없는 숫자·이름·원인을 보태면 그 자리에서 거짓말이 된다.
-import os, re, sys, json, html, datetime, urllib.request, urllib.parse
+import os, re, unicodedata, sys, json, html, datetime, urllib.request, urllib.parse
 import xml.etree.ElementTree as ET
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -74,7 +74,8 @@ def gather():
         kept = 0
         for it in items:
             t = it["title"]
-            if any(w in t for w in POLITICS) or any(w in t for w in GRIM):
+            tn = unicodedata.normalize("NFKC", t)   # 11/13: '李'가 호환 한자(U+F9E1)로 와서 '李,' 거르기를 빠져나갔다
+            if any(w in tn for w in POLITICS) or any(w in tn for w in GRIM):
                 continue
             if len(re.findall(r"[가-힣]", t)) < len(t.replace(" ", "")) * 0.4: continue   # 한글이 거의 없는 제목('2026년 10월 FOMC Comments', 10/30)
             if cat == "스포츠" and re.search(r"\d회[초말]|\d+-\d+\s*$|전반|후반 \d+분", t): continue   # 경기 중 점수는 아침이면 지난 이야기(10/30 '6회말 동점 4-4')
