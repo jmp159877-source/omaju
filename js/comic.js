@@ -49,7 +49,25 @@ const WHO = {
     hair(f) { return `<path d="M-84 -20 q2 -74 84 -78 q82 4 84 78 q-30 -36 -60 -40 q-6 18 -30 20 q-10 -16 -20 -18 q-30 4 -58 38z" fill="#3A2B24"/>`; }, earring: true, name: '주아' },
   kang: { shirt: '#A5483E', collar: '#F0E2D6', check: true, hair(f) { return `<path d="M-82 -6 q0 -30 14 -46 q-6 26 2 40z M82 -6 q0 -30 -14 -46 q6 26 -2 40z" fill="#8F8A84"/><path d="M-30 -84 q30 -8 60 0" stroke="#C9A98C" stroke-width="3" fill="none" opacity=".6"/>`; }, stache: true, name: '강 사장' },
 };
+// 제미나이 캐릭터(대표 2026-11-12 22:08 — "네 그림은 촌스럽다") — img/comic/<누구>-<표정>.png, 크기는 그림 원래 비율
+const ART = { juni: { k: 0.95, ex: { neutral: [462, 538], smile: [462, 538], sweat: [461, 538], shock: [461, 538], blank: [432, 440], proud: [435, 440], awk: [430, 440], wink: [431, 440], dot: [428, 440], smug: [426, 440], angry: [427, 440] } },
+  jua: { k: 1.29, ex: { neutral: [348, 440], smile: [348, 440], sweat: [348, 440], shock: [348, 440], blank: [355, 440], proud: [342, 440], angry: [354, 440], wink: [354, 440] } } };
+const ALIAS = { sad: ['awk', 'sweat'], awk: ['awk', 'sweat'], dot: ['dot', 'blank'], smug: ['smug', 'proud'] };
+let INLINE = null;   // 카톡 그림(캔버스)으로 뜰 때만 그림을 data: 로 넣는다
+function artPerson(who, ex, o) {
+  const A = ART[who]; let e = ex in A.ex ? ex : ((ALIAS[ex] || []).find(z => z in A.ex) || 'neutral');
+  const [w, h] = A.ex[e], s = (o.s || 1.22) / 1.22 * A.k * (who === 'juni' && h === 440 ? 1.13 : 1) /* 시트 둘째·셋째 줄은 얼굴이 조금 작게 그려져 있다 */, W2 = w * s, H2 = h * s, x = (o.x || 0) - W2 / 2, y = (o.y || H) - H2;
+  const href = (INLINE && INLINE[`${who}-${e}`]) || `img/comic/${who}-${e}.png`;
+  return `<image href="${href}" x="${x}" y="${y}" width="${W2}" height="${H2}"${o.flip ? ` transform="translate(${2 * (o.x || 0)} 0) scale(-1 1)"` : ''}/>`;
+}
+export async function inlineArt() {
+  if (INLINE) return; const out = {};
+  await Promise.all(Object.entries(ART).flatMap(([who, A]) => Object.keys(A.ex).map(async e => { try { const b = await (await fetch(`img/comic/${who}-${e}.png`)).blob();
+    out[`${who}-${e}`] = await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(b); }); } catch (x) {} })));
+  INLINE = out;
+}
 function person(who, ex = 'neutral', o = {}) {
+  if (ART[who]) return artPerson(who, ex, o);
   const P = WHO[who]; if (!P) return '';
   const hold = o.hold;   // 'phone' — 손에 휴대폰
   const body = `<path d="M-150 430 q0 -150 150 -158 q150 8 150 158z" fill="${P.shirt}" stroke="${INK}" stroke-width="4"/>` +
@@ -183,6 +201,7 @@ export async function render(el, deps, id) {
 
 // 네 컷을 한 장 그림으로 (카톡 보내기)
 async function toImage(a) {
+  await inlineArt();
   const S = 0.9, w = Math.round(W * S), h = Math.round(H * S), gap = 18, top = 120, foot = 70;
   const cv = document.createElement('canvas'); cv.width = w + 60; cv.height = top + a.panels.length * (h + gap) + foot;
   const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height);

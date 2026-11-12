@@ -15,12 +15,12 @@ window.draw = i => { document.body.innerHTML = panel(a.panels[i], i); return tru
 const srv = http.createServer((q, r) => {
   const u = q.url.split('?')[0];
   if (u === '/') { r.writeHead(200, { 'content-type': 'text/html' }); r.end(page); return; }
-  fs.readFile(path.join(ROOT, u), (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'content-type': u.endsWith('.js') ? 'text/javascript' : 'application/octet-stream' }); r.end(d); });
+  fs.readFile(path.join(ROOT, u), (e, d) => { if (e) { r.writeHead(404); r.end(); return; } r.writeHead(200, { 'content-type': u.endsWith('.js') ? 'text/javascript' : u.endsWith('.png') ? 'image/png' : 'application/octet-stream' }); r.end(d); });
 }).listen(0, '127.0.0.1', async () => {
   const b = await chromium.launch();
   const p = await (await b.newContext({ viewport: { width: 1000, height: 760 }, deviceScaleFactor: 2 })).newPage();
   await p.goto(`http://127.0.0.1:${srv.address().port}/`); await p.waitForFunction(() => document.title === 'ready');
-  for (let i = 0; i < a.panels.length; i++) { await p.evaluate(i => window.draw(i), i); await p.waitForTimeout(300); await p.screenshot({ path: path.join(OUT, `p${i + 1}.png`) }); }
+  for (let i = 0; i < a.panels.length; i++) { await p.evaluate(i => window.draw(i), i); await p.waitForTimeout(900); await p.screenshot({ path: path.join(OUT, `p${i + 1}.png`) }); }
   fs.writeFileSync(path.join(OUT, 'ep.json'), JSON.stringify({ id: a.id, no: a.no, date: a.date, title: a.title, next: a.next || '' }, null, 1));
   console.log('컷', a.panels.length, '→', OUT); await b.close(); srv.close();
 });
