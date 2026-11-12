@@ -3044,3 +3044,48 @@ html.v4 .h4-chd .cols-head small { font-size: min(1.45rem, 6.2vw) !important; fo
 /* 연재 칸 NEW (대표 2026-11-09) — 오늘 날짜 편이 열린 칸만. 사진 왼쪽 위 */
 .col-tile { position: relative; }
 .col-tile .ct-new { position: absolute; left: 10px; top: 10px; z-index: 3; padding: 3px 8px; border-radius: 4px; background: #E8622F; color: #fff; font-style: normal; font-size: .72rem; font-weight: 800; letter-spacing: .08em; line-height: 1.4; pointer-events: none; }
+
+/* ── 재미 카드 (대표 2026-11-12 — 상장·처방전·호외 신문·영수증·임명장·탑승권) ── */
+.anb-kind { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.anb-kind button { min-width: 0; text-align: left; border: 1px solid #E3E1DA; background: #fff; border-radius: 12px; padding: 14px 14px 13px; font: inherit; cursor: pointer; color: #555; word-break: keep-all; }
+.anb-kind button b { display: block; font-size: 1.04rem; font-weight: 800; color: #222; margin-bottom: 4px; }
+.anb-kind button b i { font-style: normal; font-size: .62em; font-weight: 800; letter-spacing: .06em; background: #E8622F; color: #fff; border-radius: 4px; padding: 2px 5px; vertical-align: 3px; }
+.anb-kind button small { display: block; font-size: .8rem; line-height: 1.45; color: #777; }
+.anb-kind button.on { border-color: #EBCB55; background: #FFF8DC; box-shadow: 0 0 0 2px #EBCB55 inset; }
+.anb-kind button.on b { color: #3A2E00; }
+.anb-moodwrap[hidden] { display: none; }
+.anb-q2 { margin: 16px 0 8px; font-size: .95rem; font-weight: 700; color: #555; }
+.anb-card.fun { background: #F2EFE8; }
+.anb-card.fun img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.anb-card.fun img:not([src]) { visibility: hidden; }
+.anb-card.fun .anb-fn { position: absolute; left: 10px; top: 10px; z-index: 1; background: rgba(20,20,20,.72); color: #fff; font: 700 .8rem/1 'Noto Sans KR', sans-serif; padding: 6px 9px; border-radius: 6px; }
+@keyframes anbThud { 0% { transform: scale(1.18) rotate(-2deg); opacity: 0; } 55% { transform: scale(.97) rotate(.6deg); opacity: 1; } 75% { transform: scale(1.02); } 100% { transform: none; } }
+.anb-thud { animation: anbThud .55s cubic-bezier(.2,.9,.3,1.2) both; }
+/* 연재 끝 '내일 아침 공개' 예고 (대표 2026-11-12) */
+.ev-soon { margin: 26px 0 8px; padding: 18px 18px 16px; border-radius: 12px; background: #141414; color: #fff; }
+.ev-soon small { display: block; font-size: .8rem; font-weight: 700; letter-spacing: .04em; color: #F9E9A8; margin-bottom: 6px; }
+.ev-soon b { display: block; font-size: 1.12rem; line-height: 1.45; font-weight: 800; word-break: keep-all; }
+.ev-soon span { display: block; margin-top: 8px; font-size: .9rem; line-height: 1.6; color: rgba(255,255,255,.72); word-break: keep-all; }
+
+/* ── 연재 만화 '마음은 주니어' (대표 2026-11-12 — 인사 카드 밑, 매일 아침 새 화) ── */
+.cmh { margin-top: 14px; }
+html.v4 .cmh { margin-top: 14px; }
+body.in-chapter #comic-home { display: none; }
+.cm-hero { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: 14px; width: 100%; border: 0; border-radius: 14px; background: #FBF0CC; padding: 16px 14px 16px 18px; box-shadow: 0 4px 16px rgba(0,0,0,.08); text-align: left; font: inherit; cursor: pointer; color: #2B2418; }
+.cm-hero:active { transform: scale(.99); }
+.cm-hx { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.cm-hx small { font-size: min(3.2vw, 14px); font-weight: 700; color: #6B5A2E; margin-bottom: .45em; word-break: keep-all; }
+.cm-hx b { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; font-weight: 800; font-size: min(7.6vw, 36px); line-height: 1.18; letter-spacing: -.02em; }
+.cm-tt { font-size: min(3.4vw, 15px); line-height: 1.45; color: #4A4030; margin-top: .5em; min-height: 2.9em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: keep-all; }
+.cm-hx .anb-go { margin-top: min(3vw, 14px); font-size: min(3.6vw, 16px); }
+.cm-th { display: block; aspect-ratio: 1000 / 760; border-radius: 8px; overflow: hidden; background: #F6F0E4; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+.cm-th svg { display: block; width: 100%; height: 100%; }
+.cm-hero .ct-new { position: absolute; right: 22px; top: 22px; z-index: 3; padding: 3px 8px; border-radius: 4px; background: #E8622F; color: #fff; font-style: normal; font-size: .72rem; font-weight: 800; letter-spacing: .08em; line-height: 1.4; pointer-events: none; }
+.cm-wrap { max-width: 760px; margin: 0 auto; padding: 4px 0 24px; }
+.cm-meta { font-size: .9rem; color: #6B5A2E; margin: 6px 0 4px; } .cm-meta b { color: #141414; }
+.cm-h { font-family: 'Noto Sans KR', sans-serif; font-weight: 800; font-size: 1.4rem; line-height: 1.4; margin: 0 0 14px; word-break: keep-all; }
+.cm-strip { display: grid; gap: 10px; }
+.cm-p svg { display: block; width: 100%; height: auto; }
+.cm-act { margin: 18px 0 6px; } .cm-act .btn { width: 100%; }
+.cm-go { width: 100%; margin-top: 18px; }
+.cm-cast { font-size: .85rem; color: #666; line-height: 1.6; margin: 14px 0 0; word-break: keep-all; }

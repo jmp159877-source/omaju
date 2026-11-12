@@ -9,7 +9,10 @@ const TABS = [
   ['group', '모임 단톡방에', '예: 동창회 여러분', '여러분,'],
 ];
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-export let D; let deps, tab = 'friend', mood = 'courage', box;
+export let D; let deps, tab = 'friend', mood = 'courage', box, kind = 'fun';
+// 재미 카드(상장·처방전·호외 신문…) — 대표 2026-11-12 "없는 게 나와야 돼". 인사 카드 쪽 맨 위에서 '재미 카드 / 좋은 글귀 카드'를 고른다(기본은 재미 카드).
+const V = (() => { try { return new URL(import.meta.url).search; } catch (e) { return ''; } })();
+let FUNM = null; const funMod = () => FUNM || (FUNM = import('./fun.js' + V));
 const now = new Date(), DAY = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 864e5), DOW = now.getDay();
 const M = now.getMonth(), SEASON = M < 2 || M === 11 ? 'winter' : M < 5 ? 'spring' : M < 8 ? 'summer' : 'autumn';
 const MD = String(M + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
@@ -39,12 +42,25 @@ function tileHTML(c, k, name) {
   return `<button type="button" class="anb-card k-${c.photo.k}" data-k="${k}" style="background-image:url('img/anbu/${c.photo.f}.jpg')"><span class="anb-txt">${lines.map((l, j) => `<span class="${name && j === 0 ? 'anb-nm' : ''}">${esc(l)}</span>`).join('')}</span><small class="anb-mark">오마주 매거진</small></button>`;
 }
 
+let funTok = 0;
+async function funCards() {
+  const row = box.querySelector('.anb-row'), tok = ++funTok, F = await funMod(), name = nameFor(tab);
+  if (tok !== funTok) return;
+  if (row.dataset.mode !== 'fun') { row.dataset.mode = 'fun'; row.innerHTML = F.FUN.map((f, k) => `<button type="button" class="anb-card fun" data-k="${k}" data-f="${f.id}" aria-label="${f.n}"><img alt="" decoding="async"><span class="anb-fn">${f.n}</span></button>`).join(''); row.scrollLeft = 0; }
+  box.querySelector('.anb-cnt').textContent = `1 / ${F.FUN.length}`;
+  for (const b of row.querySelectorAll('.anb-card.fun')) {
+    try { const cv = await F.drawFun(b.dataset.f, name, tab, 0.42); if (tok !== funTok) return; b.querySelector('img').src = cv.toDataURL('image/jpeg', 0.85); } catch (e) {}
+  }
+}
 function cards() {
-  const row = box.querySelector('.anb-row'), name = nameFor(tab), L = todays(tab);
+  if (kind === 'fun') { funCards(); return; }
+  const row = box.querySelector('.anb-row'), name = nameFor(tab), L = todays(tab); row.dataset.mode = 'good';
   row.innerHTML = L.map((c, k) => tileHTML(c, k, name)).join('');
   row.scrollLeft = 0; box.querySelector('.anb-cnt').textContent = L.length ? `1 / ${L.length}` : '';
 }
 function render() {
+  box.querySelectorAll('.anb-kind [data-kind]').forEach(b => { const on = b.dataset.kind === kind; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  box.querySelector('.anb-moodwrap').hidden = kind !== 'good';
   const mw = box.querySelector('.anb-moods');
   if (mw.children.length) mw.querySelectorAll('[data-m]').forEach(b => { const on = b.dataset.m === mood; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
   else mw.innerHTML = MOODS().map(x => `<button type="button" data-m="${x.k}" class="${x.k === mood ? 'on' : ''}" aria-pressed="${x.k === mood}"><span class="anb-mph" style="background-image:url('img/anbu/${x.p[0]}.jpg')"></span><span class="anb-mn">${esc(x.n)}</span></button>`).join('');
@@ -110,20 +126,22 @@ async function toBlob(cv) {
 
 async function open(k) {
   const { modal, closeModal, kakaoSendCard, DB, toast } = deps;
-  try { DB.bumpClick('anbu'); } catch (e) {}
-  const c = todays(tab)[k], name = nameFor(tab);
-  if (!c) return;
+  const fun = kind === 'fun', F = fun ? await funMod() : null, f = fun ? F.FUN[k] : null;
+  try { DB.bumpClick(fun ? 'fun_' + f.id : 'anbu'); } catch (e) {}
+  const c = fun ? { text: '' } : todays(tab)[k], name = nameFor(tab);
+  if (!c || (fun && !f)) return;
   modal(`<h2 id="anb-h">인사 카드를 만들고 있어요</h2><div id="anb-box" style="height:325px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;max-width:260px;background:rgba(0,0,0,0.04);border-radius:6px;opacity:.7">잠시만요…</div><div class="modal-actions"><button type="button" class="btn anb-kakao" id="anb-send" disabled style="opacity:.45">카톡으로 보내기</button><button type="button" class="btn line" id="anb-save" disabled style="opacity:.45">사진에 저장하기</button></div>${member() ? '' : '<p class="anb-tip">무료 구독하면 받는 분 이름을 넣어 보낼 수 있어요.</p>'}`);
-  const fname = `오마주매거진_인사카드_${k + 1}.jpg`; let blob, file;
-  try { blob = await toBlob(await draw(c, name)); if (!blob) throw new Error('blob'); file = new File([blob], fname, { type: 'image/jpeg' }); } catch (e) { closeModal(); toast('카드를 만들지 못했어요. 잠시 뒤 다시 눌러 주세요.'); return; }
+  const fname = fun ? `오마주매거진_${f.n.replace(/\s/g, '')}.jpg` : `오마주매거진_인사카드_${k + 1}.jpg`; let blob, file;
+  try { blob = await toBlob(fun ? await F.drawFun(f.id, name, tab, 1) : await draw(c, name)); if (!blob) throw new Error('blob'); file = new File([blob], fname, { type: 'image/jpeg' }); } catch (e) { closeModal(); toast('카드를 만들지 못했어요. 잠시 뒤 다시 눌러 주세요.'); return; }
   const bx = document.getElementById('anb-box'); if (!bx) return;
   const url = URL.createObjectURL(blob);
   document.getElementById('anb-h').textContent = '인사 카드가 준비되었습니다';
-  bx.outerHTML = `<img src="${url}" alt="" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,.25)">`;
+  bx.outerHTML = `<img src="${url}" alt="" class="${fun ? 'anb-thud' : ''}" style="width:100%;max-width:260px;display:block;margin:0 auto 16px;box-shadow:0 6px 20px rgba(0,0,0,.25)">`;
+  if (fun) document.getElementById('anb-h').textContent = '오늘의 ' + f.n + ', 준비되었습니다';
   ['anb-send', 'anb-save'].forEach(id => { const el = document.getElementById(id); el.disabled = false; el.style.opacity = ''; });
   const save = () => { const a = document.createElement('a'); a.href = url; a.download = fname; a.click(); closeModal(); toast('사진에 저장했어요. 카톡에서 사진으로 보내 주세요.'); };
   document.getElementById('anb-save').onclick = save;
-  const text = (name ? name + ' ' : '') + c.text.replace(/\n/g, ' ');
+  const text = fun ? (name ? name.replace(/[,，]$/, '') + ' ' : '') + '오늘의 ' + f.n + ' 보내요 :)' : (name ? name + ' ' : '') + c.text.replace(/\n/g, ' ');
   document.getElementById('anb-send').onclick = async () => {
     const b = document.getElementById('anb-send'); b.disabled = true; b.textContent = '보내는 중…';
     const canFile = !!(navigator.canShare && navigator.canShare({ files: [file] }));
@@ -158,8 +176,12 @@ export async function renderDetail(el) {
   box = el; box.classList.add('anbu-in');
   const sv = ls('omaju.anbu.mood'), sea = MOODS().find(x => x.from || x.k === Q);
   if (sea) mood = sea.k; else if (MOODS().some(x => x.k === sv)) mood = sv;   // 기간 갈래(수능 응원)가 열려 있으면 그것부터
-  box.innerHTML = `<p class="anb-q"><b>1</b>어떤 마음을 전할까요?</p>
-    <div class="anb-moods" role="group" aria-label="어떤 마음"></div>
+  const sk = ls('omaju.anbu.kind'); if (sk === 'fun' || sk === 'good') kind = sk;
+  if (Q) kind = 'good';   // ?mood=exam 처럼 마음 갈래를 짚어 들어오면 좋은 글귀 카드부터
+  box.innerHTML = `<p class="anb-q"><b>1</b>어떤 카드를 보낼까요?</p>
+    <div class="anb-kind" role="group" aria-label="어떤 카드"><button type="button" data-kind="fun"><b>재미 카드 <i>NEW</i></b><small>상장 · 처방전 · 호외 신문 · 영수증 · 임명장 · 탑승권</small></button><button type="button" data-kind="good"><b>좋은 글귀 카드</b><small>용기 · 희망 · 위로 · 고마움</small></button></div>
+    <div class="anb-moodwrap"><p class="anb-q2">어떤 마음을 전할까요?</p>
+    <div class="anb-moods" role="group" aria-label="어떤 마음"></div></div>
     <p class="anb-q"><b>2</b>누구에게 보낼까요?</p>
     <div class="anb-tabs" role="group" aria-label="누구에게"></div>
     <p class="anb-q"><b>3</b>받는 분을 불러 주세요</p>
@@ -169,6 +191,7 @@ export async function renderDetail(el) {
     <div class="anb-row"></div>`;
   render();
   box.addEventListener('click', e => {
+    const kb = e.target.closest('[data-kind]'); if (kb) { kind = kb.dataset.kind; ls('omaju.anbu.kind', kind); render(); return; }
     const mb = e.target.closest('[data-m]'); if (mb) { mood = mb.dataset.m; ls('omaju.anbu.mood', mood); render(); return; }
     const tb = e.target.closest('[data-t]'); if (tb) { tab = tb.dataset.t; render(); return; }
     const cd = e.target.closest('.anb-card'); if (cd) open(+cd.dataset.k);

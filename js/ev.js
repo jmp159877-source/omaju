@@ -23,6 +23,13 @@ export function load(k = 'ev') {
 }
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const list = k => ((DATA[k] && DATA[k].items) || []).filter(x => x.date <= today()).sort((a, b) => b.no - a.no);
+// 아직 안 열린 다음 편 — '내일 아침 공개' 예고 (대표 2026-11-12 "내일 또 뭐가 있을까 궁금하게")
+export function upcoming(k = 'ev') { return ((DATA[k] && DATA[k].items) || []).filter(x => x.date > today()).sort((a, b) => a.date < b.date ? -1 : 1)[0] || null; }
+function soon(d) { const t = new Date(today() + 'T00:00:00'); t.setDate(t.getDate() + 1); const tm = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+  return d === tm ? '내일 아침 공개' : `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일 아침 공개`; }
+// 다음 편이 열리는 날 — AI 는 월·수·금(11월부터), 나머지는 매일
+function nextDay(k, d) { const t = new Date(d + 'T00:00:00'); do t.setDate(t.getDate() + 1); while (k === 'ai' && ![1, 3, 5].includes(t.getDay()));
+  const s = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); return s <= today() ? today() : s; }
 export function all(k = 'ev') { return list(k).slice().reverse(); }   // 1편부터 (첫 화면 연재 서가)
 export function latest(k = 'ev') { return list(k)[0] || null; }
 export function current(k = 'ev') { return shown[k] || latest(k); }
@@ -109,7 +116,10 @@ export function render(el, id, k = 'ev') {
       ${a.hook ? `<p class="pet-hook">${rich(a.hook)}</p>` : ''}
       ${(a.blocks || []).map(block).join('')}
       ${a.cons && a.cons.length ? `<div class="pet-vet"><b>생각해 볼 점</b><ul class="ev-cons">${a.cons.map(x => `<li>${rich(x)}</li>`).join('')}</ul></div>` : ''}
-      ${a.next ? `<p class="ev-next"><small>다음 편</small>${esc(a.next)}</p>` : ''}
+      ${(() => { const u = a === items[0] && upcoming(k);
+        if (u) return `<div class="ev-soon"><small>${esc(soon(u.date))} · ${u.no}편</small><b>${esc(u.title)}</b>${u.hook ? `<span>${esc(String(u.hook).replace(/\*\*/g, '').slice(0, 60))}…</span>` : ''}</div>`;
+        if (a === items[0] && a.next) return `<div class="ev-soon"><small>${esc(soon(nextDay(k, a.date)))} · ${a.no + 1}편</small><b>${esc(a.next)}</b></div>`;
+        return a.next ? `<p class="ev-next"><small>다음 편</small>${esc(a.next)}</p>` : ''; })()}
       ${(a.corrections || []).map(c => `<div class="ev-fix"><b>바로잡습니다 (${esc(c.date.slice(5).replace('-', '.'))})</b><ul>${(c.items || []).map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>`).join('')}
       <div class="ev-sources"><b>출처</b><ol>${(a.sources || []).map(s => `<li>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</li>`).join('')}</ol>
       ${a.photos ? `<p>사진: ${esc(a.photos)}</p>` : ''}
