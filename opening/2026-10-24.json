@@ -1,0 +1,323 @@
+{
+ "date": "2026-10-24",
+ "host": "eunchae",
+ "outfit": 2,
+ "imgs": {
+  "mor": {
+   "curious": "eunchae-mor2-curious.jpg",
+   "delight": "eunchae-mor2-smile.jpg",
+   "stand": "eunchae-mor2-stand.jpg",
+   "wave": "eunchae-mor2-wave.jpg",
+   "thumb": "eunchae-mor2-thumb.jpg",
+   "read": "eunchae-mor2-read.jpg",
+   "talk": "eunchae-mor2-talk.jpg",
+   "laugh": "eunchae-mor2-laugh.jpg",
+   "smile": "eunchae-mor2-smile.jpg"
+  },
+  "eve": {
+   "curious": "eunchae-mor2-curious.jpg",
+   "delight": "eunchae-mor2-smile.jpg",
+   "stand": "eunchae-mor2-stand.jpg",
+   "wave": "eunchae-mor2-wave.jpg",
+   "thumb": "eunchae-mor2-thumb.jpg",
+   "read": "eunchae-mor2-read.jpg",
+   "talk": "eunchae-mor2-talk.jpg",
+   "laugh": "eunchae-mor2-laugh.jpg",
+   "smile": "eunchae-mor2-smile.jpg"
+  }
+ },
+ "title": "나만의 속도로 피워낸 시간",
+ "next_title": "서랍 속에서 찾은 멜로디",
+ "built": "10240546",
+ "slots": {
+  "morning": {
+   "audio": "2026-10-24-morning.mp3",
+   "end": 78.39,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "안녕하세요, 좋은 아침입니다",
+      "진행자 송은채입니다"
+     ]
+    },
+    {
+     "t": 7.9,
+     "tag": "stand",
+     "cap": [
+      "햇살 좋은 토요일",
+      "유독 달게 느껴지는 커피"
+     ]
+    },
+    {
+     "t": 15.28,
+     "tag": "read",
+     "cap": [
+      "마흔 살까지",
+      "다섯 아이를 키우던 주부"
+     ]
+    },
+    {
+     "t": 20.35,
+     "tag": "smile",
+     "cap": [
+      "마음속 이야기들을",
+      "공책에 적어 내려가다"
+     ]
+    },
+    {
+     "t": 25.47,
+     "tag": "read",
+     "cap": [
+      "장편소설 공모전에",
+      "덜컥 당선된 원고"
+     ]
+    },
+    {
+     "t": 31.0,
+     "tag": "delight",
+     "cap": [
+      "박완서 작가가",
+      "처음 이름을 알린 순간"
+     ]
+    },
+    {
+     "t": 38.15,
+     "tag": "talk",
+     "cap": [
+      "오늘 인사 카드",
+      "달콤한 차 한 잔 마시며 웃어보죠"
+     ]
+    },
+    {
+     "t": 45.87,
+     "tag": "smile",
+     "cap": [
+      "오늘의 한 권",
+      "외로운 도시"
+     ]
+    },
+    {
+     "t": 52.29,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 62.12,
+     "tag": "smile",
+     "cap": [
+      "작은 설렘들이 모여",
+      "눈부신 장면이 될 거예요"
+     ]
+    },
+    {
+     "t": 71.28,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 송은채였습니다."
+     ]
+    }
+   ]
+  },
+  "noon": {
+   "audio": "2026-10-24-noon.mp3",
+   "end": 80.76,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "점심은 맛있게 드셨어요?",
+      "진행자 송은채입니다"
+     ]
+    },
+    {
+     "t": 8.68,
+     "tag": "stand",
+     "cap": [
+      "나들이 가기 좋은 토요일",
+      "훌쩍 떠나고 싶은 오후"
+     ]
+    },
+    {
+     "t": 15.38,
+     "tag": "read",
+     "cap": [
+      "마흔 가까운 나이에",
+      "요리 학원에 등록하다"
+     ]
+    },
+    {
+     "t": 20.87,
+     "tag": "smile",
+     "cap": [
+      "십 년 넘게 푹 빠져",
+      "쉰 살에 낸 첫 요리책"
+     ]
+    },
+    {
+     "t": 26.67,
+     "tag": "laugh",
+     "cap": [
+      "음식을 망쳐도 호탕하게",
+      "모두가 반해버린 요리쇼"
+     ]
+    },
+    {
+     "t": 33.5,
+     "tag": "thumb",
+     "cap": [
+      "요리사 줄리아 차일드",
+      "좋아하는 일에 늦은 때란"
+     ]
+    },
+    {
+     "t": 39.8,
+     "tag": "talk",
+     "cap": [
+      "오늘 인사 카드",
+      "달콤한 차 한 잔 마시며 웃어보죠"
+     ]
+    },
+    {
+     "t": 47.52,
+     "tag": "smile",
+     "cap": [
+      "오늘의 한 권",
+      "외로운 도시"
+     ]
+    },
+    {
+     "t": 53.95,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 63.78,
+     "tag": "smile",
+     "cap": [
+      "평범하게 흘러간 오후도",
+      "단단한 밑거름이 될 거예요"
+     ]
+    },
+    {
+     "t": 73.65,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 송은채였습니다."
+     ]
+    }
+   ]
+  },
+  "evening": {
+   "audio": "2026-10-24-evening.mp3",
+   "end": 82.17,
+   "segs": [
+    {
+     "t": 2.4,
+     "tag": "wave",
+     "cap": [
+      "오늘 하루도 수고 많으셨어요",
+      "진행자 송은채입니다"
+     ]
+    },
+    {
+     "t": 9.18,
+     "tag": "stand",
+     "cap": [
+      "어느덧 토요일 저녁",
+      "피로를 가만히 녹여보는 시간"
+     ]
+    },
+    {
+     "t": 17.56,
+     "tag": "read",
+     "cap": [
+      "이십 년 넘게",
+      "매일 기사를 쓰던 기자"
+     ]
+    },
+    {
+     "t": 22.16,
+     "tag": "smile",
+     "cap": [
+      "사실만 쫓던 시간들이",
+      "뜻밖의 선물이 되다"
+     ]
+    },
+    {
+     "t": 27.62,
+     "tag": "read",
+     "cap": [
+      "마흔일곱에 데뷔한 소설가",
+      "사람들을 사로잡은 문장"
+     ]
+    },
+    {
+     "t": 34.69,
+     "tag": "talk",
+     "cap": [
+      "작가 김훈의 이야기",
+      "버려지는 시간은 없다"
+     ]
+    },
+    {
+     "t": 41.54,
+     "tag": "read",
+     "cap": [
+      "오늘 인사 카드",
+      "달콤한 차 한 잔 마시며 웃어보죠"
+     ]
+    },
+    {
+     "t": 49.26,
+     "tag": "smile",
+     "cap": [
+      "오늘의 한 권",
+      "외로운 도시"
+     ]
+    },
+    {
+     "t": 55.68,
+     "tag": "read",
+     "cap": [
+      "여러분의 이야기를 들려주세요",
+      "내 사연 보내기"
+     ]
+    },
+    {
+     "t": 65.51,
+     "tag": "smile",
+     "cap": [
+      "바쁘게 걸어온 오늘 하루",
+      "그 자체로 훌륭한 작품이에요"
+     ]
+    },
+    {
+     "t": 75.06,
+     "tag": "wave",
+     "cap": [
+      "사랑합니다.",
+      "오마주, 송은채였습니다."
+     ]
+    }
+   ]
+  }
+ },
+ "model": "gemini-3.1-flash-tts-preview",
+ "hz": 201,
+ "who": {
+  "morning": "박완서",
+  "noon": "줄리아 차일드",
+  "evening": "페르디낭 슈발"
+ }
+}
