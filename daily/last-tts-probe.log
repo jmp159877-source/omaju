@@ -1,0 +1,70 @@
+[모델] gemini-2.5-flash | generateContent,countTokens,createCachedContent,batchGenerateContent | Stable version of Gemini 2.5 Flash, our mid-size multimodal 
+[모델] gemini-2.5-pro | generateContent,countTokens,createCachedContent,batchGenerateContent | Stable release (June 17th, 2025) of Gemini 2.5 Pro
+[모델] gemini-2.5-flash-preview-tts | countTokens,generateContent | Gemini 2.5 Flash Preview TTS
+[모델] gemini-2.5-pro-preview-tts | countTokens,generateContent,batchGenerateContent | Gemini 2.5 Pro Preview TTS
+[모델] gemma-4-26b-a4b-it | generateContent,countTokens | Gemma 4 26B A4B IT
+[모델] gemma-4-31b-it | generateContent,countTokens | Gemma 4 31B IT
+[모델] gemini-flash-latest | generateContent,countTokens,createCachedContent,batchGenerateContent | Latest release of Gemini Flash
+[모델] gemini-flash-lite-latest | generateContent,countTokens,createCachedContent,batchGenerateContent | Latest release of Gemini Flash-Lite
+[모델] gemini-pro-latest | generateContent,countTokens,createCachedContent,batchGenerateContent | Latest release of Gemini Pro
+[모델] gemini-2.5-flash-lite | generateContent,countTokens,createCachedContent,batchGenerateContent | Stable version of Gemini 2.5 Flash-Lite, released in July of
+[모델] gemini-2.5-flash-image | generateContent,countTokens,batchGenerateContent | Gemini 2.5 Flash Preview Image
+[모델] gemini-3-flash-preview | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3 Flash Preview
+[모델] gemini-3.1-pro-preview | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.1 Pro Preview
+[모델] gemini-3.1-pro-preview-customtools | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.1 Pro Preview optimized for custom tool usage
+[모델] gemini-3.1-flash-lite-preview | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.1 Flash Lite Preview
+[모델] gemini-3.1-flash-lite | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.1 Flash Lite
+[모델] gemini-3-pro-image-preview | generateContent,countTokens,batchGenerateContent | Gemini 3 Pro Image Preview
+[모델] gemini-3-pro-image | generateContent,countTokens,batchGenerateContent | Gemini 3 Pro Image
+[모델] nano-banana-pro-preview | generateContent,countTokens,batchGenerateContent | Gemini 3 Pro Image Preview
+[모델] gemini-3.1-flash-image-preview | generateContent,countTokens,batchGenerateContent | Gemini 3.1 Flash Image Preview.
+[모델] gemini-3.1-flash-image | generateContent,countTokens,batchGenerateContent | Gemini 3.1 Flash Image.
+[모델] gemini-3.1-flash-lite-image | generateContent,countTokens,batchGenerateContent | Gemini 3.1 Flash Lite Image.
+[모델] gemini-nano-banana-2.1 | generateContent,countTokens,batchGenerateContent | Gemini Nano Banana 2.1.
+[모델] gemini-3.5-flash | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.5 Flash
+[모델] gemini-3.5-flash-lite | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.5 Flash Lite
+[모델] gemini-omni-flash-preview | generateContent,countTokens | Gemini Omni Flash Preview
+[모델] gemini-omni-1.1-flash | generateContent,countTokens | Gemini Omni 1.1 Flash 
+[모델] gemini-3.5-transcribe | generateContent,countTokens | Gemini 3.5 Transcribe
+[모델] gemini-3.6-flash | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.6 Flash
+[모델] gemini-3.7-flash | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.7 Flash
+[모델] gemini-3.8-flash | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini 3.8 Flash
+[모델] gemini-4-argon | generateContent,countTokens,batchGenerateContent | Gemini 4 Argon
+[모델] lyria-3-clip-preview | generateContent,countTokens | Lyria 3 30s model Preview
+[모델] lyria-3-pro-preview | generateContent,countTokens | Lyria 3 Pro Preview
+[모델] lyria-3.5 | generateContent,countTokens | Music Generation model
+[모델] gemini-3.1-flash-tts-preview | generateContent,countTokens,batchGenerateContent | Gemini 3.1 Flash TTS Preview
+[모델] gemini-3.8-flash-tts | generateContent,countTokens,batchGenerateContent | Gemini 3.8 Flash TTS
+[모델] gemini-3.8-flash-lite-tts | generateContent,countTokens,batchGenerateContent | Gemini 3.8 Flash Lite TTS
+[모델] gemini-robotics-er-2-preview | generateContent,countTokens,createCachedContent,batchGenerateContent | Gemini Robotics-ER 2 Preview
+[모델] gemini-2.5-computer-use-preview-10-2025 | generateContent,countTokens | Gemini 2.5 Computer Use Preview 10-2025
+[모델] antigravity-preview-05-2026 | generateContent,countTokens | Preview release of Antigravity Agent (05-2026)
+[모델] antigravity-preview-09-2026 | generateContent,countTokens | Preview release of Antigravity Agent (09-2026)
+[모델] antigravity-preview-latest | generateContent,countTokens | Latest preview release of Antigravity Agent
+[모델] deep-research-max-preview-04-2026 | generateContent,countTokens | Preview release (April 21st, 2026) of Deep Research Max
+[모델] deep-research-preview-04-2026 | generateContent,countTokens | Preview release (April 21th, 2026) of Deep Research
+[모델] deep-research-pro-preview-12-2025 | generateContent,countTokens | Deprecated preview agent; automatically rerouting traffic to
+[모델] gemini-embedding-001 | embedContent,countTextTokens,countTokens,asyncBatchEmbedContent | Obtain a distributed representation of a text.
+[모델] gemini-embedding-2-preview | embedContent,countTextTokens,countTokens,asyncBatchEmbedContent | Obtain a distributed representation of multimodal content.
+[모델] gemini-embedding-2 | embedContent,countTextTokens,countTokens,asyncBatchEmbedContent | Obtain a distributed representation of multimodal content.
+[모델] aqa | generateAnswer | Model trained to return answers to questions that are ground
+[모델] gemini-3.5-transcribe-live | bidiGenerateContent | Gemini 3.5 Transcribe Live
+[모델] gemini-2.5-flash-native-audio-latest | countTokens,bidiGenerateContent | Latest release of Gemini 2.5 Flash Native Audio
+[모델] gemini-2.5-flash-native-audio-preview-09-2025 | countTokens,bidiGenerateContent | Gemini 2.5 Flash Native Audio Preview 09-2025
+[모델] gemini-2.5-flash-native-audio-preview-12-2025 | countTokens,bidiGenerateContent | Gemini 2.5 Flash Native Audio Preview 12-2025
+[모델] gemini-3.1-flash-live-preview | bidiGenerateContent | Gemini 3.1 Flash Live Preview
+[모델] gemini-3.8-live | bidiGenerateContent | Gemini 3.8 Live
+[모델] gemini-3.8-live-extended-thinking | bidiGenerateContent | Gemini 3.8 Live Extended Thinking
+[모델] gemini-robotics-er-2-streaming-preview | bidiGenerateContent | Gemini Robotics-ER 2 Streaming Preview
+[모델] gemini-3.5-live-translate-preview | bidiGenerateContent | Gemini 3.5 Live Translate Preview
+[모델] lyria-realtime-exp | bidiGenerateMusic | Lyria Realtime Experimental
+[보냄] 6자
+[막힘] gemini-3.1-flash-tts-preview HTTP 429
+{
+  "error": {
+    "code": 429,
+    "message": "Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+

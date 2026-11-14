@@ -1,0 +1,45 @@
+[models] 목록 조회 실패, 못 박은 이름 그대로: HTTP Error 403: Forbidden
+[models] ['gemini-3.8-flash', 'gemini-3-flash-preview']
+[bank] 클국장 답 25개
+[bank] b52c2c16002aa0ea 클국장 답 사용
+[ok] greetings
+[bank] cc73bb9a1a2c1253 클국장 답 사용
+[bank] 03ffba7622a4086b 클국장 답 사용
+[ok] fortune
+[bank] 57a55994743259c9 클국장 답 사용
+[bank] f7fc83b17ed2646e 클국장 답 사용
+[bank] 2f972548107630cc 클국장 답 사용
+[bank] 63a11342edceddf9 클국장 답 사용
+[bank] 59fbbfab058bc9b9 클국장 답 사용
+[ok] era
+[bank] ffe688e81493d883 클국장 답 사용
+[ok] mind
+[bank] efb73633feb7cd1b 클국장 답 사용
+[ok] body
+[bank] 98ac0b81161d6b9d 클국장 답 사용
+[ok] book
+[bank] 92778e7afe32e8e3 클국장 답 사용
+[ok] meal
+[bank] 725e4b994c26678c 클국장 답 사용
+[ok] quiz
+[bank] 386fa4777517aaf6 클국장 답 사용
+[ok] story
+[bank] 914fc6b486b60b87 클국장 답 사용
+[ok] follow
+[bank] 9387660bda6b03d3 클국장 답 사용
+[ok] phrase
+[bank] 461ec73c48c1adeb 클국장 답 사용
+[bank] 6b708977358b2558 클국장 답 사용
+[ok] culture
+[keep] garden 지난 것 그대로
+[bank] 3474f849149a3eff 클국장 답 사용
+[bank] b512fc47b6cdec4f 클국장 답 사용
+[ok] pet
+[bank] 2a547393ca893bfd 클국장 답 사용
+[bank] fce20b291852a0bc 클국장 답 사용
+[bank] dd2017ca66b6fc6a 클국장 답 사용
+[bank] b9689c6373a3adc8 클국장 답 사용
+[ok] solo
+[bank] fa8d9667bbdee766 클국장 답 사용
+[ok] hooks
+2026-11-15 저장 완료. 코너 15개

@@ -1,0 +1,31 @@
+이번 주 2026-11-14 채운 지역 0 남은 지역 17
+[models] 목록 조회 실패, 못 박은 이름 그대로: HTTP Error 403: Forbidden
+[models] ['gemini-3.8-flash', 'gemini-3-flash-preview']
+[outing] 서울 검색 실패: GEMINI_API_KEY 없음
+[outing] 서울 실패: GEMINI_API_KEY 없음
+[실패] 서울 나들이 전부 실패
+[outing] 경기 검색 실패: GEMINI_API_KEY 없음
+[outing] 경기 실패: GEMINI_API_KEY 없음
+[실패] 경기 나들이 전부 실패
+[outing] 인천 검색 실패: GEMINI_API_KEY 없음
+[outing] 인천 실패: GEMINI_API_KEY 없음
+[실패] 인천 나들이 전부 실패
+[outing] 부산 검색 실패: GEMINI_API_KEY 없음
+[outing] 부산 실패: GEMINI_API_KEY 없음
+[실패] 부산 나들이 전부 실패
+[outing] 대구 검색 실패: GEMINI_API_KEY 없음
+[outing] 대구 실패: GEMINI_API_KEY 없음
+[실패] 대구 나들이 전부 실패
+[outing] 광주 검색 실패: GEMINI_API_KEY 없음
+[outing] 광주 실패: GEMINI_API_KEY 없음
+[실패] 광주 나들이 전부 실패
+[outing] 대전 검색 실패: GEMINI_API_KEY 없음
+[outing] 대전 실패: GEMINI_API_KEY 없음
+[실패] 대전 나들이 전부 실패
+[outing] 울산 검색 실패: GEMINI_API_KEY 없음
+[outing] 울산 실패: GEMINI_API_KEY 없음
+[실패] 울산 나들이 전부 실패
+[outing] 세종 검색 실패: GEMINI_API_KEY 없음
+[outing] 세종 실패: GEMINI_API_KEY 없음
+[실패] 세종 나들이 전부 실패
+저장: 지역 0 []
