@@ -36,7 +36,7 @@
 | 19 | 정부 일자리 사업, 나이별로 무엇이 다를까요 | 중장년·65세 이상 사업 구분 | `community center Korea` · `public office Korea` |
 | 20 | 계약서·4대 보험·최저임금, 꼭 볼 세 가지 | 근로계약서 필수 항목 (확인 필요: 2027 최저임금) | `contract signing pen` · `stamp seal Korea` |
 | 21 | 연금 받으며 일하면, 연금이 줄어들까요? | 국민연금 재직자 감액, 고령층 연금 수령 52.7% (확인 필요: 감액 기준 개편) | `piggy bank coins` · `bank passbook` |
-| 22 | 일터의 디지털 도구, 이 정도면 됩니다 | 메신저·문서·AI 도우미 기본 (AI 칼럼과 겹치지 않게) | `laptop spreadsheet` · `tablet on desk` |
+| 22 | 일터의 디지털 도구, 어디까지 알면 될까요? | 메신저·문서·AI 도우미 기본 (AI 칼럼과 겹치지 않게) | `laptop spreadsheet` · `tablet on desk` |
 
 ## 4부 작은 가게, 내 일 (23~30)
 | 회 | 제목 | 한 줄 | 공용 검색어 |
