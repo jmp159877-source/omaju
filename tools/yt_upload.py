@@ -188,6 +188,11 @@ if __name__ == '__main__':
             req('DELETE', f'https://www.googleapis.com/youtube/v3/videos?id={vid}', headers=auth); say(_pub, '영상 지움', vid)
             info.setdefault('yt_deleted', {})[_pub] = vid; info['yt'].pop(_pub, None); (info.get('yt_comment') or {}).pop(_pub, None)
             json.dump(info, open(jp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); sys.exit(0)
+        if '--private' in sys.argv:   # 비공개로 내리기 — 지우지 않아 되살릴 수 있다 (대표 2026-11-17 16:39 "쇼츠 인사카드편도 내리자") — yt_publish.yml kind='brand --private'
+            req('PUT', 'https://www.googleapis.com/youtube/v3/videos?part=status', headers=auth,
+                body={'id': vid, 'status': {'privacyStatus': 'private', 'selfDeclaredMadeForKids': False, 'embeddable': True, 'containsSyntheticMedia': _pub in ('opening', 'kid')}})
+            say(_pub, '비공개로 내림', vid); info.setdefault('yt_private', {})[_pub] = vid
+            json.dump(info, open(jp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); sys.exit(0)
         req('PUT', 'https://www.googleapis.com/youtube/v3/videos?part=status', headers=auth,
             body={'id': vid, 'status': {'privacyStatus': 'public', 'selfDeclaredMadeForKids': False, 'embeddable': True, 'containsSyntheticMedia': _pub in ('opening', 'kid')}})
         say(_pub, '바로 공개함', vid)
@@ -213,7 +218,7 @@ if __name__ == '__main__':
     if not any('오마주' in n for n in names): say('열쇠가 오마주 채널 것이 아님 — 멈춤', names); sys.exit(1)
     # 대표 2026-11-09 13:24: 인사 카드·한 끼 쇼츠는 당분간 올리지 않는다('조회만 하고 들어오지 않는다') — 매일 '오마주 소개' 한 편(brand)만.
     # 다시 켜려면 이 차례에 'cards', 'meal' 을 되살린다.
-    for kind in ('brand', 'comic', 'opening', 'kid'):   # 연재 만화(대표 2026-11-12 21:58 다시)
+    for kind in ('brand', 'opening', 'kid'):   # 연재 만화는 대표 2026-11-17 16:37 '만화 내리자'로 뺐다(다시 켜려면 'comic' 을 넣는다)
         up = info.get(kind + '_up'); path = os.path.join(OUT, f'{DATE}-{kind}.mp4')
         if done.get(kind): say(kind, '이미 올림', done[kind]); continue
         if not up or not os.path.exists(path): say(kind, '영상 없음'); continue

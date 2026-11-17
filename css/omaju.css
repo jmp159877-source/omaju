@@ -3089,3 +3089,6 @@ body.in-chapter #comic-home { display: none; }
 .cm-act { margin: 18px 0 6px; } .cm-act .btn { width: 100%; }
 .cm-go { width: 100%; margin-top: 18px; }
 .cm-cast { font-size: .85rem; color: #666; line-height: 1.6; margin: 14px 0 0; word-break: keep-all; }
+
+/* 인사 카드 칸 접음 (대표 2026-11-17 16:39 "인사카드도 내리자, 반응이 없다") — 지우지 않고 감춘다. 되살리려면 이 줄을 지운다. #anbu 안쪽은 그대로. */
+#anbu-home { display: none !important; }

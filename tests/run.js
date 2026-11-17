@@ -81,7 +81,7 @@ srv.listen(0, '127.0.0.1', async () => {
       const r = await p.evaluate(() => {
         const o = [];
         if (document.documentElement.scrollWidth > innerWidth + 1) o.push('가로 넘침');
-        const i0 = document.querySelector('.intro'), i = i0 && i0.offsetParent ? i0 : document.getElementById('anbu-home'), t = document.querySelector('.content');   // v4(2026-11-09) 소개 배너를 접어 인사 카드 칸으로 잰다
+        const i0 = document.querySelector('.intro'), i = i0 && i0.offsetParent ? i0 : [document.getElementById('anbu-home')].find(e => e && e.offsetParent), t = document.querySelector('.content');   // v4(2026-11-09) 소개 배너를 접어 인사 카드 칸으로 잰다
         if (i && t) { const a = i.getBoundingClientRect(), b = t.getBoundingClientRect();
           if (a.left <= b.left + 1) o.push('소개 배너가 글 칸 끝에 붙음'); }
         const cards = [...document.querySelectorAll('.tabs3:not(.compact) button')].map(e => e.getBoundingClientRect().height).filter(h => h > 0);   // 접어 둔 칸(집사·내 서재) 빼고
@@ -311,8 +311,8 @@ srv.listen(0, '127.0.0.1', async () => {
       const drawn = await p.evaluate(async () => { const m = await import('./js/cards.js'); const out = []; for (const v of ['v1', 'v2', 'v3', 'v4', 'v5', 'v6']) { const cv = await m.drawCard('시험 문장\n둘째 줄\n셋째 줄', 0, { dateText: '1월 1일 · 월요일', variant: v, season: 'autumn' }); const d = cv.getContext('2d').getImageData(540, 640, 1, 1).data; out.push(cv.width === 1080 && cv.height === 1350 && d[3] === 255); } return out; });
       ok('인사 카드 4장 서로 다른 디자인', vs.length === 4 && new Set(vs).size === 4, vs.join(','));
       ok('보내기 그림 6가지 그려짐', drawn.every(Boolean), drawn.join(',')); await c.close(); }
-    // 5-1) 안부 카드(대표 2026-10-31): 첫 화면 배너 바로 밑 · 칸 바꾸기 · 이름 칸은 비구독자면 구독 창 · 카드 눌러 그림 만들기
-    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2500);
+    // 5-1) 안부 카드(대표 2026-10-31): 첫 화면 배너 바로 밑 · 칸 바꾸기 · 이름 칸은 비구독자면 구독 창 · 카드 눌러 그림 만들기   // 2026-11-17 인사 카드 칸 접음
+    if (false) { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2500);
       const r = await p.evaluate(async () => { const h = document.getElementById('anbu-home'); if (!h) return { none: true }; const out = { afterIntro: h.previousElementSibling && h.previousElementSibling.classList.contains('intro'), tile: !!h.querySelector('.anb-hero .anb-go') };
         h.querySelector('.anb-hero').click(); for (let i = 0; i < 30 && !document.querySelector('#anbu-body .anb-card'); i++) await new Promise(r => setTimeout(r, 150));
         const a = document.getElementById('anbu-body'); out.hash = location.hash; out.inDetail = document.body.classList.contains('in-detail');
@@ -326,8 +326,8 @@ srv.listen(0, '127.0.0.1', async () => {
         a.querySelector('#anb-name').focus(); await new Promise(r => setTimeout(r, 400)); out.gate = !!document.querySelector('#modal'); const x = document.getElementById('modal-x'); if (x) x.click(); await new Promise(r => setTimeout(r, 300));
         a.querySelector('.anb-card').click(); for (let i = 0; i < 40 && !document.querySelector('#modal img'); i++) await new Promise(r => setTimeout(r, 150)); out.img = !!document.querySelector('#modal img'); const x2 = document.getElementById('modal-x'); if (x2) x2.click(); return out; });
       ok('인사 카드: 배너 밑 칸 하나 → 안쪽(재미 카드 여섯 그림·쾅 · 마음 일곱·받는 사람 넷·이름은 구독 창·카드 그림)', !r.none && r.kinds === 2 && r.fun === 6 && r.funImg && r.afterIntro && r.tile && r.hash === '#anbu' && r.inDetail && r.homeHidden && r.cards === 6 && r.tabs === 4 && r.moods >= 7 && r.moodSwap && r.parentOn && r.defName === '엄마 아빠,' && r.gate && r.img && !errs.length, JSON.stringify(r) + (errs.length ? ' 오류 ' + errs[0] : '')); await c.close(); }
-    // 5-1b) 연재 만화 '마음은 주니어'(2026-11-12 21:58 다시 — 누구나 웃는 생활 반전): 인사 카드 밑 칸 → 네 컷 · 카톡 단추 · 지난 화
-    { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2500);
+    // 5-1b) 연재 만화 '마음은 주니어'(2026-11-12 21:58 다시 — 누구나 웃는 생활 반전): 인사 카드 밑 칸 → 네 컷 · 카톡 단추 · 지난 화 — 2026-11-17 16:37 대표 "만화 내리자" 로 꺼 둠
+    if (false) { const c = await ctx(false); const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message)); await p.goto(base + '/index.html'); await wait(p, 2500);
       const r = await p.evaluate(async () => { const h = document.getElementById('comic-home'); if (!h) return { none: true }; for (let i = 0; i < 30 && !h.querySelector('.cm-th svg'); i++) await new Promise(r => setTimeout(r, 150));
         const out = { afterAnbu: h.previousElementSibling && h.previousElementSibling.id === 'anbu-home', thumb: !!h.querySelector('.cm-th svg'), title: h.querySelector('.cm-tt').textContent.trim() };
         h.querySelector('.cm-hero').click(); for (let i = 0; i < 30 && !document.querySelector('#comic-body .cm-p svg'); i++) await new Promise(r => setTimeout(r, 150));

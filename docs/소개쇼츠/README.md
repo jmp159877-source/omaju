@@ -6,7 +6,7 @@
 ## 흐름
 - 밤 23:23 예약 작업 '오마주 소개 쇼츠 만들기'(클국장):
   ① 내일 편 차례 `docs/소개쇼츠/<내일>.json` 이 없으면 새로 쓴다(아래 차례·규칙).
-  ② `NODE_PATH=$(npm root -g) node tools/brand_cap.js <폴더> home anbu ai ev trip food …` 로 실제 omaju.kr 화면을 찍는다.
+  ② `NODE_PATH=$(npm root -g) node tools/brand_cap.js <폴더> home ai ev trip food …` 로 실제 omaju.kr 화면을 찍는다.
   ③ `python3 tools/brand_short.py docs/소개쇼츠/<내일>.json <폴더> <내일>-brand.mp4`
   ④ 처음·중간·끝 장면을 뽑아 직접 본다(글자 넘침·빈 화면·겹침), 음량 확인.
   ⑤ media 가지 `shorts/<내일>-brand.mp4` + `shorts/<내일>-brand.json`(title·desc·tags·comment)을 올린다.
@@ -33,5 +33,5 @@
 6. 하루 5분 아침 루틴 — 운세 → 한 끼 → 한 권
 7. 놀이·퀴즈·심리 테스트 — 머리 식히는 5분
 8. 주말에 어디 갈까 — 오늘의 산·나들이·전시
-9. 부모님·친구에게 보내는 인사 카드
+9. ~~부모님·친구에게 보내는 인사 카드~~ — 2026-11-17 대표 "인사카드 내리자"로 뺌(이 편 영상도 비공개). 인사 카드·연재 만화는 소개 쇼츠에 넣지 않는다.
 … 한 바퀴 돌면 그때 반응(조회·들어온 수 ?from=yt)을 보고 잘된 주제를 다시 판다.
