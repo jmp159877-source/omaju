@@ -252,7 +252,9 @@ def main():
                 + (('<span class="sub">오늘 새로 올라온 글</span><ol>' + ''.join(f'<li><a href="{h}"><b>{e(t)}</b></a><br><small>{e(n)}</small></li>' for h, n, t in NEW_TODAY) + '</ol>') if NEW_TODAY else '')
                 + '<span class="sub">지난 인사 카드</span><ol>' + ''.join(f'<li><a href="/greet/{d}.html"><b>{e(t)}</b></a></li>' for d, t in reversed(greet_list[:-1])) + '</ol>')
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 인사 카드 모음 — 아침 인사 이미지', 'inLanguage': 'ko'}
-        u = page('greet/index.html', '아침 인사 이미지 · 힘이 되는 좋은 글귀 카드 — 용기와 희망을 주는 글귀 모음', '카톡으로 보내기 좋은 아침 인사 이미지와 용기·희망을 주는 좋은 글귀 카드를 날마다 새로 올립니다. 부모님께, 자녀에게, 친구에게 보내는 안부 카드도 오마주 매거진 첫 화면에서 이름을 넣어 만들 수 있어요.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f0[0] if f0 else f'greet/img/{d0}-1.jpg', list(zip(f0[1:], a0[1:])), d0)
+        # 제목·설명에 오늘 날짜·요일 (대표 2026-11-18 서치어드바이저 — 노출 3,959 중 클릭 23, 사람들은 '11월 16일 월요일 아침인사'처럼 날짜로 친다)
+        md0 = f'{dt0.month}월 {dt0.day}일 {WD[dt0.weekday()]}요일'
+        u = page('greet/index.html', f'{md0} 아침 인사 이미지 · 좋은 글귀 카드 — 오늘 새로 올라온 4장', f'{md0} 아침에 카톡으로 보내기 좋은 인사 이미지와 좋은 글귀 카드 4장. 용기와 희망을 주는 글귀를 날마다 새로 올립니다. 저장해서 마음 가는 분께 보내 보세요.', '오늘의 인사 카드', body, f'{SITE}/?from=search', ld, f0[0] if f0 else f'greet/img/{d0}-1.jpg', list(zip(f0[1:], a0[1:])), d0)
         urls.append((u, d0)); HUBS.add(u)
     # 좋은 글귀 인사 카드 모음 · 수능 응원 문구 (대표 2026-11-01 "올려") — 첫 화면 인사 카드(data/anbu.json)의 글귀를 검색에 걸리게
     try:
