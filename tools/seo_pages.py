@@ -147,6 +147,21 @@ def main():
             if a['date'] == TODAY: NEW_TODAY.append((f'/{SD(SK)}/{a["id"]}.html', SNAME, a.get('seo') or a['title']))
             urls.append((page(f'{SD(SK)}/{a["id"]}.html', a.get('seo') or f'{a["title"]} — {SNAME} {a["no"]}편', desc,   # seo = 사람들이 실제로 치는 말로 쓴 검색 제목(대표 2026-10-30), 화면 제목(h1)은 그대로
                                   f'시대 공유 · {SNAME}', body, f'{SITE}/?from=search#{SK}', ld, img), a['date']))
+    # 시대 공유 다리 (대표 2026-11-17 "그렇게 해") — 네이버로 날마다 사람이 드는 곳이 인사 카드 쪽뿐이라, 거기서 시대 공유 최신 편으로 건너가게
+    def share_block():
+        cards = []
+        for SK, SNAME in (('ai', 'AI 시대'), ('ev', '전기차 시대'), ('trip', '요즘 여행법')):
+            try: lst = [a for a in json.load(open(os.path.join(ROOT, 'data', SK + '.json'), encoding='utf-8')).get('items', []) if a.get('id') and (a.get('date') or '') <= TODAY]
+            except Exception: lst = []
+            if not lst: continue
+            a = max(lst, key=lambda a: (a.get('date') or '', a.get('no') or 0))
+            cards.append(f'<a href="/{SD(SK)}/{a["id"]}.html" style="display:block;text-decoration:none;color:inherit;border:1px solid var(--hair);border-radius:14px;overflow:hidden;margin:0 0 12px">'
+                         f'<img src="/img/{SK}-tile.jpg" alt="{e(SNAME)}" loading="lazy" style="width:100%;aspect-ratio:16/7;object-fit:cover;display:block">'
+                         f'<span style="display:block;padding:12px 16px 14px"><small style="color:var(--g);font-weight:700">{e(SNAME)} · {a["no"]}편</small><br><b style="font-size:1.08rem;line-height:1.4">{e(a["title"])}</b></span></a>')
+        if not cards: return ''
+        return ('<div style="margin:26px 0 6px"><span class="sub" style="margin-top:0">카드 고르셨다면, 오늘 읽을거리 하나</span>'
+                '<p class="note" style="margin:0 0 12px">오마주 매거진이 매일 이어 쓰는 시대 공유 연재 — 요즘 세상, 한 편씩 쉽게.</p>' + ''.join(cards) + '</div>')
+    SHARE = share_block()
     # 기획 연재 목차 쪽 (대표 2026-10-24: "기획 연재 두 개도 검색되게") — 연재 전체를 한 쪽에 모아 검색이 묶음으로 알아보게
     for SK, SNAME, SDESC in (('ev', '전기차 시대', '중국 전기차가 이미 우리 곁에 왔습니다. 브랜드 해부부터 충전·보험·중고값까지, 50~60대의 눈으로 객관적으로 짚는 오마주 매거진 시대 공유.'),
                              ('ai', 'AI 시대에 살 준비가 되었는가', '쉰과 예순이 가장 빨리 배우고 있는 생성형 AI. 처음 써 보기부터 사기 막기까지, 오늘 휴대폰으로 해 볼 수 있는 것을 짚는 오마주 매거진 시대 공유.'),
@@ -216,6 +231,7 @@ def main():
         body = (f'<h1>{e(md)} {e(wd)}, 오늘의 아침 인사</h1><p class="date">오마주 매거진 · 오늘의 인사 카드 · {kdate(d)}</p>'
                 + f'<div class="box green">카톡으로 보내기 좋은 {e(ss)} 아침 인사 이미지 {len(G)}장이에요. 마음 가는 분께 한 장 보내 보세요. 오마주 매거진 첫 화면에서 날짜가 들어간 카드로 바로 보낼 수 있어요.</div>'
                 + ''.join(f'<figure style="margin:22px 0"><img src="/{x}" alt="{e(a)}" loading="lazy" style="width:100%;border-radius:14px"><figcaption style="margin-top:8px;color:#444">{e(g).replace(chr(10), "<br>")}</figcaption></figure>' for x, a, g in zip(files, alts, G))
+                + SHARE
                 + '<p class="note">좋은 아침 인사말 · 아침 인사 글귀 · ' + e(wd) + ' 인사말 · ' + e(ss) + ' 인사 이미지 — 매일 아침 새 카드가 올라옵니다.</p>'
                 + '<p><a href="/greet/index.html"><b>지난 인사 카드 모두 보기 ›</b></a></p>')
         desc = f'{md} {wd} 아침에 보내기 좋은 {ss} 인사 이미지와 글귀. ' + ' / '.join(g.replace(chr(10), ' ') for g in G)[:110]
@@ -232,6 +248,7 @@ def main():
         body = ('<h1>오늘의 아침 인사 이미지</h1><p class="date">오마주 매거진 · 매일 아침 새 카드 · ' + kdate(d0) + '</p>'
                 + '<div class="box green">카톡으로 보내기 좋은 아침 인사 이미지와 글귀를 날마다 새로 올립니다. 마음 가는 분께 한 장 보내 보세요.</div>'
                 + ''.join(f'<figure style="margin:22px 0"><img src="/{x}" alt="{e(a)}" loading="lazy" style="width:100%;border-radius:14px"><figcaption style="margin-top:8px;color:#444">{e(g).replace(chr(10), "<br>")}</figcaption></figure>' for x, a, g in zip(f0, a0, G0))
+                + SHARE
                 + (('<span class="sub">오늘 새로 올라온 글</span><ol>' + ''.join(f'<li><a href="{h}"><b>{e(t)}</b></a><br><small>{e(n)}</small></li>' for h, n, t in NEW_TODAY) + '</ol>') if NEW_TODAY else '')
                 + '<span class="sub">지난 인사 카드</span><ol>' + ''.join(f'<li><a href="/greet/{d}.html"><b>{e(t)}</b></a></li>' for d, t in reversed(greet_list[:-1])) + '</ol>')
         ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': '오늘의 인사 카드 모음 — 아침 인사 이미지', 'inLanguage': 'ko'}
