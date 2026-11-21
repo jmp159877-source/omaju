@@ -3,6 +3,195 @@
  "by": "오마주 편집실",
  "items": [
   {
+   "id": "then-26",
+   "no": 26,
+   "date": "2026-11-22",
+   "part": "4부 책상 위의 물건들",
+   "title": "처음 켠 컴퓨터, 당신은 '286'을 기억하시나요?",
+   "dek": "검은 화면에 깜빡이던 C:\\> 하나. 1982년 2월 인텔이 내놓은 80286 칩은 1984년 IBM PC AT에 들어가며 '286 컴퓨터'라는 이름을 남겼습니다. 그 뒤 386·486·펜티엄으로 이어지며 칩 속 트랜지스터는 열 해 남짓 사이 스무 배를 넘었습니다",
+   "asof": "2026년 11월 기준 — 80286 발표(1982.2.2)는 Dave Farquhar 「Intel 286 introduced Feb 2, 1982」·Tom's Hardware(이날 1982년)·TechSpot(44주년, 2026), IBM PC AT 발표(1984.8.14)는 IBM 발표문(1984.8.14)·PC Games Hardware(14. August)·Computing History, 386(1985년)은 Tom's Hardware 「i386 turns 40」·heise·Red Hot Cyber, 486 발표(1989.4.10)는 Dave Farquhar·DEV Community, 펜티엄 발표(1993.3.22)는 Engadget(2013.3.22 '20주년')·컴퓨터역사박물관 '3월 22일', 윈도 95(1995.8.24)는 마이크로소프트 윈도 블로그(2020.8.24 '25주년')·Fortune(2015.8.24)",
+   "hook": "전원을 누르면 '삐' 소리와 함께 하얀 글자가 줄줄이 지나갔습니다. 까만 화면에 C:\\> 가 깜빡이면 그제야 무언가 칠 수 있었지요. 당신이 처음 켠 컴퓨터는 몇 번이었나요?",
+   "blocks": [
+    {
+     "h": "숫자로 불리던 컴퓨터"
+    },
+    {
+     "p": "그 시절 컴퓨터는 이름보다 **숫자**로 불렸습니다. \"우리 집은 286이야\", \"옆집은 386 들였대\" 하는 식이었지요."
+    },
+    {
+     "p": "그 숫자는 컴퓨터의 심장 노릇을 하는 칩, 인텔 **80286**에서 왔습니다. 인텔이 이 칩을 내놓은 것은 1982년 2월입니다."
+    },
+    {
+     "p": "1984년 8월 IBM이 이 칩을 넣은 **PC AT**를 발표했고, 같은 칩을 쓴 비슷한 컴퓨터가 쏟아졌습니다. 그래서 '286'은 한 시대의 이름이 됐습니다."
+    },
+    {
+     "photo": {
+      "src": "img/then/then-26-1.jpg",
+      "caption": "1984년에 나온 IBM PC AT. 286 칩을 품은 상자 위에 볼록한 모니터를 얹어 썼습니다.",
+      "credit": "MBlairMartin · CC BY-SA 4.0 · 위키미디어 공용",
+      "alt": "전시장 책상 위에 놓인 베이지색 IBM PC AT 본체와 모니터, 키보드"
+     }
+    },
+    {
+     "h": "C:\\> 앞에서 외우던 명령어"
+    },
+    {
+     "p": "화면에는 아이콘도, 마우스 화살표도 없었습니다. 손으로 **명령어**를 쳐야 프로그램이 열렸습니다."
+    },
+    {
+     "p": "플로피 디스크를 넣고 글자를 하나씩 입력하던 손끝, 오타 하나에 '잘못된 명령'이 뜨던 화면. 그 낯선 문법을 다들 공책에 적어 외웠습니다."
+    },
+    {
+     "p": "1995년 8월 **윈도 95**가 나오면서 그림을 눌러 쓰는 화면이 집집마다 퍼졌습니다. 명령어를 외우던 시절이 서서히 저물었습니다."
+    },
+    {
+     "photo": {
+      "src": "img/then/then-26-2.jpg",
+      "caption": "현미경으로 들여다본 인텔 80286 칩의 속. 손톱만 한 판 위에 13만 개 남짓한 트랜지스터가 들어 있습니다.",
+      "credit": "Pauli Rautakorpi · CC BY 3.0 · 위키미디어 공용",
+      "alt": "색색의 회로 무늬가 촘촘한 반도체 칩 확대 사진"
+     }
+    },
+    {
+     "chart": {
+      "kind": "bar",
+      "title": "칩 하나에 든 트랜지스터",
+      "sub": "인텔 PC용 칩 · 단위 만 개",
+      "unit": "만 개",
+      "items": [
+       [
+        "286 (1982)",
+        13.4,
+        false
+       ],
+       [
+        "386 (1985)",
+        27.5,
+        false
+       ],
+       [
+        "펜티엄 (1993)",
+        310,
+        true
+       ]
+      ],
+      "legend": "트랜지스터는 칩 속에서 전기를 켜고 끄는 아주 작은 스위치입니다. 286에서 펜티엄까지 열한 해 사이 스무 배 넘게 늘었습니다. 486(1989년)은 자료끼리 숫자를 맞춰 보지 못해 뺐습니다.",
+      "source": "Tom's Hardware(「The Intel i386 turns 40 — 275,000 transistors」, 「Intel released its first Pentium chip… 3.1 million transistors」) · Overclockers.ru(펜티엄 310만) · 미국 포틀랜드 커뮤니티칼리지 강의 자료(80286 13만 4,000) · 위키백과 'Intel 80286'"
+     }
+    },
+    {
+     "h": "지금은, 무릎 위와 손바닥 안에"
+    },
+    {
+     "p": "책상 하나를 다 차지하던 본체와 볼록한 모니터는 이제 **노트북** 한 대로 접혔습니다. 가방에 넣고 카페로 들고 나갑니다."
+    },
+    {
+     "p": "더 가벼운 일은 **태블릿**과 휴대폰이 맡습니다. 손가락으로 화면을 밀면 되니 명령어를 외울 일도 없습니다."
+    },
+    {
+     "p": "우리나라는 1999년 무렵 값을 낮춘 **인터넷PC(국민PC)** 보급에 나서며 집집마다 컴퓨터를 들였습니다. 286 앞에서 명령어를 외우던 세대가 그 길을 먼저 걸었습니다."
+    },
+    {
+     "box": {
+      "title": "한눈에 보는 책상 위 컴퓨터",
+      "text": "1982년 2월 인텔 80286 → 1984년 8월 IBM PC AT → 1985년 386 → 1989년 486 → 1993년 펜티엄 → 1995년 윈도 95 → 1999년 무렵 인터넷PC 보급 → 지금 **노트북·태블릿·휴대폰**"
+     }
+    },
+    {
+     "box": {
+      "title": "한 줄로 정리하면",
+      "text": "숫자로 부르던 **286 컴퓨터**는 명령어를 외워야 움직였지만, 지금 컴퓨터는 무릎 위와 손바닥 안에서 손끝 하나로 움직입니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘 집에서 해 볼 것",
+      "text": "오늘 쓰는 노트북이나 휴대폰의 '설정 → 휴대폰 정보(또는 시스템 정보)'를 한 번 열어 보세요. 지금 내 손에 있는 **칩 이름**을 286과 나란히 놓아 보는 재미가 있습니다."
+     }
+    },
+    {
+     "box": {
+      "title": "오늘의 물음",
+      "text": "처음 켠 컴퓨터는 몇 번이었나요? 그 앞에서 가장 먼저 해 본 일은 무엇이었나요?"
+     }
+    }
+   ],
+   "cons": [
+    "트랜지스터 수는 칩 제조사 발표를 전한 해외 기사·강의 자료에서 확인했습니다. 같은 이름의 칩도 세부 모델마다 조금씩 다를 수 있습니다.",
+    "목차에 적었던 우리나라 가구 컴퓨터 보유율은 원 자료(과학기술정보통신부 인터넷이용실태조사)의 숫자를 이번에 두 곳에서 맞춰 보지 못해 쓰지 않았습니다.",
+    "인터넷PC(국민PC)는 1999년 정부 보급 사업을 다룬 당시 기사와 자료로 확인했고, 값과 판매 대수는 자료마다 달라 적지 않았습니다.",
+    "칩이 빨라졌다고 모두에게 쉬워진 것은 아닙니다. 화면 메뉴와 앱이 자주 바뀌어 오히려 헤매게 되는 순간도 있습니다."
+   ],
+   "next": "삐- 지직 하던 PC통신, 당신의 대화명은 무엇이었나요?",
+   "sources": [
+    {
+     "name": "Dave Farquhar, 「Intel 286 introduced Feb 2, 1982」",
+     "url": "https://dfarq.homeip.net/intel-286-introduced-feb-2-1982/"
+    },
+    {
+     "name": "Tom's Hardware, 「The Intel 286 CPU was introduced on this day in 1982 … would power the IBM PC AT」",
+     "url": "https://www.tomshardware.com/pc-components/cpus/the-intel-286-cpu-was-introduced-on-this-day-in-1982-16-bit-x86-chip-introduced-protected-mode-memory-and-would-power-the-ibm-pc-at-and-a-tidal-wave-of-clones"
+    },
+    {
+     "name": "TechSpot, 「Intel 80286 CPU celebrates 44 years」 (2026)",
+     "url": "https://www.techspot.com/news/111167-intel-80286-cpu-celebrates-44-years-x86-history.html"
+    },
+    {
+     "name": "IBM 발표문 「IBM Personal Computer AT」 (1984.8.14, retrocmp 보관본)",
+     "url": "https://www.retrocmp.de/ibm/5170/ibm-al_184-097_1984-08-14.txt"
+    },
+    {
+     "name": "PC Games Hardware, 「Der PC/AT mit 286er (PCGH-Retro, 14. August)」",
+     "url": "https://www.pcgameshardware.de/Retrospektive-Thema-214694/News/PC-AT-mit-80286-CPU-PCGH-Retro-14-August-655599/"
+    },
+    {
+     "name": "Tom's Hardware, 「The Intel i386 turns 40 years old — 275,000 transistors」",
+     "url": "https://www.tomshardware.com/tech-industry/semiconductors/intel-386-at-40"
+    },
+    {
+     "name": "heise, 「40 Years of 80386」",
+     "url": "https://heise.de/-10778053"
+    },
+    {
+     "name": "Dave Farquhar, 「Intel 486 CPU announced April 10, 1989」",
+     "url": "https://dfarq.homeip.net/intel-486-cpu-announced-april-10-1989/"
+    },
+    {
+     "name": "Tom's Hardware, 「Intel released its first Pentium chip on this day 33 years ago … 3.1 million transistors」",
+     "url": "https://www.tomshardware.com/pc-components/cpus/intel-released-its-first-pentium-chip-on-this-day-33-years-ago-came-packing-3-1-million-transistors-fifth-gen-x86-chip-built-on-an-800nm-process"
+    },
+    {
+     "name": "Engadget, 「Intel Pentium turns 20 today」 (2013.3.22)",
+     "url": "https://www.engadget.com/2013/03/22/intel-pentium-turns-20-today/"
+    },
+    {
+     "name": "Computer History Museum, 「What Happened on March 22nd」",
+     "url": "https://www.computerhistory.org/tdih/march/22/"
+    },
+    {
+     "name": "Portland Community College 강의 자료, 「1984: Intel 80286 – 134,000 transistors」",
+     "url": "https://spot.pcc.edu/~wmorales/cis120/Chapter01_files/slide0098.htm"
+    },
+    {
+     "name": "Microsoft Windows Blogs, 「Looking back: the 25th anniversary of Windows 95」 (2020.8.24)",
+     "url": "https://blogs.windows.com/windowsexperience/2020/08/24/looking-back-the-25th-anniversary-of-windows-95/"
+    },
+    {
+     "name": "Fortune, 「20 years: Microsoft Windows 95」 (2015.8.24)",
+     "url": "https://fortune.com/2015/08/24/20-years-microsoft-windows-95/"
+    },
+    {
+     "name": "KDI 경제정보센터, 「'인터넷PC' 정책으로 지식정보인프라 박차」 (1999.12)",
+     "url": "https://eiec.kdi.re.kr/epic_txt/1999/R9912082.HWP"
+    },
+    {
+     "name": "서울신문, 「[서민경제를 살리자] (6)인터넷PC사업」 (2000.7.28)",
+     "url": "https://m.seoul.co.kr/news/2000/07/28/20000728006002"
+    }
+   ],
+   "seo": "286 컴퓨터 추억과 지금 — 1982년 2월 2일 인텔 80286 발표, 1984년 8월 14일 IBM PC AT, 1985년 386, 1989년 4월 10일 486, 1993년 3월 22일 펜티엄, 트랜지스터 13만 4,000→27만 5,000→310만, 1995년 8월 24일 윈도 95, MS-DOS C:\\> 명령어, 1999년 인터넷PC(국민PC), 노트북·태블릿"
+  },
+  {
    "id": "then-25",
    "no": 25,
    "date": "2026-11-21",
