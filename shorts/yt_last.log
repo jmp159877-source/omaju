@@ -1,0 +1,4 @@
+[유튜브] brand 이미 올림 E1csdfSe48s
+[유튜브] opening 영상 없음
+[유튜브] kid 영상 없음
+[유튜브] brand 댓글 못 담 — 다음 차례에 다시: POST https://www.googleapis.com/youtube/v3/commentThreads → 403 b'{\n  "error": {\n    "code": 403,\n    "message": "The comment thread could not be created due to insufficient permissions. The reques
