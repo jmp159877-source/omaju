@@ -1,0 +1,1192 @@
+{
+ "greetings": [
+  "서늘한 공기 속\n볕이 고운 아침\n가을을 누리세요",
+  "안부를 묻습니다\n오늘 걸음마다\n좋은 일 있기를",
+  "외출 준비 끝\n목적지는 몰라도\n바람 부는 쪽으로",
+  "오늘의 할 일\n맛있는 점심과\n낮잠 한 조각"
+ ],
+ "quiz": {
+  "example": "요즘 젊은 친구들 사이에서 텍스트힙이 유행이라더니 서점에 활기가 도네요.",
+  "options": [
+   "스마트폰으로 요약 영상을 빠르게 넘겨보며 유행을 파악한다.",
+   "마음에 드는 시집을 들고 다니며 좋은 문장을 손으로 공책에 적는다.",
+   "불필요한 지출을 모두 줄이고 꼭 필요한 물건 하나만 장만한다.",
+   "유명인이 입은 고가의 명품 옷을 사서 인터넷에 자랑한다."
+  ],
+  "meaning": "책과 글을 읽는 행위를 멋으로 즐기는 문화",
+  "why": "국내 작가의 노벨문학상 수상 이후 책을 향한 관심이 크게 일었고, 도서전과 서점을 찾는 발길이 눈에 띄게 늘어났기 때문입니다.",
+  "answer": 1,
+  "question": "다음 중 '텍스트힙' 현상에 해당하는 모습으로 가장 알맞은 것은 무엇일까요?",
+  "term": "텍스트힙",
+  "kind": "시사 상식",
+  "explain": "글자를 뜻하는 영어 텍스트(Text)와 멋지다는 뜻의 힙(Hip)을 합친 말입니다. 짧은 영상에 피로를 느낀 이들이 종이책을 읽거나 마음에 닿는 문장을 필사하며 고유한 멋을 드러냅니다. 지식을 쌓는 차원을 넘어 책을 읽고 기록하는 행위 자체를 세련된 문화로 여깁니다."
+ },
+ "story": {
+  "sub": "정직하게 굴러가던 두 바퀴",
+  "paras": [
+   "1986년 늦가을, 아버지가 물려준 짙은 초록색 자전거. 체인 기름 냄새와 차가운 쇠 냄새. 덜컹거리는 자갈길을 지날 때마다 앞바퀴 흙받이가 잘게 떨리던 소리가 선명합니다. 손잡이의 낡은 검은 고무는 손바닥에 굳은살 같은 자국을 남기곤 했습니다. 페달을 밟아 언덕을 오르면 귓가로 서늘한 바람이 지나갔습니다.",
+   "뒤뚱거리던 바퀴가 어느 순간 수평을 찾고 나아갈 때의 고요함을 기억합니다. 세상의 속도가 오직 내 다리의 힘에 정직하게 비례하던 시절이었습니다. 반짝이던 쇠살 위로 번지던 저녁노을도 함께 떠오릅니다. 베란다 한쪽에 놓인 자전거의 바퀴를 가만히 굴려봅니다. 허공을 도는 톱니 소리가 여전히 맑습니다."
+  ],
+  "by": "오마주 편집실",
+  "title": "귓가의 바람"
+ },
+ "meal": {
+  "steps": [
+   "표고버섯은 도톰하게 썰고 대파는 송송 썹니다.",
+   "달군 팬에 기름을 살짝 두르고 대파와 표고버섯을 중불에서 노릇하게 볶습니다.",
+   "물 반 컵과 국간장, 들깻가루를 둘러 자작하게 한소끔 끓인 뒤 따뜻한 밥 위에 얹습니다."
+  ],
+  "tip": "버섯을 센 불에서 빠르게 익혀야 쫄깃한 식감과 수분이 그대로 남습니다.",
+  "sub": "1인분 · 15분 · 재료 5가지",
+  "ingredients": [
+   "밥 1공기",
+   "생표고버섯 3개",
+   "대파 반 대",
+   "들깻가루 2큰술",
+   "국간장 1큰술"
+  ],
+  "title": "들깨 표고버섯 덮밥",
+  "lead": "10월의 표고는 향과 살이 단단하게 차오릅니다. 고소한 들깨를 더해 따뜻하게 볶아내면 가을 숲의 향이 온전히 담깁니다."
+ },
+ "phrase": {
+  "zh": {
+   "tip": "식사의 결에 맞춘 반주를 권유받고 싶을 때 유용합니다.",
+   "text": "请帮我推荐一款适合这道菜的酒。",
+   "meaning": "이 요리에 어울리는 술로 하나 추천해 주세요.",
+   "reading": "칭 빵 워 투이지엔 이콴 스허 저다오차이 더 지우"
+  },
+  "en": {
+   "tip": "서버나 소믈리에의 안목에 맡길 때 쓰기 좋습니다.",
+   "text": "Could you recommend something that pairs well with this dish?",
+   "meaning": "이 요리에 어울리는 것으로 추천해 주시겠어요?",
+   "reading": "쿠드 유 레커멘드 섬띵 댓 페어스 웰 위드 디스 디시"
+  },
+  "ja": {
+   "tip": "주종을 정하지 않고 전문가에게 일임할 때 알맞습니다.",
+   "text": "この料理に合うものを一杯お願いできますか。",
+   "meaning": "이 요리에 어울리는 것으로 한 잔 부탁드릴까요?",
+   "reading": "코노 료오리니 아우 모노오 잇파이 오네가이데키마스카"
+  },
+  "topic": "어울리는 한 잔"
+ },
+ "culture": {
+  "bible": {
+   "text": "사랑은 오래 참고 사랑은 온유하며 투기하는 자가 되지 아니하며 사랑은 자랑하지 아니하며 교만하지 아니하며",
+   "note": "상대를 바꾸려 애쓰기보다 그저 있는 그대로 곁을 지켜주는 일이 사랑의 시작입니다. 내 안의 조급함과 욕심을 내려놓을 때 비로소 잔잔하고 너른 평화가 찾아옵니다.",
+   "ref": "고린도전서 13:4"
+  },
+  "humor": {
+   "punch": "아빠, 이거 작년에 우리 집 베란다에 둔 인조 단풍 화분이잖아.",
+   "text": "주말 아침, 남편이 정성스레 찍은 붉은 단풍잎 사진을 가족 단톡방에 올렸습니다.\n곧이어 '가을의 정취를 함께 나눕니다'라는 점잖은 글귀까지 덧붙였습니다.\n한참 뒤 딸아이가 사진을 자세히 보더니 짧은 답장을 보냈습니다.",
+   "kind": "짧은 이야기",
+   "title": "단풍잎 사진"
+  },
+  "poem": {
+   "year": "1941",
+   "words": [],
+   "text": "돌에\n그늘이 차고,\n\n따로 몰리는\n소소리바람.\n\n앞섰거니 하여\n꼬리 치날리어 세우고,\n\n종종 다리 까칠한\n산새 걸음걸이.\n\n여울 지어\n수척한 흰 물살,\n\n갈갈이\n손가락 펴고.\n\n멎은 듯\n새삼 듣는 빗낱\n\n붉은 잎 잎\n소란히 밟고 간다.",
+   "author": "정지용",
+   "note": "비가 온다는 말은 한 번도 나오지 않습니다. 맵고 스산한 소소리바람이 몰리고, 빗낱(빗방울)이 산새처럼 종종걸음으로 붉은 잎 위를 지나갈 뿐입니다. 짧은 행 사이의 여백까지 읽고 나면, 창밖의 가을비가 조금 다르게 들립니다.",
+   "title": "비",
+   "bg": "1941년 1월 잡지 《문장》에 발표되고, 같은 해 시집 《백록담》에 실렸습니다. 감정을 말하는 대신 바람과 물살, 빗방울의 움직임만으로 산골짜기에 비가 지나가는 순간을 그려 낸, 정지용 후기 산수시의 정수로 꼽힙니다."
+  },
+  "dharma": {
+   "src": "『법구경』",
+   "text": "어리석은 이가 스스로 어리석은 줄 알면 그는 이미 지혜롭다. 어리석으면서 지혜롭다고 여기는 이가 참으로 어리석다.",
+   "note": "자신의 부족함을 담담히 인정하는 순간 마음에는 새로운 배움이 깃듭니다. 다 안다고 여기는 굳은 생각에서 한 걸음 물러설 때 참된 지혜가 밝아옵니다."
+  },
+  "quote": {
+   "text": "정원과 서재가 있다면, 필요한 것은 모두 가진 셈이다.",
+   "note": "로마의 사상가 키케로가 친구 바로에게 보낸 편지에서 번잡한 세상을 벗어나 자연과 학문에 깃들던 기쁨을 전한 문장입니다. 책 한 쪽을 음미하고 잎사귀 하나를 찬찬히 어루만질 여유만으로도 오늘 하루는 온전히 채워질 수 있습니다.",
+   "who": "키케로, 친구 바로에게 보낸 편지"
+  },
+  "painting": {
+   "artist_story": "자연을 단순한 풍경이 아니라 내면 성찰과 영혼의 통로로 바라보았던 독일의 화가입니다. 눈앞의 대상 너머에 자리한 침묵과 신비를 화폭에 담으며 낭만주의 풍경화의 독자적인 경지를 열었습니다.",
+   "wiki": "en:Wanderer_above_the_Sea_of_Fog",
+   "artist": "카스파르 다비트 프리드리히",
+   "points": [
+    "관람객과 같은 방향을 바라보며 시선을 풍경 깊숙한 곳으로 이끄는 인물의 뒷모습.",
+    "바다처럼 굽이치는 자욱한 안개 구름 사이로 솟아오른 험준한 바위 봉우리들.",
+    "단단하고 어두운 전경의 암벽과 대조를 이루며 아스라이 퍼지는 차분한 새벽빛."
+   ],
+   "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg/640px-Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg/1280px-Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+   "year": "1818년경",
+   "about": "독일 낭만주의 회화를 대표하는 걸작으로 현재 함부르크 미술관에 소장되어 있습니다. 바위 꼭대기에 홀로 서서 안개에 싸인 산등성이를 내려다보는 남자의 뒷모습을 담았습니다. 거대한 자연의 침묵 앞에 마주 선 인간의 고독과 숭고한 사색의 순간을 단단한 구성으로 보여줍니다.",
+   "title": "안개 바다 위의 방랑자",
+   "page": "https://en.wikipedia.org/wiki/Wanderer_Above_the_Sea_of_Fog"
+  },
+  "essay": {
+   "paras": [
+    "아침 햇살에 밤송이가 툭 떨어지는 소리를 들었습니다. 마당 구석에서 알밤 서너 개를 주워 손바닥에 굴려 봅니다. 가을볕을 온전히 머금은 갈색 껍질이 차갑고도 매끄럽습니다. 물기가 적당히 빠진 공기 덕분에 온 동네에 마른 풀잎 냄새가 옅게 감돕니다.",
+    "식탁에 앉아 작은 칼로 껍질을 벗겨 냅니다. 속껍질인 떫은 보늬까지 벗겨내고 나면 뽀얗고 단단한 살이 드러납니다. 한 입 베어 물자 은은한 단맛이 입안에 천천히 퍼집니다. 봄여름의 부산함을 모두 지나온 것들만이 지니는 고요한 맛입니다.",
+    "어릴 적엔 조급한 마음에 덜 익은 밤을 이로 깨물다 떫은맛에 얼굴을 찌푸리곤 했습니다. 시간이 지나야 비로소 단맛이 차오른다는 사실을 이제는 압니다. 서두르지 않고 묵묵히 제 무게를 채운 것들이 곁에 있어 마음이 넉넉해지는 아침입니다."
+   ],
+   "by": "오마주 편집실",
+   "title": "단단한 껍질을 까는 시간"
+  }
+ },
+ "generatedAt": "2026-10-17T00:33:30.342659+09:00",
+ "fortune": {
+  "용": {
+   "total": "높고 푸른 하늘 아래로 펼쳐진 도시의 풍경이 유난히 선명하게 다가옵니다. 마음에 품고만 있던 새로운 계획의 첫 장을 기분 좋게 펼쳐볼 만합니다. 시야를 넓게 둘수록 일상의 사소한 고민들은 바람을 타고 자연스레 흩어집니다.",
+   "color": "비취색",
+   "num": "51",
+   "do": "전망이 시원하게 트인 곳에서 탁 트인 가을 하늘을 올려다보세요.",
+   "place": "탁 트인 옥상 정원",
+   "people": "새로운 소식을 전해온 지인에게 넉넉한 응원의 답장을 보내보세요.",
+   "time": "정오 무렵"
+  },
+  "소": {
+   "total": "묵직한 도자기 접시에 갓 구운 빵 한 조각을 올리는 순간부터 기분 좋은 온기가 번집니다. 서두르지 않고 발걸음의 속도를 늦출수록 계절의 결이 또렷하게 보입니다. 정성껏 다듬은 일상이 조용히 빛을 발하는 토요일입니다.",
+   "color": "황갈색",
+   "num": "28",
+   "do": "좋아하는 식기에 따뜻한 차를 따라 천천히 음미해보세요.",
+   "place": "고즈넉한 돌담길",
+   "people": "오래 알고 지낸 동무와 말없이 나란히 걷는 것만으로도 충분합니다.",
+   "time": "오후 2시 무렵"
+  },
+  "닭": {
+   "total": "단정하게 정돈된 공간에서 맑은 집중력이 차오릅니다. 잘 다려 입은 옷처럼 스스로를 귀하게 대접하는 순간이 하루를 빛냅니다. 마음먹은 일을 차분하게 매듭짓기에 알맞은 시간입니다.",
+   "color": "미색",
+   "num": "35",
+   "do": "책상 위 물건들의 자리를 반듯하게 맞춰 정돈해보세요.",
+   "place": "볕이 잘 드는 서재",
+   "people": "마주치는 이웃에게 건네는 눈인사가 기분 좋은 온기를 나눕니다.",
+   "time": "오전 9시 무렵"
+  },
+  "개": {
+   "total": "낙엽 밟는 소리와 서늘한 공기가 산뜻한 기운을 북돋웁니다. 복잡한 생각을 비워내고 눈앞의 계절을 온전히 눈에 담아보세요. 솔직하고 꾸밈없는 태도가 하루를 한층 넉넉하게 만듭니다.",
+   "color": "고동색",
+   "num": "42",
+   "do": "가벼운 외투를 걸치고 동네 산책길을 여유롭게 걸어보세요.",
+   "place": "낙엽 진 산책로",
+   "people": "식탁에 마주 앉아 나누는 따뜻한 온기에 마음이 든든해집니다.",
+   "time": "늦은 오후 무렵"
+  },
+  "양": {
+   "total": "손끝에 닿는 종이의 질감이나 따뜻한 잔의 온기가 마음에 평온을 줍니다. 조용히 음악을 틀어두고 생각에 잠기기 좋은 날입니다. 서두르지 않아도 모든 일이 자연스레 흘러갑니다.",
+   "color": "올리브색",
+   "num": "23",
+   "do": "아끼는 필기도구로 오늘 날짜를 종이에 정갈하게 적어보세요.",
+   "place": "조용한 서점",
+   "people": "곁에 있는 이의 이야기를 가만히 들어주는 것만으로 족합니다.",
+   "time": "오후 2시 무렵"
+  },
+  "말": {
+   "total": "창문을 열면 상쾌한 가을바람이 먼저 인사를 건넵니다. 발길 닿는 대로 나선 길에서 계절의 변화를 또렷이 마주합니다. 마음의 보폭을 늦출수록 시야는 한결 넓어집니다.",
+   "color": "남색",
+   "num": "14",
+   "do": "계절 과일을 예쁜 접시에 정갈하게 담아 드셔보세요.",
+   "place": "햇살 드는 벤치",
+   "people": "오랜 친구에게 안부를 묻는 짧은 메시지가 반갑습니다.",
+   "time": "오전 10시 무렵"
+  },
+  "돼지": {
+   "total": "정성껏 내린 차 한 잔에서 그윽한 향이 은은하게 번져나옵니다. 마음에 너그러움을 품으니 사소한 순간도 풍요롭게 느껴집니다. 나만의 호흡으로 채워가는 오늘 하루가 더없이 편안합니다.",
+   "color": "연두색",
+   "num": "17",
+   "do": "좋아하는 음악을 틀어두고 따뜻한 차 한 잔을 음미해보세요.",
+   "place": "온기 있는 찻집",
+   "people": "고마운 마음을 마음에 담아두지 말고 솔직하게 표현해보세요.",
+   "time": "오후 4시 무렵"
+  },
+  "쥐": {
+   "total": "아침 햇살에 비친 찻잔의 김이 유난히 포근하게 피어오릅니다. 서랍 깊숙이 넣어둔 만년필을 꺼내 백지에 단정한 선을 그어보세요. 머릿속에 맴돌던 복잡한 생각들이 맑은 가을 공기처럼 산뜻하게 정돈됩니다.",
+   "color": "남색",
+   "num": "14",
+   "do": "서랍 속에 오래 머물렀던 물건을 꺼내 먼지를 닦아내세요.",
+   "place": "볕이 잘 드는 창가",
+   "people": "가까운 이에게 건네는 무심한 듯 따뜻한 한마디가 깊은 여운을 남깁니다.",
+   "time": "오전 9시 무렵"
+  },
+  "토끼": {
+   "total": "창틀에 내려앉은 가을 햇살을 마주하며 좋아하는 음반의 첫 곡을 골라봅니다. 곱게 말린 꽃잎이나 손수 만든 소품처럼 작은 아름다움이 눈에 들어옵니다. 고요한 나만의 시간 속에서 섬세한 취향이 은은하게 피어납니다.",
+   "color": "연분홍색",
+   "num": "33",
+   "do": "오래된 음반이나 아끼는 음악을 틀고 가만히 귀를 기울여보세요.",
+   "place": "동네 찻집",
+   "people": "가족과의 소소한 식사 자리에서 나눈 웃음이 마음에 오래 남습니다.",
+   "time": "오후 4시 무렵"
+  },
+  "뱀": {
+   "total": "책장을 넘길 때 나는 사각거리는 소리가 유난히 다정하게 들리는 날입니다. 향긋한 원두를 갈아 내리는 동안 물방울이 떨어지는 소리에도 귀를 기울여보세요. 불필요한 장식은 덜어내고 오롯이 내면의 결을 어루만지는 시간입니다.",
+   "color": "담청색",
+   "num": "82",
+   "do": "좋아하는 시집 한 권을 골라 마음에 닿는 문장에 줄을 그어보세요.",
+   "place": "조용한 서재",
+   "people": "소중한 사람의 말에 묵묵히 고개를 끄덕여주는 것만으로 힘이 됩니다.",
+   "time": "오후 6시 무렵"
+  },
+  "원숭이": {
+   "total": "익숙한 풍경 속에서 뜻밖의 새로움을 발견하는 즐거움이 있습니다. 오래 묵혀둔 서랍을 열다 잊고 있던 옛 사진을 마주할지도 모릅니다. 유연한 생각과 호기심이 일상에 활기를 더합니다.",
+   "color": "주황색",
+   "num": "8",
+   "do": "평소 걷지 않던 낯선 골목길로 가볍게 걸음을 옮겨보세요.",
+   "place": "동네 화원",
+   "people": "유쾌한 농담 한마디로 주변 분위기를 한결 부드럽게 만듭니다.",
+   "time": "정오 무렵"
+  },
+  "호랑이": {
+   "total": "바람에 실려 온 맑은 가을 향기가 굳어 있던 감각을 시원하게 깨웁니다. 늘 걷던 길 대신 한 번도 들어서지 않은 골목길로 발길을 돌려보세요. 작은 호기심 하나가 하루의 풍경을 전혀 새로운 색채로 물들여 줍니다.",
+   "color": "감청색",
+   "num": "7",
+   "do": "평소 가보지 않은 낯선 골목길을 가볍게 산책해보세요.",
+   "place": "작은 서점",
+   "people": "우연히 마주친 이웃에게 먼저 건네는 엷은 미소가 반가움을 더합니다.",
+   "time": "오전 11시 무렵"
+  }
+ },
+ "source": "auto",
+ "era": {
+  "30": {
+   "photo": {
+    "year": "1993년 11월",
+    "area": "서울 종로",
+    "src": "국립민속박물관 민속아카이브",
+    "url": "https://picryl.com/media/gwanghwamun-in-november-1993-2ced73",
+    "caption": "늦가을 광화문 앞을 스쳐 지나는 자동차들. 필름 특유의 빛이 그대로 남아 있습니다.",
+    "place": "세종로 광화문 앞",
+    "img": "https://raw.githubusercontent.com/jmp159877-source/omaju/place-photos/out/seoul-jongno-1993.jpg"
+   },
+   "pop": [
+    [
+     "Don't Speak",
+     "No Doubt"
+    ],
+    [
+     "Always Be My Baby",
+     "Mariah Carey"
+    ],
+    [
+     "It's All Coming Back to Me Now",
+     "Celine Dion"
+    ],
+    [
+     "Change the World",
+     "Eric Clapton"
+    ],
+    [
+     "Wonderwall",
+     "Oasis"
+    ],
+    [
+     "Un-Break My Heart",
+     "Toni Braxton"
+    ],
+    [
+     "Macarena",
+     "Los del Río"
+    ],
+    [
+     "Because You Loved Me",
+     "Celine Dion"
+    ],
+    [
+     "One Sweet Day",
+     "Mariah Carey & Boyz II Men"
+    ],
+    [
+     "Wannabe",
+     "Spice Girls"
+    ]
+   ],
+   "facts": [
+    [
+     "팝 황제의 첫 내한",
+     "10월 11일, 팝의 황제 마이클 잭슨이 서울 잠실 올림픽주경기장에서 첫 내한 공연을 열었습니다. 화려한 무대 연출과 문워크에 객석은 환호로 가득 찼습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Michael_Jackson_in_1988.jpg/640px-Michael_Jackson_in_1988.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "이소라의 프러포즈",
+     "10월 19일, 음악 토크쇼 《이소라의 프로포즈》가 첫 전파를 탔습니다. 토요일 늦은 밤, 이소라의 그윽한 목소리와 라이브 음악이 지친 하루에 따뜻한 위로를 건넸습니다."
+    ],
+    [
+     "청춘들의 하숙집",
+     "10월 21일, 청춘 시트콤 《남자 셋 여자 셋》이 첫 방송을 시작했습니다. 개성 넘치는 대학생들의 우정과 풋풋한 연애담이 안방극장에 유쾌한 웃음을 안겼습니다."
+    ]
+   ],
+   "news": [
+    {
+     "source_name": "서울신문",
+     "headline": "국방장관 전격 경질… 군 수뇌부 대폭 교체",
+     "field": "정치",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/18/19961018001001",
+     "summary": "김영삼 대통령이 17일 이양호 국방장관을 경질하고 김동진 합참의장을 새 장관에 임명했습니다. 강릉 무장공비 사건 뒤 군 분위기를 새로 다잡겠다는 뜻이었습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "통일원 국감, 안보리 대북 성명 놓고 여야 공방",
+     "field": "정치",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/17/19961017005001",
+     "summary": "16일 통일원 국정감사에서 유엔 안보리 의장성명의 무게를 두고 여야가 맞섰습니다. 정부는 북한에 큰 압박이라 했고, 야당은 사과 요구조차 없는 맹탕이라고 몰아붙였습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "정부 \"고유가 유지\"… 원유 관세 안 내린다",
+     "field": "경제",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/17/19961017009001",
+     "summary": "재정경제원은 16일 국제 원유값이 올라도 원유 할당관세를 내리지 않기로 했습니다. 에너지를 아끼려 국내 기름값을 외국 수준으로 끌어올린다는 방침이라 서민 주머니가 걱정이었습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "5·18 항소심, 피해자 첫 증언 \"과잉 진압이 분노 불렀다\"",
+     "field": "사회",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/18/19961018021001",
+     "summary": "17일 열린 12·12 및 5·18 사건 항소심 공판에 5·18 피해자와 목격 기자가 증인으로 나섰습니다. 검찰은 계엄군의 과잉 진압을, 변호인단은 발포의 불가피성을 주장하며 하루 내내 맞붙었습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "서울연극제 대상에 연우무대 「날 보러와요」",
+     "field": "문화",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/17/19961017013002",
+     "summary": "16일 대학로에서 열린 제20회 서울연극제 시상식에서 김광림 작·연출 「날 보러와요」가 대상을 받았습니다. 뒷날 영화 「살인의 추억」의 원작이 된 바로 그 연극입니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "국보 1호 남대문, 자격 묻는 여론조사 한다",
+     "field": "문화",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/18/19961018022001",
+     "summary": "문화체육부는 17일 국보 1호 남대문이 그 자리에 어울리는지 여론조사를 거쳐 다시 정하겠다고 밝혔습니다. 먼저 문화재위원 의견을 듣고 11월에 국민에게 묻기로 했습니다."
+    },
+    {
+     "source_name": "가요톱10 역대 1위 기록",
+     "headline": "김민종 「귀천도애」 가요톱10 3주 연속 1위",
+     "field": "연예",
+     "source_url": "https://oldschoolkpops.com/top10",
+     "summary": "16일 방송된 KBS 「가요톱10」에서 김민종의 「귀천도애」가 3주 연속 1위에 올랐습니다. 영화 「귀천도」 주제가로 나온 이 노래는 그해 가을 내내 거리마다 흘렀습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "교도소 토요일 접견, 19일부터 오후 6시까지",
+     "field": "생활",
+     "source_url": "https://www.seoul.co.kr/news/1996/10/17/19961017022001",
+     "summary": "법무부는 16일 전국 교도소·구치소의 토요일 접견 시간을 오후 6시까지로 늘린다고 발표했습니다. 새벽부터 나서야 했던 가족들의 걸음이 한결 가벼워졌습니다."
+    },
+    {
+     "source_name": "나무위키",
+     "headline": "해태, 한국시리즈 1차전 현대에 8-3 완승",
+     "field": "스포츠",
+     "source_url": "https://namu.wiki/w/1996년 한국시리즈",
+     "summary": "16일 광주 무등야구장에서 열린 한국시리즈 1차전에서 해태가 현대를 8대 3으로 꺾고 기선을 잡았습니다. 선발 이대진이 7이닝을 3실점으로 막아 홈 관중이 들썩였습니다."
+    },
+    {
+     "source_name": "나무위키",
+     "headline": "2차전은 현대, 연장 11회 2-1 신승",
+     "field": "스포츠",
+     "source_url": "https://namu.wiki/w/1996년 한국시리즈",
+     "summary": "17일 광주 2차전에서는 현대가 연장 11회 접전 끝에 해태를 2대 1로 눌러 1승 1패를 만들었습니다. 4시간 35분이 걸린, 그때까지 한국시리즈 최장 경기였습니다."
+    }
+   ],
+   "mood": "광주 무등야구장에서 한국시리즈가 한창이던 가을입니다.",
+   "songs": [
+    [
+     "운명",
+     "쿨"
+    ],
+    [
+     "여름 이야기",
+     "DJ DOC"
+    ],
+    [
+     "그때 또 다시",
+     "임창정"
+    ],
+    [
+     "나보다 조금 더 높은 곳에 니가 있을 뿐",
+     "신승훈"
+    ],
+    [
+     "상상속의 너",
+     "노이즈"
+    ],
+    [
+     "그녀는 예뻤다",
+     "박진영"
+    ],
+    [
+     "기억속의 먼 그대에게",
+     "박미경"
+    ],
+    [
+     "전사의 후예",
+     "H.O.T."
+    ],
+    [
+     "이젠 나만의 길",
+     "김민종"
+    ],
+    [
+     "Come Back Home",
+     "서태지와 아이들"
+    ]
+   ],
+   "papers": [
+    [
+     "동아일보",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-17&officeId=00020"
+    ],
+    [
+     "한겨레",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-17&officeId=00028"
+    ],
+    [
+     "경향신문",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1996-10-17&officeId=00032"
+    ]
+   ]
+  },
+  "50": {
+   "photo": {
+    "year": "1977년 12월",
+    "area": "서울 종로",
+    "src": "위키미디어 공용 · 공공누리",
+    "url": "https://picryl.com/media/city-is-overcrowded-1977-12-05-cee12e",
+    "caption": "종각역 입구를 가득 메운 사람들. 코트와 교복 사이로 그 시절 서울의 하루가 보입니다.",
+    "place": "종로 1가 종각역 앞",
+    "img": "https://raw.githubusercontent.com/jmp159877-source/omaju/place-photos/out/seoul-jongno-1977.jpg"
+   },
+   "pop": [
+    [
+     "I Write the Songs",
+     "Barry Manilow"
+    ],
+    [
+     "Love Hurts",
+     "Nazareth"
+    ],
+    [
+     "December, 1963 (Oh, What a Night)",
+     "The Four Seasons"
+    ],
+    [
+     "Tonight's the Night",
+     "Rod Stewart"
+    ],
+    [
+     "Play That Funky Music",
+     "Wild Cherry"
+    ],
+    [
+     "Let Your Love Flow",
+     "Bellamy Brothers"
+    ],
+    [
+     "Dancing Queen",
+     "ABBA"
+    ],
+    [
+     "Bohemian Rhapsody",
+     "Queen"
+    ],
+    [
+     "Don't Go Breaking My Heart",
+     "Elton John & Kiki Dee"
+    ],
+    [
+     "Silly Love Songs",
+     "Wings"
+    ]
+   ],
+   "facts": [
+    [
+     "소머즈의 등장",
+     "10월 22일, 외화 《특수 공작원 소머즈》가 첫선을 보였습니다. 귀를 기울이며 놀라운 능력을 펼치는 여성 주인공의 활약은 안방극장에 신선한 바람을 일으켰습니다."
+    ],
+    [
+     "아바의 명반 탄생",
+     "10월 11일, 팝 그룹 아바가 정규 음반 《어라이벌》을 선보였습니다. 세기의 명곡 〈댄싱 퀸〉이 담긴 이 음반은 전 세계는 물론 국내 음악 팬들의 감성을 단숨에 사로잡았습니다.",
+     "https://upload.wikimedia.org/wikipedia/ko/4/4c/ABBA_-_Arrival.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "거상 임상옥 방영",
+     "10월 18일, 일일연속사극 《거상 임상옥》이 첫 방송을 시작했습니다. 올곧은 상도와 인간에 대한 신의를 진중하게 그려내며 저녁 시간 많은 이들의 마음에 깊은 울림을 주었습니다."
+    ]
+   ],
+   "news": [
+    {
+     "source_name": "영문 위키백과",
+     "headline": "아랍 정상들 리야드 긴급회동, 레바논 휴전 모색",
+     "field": "정치",
+     "source_url": "https://en.wikipedia.org/wiki/Arab_Deterrent_Force",
+     "summary": "사우디·이집트·시리아·레바논·쿠웨이트 정상이 17일 리야드에 모여 레바논 내전 수습에 나섰습니다. 아랍 억지군을 두고 전면 휴전에 합의하면서 중동 정세가 큰 고비를 넘기는 듯했습니다."
+    },
+    {
+     "source_name": "한국어 위키백과",
+     "headline": "홍수환, 사모라에 12회 TKO… 안방 설욕 무산",
+     "field": "스포츠",
+     "source_url": "https://ko.wikipedia.org/wiki/홍수환",
+     "summary": "인천 선인체육관에서 열린 WBA 밴텀급 타이틀전에서 홍수환 선수가 챔피언 알폰소 사모라에게 12회 TKO로 졌습니다. 지난해 원정 패배를 안방에서 되갚으려던 온 나라의 기대가 아쉽게 꺾인 밤이었습니다."
+    },
+    {
+     "source_name": "대한체육회",
+     "headline": "제57회 전국체전 부산서 폐막, 서울 종합우승",
+     "field": "스포츠",
+     "source_url": "https://meet.sports.or.kr/history/event/list.do",
+     "summary": "12일 부산에서 막을 올린 제57회 전국체육대회가 17일 엿새 열전을 마쳤습니다. 종합 1위는 서울, 2위 경기, 3위 경북이었습니다."
+    }
+   ],
+   "mood": "인천 체육관의 권투 열기가 아직 식지 않은 일요일 아침이었습니다.",
+   "songs": [
+    [
+     "당신만을 사랑해",
+     "혜은이"
+    ],
+    [
+     "아내에게 바치는 노래",
+     "하수영"
+    ],
+    [
+     "나는 못난이",
+     "딕훼밀리"
+    ],
+    [
+     "목마와 숙녀",
+     "박인희"
+    ],
+    [
+     "또 만나요",
+     "딕훼밀리"
+    ],
+    [
+     "여고 졸업반",
+     "김인순"
+    ],
+    [
+     "긴 머리 소녀",
+     "둘다섯"
+    ],
+    [
+     "사랑은 나비인가봐",
+     "현이와 덕이"
+    ],
+    [
+     "밤배",
+     "둘다섯"
+    ],
+    [
+     "잊어야 한다면",
+     "이종용"
+    ]
+   ],
+   "papers": [
+    [
+     "동아일보",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-17&officeId=00020"
+    ],
+    [
+     "경향신문",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-17&officeId=00032"
+    ],
+    [
+     "매일경제",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1976-10-17&officeId=00009"
+    ]
+   ]
+  },
+  "20": {
+   "photo": {
+    "year": "2006년 6월",
+    "area": "서울 종로",
+    "src": "Flickr, d'n'c (CC BY-SA 2.0)",
+    "url": "https://www.flickr.com/photos/fukagawa/194110814/",
+    "caption": "붉은 벽돌담을 따라 내려가는 북촌의 좁은 골목. 기와지붕 너머로 도심이 보입니다.",
+    "place": "종로구 북촌 골목",
+    "img": "https://raw.githubusercontent.com/jmp159877-source/omaju/place-photos/out/seoul-jongno-2006.jpg"
+   },
+   "pop": [
+    [
+     "Irreplaceable",
+     "Beyoncé"
+    ],
+    [
+     "Chasing Cars",
+     "Snow Patrol"
+    ],
+    [
+     "Over My Head (Cable Car)",
+     "The Fray"
+    ],
+    [
+     "Promiscuous",
+     "Nelly Furtado"
+    ],
+    [
+     "How to Save a Life",
+     "The Fray"
+    ],
+    [
+     "Waiting on the World to Change",
+     "John Mayer"
+    ],
+    [
+     "Crazy",
+     "Gnarls Barkley"
+    ],
+    [
+     "Hips Don't Lie",
+     "Shakira"
+    ],
+    [
+     "SexyBack",
+     "Justin Timberlake"
+    ],
+    [
+     "Bad Day",
+     "Daniel Powter"
+    ]
+   ],
+   "facts": [
+    [
+     "거리에서 울린 노래",
+     "10월 10일, 가수 성시경의 정규 5집 음반 《The Ballads》가 발매되었습니다. 타이틀곡 〈거리에서〉는 맑고 서정적인 멜로디로 가을 도심을 물들였습니다.",
+     "https://upload.wikimedia.org/wikipedia/ko/7/7a/%EC%84%B1%EC%8B%9C%EA%B2%BD_-_The_Ballads.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "황진이의 첫 춤",
+     "10월 11일, 하지원 주연의 드라마 《황진이》가 처음 방송되었습니다. 수려한 한복과 춤, 예술가의 고뇌를 유려한 영상으로 담아내며 큰 사랑을 받았습니다."
+    ],
+    [
+     "첫 유엔 수장 탄생",
+     "10월 13일, 반기문 외교통상부 장관이 한국인 최초로 제8대 유엔 사무총장에 선출되었습니다. 회원국의 만장일치 지지 속에 국제 사회의 지도자로 우뚝 섰습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Ban_Ki-moon_February_2016.jpg/640px-Ban_Ki-moon_February_2016.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ]
+   ],
+   "news": [
+    {
+     "source_name": "프레시안(연합뉴스)",
+     "headline": "라이스 \"개성·금강산, 한국의 결정 지켜보겠다\"",
+     "field": "정치",
+     "source_url": "https://www.pressian.com/pages/articles/50606",
+     "summary": "아시아 순방을 앞둔 라이스 미 국무장관이 16일 회견에서 개성공단·금강산 사업에 대한 한국의 판단을 지켜보겠다고 밝혔습니다. 안보리 결의 1718호는 모든 나라가 지켜야 할 새 기준이라고 강조했습니다."
+    },
+    {
+     "source_name": "프레시안(연합뉴스)",
+     "headline": "힐 차관보 방한 \"금강산 사업은 이해 못 해\"",
+     "field": "정치",
+     "source_url": "https://www.pressian.com/pages/articles/50619",
+     "summary": "17일 서울에 온 크리스토퍼 힐 미 국무부 차관보가 금강산 관광은 북한 정부에 돈을 주려 만든 것 같다는 사견을 밝혔습니다. 개성공단은 이해하지만 금강산은 다르다는 말에 파장이 일었습니다."
+    },
+    {
+     "source_name": "삼성전자 뉴스룸",
+     "headline": "삼성전자 3분기 영업이익 1조 8,500억… 회복세",
+     "field": "경제",
+     "source_url": "https://news.samsung.com/kr/%ec%82%bc%ec%84%b1%ec%a0%84%ec%9e%90-3%eb%b6%84%ea%b8%b0-%ea%b2%bd%ec%98%81%ec%8b%a4%ec%a0%81-%eb%b0%9c%ed%91%9c",
+     "summary": "삼성전자가 16일 3분기 매출 15조 2,200억 원, 영업이익 1조 8,500억 원을 발표했습니다. 반도체 값 호조에 힘입어 2분기 바닥을 지나 본격 회복에 들어섰다는 평가였습니다."
+    },
+    {
+     "source_name": "프레시안",
+     "headline": "국감 \"유가 자율화 뒤 정유사 폭리 19조\"",
+     "field": "경제",
+     "source_url": "https://www.pressian.com/pages/articles/50614",
+     "summary": "17일 국정감사에서 1997년 유가 자율화 이후 정유사들이 값을 높게 매겨 소비자가 19조 원 넘게 더 냈다는 주장이 나왔습니다. 휘발유값 담합 의혹도 함께 도마에 올랐습니다."
+    },
+    {
+     "source_name": "프레시안",
+     "headline": "소득 상·하위 20% 격차, 35배로 벌어져",
+     "field": "사회",
+     "source_url": "https://www.pressian.com/pages/articles/50595",
+     "summary": "16일 국세청이 국감에 낸 자료에서 종합소득세 신고자 상위 20%와 하위 20%의 소득 격차가 1998년 17.7배에서 2004년 35.3배로 커졌습니다. 외환위기 뒤 양극화가 깊어졌다는 숫자였습니다."
+    },
+    {
+     "source_name": "OSEN",
+     "headline": "세븐, 뉴욕에서 미국 진출 공식 선언",
+     "field": "연예",
+     "source_url": "https://osen.co.kr/article/G0610170026",
+     "summary": "가수 세븐이 16일(현지시간) 뉴욕에서 기자회견을 열고 미국 진출을 공식 발표했습니다. 그래미를 받은 프로듀서 리치 해리슨과 첫 싱글을 녹음해 이듬해 초 활동을 시작한다는 계획이었습니다."
+    },
+    {
+     "source_name": "OSEN",
+     "headline": "「대조영」, 시청률에서 「연개소문」 첫 추월",
+     "field": "연예",
+     "source_url": "https://osen.co.kr/article/G0610160005",
+     "summary": "KBS 1TV 「대조영」이 15일 방송에서 두 조사기관 집계 모두 SBS 「연개소문」을 앞섰습니다. 고구려 사극 두 편의 주말 맞대결이 더 뜨거워졌습니다."
+    },
+    {
+     "source_name": "경기일보",
+     "headline": "화성시, 이주 여성 30명에 김치 담그기 교실",
+     "field": "생활",
+     "source_url": "https://www.kyeonggi.com/article/200610170203880",
+     "summary": "화성시가 중국·베트남·필리핀·태국에서 온 결혼 이주 여성 30여 명에게 김치와 삼색나물 만드는 법을 가르쳤습니다. 한국어 교실 등 생활 적응 프로그램도 넓히겠다고 했습니다."
+    },
+    {
+     "source_name": "OSEN",
+     "headline": "한화, 현대 4-0 꺾고 한국시리즈 진출",
+     "field": "스포츠",
+     "source_url": "https://osen.co.kr/article/G0610170129",
+     "summary": "한화가 16일 대전 3차전을 이도형의 결승 홈런으로 잡은 데 이어 17일 4차전에서 송진우 등 노장 투수진의 호투로 현대를 4대 0으로 눌렀습니다. 1패 뒤 3연승, 1999년 이후 첫 한국시리즈 진출이었습니다."
+    }
+   ],
+   "mood": "북한 핵실험 일주일 뒤, 서울에 미국 손님들이 잇따라 왔습니다.",
+   "songs": [
+    [
+     "여인의 향기",
+     "씨야"
+    ],
+    [
+     "거리에서",
+     "성시경"
+    ],
+    [
+     "U",
+     "슈퍼주니어"
+    ],
+    [
+     "이따 이따요",
+     "장윤정"
+    ],
+    [
+     "O-正.反.合.",
+     "동방신기"
+    ],
+    [
+     "Grace",
+     "이수영"
+    ],
+    [
+     "추억은 사랑을 닮아",
+     "박효신"
+    ],
+    [
+     "사랑했나봐",
+     "윤도현"
+    ],
+    [
+     "첫사랑은 없다",
+     "SG워너비"
+    ],
+    [
+     "애인 만들기",
+     "거미"
+    ]
+   ],
+   "papers": [
+    [
+     "동아일보",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-17&officeId=00020"
+    ],
+    [
+     "한겨레",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-17&officeId=00028"
+    ],
+    [
+     "경향신문",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=2006-10-17&officeId=00032"
+    ]
+   ]
+  },
+  "40": {
+   "photo": {
+    "year": "1985년 5월",
+    "area": "서울 종로",
+    "src": "서울기록원 · 위키미디어 공용",
+    "url": "https://picryl.com/media/wikimedia-17a7b0",
+    "caption": "담장을 새로 두른 파고다공원과 그 둘레 종로 2가. 버스와 택시가 큰길을 메우고 있습니다.",
+    "place": "종로 2가 파고다공원",
+    "img": "https://raw.githubusercontent.com/jmp159877-source/omaju/place-photos/out/seoul-jongno-1985.jpg"
+   },
+   "pop": [
+    [
+     "Kyrie",
+     "Mr. Mister"
+    ],
+    [
+     "Say You, Say Me",
+     "Lionel Richie"
+    ],
+    [
+     "Addicted to Love",
+     "Robert Palmer"
+    ],
+    [
+     "The Final Countdown",
+     "Europe"
+    ],
+    [
+     "Livin' on a Prayer",
+     "Bon Jovi"
+    ],
+    [
+     "Sledgehammer",
+     "Peter Gabriel"
+    ],
+    [
+     "That's What Friends Are For",
+     "Dionne Warwick & Friends"
+    ],
+    [
+     "Take My Breath Away",
+     "Berlin"
+    ],
+    [
+     "Glory of Love",
+     "Peter Cetera"
+    ],
+    [
+     "Greatest Love of All",
+     "Whitney Houston"
+    ]
+   ],
+   "facts": [
+    [
+     "신라면의 탄생",
+     "10월 2일, 깊고 얼큰한 소고기 국물 맛을 앞세운 신라면이 첫선을 보였습니다. 검은 바탕에 붉은 글씨를 새긴 강렬한 포장과 매운맛은 단숨에 식탁 문화를 바꾸었습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Ramyun_cooking_image.png/640px-Ramyun_cooking_image.png?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "14좌 첫 완등",
+     "10월 16일, 산악인 라인홀트 메스너가 로체 등정에 성공하며 인류 최초로 히말라야 8,000미터급 14개 봉우리를 모두 무산소로 완등했습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Reinhold_Messner_at_Frankfurt_Book_Fair_2017_%2854%29.jpg/640px-Reinhold_Messner_at_Frankfurt_Book_Fair_2017_%2854%29.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "인형의 교실",
+     "10월 19일, 신예 김혜수가 산골 분교 교사로 분한 단막극 <인형의 교실>이 방영되었습니다. 열여섯 신인 배우의 풋풋하고 단정한 연기가 안방극장에 깊은 인상을 남겼습니다."
+    ]
+   ],
+   "news": [
+    {
+     "source_name": "프레시안",
+     "headline": "유성환 의원 체포동의안, 여당 단독 기습 가결",
+     "field": "정치",
+     "source_url": "https://www.pressian.com/pages/articles/148832",
+     "summary": "국회에서 \"국시는 통일\"이라고 말한 신민당 유성환 의원의 체포동의안이 16일 밤 처리됐습니다. 국회의장이 경호권을 발동해 야당 의원 출입을 막은 가운데 민정당 의원들만으로 표결이 이뤄졌습니다."
+    },
+    {
+     "source_name": "프레시안",
+     "headline": "유성환 의원 17일 새벽 전격 구속",
+     "field": "정치",
+     "source_url": "https://www.pressian.com/pages/articles/148832",
+     "summary": "체포동의안이 가결된 지 몇 시간 만인 17일 새벽, 유성환 의원이 국가보안법 위반 혐의로 구속됐습니다. 회기 중 국회 발언을 이유로 현역 의원이 구속된 첫 사례로 남았습니다."
+    },
+    {
+     "source_name": "영문 위키백과",
+     "headline": "노벨문학상에 소잉카, 아프리카 작가 첫 수상",
+     "field": "문화",
+     "source_url": "https://en.wikipedia.org/wiki/1986_Nobel_Prize_in_Literature",
+     "summary": "스웨덴 한림원이 16일 올해 노벨문학상 수상자로 나이지리아 작가 월레 소잉카를 발표했습니다. 아프리카 작가로는 처음이어서 세계 문단의 큰 화제가 됐습니다."
+    },
+    {
+     "source_name": "나무위키(MBC 1986년 편성)",
+     "headline": "MBC 특집 「86 인간승리」 임춘애 편 방송",
+     "field": "연예",
+     "source_url": "https://namu.wiki/w/MBC%20TV/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8/1986%EB%85%84",
+     "summary": "아시안게임 육상 3관왕으로 온 나라를 울린 열아홉 살 임춘애 선수의 이야기가 17일 밤 MBC 특별기획 「86 인간승리 — 끝나지 않은 레이스」로 방송됐습니다. 보름 전 경기장의 눈물이 안방에서 다시 흘렀습니다."
+    },
+    {
+     "source_name": "한국어 위키백과",
+     "headline": "삼성, OB 꺾고 한국시리즈 진출… 1승 2패 뒤집어",
+     "field": "스포츠",
+     "source_url": "https://ko.wikipedia.org/wiki/1986년_한국프로야구_포스트시즌",
+     "summary": "잠실에서 열린 플레이오프 4차전(16일)과 5차전(17일)을 삼성이 연달아 잡으며 시리즈를 3승 2패로 뒤집었습니다. 삼성은 19일 광주에서 해태와 한국시리즈 1차전을 치르게 됐습니다."
+    },
+    {
+     "source_name": "한국어 위키백과",
+     "headline": "92년 올림픽, 바르셀로나·알베르빌 확정",
+     "field": "스포츠",
+     "source_url": "https://ko.wikipedia.org/wiki/1992년_하계_올림픽",
+     "summary": "스위스 로잔에서 열린 IOC 총회가 1992년 여름 올림픽 개최지로 바르셀로나, 겨울 올림픽 개최지로 프랑스 알베르빌을 뽑았습니다. 서울 다음 대회의 주인이 정해진 날이었습니다."
+    }
+   ],
+   "mood": "국회는 밤새 시끄러웠고, 잠실 야구장은 뜨거웠습니다.",
+   "songs": [
+    [
+     "아직도 어두운 밤인가봐",
+     "전영록"
+    ],
+    [
+     "가까이 하기엔 너무 먼 당신",
+     "이광조"
+    ],
+    [
+     "그 겨울의 찻집",
+     "조용필"
+    ],
+    [
+     "겨울비는 내리고",
+     "김범룡"
+    ],
+    [
+     "그대 떠난 빈들에 서서",
+     "이수만"
+    ],
+    [
+     "어젯밤 이야기",
+     "소방차"
+    ],
+    [
+     "사랑이 지나가면",
+     "이문세"
+    ],
+    [
+     "나의 사랑 나의 어둠",
+     "이선희"
+    ],
+    [
+     "남남",
+     "최성수"
+    ],
+    [
+     "바람 바람 바람",
+     "김범룡"
+    ]
+   ],
+   "papers": [
+    [
+     "동아일보",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-17&officeId=00020"
+    ],
+    [
+     "경향신문",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-17&officeId=00032"
+    ],
+    [
+     "매일경제",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=1986-10-17&officeId=00009"
+    ]
+   ]
+  },
+  "10": {
+   "photo": {
+    "year": "2016년 6월",
+    "area": "서울 종로",
+    "src": "한국관광공사 (공공누리 1유형)",
+    "url": "https://picryl.com/media/jongno-seoul-south-korea-01-d2d6d1",
+    "caption": "초여름 가로수 그늘이 드리운 종로의 큰길. 건널목 너머로 궁궐 담장이 이어집니다.",
+    "place": "종로 태극기길(삼일대로)",
+    "img": "https://raw.githubusercontent.com/jmp159877-source/omaju/place-photos/out/seoul-jongno-2016.jpg"
+   },
+   "pop": [
+    [
+     "Treat You Better",
+     "Shawn Mendes"
+    ],
+    [
+     "Work",
+     "Rihanna"
+    ],
+    [
+     "I Took a Pill in Ibiza",
+     "Mike Posner"
+    ],
+    [
+     "We Don't Talk Anymore",
+     "Charlie Puth"
+    ],
+    [
+     "This Is What You Came For",
+     "Calvin Harris"
+    ],
+    [
+     "7 Years",
+     "Lukas Graham"
+    ],
+    [
+     "Love Yourself",
+     "Justin Bieber"
+    ],
+    [
+     "One Dance",
+     "Drake"
+    ],
+    [
+     "Closer",
+     "The Chainsmokers"
+    ],
+    [
+     "Stressed Out",
+     "Twenty One Pilots"
+    ]
+   ],
+   "facts": [
+    [
+     "시인의 노래",
+     "10월 13일, 미국 가수 밥 딜런이 대중음악인 최초로 노벨문학상 수상자로 선정되었습니다. 노랫말을 문학의 경지로 끌어올렸다는 찬사가 이어졌습니다.",
+     "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Bob_Dylan_-_Azkena_Rock_Festival_2010_2.jpg/640px-Bob_Dylan_-_Azkena_Rock_Festival_2010_2.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ],
+    [
+     "지영이라는 이름",
+     "10월 14일, 조남주 작가의 소설 《82년생 김지영》이 출간되었습니다. 평범한 여성의 삶을 담담한 필치로 기록하며 수많은 독자의 마음을 울렸습니다.",
+     "https://upload.wikimedia.org/wikipedia/ko/5/5e/82%EB%85%84%EC%83%9D%EA%B9%80%EC%A7%80%EC%98%81_%ED%91%9C%EC%A7%80.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
+    ],
+    [
+     "달빛의 여운",
+     "10월 18일, 큰 인기를 모았던 드라마 《구르미 그린 달빛》이 종영했습니다. 박보검과 김유정이 선보인 싱그러운 연기는 안방극장에 따뜻한 설렘을 남겼습니다.",
+     "https://thumb.wikimedia.org/wikipedia/ko/thumb/3/3e/%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg/640px-%EA%B5%AC%EB%A5%B4%EB%AF%B8_%EA%B7%B8%EB%A6%B0_%EB%8B%AC%EB%B9%9B.jpg?utm_source=ko.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    ]
+   ],
+   "news": [
+    {
+     "source_name": "서울신문",
+     "headline": "송민순 회고록 파문… 여당 \"문재인, 진실 밝혀라\"",
+     "field": "정치",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/17/20161017800062",
+     "summary": "새누리당이 송민순 전 외교부 장관의 회고록을 근거로 2007년 유엔 북한인권결의안 기권 경위를 문제 삼으며 문재인 전 대표에게 해명을 요구했습니다. 정치권 공방이 크게 번진 날이었습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "강남 집값 과열… 국토부 \"투기과열지구 검토\"",
+     "field": "경제",
+     "source_url": "https://m.seoul.co.kr/news/2016/10/16/20161016800007",
+     "summary": "강남 재건축 값이 3.3㎡당 4천만 원을 넘고 청약 경쟁이 치솟자 국토부가 수요 억제 규제를 검토한다고 밝혔습니다. 지정되면 분양권 전매 제한이 길어지고 대출도 조여질 수 있다는 설명이었습니다."
+    },
+    {
+     "source_name": "경향신문",
+     "headline": "이대 학생들 \"정유라 특혜… 총장 사퇴하라\"",
+     "field": "사회",
+     "source_url": "https://www.khan.co.kr/article/201610171403001",
+     "summary": "이화여대 학생들이 17일 기자회견을 열어 최순실 씨 딸 정유라 씨의 입학·학점 특혜 의혹을 비판하고 총장 사퇴를 요구했습니다. 학교는 특혜가 없었다고 거듭 부인했습니다."
+    },
+    {
+     "source_name": "서울신문",
+     "headline": "유해진의 「럭키」, 나흘 만에 200만 관객",
+     "field": "연예",
+     "source_url": "https://en.seoul.co.kr/news/entertainment/movieN/2016/10/17/20161017500052",
+     "summary": "코미디 「럭키」가 개봉 나흘째인 16일 누적 관객 200만 명을 넘기며 한국 코미디 가운데 가장 빠른 기록을 세웠습니다. 주말 극장가 1위에 올라 팀 버튼의 「미스 페레그린」을 2위로 밀어냈습니다."
+    },
+    {
+     "source_name": "스포츠경향",
+     "headline": "「복면가왕」 우비소녀 대결에 순간 시청률 22.3%",
+     "field": "연예",
+     "source_url": "https://sports.khan.co.kr/article/201610171337003",
+     "summary": "16일 방송된 MBC 「복면가왕」이 수도권 시청률 14.7%로 전주보다 3.4%포인트 올랐습니다. 우비소녀와 과자집의 대결 결과가 나오는 장면에서 순간 최고 22.3%를 찍었습니다."
+    },
+    {
+     "source_name": "코리아중앙데일리",
+     "headline": "담뱃값 올렸는데 담배 판매 13% 늘었다",
+     "field": "생활",
+     "source_url": "https://www.koreajoongangdaily.com/business/consumption-rises-after-cigarette-tax-clouding-the-debate/10204218",
+     "summary": "2015년 담뱃값을 4,500원으로 올린 뒤에도 올해 1~9월 담배 판매량이 전년보다 13.3% 늘었다는 집계가 나왔습니다. 금연 효과를 둘러싼 논란이 다시 불붙었습니다."
+    },
+    {
+     "source_name": "스포츠경향",
+     "headline": "LG, 넥센 꺾고 플레이오프 진출",
+     "field": "스포츠",
+     "source_url": "https://sports.khan.co.kr/article/201610172233003",
+     "summary": "잠실 준플레이오프 4차전에서 LG가 넥센을 5대 4로 이기고 3승 1패로 플레이오프에 올랐습니다. 2회 4점을 내준 뒤 불펜이 7이닝을 막았고 8회 오지환의 결승타가 터졌습니다."
+    },
+    {
+     "source_name": "이투데이",
+     "headline": "LPGA 하나은행 챔피언십, 시간다 연장 우승",
+     "field": "스포츠",
+     "source_url": "https://www.etoday.co.kr/news/view/1398152",
+     "summary": "인천 영종도에서 열린 LPGA KEB하나은행 챔피언십에서 스페인의 카를로타 시간다가 연장 끝에 우승했습니다. 김민선이 3위, 허미정이 5위에 올랐습니다."
+    }
+   ],
+   "mood": "이화여대 본관 점거 82일째, 극장가에는 「럭키」가 걸려 있었습니다.",
+   "songs": [
+    [
+     "Russian Roulette",
+     "Red Velvet"
+    ],
+    [
+     "이 사랑",
+     "다비치"
+    ],
+    [
+     "You Are My Everything",
+     "거미"
+    ],
+    [
+     "하늘바라기",
+     "정은지"
+    ],
+    [
+     "Very Very Very",
+     "I.O.I"
+    ],
+    [
+     "Stay With Me",
+     "찬열, 펀치"
+    ],
+    [
+     "Cheer Up",
+     "TWICE"
+    ],
+    [
+     "TT",
+     "TWICE"
+    ],
+    [
+     "피 땀 눈물",
+     "방탄소년단"
+    ],
+    [
+     "우주를 줄게",
+     "볼빨간사춘기"
+    ]
+   ],
+   "papers": [
+    [
+     "동아일보",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-17&officeId=00020"
+    ],
+    [
+     "한겨레",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-17&officeId=00028"
+    ],
+    [
+     "경향신문",
+     "https://newslibrary.naver.com/viewer/index.naver?publishDate=2016-10-17&officeId=00032"
+    ]
+   ]
+  }
+ },
+ "errors": [],
+ "follow": {
+  "sing": {
+   "title": "〈바람의 연가〉 한 소절씩 배우기",
+   "query": "가요 노래교실 보컬 강좌",
+   "channel": "노래강사김현진TV",
+   "videoId": "EHi_17ZorBE",
+   "name": "노래 교실",
+   "thumb": "https://i.ytimg.com/vi/EHi_17ZorBE/mqdefault.jpg",
+   "say": "좋아하는 노래 한 소절을 소리 내어 시원하게 불러보세요."
+  },
+  "gym": {
+   "title": "아침에 몸이 안 깨어날 때 하는 요가 | 15분 모닝요가 스트레칭",
+   "query": "아침 스트레칭 요가 15분",
+   "channel": "에일린 mind yoga",
+   "videoId": "IUUyU2UW5Rc",
+   "name": "요가",
+   "thumb": "https://i.ytimg.com/vi/IUUyU2UW5Rc/mqdefault.jpg",
+   "say": "선선한 아침 공기를 마시며 굳은 몸을 부드럽게 펴보세요."
+  },
+  "park": {
+   "title": "타수를 줄이는 퍼팅 자세 · 파크골프 8편",
+   "query": "파크골프 정확한 퍼팅 자세",
+   "channel": "건강의 벗",
+   "videoId": "2zaTxBCKi8E",
+   "name": "파크골프",
+   "thumb": "https://i.ytimg.com/vi/2zaTxBCKi8E/mqdefault.jpg",
+   "say": "가을 잔디 위에서 정확하고 부드러운 거리감을 익혀보세요."
+  },
+  "meditate": {
+   "title": "아침 10분, 호흡 명상",
+   "query": "마음챙김 호흡 명상 10분",
+   "channel": "에일린 mind yoga",
+   "videoId": "09YAcwcYIj8",
+   "name": "명상",
+   "thumb": "https://i.ytimg.com/vi/09YAcwcYIj8/mqdefault.jpg",
+   "say": "차분한 숨소리에 가만히 귀를 기울이며 생각을 비워냅니다."
+  },
+  "golf": {
+   "title": "드라이버 기본자세 · 초급편",
+   "query": "드라이버 비거리 스윙 기초",
+   "channel": "승승장구 골프 [이승안프로]",
+   "videoId": "V2wUSHla1sE",
+   "name": "골프 레슨",
+   "thumb": "https://i.ytimg.com/vi/V2wUSHla1sE/mqdefault.jpg",
+   "say": "힘을 빼고 자연스럽게 휘두르는 스윙 감각을 점검해 보세요."
+  },
+  "dance": {
+   "title": "Mambo Step / Jazz Box /  라인댄스 기본스텝 익히기 3탄",
+   "query": "초보 라인댄스 기본 스텝",
+   "channel": "SH Linedance 임선희",
+   "videoId": "LofKbBi2yh0",
+   "name": "댄스",
+   "thumb": "https://i.ytimg.com/vi/LofKbBi2yh0/mqdefault.jpg",
+   "say": "경쾌한 리듬에 맞춰 가볍게 발을 딛다 보면 마음도 들뜹니다."
+  }
+ },
+ "startedAt": "2026-10-17T06:17:52.061869+09:00"
+}
