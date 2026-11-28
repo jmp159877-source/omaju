@@ -25,7 +25,7 @@ export function build(C, n) {
   // sub 이 없으면 밑줄은 그날 내용 그대로(마음 한 줄·몸 한 가지·정원은 오늘 글이 들어간다).
   H.follow = { kick: '오늘의 따라하기', hook: '러닝부터 차박까지,\n오늘 하나 따라 해 볼까요' };
   H.outing = { kick: '오늘의 나들이' };
-  H.show = { kick: '이번 주, 무엇을 볼까', hook: '이번 주엔 극장 갈까,\n전시 보러 갈까', sub: '영화 · 연극 · 콘서트 · 미술관, 예고편까지' };
+  H.show = { kick: '이번 주 볼 것', hook: '이번 주엔 극장 갈까,\n전시 보러 갈까', sub: '영화 · 연극 · 콘서트 · 미술관, 예고편까지' };
   H.garden = { kick: '정원 가꾸기', hook: '이 철, 정원에서\n꼭 해야 할 한 가지' };
   H.phrase = { kick: '해외로 한 번', hook: '해외 골프부터 자유여행까지,\n떠나기 전에 한 번' };
   H.hike = { kick: '오늘의 산', hook: '이번 주말엔\n어느 산길을 걸어 볼까' };
@@ -36,6 +36,7 @@ export function build(C, n) {
   H.pick = { kick: '오늘의 음악과 함께', hook: '이어폰 꽂고, 그냥 틀어 두세요', sub: '오늘의 추천 곡 한 곡 · 분위기별 연주곡을 끊김 없이' };   // 곡이 정해지면 app.js renderPick 이 바꾼다
   const h = (C && C.hooks) || {};
   for (const [k, sel] of Object.entries(MAP)) if (h[k] && h[k].hook) H[sel] = h[k];
+  if (H.food && H.food.kick) H.food = { ...H.food, kick: String(H.food.kick).replace('오늘의 한 끼', '오늘의 한 그릇') };   // 대표 2026-11-28 판갈이
   return H;
 }
 // 제목 줄 바꿈 (대표 2026-10-24: "뜻이 끊기는 자리에서 줄을 내려야 고급스럽다")

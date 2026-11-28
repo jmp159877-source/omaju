@@ -3092,3 +3092,17 @@ body.in-chapter #comic-home { display: none; }
 
 /* 인사 카드 칸 접음 (대표 2026-11-17 16:39 "인사카드도 내리자, 반응이 없다") — 지우지 않고 감춘다. 되살리려면 이 줄을 지운다. #anbu 안쪽은 그대로. */
 #anbu-home { display: none !important; }
+
+/* ── 판갈이 v5 — 혼자라서 더 즐거운 오마주 (대표 2026-11-28 회의 → "렛츠 고") ──
+   콘텐츠 칸: 나를 위한 하루(맨 위 가로) · 오늘의 세상 · 나를 돌보기 · 어쩌다 점점 집사 · 가볍게 즐기기. 그때 돌아보기·앞으로 나아가기·내 서재는 내려 둠(hidden). */
+.hero-tag { margin: -12px 0 18px; font-family: 'Noto Sans KR', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: .02em; color: #F9E9A8; text-shadow: 0 1px 6px rgba(0,0,0,.45); }
+@media (max-width: 768px) { .hero-tag { margin: -22px 0 16px; font-size: .95rem; } }
+html #tabs3 button[hidden], html.v2 #tabs3 button[hidden], html.v3 #tabs3 button[hidden] { display: none !important; }
+html.v2 #tabs3 button[data-tab="g1"] { grid-column: auto; }
+html.v3 #tabs3 button[data-tab] { aspect-ratio: auto !important; }
+html.v2 #tabs3 button[data-tab="g7"] { grid-column: 1 / -1; }
+html.v4 #tabs3 button[data-tab="g6"], html.v4 #tabs3 button[data-tab="g6"][aria-pressed] { display: flex !important; }
+.tabs3 button[data-tab="g7"], .tabs3 button[data-tab="g7"][aria-pressed="true"] { background-image: url('../img/solo-eat.jpg?v=2') !important; background-position: center 40% !important; }
+.tabs3 button[data-tab="g8"], .tabs3 button[data-tab="g8"][aria-pressed="true"] { background-image: url('../img/anbu-tile.jpg') !important; background-size: cover !important; background-position: center !important; }
+.so-src { font-size: .8rem; color: #6B6F6C; word-break: keep-all; }
+.so-src a { color: inherit; }

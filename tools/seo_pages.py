@@ -97,22 +97,23 @@ def main():
                   'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
             urls.append((page(f'pet/{a["id"]}.html', a['title'], desc, f'어쩌다 점점 집사 · {nm}', body, f'{SITE}/?from=search#{k}', ld, img), a['date']))
     # 혼자라서 좋은 날 (대표 2026-10-24: "목록이 쌓이니 검색되게")
-    NM = {'day': '혼자 떠나는 하루 코스', 'eat': '혼밥 맛집', 'hobby': '혼자 즐기는 취미 자리', 'see': '혼자 보기 좋은 것', 'home': '혼자 사는 살림', 'trip': '혼자 떠나는 여행'}
+    NM = {'day': '하루 코스', 'eat': '혼밥 맛집', 'hobby': '혼자 즐기는 취미 자리', 'see': '혼자 보기 좋은 것', 'home': '살림 한 수', 'trip': '가볍게 떠나기', 'money': '내 돈 내 집'}   # 대표 2026-11-28 — 칸 이름에 '혼자'는 빼고, 내 돈 내 집(money) 새로
     try: solo = json.load(open(os.path.join(ROOT, 'data', 'solo.json'), encoding='utf-8'))
     except Exception: solo = {}
     for k, nm in NM.items():
-        img = f'img/solo-{k}.jpg'
+        img = {'money': 'img/detail_solo-money.jpg'}.get(k, f'img/solo-{k}.jpg')
         for a in solo.get(k, []):
             if not a.get('id') or (a.get('date') or '') > TODAY: continue
-            body = (f'<h1>{e(a["title"])}</h1><p class="date">혼자라서 좋은 날 · {nm}' + (f' · {e(a.get("region"))}' if a.get('region') else '') + f' · {kdate(a["date"])}</p>'
+            body = (f'<h1>{e(a["title"])}</h1><p class="date">나를 위한 하루 · {nm}' + (f' · {e(a.get("region"))}' if a.get('region') else '') + f' · {kdate(a["date"])}</p>'
                     + (f'<div class="box green">{e(a.get("hook"))}</div>' if a.get('hook') else '')
                     + '<ol>' + ''.join(f'<li><b>{e(x.get("name"))}</b>' + (f' · {e(x.get("where"))}' if x.get('where') else '') + (f' <small>{e(x.get("time"))}</small>' if x.get('time') else '') + f'<br>{e(x.get("note"))}' + (f'<br><i>혼자라서 좋은 점 — {e(x.get("solo"))}</i>' if x.get('solo') else '') + '</li>' for x in a.get('items', [])) + '</ol>'
-                    + (('<div class="box yellow"><b>혼자 갈 때 알아 두면 좋아요</b>' + '<br>'.join(e(t) for t in a.get('tips', [])) + '</div>') if a.get('tips') else '')
-                    + ('<p class="note">가시기 전에 영업 시간과 휴무일을 한 번 더 확인해 주세요.</p>' if k != 'home' else ''))
+                    + (('<div class="box yellow"><b>' + {'money': '이것부터 확인하세요', 'home': '이것만 기억하세요'}.get(k, '혼자 갈 때 알아 두면 좋아요') + '</b>' + '<br>'.join(e(t) for t in a.get('tips', [])) + '</div>') if a.get('tips') else '')
+                    + ('<p class="note">가시기 전에 영업 시간과 휴무일을 한 번 더 확인해 주세요.</p>' if k not in ('home', 'money') else '')
+                    + (('<p class="note">제도·금액은 바뀔 수 있어요. 신청 전에 공식 누리집에서 한 번 더 확인하세요' + (' · ' + e(a.get('asof')) if a.get('asof') else '') + '.</p>' + ('<p class="note">출처: ' + ' · '.join(f'<a href="{e(x.get("url"))}" rel="nofollow">{e(x.get("name"))}</a>' for x in a.get('sources', [])) + '</p>' if a.get('sources') else '')) if k == 'money' else ''))
             desc = (a.get('hook', '') + ' ' + ', '.join(x.get('name', '') for x in a.get('items', [])))[:150]
             ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': desc, 'datePublished': a['date'], 'inLanguage': 'ko', 'image': f'{SITE}/{img}',
                   'author': {'@type': 'Organization', 'name': '오마주 매거진'}, 'publisher': {'@type': 'Organization', 'name': '오마주 매거진', 'logo': {'@type': 'ImageObject', 'url': f'{SITE}/icon-192.png'}}}
-            urls.append((page(f'solo/{a["id"]}.html', a['title'], desc, f'혼자라서 좋은 날 · {nm}', body, f'{SITE}/?from=search#solo-{k}', ld, img), a['date']))
+            urls.append((page(f'solo/{a["id"]}.html', a['title'], desc, f'나를 위한 하루 · {nm}', body, f'{SITE}/?from=search#solo-{k}', ld, img), a['date']))
     # 기획 연재 '전기차 시대' (대표 2026-10-24) — 도표는 검색이 읽을 수 있게 표로, 사진은 출처와 함께
     SD = lambda k: {'then': 'things'}.get(k, k)   # then/ 은 그해 오늘 쪽이 쓰고 있어 '그때 그 물건'은 things/ 에
     for SK, SNAME, SABOUT in (('ev', '전기차 시대', '중국 전기차'), ('ai', 'AI 시대에 살 준비가 되었는가', '생성형 AI'), ('then', '그때 그 물건, 지금은', '추억의 물건'), ('work', '다시, 일', '50대 재취업·자격증'), ('trip', '요즘 여행법', '여행 앱·해외여행 준비')):

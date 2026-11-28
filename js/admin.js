@@ -22,13 +22,13 @@ DB.onUser((u, p) => {
   if (u && !ok) { $('err').textContent = '관리자 권한이 없는 계정입니다.'; DB.logout(); }
   if (ok) { $('who').textContent = p.nick; loadToday(); }
 });
-document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ today: loadToday, dash: () => { if (!loadDash.done) { loadDash.done = true; loadDash(); } }, users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); }, notice: loadNotice, maint: loadMaint, musicbox: loadMusicbox, stories: loadStories })[b.dataset.tab]?.(); };
+document.querySelector('.tabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (!b) return; document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.sec').forEach(s => s.classList.toggle('on', s.dataset.sec === b.dataset.tab)); ({ today: loadToday, dash: () => { if (!loadDash.done) { loadDash.done = true; loadDash(); } }, users: loadUsers, content: () => { $('c-date').value = TODAY; loadContent(); }, comments: () => { $('m-date').value = TODAY; loadComments(false); }, resets: loadResets, blog: () => { if (!$('b-date').value) $('b-date').value = TODAY; loadBlog(); if (!$('o-date').value) $('o-date').value = TODAY; loadOm(); }, notice: loadNotice, maint: loadMaint, musicbox: loadMusicbox, stories: loadStories })[b.dataset.tab]?.(); };
 
 // ── 오늘 현황 (대표 2026-10-26: "당분간 매일 체크 — 오늘 방문, 어디서 들어왔는지, 누가 들어왔는지") ──
 const SRC = { naver_search: '네이버 검색', naver_blog: '네이버 블로그', naver_cafe: '네이버 카페', daum: '다음 검색', direct: '직접 (주소·홈 화면·북마크)', kakao: '카카오톡', naver: '네이버 앱 (검색 아닌 곳)', google: '구글 검색', yt: '유튜브', blog: '블로그 링크', search: '검색용 글 쪽', card: '받은 인사 카드', psy: '심리 테스트 결과', kid: '유튜브 자녀 편', story: '구글 웹 스토리', band: '밴드', insta: '인스타그램', facebook: '페이스북', bing: '빙', etc: '그 밖의 곳' };
 $('t-reload').onclick = () => loadToday();
 // 지금 보는 분 (대표 2026-10-27 — "5분마다 한 번씩 봐도 돼") — 화면을 보는 기기가 3분마다 live/ 에 남기는 것을 6분 안 것만 센다
-const LIVE_NM = { home: '첫 화면', g1: '오늘 즐기기', g2: '그때 돌아보기', g3: '앞으로 나아가기', g4: '나를 돌보기', g5: '집사', g6: '나의 수첩', g7: '혼자라서 좋은 날', talk: '사랑방', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: 'PLAY', ev: '전기차 연재', ai: 'AI 연재' };
+const LIVE_NM = { home: '첫 화면', g1: '오늘의 세상', g2: '그때 돌아보기', g3: '나를 돌보기', g4: '내 서재', g5: '앞으로 나아가기', g6: '집사', g7: '나를 위한 하루', g8: '가볍게 즐기기', 'solo-money': '내 돈 내 집', talk: '사랑방', food: '한 끼', book: '한 권', quiz: '시사 상식', culture: '문화', play: 'PLAY', ev: '전기차 연재', ai: 'AI 연재' };
 async function paintLive() {
   const el = $('ad-now'); if (!el) return;
   try {
@@ -378,3 +378,26 @@ $('s-load').onclick = () => loadSer();
   const box = $('s-pick');
   [...SER_ORDER, 'week'].forEach(k => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = k === 'week' ? '한 주 몰아 보기' : SER[k].name; b.onclick = () => loadSer(k); box.appendChild(b); });
 })();
+
+// ── 오늘의 시대공유 글 두 편 (대표 2026-11-28 — 블로그 '오마주 시대공유', 전기차·AI 1편부터 하루 한 편씩) ──
+// 글은 data/blog.json(클국장이 밤마다 다음 편을 더함). 날짜를 고르면 그날 것, 없으면 그 앞 가장 가까운 날 것.
+async function loadOm() {
+  const key = $('o-date').value || TODAY, box = $('o-list'); box.innerHTML = '';
+  let all = []; try { all = (await (await fetch(`data/blog.json?t=${Date.now()}`, { cache: 'no-store' })).json()).items || []; } catch (e) {}
+  const days = [...new Set(all.map(a => a.date))].filter(d => d <= key).sort();
+  const day = days[days.length - 1];
+  if (!day) { $('o-msg').textContent = '아직 들어온 글이 없습니다.'; return; }
+  const NM = { ev: '전기차 시대', ai: 'AI 시대에 살 준비가 되었는가' };
+  const rows = all.filter(a => a.date === day);
+  rows.forEach((a, n) => {
+    const id = 'o' + n, ph = (a.photos || []).map((p, i) => `<figure><img src="${p.src}" alt=""><a class="bk-dl" href="${p.src}" download="${a.series}${a.no}_${i + 1}.jpg">사진 ${i + 1} 내려받기</a><small style="display:block;margin-top:4px;color:#888">${esc(p.cap || '')}${p.credit ? ' — ' + esc(p.credit) : ''}</small></figure>`).join('');
+    box.insertAdjacentHTML('beforeend', `<div style="margin:22px 0 8px;padding-top:14px;border-top:2px solid #111"><b style="font-size:1.05rem">${esc(NM[a.series] || a.series)} · ${a.no}편</b> <span class="note">카테고리 '오마주 시대공유'</span></div>
+      <div class="bk-cards">${ph}</div>
+      <div class="bk-box"><div class="bk-h"><b>제목</b><button type="button" data-copy="${id}-t">복사</button></div><textarea id="${id}-t" rows="2"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>본문</b><button type="button" data-copy="${id}-b">복사</button></div><textarea id="${id}-b" rows="16"></textarea></div>
+      <div class="bk-box"><div class="bk-h"><b>태그</b><button type="button" data-copy="${id}-g">복사</button></div><textarea id="${id}-g" rows="2"></textarea></div>`);
+    $(id + '-t').value = a.title; $(id + "-b").value = String(a.body || "").replace(/\*\*/g, ""); $(id + '-g').value = (a.tags || []).join(', ');
+  });
+  $('o-msg').textContent = `${day} · ${rows.length}편${day !== key ? ' (그날 글이 없어 가장 가까운 앞날 것)' : ''}`;
+}
+$('o-load').onclick = () => loadOm();
